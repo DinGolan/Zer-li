@@ -10,6 +10,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import entity.Message;
+import entity.Product;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 
@@ -60,13 +62,13 @@ public class EchoServer extends AbstractServer
 	    System.out.println("Message received: " + msg + " from " + client);
 	    
 	    
-	    if(((ArrayList<String>)msg).get(0).compareTo("0") ==0) 		/* Check that its update */
-	    	saveUserToDB(msg,conn);
+	    if(((Message)msg).getOption().compareTo("0") ==0) 		/* Check that its update */
+	    	UpdateProductName(msg,conn); 
 	    
-	        if(((ArrayList<String>)msg).get(0).compareTo("1") ==0)  /* Check that we get from DB Because We want to Initialized */
+	    if(((Message)msg).getOption().compareTo("1") ==0) 	    /* Check that we get from DB Because We want to Initialized */
 	        {										
 				/* ArrayList<Product> aa = new ArrayList<Product>(); */
-	        	msg = getProductsFromDB(conn);	    
+	    	((Message)msg).setMsg(getProductsFromDB(conn));	    
 	    		this.sendToAllClients(msg);
   			}	
 	  }
@@ -125,39 +127,43 @@ public class EchoServer extends AbstractServer
   }
   
   
-  protected void saveUserToDB(Object msg, Connection conn) /* This Method Update the DB */
+  protected void UpdateProductName(Object msg, Connection conn) /* This Method Update the DB */
   {
-	  ArrayList<String> temp = new ArrayList<>();
-	  ArrayList<String> temp2 = (ArrayList<String>)msg;
-	  for (String string : temp2) {
-		  	temp.add(string);
+	  ArrayList<String> temp = new ArrayList<String>();
+	  ArrayList<String> temp2 = (ArrayList<String>)(((Message)msg).getMsg());
+
+	  for (String s : temp2) {
+		  	temp.add(s);
 	  		}
 			Statement stmt;
 			try {
 			stmt = conn.createStatement();
-			String createTablecourses = "UPDATE project.product SET ProductName =" + "'" + temp.get(2) +"'" + "WHERE ProductID=" +"'" +temp.get(1) + "'" +";";
+			String createTablecourses = "UPDATE project.product SET ProductName =" + "'" + temp.get(1) +"'" + "WHERE ProductID=" +"'" +temp.get(0) + "'" +";";
 			stmt.executeUpdate(createTablecourses);
 			} catch (SQLException e) {	e.printStackTrace();}	  
   }
   
   
-  protected ArrayList<String> getProductsFromDB(Connection conn) /* This method get products table details from DB */
+  protected ArrayList<Product> getProductsFromDB(Connection conn) /* This method get products table details from DB */
   {
-	  ArrayList<String> products = new ArrayList<String>();
+	  ArrayList<Product> products = new ArrayList<Product>();
 	  Statement stmt;
 	  String p;
+	  Product pr;
 	  try {
 		  stmt = conn.createStatement();
 		  String getProductsTable = "SELECT * FROM product;"; /* Get all the Table from the DB */
 		  ResultSet rs = stmt.executeQuery(getProductsTable);
 		  while(rs.next())
 	 	{
+		  pr = new Product("", "", "");
 		  p = rs.getString("ProductID");
-		  products.add(p);
+		  pr.setpID(p);
 		  p=rs.getString("ProductName");
-		  products.add(p);
+		  pr.setpName(p);
 		  p= rs.getString("productType");
-		  products.add(p);
+		  pr.setpType(p);
+		  products.add(pr);
 	 	}
 	  } catch (SQLException e) {	e.printStackTrace();}	
 	  return products;

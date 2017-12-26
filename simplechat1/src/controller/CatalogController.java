@@ -2,6 +2,8 @@ package controller;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+import entity.Message;
 import entity.Product;
 import boundery.ProductUI;
 import javafx.collections.FXCollections;
@@ -21,6 +23,7 @@ import javafx.stage.Stage;
 public class CatalogController implements Initializable {
 	private ProductController pfc;
 	private static int itemIndex = 2; /* This Variable Need for the the Case - that we not choose any Product from the ComboBox , so we take the product that in Index 2 By Defualt */
+	private Message msg;
 
 	@FXML
 	private Button btnExit = null;
@@ -99,11 +102,13 @@ public class CatalogController implements Initializable {
 	}
 	
 	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) /* Initialized The ComboBox of the Product */
+	public void initialize(URL arg0, ResourceBundle arg1) // Initialized The ComboBox of the Product 
 	{
 		ArrayList<String> s = new ArrayList<String>();
-		s.add("1"); /* 1 - Its Mean That we want to Initialized the from the DB */
-		ProductUI.myClient.accept(s);
+		//s.add("1"); // 1 - Its Mean That we want to Initialized the from the DB 
+		msg = new Message(s, "1");
+
+		ProductUI.myClient.accept(msg);
 		while(ProductUI.products.size() == 0);
 		setProductsComboBox();
 	}

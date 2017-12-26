@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import boundery.ProductUI;
 import client.ChatClient;
 import common.ChatIF;
+import entity.Message;
 import entity.Product;
 
 /**
@@ -67,12 +68,12 @@ public class ClientConsole implements ChatIF
    * This method waits for input from the console.  Once it is 
    * received, it sends it to the client's message handler.
    */
-  public void accept(ArrayList<String> s) 
+  public void accept(Message msg) 
   {
     try
     {
-    	client.handleMessageFromClientUI(s);
-    	s.clear();
+    	client.handleMessageFromClientUI(msg);
+    	//msg.getMsg().
     } 
     catch (Exception ex) 
     {
@@ -102,18 +103,19 @@ public class ClientConsole implements ChatIF
    */
   public void displayUI(Object message) 
   {
-	  int i=0;
-	  ArrayList<String> temp = new ArrayList<String>();
-	  ProductUI.products.clear();
-    if(message instanceof ArrayList<?>)
-    {
-    	temp =(ArrayList<String>)message;
-  	  for(i=0;i<temp.size();i=i+3)
-  	  {
-  		  Product product = new Product(temp.get(i),temp.get(i+1),temp.get(i+2));
-  		ProductUI.products.add(product);
-  	  }
-    }
+	    if(((Message)message).getOption().compareTo("1") ==0) 		/* Check that its update */
+	    {
+	  	  int i=0;
+		  ArrayList<Product> temp = new ArrayList<Product>();
+		  temp = (ArrayList<Product>)((Message)message).getMsg();
+		  ProductUI.products.clear();
+
+		  for(i=0;i<temp.size();i++)
+	  	  {
+	  		ProductUI.products.add(temp.get(i));
+	  	  }
+	    	
+	    }  
   }
 
   
@@ -124,11 +126,11 @@ public class ClientConsole implements ChatIF
    *
    * @param args[0] - The host to connect to.
    */
-  public static void main(String[] args) 
+ /* public static void main(String[] args) 
   {
 	ArrayList<String> s = new ArrayList<String>();	  	  
     String host = "";
-    int port = 0;  				/* The port number */
+    int port = 0;  				
 
     try
     {
@@ -141,7 +143,7 @@ public class ClientConsole implements ChatIF
     
     
     ClientConsole chat = new ClientConsole(host, DEFAULT_PORT);
-    chat.accept(s);  /* Wait for console data */
-  }
+    chat.accept(s);  // Wait for console data 
+  }*/
 }
 

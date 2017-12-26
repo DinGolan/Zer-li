@@ -1,5 +1,7 @@
 package controller;
 import java.util.ArrayList;
+
+import entity.Message;
 import entity.Product;
 import boundery.ProductUI;
 import javafx.event.ActionEvent;
@@ -14,6 +16,7 @@ import javafx.stage.Stage;
 
 public class ProductController{
 	private Product p;
+	private Message msg;
 
 	@FXML
 	private TextField txtPID; /* text field for the product Id */
@@ -30,7 +33,7 @@ public class ProductController{
 	@FXML
 	private Button btnUpdate = null; /* button update for update product */
 	
-	ArrayList<String> temp = new ArrayList<String>();
+	ArrayList<String> temp;
 
 	
 
@@ -58,11 +61,14 @@ public class ProductController{
 	
 	public void updateProduct(ActionEvent event) throws Exception /* Update the product name */
 	{
-		temp.add("0"); 						/* 0 - Its mean that we want to do update Specific Prodcut */
+		//temp.add("0"); 						/* 0 - Its mean that we want to do update Specific Prodcut */
+		temp = new ArrayList<String>();
 		temp.add(txtPID.getText());
 		temp.add(txtPName.getText());
 		temp.add(txtPType.getText());
-		ProductUI.myClient.accept(temp);
+		msg = new Message(temp, "0");
+				
+		ProductUI.myClient.accept(msg);
 		/* this.p.setpID(txtPID.getText()); */
 		/* this.p.setpName(txtPName.getText()); */
 		/* this.p.setpType(txtPType.getText()); */

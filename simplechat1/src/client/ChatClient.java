@@ -5,6 +5,8 @@
 package client;
 import ocsf.client.*;
 import common.*;
+import entity.Message;
+
 import java.io.*;
 import java.util.ArrayList;
 
@@ -65,7 +67,7 @@ public class ChatClient extends AbstractClient
    *
    * @param message - The message from the UI.    
    */
-  public void handleMessageFromClientUI(ArrayList<String> message )  
+  public void handleMessageFromClientUI(Object message )  
   {
     try
     {
