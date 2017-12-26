@@ -10,7 +10,7 @@ public class Product
 		super();
 		this.pID = pID;
 		this.pName = pName;
-		this.pType = pType;
+		this.pType = pType; 
 	}
 
 	public String getpID() {
