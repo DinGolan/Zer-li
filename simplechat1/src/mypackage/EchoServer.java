@@ -3,6 +3,7 @@ package mypackage;
 /* "Object Oriented Software Engineering" and is issued under the open-source */
 /* license found at www.lloseng.com */
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,6 +11,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import entity.Account;
 import entity.Message;
 import entity.Product;
 import entity.User;
@@ -85,6 +87,12 @@ public class EchoServer extends AbstractServer
         {										
 	    	UpdateUserAtDB(msg,conn);
 		}
+	    
+	    if(((Message)msg).getOption().compareTo("Add new account") == 0) //check if we add new account
+        {
+    		((Message)msg).setMsg(AddNewAccountToDB(msg,conn));	    
+    		this.sendToAllClients(msg);	
+		}
   }
 
     
@@ -152,8 +160,8 @@ public class EchoServer extends AbstractServer
 			Statement stmt;
 			try {
 			stmt = conn.createStatement();
-			String createTablecourses = "UPDATE project.product SET ProductName =" + "'" + temp.get(1) +"'" + "WHERE ProductID=" +"'" +temp.get(0) + "'" +";";
-			stmt.executeUpdate(createTablecourses);
+			String updateProductName = "UPDATE project.product SET ProductName =" + "'" + temp.get(1) +"'" + "WHERE ProductID=" +"'" +temp.get(0) + "'" +";";
+			stmt.executeUpdate(updateProductName);
 			} catch (SQLException e) {	e.printStackTrace();}	  
   }
   
@@ -230,6 +238,32 @@ public class EchoServer extends AbstractServer
 	 	}
 	  } catch (SQLException e) {	e.printStackTrace();}	
 	  return users;
+  }
+  
+  protected String AddNewAccountToDB(Object msg, Connection conn) //this method add new account to DB
+  {
+	  Account newAccount = (Account)(((Message)msg).getMsg());
+	  String success="Can't add account";
+	  Statement stmt;	  
+	  try {
+		  stmt = conn.createStatement(); //this statement check if we didn't have account with this userID
+		  String getAccountToID = "SELECT * FROM project.account WHERE AccountUserId="+newAccount.getAccountUserId()+";"; // get the account that connected to new account id of exist
+		  ResultSet rs = stmt.executeQuery(getAccountToID);
+		  if(rs.isBeforeFirst()==true)
+			  success="This user allready has an account";
+		  else { 
+			  stmt = conn.createStatement(); //this statement enter new account to the DB
+			  String InsertAccountToID = "INSERT INTO project.account(AccountUserId, AccountBalanceCard, AccountPaymentMethod, AccountPaymentArrangement,AccountCreditCardNum,AccountSubscriptionEndDate)" + 
+			  		"VALUES("+newAccount.getAccountUserId()+","+newAccount.getAccountBalanceCard()+ ","+"'CASH'"+","+"'FULLPRICE'"+","+newAccount.getAccountCreditCardNum()+","+"'2018-12-02'"+");";
+			  stmt.executeUpdate(InsertAccountToID);	 
+			  success="Add user successfully";
+		  }
+
+	  } catch (SQLException e) {	e.printStackTrace();}	
+	  
+	  finally{
+		  return success;
+	  }
   }
   
 
