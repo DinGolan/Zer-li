@@ -11,13 +11,13 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-<<<<<<< .mine
+
 import entity.Account;
 
-=======
+
 import com.mysql.jdbc.PreparedStatement;
 
->>>>>>> .theirs
+
 import entity.Message;
 import entity.Product;
 import entity.User;
@@ -104,6 +104,17 @@ public class EchoServer extends AbstractServer
         {
     		((Message)msg).setMsg(AddNewAccountToDB(msg,conn));	    
     		this.sendToAllClients(msg);	
+		}
+	    
+	    if(((Message)msg).getOption().compareTo("UserStatus") ==0) 	    /* return user with specific UserName */
+        {									
+	    	((Message)msg).setMsg(getUserStatusFromDB(msg,conn));    
+    		this.sendToAllClients(msg);
+		}	
+	    
+	    if(((Message)msg).getOption().compareTo("change User status to CONNECTED") ==0) 	    /* change User status to CONNECTED in DB */
+        {									
+	    	changhUserStatus(msg,conn);    
 		}
   }
 
@@ -308,6 +319,52 @@ public class EchoServer extends AbstractServer
 	  finally{
 		  return success;
 	  }
+  }
+  
+  protected User getUserStatusFromDB(Object msg, Connection conn) /* This method get products table details from DB */
+  {
+	  Statement stmt;
+	  String userName=(String)((Message)msg).getMsg();
+	  String getUserStatus = null;
+	  String p;
+	  User user= new User();
+	  Product pr;
+	  try {
+		  stmt = conn.createStatement();
+		  getUserStatus = "SELECT * FROM project.user WHERE UserName='"+userName+"';"; /* Get all the Table from the DB */
+		  ResultSet rs = stmt.executeQuery(getUserStatus);
+		  if (!rs.isBeforeFirst())
+		  {
+			  user.setId("Does Not Exist"); 
+		  }
+		  else // if the user DOSE  exist
+		  {
+			  if(rs.next() != false)
+			  {
+				  user.setId(rs.getString("UserId"));
+				  user.setUserName(rs.getString("UserName"));
+				  user.setPhone(rs.getString("UserPhone"));
+				  user.setPassword(rs.getString("UserPassword"));
+				  user.setPermission(User.UserPermission.valueOf(rs.getString("UserPermission")));
+				  user.setStatus(User.UserStatus.valueOf(rs.getString("UserStatus")));
+			  }
+		  }
+	  } 
+	  catch (SQLException e) {	e.printStackTrace();}	
+	  return user;
+  }
+  
+  protected void changhUserStatus(Object msg, Connection conn) /* This Method Update the DB */
+  {
+	  String userId=(String)((Message)msg).getMsg();
+	  Statement stmt;
+	  try {
+		  stmt = conn.createStatement();
+		  String createTablecourses = "UPDATE project.user SET UserStatus =" + "'" + "CONNECTED" + "'" + "WHERE UserId=" +"'" +userId + "'" +";";
+		  stmt.executeUpdate(createTablecourses);
+			
+	  } 
+	  catch (SQLException e) {	e.printStackTrace();}	  
   }
   
 
