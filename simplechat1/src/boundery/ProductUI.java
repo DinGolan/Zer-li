@@ -6,12 +6,14 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import mypackage.ClientConsole;
 import entity.Product;
+import entity.User;
 
 
 public class ProductUI extends Application /* With This Class We Show the Product GUI */
 {
 	
-	public static Vector<Product> products=new Vector<Product>();
+	public static Vector<Product> products = new Vector<Product>();
+	public static Vector<User> users = new Vector<User>();
 	public static ClientConsole myClient;
 	
 	public static void main( String args[] ) throws Exception
@@ -20,7 +22,6 @@ public class ProductUI extends Application /* With This Class We Show the Produc
 		Scanner scanner = new Scanner(System.in);
 		String IP = scanner.next(); /* Enter Server IP */
 		myClient = new ClientConsole(IP, 5555);
-
         launch(args);		
 	} 
 	
