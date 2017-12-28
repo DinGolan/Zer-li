@@ -19,11 +19,6 @@ private String id;
 	public enum UserPermission {COMPANY_MANAGER , STORE_MANAGER , EXPERT ,
 		CUSTOMER_SERVICE_WORKER , CUSTOMER , DATA_COMPANY_MANAGER}
 
-	public User(User msg) {
-		// TODO Auto-generated constructor stub
-	}
-
-
 	public String getId() {
 		return id;
 	}

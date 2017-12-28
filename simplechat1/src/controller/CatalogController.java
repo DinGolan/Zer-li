@@ -104,7 +104,7 @@ public class CatalogController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) // Initialized The ComboBox of the Product 
 	{
-		ArrayList<String> s = new ArrayList<String>();
+		ArrayList<String> s = new ArrayList<String>(); /* We Not Use In This Variable , Its Only For send Parameter To the Message Class */
 		//s.add("1"); // 1 - Its Mean That we want to Initialized the from the DB 
 		msg = new Message(s, "1");
 

@@ -12,7 +12,6 @@ import java.util.Scanner;
 
 import entity.Message;
 import entity.Product;
-import entity.User;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 
@@ -71,13 +70,12 @@ public class EchoServer extends AbstractServer
 				/* ArrayList<Product> aa = new ArrayList<Product>(); */
 	    	((Message)msg).setMsg(getProductsFromDB(conn));	    
 	    		this.sendToAllClients(msg);
-  			}	
+  			}
 	    
-	    if(((Message)msg).getOption().compareTo("UserStatus") ==0) 	    /* return status of specific User */
-        {										
-	    	((Message)msg).setMsg(getUserStatusFromDB(msg,conn));    
-    		this.sendToAllClients(msg);
-			}	
+	    if(((Message)msg).getOption().compareTo("add survey") ==0) // add survey to db
+	    {
+	    	AddSurveyToDB(msg,conn);
+	    }
 	  }
 
     
@@ -150,6 +148,20 @@ public class EchoServer extends AbstractServer
 			} catch (SQLException e) {	e.printStackTrace();}	  
   }
   
+  protected void AddSurveyToDB(Object msg, Connection conn)
+  {
+	  ArrayList<String> temp = (ArrayList<String>)(((Message)msg).getMsg());
+	  
+		Statement stmt;
+		try {
+		stmt = conn.createStatement();
+		String AddSurvey = "insert into project.survey VALUES(1, 1," + "'" + temp.get(1) + "'" + "," + "'" + temp.get(2) + "'" + "," + "'" + temp.get(3) + "'" + "," + "'" + temp.get(4) + "'" + "," + "'" + temp.get(5) + "'" + "," + "'" + temp.get(6) + "'" + ";";
+		stmt.executeUpdate(AddSurvey);
+		} catch (SQLException e) {	e.printStackTrace();}	  
+
+
+  }
+  
   
   protected ArrayList<Product> getProductsFromDB(Connection conn) /* This method get products table details from DB */
   {
@@ -174,32 +186,6 @@ public class EchoServer extends AbstractServer
 	 	}
 	  } catch (SQLException e) {	e.printStackTrace();}	
 	  return products;
-  }
-  
-  
-  protected User getUserStatusFromDB(Object msg, Connection conn) /* This method get products table details from DB */
-  {
-	  Statement stmt;
-	  String getUserStatus = null;
-	  String p;
-	  User user=null;
-	  Product pr;
-	  try {
-		  stmt = conn.createStatement();
-		  getUserStatus = "SELECT * FROM project.user WHERE UserName = "+ ((Message)msg).getMsg() + ";"; /* Get all the Table from the DB */
-		  ResultSet rs = stmt.executeQuery(getUserStatus);
-		  if(!rs.equals(null))
-		  {
-		  user.setId(rs.getString("UserId"));
-		  user.setUserName(rs.getString("UserName"));
-		  user.setPhone(rs.getString("UserPhone"));
-		  user.setPassword(rs.getString("UserPassword"));
-		  user.setPermission(User.UserPermission.valueOf(rs.getString("UserPermission")));
-		  user.setStatus(User.UserStatus.valueOf(rs.getString("UserStatus")));
-		  }
-	  } 
-	  catch (SQLException e) {	e.printStackTrace();}	
-	  return user;
   }
   
 
