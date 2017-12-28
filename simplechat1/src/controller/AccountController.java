@@ -1,15 +1,10 @@
 package controller;
-import java.util.Scanner;
-import java.util.Vector;
-import controller.CatalogController;
-import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.stage.Stage;
-import mypackage.ClientConsole;
-import entity.Product;
-import entity.User;
+
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 import entity.Account;
 import entity.Account.PaymentArrangement;
@@ -20,19 +15,18 @@ import boundery.ProductUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 public class AccountController {
 	
 	private Account a;
-	private PaymentMethod m;
 	private Message msg;
 	private static int itemIndex = 0; //This Variable Need for the the Case - that we not choose any paymentMethod from the ComboBox , so we take the FULLPRICE option By Defualt */
 	ObservableList<PaymentArrangement> PaymentArrangmentList;
@@ -92,6 +86,38 @@ public class AccountController {
 		PaymentArrangmentList = FXCollections.observableArrayList(paymentA);
 		cmbAccountPaymentArrangment.setItems(PaymentArrangmentList); //Set the payment arrangment options at the combobox
 	}
+	
+/*	public int getItemIndex() //With this Method we Take Product from the List of the Product at the ComboBox
+	{
+		if(cmbProducts.getSelectionModel().getSelectedIndex() ==-1)
+			return itemIndex;
+	
+		return cmbProducts.getSelectionModel().getSelectedIndex();
+	}
+	
+	public void start(Stage primaryStage) throws Exception     //With this Method we show the GUI of the Catalog
+	{	
+		Parent root = FXMLLoader.load(getClass().getResource("/boundery/CatalogFrame.fxml"));
+				
+		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/boundery/CatalogFrame.css").toExternalForm());
+		primaryStage.setTitle("Catalog Managment Tool");
+		primaryStage.setScene(scene);
+		
+		primaryStage.show();		
+	}
+	
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) // Initialized The ComboBox of the Product 
+	{
+		ArrayList<String> s = new ArrayList<String>();
+		//s.add("1"); // 1 - Its Mean That we want to Initialized the from the DB 
+		msg = new Message(s, "1");
+
+		ProductUI.myClient.accept(msg);
+		while(ProductUI.products.size() == 0);
+		setProductsComboBox();
+	}*/
 		
 	public void closeAccountFormWindow(ActionEvent event) throws Exception  //To close the The Window of the Account card GUI
 	{ 
