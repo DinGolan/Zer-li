@@ -70,7 +70,12 @@ public class EchoServer extends AbstractServer
 				/* ArrayList<Product> aa = new ArrayList<Product>(); */
 	    	((Message)msg).setMsg(getProductsFromDB(conn));	    
 	    		this.sendToAllClients(msg);
-  			}	
+  			}
+	    
+	    if(((Message)msg).getOption().compareTo("add survey") ==0) // add survey to db
+	    {
+	    	AddSurveyToDB(msg,conn);
+	    }
 	  }
 
     
@@ -141,6 +146,20 @@ public class EchoServer extends AbstractServer
 			String createTablecourses = "UPDATE project.product SET ProductName =" + "'" + temp.get(1) +"'" + "WHERE ProductID=" +"'" +temp.get(0) + "'" +";";
 			stmt.executeUpdate(createTablecourses);
 			} catch (SQLException e) {	e.printStackTrace();}	  
+  }
+  
+  protected void AddSurveyToDB(Object msg, Connection conn)
+  {
+	  ArrayList<String> temp = (ArrayList<String>)(((Message)msg).getMsg());
+	  
+		Statement stmt;
+		try {
+		stmt = conn.createStatement();
+		String AddSurvey = "insert into project.survey VALUES(1, 1," + "'" + temp.get(1) + "'" + "," + "'" + temp.get(2) + "'" + "," + "'" + temp.get(3) + "'" + "," + "'" + temp.get(4) + "'" + "," + "'" + temp.get(5) + "'" + "," + "'" + temp.get(6) + "'" + ";";
+		stmt.executeUpdate(AddSurvey);
+		} catch (SQLException e) {	e.printStackTrace();}	  
+
+
   }
   
   
