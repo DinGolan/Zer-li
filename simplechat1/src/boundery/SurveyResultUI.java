@@ -1,16 +1,15 @@
 package boundery;
 
 import java.util.Scanner;
-import java.util.Vector;
-import controller.CatalogController;
+
 import controller.SurveyController;
+import controller.SurveyResultController;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import mypackage.ClientConsole;
-import entity.Product;
-import entity.User;
 
-public class SurveyUI extends Application {
+public class SurveyResultUI extends Application{
+
 	public static ClientConsole myClient;
 
 	public static void main( String args[] ) throws Exception
@@ -26,9 +25,8 @@ public class SurveyUI extends Application {
 	@Override
 	public void start(Stage arg0) throws Exception 
 	{		
-		SurveyController aFrame = new SurveyController(); /* Create SurveyFrame */				  
+		SurveyResultController aFrame = new SurveyResultController(); /* Create SurveyFrame */				  
 		aFrame.start(arg0);
 	}
-
 
 }

@@ -1,9 +1,11 @@
-package boundery;
+package controller;
 
 import javafx.fxml.FXML;
 
 import java.util.ArrayList;
 
+import boundery.ProductUI;
+import boundery.SurveyUI;
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
 import entity.Message;
@@ -40,7 +42,7 @@ public class SurveyController {
 	
 	public void start(Stage primaryStage) throws Exception     /* With this Method we show the GUI of the Catalog */
 	{	
-		Parent root = FXMLLoader.load(getClass().getResource("/boundery/SurveyFrame.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("/controller/SurveyFrame.fxml"));
 				
 		Scene scene = new Scene(root);
 		//scene.getStylesheets().add(getClass().getResource("/boundery/CatalogFrame.css").toExternalForm());
@@ -59,7 +61,9 @@ public class SurveyController {
 		temp.add(this.txtQ5.getText());
 		temp.add(this.txtQ6.getText());
 		msg = new Message(temp, "add survey");
-		ProductUI.myClient.accept(msg);
+		System.out.println("a");
+
+		SurveyUI.myClient.accept(msg);
 	}
 	
 	public void Close() {

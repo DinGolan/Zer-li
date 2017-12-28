@@ -1,6 +1,7 @@
 package boundery;
 import java.util.Scanner;
 import java.util.Vector;
+import controller.AccountController;
 import controller.CatalogController;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -11,8 +12,7 @@ import entity.User;
 
 public class AccountUI extends Application //With This Class We Show the Account GUI
 {
-	public static Vector<Product> products = new Vector<Product>();
-	public static Vector<User> users = new Vector<User>();
+	public static Vector <Product> products = new Vector<Product>();
 	public static ClientConsole myClient;
 	
 	public static void main( String args[] ) throws Exception
@@ -27,7 +27,7 @@ public class AccountUI extends Application //With This Class We Show the Account
 	@Override
 	public void start(Stage arg0) throws Exception 
 	{		
-		CatalogController aFrame = new CatalogController(); /* Create CatalogFrame */				  
+		AccountController aFrame = new AccountController(); /* Create AccountController */				  
 		aFrame.start(arg0);
 	}
 	
