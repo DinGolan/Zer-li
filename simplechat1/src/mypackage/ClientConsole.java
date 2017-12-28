@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import boundery.ProductUI;
+import boundery.UserUI;
 import controller.UserController;
 import client.ChatClient;
 import common.ChatIF;
@@ -39,7 +40,7 @@ public class ClientConsole implements ChatIF
    * The instance of the client that created this ConsoleChat.
    */
   ChatClient client; 
-  UserController userController;
+  
   
   //Constructors ****************************************************
 
@@ -123,15 +124,20 @@ public class ClientConsole implements ChatIF
   
   public void sendUser(Object message) 
   {
-	  userController= new UserController();
-	  if(((Message)message).getMsg().equals(null)) //user is NOT exist
+	  if(((User)((Message)message).getMsg()).getId().equals("Does Not Exist")) //user is NOT exist
 	  {
-		  userController.toCompare.setId(null);
+		  UserUI.user.setId("Does Not Exist");
 	  }
 	  else
 	  {
-		  //userController.toCompare = new User((User)((Message)message).getMsg());
+		  UserUI.user.setId(((User)((Message)message).getMsg()).getId());
+		  UserUI.user.setPassword(((User)((Message)message).getMsg()).getPassword());
+		  UserUI.user.setPermission(((User)((Message)message).getMsg()).getPermission());
+		  UserUI.user.setPhone(((User)((Message)message).getMsg()).getPhone());
+		  UserUI.user.setStatus(((User)((Message)message).getMsg()).getStatus());
+		  UserUI.user.setUserName(((User)((Message)message).getMsg()).getUserName());
 	  }
+	  UserController.flag = true;
   }
 
   

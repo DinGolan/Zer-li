@@ -1,6 +1,10 @@
 package entity;
 
-public class User {
+import java.io.Serializable;
+
+import com.sun.org.apache.xml.internal.security.encryption.Serializer;
+
+public class User implements Serializable{
 
 private String id;
 	
@@ -66,4 +70,5 @@ private String id;
 	public void setPermission(UserPermission permission) {
 		this.permission = permission;
 	}
+	
 }

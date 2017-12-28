@@ -85,6 +85,17 @@ public class EchoServer extends AbstractServer
         {										
 	    	UpdateUserAtDB(msg,conn);
 		}
+	    
+	    if(((Message)msg).getOption().compareTo("UserStatus") ==0) 	    /* return user with specific UserName */
+        {									
+	    	((Message)msg).setMsg(getUserStatusFromDB(msg,conn));    
+    		this.sendToAllClients(msg);
+		}	
+	    
+	    if(((Message)msg).getOption().compareTo("change User status to CONNECTED") ==0) 	    /* change User status to CONNECTED in DB */
+        {									
+	    	changhUserStatus(msg,conn);    
+		}	
   }
 
     
@@ -209,7 +220,7 @@ public class EchoServer extends AbstractServer
 	  User ur;
 	  try {
 		  stmt = conn.createStatement();
-		  String getProductsTable = "SELECT * FROM product;"; /* Get all the Table from the DB */
+		  String getProductsTable = "SELECT * FROM product"; /* Get all the Table from the DB */
 		  ResultSet rs = stmt.executeQuery(getProductsTable);
 		  while(rs.next())
 	 	{
@@ -230,6 +241,52 @@ public class EchoServer extends AbstractServer
 	 	}
 	  } catch (SQLException e) {	e.printStackTrace();}	
 	  return users;
+  }
+  
+  protected User getUserStatusFromDB(Object msg, Connection conn) /* This method get products table details from DB */
+  {
+	  Statement stmt;
+	  String userName=(String)((Message)msg).getMsg();
+	  String getUserStatus = null;
+	  String p;
+	  User user= new User();
+	  Product pr;
+	  try {
+		  stmt = conn.createStatement();
+		  getUserStatus = "SELECT * FROM project.user WHERE UserName='"+userName+"';"; /* Get all the Table from the DB */
+		  ResultSet rs = stmt.executeQuery(getUserStatus);
+		  if (!rs.isBeforeFirst())
+		  {
+			  user.setId("Does Not Exist"); 
+		  }
+		  else // if the user DOSE  exist
+		  {
+			  if(rs.next() != false)
+			  {
+				  user.setId(rs.getString("UserId"));
+				  user.setUserName(rs.getString("UserName"));
+				  user.setPhone(rs.getString("UserPhone"));
+				  user.setPassword(rs.getString("UserPassword"));
+				  user.setPermission(User.UserPermission.valueOf(rs.getString("UserPermission")));
+				  user.setStatus(User.UserStatus.valueOf(rs.getString("UserStatus")));
+			  }
+		  }
+	  } 
+	  catch (SQLException e) {	e.printStackTrace();}	
+	  return user;
+  }
+  
+  protected void changhUserStatus(Object msg, Connection conn) /* This Method Update the DB */
+  {
+	  String userId=(String)((Message)msg).getMsg();
+	  Statement stmt;
+	  try {
+		  stmt = conn.createStatement();
+		  String createTablecourses = "UPDATE project.user SET UserStatus =" + "'" + "CONNECTED" + "'" + "WHERE UserId=" +"'" +userId + "'" +";";
+		  stmt.executeUpdate(createTablecourses);
+			
+	  } 
+	  catch (SQLException e) {	e.printStackTrace();}	  
   }
   
 
@@ -260,15 +317,15 @@ public class EchoServer extends AbstractServer
 
   System.out.println("Please enter the mySQL scheme name:");
 		Scanner scanner = new Scanner(System.in);
-		 name=scanner.next();
+		 name= "project";                       //; "project"
 		 url = "jdbc:mysql://localhost/"+name;/* Enter jbdc mySQL */
 		//String sql = "jdbc:mysql://localhost/project";
 	
 	System.out.println("Please enter the mySQL user name:");
-		 username = scanner.next(); /* Enter mySQL name */
+		 username = "root"; //scanner.next(); /* Enter mySQL name */
 	
 	System.out.println("Please enter the mySQL password:");
-		 password = scanner.next(); /* Enter mySQL password */
+		 password = "308155308"; //scanner.next(); /* Enter mySQL password */
 	
     
     try 
