@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="boundery.SurveyController">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SurveyController">
    <children>
       <AnchorPane layoutY="-8.0" prefHeight="798.0" prefWidth="741.0">
          <children>
@@ -19,8 +19,8 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <TextField id="txtQ1" layoutX="213.0" layoutY="120.0" prefHeight="61.0" prefWidth="387.0" />
-            <Label layoutX="194.0" layoutY="40.0" text="Zer-Li Product" textFill="#3200ff">
+            <TextField id="txtQ1" fx:id="txtQ1" layoutX="213.0" layoutY="120.0" prefHeight="61.0" prefWidth="387.0" />
+            <Label layoutX="262.0" layoutY="37.0" text="Zer-Li Survey" textFill="#3200ff">
                <font>
                   <Font name="System Bold" size="35.0" />
                </font>
@@ -31,32 +31,32 @@
                </font>
             </Button>
          </children></AnchorPane>
-      <TextField id="txtQ2" layoutX="214.0" layoutY="216.0" prefHeight="61.0" prefWidth="387.0" />
-      <Label layoutX="75.0" layoutY="220.0" text="Question 1:">
+      <TextField id="txtQ2" fx:id="txtQ2" layoutX="214.0" layoutY="216.0" prefHeight="61.0" prefWidth="387.0" />
+      <Label layoutX="75.0" layoutY="220.0" text="Question 2:">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="75.0" layoutY="321.0" text="Question 1:">
+      <Label layoutX="75.0" layoutY="321.0" text="Question 3:">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <TextField id="txtQ3" layoutX="214.0" layoutY="317.0" prefHeight="61.0" prefWidth="387.0" />
-      <TextField id="txtQ4" layoutX="214.0" layoutY="425.0" prefHeight="61.0" prefWidth="387.0" />
-      <Label layoutX="75.0" layoutY="429.0" text="Question 1:">
+      <TextField id="txtQ3" fx:id="txtQ3" layoutX="214.0" layoutY="317.0" prefHeight="61.0" prefWidth="387.0" />
+      <TextField id="txtQ4" fx:id="txtQ4" layoutX="214.0" layoutY="425.0" prefHeight="61.0" prefWidth="387.0" />
+      <Label layoutX="75.0" layoutY="429.0" text="Question 4:">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="75.0" layoutY="530.0" text="Question 1:">
+      <Label layoutX="75.0" layoutY="530.0" text="Question 5:">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <TextField id="txtQ5" layoutX="214.0" layoutY="526.0" prefHeight="61.0" prefWidth="387.0" />
-      <TextField id="txtQ6" layoutX="214.0" layoutY="633.0" prefHeight="61.0" prefWidth="387.0" />
-      <Label layoutX="75.0" layoutY="637.0" text="Question 1:">
+      <TextField id="txtQ5" fx:id="txtQ5" layoutX="214.0" layoutY="526.0" prefHeight="61.0" prefWidth="387.0" />
+      <TextField id="txtQ6" fx:id="txtQ6" layoutX="214.0" layoutY="633.0" prefHeight="61.0" prefWidth="387.0" />
+      <Label layoutX="75.0" layoutY="637.0" text="Question 6:">
          <font>
             <Font size="18.0" />
          </font>

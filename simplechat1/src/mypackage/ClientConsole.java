@@ -72,6 +72,7 @@ public class ClientConsole implements ChatIF
    */
   public void accept(Message msg) 
   {
+
     try
     {
     	client.handleMessageFromClientUI(msg);

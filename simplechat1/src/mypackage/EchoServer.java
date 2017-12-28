@@ -11,7 +11,13 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+<<<<<<< .mine
 import entity.Account;
+
+=======
+import com.mysql.jdbc.PreparedStatement;
+
+>>>>>>> .theirs
 import entity.Message;
 import entity.Product;
 import entity.User;
@@ -36,7 +42,7 @@ public class EchoServer extends AbstractServer
    * The default port to listen on.
    */
   final public static int DEFAULT_PORT = 5555;
-  
+  public static int counter=2;
   //Constructors ****************************************************
   
   /**
@@ -81,6 +87,12 @@ public class EchoServer extends AbstractServer
 	    	((Message)msg).setMsg(getProductsFromDB(conn));	    
     		this.sendToAllClients(msg);
 		}
+	    
+	    if(((Message)msg).getOption().compareTo("add survey") ==0) // add survey to db
+	    	 	    {
+	    				System.out.println("a");
+	    	 	    	AddSurveyToDB(msg,conn);
+	    	 	    }
 	    
 	    
 	    if(((Message)msg).getOption().compareTo("Update User At Data Base") == 0) 	    /* Check that we get from DB Because We want to Initialized */
@@ -160,6 +172,7 @@ public class EchoServer extends AbstractServer
 			Statement stmt;
 			try {
 			stmt = conn.createStatement();
+
 			String updateProductName = "UPDATE project.product SET ProductName =" + "'" + temp.get(1) +"'" + "WHERE ProductID=" +"'" +temp.get(0) + "'" +";";
 			stmt.executeUpdate(updateProductName);
 			} catch (SQLException e) {	e.printStackTrace();}	  
@@ -183,6 +196,37 @@ public class EchoServer extends AbstractServer
 	  } 
 	  catch (SQLException e) {	e.printStackTrace();}	  
   }
+  
+     protected void AddSurveyToDB(Object msg, Connection conn)
+    {
+  	  ArrayList<String> temp = (ArrayList<String>)(((Message)msg).getMsg());
+  	  
+  		Statement stmt;
+
+  		try {
+  		//stmt = conn.createStatement();
+  		//String AddSurvey = "insert into project.survey VALUES(1," + "1" + "," + "'" + temp.get(1) + "'" + "," + "'" + temp.get(2) + "'" + "," + "'" + temp.get(3) + "'" + "," + "'" + temp.get(4) + "'" + "," + "'" + temp.get(5) + "'" + "," + "'" + temp.get(6) + "'" + ";";
+  		//String AddSurvey = "INSERT INTO project.survey ('Surveyid', 'Question1', 'Question2', 'Question3', 'Question4', 'Question5', 'Question6') VALUES ( " +"''" + "," + "'" + temp.get(1) + "'" + "," + "'" + temp.get(2) + "'" + "," + "'" + temp.get(3) + "'" + "," + "'" + temp.get(4) + "'" + "," + "'" + temp.get(5) + "'" + "," + "'" + temp.get(6) + "'" + ";";
+  	// the mysql insert statement
+        String query = "INSERT INTO project.survey (Surveyid, Question1, Question2, Question3, Question4, Question5, Question6)"
+          + " VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+        PreparedStatement preparedStmt = (PreparedStatement) conn.prepareStatement(query);
+        preparedStmt.setInt(1, counter);
+        preparedStmt.setString (2, temp.get(0));
+        preparedStmt.setString (3, temp.get(1));
+        preparedStmt.setString (4, temp.get(2));
+        preparedStmt.setString (5, temp.get(3));
+        preparedStmt.setString (6, temp.get(4));
+        preparedStmt.setString (7, temp.get(5));
+        counter++;
+        preparedStmt.execute();
+
+  		//stmt.executeUpdate(query);
+  		} catch (SQLException e) {	e.printStackTrace();}	  
+  
+  
+    }
   
   protected ArrayList<Product> getProductsFromDB(Connection conn) /* This method get products table details from DB */
   {
