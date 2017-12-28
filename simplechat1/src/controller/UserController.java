@@ -2,6 +2,7 @@ package controller;
 
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -35,7 +36,6 @@ public class UserController {
 	private  Account single_Account;
 	private static int itemIndex = 2; /* This Variable Need for the the Case - that we not choose any Product from the ComboBox , so we take the product that in Index 2 By Default */
 	
-
 	ArrayList<Object> Temp_Array_For_Update;
 	ObservableList<UserStatus> list_1;
 	ObservableList<UserPermission> list_2;
@@ -212,21 +212,23 @@ public class UserController {
 
 		  try {
 			  stmt = conn.createStatement();
-			  String getProductsTable = "SELECT * FROM account WHERE BalanceInCustomerAccount < 0;"; /* Get all the Table from the DB */
+			  String getProductsTable = "SELECT * FROM account WHERE AccountBalanceCard < 0;"; /* Get all the Table from the DB */
 			  ResultSet rs = stmt.executeQuery(getProductsTable);
 			  while(rs.next())
 		 	{
 			  single_Account = new Account();									
-			  result_Str = rs.getString("CustomerID");
-			  single_Account.setCustomerId(Integer.parseInt(result_Str));                    /* Take The Id Of the Customer */
-			  result_Str = rs.getString("BalanceInCustomerAccount");
-			  single_Account.setBalanceInCustomerAccount(Double.parseDouble(result_Str));    /* Take The BalanceInCustomerAccount Of the Customer */
-			  result_Str = rs.getString("PaymentWay");
-			  single_Account.setPaymentWay(Account.PaymentWay.valueOf(result_Str));          /* Take The PaymentWay Of the Customer */
-			  result_Str = rs.getString("Arrangement");
-			  single_Account.setArrangement(Account.Arrangement.valueOf(result_Str));        /* Take The Arrangement Of the Customer */
-			  result_Str = rs.getString("NumberOfCreditCard");
-			  single_Account.setNumberOfCreditCard(result_Str);                              /* Take The NumberOfCreditCard Of the Customer */
+			  result_Str = rs.getString("AccountUserId");
+			  single_Account.setAccountUserId(result_Str);                    /* Take The Id Of the Customer */
+			  result_Str = rs.getString("AccountBalanceCard");
+			  single_Account.setAccountBalanceCard(Double.parseDouble(result_Str));    /* Take The BalanceInCustomerAccount Of the Customer */
+			  result_Str = rs.getString("AccountPaymentMethod");
+			  single_Account.setAccountPaymentArrangement(Account.PaymentArrangement.valueOf(result_Str));          /* Take The PaymentWay Of the Customer */
+			  result_Str = rs.getString("AccountPaymentArrangement");
+			  single_Account.setAccountPaymentMethod(Account.PaymentMethod.valueOf(result_Str));        /* Take The Arrangement Of the Customer */
+			  result_Str = rs.getString("AccountCreditCardNum");
+			  single_Account.setAccountCreditCardNum(result_Str);                              /* Take The NumberOfCreditCard Of the Customer */
+			  result_Str = rs.getString("AccountSubscriptionEndDate");
+			 // single_Account.setAccountSubscriptionEndDate((Date)result_Str);                              /* Take The NumberOfCreditCard Of the Customer */
 			  accounts.add(single_Account);
 		 	}
 		  } catch (SQLException e) {	e.printStackTrace();}	

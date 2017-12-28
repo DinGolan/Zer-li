@@ -1,67 +1,94 @@
 package entity;
 
+import java.sql.Date;
+
 public class Account {
+
+	private String accountUserId; //save the userId for this account
+	public PaymentArrangement accountPaymentArrangement;
+	public PaymentMethod accountPaymentMethod;
+	private double accountBalanceCard;
+	private String accountCreditCardNum;
+	private Date accountSubscriptionEndDate;
 	
-	private int CustomerId;
-	private double BalanceInCustomerAccount;
-	private PaymentWay paymentWay;
-	private Arrangement arrangement;
-	private String NumberOfCreditCard;
+	public enum PaymentArrangement{ //enum for the payment arrangement
+		FULLPRICE,MONTHLY,ANNUALL
+	}
+	public enum PaymentMethod{ //enum for the payment method
+		CASH,CREDITCARD;	
+	}
 	
-	public enum PaymentWay {CREDIT , CASH}
-	public enum Arrangement {FULLPRICE , MONTHLY , ANNUAL}
-	
-	/*public Account(int CustomerId , double BalanceInCustomerAccount , PaymentWay paymentWay , Arrangement arrangement , String NumberOfCreditCard)
+/*	public Account()
 	{
-		this.CustomerId = CustomerId;
-		this.BalanceInCustomerAccount = BalanceInCustomerAccount;
-		this.paymentWay = paymentWay;
-		this.arrangement = arrangement;
-		this.NumberOfCreditCard = NumberOfCreditCard;
+		
+	}
+
+	public Account(String accountUserId, PaymentArrangement accountPaymentArrangement,
+			PaymentMethod accountPaymentMethod, double accountBalanceCard, String accountCreditCardNum) //constructor
+	{
+		super();
+		this.accountUserId = accountUserId;
+		this.accountPaymentArrangement = accountPaymentArrangement;
+		this.accountPaymentMethod = accountPaymentMethod;
+		this.accountBalanceCard = accountBalanceCard;
+		this.accountCreditCardNum = accountCreditCardNum;
 	}*/
 
-	public Account() {
-
+	public String getAccountUserId() { //accountUserId getter
+		return accountUserId;
 	}
 
-	public int getCustomerId() {
-		return CustomerId;
+	public void setAccountUserId(String accountUserId) { //accountUserId setter
+		this.accountUserId = accountUserId;
 	}
 
-	public void setCustomerId(int customerId) {
-		CustomerId = customerId;
+	public PaymentArrangement getAccountPaymentArrangement() { //accountPaymentArrangement getter
+		return accountPaymentArrangement;
 	}
 
-	public double getBalanceInCustomerAccount() {
-		return BalanceInCustomerAccount;
+	public void setAccountPaymentArrangement(PaymentArrangement accountPaymentArrangement) { //accountPaymentArrangement setter
+		this.accountPaymentArrangement = accountPaymentArrangement;
 	}
 
-	public void setBalanceInCustomerAccount(double balanceInCustomerAccount) {
-		BalanceInCustomerAccount = balanceInCustomerAccount;
+	public PaymentMethod getAccountPaymentMethod() { //accountPaymentMethod getter
+		return accountPaymentMethod;
 	}
 
-	public PaymentWay getPaymentWay() {
-		return paymentWay;
+	public void setAccountPaymentMethod(PaymentMethod accountPaymentMethod) { //accountPaymentMethod setter
+		this.accountPaymentMethod = accountPaymentMethod;
 	}
 
-	public void setPaymentWay(PaymentWay paymentWay) {
-		this.paymentWay = paymentWay;
+	public double getAccountBalanceCard() { //accountBalanceCard getter
+		return accountBalanceCard;
 	}
 
-	public Arrangement getArrangement() {
-		return arrangement;
+	public void setAccountBalanceCard (double accountBalanceCard) { //accountBalanceCard setter
+		this.accountBalanceCard = accountBalanceCard;
 	}
 
-	public void setArrangement(Arrangement arrangement) {
-		this.arrangement = arrangement;
+	public String getAccountCreditCardNum() { //accountCreditCardNum getter
+		return accountCreditCardNum;
 	}
 
-	public String getNumberOfCreditCard() {
-		return NumberOfCreditCard;
+	public void setAccountCreditCardNum(String accountCreditCardNum) { //accountCreditCardNum setter
+		this.accountCreditCardNum = accountCreditCardNum;
+	}
+	
+
+	public Date getAccountSubscriptionEndDate() { //accountSubscriptionEndDate getter
+		return accountSubscriptionEndDate;
 	}
 
-	public void setNumberOfCreditCard(String numberOfCreditCard) {
-		NumberOfCreditCard = numberOfCreditCard;
+	public void setAccountSubscriptionEndDate(Date accountSubscriptionEndDate) { //accountSubscriptionEndDate setter
+		this.accountSubscriptionEndDate = accountSubscriptionEndDate;
 	}
 
+	@Override
+	public String toString() {
+		return "Account [accountUserId=" + accountUserId + ", accountPaymentArrangement=" + accountPaymentArrangement
+				+ ", accountPaymentMethod=" + accountPaymentMethod + ", accountBalanceCard=" + accountBalanceCard
+				+ ", accountCreditCardNum=" + accountCreditCardNum + ", accountSubscriptionEndDate="
+				+ accountSubscriptionEndDate + "]";
+	}	
+	
 }
