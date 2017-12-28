@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="466.0" prefWidth="401.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="157.0" layoutY="21.0" prefHeight="32.0" prefWidth="87.0" text="Account Card" />
+      <Label layoutX="31.0" layoutY="79.0" text="User id number:" />
+      <Label layoutX="29.0" layoutY="252.0" text="Payment Arrangement:" />
+      <Label layoutX="34.0" layoutY="365.0" text="Balance on site:" />
+      <Label layoutX="28.0" layoutY="137.0" text="Payment method:" />
+      <TextField id="txtAccountUserId" layoutX="180.0" layoutY="75.0" />
+      <RadioButton id="rdbtnAccountPaymentMethodCREDITCARD" layoutX="153.0" layoutY="137.0" mnemonicParsing="false" text="Credit card" />
+      <RadioButton id="rdbtnAccountPaymentMethodCASH" layoutX="275.0" layoutY="137.0" mnemonicParsing="false" text="Cash" />
+      <DatePicker id="dpAccountEndSubscriptionDate" layoutX="178.0" layoutY="301.0" promptText="None" />
+      <Label layoutX="31.0" layoutY="305.0" text="End of subscription date:" />
+      <TextField id="txtAccountBalanceCard" layoutX="180.0" layoutY="361.0" promptText="0.0" />
+      <Button id="btnAccountAddAccount" layoutX="67.0" layoutY="416.0" mnemonicParsing="false" text="Add account" />
+      <Button id="btnAccountClose" layoutX="284.0" layoutY="416.0" mnemonicParsing="false" text="Close" />
+      <Label layoutX="28.0" layoutY="195.0" text="Credit card number:" />
+      <TextField id="txtAccountCreditCardNum" layoutX="180.0" layoutY="183.0" promptText="None" />
+      <ComboBox id="cmbAccountPaymentArrangment" layoutX="180.0" layoutY="248.0" prefWidth="150.0" />
+   </children>
+</AnchorPane>

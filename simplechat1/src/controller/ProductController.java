@@ -36,7 +36,6 @@ public class ProductController{
 	ArrayList<String> temp;
 
 	
-
 	public void loadProduct(Product p1) /* To load the product details to the text fields */
 	{ 
 		this.p=p1;
