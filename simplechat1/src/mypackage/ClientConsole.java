@@ -7,10 +7,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import boundery.ProductUI;
+import controller.UserController;
 import client.ChatClient;
 import common.ChatIF;
 import entity.Message;
 import entity.Product;
+import entity.User;
 
 /**
  * This class constructs the UI for a chat client.  It implements the
@@ -37,7 +39,7 @@ public class ClientConsole implements ChatIF
    * The instance of the client that created this ConsoleChat.
    */
   ChatClient client; 
-
+  UserController userController;
   
   //Constructors ****************************************************
 
@@ -116,6 +118,20 @@ public class ClientConsole implements ChatIF
 	  	  }
 	    	
 	    }  
+  }
+  
+  
+  public void sendUser(Object message) 
+  {
+	  userController= new UserController();
+	  if(((Message)message).getMsg().equals(null)) //user is NOT exist
+	  {
+		  userController.toCompare.setId(null);
+	  }
+	  else
+	  {
+		  userController.toCompare = new User((User)((Message)message).getMsg());
+	  }
   }
 
   
