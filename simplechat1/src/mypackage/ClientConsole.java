@@ -130,7 +130,7 @@ public class ClientConsole implements ChatIF
 	  }
 	  else
 	  {
-		  userController.toCompare = new User((User)((Message)message).getMsg());
+		  //userController.toCompare = new User((User)((Message)message).getMsg());
 	  }
   }
 

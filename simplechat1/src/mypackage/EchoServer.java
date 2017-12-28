@@ -12,6 +12,7 @@ import java.util.Scanner;
 
 import entity.Message;
 import entity.Product;
+import entity.User;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 
@@ -62,21 +63,29 @@ public class EchoServer extends AbstractServer
 	    System.out.println("Message received: " + msg + " from " + client);
 	    
 	    
-	    if(((Message)msg).getOption().compareTo("0") ==0) 		/* Check that its update */
-	    	UpdateProductName(msg,conn); 
+	    if(((Message)msg).getOption().compareTo("0") == 0) 		/* Check that its update */
+	    		UpdateProductName(msg,conn); 
 	    
 	    if(((Message)msg).getOption().compareTo("1") ==0) 	    /* Check that we get from DB Because We want to Initialized */
-	        {										
+	    {										
 				/* ArrayList<Product> aa = new ArrayList<Product>(); */
-	    	((Message)msg).setMsg(getProductsFromDB(conn));	    
+	    		((Message)msg).setMsg(getProductsFromDB(conn));	    
 	    		this.sendToAllClients(msg);
-  			}
+  		}
 	    
-	    if(((Message)msg).getOption().compareTo("add survey") ==0) // add survey to db
-	    {
-	    	AddSurveyToDB(msg,conn);
-	    }
-	  }
+	    if(((Message)msg).getOption().compareTo("Add User To Combo Box From DB") == 0) 	    /* Check that we get from DB Because We want to Initialized */
+        {										
+			/* ArrayList<Product> aa = new ArrayList<Product>(); */
+	    	((Message)msg).setMsg(getProductsFromDB(conn));	    
+    		this.sendToAllClients(msg);
+		}
+	    
+	    
+	    if(((Message)msg).getOption().compareTo("Update User At Data Base") == 0) 	    /* Check that we get from DB Because We want to Initialized */
+        {										
+	    	UpdateUserAtDB(msg,conn);
+		}
+  }
 
     
   /**
@@ -148,20 +157,24 @@ public class EchoServer extends AbstractServer
 			} catch (SQLException e) {	e.printStackTrace();}	  
   }
   
-  protected void AddSurveyToDB(Object msg, Connection conn)
+  protected void UpdateUserAtDB(Object msg, Connection conn) /* This Method Update the DB */
   {
-	  ArrayList<String> temp = (ArrayList<String>)(((Message)msg).getMsg());
-	  
-		Statement stmt;
-		try {
-		stmt = conn.createStatement();
-		String AddSurvey = "insert into project.survey VALUES(1, 1," + "'" + temp.get(1) + "'" + "," + "'" + temp.get(2) + "'" + "," + "'" + temp.get(3) + "'" + "," + "'" + temp.get(4) + "'" + "," + "'" + temp.get(5) + "'" + "," + "'" + temp.get(6) + "'" + ";";
-		stmt.executeUpdate(AddSurvey);
-		} catch (SQLException e) {	e.printStackTrace();}	  
+	  ArrayList<String> temp = new ArrayList<String>();
+	  ArrayList<String> temp2 = (ArrayList<String>)(((Message)msg).getMsg());
 
-
+	  for (String s : temp2) 
+	  {
+		  	temp.add(s);
+	  }
+	  Statement stmt;
+	  try {
+		  stmt = conn.createStatement();
+		  String createTablecourses = "UPDATE project.user SET UserPremission =" + "'" + temp.get(4) + "'" + "WHERE UserStatus=" +"'" +temp.get(5) + "'" +";";
+		  stmt.executeUpdate(createTablecourses);
+			
+	  } 
+	  catch (SQLException e) {	e.printStackTrace();}	  
   }
-  
   
   protected ArrayList<Product> getProductsFromDB(Connection conn) /* This method get products table details from DB */
   {
@@ -186,6 +199,37 @@ public class EchoServer extends AbstractServer
 	 	}
 	  } catch (SQLException e) {	e.printStackTrace();}	
 	  return products;
+  }
+  
+  protected ArrayList<User> getUsersFromDB(Connection conn) /* This method get products table details from DB */
+  {
+	  ArrayList<User> users = new ArrayList<User>();
+	  Statement stmt;
+	  String u;
+	  User ur;
+	  try {
+		  stmt = conn.createStatement();
+		  String getProductsTable = "SELECT * FROM product;"; /* Get all the Table from the DB */
+		  ResultSet rs = stmt.executeQuery(getProductsTable);
+		  while(rs.next())
+	 	{
+		  ur = new User();
+		  u = rs.getString("UserID");
+		  ur.setId(u);
+		  u = rs.getString("UserName");
+		  ur.setUserName(u);
+		  u = rs.getString("UserPhone");
+		  ur.setPhone(u);
+		  u = rs.getString("UserPassword");
+		  ur.setPassword(u);
+		  u = rs.getString("UserPremission");
+		  ur.setPermission(User.UserPermission.valueOf(u));
+		  u = rs.getString("UserStatus");
+		  ur.setStatus(User.UserStatus.valueOf(u));
+		  users.add(ur);
+	 	}
+	  } catch (SQLException e) {	e.printStackTrace();}	
+	  return users;
   }
   
 

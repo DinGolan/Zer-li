@@ -37,6 +37,7 @@ public class UserController {
 	private Message msg;
 	private  Account single_Account;
 	private static int itemIndex = 2; /* This Variable Need for the the Case - that we not choose any Product from the ComboBox , so we take the product that in Index 2 By Default */
+	public User toCompare; 
 	
 	ArrayList<Object> Temp_Array_For_Update;
 	ObservableList<UserStatus> list_1;
@@ -122,9 +123,9 @@ public class UserController {
 	{
 		ArrayList<String> str = new ArrayList<String>();
 		 
-		msg = new Message(str, "1");
+		msg = new Message(str, "Add User To Combo Box From DB");
 
-		ProductUI.myClient.accept(msg);
+		UserUI.myClient.accept(msg);
 		while(UserUI.users.size() == 0);
 		setUsersComboBox();
 	}
