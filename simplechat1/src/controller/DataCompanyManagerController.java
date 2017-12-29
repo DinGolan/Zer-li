@@ -3,7 +3,7 @@ package controller;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import boundery.UserUI;
+import boundery.DataCompanyManagerUI;
 import entity.Account;
 import entity.Message;
 import entity.User;
@@ -59,7 +59,7 @@ public class DataCompanyManagerController implements Initializable{
 		Pane root = loader.load(getClass().getResource("/controller/UserInfoForm.fxml").openStream());
 		
 		UserInfoController userInfoController = loader.getController();		                                    /* ? - Not Sure */        
-		userInfoController.loadUser(UserUI.users.get(getItemIndex())); 	    /* In this Line We take the User that we Choose and Show his Details On the GUI */
+		userInfoController.loadUser(DataCompanyManagerUI.users.get(getItemIndex())); 	    /* In this Line We take the User that we Choose and Show his Details On the GUI */
 		
 		Scene scene = new Scene(root);			
 		/* scene.getStylesheets().add(getClass().getResource("/boundery/UserInfoForm.css").toExternalForm()); */
@@ -83,7 +83,6 @@ public class DataCompanyManagerController implements Initializable{
 		/* scene.getStylesheets().add(getClass().getResource("/boundery/CatalogFrame.css").toExternalForm()); */
 		primaryStage.setTitle("Data Company Manager - Managment Tool");
 		primaryStage.setScene(scene);
-		
 		primaryStage.show();		
 	}
 
@@ -102,7 +101,7 @@ public class DataCompanyManagerController implements Initializable{
 	{ 				
 		ArrayList<String> temp_Users_Name_List = new ArrayList<String>();	
 		
-		for(User u: UserUI.users)
+		for(User u: DataCompanyManagerUI.users)
 		{
 			temp_Users_Name_List.add(u.getUserName());
 		}
@@ -117,8 +116,8 @@ public class DataCompanyManagerController implements Initializable{
 		ArrayList<String> str = new ArrayList<String>();
 		
 		msg = new Message(str, "Add User To Combo Box From DB");
-		UserUI.myClient.accept(msg);
-		while(UserUI.users.size() == 0);
+		DataCompanyManagerUI.myClient.accept(msg);
+		while(DataCompanyManagerUI.users.size() == 0);
 		setUsersComboBox();
 	}
 }

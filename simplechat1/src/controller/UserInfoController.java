@@ -1,14 +1,10 @@
 package controller;
 
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import boundery.ProductUI;
-import boundery.UserUI;
+import boundery.DataCompanyManagerUI;
 import entity.Account;
 import entity.Message;
 import entity.Product;
@@ -29,8 +25,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-
-import javafx.fxml.Initializable;
 
 public class UserInfoController implements Initializable {
 	
@@ -83,7 +77,7 @@ public class UserInfoController implements Initializable {
 	
 	public void closeUserWindow(ActionEvent event) throws Exception    /* To close the The Window of the Product GUI and Show The Catalog GUI again */
 	{ 
-		UserUI.users.clear();
+		DataCompanyManagerUI.users.clear();
 		((Node)event.getSource()).getScene().getWindow().hide(); 	 /* Hiding primary window */
 		Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
 		FXMLLoader loader = new FXMLLoader(); 					 	 /* load object */
@@ -135,7 +129,7 @@ public class UserInfoController implements Initializable {
 		temp_User.add((User.UserPermission)cmbPremmission.getValue());
 		temp_User.add((User.UserStatus)cmbStatus.getValue());
 		msg = new Message(temp_User, "Update User At Data Base");
-		UserUI.myClient.accept(msg);
+		DataCompanyManagerUI.myClient.accept(msg);
 		
 		//user.setId(txtUserID.getText());
 		//user.setUserName(txtUserName.getText());

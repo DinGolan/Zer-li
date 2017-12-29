@@ -27,7 +27,7 @@ public class UserUI extends Application /* With This Class We Show the Product G
 	@Override
 	public void start(Stage arg0) throws Exception 
 	{		
-		DataCompanyManagerController aFrame = new DataCompanyManagerController(); /* Create CatalogFrame */				  
+		DataCompanyManagerController aFrame = new DataCompanyManagerController(); 			  
 		aFrame.start(arg0);
 	}
 

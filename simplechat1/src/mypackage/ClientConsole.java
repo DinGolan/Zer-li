@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import boundery.ProductUI;
 import boundery.UserUI;
+import boundery.DataCompanyManagerUI;
 import boundery.UserController;
 import client.ChatClient;
 import common.ChatIF;
@@ -103,7 +104,8 @@ public class ClientConsole implements ChatIF
    *
    * @param message - The string to be displayed.
    */
-  public void displayUI(Object message) 
+  @SuppressWarnings("unchecked")
+public void displayUI(Object message) 
   {
 	    if(((Message)message).getOption().compareTo("1") ==0) 		/* Check that its update */
 	    {
@@ -123,11 +125,11 @@ public class ClientConsole implements ChatIF
 		  	  int i=0;
 			  ArrayList<User> temp = new ArrayList<User>();
 			  temp = (ArrayList<User>)((Message)message).getMsg();
-			  UserUI.users.clear();
+			  DataCompanyManagerUI.users.clear();
 
 			  for(i=0;i<temp.size();i++)
 		  	  {
-		  			UserUI.users.add(temp.get(i));
+				  DataCompanyManagerUI.users.add(temp.get(i));
 		  	  }
 	    }
    }

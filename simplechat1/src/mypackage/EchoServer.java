@@ -11,7 +11,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Scanner;
 import entity.Account;
-import entity.Account;
 import com.mysql.jdbc.PreparedStatement;
 import entity.Message;
 import entity.Product;
@@ -185,7 +184,7 @@ public class EchoServer extends AbstractServer
 			} catch (SQLException e) {	e.printStackTrace();}	  
   }
   
-  protected void UpdateUserAtDB(Object msg, Connection conn) /* This Method Update the DB */
+protected void UpdateUserAtDB(Object msg, Connection conn) /* This Method Update the DB */
   {
 	  ArrayList<Object> temp_User = (ArrayList<Object>)msg;
 	  

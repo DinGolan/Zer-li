@@ -6,9 +6,7 @@ package client;
 import ocsf.client.*;
 import common.*;
 import entity.Message;
-
 import java.io.*;
-import java.util.ArrayList;
 
 /**
  * This class overrides some of the methods defined in the abstract
