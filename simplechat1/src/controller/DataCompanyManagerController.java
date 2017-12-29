@@ -1,18 +1,11 @@
 package controller;
 
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import boundery.ProductUI;
 import boundery.UserUI;
 import entity.Account;
 import entity.Message;
-import entity.Product;
 import entity.User;
 import entity.User.UserPermission;
 import entity.User.UserStatus;
@@ -27,7 +20,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -87,7 +79,6 @@ public class DataCompanyManagerController implements Initializable{
 	public void start(Stage primaryStage) throws Exception          /* With this Method we show the GUI of the First Window */
 	{	
 		Parent root = FXMLLoader.load(getClass().getResource("/controller/UserToChooseFrame.fxml"));
-				
 		Scene scene = new Scene(root);
 		/* scene.getStylesheets().add(getClass().getResource("/boundery/CatalogFrame.css").toExternalForm()); */
 		primaryStage.setTitle("Data Company Manager - Managment Tool");
