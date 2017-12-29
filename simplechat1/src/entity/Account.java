@@ -1,8 +1,9 @@
 package entity;
 
+import java.io.Serializable;
 import java.sql.Date;
 
-public class Account {
+public class Account implements Serializable{
 
 	private String accountUserId; //save the userId for this account
 	public PaymentArrangement accountPaymentArrangement;
@@ -79,8 +80,8 @@ public class Account {
 		return accountSubscriptionEndDate;
 	}
 
-	public void setAccountSubscriptionEndDate(Date accountSubscriptionEndDate) { //accountSubscriptionEndDate setter
-		this.accountSubscriptionEndDate = accountSubscriptionEndDate;
+	public void setAccountSubscriptionEndDate(Date date) { //accountSubscriptionEndDate setter
+		this.accountSubscriptionEndDate = date;
 	}
 
 	@Override

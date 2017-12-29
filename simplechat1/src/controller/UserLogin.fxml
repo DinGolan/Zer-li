@@ -6,14 +6,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="349.0" prefWidth="312.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="boundery.UserController">
+<AnchorPane prefHeight="349.0" prefWidth="312.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.UserController">
    <children>
       <Label id="lblName" fx:id="lblName" layoutX="16.0" layoutY="100.0" text="UserName:" />
       <Label id="lblSurname" fx:id="lblSerialNum" layoutX="14.0" layoutY="162.0" text="Password" />
-      <TextField id="txtUserName" fx:id="txtName" layoutX="103.0" layoutY="96.0" />
-      <TextField id="txtPassword" fx:id="txtSerialNum" layoutX="103.0" layoutY="158.0" />
-      <Button id="btnExit" fx:id="btnClose" layoutX="209.0" layoutY="295.0" mnemonicParsing="false" onAction="#openCatalogWindow" text="Exit" />
-      <Button id="btnLogin" fx:id="btnLogin" layoutX="65.0" layoutY="295.0" mnemonicParsing="false" onAction="#loadUser" text="Login" />
+      <TextField id="txtUserName" fx:id="txtUserName" layoutX="103.0" layoutY="96.0" />
+      <TextField id="txtPassword" fx:id="txtPassword" layoutX="103.0" layoutY="158.0" />
+      <Button id="btnLoginExit" fx:id="btnExit" layoutX="209.0" layoutY="295.0" mnemonicParsing="false" onAction="#getExitBtn" text="Exit" />
+      <Button id="btnLogin" fx:id="btnLogin" layoutX="65.0" layoutY="295.0" mnemonicParsing="false" onAction="#tryLoginUser" text="Login" />
       <Label layoutX="121.0" layoutY="37.0" text="Login" textFill="#0022ff">
          <font>
             <Font name="Bodoni MT" size="29.0" />
