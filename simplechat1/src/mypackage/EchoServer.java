@@ -10,9 +10,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import entity.Account;
 import entity.Message;
 import entity.Product;
 import entity.User;
+import entity.User.UserPermission;
+import entity.User.UserStatus;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 
@@ -68,22 +71,19 @@ public class EchoServer extends AbstractServer
 	    
 	    if(((Message)msg).getOption().compareTo("1") ==0) 	    /* Check that we get from DB Because We want to Initialized */
 	    {										
-				/* ArrayList<Product> aa = new ArrayList<Product>(); */
-	    		((Message)msg).setMsg(getProductsFromDB(conn));	    
-	    		this.sendToAllClients(msg);
-  		}
-	    
-	    if(((Message)msg).getOption().compareTo("Add User To Combo Box From DB") == 0) 	    /* Check that we get from DB Because We want to Initialized */
-        {										
-			/* ArrayList<Product> aa = new ArrayList<Product>(); */
 	    	((Message)msg).setMsg(getProductsFromDB(conn));	    
-    		this.sendToAllClients(msg);
-		}
-	    
+	    	this.sendToAllClients(msg);
+  		}
 	    
 	    if(((Message)msg).getOption().compareTo("Update User At Data Base") == 0) 	    /* Check that we get from DB Because We want to Initialized */
         {										
 	    	UpdateUserAtDB(msg,conn);
+		}
+	    
+	    if(((Message)msg).getOption().compareTo("Add User To Combo Box From DB") == 0) 	    /* Check that we get from DB Because We want to Initialized */
+        {			
+	    	((Message)msg).setMsg(getUsersFromDB(conn));	
+    		this.sendToAllClients(msg);
 		}
   }
 
@@ -159,19 +159,13 @@ public class EchoServer extends AbstractServer
   
   protected void UpdateUserAtDB(Object msg, Connection conn) /* This Method Update the DB */
   {
-	  ArrayList<String> temp = new ArrayList<String>();
-	  ArrayList<String> temp2 = (ArrayList<String>)(((Message)msg).getMsg());
-
-	  for (String s : temp2) 
-	  {
-		  	temp.add(s);
-	  }
+	  ArrayList<Object> temp_User = (ArrayList<Object>)msg;
+	  
 	  Statement stmt;
 	  try {
 		  stmt = conn.createStatement();
-		  String createTablecourses = "UPDATE project.user SET UserPremission =" + "'" + temp.get(4) + "'" + "WHERE UserStatus=" +"'" +temp.get(5) + "'" +";";
-		  stmt.executeUpdate(createTablecourses);
-			
+		  String UpdateTableUsers = "UPDATE project.user SET UserPermission =" + "'" + User.UserPermission.valueOf((String) temp_User.get(4)) + "'" + "'" + User.UserStatus.valueOf((String) temp_User.get(5)) + "'" + ";" ;
+		  stmt.executeUpdate(UpdateTableUsers);	
 	  } 
 	  catch (SQLException e) {	e.printStackTrace();}	  
   }
@@ -209,28 +203,29 @@ public class EchoServer extends AbstractServer
 	  User ur;
 	  try {
 		  stmt = conn.createStatement();
-		  String getProductsTable = "SELECT * FROM product;"; /* Get all the Table from the DB */
-		  ResultSet rs = stmt.executeQuery(getProductsTable);
+		  String getUsersTable = "SELECT * FROM user;"; /* Get all the Table from the DB */
+		  ResultSet rs = stmt.executeQuery(getUsersTable);
 		  while(rs.next())
-	 	{
-		  ur = new User();
-		  u = rs.getString("UserID");
-		  ur.setId(u);
-		  u = rs.getString("UserName");
-		  ur.setUserName(u);
-		  u = rs.getString("UserPhone");
-		  ur.setPhone(u);
-		  u = rs.getString("UserPassword");
-		  ur.setPassword(u);
-		  u = rs.getString("UserPremission");
-		  ur.setPermission(User.UserPermission.valueOf(u));
-		  u = rs.getString("UserStatus");
-		  ur.setStatus(User.UserStatus.valueOf(u));
-		  users.add(ur);
-	 	}
+	 	  {
+				  ur = new User();
+				  u = rs.getString("UserId");
+				  ur.setId(u);
+				  u = rs.getString("UserName");
+				  ur.setUserName(u);
+				  u = rs.getString("UserPhone");
+				  ur.setPhone(u);
+				  u = rs.getString("UserPassword");
+				  ur.setPassword(u);
+				  u = rs.getString("UserPermission");
+				  ur.setPermission(User.UserPermission.valueOf(u));
+				  u = rs.getString("UserStatus");
+				  ur.setStatus(User.UserStatus.valueOf(u));
+				  users.add(ur);
+	 	  }
 	  } catch (SQLException e) {	e.printStackTrace();}	
 	  return users;
   }
+  
   
 
   //Class methods ***************************************************

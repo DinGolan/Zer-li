@@ -21,6 +21,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -30,7 +31,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class UserController {
+public class DataCompanyManagerController implements Initializable{
 	
 	private User user;
 	private UserInfoController uic;
@@ -51,7 +52,7 @@ public class UserController {
 	private Button btnExit = null;
 	
 	@FXML
-	private ComboBox cmbUsers;  /* ComboBox With List Of Users */
+	private ComboBox<String> cmbUsers;  /* ComboBox With List Of Users */
 	
 	@FXML
 	private Button btnUserInfo = null; /* Button Of User Info */	
@@ -63,10 +64,10 @@ public class UserController {
 		((Node)event.getSource()).getScene().getWindow().hide();    /* Hiding primary window */
 		Stage primaryStage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
-		Pane root = loader.load(getClass().getResource("/boundery/UserInfoForm.fxml").openStream());
+		Pane root = loader.load(getClass().getResource("/controller/UserInfoForm.fxml").openStream());
 		
 		UserInfoController userInfoController = loader.getController();		                                    /* ? - Not Sure */        
-		this.loadUser(UserUI.users.get(getItemIndex())); 	    /* In this Line We take the User that we Choose and Show his Details On the GUI */
+		userInfoController.loadUser(UserUI.users.get(getItemIndex())); 	    /* In this Line We take the User that we Choose and Show his Details On the GUI */
 		
 		Scene scene = new Scene(root);			
 		/* scene.getStylesheets().add(getClass().getResource("/boundery/UserInfoForm.css").toExternalForm()); */
@@ -85,7 +86,7 @@ public class UserController {
 	
 	public void start(Stage primaryStage) throws Exception          /* With this Method we show the GUI of the First Window */
 	{	
-		Parent root = FXMLLoader.load(getClass().getResource("/boundery/UserToChooseFrame.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("/controller/UserToChooseFrame.fxml"));
 				
 		Scene scene = new Scene(root);
 		/* scene.getStylesheets().add(getClass().getResource("/boundery/CatalogFrame.css").toExternalForm()); */
@@ -119,14 +120,15 @@ public class UserController {
 		cmbUsers.setItems(userList);
 	}
 	
+	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) // Initialized The ComboBox of the Product 
 	{
 		ArrayList<String> str = new ArrayList<String>();
-		 
+		
 		msg = new Message(str, "Add User To Combo Box From DB");
-
 		UserUI.myClient.accept(msg);
 		while(UserUI.users.size() == 0);
 		setUsersComboBox();
 	}
 }
+
