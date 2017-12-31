@@ -3,14 +3,15 @@ package mypackage;
 /* "Object Oriented Software Engineering" and is issued under the open-source */
 /* license found at www.lloseng.com */
 
+
 import java.io.IOException;
 import java.util.ArrayList;
+
 import boundery.ProductUI;
 import boundery.UserUI;
-import boundery.DataCompanyManagerUI;
-import boundery.UserController;
 import client.ChatClient;
 import common.ChatIF;
+import controller.UserController;
 import entity.Message;
 import entity.Product;
 import entity.User;
