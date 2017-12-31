@@ -12,7 +12,7 @@ import entity.User;
 
 public class AccountUI extends Application //With This Class We Show the Account GUI
 {
-	public static Vector <Product> products = new Vector<Product>();
+	public static Vector<Product> products = new Vector<Product>();
 	public static ClientConsole myClient;
 	
 	public static void main( String args[] ) throws Exception

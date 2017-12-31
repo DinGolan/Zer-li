@@ -4,9 +4,9 @@ import java.io.Serializable;
 
 import com.sun.org.apache.xml.internal.security.encryption.Serializer;
 
-public class User implements Serializable{
+public class User implements Serializable {
 
-private String id;
+	private String id;
 	
 	private String phone;
 	
@@ -22,6 +22,27 @@ private String id;
 	
 	public enum UserPermission {COMPANY_MANAGER , STORE_MANAGER , EXPERT ,
 		CUSTOMER_SERVICE_WORKER , CUSTOMER , DATA_COMPANY_MANAGER}
+	
+	public User(String id , String UserName , String phone, String password , UserStatus status , UserPermission permission) 
+	{
+		super();
+		this.id = id;
+		this.UserName = UserName;
+		this.phone = phone;
+		this.password = password; 
+		this.status = status;
+		this.permission = permission;
+	}
+
+	public User(String id, String UserName , String phone, String password, String status, String premission) 
+	{
+		this(id,UserName,phone,password,UserStatus.valueOf(status),UserPermission.valueOf(premission));
+	}
+	
+	public User()
+	{
+		
+	}
 
 	public String getId() {
 		return id;
