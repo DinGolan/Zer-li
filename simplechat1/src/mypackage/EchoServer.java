@@ -116,6 +116,11 @@ public class EchoServer extends AbstractServer
         {									
 	    	changhUserStatus(msg,conn);    
 		}
+	    
+	    if(((Message)msg).getOption().compareTo("change User status to DISCONNECTED") ==0) 	    /* change User status to DISCONNECTED in DB */
+        {									
+	    	changhUserStatus(msg,conn);    
+		}
   }
 
     
@@ -357,10 +362,14 @@ public class EchoServer extends AbstractServer
   protected void changhUserStatus(Object msg, Connection conn) /* This Method Update the DB */
   {
 	  String userId=(String)((Message)msg).getMsg();
+	  String createTablecourses;
 	  Statement stmt;
 	  try {
 		  stmt = conn.createStatement();
-		  String createTablecourses = "UPDATE project.user SET UserStatus =" + "'" + "CONNECTED" + "'" + "WHERE UserId=" +"'" +userId + "'" +";";
+		  if(((Message)msg).getOption().compareTo("change User status to CONNECTED") == 0) 
+			   createTablecourses = "UPDATE project.user SET UserStatus =" + "'" + "CONNECTED" + "'" + "WHERE UserId=" +"'" +userId + "'" +";";
+		  else 
+			  createTablecourses = "UPDATE project.user SET UserStatus =" + "'" + "DISCONNECTED" + "'" + "WHERE UserId=" +"'" +userId + "'" +";";
 		  stmt.executeUpdate(createTablecourses);
 			
 	  } 
