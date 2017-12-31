@@ -7,6 +7,7 @@ package mypackage;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import boundery.DataCompanyManagerUI;
 import boundery.ProductUI;
 import boundery.UserUI;
 import client.ChatClient;
