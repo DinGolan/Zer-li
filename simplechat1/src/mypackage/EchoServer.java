@@ -194,8 +194,15 @@ protected void UpdateUserAtDB(Object msg, Connection conn) /* This Method Update
 	  Statement stmt;
 	  try {
 		  stmt = conn.createStatement();
-		  String UpdateTableUsers = "UPDATE project.user SET UserPermission =" + "'" + User.UserPermission.valueOf((String) temp_User.get(4)) + "'" + "'" + User.UserStatus.valueOf((String) temp_User.get(5)) + "'" + "WHERE UserId=" + "'" + temp_User.get(0) + "'" + ";" ;
-		  stmt.executeUpdate(UpdateTableUsers);	
+		  
+		  /* UPDATE `project`.`user` SET `UserPermission`='BLOCKED' WHERE `UserName`='DinGolan'; */
+		  String UpdateTableUsersPremmision = "UPDATE project.user SET UserPermission =" + "'" + User.UserPermission.valueOf((String) temp_User.get(4)) + "'" + "WHERE UserName=" + "'" + temp_User.get(1) + "'" + ";" ;
+		  
+		  /* UPDATE `project`.`user` SET `UserStatus`='STORE_MANAGER' WHERE `UserName`='DinGolan'; */
+		  String UpdateTableUsersStatus = "UPDATE project.user SET UserStatus =" + "'" + User.UserStatus.valueOf((String) temp_User.get(5)) + "'" + "WHERE UserName=" + "'" + temp_User.get(1) + "'" + ";" ;
+		  
+		  stmt.executeUpdate(UpdateTableUsersPremmision);
+		  stmt.executeUpdate(UpdateTableUsersStatus);
 	  } 
 	  catch (SQLException e) {	e.printStackTrace();}	  
   }
