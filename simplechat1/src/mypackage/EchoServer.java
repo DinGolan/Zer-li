@@ -194,7 +194,7 @@ protected void UpdateUserAtDB(Object msg, Connection conn) /* This Method Update
 	  Statement stmt;
 	  try {
 		  stmt = conn.createStatement();
-		  String UpdateTableUsers = "UPDATE project.user SET UserPermission =" + "'" + User.UserPermission.valueOf((String) temp_User.get(4)) + "'" + "'" + User.UserStatus.valueOf((String) temp_User.get(5)) + "'" + ";" ;
+		  String UpdateTableUsers = "UPDATE project.user SET UserPermission =" + "'" + User.UserPermission.valueOf((String) temp_User.get(4)) + "'" + "'" + User.UserStatus.valueOf((String) temp_User.get(5)) + "'" + "WHERE UserId=" + "'" + temp_User.get(0) + "'" + ";" ;
 		  stmt.executeUpdate(UpdateTableUsers);	
 	  } 
 	  catch (SQLException e) {	e.printStackTrace();}	  
