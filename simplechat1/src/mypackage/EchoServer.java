@@ -17,7 +17,7 @@ import entity.Account;
 
 import com.mysql.jdbc.PreparedStatement;
 
-
+import boundery.AccountUI;
 import entity.Message;
 import entity.Product;
 import entity.User;
@@ -295,30 +295,39 @@ public class EchoServer extends AbstractServer
 	  return users;
   }
   
-  protected String AddNewAccountToDB(Object msg, Connection conn) //this method add new account to DB
+  protected Account AddNewAccountToDB(Object msg, Connection conn) //this method add new account to DB
   {
 	  Account newAccount = (Account)(((Message)msg).getMsg());
-	  String success="Can't add account";
+	  System.out.println(((Account)((Message)msg).getMsg()));
+	  Account account=new Account();
 	  Statement stmt;	  
 	  try {
 		  stmt = conn.createStatement(); //this statement check if we didn't have account with this userID
 		  String getAccountToID = "SELECT * FROM project.account WHERE AccountUserId="+newAccount.getAccountUserId()+";"; // get the account that connected to new account id of exist
 		  ResultSet rs = stmt.executeQuery(getAccountToID);
-		  if(rs.isBeforeFirst()==true)
-			  success="This user allready has an account";
-		  else { 
-			  stmt = conn.createStatement(); //this statement enter new account to the DB
+		  if(!rs.isBeforeFirst()) //this statement enter new account to the DB  
+		  {
+			  stmt = conn.createStatement(); 
 			  String InsertAccountToID = "INSERT INTO project.account(AccountUserId, AccountBalanceCard, AccountPaymentMethod, AccountPaymentArrangement,AccountCreditCardNum,AccountSubscriptionEndDate)" + 
-			  		"VALUES("+newAccount.getAccountUserId()+","+newAccount.getAccountBalanceCard()+ ","+"'CASH'"+","+"'FULLPRICE'"+","+newAccount.getAccountCreditCardNum()+","+"'2018-12-02'"+");";
+			  		"VALUES("+newAccount.getAccountUserId()+","+newAccount.getAccountBalanceCard()+ ",'"+newAccount.getAccountPaymentMethod()+"','"+newAccount.getAccountPaymentArrangement()+"',"+newAccount.getAccountCreditCardNum()+","+"'2018-12-02'"+");";
 			  stmt.executeUpdate(InsertAccountToID);	 
-			  success="Add user successfully";
+			 // success="Add user successfully"; 
+			  account.setAccountUserId(newAccount.getAccountUserId());
+			  account.setAccountUserId(newAccount.getAccountUserId());
+			  account.setAccountPaymentArrangement(newAccount.getAccountPaymentArrangement());
+			  account.setAccountPaymentMethod(newAccount.getAccountPaymentMethod());
+			  account.setAccountBalanceCard(newAccount.getAccountBalanceCard());
+			  account.setAccountCreditCardNum(newAccount.getAccountCreditCardNum());
+			  account.setAccountSubscriptionEndDate(newAccount.getAccountSubscriptionEndDate());
 		  }
+		  else //if this user already had an account
+			  account.setAccountUserId("Account already exist");
 
 	  } catch (SQLException e) {	e.printStackTrace();}	
 	  
-	  finally{
-		  return success;
-	  }
+	  //finally{
+		  return account;
+	 // }
   }
   
   protected User getUserStatusFromDB(Object msg, Connection conn) /* This method get products table details from DB */

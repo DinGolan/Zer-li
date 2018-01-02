@@ -6,11 +6,14 @@ package mypackage;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import boundery.AccountUI;
 import boundery.ProductUI;
 import boundery.UserUI;
+import controller.AccountController;
 import controller.UserController;
 import client.ChatClient;
 import common.ChatIF;
+import entity.Account;
 import entity.Message;
 import entity.Product;
 import entity.User;
@@ -139,6 +142,24 @@ public class ClientConsole implements ChatIF
 		  UserUI.user.setUserName(((User)((Message)message).getMsg()).getUserName());
 	  }
 	  UserController.flag = true;
+  }
+  
+  public void addAccount(Object message)
+  {
+	  if(((Account)((Message)message).getMsg()).getAccountUserId().equals("Account already exist")) //account is already exist
+	  {
+		  AccountUI.account.setAccountUserId("Account already exist");
+	  }
+	  else
+	  {
+		  AccountUI.account.setAccountUserId(((Account)((Message)message).getMsg()).getAccountUserId());
+		  AccountUI.account.setAccountPaymentArrangement(((Account)((Message)message).getMsg()).getAccountPaymentArrangement());
+		  AccountUI.account.setAccountPaymentMethod(((Account)((Message)message).getMsg()).getAccountPaymentMethod());
+		  AccountUI.account.setAccountBalanceCard(((Account)((Message)message).getMsg()).getAccountBalanceCard());
+		  AccountUI.account.setAccountCreditCardNum(((Account)((Message)message).getMsg()).getAccountCreditCardNum());
+		  AccountUI.account.setAccountSubscriptionEndDate(((Account)((Message)message).getMsg()).getAccountSubscriptionEndDate());
+	  }
+	  AccountController.flag = true;  
   }
 
   

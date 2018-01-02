@@ -53,7 +53,7 @@ public class UserController {
 
 	public void getExitBtn(ActionEvent event) throws Exception      /* With this Method we Exit from the Catalog */ 
 	{
-		System.out.println("Exit From - Tool");
+		System.out.println("Exit From - Login form");
 		System.exit(0);			
 	}
 	

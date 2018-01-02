@@ -59,7 +59,7 @@ public class ChatClient extends AbstractClient
   public void handleMessageFromServer(Object msg) 
   {
 	  if(((Message)msg).getOption().compareTo("Add new account") ==0)
-		  clientUI.display(msg.toString());
+		  clientUI.addAccount(msg);
 	  if(((Message)msg).getOption().compareTo("1") ==0)
 		  clientUI.displayUI(msg);
 	  else if(((Message)msg).getOption().compareTo("UserStatus") ==0)
