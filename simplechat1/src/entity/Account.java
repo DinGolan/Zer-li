@@ -13,27 +13,11 @@ public class Account implements Serializable{
 	private Date accountSubscriptionEndDate;
 	
 	public enum PaymentArrangement{ //enum for the payment arrangement
-		FULLPRICE,MONTHLY,ANNUALL
+		FULLPRICE,MONTHLY,ANNUAL
 	}
 	public enum PaymentMethod{ //enum for the payment method
 		CASH,CREDITCARD;	
 	}
-	
-/*	public Account()
-	{
-		
-	}
-
-	public Account(String accountUserId, PaymentArrangement accountPaymentArrangement,
-			PaymentMethod accountPaymentMethod, double accountBalanceCard, String accountCreditCardNum) //constructor
-	{
-		super();
-		this.accountUserId = accountUserId;
-		this.accountPaymentArrangement = accountPaymentArrangement;
-		this.accountPaymentMethod = accountPaymentMethod;
-		this.accountBalanceCard = accountBalanceCard;
-		this.accountCreditCardNum = accountCreditCardNum;
-	}*/
 
 	public String getAccountUserId() { //accountUserId getter
 		return accountUserId;

@@ -10,14 +10,18 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+
 import entity.Account;
+
+
 import com.mysql.jdbc.PreparedStatement;
+
+import boundery.AccountUI;
 import entity.Message;
 import entity.Product;
 import entity.Product.ProductType;
 import entity.User;
-import entity.User.UserPermission;
-import entity.User.UserStatus;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 
@@ -73,31 +77,30 @@ public class EchoServer extends AbstractServer
 	    
 	    if(((Message)msg).getOption().compareTo("get all products in DB") ==0) 	    /* Check that we get from DB Because We want to Initialized */
 	    {										
-	    	((Message)msg).setMsg(getProductsFromDB(conn));	   
-	    	this.sendToAllClients(msg);
+				/* ArrayList<Product> aa = new ArrayList<Product>(); */
+	    		((Message)msg).setMsg(getProductsFromDB(conn));	    
+	    		this.sendToAllClients(msg);
   		}
-
-	 
-	    if(((Message)msg).getOption().compareTo("add survey") ==0) // add survey to db
-	    {
-	    	System.out.println("a");
-	    	AddSurveyToDB(msg,conn);
-	    }
 	    
-
+	    if(((Message)msg).getOption().compareTo("Add User To Combo Box From DB") == 0) 	    /* Check that we get from DB Because We want to Initialized */
+        {										
+			/* ArrayList<Product> aa = new ArrayList<Product>(); */
+	    	((Message)msg).setMsg(getProductsFromDB(conn));	    
+    		this.sendToAllClients(msg);
+		}
+	    
+	    if(((Message)msg).getOption().compareTo("add survey") ==0) // add survey to db
+	    	 	    {
+	    				System.out.println("a");
+	    	 	    	AddSurveyToDB(msg,conn);
+	    	 	    }
+	    
 	    
 	    if(((Message)msg).getOption().compareTo("Update User At Data Base") == 0) 	    /* Check that we get from DB Because We want to Initialized */
         {										
 	    	UpdateUserAtDB(msg,conn);
 		}
 	    
-
-	    if(((Message)msg).getOption().compareTo("Add User To Combo Box From DB") == 0) 	    /* Check that we get from DB Because We want to Initialized */
-        {			
-	    	((Message)msg).setMsg(getUsersFromDB(conn));	
-    		this.sendToAllClients(msg);
-        }
-
 	    if(((Message)msg).getOption().compareTo("Add new account") == 0) //check if we add new account
         {
     		((Message)msg).setMsg(AddNewAccountToDB(msg,conn));	    
@@ -111,10 +114,9 @@ public class EchoServer extends AbstractServer
 		}	
 	    
 	    if(((Message)msg).getOption().compareTo("change User status to CONNECTED") ==0) 	    /* change User status to CONNECTED in DB */
-	    	changhUserStatus(msg,conn);  
-	    
-	    if(((Message)msg).getOption().compareTo("change User status to DISCONNECTED") ==0) 	    /* change User status to DISCONNECTED in DB */							
+        {									
 	    	changhUserStatus(msg,conn);    
+		}
   }
 
     
@@ -188,15 +190,21 @@ public class EchoServer extends AbstractServer
 			} catch (SQLException e) {	e.printStackTrace();}	  
   }
   
-protected void UpdateUserAtDB(Object msg, Connection conn) /* This Method Update the DB */
+  protected void UpdateUserAtDB(Object msg, Connection conn) /* This Method Update the DB */
   {
-	  ArrayList<Object> temp_User = (ArrayList<Object>)msg;
-	  
+	  ArrayList<String> temp = new ArrayList<String>();
+	  ArrayList<String> temp2 = (ArrayList<String>)(((Message)msg).getMsg());
+
+	  for (String s : temp2) 
+	  {
+		  	temp.add(s);
+	  }
 	  Statement stmt;
 	  try {
 		  stmt = conn.createStatement();
-		  String UpdateTableUsers = "UPDATE project.user SET UserPermission =" + "'" + User.UserPermission.valueOf((String) temp_User.get(4)) + "'" + "'" + User.UserStatus.valueOf((String) temp_User.get(5)) + "'" + ";" ;
-		  stmt.executeUpdate(UpdateTableUsers);	
+		  String createTablecourses = "UPDATE project.user SET UserPremission =" + "'" + temp.get(4) + "'" + "WHERE UserStatus=" +"'" +temp.get(5) + "'" +";";
+		  stmt.executeUpdate(createTablecourses);
+			
 	  } 
 	  catch (SQLException e) {	e.printStackTrace();}	  
   }
@@ -264,53 +272,62 @@ protected void UpdateUserAtDB(Object msg, Connection conn) /* This Method Update
 	  User ur;
 	  try {
 		  stmt = conn.createStatement();
-		  String getUsersTable = "SELECT * FROM user;"; /* Get all the Table from the DB */
-		  ResultSet rs = stmt.executeQuery(getUsersTable);
+		  String getProductsTable = "SELECT * FROM product;"; /* Get all the Table from the DB */
+		  ResultSet rs = stmt.executeQuery(getProductsTable);
 		  while(rs.next())
-	 	  {
-				  ur = new User();
-				  u = rs.getString("UserId");
-				  ur.setId(u);
-				  u = rs.getString("UserName");
-				  ur.setUserName(u);
-				  u = rs.getString("UserPhone");
-				  ur.setPhone(u);
-				  u = rs.getString("UserPassword");
-				  ur.setPassword(u);
-				  u = rs.getString("UserPermission");
-				  ur.setPermission(User.UserPermission.valueOf(u));
-				  u = rs.getString("UserStatus");
-				  ur.setStatus(User.UserStatus.valueOf(u));
-				  users.add(ur);
-	 	  }
+	 	{
+		  ur = new User();
+		  u = rs.getString("UserID");
+		  ur.setId(u);
+		  u = rs.getString("UserName");
+		  ur.setUserName(u);
+		  u = rs.getString("UserPhone");
+		  ur.setPhone(u);
+		  u = rs.getString("UserPassword");
+		  ur.setPassword(u);
+		  u = rs.getString("UserPremission");
+		  ur.setPermission(User.UserPermission.valueOf(u));
+		  u = rs.getString("UserStatus");
+		  ur.setStatus(User.UserStatus.valueOf(u));
+		  users.add(ur);
+	 	}
 	  } catch (SQLException e) {	e.printStackTrace();}	
 	  return users;
   }
   
-  protected String AddNewAccountToDB(Object msg, Connection conn) //this method add new account to DB
+  protected Account AddNewAccountToDB(Object msg, Connection conn) //this method add new account to DB
   {
 	  Account newAccount = (Account)(((Message)msg).getMsg());
-	  String success="Can't add account";
+	  System.out.println(((Account)((Message)msg).getMsg()));
+	  Account account=new Account();
 	  Statement stmt;	  
 	  try {
 		  stmt = conn.createStatement(); //this statement check if we didn't have account with this userID
 		  String getAccountToID = "SELECT * FROM project.account WHERE AccountUserId="+newAccount.getAccountUserId()+";"; // get the account that connected to new account id of exist
 		  ResultSet rs = stmt.executeQuery(getAccountToID);
-		  if(rs.isBeforeFirst()==true)
-			  success="This user allready has an account";
-		  else { 
-			  stmt = conn.createStatement(); //this statement enter new account to the DB
+		  if(!rs.isBeforeFirst()) //this statement enter new account to the DB  
+		  {
+			  stmt = conn.createStatement(); 
 			  String InsertAccountToID = "INSERT INTO project.account(AccountUserId, AccountBalanceCard, AccountPaymentMethod, AccountPaymentArrangement,AccountCreditCardNum,AccountSubscriptionEndDate)" + 
-			  		"VALUES("+newAccount.getAccountUserId()+","+newAccount.getAccountBalanceCard()+ ","+"'CASH'"+","+"'FULLPRICE'"+","+newAccount.getAccountCreditCardNum()+","+"'2018-12-02'"+");";
+			  		"VALUES("+newAccount.getAccountUserId()+","+newAccount.getAccountBalanceCard()+ ",'"+newAccount.getAccountPaymentMethod()+"','"+newAccount.getAccountPaymentArrangement()+"',"+newAccount.getAccountCreditCardNum()+","+"'2018-12-02'"+");";
 			  stmt.executeUpdate(InsertAccountToID);	 
-			  success="Add user successfully";
+			 // success="Add user successfully"; 
+			  account.setAccountUserId(newAccount.getAccountUserId());
+			  account.setAccountUserId(newAccount.getAccountUserId());
+			  account.setAccountPaymentArrangement(newAccount.getAccountPaymentArrangement());
+			  account.setAccountPaymentMethod(newAccount.getAccountPaymentMethod());
+			  account.setAccountBalanceCard(newAccount.getAccountBalanceCard());
+			  account.setAccountCreditCardNum(newAccount.getAccountCreditCardNum());
+			  account.setAccountSubscriptionEndDate(newAccount.getAccountSubscriptionEndDate());
 		  }
+		  else //if this user already had an account
+			  account.setAccountUserId("Account already exist");
 
 	  } catch (SQLException e) {	e.printStackTrace();}	
 	  
-	  finally{
-		  return success;
-	  }
+	  //finally{
+		  return account;
+	 // }
   }
   
   protected User getUserStatusFromDB(Object msg, Connection conn) /* This method get products table details from DB */
@@ -346,24 +363,19 @@ protected void UpdateUserAtDB(Object msg, Connection conn) /* This Method Update
 	  return user;
   }
   
-  
   protected void changhUserStatus(Object msg, Connection conn) /* This Method Update the DB */
   {
 	  String userId=(String)((Message)msg).getMsg();
-	  String createTablecourses;
 	  Statement stmt;
 	  try {
 		  stmt = conn.createStatement();
-		  if(((Message)msg).getOption().compareTo("change User status to CONNECTED") == 0) 
-			   createTablecourses = "UPDATE project.user SET UserStatus =" + "'" + "CONNECTED" + "'" + "WHERE UserId=" +"'" +userId + "'" +";";
-		  else 
-			  createTablecourses = "UPDATE project.user SET UserStatus =" + "'" + "DISCONNECTED" + "'" + "WHERE UserId=" +"'" +userId + "'" +";";
+		  String createTablecourses = "UPDATE project.user SET UserStatus =" + "'" + "CONNECTED" + "'" + "WHERE UserId=" +"'" +userId + "'" +";";
 		  stmt.executeUpdate(createTablecourses);
 			
 	  } 
 	  catch (SQLException e) {	e.printStackTrace();}	  
   }
-
+  
 
   //Class methods ***************************************************
   

@@ -3,17 +3,17 @@ package mypackage;
 /* "Object Oriented Software Engineering" and is issued under the open-source */
 /* license found at www.lloseng.com */
 
-
 import java.io.IOException;
 import java.util.ArrayList;
 
-import boundery.CatalogUI;
-import boundery.DataCompanyManagerUI;
+import boundery.AccountUI;
 import boundery.ProductUI;
 import boundery.UserUI;
+import controller.AccountController;
+import controller.UserController;
 import client.ChatClient;
 import common.ChatIF;
-import controller.UserController;
+import entity.Account;
 import entity.Message;
 import entity.Product;
 import entity.User;
@@ -80,6 +80,7 @@ public class ClientConsole implements ChatIF
     try
     {
     	client.handleMessageFromClientUI(msg);
+    	//msg.getMsg().
     } 
     catch (Exception ex) 
     {
@@ -107,35 +108,22 @@ public class ClientConsole implements ChatIF
    *
    * @param message - The string to be displayed.
    */
-  @SuppressWarnings("unchecked")
-public void displayUI(Object message) 
+  public void displayUI(Object message) 
   {
-	    if(((Message)message).getOption().compareTo("get all products in DB") ==0) 		/* Check that its update */
+	    if(((Message)message).getOption().compareTo("1") ==0) 		/* Check that its update */
 	    {
-	  	  	int i=0;
-	  	  	ArrayList<Product> temp = new ArrayList<Product>();
-	  	  	temp = (ArrayList<Product>)((Message)message).getMsg();
-	  	  	CatalogUI.products.clear();
+	  	  int i=0;
+		  ArrayList<Product> temp = new ArrayList<Product>();
+		  temp = (ArrayList<Product>)((Message)message).getMsg();
+		  ProductUI.products.clear();
 
-	  	  	for(i=0;i<temp.size();i++)
-	  	  	{
-	  	  	CatalogUI.products.add(temp.get(i));
-	  	  	}
-	    }
-	    
-	    if(((Message)message).getOption().compareTo("Add User To Combo Box From DB") == 0)
-	    {
-		  	  int i=0;
-			  ArrayList<User> temp = new ArrayList<User>();
-			  temp = (ArrayList<User>)((Message)message).getMsg();
-			  DataCompanyManagerUI.users.clear();
-
-			  for(i=0;i<temp.size();i++)
-		  	  {
-				  DataCompanyManagerUI.users.add(temp.get(i));
-		  	  }
-	    }
-   }
+		  for(i=0;i<temp.size();i++)
+	  	  {
+	  		ProductUI.products.add(temp.get(i));
+	  	  }
+	    	
+	    }  
+  }
   
   
   public void sendUser(Object message) 
@@ -154,6 +142,24 @@ public void displayUI(Object message)
 		  UserUI.user.setUserName(((User)((Message)message).getMsg()).getUserName());
 	  }
 	  UserController.flag = true;
+  }
+  
+  public void addAccount(Object message)
+  {
+	  if(((Account)((Message)message).getMsg()).getAccountUserId().equals("Account already exist")) //account is already exist
+	  {
+		  AccountUI.account.setAccountUserId("Account already exist");
+	  }
+	  else
+	  {
+		  AccountUI.account.setAccountUserId(((Account)((Message)message).getMsg()).getAccountUserId());
+		  AccountUI.account.setAccountPaymentArrangement(((Account)((Message)message).getMsg()).getAccountPaymentArrangement());
+		  AccountUI.account.setAccountPaymentMethod(((Account)((Message)message).getMsg()).getAccountPaymentMethod());
+		  AccountUI.account.setAccountBalanceCard(((Account)((Message)message).getMsg()).getAccountBalanceCard());
+		  AccountUI.account.setAccountCreditCardNum(((Account)((Message)message).getMsg()).getAccountCreditCardNum());
+		  AccountUI.account.setAccountSubscriptionEndDate(((Account)((Message)message).getMsg()).getAccountSubscriptionEndDate());
+	  }
+	  AccountController.flag = true;  
   }
 
   
