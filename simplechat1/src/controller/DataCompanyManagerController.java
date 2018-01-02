@@ -4,7 +4,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import boundery.DataCompanyManagerUI;
-import entity.Account;
 import entity.Message;
 import entity.User;
 import entity.User.UserPermission;
@@ -25,10 +24,8 @@ import javafx.stage.Stage;
 
 public class DataCompanyManagerController implements Initializable{
 	
-	private User user;
 	private UserInfoController uic;
 	private Message msg;
-	private  Account single_Account;
 	private static int itemIndex = 2; /* This Variable Need for the the Case - that we not choose any Product from the ComboBox , so we take the product that in Index 2 By Default */
 	public User toCompare; 
 	
