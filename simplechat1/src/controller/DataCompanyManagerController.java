@@ -110,9 +110,9 @@ public class DataCompanyManagerController implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) // Initialized The ComboBox of the Product 
 	{
-		ArrayList<String> str = new ArrayList<String>();
+		ArrayList<User> users = new ArrayList<User>();
 		
-		msg = new Message(str, "Add User To Combo Box From DB");
+		msg = new Message(users, "Add User To Combo Box From DB");
 		DataCompanyManagerUI.myClient.accept(msg);
 		while(DataCompanyManagerUI.users.size() == 0);
 		setUsersComboBox();
