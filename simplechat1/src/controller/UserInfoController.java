@@ -1,14 +1,10 @@
 package controller;
 
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import boundery.ProductUI;
-import boundery.UserUI;
+import boundery.DataCompanyManagerUI;
 import entity.Account;
 import entity.Message;
 import entity.Product;
@@ -30,17 +26,15 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-import javafx.fxml.Initializable;
-
 public class UserInfoController implements Initializable {
 	
 	private User user;
 	private Message msg;
 	private  Account single_Account;
+	private ArrayList<Object> temp_User;
 	
-	ArrayList<Object> Temp_Array_For_Update;
-	ObservableList<UserStatus> list_1;
-	ObservableList<UserPermission> list_2;
+	ObservableList<User.UserStatus> list_1;
+	ObservableList<User.UserPermission> list_2;
 	
 /*-------------------------  For The Second Window ----------------------------------- */	
 	
@@ -83,11 +77,11 @@ public class UserInfoController implements Initializable {
 	
 	public void closeUserWindow(ActionEvent event) throws Exception    /* To close the The Window of the Product GUI and Show The Catalog GUI again */
 	{ 
-		UserUI.users.clear();
+		DataCompanyManagerUI.users.clear();
 		((Node)event.getSource()).getScene().getWindow().hide(); 	 /* Hiding primary window */
 		Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
 		FXMLLoader loader = new FXMLLoader(); 					 	 /* load object */
-		Pane root = loader.load(getClass().getResource("/boundery/UserToChooseFrame.fxml").openStream());
+		Pane root = loader.load(getClass().getResource("/controller/UserToChooseFrame.fxml").openStream());
 		
 		Scene scene = new Scene(root);			
 		primaryStage.setScene(scene);	
@@ -104,67 +98,81 @@ public class UserInfoController implements Initializable {
 		}
 		
 		list_1 = FXCollections.observableArrayList(all_Users); 
-		cmbStatus.setItems(list_1); /* Set the Items Of Faculty at the ComboBox */
+		cmbStatus.setItems(FXCollections.observableArrayList(list_1)); /* Set the Items Of Faculty at the ComboBox */
 	}
 	
 	private void setPremissionComboBox() 							   /* creating list of Faculties */
 	{
-		ArrayList<User.UserPermission> all_Users = new ArrayList<User.UserPermission>(); 	
-		for(User.UserPermission status : User.UserPermission.values())   /* We add to the ArrayList all the Faculty */
+	   ArrayList<User.UserPermission> all_Users = new ArrayList<User.UserPermission>(); 	
+		for(User.UserPermission permission : User.UserPermission.values())   /* We add to the ArrayList all the Faculty */
 		{
-			all_Users.add(status);
+			all_Users.add(permission);
 		}
 		
 		list_2 = FXCollections.observableArrayList(all_Users); 
-		cmbStatus.setItems(list_2); /* Set the Items Of Faculty at the ComboBox */
+		cmbPremmission.setItems(FXCollections.observableArrayList(list_2)); /* Set the Items Of Faculty at the ComboBox */
 	}
-
-	protected ArrayList<Account> getAccounts_With_Negetive_Balance_From_DB(Connection conn) /* This method get products table details from DB */
-	  {
-		  ArrayList<Account> accounts = new ArrayList<Account>();
-		  Statement stmt;
-		  String result_Str;
-
-		  try {
-			  stmt = conn.createStatement();
-			  String getProductsTable = "SELECT * FROM account WHERE BalanceInCustomerAccount < 0;"; /* Get all the Table from the DB */
-			  ResultSet rs = stmt.executeQuery(getProductsTable);
-			  while(rs.next())
-		 	{
-			  single_Account = new Account();									
-			  result_Str = rs.getString("CustomerID");
-			  single_Account.setAccountUserId(result_Str);                    /* Take The Id Of the Customer */
-			  result_Str = rs.getString("BalanceInCustomerAccount");
-			  single_Account.setAccountBalanceCard(Double.parseDouble(result_Str));    /* Take The BalanceInCustomerAccount Of the Customer */
-			  result_Str = rs.getString("PaymentWay");
-			  single_Account.setAccountPaymentMethod(Account.PaymentMethod.valueOf(result_Str));          /* Take The PaymentWay Of the Customer */
-			  result_Str = rs.getString("Arrangement");
-			  single_Account.setAccountPaymentArrangement(Account.PaymentArrangement.valueOf(result_Str));        /* Take The Arrangement Of the Customer */
-			  result_Str = rs.getString("NumberOfCreditCard");
-			  single_Account.setAccountCreditCardNum(result_Str);                              /* Take The NumberOfCreditCard Of the Customer */
-			  accounts.add(single_Account);
-		 	}
-		  } catch (SQLException e) {	e.printStackTrace();}	
-		  return accounts;
-	  }
-	
-
+	                     
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		setStatusComboBox();	
 		setPremissionComboBox();
+		setStatusComboBox();
 	} 
 	
 	public void updateUser(ActionEvent event) throws Exception         /* Update the product name */
 	{
-		Temp_Array_For_Update = new ArrayList<Object>();
-		Temp_Array_For_Update.add(txtUserID.getText());
-		Temp_Array_For_Update.add(txtUserName.getText());
-		Temp_Array_For_Update.add(txtUserPhone.getText());
-		Temp_Array_For_Update.add(txtUserPassword.getText());
-		Temp_Array_For_Update.add(cmbPremmission.getValue());
-		Temp_Array_For_Update.add(cmbStatus.getValue());
-		msg = new Message(Temp_Array_For_Update, "Update User At Data Base");
-		UserUI.myClient.accept(msg);
+		temp_User = new ArrayList<Object>();
+		temp_User.add((String)txtUserID.getText());
+		temp_User.add((String)txtUserName.getText());
+		temp_User.add((String)txtUserPhone.getText());
+		temp_User.add((String)txtUserPassword.getText());
+		temp_User.add((User.UserPermission)cmbPremmission.getValue());
+		temp_User.add((User.UserStatus)cmbStatus.getValue());
+		msg = new Message(temp_User, "Update User At Data Base");
+		DataCompanyManagerUI.myClient.accept(msg);
+		
+		//user.setId(txtUserID.getText());
+		//user.setUserName(txtUserName.getText());
+		//user.setPhone(txtUserPhone.getText());
+		//user.setPassword(txtUserPassword.getText());
+		//user.setPermission((User.UserPermission)cmbPremmission.getValue());
+		//user.setStatus((User.UserStatus)cmbStatus.getValue());
+		//msg = new Message(user, "Update User At Data Base");
+		//UserUI.myClient.accept(msg);
 	}
+
+/*---------------------------------------------- This Is Belong To the Data Base --------------------------------------------*/
+	
+//      protected ArrayList<Account> getAccounts_With_Negetive_Balance_From_DB(Connection conn) /* This method get products table details from DB */
+//     {
+//	      ArrayList<Account> accounts = new ArrayList<Account>();
+//	      Statement stmt;
+//	      String result_Str;
+//
+//	      try {
+//		 	  stmt = conn.createStatement();
+//		 	  String getProductsTable = "SELECT * FROM account WHERE BalanceInCustomerAccount < 0;"; /* Get all the Table from the DB */
+//		      ResultSet rs = stmt.executeQuery(getProductsTable);
+//		  while(rs.next())
+//	 	  {
+//		      single_Account = new Account();									
+//		      result_Str = rs.getString("CustomerID");
+//		      single_Account.setAccountUserId(result_Str);                    /* Take The Id Of the Customer */
+//		      result_Str = rs.getString("BalanceInCustomerAccount");
+//		      single_Account.setAccountBalanceCard(Double.parseDouble(result_Str));    /* Take The BalanceInCustomerAccount Of the Customer */
+//		      result_Str = rs.getString("PaymentWay");
+//		      single_Account.setAccountPaymentMethod(Account.PaymentMethod.valueOf(result_Str));          /* Take The PaymentWay Of the Customer */
+//		      result_Str = rs.getString("Arrangement");
+//		      single_Account.setAccountPaymentArrangement(Account.PaymentArrangement.valueOf(result_Str));        /* Take The Arrangement Of the Customer */
+//		      result_Str = rs.getString("NumberOfCreditCard");
+//		      single_Account.setAccountCreditCardNum(result_Str);                              /* Take The NumberOfCreditCard Of the Customer */
+//		      accounts.add(single_Account);
+//	 	   }
+//	  } catch (SQLException e) {	e.printStackTrace();}	
+//	    return accounts;
+//  }
+	
+/*------------------------------------------------------------------------------------------------------------------------------- */	
+	
+
 }

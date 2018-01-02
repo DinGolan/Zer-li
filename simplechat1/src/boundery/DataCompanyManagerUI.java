@@ -1,27 +1,23 @@
 package boundery;
+
 import java.util.Scanner;
 import java.util.Vector;
-import controller.AccountController;
-
-import entity.Account;
+import controller.DataCompanyManagerController;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import mypackage.ClientConsole;
+import entity.User;
 
-
-
-
-public class AccountUI extends Application //With This Class We Show the Account GUI
-{
+public class DataCompanyManagerUI extends Application /* With This Class We Show the Product GUI */{
+	
+	public static Vector<User> users = new Vector<User>();
 	public static ClientConsole myClient;
-	//public static Vector<Account> accounts = new Vector<Account>();
-	public static Account account;
 	
 	public static void main( String args[] ) throws Exception
 	{ 
 		System.out.println("Please enter the server IP");
 		Scanner scanner = new Scanner(System.in);
-		String IP = "localhost"; //scanner.next(); /* Enter Server IP */
+		String IP = scanner.next(); /* Enter Server IP */
 		myClient = new ClientConsole(IP, 5555);
         launch(args);		
 	} 
@@ -29,8 +25,9 @@ public class AccountUI extends Application //With This Class We Show the Account
 	@Override
 	public void start(Stage arg0) throws Exception 
 	{		
-		AccountController aFrame = new AccountController(); /* Create AccountController */				  
+		DataCompanyManagerController aFrame = new DataCompanyManagerController(); /* Create CatalogFrame */				  
 		aFrame.start(arg0);
 	}
-	
+
 }
+

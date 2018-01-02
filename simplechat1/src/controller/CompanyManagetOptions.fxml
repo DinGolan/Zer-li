@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="322.0" prefWidth="332.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.UserController">
+   <children>
+      <Button id="btnExit" fx:id="btnExit" layoutX="209.0" layoutY="274.0" mnemonicParsing="false" onAction="#getExitBtn" text="Exit" />
+      <Button id="btnLogout" fx:id="btnTryAgain" layoutX="61.0" layoutY="274.0" mnemonicParsing="false" onAction="#logout" text="Logout" />
+      <Label layoutX="53.0" layoutY="26.0" text="Company Manager" textFill="#0022ff">
+         <font>
+            <Font name="Bodoni MT Bold" size="29.0" />
+         </font></Label>
+      <Button layoutX="71.0" layoutY="201.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="172.0" text="Update Catalog And Sales" />
+      <Button layoutX="71.0" layoutY="139.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="172.0" text="View two reports" />
+      <Button layoutX="71.0" layoutY="76.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="172.0" text="View store report" />
+   </children>
+</AnchorPane>
