@@ -193,7 +193,7 @@ public class CatalogController implements Initializable {
 		int i=0 , j;
 		Product p;
 		UserUI.myClient.accept(msg);
-		while(CatalogUI.products.size()==0);
+		while(CatalogUI.products.size()==0) 
 		for(j=0 ; j<CatalogUI.products.size() ; j++)
 		{
 			p = CatalogUI.products.get(j);
@@ -316,5 +316,7 @@ public class CatalogController implements Initializable {
 		}
 		return -1;
 	}
+	
+	
 
 }
