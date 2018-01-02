@@ -81,11 +81,9 @@ public class EchoServer extends AbstractServer
 	    }
 	    
 
-	    
 	    if(((Message)msg).getOption().compareTo("Update User At Data Base") == 0) 	    /* Check that we get from DB Because We want to Initialized */
         {										
 	    	UpdateUserAtDB(msg,conn);
-	    	this.sendToAllClients(msg);
 		}
 	    
 
