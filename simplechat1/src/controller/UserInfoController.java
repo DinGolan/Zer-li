@@ -26,7 +26,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class UserInfoController implements Initializable {
+public class UserInfoController implements Initializable{
 	
 	private User user;
 	private Message msg;
@@ -121,13 +121,13 @@ public class UserInfoController implements Initializable {
 	
 	public void updateUser(ActionEvent event) throws Exception         /* Update the product name */
 	{
-		temp_User = new ArrayList<Object>();
-		temp_User.add((String)txtUserID.getText());
-		temp_User.add((String)txtUserName.getText());
-		temp_User.add((String)txtUserPhone.getText());
-		temp_User.add((String)txtUserPassword.getText());
-		temp_User.add((User.UserPermission)cmbPremmission.getValue());
-		temp_User.add((User.UserStatus)cmbStatus.getValue());
+		User temp_User = new User();
+		temp_User.setId(txtUserID.getText());
+		temp_User.setUserName(txtUserName.getText());
+		temp_User.setPhone(txtUserPhone.getText());
+		temp_User.setPassword(txtUserPassword.getText());
+		temp_User.setPermission((UserPermission) cmbPremmission.getValue());
+		temp_User.setStatus((UserStatus) cmbStatus.getValue());
 		msg = new Message(temp_User, "Update User At Data Base");
 		DataCompanyManagerUI.myClient.accept(msg);
 		

@@ -3,7 +3,6 @@ package mypackage;
 /* "Object Oriented Software Engineering" and is issued under the open-source */
 /* license found at www.lloseng.com */
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,8 +14,6 @@ import com.mysql.jdbc.PreparedStatement;
 import entity.Message;
 import entity.Product;
 import entity.User;
-import entity.User.UserPermission;
-import entity.User.UserStatus;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 
@@ -88,6 +85,7 @@ public class EchoServer extends AbstractServer
 	    if(((Message)msg).getOption().compareTo("Update User At Data Base") == 0) 	    /* Check that we get from DB Because We want to Initialized */
         {										
 	    	UpdateUserAtDB(msg,conn);
+	    	this.sendToAllClients(msg);
 		}
 	    
 
@@ -189,17 +187,16 @@ public class EchoServer extends AbstractServer
   
 protected void UpdateUserAtDB(Object msg, Connection conn) /* This Method Update the DB */
   {
-	  ArrayList<Object> temp_User = (ArrayList<Object>)msg;
-	  
 	  Statement stmt;
+	  User temp_User = (User)((Message)msg).getMsg();
 	  try {
 		  stmt = conn.createStatement();
 		  
 		  /* UPDATE `project`.`user` SET `UserPermission`='BLOCKED' WHERE `UserName`='DinGolan'; */
-		  String UpdateTableUsersPremmision = "UPDATE project.user SET UserPermission =" + "'" + User.UserPermission.valueOf((String) temp_User.get(4)) + "'" + "WHERE UserName=" + "'" + temp_User.get(1) + "'" + ";" ;
+		  String UpdateTableUsersPremmision = "UPDATE project.user SET UserPermission =" + "'" + temp_User.getPermission() + "'" + "WHERE UserName=" + "'" + temp_User.getUserName() + "'" + ";" ;
 		  
 		  /* UPDATE `project`.`user` SET `UserStatus`='STORE_MANAGER' WHERE `UserName`='DinGolan'; */
-		  String UpdateTableUsersStatus = "UPDATE project.user SET UserStatus =" + "'" + User.UserStatus.valueOf((String) temp_User.get(5)) + "'" + "WHERE UserName=" + "'" + temp_User.get(1) + "'" + ";" ;
+		  String UpdateTableUsersStatus = "UPDATE project.user SET UserStatus =" + "'" + temp_User.getStatus() + "'" + "WHERE UserName=" + "'" + temp_User.getUserName() + "'" + ";" ;
 		  
 		  stmt.executeUpdate(UpdateTableUsersPremmision);
 		  stmt.executeUpdate(UpdateTableUsersStatus);
