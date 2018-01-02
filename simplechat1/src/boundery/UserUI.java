@@ -29,13 +29,13 @@ public class UserUI extends Application /* With This Class We Show the Product G
 	public static User user;
 
 	
-	public static void main( String args[] ) throws Exception
+	public static void main( String args[] ) throws Exception 
 	{ 
 		System.out.println("Please enter the server IP");
 		Scanner scanner = new Scanner(System.in);
-		String IP = scanner.next(); /* Enter Server IP */
-		myClient = new ClientConsole(IP, 5555);
-        launch(args);		
+		String IP = "localhost";//scanner.next(); /* Enter Server IP */
+		myClient = new ClientConsole(IP, 5555); //create connection with server
+        launch(args);		 
 	} 
 	
 	@Override

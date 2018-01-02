@@ -14,6 +14,7 @@ import entity.Account;
 import com.mysql.jdbc.PreparedStatement;
 import entity.Message;
 import entity.Product;
+import entity.Product.ProductType;
 import entity.User;
 import entity.User.UserPermission;
 import entity.User.UserStatus;
@@ -70,7 +71,7 @@ public class EchoServer extends AbstractServer
 	    if(((Message)msg).getOption().compareTo("0") == 0) 		/* Check that its update */
 	    		UpdateProductName(msg,conn); 
 	    
-	    if(((Message)msg).getOption().compareTo("1") ==0) 	    /* Check that we get from DB Because We want to Initialized */
+	    if(((Message)msg).getOption().compareTo("get all products in DB") ==0) 	    /* Check that we get from DB Because We want to Initialized */
 	    {										
 	    	((Message)msg).setMsg(getProductsFromDB(conn));	   
 	    	this.sendToAllClients(msg);
@@ -243,13 +244,12 @@ protected void UpdateUserAtDB(Object msg, Connection conn) /* This Method Update
 		  ResultSet rs = stmt.executeQuery(getProductsTable);
 		  while(rs.next())
 	 	{
-		  pr = new Product("", "", "");
-		  p = rs.getString("ProductID");
-		  pr.setpID(p);
-		  p=rs.getString("ProductName");
-		  pr.setpName(p);
-		  p= rs.getString("productType");
-		  pr.setpType(p);
+		  pr = new Product("", "", ProductType.valueOf("BOUQUET") , 0 , "");
+		  pr.setpID(rs.getString("ProductID"));
+		  pr.setpName(rs.getString("ProductName"));
+		  pr.setpType(ProductType.valueOf(rs.getString("productType")));
+		  pr.setpPrice(rs.getDouble("productPrice"));
+		  pr.setpPicture(rs.getString("productPicture"));
 		  products.add(pr);
 	 	}
 	  } catch (SQLException e) {	e.printStackTrace();}	
@@ -392,15 +392,15 @@ protected void UpdateUserAtDB(Object msg, Connection conn) /* This Method Update
 
   System.out.println("Please enter the mySQL scheme name:");
 		Scanner scanner = new Scanner(System.in);
-		 name=scanner.next();
+		 name= "project" ;    // scanner.next();
 		 url = "jdbc:mysql://localhost/"+name;/* Enter jbdc mySQL */
 		//String sql = "jdbc:mysql://localhost/project";
 	
 	System.out.println("Please enter the mySQL user name:");
-		 username = scanner.next(); /* Enter mySQL name */
+		 username ="root" ;// scanner.next(); /* Enter mySQL name */
 	
 	System.out.println("Please enter the mySQL password:");
-		 password = scanner.next(); /* Enter mySQL password */
+		 password = "308155308" ;  // scanner.next(); /* Enter mySQL password */
 	
     
     try 

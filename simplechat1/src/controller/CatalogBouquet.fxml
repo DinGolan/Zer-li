@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="679.0" prefWidth="679.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CatalogController">
+   <children>
+      <Button id="btnBack" fx:id="btnBack" layoutX="323.0" layoutY="629.0" mnemonicParsing="false" onAction="#back" text="Back" />
+      <ImageView id="Pic4" fx:id="Pic4" fitHeight="150.0" fitWidth="114.0" layoutX="501.0" layoutY="93.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView id="Pic3" fx:id="Pic3" fitHeight="150.0" fitWidth="114.0" layoutX="361.0" layoutY="101.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView id="Pic2" fx:id="Pic2" fitHeight="150.0" fitWidth="114.0" layoutX="212.0" layoutY="93.0" pickOnBounds="true" preserveRatio="true" />
+      <Label id="labbel4" fx:id="label4" layoutX="503.0" layoutY="76.0" text="labbel4" textFill="#836060" visible="false">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <ImageView id="Pic1" fx:id="Pic1" fitHeight="150.0" fitWidth="114.0" layoutX="72.0" layoutY="93.0" pickOnBounds="true" preserveRatio="true" />
+      <Button id="info4" fx:id="info4" layoutX="546.0" layoutY="212.0" mnemonicParsing="false" onAction="#openProductInfoWindow" text="Info" visible="false">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
+      <Label id="labbel3" fx:id="label3" layoutX="361.0" layoutY="76.0" text="labbel3" textFill="#836060" visible="false">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label id="labbel2" fx:id="label2" layoutX="215.0" layoutY="76.0" text="labbel2" textFill="#836060" visible="false">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label id="labbel1" fx:id="label1" layoutX="77.0" layoutY="76.0" text="labbel1" textFill="#836060" visible="false">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Button id="info1" fx:id="info1" layoutX="110.0" layoutY="212.0" mnemonicParsing="false" onAction="#openProductInfoWindow" text="Info" visible="false">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
+      <Button id="info2" fx:id="info2" layoutX="255.0" layoutY="212.0" mnemonicParsing="false" onAction="#openProductInfoWindow" text="Info" visible="false">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
+      <Button id="info3" fx:id="info3" layoutX="398.0" layoutY="212.0" mnemonicParsing="false" onAction="#openProductInfoWindow" text="Info" visible="false">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
+      <ImageView id="Pic8" fx:id="Pic8" fitHeight="150.0" fitWidth="114.0" layoutX="501.0" layoutY="276.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView id="Pic7" fx:id="Pic7" fitHeight="150.0" fitWidth="114.0" layoutX="355.0" layoutY="276.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView id="Pic6" fx:id="Pic6" fitHeight="150.0" fitWidth="114.0" layoutX="212.0" layoutY="276.0" pickOnBounds="true" preserveRatio="true" />
+      <Label id="labbel8" fx:id="label8" layoutX="503.0" layoutY="259.0" text="labbel8" textFill="#836060" visible="false">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <ImageView id="Pic5" fx:id="Pic5" fitHeight="150.0" fitWidth="114.0" layoutX="72.0" layoutY="276.0" pickOnBounds="true" preserveRatio="true" />
+      <Button id="info8" fx:id="info8" layoutX="546.0" layoutY="395.0" mnemonicParsing="false" onAction="#openProductInfoWindow" text="Info" visible="false">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
+      <Label id="labbel7" fx:id="label7" layoutX="361.0" layoutY="259.0" text="labbel7" textFill="#836060" visible="false">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label id="labbel6" fx:id="label6" layoutX="215.0" layoutY="259.0" text="labbel6" textFill="#836060" visible="false">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label id="labbel5" fx:id="label5" layoutX="81.0" layoutY="259.0" text="labbel5" textFill="#836060" visible="false">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Button id="info5" fx:id="info5" layoutX="110.0" layoutY="395.0" mnemonicParsing="false" onAction="#openProductInfoWindow" text="Info" visible="false">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
+      <Button id="info6" fx:id="info6" layoutX="255.0" layoutY="395.0" mnemonicParsing="false" onAction="#openProductInfoWindow" text="Info" visible="false">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
+      <Button id="info7" fx:id="info7" layoutX="398.0" layoutY="395.0" mnemonicParsing="false" onAction="#openProductInfoWindow" text="Info" visible="false">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
+      <ImageView id="Pic12" fx:id="Pic12" fitHeight="150.0" fitWidth="114.0" layoutX="501.0" layoutY="454.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView id="Pic11" fx:id="Pic11" fitHeight="150.0" fitWidth="114.0" layoutX="355.0" layoutY="454.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView id="Pic10" fx:id="Pic10" fitHeight="150.0" fitWidth="114.0" layoutX="212.0" layoutY="454.0" pickOnBounds="true" preserveRatio="true" />
+      <Label id="labbel12" fx:id="label12" layoutX="506.0" layoutY="437.0" text="labbel12" textFill="#836060" visible="false">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <ImageView id="Pic9" fx:id="Pic9" fitHeight="150.0" fitWidth="114.0" layoutX="72.0" layoutY="454.0" pickOnBounds="true" preserveRatio="true" />
+      <Button id="info12" fx:id="info12" layoutX="546.0" layoutY="573.0" mnemonicParsing="false" onAction="#openProductInfoWindow" text="Info" visible="false">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
+      <Label id="labbel11" fx:id="label11" layoutX="357.0" layoutY="437.0" text="labbel11" textFill="#836060" visible="false">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label id="labbel10" fx:id="label10" layoutX="207.0" layoutY="437.0" text="labbel10" textFill="#836060" visible="false">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label id="labbel9" fx:id="label9" layoutX="72.0" layoutY="437.0" text="labbel9" textFill="#836060" visible="false">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Button id="info9" fx:id="info9" layoutX="110.0" layoutY="573.0" mnemonicParsing="false" onAction="#openProductInfoWindow" text="Info" visible="false">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
+      <Button id="info10" fx:id="info10" layoutX="250.0" layoutY="573.0" mnemonicParsing="false" onAction="#openProductInfoWindow" text="Info" visible="false">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
+      <Button id="info11" fx:id="info11" layoutX="398.0" layoutY="573.0" mnemonicParsing="false" onAction="#openProductInfoWindow" text="Info" visible="false">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
+      <ImageView id="btnCart" fitHeight="54.0" fitWidth="67.0" layoutX="610.0" layoutY="614.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView id="btnLogout" fitHeight="54.0" fitWidth="54.0" layoutX="9.0" layoutY="614.0" pickOnBounds="true" preserveRatio="true" />
+      <Hyperlink id="SweetBouquetLink" fx:id="SweetBouquetLink" layoutX="175.0" layoutY="14.0" onAction="#productCategory" text="Sweet Bouquet" textFill="#82059c">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Hyperlink>
+      <Hyperlink id="VaseLink" fx:id="VaseLink" layoutX="598.0" layoutY="14.0" onAction="#productCategory" text="Vase" textFill="#5b9407">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Hyperlink>
+      <Hyperlink id="BridalLink" fx:id="BridalLink" layoutX="387.0" layoutY="14.0" onAction="#productCategory" text="Bridal Bouquet" textFill="#f58300">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Hyperlink>
+      <Hyperlink id="FlowerCrownLink" fx:id="FlowerCrownLink" layoutX="287.0" layoutY="14.0" onAction="#productCategory" text="Flower Crown" textFill="#b0bc04">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Hyperlink>
+      <Hyperlink id="ArrangementsLink" fx:id="ArrangementsLink" layoutX="69.0" layoutY="14.0" onAction="#productCategory" text="Arrangements" textFill="#03138d">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Hyperlink>
+      <Hyperlink id="BouquetsLink" fx:id="BouquetsLink" layoutY="14.0" onAction="#productCategory" text="Bouquets" textFill="#049e51">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Hyperlink>
+      <Hyperlink id="FlowerWreathLink" fx:id="FlowerWreathLink" layoutX="491.0" layoutY="14.0" onAction="#productCategory" text="Flower Wreath" textFill="#9c0512">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Hyperlink>
+      <Hyperlink id="SalesLink" fx:id="SalesLink" layoutX="643.0" layoutY="14.0" onAction="#productCategory" text="Sales" textFill="#ff006a">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Hyperlink>
+      
+   </children>
+</AnchorPane>

@@ -6,13 +6,19 @@ public class Product implements Serializable
 {
 	private String pID;
 	private String pName;
-	private String pType;	
+	private ProductType pType;	
+	private double pPrice;	
+	private String pPicture;	
 
-	public Product(String pID, String pName, String pType) {
+	public enum ProductType {BOUQUET , ARRANGEMENT , SWEET_BOUQUET , FLOWER_CROWN , BRIDAL_BOUQUET , VASE , FLOWER_WREATH}
+	
+	public Product(String pID, String pName, ProductType pType ,double pPrice , String pPicture) {
 		super();
 		this.pID = pID;
 		this.pName = pName;
 		this.pType = pType; 
+		this.pPrice = pPrice;
+		this.pPicture = pPicture;
 	}
 
 	public String getpID() {
@@ -31,15 +37,33 @@ public class Product implements Serializable
 		this.pName = pName;
 	}
 
-	public String getpType() {
+	public ProductType getpType() {
 		return pType;
 	}
 
-	public void setpType(String pType) {
+	public void setpType(ProductType pType) {
 		this.pType = pType;
 	}
 	
 	public String toString(){
 		return String.format("\nProduct: %s\t %s\t %s\n",pID,pName,pType);
+	}
+
+	public double getpPrice() {
+		return pPrice;
+	}
+
+	public void setpPrice(double pPrice) {
+		this.pPrice = pPrice;
+	}
+
+	public String getpPicture() {
+		return pPicture;
+	}
+
+	public void setpPicture(String pPicture) {
+		this.pPicture = pPicture;
 	}	
+	
+	
 }

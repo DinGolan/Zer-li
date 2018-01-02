@@ -7,6 +7,7 @@ package mypackage;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import boundery.CatalogUI;
 import boundery.DataCompanyManagerUI;
 import boundery.ProductUI;
 import boundery.UserUI;
@@ -109,16 +110,16 @@ public class ClientConsole implements ChatIF
   @SuppressWarnings("unchecked")
 public void displayUI(Object message) 
   {
-	    if(((Message)message).getOption().compareTo("1") ==0) 		/* Check that its update */
+	    if(((Message)message).getOption().compareTo("get all products in DB") ==0) 		/* Check that its update */
 	    {
 	  	  	int i=0;
 	  	  	ArrayList<Product> temp = new ArrayList<Product>();
 	  	  	temp = (ArrayList<Product>)((Message)message).getMsg();
-	  	  	ProductUI.products.clear();
+	  	  	CatalogUI.products.clear();
 
 	  	  	for(i=0;i<temp.size();i++)
 	  	  	{
-	  	  		ProductUI.products.add(temp.get(i));
+	  	  	CatalogUI.products.add(temp.get(i));
 	  	  	}
 	    }
 	    
