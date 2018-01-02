@@ -2,13 +2,10 @@ package boundery;
 import java.util.Scanner;
 import java.util.Vector;
 import controller.AccountController;
-
 import entity.Account;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import mypackage.ClientConsole;
-
-
 
 
 public class AccountUI extends Application //With This Class We Show the Account GUI
