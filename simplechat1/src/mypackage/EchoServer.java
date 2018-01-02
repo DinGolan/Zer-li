@@ -404,15 +404,15 @@ public class EchoServer extends AbstractServer
 
   System.out.println("Please enter the mySQL scheme name:");
 		Scanner scanner = new Scanner(System.in);
-		 name= "project" ;    // scanner.next();
+		 name= scanner.next();
 		 url = "jdbc:mysql://localhost/"+name;/* Enter jbdc mySQL */
 		//String sql = "jdbc:mysql://localhost/project";
 	
 	System.out.println("Please enter the mySQL user name:");
-		 username ="root" ;// scanner.next(); /* Enter mySQL name */
+		 username =scanner.next(); /* Enter mySQL name */
 	
 	System.out.println("Please enter the mySQL password:");
-		 password = "308155308" ;  // scanner.next(); /* Enter mySQL password */
+		 password = scanner.next(); /* Enter mySQL password */
 	
     
     try 
