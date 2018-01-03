@@ -5,8 +5,6 @@ package mypackage;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
-import boundery.AccountUI;
 import boundery.ProductUI;
 import boundery.UserUI;
 import controller.AccountController;
@@ -146,19 +144,23 @@ public class ClientConsole implements ChatIF
   
   public void addAccount(Object message)
   {
+	  System.out.println("may14:01");
 	  if(((Account)((Message)message).getMsg()).getAccountUserId().equals("Account already exist")) //account is already exist
 	  {
-		  AccountUI.account.setAccountUserId("Account already exist");
+		  UserUI.account.setAccountUserId("Account already exist");
 	  }
 	  else
 	  {
-		  AccountUI.account.setAccountUserId(((Account)((Message)message).getMsg()).getAccountUserId());
-		  AccountUI.account.setAccountPaymentArrangement(((Account)((Message)message).getMsg()).getAccountPaymentArrangement());
-		  AccountUI.account.setAccountPaymentMethod(((Account)((Message)message).getMsg()).getAccountPaymentMethod());
-		  AccountUI.account.setAccountBalanceCard(((Account)((Message)message).getMsg()).getAccountBalanceCard());
-		  AccountUI.account.setAccountCreditCardNum(((Account)((Message)message).getMsg()).getAccountCreditCardNum());
-		  AccountUI.account.setAccountSubscriptionEndDate(((Account)((Message)message).getMsg()).getAccountSubscriptionEndDate());
+		  UserUI.account.setAccountUserId(((Account)((Message)message).getMsg()).getAccountUserId());
+		  UserUI.account.setAccountPaymentArrangement(((Account)((Message)message).getMsg()).getAccountPaymentArrangement());
+		  UserUI.account.setAccountPaymentMethod(((Account)((Message)message).getMsg()).getAccountPaymentMethod());
+		  UserUI.account.setAccountBalanceCard(((Account)((Message)message).getMsg()).getAccountBalanceCard());
+		  UserUI.account.setAccountCreditCardNum(((Account)((Message)message).getMsg()).getAccountCreditCardNum());
+		  UserUI.account.setAccountSubscriptionEndDate(((Account)((Message)message).getMsg()).getAccountSubscriptionEndDate());
 	  }
+	  
+	  System.out.println("may14:01");
+	  System.out.println(UserUI.account);
 	  AccountController.flag = true;  
   }
 

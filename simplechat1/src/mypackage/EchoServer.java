@@ -3,7 +3,6 @@ package mypackage;
 /* "Object Oriented Software Engineering" and is issued under the open-source */
 /* license found at www.lloseng.com */
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,13 +10,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-
-import entity.Account;
-
-
 import com.mysql.jdbc.PreparedStatement;
 
-import boundery.AccountUI;
+import entity.Account;
 import entity.Message;
 import entity.Product;
 import entity.User;
@@ -102,7 +97,9 @@ public class EchoServer extends AbstractServer
 	    
 	    if(((Message)msg).getOption().compareTo("Add new account") == 0) //check if we add new account
         {
-    		((Message)msg).setMsg(AddNewAccountToDB(msg,conn));	    
+	    	System.out.println("a14:44");
+    		((Message)msg).setMsg(AddNewAccountToDB(msg,conn));	
+			
     		this.sendToAllClients(msg);	
 		}
 	    
@@ -309,7 +306,7 @@ public class EchoServer extends AbstractServer
 		  {
 			  stmt = conn.createStatement(); 
 			  String InsertAccountToID = "INSERT INTO project.account(AccountUserId, AccountBalanceCard, AccountPaymentMethod, AccountPaymentArrangement,AccountCreditCardNum,AccountSubscriptionEndDate)" + 
-			  		"VALUES("+newAccount.getAccountUserId()+","+newAccount.getAccountBalanceCard()+ ",'"+newAccount.getAccountPaymentMethod()+"','"+newAccount.getAccountPaymentArrangement()+"',"+newAccount.getAccountCreditCardNum()+","+"'2018-12-02'"+");";
+			  		"VALUES("+newAccount.getAccountUserId()+","+newAccount.getAccountBalanceCard()+ ",'"+newAccount.getAccountPaymentMethod()+"','"+newAccount.getAccountPaymentArrangement()+"',"+newAccount.getAccountCreditCardNum()+",'"+newAccount.getAccountSubscriptionEndDate()+"');";
 			  stmt.executeUpdate(InsertAccountToID);	 
 			 // success="Add user successfully"; 
 			  account.setAccountUserId(newAccount.getAccountUserId());
