@@ -60,7 +60,9 @@ public class ChatClient extends AbstractClient
   {
 	  if(((Message)msg).getOption().compareTo("Add new account") ==0)
 		  clientUI.addAccount(msg);
-	  if(((Message)msg).getOption().compareTo("1") ==0)
+	  else if(((Message)msg).getOption().compareTo("get all products in DB") ==0)
+		  clientUI.displayUI(msg);
+	  else if(((Message)msg).getOption().compareTo("Add User To Combo Box From DB") == 0)
 		  clientUI.displayUI(msg);
 	  else if(((Message)msg).getOption().compareTo("UserStatus") ==0)
 		  clientUI.sendUser(msg);
