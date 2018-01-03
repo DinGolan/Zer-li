@@ -90,16 +90,11 @@ public class EchoServer extends AbstractServer
 		}
 	    
 	    if(((Message)msg).getOption().compareTo("add survey") ==0) // add survey to db
-	    	 	    {
-	    				System.out.println("a");
-	    	 	    	AddSurveyToDB(msg,conn);
-	    	 	    }
+	    {
+	    	System.out.println("a");
+	    	AddSurveyToDB(msg,conn);
+	    }
 	    
-<<<<<<< HEAD
-
-=======
-	    
->>>>>>> 3171a111f11071041c9b8556b1639597e80fa6d0
 	    if(((Message)msg).getOption().compareTo("Update User At Data Base") == 0) 	    /* Check that we get from DB Because We want to Initialized */
         {										
 	    	UpdateUserAtDB(msg,conn);
@@ -200,21 +195,10 @@ public class EchoServer extends AbstractServer
   
   protected void UpdateUserAtDB(Object msg, Connection conn) /* This Method Update the DB */
   {
-<<<<<<< HEAD
-=======
-	  ArrayList<String> temp = new ArrayList<String>();
-	  ArrayList<String> temp2 = (ArrayList<String>)(((Message)msg).getMsg());
-
-	  for (String s : temp2) 
-	  {
-		  	temp.add(s);
-	  }
->>>>>>> 3171a111f11071041c9b8556b1639597e80fa6d0
 	  Statement stmt;
 	  User temp_User = (User)((Message)msg).getMsg();
 	  try {
 		  stmt = conn.createStatement();
-<<<<<<< HEAD
 		  
 		  /* UPDATE `project`.`user` SET `UserPermission`='BLOCKED' WHERE `UserName`='DinGolan'; */
 		  String UpdateTableUsersPremmision = "UPDATE project.user SET UserPermission =" + "'" + temp_User.getPermission() + "'" + "WHERE UserName=" + "'" + temp_User.getUserName() + "'" + ";" ;
@@ -224,11 +208,6 @@ public class EchoServer extends AbstractServer
 		  
 		  stmt.executeUpdate(UpdateTableUsersPremmision);
 		  stmt.executeUpdate(UpdateTableUsersStatus);
-=======
-		  String createTablecourses = "UPDATE project.user SET UserPremission =" + "'" + temp.get(4) + "'" + "WHERE UserStatus=" +"'" +temp.get(5) + "'" +";";
-		  stmt.executeUpdate(createTablecourses);
-			
->>>>>>> 3171a111f11071041c9b8556b1639597e80fa6d0
 	  } 
 	  catch (SQLException e) {	e.printStackTrace();}	  
   }
