@@ -83,11 +83,10 @@ public class EchoServer extends AbstractServer
   		}
 	    
 	    if(((Message)msg).getOption().compareTo("Add User To Combo Box From DB") == 0) 	    /* Check that we get from DB Because We want to Initialized */
-        {										
-			/* ArrayList<Product> aa = new ArrayList<Product>(); */
-	    	((Message)msg).setMsg(getProductsFromDB(conn));	    
+        {			
+	    	((Message)msg).setMsg(getUsersFromDB(conn));	
     		this.sendToAllClients(msg);
-		}
+        }
 	    
 	    if(((Message)msg).getOption().compareTo("add survey") ==0) // add survey to db
 	    {
@@ -275,25 +274,25 @@ public class EchoServer extends AbstractServer
 	  User ur;
 	  try {
 		  stmt = conn.createStatement();
-		  String getProductsTable = "SELECT * FROM product;"; /* Get all the Table from the DB */
-		  ResultSet rs = stmt.executeQuery(getProductsTable);
+		  String getUsersTable = "SELECT * FROM user;"; /* Get all the Table from the DB */
+		  ResultSet rs = stmt.executeQuery(getUsersTable);
 		  while(rs.next())
-	 	{
-		  ur = new User();
-		  u = rs.getString("UserID");
-		  ur.setId(u);
-		  u = rs.getString("UserName");
-		  ur.setUserName(u);
-		  u = rs.getString("UserPhone");
-		  ur.setPhone(u);
-		  u = rs.getString("UserPassword");
-		  ur.setPassword(u);
-		  u = rs.getString("UserPremission");
-		  ur.setPermission(User.UserPermission.valueOf(u));
-		  u = rs.getString("UserStatus");
-		  ur.setStatus(User.UserStatus.valueOf(u));
-		  users.add(ur);
-	 	}
+	 	  {
+				  ur = new User();
+				  u = rs.getString("UserId");
+				  ur.setId(u);
+				  u = rs.getString("UserName");
+				  ur.setUserName(u);
+				  u = rs.getString("UserPhone");
+				  ur.setPhone(u);
+				  u = rs.getString("UserPassword");
+				  ur.setPassword(u);
+				  u = rs.getString("UserPermission");
+				  ur.setPermission(User.UserPermission.valueOf(u));
+				  u = rs.getString("UserStatus");
+				  ur.setStatus(User.UserStatus.valueOf(u));
+				  users.add(ur);
+	 	  }
 	  } catch (SQLException e) {	e.printStackTrace();}	
 	  return users;
   }
