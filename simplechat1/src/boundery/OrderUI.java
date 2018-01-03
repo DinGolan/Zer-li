@@ -28,7 +28,7 @@ public class OrderUI extends Application /* With This Class We Show the Product 
 	public void start(Stage arg0) throws Exception 
 	{		
 		CatalogController aFrame = new CatalogController(); /* Create CatalogFrame */				  
-		aFrame.start(arg0);
+		//aFrame.start(arg0);
 	}
 	
 }

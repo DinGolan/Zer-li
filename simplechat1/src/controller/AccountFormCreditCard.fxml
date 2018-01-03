@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="131.0" prefWidth="338.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AccountController">
+   <children>
+      <Label layoutX="32.0" layoutY="35.0" text="Credit card number:" />
+      <TextField id="txtAccountCreditCardNum" fx:id="txtAccountCreditCardNum" layoutX="161.0" layoutY="31.0" />
+      <Button id="btnAccountCreditCardClose" fx:id="btnAccountCreditCardClose" layoutX="147.0" layoutY="82.0" mnemonicParsing="false" onAction="#closeAccountCreditCardWindow" text="Close" />
+   </children>
+</AnchorPane>

@@ -19,6 +19,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 
 public class UserController implements Initializable {
 
@@ -39,7 +40,7 @@ public class UserController implements Initializable {
 	private TextField txtUserName;
 
 	@FXML
-	private TextField txtPassword;
+	private PasswordField txtPassword;
 	
 	@FXML
 	private Label lblName;
@@ -49,7 +50,7 @@ public class UserController implements Initializable {
 
 	public void getExitBtn(ActionEvent event) throws Exception /* With this Method we Exit from the Catalog */
 	{
-		System.out.println("Exit From - Tool");
+		System.out.println("Exit From - Login form");
 		System.exit(0);
 	}
 

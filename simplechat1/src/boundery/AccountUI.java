@@ -2,24 +2,23 @@ package boundery;
 import java.util.Scanner;
 import java.util.Vector;
 import controller.AccountController;
-import controller.CatalogController;
+import entity.Account;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import mypackage.ClientConsole;
-import entity.Product;
-import entity.User;
 
 
 public class AccountUI extends Application //With This Class We Show the Account GUI
 {
-	public static Vector<Product> products = new Vector<Product>();
 	public static ClientConsole myClient;
+	//public static Vector<Account> accounts = new Vector<Account>();
+	public static Account account;
 	
 	public static void main( String args[] ) throws Exception
 	{ 
 		System.out.println("Please enter the server IP");
 		Scanner scanner = new Scanner(System.in);
-		String IP = scanner.next(); /* Enter Server IP */
+		String IP = "localhost"; //scanner.next(); /* Enter Server IP */
 		myClient = new ClientConsole(IP, 5555);
         launch(args);		
 	} 
