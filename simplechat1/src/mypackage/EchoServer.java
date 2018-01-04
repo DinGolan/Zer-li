@@ -13,11 +13,8 @@ import java.util.Scanner;
 
 import com.mysql.jdbc.PreparedStatement;
 
-<<<<<<< HEAD
 import boundery.SurveyResultUI;
 import controller.SurveyResultController;
-=======
->>>>>>> 40af47ef0495ebdcb5a775728da5479e071119f8
 import entity.Account;
 import entity.Message;
 import entity.Product;
@@ -44,13 +41,9 @@ public class EchoServer extends AbstractServer
    * The default port to listen on.
    */
   final public static int DEFAULT_PORT = 5555;
-<<<<<<< HEAD
   public static int counter=1;
 	public static ArrayList<Integer> resulrId = new ArrayList<Integer>();
 
-=======
-  public static int counter = 2;
->>>>>>> 40af47ef0495ebdcb5a775728da5479e071119f8
   //Constructors ****************************************************
   
   /**
