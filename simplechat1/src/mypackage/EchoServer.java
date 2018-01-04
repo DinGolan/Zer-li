@@ -5,6 +5,7 @@ package mypackage;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -12,8 +13,11 @@ import java.util.Scanner;
 
 import com.mysql.jdbc.PreparedStatement;
 
+<<<<<<< HEAD
 import boundery.SurveyResultUI;
 import controller.SurveyResultController;
+=======
+>>>>>>> 40af47ef0495ebdcb5a775728da5479e071119f8
 import entity.Account;
 import entity.Message;
 import entity.Product;
@@ -40,9 +44,13 @@ public class EchoServer extends AbstractServer
    * The default port to listen on.
    */
   final public static int DEFAULT_PORT = 5555;
+<<<<<<< HEAD
   public static int counter=1;
 	public static ArrayList<Integer> resulrId = new ArrayList<Integer>();
 
+=======
+  public static int counter = 2;
+>>>>>>> 40af47ef0495ebdcb5a775728da5479e071119f8
   //Constructors ****************************************************
   
   /**
@@ -82,18 +90,16 @@ public class EchoServer extends AbstractServer
   		}
 	    
 	    if(((Message)msg).getOption().compareTo("Add User To Combo Box From DB") == 0) 	    /* Check that we get from DB Because We want to Initialized */
-        {										
-			/* ArrayList<Product> aa = new ArrayList<Product>(); */
-	    	((Message)msg).setMsg(getProductsFromDB(conn));	    
+        {			
+	    	((Message)msg).setMsg(getUsersFromDB(conn));	
     		this.sendToAllClients(msg);
-		}
+        }
 	    
 	    if(((Message)msg).getOption().compareTo("add survey") ==0) // add survey to db
-	    	 	    {
-	    				System.out.println("a");
-	    	 	    	AddSurveyToDB(msg,conn);
-	    	 	    }
-	    
+	    {
+	    	System.out.println("a");
+	    	AddSurveyToDB(msg,conn);
+	    }
 	    
 	    if(((Message)msg).getOption().compareTo("Update User At Data Base") == 0) 	    /* Check that we get from DB Because We want to Initialized */
         {										
@@ -102,7 +108,9 @@ public class EchoServer extends AbstractServer
 	    
 	    if(((Message)msg).getOption().compareTo("Add new account") == 0) //check if we add new account
         {
-    		((Message)msg).setMsg(AddNewAccountToDB(msg,conn));	    
+	    	System.out.println("a14:44");
+    		((Message)msg).setMsg(AddNewAccountToDB(msg,conn));	
+			
     		this.sendToAllClients(msg);	
 		}
 	    
@@ -217,19 +225,19 @@ public class EchoServer extends AbstractServer
   
   protected void UpdateUserAtDB(Object msg, Connection conn) /* This Method Update the DB */
   {
-	  ArrayList<String> temp = new ArrayList<String>();
-	  ArrayList<String> temp2 = (ArrayList<String>)(((Message)msg).getMsg());
-
-	  for (String s : temp2) 
-	  {
-		  	temp.add(s);
-	  }
 	  Statement stmt;
+	  User temp_User = (User)((Message)msg).getMsg();
 	  try {
 		  stmt = conn.createStatement();
-		  String createTablecourses = "UPDATE project.user SET UserPremission =" + "'" + temp.get(4) + "'" + "WHERE UserStatus=" +"'" +temp.get(5) + "'" +";";
-		  stmt.executeUpdate(createTablecourses);
-			
+		  
+		  /* UPDATE `project`.`user` SET `UserPermission`='BLOCKED' WHERE `UserName`='DinGolan'; */
+		  String UpdateTableUsersPremmision = "UPDATE project.user SET UserPermission =" + "'" + temp_User.getPermission() + "'" + "WHERE UserName=" + "'" + temp_User.getUserName() + "'" + ";" ;
+		  
+		  /* UPDATE `project`.`user` SET `UserStatus`='STORE_MANAGER' WHERE `UserName`='DinGolan'; */
+		  String UpdateTableUsersStatus = "UPDATE project.user SET UserStatus =" + "'" + temp_User.getStatus() + "'" + "WHERE UserName=" + "'" + temp_User.getUserName() + "'" + ";" ;
+		  
+		  stmt.executeUpdate(UpdateTableUsersPremmision);
+		  stmt.executeUpdate(UpdateTableUsersStatus);
 	  } 
 	  catch (SQLException e) {	e.printStackTrace();}	  
   }
@@ -371,25 +379,25 @@ public class EchoServer extends AbstractServer
 	  User ur;
 	  try {
 		  stmt = conn.createStatement();
-		  String getProductsTable = "SELECT * FROM product;"; /* Get all the Table from the DB */
-		  ResultSet rs = stmt.executeQuery(getProductsTable);
+		  String getUsersTable = "SELECT * FROM user;"; /* Get all the Table from the DB */
+		  ResultSet rs = stmt.executeQuery(getUsersTable);
 		  while(rs.next())
-	 	{
-		  ur = new User();
-		  u = rs.getString("UserID");
-		  ur.setId(u);
-		  u = rs.getString("UserName");
-		  ur.setUserName(u);
-		  u = rs.getString("UserPhone");
-		  ur.setPhone(u);
-		  u = rs.getString("UserPassword");
-		  ur.setPassword(u);
-		  u = rs.getString("UserPremission");
-		  ur.setPermission(User.UserPermission.valueOf(u));
-		  u = rs.getString("UserStatus");
-		  ur.setStatus(User.UserStatus.valueOf(u));
-		  users.add(ur);
-	 	}
+	 	  {
+				  ur = new User();
+				  u = rs.getString("UserId");
+				  ur.setId(u);
+				  u = rs.getString("UserName");
+				  ur.setUserName(u);
+				  u = rs.getString("UserPhone");
+				  ur.setPhone(u);
+				  u = rs.getString("UserPassword");
+				  ur.setPassword(u);
+				  u = rs.getString("UserPermission");
+				  ur.setPermission(User.UserPermission.valueOf(u));
+				  u = rs.getString("UserStatus");
+				  ur.setStatus(User.UserStatus.valueOf(u));
+				  users.add(ur);
+	 	  }
 	  } catch (SQLException e) {	e.printStackTrace();}	
 	  return users;
   }
@@ -408,7 +416,7 @@ public class EchoServer extends AbstractServer
 		  {
 			  stmt = conn.createStatement(); 
 			  String InsertAccountToID = "INSERT INTO project.account(AccountUserId, AccountBalanceCard, AccountPaymentMethod, AccountPaymentArrangement,AccountCreditCardNum,AccountSubscriptionEndDate)" + 
-			  		"VALUES("+newAccount.getAccountUserId()+","+newAccount.getAccountBalanceCard()+ ",'"+newAccount.getAccountPaymentMethod()+"','"+newAccount.getAccountPaymentArrangement()+"',"+newAccount.getAccountCreditCardNum()+","+"'2018-12-02'"+");";
+			  		"VALUES("+newAccount.getAccountUserId()+","+newAccount.getAccountBalanceCard()+ ",'"+newAccount.getAccountPaymentMethod()+"','"+newAccount.getAccountPaymentArrangement()+"',"+newAccount.getAccountCreditCardNum()+",'"+newAccount.getAccountSubscriptionEndDate()+"');";
 			  stmt.executeUpdate(InsertAccountToID);	 
 			 // success="Add user successfully"; 
 			  account.setAccountUserId(newAccount.getAccountUserId());

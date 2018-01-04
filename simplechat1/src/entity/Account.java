@@ -18,6 +18,28 @@ public class Account implements Serializable{
 	public enum PaymentMethod{ //enum for the payment method
 		CASH,CREDITCARD;	
 	}
+	
+	/*public Account() { //constructor
+		//super();
+		this.accountUserId = null;
+		this.accountPaymentArrangement = PaymentArrangement.FULLPRICE;
+		this.accountPaymentMethod = PaymentMethod.CASH;
+		this.accountBalanceCard = 0;
+		this.accountCreditCardNum = null;
+		this.accountSubscriptionEndDate = null;	
+	}*/
+
+	/*public Account(String accountUserId, PaymentArrangement accountPaymentArrangement,
+			PaymentMethod accountPaymentMethod, double accountBalanceCard, String accountCreditCardNum,
+			Date accountSubscriptionEndDate) {
+		super();
+		this.accountUserId = accountUserId;
+		this.accountPaymentArrangement = accountPaymentArrangement;
+		this.accountPaymentMethod = accountPaymentMethod;
+		this.accountBalanceCard = accountBalanceCard;
+		this.accountCreditCardNum = accountCreditCardNum;
+		this.accountSubscriptionEndDate = accountSubscriptionEndDate;
+	}*/
 
 	public String getAccountUserId() { //accountUserId getter
 		return accountUserId;

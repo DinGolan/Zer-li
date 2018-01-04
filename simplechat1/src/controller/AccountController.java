@@ -1,6 +1,8 @@
 package controller;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import boundery.AccountUI;
+import java.util.Date;
+import boundery.UserUI;
 import entity.Account;
 import entity.Account.PaymentArrangement;
 import entity.Message;
@@ -56,7 +58,7 @@ public class AccountController {
 	private TextField txtAccountCreditCardNum; //text field for the credit card number
 	
 	@FXML
-	private final DatePicker dpAccountEndSubscriptionDate=new DatePicker(LocalDate.now());  //DatePicker with the end date of the subscription
+	private DatePicker dpAccountEndSubscriptionDate=new DatePicker(LocalDate.now());  //DatePicker with the end date of the subscription
 	
 	@FXML
 	private TextField txtAccountBalanceCard; //text field for the account balance in card
@@ -95,7 +97,7 @@ public class AccountController {
 	public void closeAccountCreditCardWindow(ActionEvent event) throws Exception  //To close the The Window of the Account credit- card info
 	{ 
 		a.setAccountCreditCardNum(txtAccountCreditCardNum.getText());
-		System.out.println(a);
+		//System.out.println(a);
 		((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window			
 	}
 	
@@ -123,13 +125,12 @@ public class AccountController {
 		Pane root = null;
 		Stage primaryStage = new Stage(); //Object present window with graphics elements
 		FXMLLoader loader = new FXMLLoader(); //load object
-		AccountUI.account=new Account();
+		UserUI.account=new Account();
 
 		a.setAccountUserId(txtAccountUserId.getText()); //set the user id
 		a.setAccountBalanceCard(Double.parseDouble(txtAccountBalanceCard.getText())); //set the balance account
 		if(rdbtnAccountPaymentMethodCASH.isSelected()) //if we choose CASH
 		{
-			System.out.println("maymay");
 			a.setAccountPaymentMethod(Account.PaymentMethod.valueOf("CASH"));
 			a.setAccountCreditCardNum(null);
 		}
@@ -138,33 +139,40 @@ public class AccountController {
 			a.setAccountPaymentMethod(Account.PaymentMethod.valueOf("CREDITCARD"));			
 		
 		LocalDate localDate = dpAccountEndSubscriptionDate.getValue();
-		java.sql.Date date = java.sql.Date.valueOf(localDate);
+		java.sql.Date dateSql=null;
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		if(localDate != null)
+		{
+			String dateStr=localDate.toString();
+			Date parsed = format.parse(dateStr);
+		    dateSql = new java.sql.Date(parsed.getTime());
+		    a.setAccountSubscriptionEndDate(dateSql); //get the date problem
+		}
+		else
+			 a.setAccountSubscriptionEndDate(null); //get the date problem	   
 		
-		if(rdbtnAccountPaymentArrangmentAnnual.isSelected()){ //if we choose Annual
+		if(rdbtnAccountPaymentArrangmentAnnual.isSelected()) //if we choose Annual
 			a.setAccountPaymentArrangement(PaymentArrangement.ANNUAL);	
-			a.setAccountSubscriptionEndDate(date); //get the date problem
-		}
-		else if(rdbtnAccountPaymentArrangmentMonthly.isSelected()) { //if we choose Monthly
+					
+		else if(rdbtnAccountPaymentArrangmentMonthly.isSelected())  //if we choose Monthly
 			a.setAccountPaymentArrangement(PaymentArrangement.MONTHLY);
-			a.setAccountSubscriptionEndDate(date); //get the date problem
-		}
-		else {//if we choose full price or none
+			
+		else //if we choose full price or none
 			a.setAccountPaymentArrangement(PaymentArrangement.FULLPRICE);	
-			a.setAccountSubscriptionEndDate(null);
-		}
+
+		Message msg = new Message(a, "Add new account");
+		System.out.println(msg);
+		//AccountUI u=new AccountUI();
+		//AccountUI.myClient.accept(msg);
+		UserUI.myClient.accept(msg);
 		
-		System.out.println(a);
-		
-		Message msg = new Message(a, "Add new account");	
-		AccountUI.myClient.accept(msg);
-		
-		while(flag == false) //לבדוק עם אריאל לגבי הדגל הזה
+		while(flag == false) 
 		{
 			System.out.print(""); //DOES NOT RUN WITHOUT THIS LINE
 		}
 		flag = false;
 		
-		if(AccountUI.account.getAccountUserId().equals("Account already exist")) //account for this user already exist
+		if(UserUI.account.getAccountUserId().equals("Account already exist")) //account for this user already exist
 		{
 			((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
 			root = loader.load(getClass().getResource("/controller/UserAccountExistMsg.fxml").openStream());
@@ -203,19 +211,15 @@ public class AccountController {
 
 	public void closeAccountFormWindow(ActionEvent event) throws Exception  //To close the The Window of the Account card GUI
 	{ 
-		/*ProductUI.products.clear();
+		//ProductUI.products.clear();
 		((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
 		Stage primaryStage = new Stage();						 //Object present window with graphics elements
 		FXMLLoader loader = new FXMLLoader(); 					 //load object
-		Pane root = loader.load(getClass().getResource("/boundery/CatalogFrame.fxml").openStream());
-		
+		Pane root = loader.load(getClass().getResource("/controller/StoreManagerOptions.fxml").openStream());	
 		Scene scene = new Scene(root);			
-		primaryStage.setScene(scene);	
-				
-		primaryStage.show(); show catalog frame window */
-
-		System.out.println("Exit from- Account card form");
-		System.exit(0);								
+		primaryStage.setScene(scene);					
+		primaryStage.show(); //show sore manager options window
+		System.out.println("Exit from- Account card form");							
 	}
 		
 }

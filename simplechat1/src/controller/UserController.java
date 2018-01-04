@@ -105,10 +105,10 @@ public class UserController implements Initializable {
 			System.out.println("user can do Login");
 			switch (UserUI.user.getPermission()) {
 			case COMPANY_MANAGER:
-				permission = "CompanyManagetOptions";
+				permission = "CompanyManagerOptions";
 				break;
 			case STORE_MANAGER:
-				permission = "StoreManagetOptions";
+				permission = "StoreManagerOptions";
 				break;
 			case EXPERT:
 				permission = "ExpertOptions";
@@ -120,7 +120,7 @@ public class UserController implements Initializable {
 				permission = "CustomerOptions";
 				break;
 			case DATA_COMPANY_MANAGER:
-				permission = "DataCompanyManagetOptions";
+				permission = "DataCompanyManagerOptions";
 				break;
 			}
 			permission = "/controller/" + permission + ".fxml";
