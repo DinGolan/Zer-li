@@ -9,16 +9,17 @@ import java.util.ArrayList;
 import boundery.AccountUI;
 import boundery.CatalogUI;
 import boundery.DataCompanyManagerUI;
-import boundery.ProductUI;
 import boundery.UserUI;
-import controller.AccountController;
-import controller.UserController;
 import client.ChatClient;
 import common.ChatIF;
+import controller.AccountController;
+import controller.SurveyResultController;
+import controller.UserController;
 import entity.Account;
 import entity.Message;
 import entity.Product;
 import entity.User;
+import boundery.SurveyResultUI;
 
 /**
  * This class constructs the UI for a chat client.  It implements the
@@ -136,6 +137,12 @@ public class ClientConsole implements ChatIF
 		  	  {
 				  DataCompanyManagerUI.users.add(temp.get(i));
 		  	  }
+	    }
+	    
+	    if(((Message)message).getOption().compareTo("get all the survey") == 0)
+	    {
+	    	SurveyResultUI.Id = (ArrayList<Integer>)(((Message)message).getMsg());
+	    	SurveyResultController.flag = true;
 	    }
    }
   

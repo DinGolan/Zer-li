@@ -3,7 +3,6 @@ package mypackage;
 /* "Object Oriented Software Engineering" and is issued under the open-source */
 /* license found at www.lloseng.com */
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,13 +10,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-
-import entity.Account;
-
-
 import com.mysql.jdbc.PreparedStatement;
 
-import boundery.AccountUI;
+import boundery.SurveyResultUI;
+import controller.SurveyResultController;
+import entity.Account;
 import entity.Message;
 import entity.Product;
 import entity.Product.ProductType;
@@ -43,7 +40,9 @@ public class EchoServer extends AbstractServer
    * The default port to listen on.
    */
   final public static int DEFAULT_PORT = 5555;
-  public static int counter=2;
+  public static int counter=1;
+	public static ArrayList<Integer> resulrId = new ArrayList<Integer>();
+
   //Constructors ****************************************************
   
   /**
@@ -120,6 +119,28 @@ public class EchoServer extends AbstractServer
 	    if(((Message)msg).getOption().compareTo("change User status to DISCONNECTED") ==0) 	    /* change User status to DISCONNECTED in DB */							
 	    {
 	    	changhUserStatus(msg,conn);    
+	    }
+	    
+	    if(((Message)msg).getOption().compareTo("get all the survey") ==0) 	    /* get all survey ID */							
+	    {
+	    	
+	    	((Message)msg).setMsg(getSurvey(msg,conn));	
+    		this.sendToAllClients(msg);
+
+	    }
+	    
+	    if(((Message)msg).getOption().compareTo("add surveyResult") ==0) 	    /* add new answar ro a survey */							
+	    {
+	    	int id = ((ArrayList<Integer>)(((Message)msg).getMsg())).get(0);
+	    	if(resulrId.contains(id) == true)
+	    	{
+		    		updateSurveyResult(msg,conn);
+
+	    	}
+	    	else {
+			    	addSurveyResult(msg,conn);
+
+	    	}
 	    }
   }
 
@@ -243,6 +264,80 @@ public class EchoServer extends AbstractServer
   
   
     }
+     
+     protected void addSurveyResult(Object msg, Connection conn) {
+    	 int id = ((ArrayList<Integer>)(((Message)msg).getMsg())).get(0);
+    	 resulrId.add(id);
+    	        String query = "INSERT INTO project.survey_result (Surveyid, sumQ1 ,sumQ2, sumQ3, sumQ4, sumQ5, sumQ6 , numOfClients)"
+    	                + " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    	        try {
+    	              PreparedStatement preparedStmt = (PreparedStatement) conn.prepareStatement(query);
+    	              preparedStmt.setInt(1, id);
+    	              preparedStmt.setInt (2, ((ArrayList<Integer>)(((Message)msg).getMsg())).get(1));
+    	              preparedStmt.setInt (3, ((ArrayList<Integer>)(((Message)msg).getMsg())).get(2));
+    	              preparedStmt.setInt (4, ((ArrayList<Integer>)(((Message)msg).getMsg())).get(3));
+    	              preparedStmt.setInt (5, ((ArrayList<Integer>)(((Message)msg).getMsg())).get(4));
+    	              preparedStmt.setInt (6, ((ArrayList<Integer>)(((Message)msg).getMsg())).get(5));
+    	              preparedStmt.setInt (7, ((ArrayList<Integer>)(((Message)msg).getMsg())).get(6));
+    	              preparedStmt.setInt (8, 1);
+    	              preparedStmt.execute();
+    	        }catch (SQLException e) {	e.printStackTrace();}	
+
+    	 //}
+     }
+     
+     protected void updateSurveyResult(Object msg, Connection conn) {
+	  		Statement stmt;
+	  		ArrayList<Integer> temp = new ArrayList<Integer>();
+	  		ArrayList<Integer> oldId = new ArrayList<Integer>();
+
+	  		temp =(ArrayList<Integer>)(((Message)msg).getMsg());
+		 try {
+			  stmt = conn.createStatement();
+			  String getSurveyTable = "SELECT * FROM project.survey_result WHERE Surveyid="+temp.get(0)+";"; // get the survey that connected to new survey id of exist
+			  ResultSet rs = stmt.executeQuery(getSurveyTable);
+			  while(rs.next())  // get all the surveys
+		 	{
+				  oldId.add(rs.getInt("Surveyid"));
+				  oldId.add(rs.getInt("sumQ1"));
+				  oldId.add(rs.getInt("sumQ2"));
+				  oldId.add(rs.getInt("sumQ3"));
+				  oldId.add(rs.getInt("sumQ4"));
+				  oldId.add(rs.getInt("sumQ5"));
+				  oldId.add(rs.getInt("sumQ6"));
+				  oldId.add(rs.getInt("numOfClients"));
+		 	}
+
+			  
+			  // update the survey to sum the answar
+			  int sum = temp.get(1)+oldId.get(1);
+			  String updateSurveyTable = "UPDATE survey_result SET sumQ1 =" + "'" + sum  + "'" + "WHERE Surveyid=" +"'" +temp.get(0) + "'" +";";
+			  stmt.executeUpdate(updateSurveyTable);
+			  sum =temp.get(2)+oldId.get(2);
+			   updateSurveyTable = "UPDATE survey_result SET sumQ2 =" + "'" +  sum + "'" + "WHERE Surveyid=" +"'" +temp.get(0) + "'" +";";
+			  stmt.executeUpdate(updateSurveyTable);
+			  sum =temp.get(3)+oldId.get(3);
+			   updateSurveyTable = "UPDATE survey_result SET sumQ3 =" + "'" + sum  + "'" + "WHERE Surveyid=" +"'" +temp.get(0) + "'" +";";
+			  stmt.executeUpdate(updateSurveyTable);
+			  sum =temp.get(4)+oldId.get(4);
+			   updateSurveyTable = "UPDATE survey_result SET sumQ4 =" + "'" + sum  + "'" + "WHERE Surveyid=" +"'" +temp.get(0) + "'" +";";
+			  stmt.executeUpdate(updateSurveyTable);
+			  sum =temp.get(5)+oldId.get(5);
+			   updateSurveyTable = "UPDATE survey_result SET sumQ5 =" + "'" + sum  + "'" + "WHERE Surveyid=" +"'" +temp.get(0) + "'" +";";
+			  stmt.executeUpdate(updateSurveyTable);
+			  sum =temp.get(6)+oldId.get(6);
+			   updateSurveyTable = "UPDATE survey_result SET sumQ6 =" + "'" + sum  + "'" + "WHERE Surveyid=" +"'" +temp.get(0) + "'" +";";
+			  stmt.executeUpdate(updateSurveyTable);
+			  sum =oldId.get(7)+1;
+			   updateSurveyTable = "UPDATE survey_result SET numOfClients =" + "'" + sum  + "'" + "WHERE Surveyid=" +"'" +temp.get(0) + "'" +";";
+				  stmt.executeUpdate(updateSurveyTable);
+
+		  } 
+		  catch (SQLException e) {	e.printStackTrace();}	
+	  
+
+    	 
+     }
   
   protected ArrayList<Product> getProductsFromDB(Connection conn) /* This method get products table details from DB */
   {
@@ -382,6 +477,23 @@ public class EchoServer extends AbstractServer
 			
 	  } 
 	  catch (SQLException e) {	e.printStackTrace();}	  
+  }
+  
+  protected ArrayList<Integer> getSurvey(Object msg, Connection conn){
+	  
+	  ArrayList<Integer> Id = new ArrayList<Integer>();
+	  Statement stmt;
+	  try {
+		  stmt = conn.createStatement();
+		  String getSurveyTable = "SELECT * FROM survey;"; /* Get all the Table from the DB */
+		  ResultSet rs = stmt.executeQuery(getSurveyTable);
+		  while(rs.next())
+	 	{
+			  Id.add(rs.getInt("Surveyid"));
+
+	 	}
+	  } catch (SQLException e) {	e.printStackTrace();}	
+	  return Id;
   }
   
 
