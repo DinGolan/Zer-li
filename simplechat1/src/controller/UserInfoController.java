@@ -5,9 +5,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import boundery.DataCompanyManagerUI;
-import entity.Account;
 import entity.Message;
-import entity.Product;
 import entity.User;
 import entity.User.UserPermission;
 import entity.User.UserStatus;
@@ -18,7 +16,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -30,8 +27,6 @@ public class UserInfoController implements Initializable{
 	
 	private User user;
 	private Message msg;
-	private  Account single_Account;
-	private ArrayList<Object> temp_User;
 	
 	ObservableList<User.UserStatus> list_1;
 	ObservableList<User.UserPermission> list_2;
@@ -51,10 +46,10 @@ public class UserInfoController implements Initializable{
 	private TextField txtUserPassword; /* text field for the User Password */
 	
 	@FXML
-	private ComboBox cmbPremmission;
+	private ComboBox<User.UserPermission> cmbPremmission;
 	
 	@FXML
-	private ComboBox cmbStatus;
+	private ComboBox<User.UserStatus> cmbStatus;
 	
 	@FXML
 	private Button btnClose = null;    /* button close for close product form */
@@ -130,15 +125,6 @@ public class UserInfoController implements Initializable{
 		temp_User.setStatus((UserStatus) cmbStatus.getValue());
 		msg = new Message(temp_User, "Update User At Data Base");
 		DataCompanyManagerUI.myClient.accept(msg);
-		
-		//user.setId(txtUserID.getText());
-		//user.setUserName(txtUserName.getText());
-		//user.setPhone(txtUserPhone.getText());
-		//user.setPassword(txtUserPassword.getText());
-		//user.setPermission((User.UserPermission)cmbPremmission.getValue());
-		//user.setStatus((User.UserStatus)cmbStatus.getValue());
-		//msg = new Message(user, "Update User At Data Base");
-		//UserUI.myClient.accept(msg);
 	}
 
 /*---------------------------------------------- This Is Belong To the Data Base --------------------------------------------*/

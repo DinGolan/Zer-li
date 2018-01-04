@@ -30,8 +30,6 @@ public class DataCompanyManagerController implements Initializable{
 	public User toCompare; 
 	
 	ArrayList<Object> Temp_Array_For_Update;
-	ObservableList<UserStatus> list_1;
-	ObservableList<UserPermission> list_2;
 	ObservableList<String> userList;
 
 	
@@ -47,6 +45,16 @@ public class DataCompanyManagerController implements Initializable{
 	private Button btnUserInfo = null; /* Button Of User Info */	
 	
 /* ----------------------- Method's For the First Window GUI ------------------------ */	
+	
+	public void start(Stage primaryStage) throws Exception          /* With this Method we show the GUI of the First Window */
+	{	
+		Parent root = FXMLLoader.load(getClass().getResource("/controller/UserToChooseFrame.fxml"));
+		Scene scene = new Scene(root);
+		/* scene.getStylesheets().add(getClass().getResource("/boundery/CatalogFrame.css").toExternalForm()); */
+		primaryStage.setTitle("Data Company Manager - Managment Tool");
+		primaryStage.setScene(scene);
+		primaryStage.show();		
+	}
 	
 	public void UserInfo(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Choose User' and Show the GUI of the User that we Choose */
 	{
@@ -72,16 +80,6 @@ public class DataCompanyManagerController implements Initializable{
 	
 		return cmbUsers.getSelectionModel().getSelectedIndex();
 	}
-	
-	public void start(Stage primaryStage) throws Exception          /* With this Method we show the GUI of the First Window */
-	{	
-		Parent root = FXMLLoader.load(getClass().getResource("/controller/UserToChooseFrame.fxml"));
-		Scene scene = new Scene(root);
-		/* scene.getStylesheets().add(getClass().getResource("/boundery/CatalogFrame.css").toExternalForm()); */
-		primaryStage.setTitle("Data Company Manager - Managment Tool");
-		primaryStage.setScene(scene);
-		primaryStage.show();		
-	}
 
 	public void getExitBtn(ActionEvent event) throws Exception      /* With this Method we Exit from the Catalog */ 
 	{
@@ -89,7 +87,7 @@ public class DataCompanyManagerController implements Initializable{
 		System.exit(0);			
 	}
 	
-	public void loadUser(User user) /* Loading Product */
+	public void loadUser(User user) 	/* Loading Product */
 	{
 		this.uic.loadUser(user);
 	}

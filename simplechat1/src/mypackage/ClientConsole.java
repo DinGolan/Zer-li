@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import boundery.CatalogUI;
 import boundery.DataCompanyManagerUI;
 import boundery.ProductUI;
+import boundery.ReportUI;
 import boundery.UserUI;
 import controller.AccountController;
 import controller.UserController;
@@ -16,6 +17,7 @@ import common.ChatIF;
 import entity.Account;
 import entity.Message;
 import entity.Product;
+import entity.Store;
 import entity.User;
 
 /**
@@ -108,7 +110,8 @@ public class ClientConsole implements ChatIF
    *
    * @param message - The string to be displayed.
    */
-  public void displayUI(Object message) 
+  @SuppressWarnings("unchecked")
+public void displayUI(Object message) 
   {
 	    if(((Message)message).getOption().compareTo("get all products in DB") ==0) 		/* Check that its update */
 	    {
@@ -123,7 +126,7 @@ public class ClientConsole implements ChatIF
 	  	  	}
 	    }
 	    
-	    if(((Message)message).getOption().compareTo("Add User To Combo Box From DB") == 0)
+	    else if(((Message)message).getOption().compareTo("Add User To Combo Box From DB") == 0)
 	    {
 		  	  int i=0;
 			  ArrayList<User> temp = new ArrayList<User>();
@@ -135,6 +138,19 @@ public class ClientConsole implements ChatIF
 				  DataCompanyManagerUI.users.add(temp.get(i));
 		  	  }
 	    }
+	    
+	    else if(((Message)message).getOption().compareTo("Add Store To Combo Box From DB") == 0)
+	    {
+		  	  int i=0;
+			  ArrayList<Store> temp = new ArrayList<Store>();
+			  temp = (ArrayList<Store>)((Message)message).getMsg();
+			  ReportUI.stores.clear();
+
+			  for(i=0;i<temp.size();i++)
+		  	  {
+				  ReportUI.stores.add(temp.get(i));
+		  	  }
+	    }   
    }
   
   

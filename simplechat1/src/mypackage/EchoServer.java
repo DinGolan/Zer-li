@@ -17,6 +17,7 @@ import entity.Account;
 import entity.Message;
 import entity.Product;
 import entity.Product.ProductType;
+import entity.Store;
 import entity.User;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
@@ -117,6 +118,12 @@ public class EchoServer extends AbstractServer
 	    {
 	    	changhUserStatus(msg,conn);    
 	    }
+	    
+	    if(((Message)msg).getOption().compareTo("Add Store To Combo Box From DB") ==0) 	    /* change User status to DISCONNECTED in DB */							
+	    {
+	    	((Message)msg).setMsg(GetStoresFromDB(conn));  
+	    	this.sendToAllClients(msg);
+	    }
   }
 
     
@@ -170,6 +177,33 @@ public class EchoServer extends AbstractServer
     
       return conn;
      
+  }
+  
+  protected ArrayList<Store> GetStoresFromDB(Connection conn) /* This method get products table details from DB */
+  {
+	  ArrayList<Store> stores = new ArrayList<Store>();
+	  Statement stmt;
+	  String s;
+	  Store sr;
+	  try {
+		  stmt = conn.createStatement();
+		  String getStoresTable = "SELECT * FROM company;"; /* Get all the Table from the DB */
+		  ResultSet rs = stmt.executeQuery(getStoresTable);
+		  while(rs.next())
+	 	  {
+			  	  sr = new Store();
+				  s = rs.getString("StoreID");
+				  sr.setStoreId(Integer.parseInt(s));
+				  s = rs.getString("StoreAddress");
+				  sr.setStore_Address(s);
+				  s = rs.getString("QuantityOfOrder");
+				  sr.setQuantityOfOrders(Integer.parseInt(s));
+				  s = rs.getString("TotalRevenue");
+				  sr.setTotalRevenue(Integer.parseInt(s));
+				  stores.add(sr);
+	 	  }
+	  } catch (SQLException e) {	e.printStackTrace();}	
+	  return stores;
   }
   
   
