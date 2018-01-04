@@ -5,7 +5,6 @@ package mypackage;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -13,10 +12,9 @@ import java.util.Scanner;
 
 import com.mysql.jdbc.PreparedStatement;
 
-import boundery.SurveyResultUI;
-import controller.SurveyResultController;
 import entity.Account;
 import entity.Message;
+import entity.Order;
 import entity.Product;
 import entity.Product.ProductType;
 import entity.User;
@@ -98,6 +96,12 @@ public class EchoServer extends AbstractServer
         {										
 	    	UpdateUserAtDB(msg,conn);
 		}
+	    
+	    if(((Message)msg).getOption().compareTo("insert order to DB") == 0) //add new Order
+	    {
+	    	AddNewOrderToDB(msg,conn);	
+	    	}
+	
 	    
 	    if(((Message)msg).getOption().compareTo("Add new account") == 0) //check if we add new account
         {
@@ -496,6 +500,21 @@ public class EchoServer extends AbstractServer
 	  } catch (SQLException e) {	e.printStackTrace();}	
 	  return Id;
   }
+  
+  
+  protected void AddNewOrderToDB(Object msg, Connection conn) //this method add new account to DB
+  {
+	  Order newOrder = (Order)(((Message)msg).getMsg());
+	  Statement stmt;	  
+	  try {
+			  stmt = conn.createStatement(); 
+			  String InsertAccountToID = "INSERT INTO project.order(customerID, orderSupplyOption, orderTotalPrice, orderRequiredSupplyDate, orderRequiredSupplyTime, orderRecipientAddress , orderRecipientName , orderRecipientPhoneNumber, orderPostcard ,orderDate)" + 
+			  		"VALUES('"+newOrder.getCustomerID()+"','"+newOrder.getSupply()+ "',"+newOrder.getOrderTotalPrice()+",'"+newOrder.getRequiredSupplyDate()+"','"+newOrder.getRequiredSupplyTime()+"','"+newOrder.getRecipientAddress()+"','"+newOrder.getRecipientName()+"','"+newOrder.getRecipienPhoneNum()+"','"+newOrder.getPostCard()+"','"+newOrder.getOrderDate()+"');";
+			  stmt.executeUpdate(InsertAccountToID);	 
+		 
+	  } catch (SQLException e) {	e.printStackTrace();}	
+  }
+  
   
 
   //Class methods ***************************************************
