@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="527.0" prefWidth="369.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="16.0" layoutY="58.0" text="Complaint number:" />
+      <Label layoutX="16.0" layoutY="120.0" text="Complaint status:" />
+      <Label layoutX="19.0" layoutY="183.0" text="Complaint date:" />
+      <TextField editable="false" layoutX="155.0" layoutY="54.0" />
+      <Button layoutX="67.0" layoutY="474.0" mnemonicParsing="false" text="Save" />
+      <Button layoutX="259.0" layoutY="474.0" mnemonicParsing="false" text="Close" />
+      <ComboBox editable="true" layoutX="154.0" layoutY="116.0" prefWidth="150.0" />
+      <TextField layoutX="155.0" layoutY="179.0" />
+      <TabPane layoutY="218.0" prefHeight="200.0" prefWidth="369.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Customer reason">
+               <content>
+                  <TextArea prefHeight="200.0" prefWidth="200.0" />
+               </content>
+          </Tab>
+          <Tab text="Company service worker answer">
+               <content>
+                  <TextArea prefHeight="200.0" prefWidth="200.0" />
+               </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+      <TextField layoutX="155.0" layoutY="429.0" />
+      <Label layoutX="16.0" layoutY="433.0" text="Compansation amount:" />
+   </children>
+</Pane>

@@ -61,7 +61,6 @@ public class SurveyController {
 		temp.add(this.txtQ5.getText());
 		temp.add(this.txtQ6.getText());
 		msg = new Message(temp, "add survey");
-		System.out.println("a");
 
 		SurveyUI.myClient.accept(msg);
 	}

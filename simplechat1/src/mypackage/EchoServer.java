@@ -5,6 +5,7 @@ package mypackage;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -12,9 +13,10 @@ import java.util.Scanner;
 
 import com.mysql.jdbc.PreparedStatement;
 
+import boundery.SurveyResultUI;
+import controller.SurveyResultController;
 import entity.Account;
 import entity.Message;
-import entity.Order;
 import entity.Product;
 import entity.Product.ProductType;
 import entity.User;
@@ -39,7 +41,9 @@ public class EchoServer extends AbstractServer
    * The default port to listen on.
    */
   final public static int DEFAULT_PORT = 5555;
-  public static int counter=2;
+  public static int counter=1;
+	public static ArrayList<Integer> resulrId = new ArrayList<Integer>();
+
   //Constructors ****************************************************
   
   /**
@@ -79,34 +83,27 @@ public class EchoServer extends AbstractServer
   		}
 	    
 	    if(((Message)msg).getOption().compareTo("Add User To Combo Box From DB") == 0) 	    /* Check that we get from DB Because We want to Initialized */
-        {										
-			/* ArrayList<Product> aa = new ArrayList<Product>(); */
-	    	((Message)msg).setMsg(getProductsFromDB(conn));	    
+        {			
+	    	((Message)msg).setMsg(getUsersFromDB(conn));	
     		this.sendToAllClients(msg);
-		}
+        }
 	    
 	    if(((Message)msg).getOption().compareTo("add survey") ==0) // add survey to db
-	    	 	    {
-	    				System.out.println("a");
-	    	 	    	AddSurveyToDB(msg,conn);
-	    	 	    }
-	    
+	    {
+	    	System.out.println("a");
+	    	AddSurveyToDB(msg,conn);
+	    }
 	    
 	    if(((Message)msg).getOption().compareTo("Update User At Data Base") == 0) 	    /* Check that we get from DB Because We want to Initialized */
         {										
 	    	UpdateUserAtDB(msg,conn);
 		}
 	    
-	    
-	    if(((Message)msg).getOption().compareTo("insert order to DB") == 0) //check if we add new account
-        {
-    		AddNewOrderToDB(msg,conn);	    
-		}
-	    
-	        
 	    if(((Message)msg).getOption().compareTo("Add new account") == 0) //check if we add new account
         {
-    		((Message)msg).setMsg(AddNewAccountToDB(msg,conn));	    
+	    	System.out.println("a14:44");
+    		((Message)msg).setMsg(AddNewAccountToDB(msg,conn));	
+			
     		this.sendToAllClients(msg);	
 		}
 	    
@@ -123,6 +120,28 @@ public class EchoServer extends AbstractServer
 	    if(((Message)msg).getOption().compareTo("change User status to DISCONNECTED") ==0) 	    /* change User status to DISCONNECTED in DB */							
 	    {
 	    	changhUserStatus(msg,conn);    
+	    }
+	    
+	    if(((Message)msg).getOption().compareTo("get all the survey") ==0) 	    /* get all survey ID */							
+	    {
+	    	
+	    	((Message)msg).setMsg(getSurvey(msg,conn));	
+    		this.sendToAllClients(msg);
+
+	    }
+	    
+	    if(((Message)msg).getOption().compareTo("add surveyResult") ==0) 	    /* add new answar ro a survey */							
+	    {
+	    	int id = ((ArrayList<Integer>)(((Message)msg).getMsg())).get(0);
+	    	if(resulrId.contains(id) == true)
+	    	{
+		    		updateSurveyResult(msg,conn);
+
+	    	}
+	    	else {
+			    	addSurveyResult(msg,conn);
+
+	    	}
 	    }
   }
 
@@ -199,19 +218,19 @@ public class EchoServer extends AbstractServer
   
   protected void UpdateUserAtDB(Object msg, Connection conn) /* This Method Update the DB */
   {
-	  ArrayList<String> temp = new ArrayList<String>();
-	  ArrayList<String> temp2 = (ArrayList<String>)(((Message)msg).getMsg());
-
-	  for (String s : temp2) 
-	  {
-		  	temp.add(s);
-	  }
 	  Statement stmt;
+	  User temp_User = (User)((Message)msg).getMsg();
 	  try {
 		  stmt = conn.createStatement();
-		  String createTablecourses = "UPDATE project.user SET UserPremission =" + "'" + temp.get(4) + "'" + "WHERE UserStatus=" +"'" +temp.get(5) + "'" +";";
-		  stmt.executeUpdate(createTablecourses);
-			
+		  
+		  /* UPDATE `project`.`user` SET `UserPermission`='BLOCKED' WHERE `UserName`='DinGolan'; */
+		  String UpdateTableUsersPremmision = "UPDATE project.user SET UserPermission =" + "'" + temp_User.getPermission() + "'" + "WHERE UserName=" + "'" + temp_User.getUserName() + "'" + ";" ;
+		  
+		  /* UPDATE `project`.`user` SET `UserStatus`='STORE_MANAGER' WHERE `UserName`='DinGolan'; */
+		  String UpdateTableUsersStatus = "UPDATE project.user SET UserStatus =" + "'" + temp_User.getStatus() + "'" + "WHERE UserName=" + "'" + temp_User.getUserName() + "'" + ";" ;
+		  
+		  stmt.executeUpdate(UpdateTableUsersPremmision);
+		  stmt.executeUpdate(UpdateTableUsersStatus);
 	  } 
 	  catch (SQLException e) {	e.printStackTrace();}	  
   }
@@ -246,6 +265,80 @@ public class EchoServer extends AbstractServer
   
   
     }
+     
+     protected void addSurveyResult(Object msg, Connection conn) {
+    	 int id = ((ArrayList<Integer>)(((Message)msg).getMsg())).get(0);
+    	 resulrId.add(id);
+    	        String query = "INSERT INTO project.survey_result (Surveyid, sumQ1 ,sumQ2, sumQ3, sumQ4, sumQ5, sumQ6 , numOfClients)"
+    	                + " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    	        try {
+    	              PreparedStatement preparedStmt = (PreparedStatement) conn.prepareStatement(query);
+    	              preparedStmt.setInt(1, id);
+    	              preparedStmt.setInt (2, ((ArrayList<Integer>)(((Message)msg).getMsg())).get(1));
+    	              preparedStmt.setInt (3, ((ArrayList<Integer>)(((Message)msg).getMsg())).get(2));
+    	              preparedStmt.setInt (4, ((ArrayList<Integer>)(((Message)msg).getMsg())).get(3));
+    	              preparedStmt.setInt (5, ((ArrayList<Integer>)(((Message)msg).getMsg())).get(4));
+    	              preparedStmt.setInt (6, ((ArrayList<Integer>)(((Message)msg).getMsg())).get(5));
+    	              preparedStmt.setInt (7, ((ArrayList<Integer>)(((Message)msg).getMsg())).get(6));
+    	              preparedStmt.setInt (8, 1);
+    	              preparedStmt.execute();
+    	        }catch (SQLException e) {	e.printStackTrace();}	
+
+    	 //}
+     }
+     
+     protected void updateSurveyResult(Object msg, Connection conn) {
+	  		Statement stmt;
+	  		ArrayList<Integer> temp = new ArrayList<Integer>();
+	  		ArrayList<Integer> oldId = new ArrayList<Integer>();
+
+	  		temp =(ArrayList<Integer>)(((Message)msg).getMsg());
+		 try {
+			  stmt = conn.createStatement();
+			  String getSurveyTable = "SELECT * FROM project.survey_result WHERE Surveyid="+temp.get(0)+";"; // get the survey that connected to new survey id of exist
+			  ResultSet rs = stmt.executeQuery(getSurveyTable);
+			  while(rs.next())  // get all the surveys
+		 	{
+				  oldId.add(rs.getInt("Surveyid"));
+				  oldId.add(rs.getInt("sumQ1"));
+				  oldId.add(rs.getInt("sumQ2"));
+				  oldId.add(rs.getInt("sumQ3"));
+				  oldId.add(rs.getInt("sumQ4"));
+				  oldId.add(rs.getInt("sumQ5"));
+				  oldId.add(rs.getInt("sumQ6"));
+				  oldId.add(rs.getInt("numOfClients"));
+		 	}
+
+			  
+			  // update the survey to sum the answar
+			  int sum = temp.get(1)+oldId.get(1);
+			  String updateSurveyTable = "UPDATE survey_result SET sumQ1 =" + "'" + sum  + "'" + "WHERE Surveyid=" +"'" +temp.get(0) + "'" +";";
+			  stmt.executeUpdate(updateSurveyTable);
+			  sum =temp.get(2)+oldId.get(2);
+			   updateSurveyTable = "UPDATE survey_result SET sumQ2 =" + "'" +  sum + "'" + "WHERE Surveyid=" +"'" +temp.get(0) + "'" +";";
+			  stmt.executeUpdate(updateSurveyTable);
+			  sum =temp.get(3)+oldId.get(3);
+			   updateSurveyTable = "UPDATE survey_result SET sumQ3 =" + "'" + sum  + "'" + "WHERE Surveyid=" +"'" +temp.get(0) + "'" +";";
+			  stmt.executeUpdate(updateSurveyTable);
+			  sum =temp.get(4)+oldId.get(4);
+			   updateSurveyTable = "UPDATE survey_result SET sumQ4 =" + "'" + sum  + "'" + "WHERE Surveyid=" +"'" +temp.get(0) + "'" +";";
+			  stmt.executeUpdate(updateSurveyTable);
+			  sum =temp.get(5)+oldId.get(5);
+			   updateSurveyTable = "UPDATE survey_result SET sumQ5 =" + "'" + sum  + "'" + "WHERE Surveyid=" +"'" +temp.get(0) + "'" +";";
+			  stmt.executeUpdate(updateSurveyTable);
+			  sum =temp.get(6)+oldId.get(6);
+			   updateSurveyTable = "UPDATE survey_result SET sumQ6 =" + "'" + sum  + "'" + "WHERE Surveyid=" +"'" +temp.get(0) + "'" +";";
+			  stmt.executeUpdate(updateSurveyTable);
+			  sum =oldId.get(7)+1;
+			   updateSurveyTable = "UPDATE survey_result SET numOfClients =" + "'" + sum  + "'" + "WHERE Surveyid=" +"'" +temp.get(0) + "'" +";";
+				  stmt.executeUpdate(updateSurveyTable);
+
+		  } 
+		  catch (SQLException e) {	e.printStackTrace();}	
+	  
+
+    	 
+     }
   
   protected ArrayList<Product> getProductsFromDB(Connection conn) /* This method get products table details from DB */
   {
@@ -279,25 +372,25 @@ public class EchoServer extends AbstractServer
 	  User ur;
 	  try {
 		  stmt = conn.createStatement();
-		  String getProductsTable = "SELECT * FROM product;"; /* Get all the Table from the DB */
-		  ResultSet rs = stmt.executeQuery(getProductsTable);
+		  String getUsersTable = "SELECT * FROM user;"; /* Get all the Table from the DB */
+		  ResultSet rs = stmt.executeQuery(getUsersTable);
 		  while(rs.next())
-	 	{
-		  ur = new User();
-		  u = rs.getString("UserID");
-		  ur.setId(u);
-		  u = rs.getString("UserName");
-		  ur.setUserName(u);
-		  u = rs.getString("UserPhone");
-		  ur.setPhone(u);
-		  u = rs.getString("UserPassword");
-		  ur.setPassword(u);
-		  u = rs.getString("UserPremission");
-		  ur.setPermission(User.UserPermission.valueOf(u));
-		  u = rs.getString("UserStatus");
-		  ur.setStatus(User.UserStatus.valueOf(u));
-		  users.add(ur);
-	 	}
+	 	  {
+				  ur = new User();
+				  u = rs.getString("UserId");
+				  ur.setId(u);
+				  u = rs.getString("UserName");
+				  ur.setUserName(u);
+				  u = rs.getString("UserPhone");
+				  ur.setPhone(u);
+				  u = rs.getString("UserPassword");
+				  ur.setPassword(u);
+				  u = rs.getString("UserPermission");
+				  ur.setPermission(User.UserPermission.valueOf(u));
+				  u = rs.getString("UserStatus");
+				  ur.setStatus(User.UserStatus.valueOf(u));
+				  users.add(ur);
+	 	  }
 	  } catch (SQLException e) {	e.printStackTrace();}	
 	  return users;
   }
@@ -316,7 +409,7 @@ public class EchoServer extends AbstractServer
 		  {
 			  stmt = conn.createStatement(); 
 			  String InsertAccountToID = "INSERT INTO project.account(AccountUserId, AccountBalanceCard, AccountPaymentMethod, AccountPaymentArrangement,AccountCreditCardNum,AccountSubscriptionEndDate)" + 
-			  		"VALUES("+newAccount.getAccountUserId()+","+newAccount.getAccountBalanceCard()+ ",'"+newAccount.getAccountPaymentMethod()+"','"+newAccount.getAccountPaymentArrangement()+"',"+newAccount.getAccountCreditCardNum()+","+"'2018-12-02'"+");";
+			  		"VALUES("+newAccount.getAccountUserId()+","+newAccount.getAccountBalanceCard()+ ",'"+newAccount.getAccountPaymentMethod()+"','"+newAccount.getAccountPaymentArrangement()+"',"+newAccount.getAccountCreditCardNum()+",'"+newAccount.getAccountSubscriptionEndDate()+"');";
 			  stmt.executeUpdate(InsertAccountToID);	 
 			 // success="Add user successfully"; 
 			  account.setAccountUserId(newAccount.getAccountUserId());
@@ -387,21 +480,22 @@ public class EchoServer extends AbstractServer
 	  catch (SQLException e) {	e.printStackTrace();}	  
   }
   
-  
-  protected void AddNewOrderToDB(Object msg, Connection conn) //this method add new account to DB
-  {
-	  Order newOrder = (Order)(((Message)msg).getMsg());
-	  Statement stmt;	  
+  protected ArrayList<Integer> getSurvey(Object msg, Connection conn){
+	  
+	  ArrayList<Integer> Id = new ArrayList<Integer>();
+	  Statement stmt;
 	  try {
-			  stmt = conn.createStatement(); 
-			  String InsertAccountToID = "INSERT INTO project.order(customerID, orderSupplyOption, orderTotalPrice ,orderRequiredSupplyDate ,orderRequiredSupplyTime , orderRecipientAddress , orderRecipientName , orderRecipientPhoneNumber , orderPostcard, orderDate)" + 
-			  		"VALUES('"+newOrder.getCustomerID()+ "','"+newOrder.getSupply()+"',"+newOrder.getOrderTotalPrice()+",'"+newOrder.getRequiredSupplyDate()+"','"+newOrder.getRequiredSupplyTime()+"','"+newOrder.getRecipientAddress()+"' , '"+newOrder.getRecipientName()+"' , '"+newOrder.getRecipienPhoneNum()+"', '"+newOrder.getPostCard()+"','"+newOrder.getOrderDate()+"');";
-			  System.out.println(InsertAccountToID);
-			  stmt.executeUpdate(InsertAccountToID);	 
+		  stmt = conn.createStatement();
+		  String getSurveyTable = "SELECT * FROM survey;"; /* Get all the Table from the DB */
+		  ResultSet rs = stmt.executeQuery(getSurveyTable);
+		  while(rs.next())
+	 	{
+			  Id.add(rs.getInt("Surveyid"));
 
+	 	}
 	  } catch (SQLException e) {	e.printStackTrace();}	
+	  return Id;
   }
-  
   
 
   //Class methods ***************************************************
@@ -431,15 +525,15 @@ public class EchoServer extends AbstractServer
 
   System.out.println("Please enter the mySQL scheme name:");
 		Scanner scanner = new Scanner(System.in);
-		 name= "project" ; //scanner.next();
+		 name= scanner.next();
 		 url = "jdbc:mysql://localhost/"+name;/* Enter jbdc mySQL */
 		//String sql = "jdbc:mysql://localhost/project";
 	
 	System.out.println("Please enter the mySQL user name:");
-		 username = "root" ; //scanner.next(); /* Enter mySQL name */
+		 username =scanner.next(); /* Enter mySQL name */
 	
 	System.out.println("Please enter the mySQL password:");
-		 password = "308155308"; // scanner.next(); /* Enter mySQL password */
+		 password = scanner.next(); /* Enter mySQL password */
 	
     
     try 

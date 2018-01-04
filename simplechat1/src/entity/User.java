@@ -92,4 +92,10 @@ public class User implements Serializable {
 		this.permission = permission;
 	}
 	
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", phone=" + phone + ", UserName=" + UserName + ", password=" + password + ", status="
+				+ status + ", permission=" + permission + "]";
+	}
+	
 }

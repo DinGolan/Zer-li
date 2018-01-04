@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="467.0" prefWidth="369.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ComplaintController">
+   <children>
+      <TextArea id="txtComplaintReason" fx:id="txtComplaintReason" layoutY="218.0" prefHeight="200.0" prefWidth="369.0" promptText="Enter customer reason of complaint">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </TextArea>
+      <Label layoutX="16.0" layoutY="58.0" text="Complaint number:" />
+      <Label layoutX="16.0" layoutY="120.0" text="Complaint status:" />
+      <Label layoutX="19.0" layoutY="183.0" text="Complaint date:" />
+      <TextField id="txtComplaintNum" fx:id="txtComplaintNum" editable="false" layoutX="141.0" layoutY="54.0" />
+      <TextField editable="false" layoutX="141.0" layoutY="116.0" text="Open" />
+      <Button layoutX="77.0" layoutY="429.0" mnemonicParsing="false" text="Save" />
+      <Button layoutX="264.0" layoutY="429.0" mnemonicParsing="false" text="Close" />
+      <DatePicker id="dpComplaintDate" fx:id="dpComplaintDate" layoutX="141.0" layoutY="179.0" promptText="Choose date" />
+   </children>
+</Pane>
