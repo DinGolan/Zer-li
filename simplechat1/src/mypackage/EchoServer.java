@@ -3,7 +3,6 @@ package mypackage;
 /* "Object Oriented Software Engineering" and is issued under the open-source */
 /* license found at www.lloseng.com */
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,14 +10,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-
-import entity.Account;
-
-
 import com.mysql.jdbc.PreparedStatement;
 
-import boundery.AccountUI;
+import entity.Account;
 import entity.Message;
+import entity.Order;
 import entity.Product;
 import entity.Product.ProductType;
 import entity.User;
@@ -101,6 +97,13 @@ public class EchoServer extends AbstractServer
 	    	UpdateUserAtDB(msg,conn);
 		}
 	    
+	    
+	    if(((Message)msg).getOption().compareTo("insert order to DB") == 0) //check if we add new account
+        {
+    		AddNewOrderToDB(msg,conn);	    
+		}
+	    
+	        
 	    if(((Message)msg).getOption().compareTo("Add new account") == 0) //check if we add new account
         {
     		((Message)msg).setMsg(AddNewAccountToDB(msg,conn));	    
@@ -384,6 +387,22 @@ public class EchoServer extends AbstractServer
 	  catch (SQLException e) {	e.printStackTrace();}	  
   }
   
+  
+  protected void AddNewOrderToDB(Object msg, Connection conn) //this method add new account to DB
+  {
+	  Order newOrder = (Order)(((Message)msg).getMsg());
+	  Statement stmt;	  
+	  try {
+			  stmt = conn.createStatement(); 
+			  String InsertAccountToID = "INSERT INTO project.order(customerID, orderSupplyOption, orderTotalPrice ,orderRequiredSupplyDate ,orderRequiredSupplyTime , orderRecipientAddress , orderRecipientName , orderRecipientPhoneNumber , orderPostcard, orderDate)" + 
+			  		"VALUES('"+newOrder.getCustomerID()+ "','"+newOrder.getSupply()+"',"+newOrder.getOrderTotalPrice()+",'"+newOrder.getRequiredSupplyDate()+"','"+newOrder.getRequiredSupplyTime()+"','"+newOrder.getRecipientAddress()+"' , '"+newOrder.getRecipientName()+"' , '"+newOrder.getRecipienPhoneNum()+"', '"+newOrder.getPostCard()+"','"+newOrder.getOrderDate()+"');";
+			  System.out.println(InsertAccountToID);
+			  stmt.executeUpdate(InsertAccountToID);	 
+
+	  } catch (SQLException e) {	e.printStackTrace();}	
+  }
+  
+  
 
   //Class methods ***************************************************
   
@@ -412,15 +431,15 @@ public class EchoServer extends AbstractServer
 
   System.out.println("Please enter the mySQL scheme name:");
 		Scanner scanner = new Scanner(System.in);
-		 name= scanner.next();
+		 name= "project" ; //scanner.next();
 		 url = "jdbc:mysql://localhost/"+name;/* Enter jbdc mySQL */
 		//String sql = "jdbc:mysql://localhost/project";
 	
 	System.out.println("Please enter the mySQL user name:");
-		 username =scanner.next(); /* Enter mySQL name */
+		 username = "root" ; //scanner.next(); /* Enter mySQL name */
 	
 	System.out.println("Please enter the mySQL password:");
-		 password = scanner.next(); /* Enter mySQL password */
+		 password = "308155308"; // scanner.next(); /* Enter mySQL password */
 	
     
     try 

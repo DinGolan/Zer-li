@@ -14,6 +14,6 @@
          <font>
             <Font name="Bodoni MT" size="29.0" />
          </font></Label>
-      <TextArea id="txtErrMsg" layoutX="56.0" layoutY="95.0" prefHeight="58.0" prefWidth="200.0" text="You are allready login.&#10;Please try login with another&#10;account." />
+      <TextArea id="txtErrMsg" editable="false" layoutX="56.0" layoutY="89.0" prefHeight="64.0" prefWidth="200.0" text="You are allready login.&#10;Please try login with another&#10;account." />
    </children>
 </AnchorPane>
