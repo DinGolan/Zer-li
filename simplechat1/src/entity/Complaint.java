@@ -37,6 +37,7 @@ public class Complaint implements Serializable{
 	}*/
 	
 	//getters and setters
+	
 	public int getComplaintNum() {
 		return complaintNum;
 	}

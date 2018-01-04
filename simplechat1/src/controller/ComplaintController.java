@@ -14,6 +14,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
@@ -23,6 +24,7 @@ import javafx.stage.Stage;
 
 public class ComplaintController {
 	private Complaint c= new Complaint();
+	private Account a = new Account();
 	public static int complaintIndex=1;
 	public static boolean flag = false;
 
@@ -30,8 +32,30 @@ public class ComplaintController {
 	private TextField txtComplaintNum; //text field for the complaint number
 	
 	@FXML
+	private TextField txtAccountUserId; //text field for the complaint number
+	
+	@FXML
+	private TextField txtAccountBalanceCard; //text field for the complaint number
+	
+	@FXML
 	private Button btnComplaintClose = null; //button close for the complaint form
-
+	
+	@FXML
+	private RadioButton rdbtnAccountPaymentMethodCASH; //button close for the complaint form
+	
+	@FXML
+	private RadioButton rdbtnAccountPaymentMethodCREDITCARD; //button close for the complaint form
+	
+	@FXML
+	private RadioButton rdbtnAccountPaymentArrangmentAnnual; //button close for the complaint form
+	
+	@FXML
+	private RadioButton rdbtnAccountPaymentArrangmentMonthly; //button close for the complaint form
+	
+	
+	@FXML
+	private DatePicker dpAccountEndSubscriptionDate; //button close for the complaint form
+	
 	@FXML
 	private Button btnComplaintSave = null; //button to add a new complaint
 	
@@ -59,7 +83,7 @@ public class ComplaintController {
 		FXMLLoader loader = new FXMLLoader(); //load object
 		ComplaintUI.complaint=new Complaint();
 
-		c.setAccountUserId(txtAccountUserId.getText()); //set the user id
+		a.setAccountUserId(txtAccountUserId.getText()); //set the user id
 		a.setAccountBalanceCard(Double.parseDouble(txtAccountBalanceCard.getText())); //set the balance account
 		if(rdbtnAccountPaymentMethodCASH.isSelected()) //if we choose CASH
 		{
