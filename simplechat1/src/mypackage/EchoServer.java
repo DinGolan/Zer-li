@@ -3,20 +3,20 @@ package mypackage;
 /* "Object Oriented Software Engineering" and is issued under the open-source */
 /* license found at www.lloseng.com */
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Scanner;
-
 import com.mysql.jdbc.PreparedStatement;
 
 import entity.Account;
 import entity.Message;
 import entity.Product;
 import entity.Product.ProductType;
+import entity.Report;
 import entity.Store;
 import entity.User;
 import ocsf.server.AbstractServer;
@@ -119,11 +119,23 @@ public class EchoServer extends AbstractServer
 	    	changhUserStatus(msg,conn);    
 	    }
 	    
-	    if(((Message)msg).getOption().compareTo("Add Store To Combo Box From DB") ==0) 	    /* change User status to DISCONNECTED in DB */							
+	    if(((Message)msg).getOption().compareTo("Add Store To Combo Box From DB") == 0) 	    /* change User status to DISCONNECTED in DB */							
 	    {
 	    	((Message)msg).setMsg(GetStoresFromDB(conn));  
 	    	this.sendToAllClients(msg);
 	    }
+	    
+	    /*if(((Message)msg).getOption().compareTo("Add Report To Combo Box From DB") == 0) 	    							
+	    {
+	    	((Message)msg).setMsg(GetReportsFromDB(conn));  
+	    	this.sendToAllClients(msg);
+	    }
+	    
+	    if(((Message)msg).getOption().compareTo("Give Me All the Report Of the Selected Store") == 0) 							
+	    {
+	    	((Message)msg).setMsg(GetReportsFromDB(msg,conn));  
+	    	this.sendToAllClients(msg);
+	    }*/
   }
 
     
@@ -187,7 +199,7 @@ public class EchoServer extends AbstractServer
 	  Store sr;
 	  try {
 		  stmt = conn.createStatement();
-		  String getStoresTable = "SELECT * FROM company;"; /* Get all the Table from the DB */
+		  String getStoresTable = "SELECT * FROM store;"; /* Get all the Table from the DB */
 		  ResultSet rs = stmt.executeQuery(getStoresTable);
 		  while(rs.next())
 	 	  {
@@ -206,7 +218,32 @@ public class EchoServer extends AbstractServer
 	  return stores;
   }
   
-  
+  /* protected ArrayList<Report> GetReportsFromDB(Object msg , Connection conn) 
+  {
+	  Store Selected_Store = (Store)(((Message)msg).getMsg());
+	  ArrayList<Report> reports = new ArrayList<Report>();
+	  Statement stmt;
+	  String r;
+	  Report rt;
+	  try {
+		  stmt = conn.createStatement();
+		  String getReportTable = "SELECT * FROM project.report WHERE storeID = " + "'" + Selected_Store.getStoreId() + "'"  + ";"; 
+		  ResultSet rs = stmt.executeQuery(getReportTable);
+		  while(rs.next())
+	 	  {
+			  rt = new Report();
+		      r = rs.getString("reportNumber");
+			  rt.setSerialNumberReport(Integer.parseInt(r));
+			  r = rs.getString("storeID");
+			  rt.setStoreId(Integer.parseInt(r));
+			  r = rs.getString("quarterReport");
+			  rt.setQaurterReport((r));
+			  reports.add(rt);
+	 	  }
+	  } catch (SQLException e) {	e.printStackTrace();}	
+	  return reports;
+  } */
+   
   protected void UpdateProductName(Object msg, Connection conn) /* This Method Update the DB */
   {
 	  ArrayList<String> temp = new ArrayList<String>();

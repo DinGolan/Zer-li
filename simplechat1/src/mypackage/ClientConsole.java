@@ -17,6 +17,7 @@ import common.ChatIF;
 import entity.Account;
 import entity.Message;
 import entity.Product;
+import entity.Report;
 import entity.Store;
 import entity.User;
 
@@ -151,6 +152,18 @@ public void displayUI(Object message)
 				  ReportUI.stores.add(temp.get(i));
 		  	  }
 	    }   
+	    /* else if(((Message)message).getOption().compareTo("Give Me All the Report Of the Selected Store") == 0)
+	    {
+		  	  int i=0;
+			  ArrayList<Report> temp = new ArrayList<Report>();
+			  temp = (ArrayList<Report>)((Message)message).getMsg();
+			  ReportUI.reports.clear();
+
+			  for(i=0;i<temp.size();i++)
+		  	  {
+				  ReportUI.reports.add(temp.get(i));
+		  	  }
+	    } */
    }
   
   

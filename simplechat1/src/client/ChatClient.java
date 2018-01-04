@@ -68,6 +68,8 @@ public class ChatClient extends AbstractClient
 		  clientUI.sendUser(msg);
 	  else if(((Message)msg).getOption().compareTo("Add Store To Combo Box From DB") == 0) 
 		  clientUI.displayUI(msg);
+	  /* else if(((Message)msg).getOption().compareTo("Give Me All the Report Of the Selected Store") == 0) 
+		  clientUI.displayUI(msg); */
   }
 
   /**
