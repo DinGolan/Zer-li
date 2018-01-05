@@ -6,13 +6,13 @@ import controller.ReportController;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import mypackage.ClientConsole;
-import entity.Report;
+import entity.Order;
 import entity.Store;
 
 public class ReportUI extends Application /* With This Class We Show the Product GUI */{
 	
 	public static Vector<Store> stores = new Vector<Store>();
-	/* public static Vector<Report> reports = new Vector<Report>(); */
+	public static Vector<Order> orders = new Vector<Order>(); 
 	public static ClientConsole myClient;
 	
 	public static void main( String args[] ) throws Exception

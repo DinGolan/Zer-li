@@ -16,6 +16,7 @@ import client.ChatClient;
 import common.ChatIF;
 import entity.Account;
 import entity.Message;
+import entity.Order;
 import entity.Product;
 import entity.Report;
 import entity.Store;
@@ -83,7 +84,6 @@ public class ClientConsole implements ChatIF
     try
     {
     	client.handleMessageFromClientUI(msg);
-    	//msg.getMsg().
     } 
     catch (Exception ex) 
     {
@@ -151,19 +151,19 @@ public void displayUI(Object message)
 		  	  {
 				  ReportUI.stores.add(temp.get(i));
 		  	  }
-	    }   
-	    /* else if(((Message)message).getOption().compareTo("Give Me All the Report Of the Selected Store") == 0)
+	    }
+	    else if(((Message)message).getOption().compareTo("Take The Orders Of Specific Store") == 0)
 	    {
 		  	  int i=0;
-			  ArrayList<Report> temp = new ArrayList<Report>();
-			  temp = (ArrayList<Report>)((Message)message).getMsg();
-			  ReportUI.reports.clear();
+			  ArrayList<Order> temp_Order = new ArrayList<Order>();
+			  temp_Order = (ArrayList<Order>)((Message)message).getMsg();
+			  ReportUI.orders.clear();
 
-			  for(i=0;i<temp.size();i++)
+			  for(i=0;i<temp_Order.size();i++)
 		  	  {
-				  ReportUI.reports.add(temp.get(i));
+				  ReportUI.orders.add(temp_Order.get(i));
 		  	  }
-	    } */
+	    } 
    }
   
   

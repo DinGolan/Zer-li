@@ -17,7 +17,7 @@ public class Order implements Serializable {
 	
 	private LocalDate requiredSupplyDate;
 	
-	private static int orderID = 1;
+	private int orderID;
 	
 	private String customerID;
 	
@@ -30,6 +30,8 @@ public class Order implements Serializable {
 	private String recipienPhoneNum;
 	
 	private String postCard;
+	
+	private int StoreId;
 
 	private static final double deliveryPrice = 20;
 	
@@ -39,8 +41,6 @@ public class Order implements Serializable {
 	{
 		productsInOrder = new ArrayList<Product>();
 	}
-
-
 
 	public Order(SupplyOption supply, double orderTotalPrice, ArrayList<Product> productsInOrder,
 			LocalDate requiredSupplyDate, String customerID, String requiredSupplyTime, String recipientAddress,
@@ -57,9 +57,11 @@ public class Order implements Serializable {
 		this.recipienPhoneNum = recipienPhoneNum;
 		this.postCard = postCard;
 	}
-
-
-
+	
+	public static double getDeliveryprice() {
+		return deliveryPrice;
+	}
+	
 	public Date getOrderDate() {
 		return orderDate;
 	}
@@ -160,5 +162,11 @@ public class Order implements Serializable {
 		this.recipienPhoneNum = recipienPhoneNum;
 	}
 	
-	
+	public int getStoreId() {
+		return StoreId;
+	}
+
+	public void setStoreId(int storeId) {
+		StoreId = storeId;
+	}
 }

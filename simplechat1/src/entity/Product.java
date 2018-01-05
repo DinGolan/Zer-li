@@ -8,9 +8,12 @@ public class Product implements Serializable
 	private String pName;
 	private ProductType pType;	
 	private double pPrice;	
-	private String pPicture;	
+	private String pPicture;
+	private int Quantity;
 
 	public enum ProductType {BOUQUET , ARRANGEMENT , SWEET_BOUQUET , FLOWER_CROWN , BRIDAL_BOUQUET , VASE , FLOWER_WREATH}
+	
+	public Product() {}
 	
 	public Product(String pID, String pName, ProductType pType ,double pPrice , String pPicture) {
 		super();
@@ -44,10 +47,6 @@ public class Product implements Serializable
 	public void setpType(ProductType pType) {
 		this.pType = pType;
 	}
-	
-	public String toString(){
-		return String.format("\nProduct: %s\t %s\t %s\n",pID,pName,pType);
-	}
 
 	public double getpPrice() {
 		return pPrice;
@@ -65,5 +64,15 @@ public class Product implements Serializable
 		this.pPicture = pPicture;
 	}	
 	
+	public int getQuantity() {
+		return Quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		Quantity = quantity;
+	}
 	
+	public String toString(){
+		return String.format("\nProduct: %s\t %s\t %s\n",pID,pName,pType);
+	}
 }

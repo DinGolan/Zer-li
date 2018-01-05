@@ -3,7 +3,6 @@ package mypackage;
 /* "Object Oriented Software Engineering" and is issued under the open-source */
 /* license found at www.lloseng.com */
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,9 +13,9 @@ import com.mysql.jdbc.PreparedStatement;
 
 import entity.Account;
 import entity.Message;
+import entity.Order;
 import entity.Product;
 import entity.Product.ProductType;
-import entity.Report;
 import entity.Store;
 import entity.User;
 import ocsf.server.AbstractServer;
@@ -125,17 +124,11 @@ public class EchoServer extends AbstractServer
 	    	this.sendToAllClients(msg);
 	    }
 	    
-	    /*if(((Message)msg).getOption().compareTo("Add Report To Combo Box From DB") == 0) 	    							
+	    if(((Message)msg).getOption().compareTo("Take The Orders Of Specific Store") == 0) 	    /* change User status to DISCONNECTED in DB */							
 	    {
-	    	((Message)msg).setMsg(GetReportsFromDB(conn));  
+	    	((Message)msg).setMsg(GetOrdersFromDB(msg,conn));  
 	    	this.sendToAllClients(msg);
 	    }
-	    
-	    if(((Message)msg).getOption().compareTo("Give Me All the Report Of the Selected Store") == 0) 							
-	    {
-	    	((Message)msg).setMsg(GetReportsFromDB(msg,conn));  
-	    	this.sendToAllClients(msg);
-	    }*/
   }
 
     
@@ -191,6 +184,49 @@ public class EchoServer extends AbstractServer
      
   }
   
+  @SuppressWarnings("unchecked")
+  protected ArrayList<Order> GetOrdersFromDB(Object msg , Connection conn) /* This method get products table details from DB */
+  {
+	  ArrayList<Order> orders = (ArrayList<Order>)(((Message)msg).getMsg());
+	  Statement stmt;
+	  String order_field;
+	  String product_In_OrderField;
+	  Order temp_Order;
+	  Product temp_Product;
+	  try {
+		  stmt = conn.createStatement();
+		  String getOrdersNumbersTable = "SELECT * FROM project.order WHERE StoreID = " + "'" + orders.get(0).getStoreId() + "'" + ";"; 
+		  orders.clear();
+		  ResultSet rs = stmt.executeQuery(getOrdersNumbersTable);
+		  
+		  while(rs.next())
+	 	  {
+			   temp_Order = new Order();
+			   order_field = rs.getString("orderID");
+			   temp_Order.setOrderID(Integer.parseInt(order_field));
+			   orders.add(temp_Order);
+	 	  }
+		  
+		  
+		  for(int i = 0 ; i < orders.size() ; i++)
+		  {
+			  ArrayList<Product> productsInOrder = new ArrayList<Product>();
+			  String getOrdersProductTable = "SELECT * FROM project.productinorder WHERE OrderID = " + "'" + orders.get(i).getOrderID() + "'" + ";";
+			  ResultSet rs_2 = stmt.executeQuery(getOrdersProductTable);
+			  while(rs_2.next())
+		 	  {
+				   temp_Product = new Product();
+				   product_In_OrderField = rs_2.getString("ProductType");
+				   temp_Product.setpType(ProductType.valueOf(product_In_OrderField));
+				   productsInOrder.add(temp_Product);
+		 	  }  
+			  
+			  orders.get(i).setProductsInOrder(productsInOrder);
+		  }
+	  } catch (SQLException e) {	e.printStackTrace();}	
+	  return orders;
+  }
+  
   protected ArrayList<Store> GetStoresFromDB(Connection conn) /* This method get products table details from DB */
   {
 	  ArrayList<Store> stores = new ArrayList<Store>();
@@ -217,32 +253,6 @@ public class EchoServer extends AbstractServer
 	  } catch (SQLException e) {	e.printStackTrace();}	
 	  return stores;
   }
-  
-  /* protected ArrayList<Report> GetReportsFromDB(Object msg , Connection conn) 
-  {
-	  Store Selected_Store = (Store)(((Message)msg).getMsg());
-	  ArrayList<Report> reports = new ArrayList<Report>();
-	  Statement stmt;
-	  String r;
-	  Report rt;
-	  try {
-		  stmt = conn.createStatement();
-		  String getReportTable = "SELECT * FROM project.report WHERE storeID = " + "'" + Selected_Store.getStoreId() + "'"  + ";"; 
-		  ResultSet rs = stmt.executeQuery(getReportTable);
-		  while(rs.next())
-	 	  {
-			  rt = new Report();
-		      r = rs.getString("reportNumber");
-			  rt.setSerialNumberReport(Integer.parseInt(r));
-			  r = rs.getString("storeID");
-			  rt.setStoreId(Integer.parseInt(r));
-			  r = rs.getString("quarterReport");
-			  rt.setQaurterReport((r));
-			  reports.add(rt);
-	 	  }
-	  } catch (SQLException e) {	e.printStackTrace();}	
-	  return reports;
-  } */
    
   protected void UpdateProductName(Object msg, Connection conn) /* This Method Update the DB */
   {
@@ -280,7 +290,7 @@ public class EchoServer extends AbstractServer
 	  catch (SQLException e) {	e.printStackTrace();}	  
   }
   
-     protected void AddSurveyToDB(Object msg, Connection conn)
+  protected void AddSurveyToDB(Object msg, Connection conn)
     {
   	  ArrayList<String> temp = (ArrayList<String>)(((Message)msg).getMsg());
   	  

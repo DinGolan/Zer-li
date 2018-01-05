@@ -20,6 +20,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.RadioButton;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -31,18 +32,15 @@ public class ReportController implements Initializable {
 	private SatisfactionReportController satisfactionReportController;
 
 	private Message msg;
-	private static int itemIndex = 0; 						/* This Variable Need for the the Case - that we not choose any Product from the ComboBox , so we take the product that in Index 2 By Default */ 
+	private static int itemIndex = 0; 						/* This Variable Need for the the Case - that we not choose any Product from the ComboBox , so we take the product that in Index 2 By Default */
+	static int temp_StoreID;
 	
 	ObservableList<Integer> storeList;
-	// ObservableList<String> QuarterReportList;
 	
 /* -------------------------  For The First Window Of Report ----------------------------------- */	
 	
 	@FXML
 	private ComboBox<Integer> cmbStores;  /* ComboBox With List Of Users */
-	
-	// @FXML
-	// private ComboBox<String> cmbReport;  /* ComboBox With List Of Users */
 	
 	@FXML
 	private Button btnQuarterlyRevenueReport = null; /* Button Of User Info */
@@ -59,6 +57,8 @@ public class ReportController implements Initializable {
 	@FXML
 	private Button btnExit = null;
 	
+	
+	
 /* ----------------------- Method's For the First Window GUI - Report ------------------------ */
 	
 	public void start(Stage primaryStage) throws Exception          /* With this Method we show the GUI of the First Window */
@@ -72,13 +72,12 @@ public class ReportController implements Initializable {
 	
 	public void QuarterlyRevenueReport(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Choose User' and Show the GUI of the User that we Choose */
 	{
-		((Node)event.getSource()).getScene().getWindow().hide();    /* Hiding primary window */
+		((Node)event.getSource()).getScene().getWindow().hide();    			  /* Hiding primary window */
 		Stage primaryStage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
 		Pane root = loader.load(getClass().getResource("/controller/QuarterlyRevenueReportForm.fxml").openStream());
 		
 		QuarterlyRevenueReportController quarterlyRevenueReportController = loader.getController();
-		/* quarterlyRevenueReportController.loadReport(ReportUI.reports.get(getItemIndexFromComboBoxOfReports())); */
 		quarterlyRevenueReportController.loadStore(ReportUI.stores.get(getItemIndex()));
 		
 		Scene scene = new Scene(root);			
@@ -122,7 +121,7 @@ public class ReportController implements Initializable {
 	
 	public void SatisfactionReport(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Choose User' and Show the GUI of the User that we Choose */
 	{
-		((Node)event.getSource()).getScene().getWindow().hide();    /* Hiding primary window */
+		((Node)event.getSource()).getScene().getWindow().hide();    		  /* Hiding primary window */
 		Stage primaryStage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
 		Pane root = loader.load(getClass().getResource("/controller/SatisfactionReportForm.fxml").openStream());
@@ -145,27 +144,12 @@ public class ReportController implements Initializable {
 		return cmbStores.getSelectionModel().getSelectedIndex();
 	}
 	
-/* -------------------------- Taking Store From The Combo Box of Store ------------------------------------ */
-	
-	/* public int getItemIndexFromComboBoxOfReports()
-	{
-		if(cmbReport.getSelectionModel().getSelectedIndex() == -1)
-			return itemIndex;
-	
-		return cmbReport.getSelectionModel().getSelectedIndex();
-	} */
-	
 /* --------------------------------- Loading Store ------------------------------------------------- */	
 	
 	public void loadStoreToRevenueReport(Store store) 	/* Loading Product */
 	{
 		this.quarterlyRevenueReportController.loadStore(store);
 	}
-	
-	/* public void loadReportToRevenueReport(Report report) 	
-	{
-		this.quarterlyRevenueReportController.loadReport(report);
-	} */
 	
 	public void loadStoreToOrderReport(Store store) 	/* Loading Product */
 	{
@@ -203,31 +187,6 @@ public class ReportController implements Initializable {
 		storeList = FXCollections.observableArrayList(temp_Stores_ID_List);
 		cmbStores.setItems(storeList);
 	}
-	
-/* ----------------------------------------- Set The Combo Box Of Quarter ----------------------------------- */		
-	
-	/* public void setReportComboBox()      								
-	{ 				
-		ArrayList<String> temp_Report = new ArrayList<String>();	
-		
-		for(Report r: ReportUI.reports)
-		{
-			temp_Report.add(r.getQaurterReport());
-		}
-		
-		QuarterReportList = FXCollections.observableArrayList(temp_Report);
-		cmbReport.setItems(QuarterReportList);
-	} */
-	
-	/*public void SelectStoreFromComboBox(ActionEvent event) throws Exception 
-	{
-		Store Selected_Store = new Store(); 
-		Selected_Store.setStoreId((Integer)event.getSource());
-		msg = new Message(Selected_Store, "Give Me All the Report Of the Selected Store");
-		ReportUI.myClient.accept(msg);
-		while(ReportUI.reports.size() == 0);
-		setReportComboBox();
-	}*/
 
 /* -------------------------------- Initialized The ComboBox In the First Window ------------------------------- */	
 	
@@ -240,10 +199,10 @@ public class ReportController implements Initializable {
 		ReportUI.myClient.accept(msg);
 		while(ReportUI.stores.size() == 0);
 		setStoresComboBox();
-		/*ArrayList<Report> reports = new ArrayList<Report>();
-		/msg = new Message(reports, "Add Report To Combo Box From DB");
-		/ReportUI.myClient.accept(msg);
-		/while(ReportUI.reports.size() == 0);
-		/setReportComboBox();*/
+		temp_StoreID = getItemIndex();
 	}
+	
+/* ------------------------------------------------------------------------------------------------------------------- */
+	
+	
 }

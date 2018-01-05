@@ -8,41 +8,35 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="493.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.QuarterlyRevenueReportController">
    <children>
-      <Label layoutX="76.0" layoutY="20.0" prefHeight="60.0" prefWidth="402.0" text="Quarterly Revenue Report" textFill="#0022ff">
+      <Label layoutX="84.0" layoutY="38.0" prefHeight="60.0" prefWidth="402.0" text="Quarterly Revenue Report" textFill="#0022ff">
          <font>
             <Font name="Bodoni MT Bold" size="36.0" />
          </font>
       </Label>
-      <Label layoutX="76.0" layoutY="392.0" text="The Revenue Of the Store Is :">
+      <Label layoutX="64.0" layoutY="380.0" text="The Revenue Of the Store Is :">
          <font>
             <Font name="System Italic" size="16.0" />
          </font>
       </Label>
-      <Label layoutX="76.0" layoutY="215.0" text="Store ID : ">
+      <Label layoutX="64.0" layoutY="153.0" text="Store ID : ">
          <font>
             <Font name="System Italic" size="16.0" />
          </font>
       </Label>
-      <TextField id="txtStoreID" fx:id="txtStoreID" editable="false" layoutX="311.0" layoutY="215.0" />
-      <TextField id="txtRevenueStore" fx:id="txtRevenueStore" editable="false" layoutX="311.0" layoutY="392.0" />
+      <TextField id="txtStoreID" fx:id="txtStoreID" editable="false" layoutX="311.0" layoutY="153.0" />
+      <TextField id="txtRevenueStore" fx:id="txtRevenueStore" editable="false" layoutX="311.0" layoutY="380.0" />
       <Button id="btnClose" fx:id="btnClose" layoutX="278.0" layoutY="438.0" mnemonicParsing="false" onAction="#closeQuarterlyRevenueReportWindow" text="Close" />
-      <Label layoutX="76.0" layoutY="271.0" text="Store - Address :">
+      <Label layoutX="64.0" layoutY="234.0" text="Store - Address :">
          <font>
             <Font name="System Italic" size="16.0" />
          </font>
       </Label>
-      <TextField id="txtStoreID" fx:id="txtStoreAddress" editable="false" layoutX="311.0" layoutY="271.0" />
-      <Label layoutX="76.0" layoutY="329.0" text="Quantity Of Order :">
+      <TextField id="txtStoreID" fx:id="txtStoreAddress" editable="false" layoutX="311.0" layoutY="234.0" />
+      <Label layoutX="65.0" layoutY="304.0" text="Quantity Of Order :">
          <font>
             <Font name="System Italic" size="16.0" />
          </font>
       </Label>
-      <TextField id="txtStoreID" fx:id="txtQuantityOfOrder" editable="false" layoutX="311.0" layoutY="329.0" />
-      <Label layoutX="76.0" layoutY="153.0" text="Quarter Date :">
-         <font>
-            <Font name="System Italic" size="16.0" />
-         </font>
-      </Label>
-      <TextField id="txtQuarterDate" fx:id="txtQuarterDate" editable="false" layoutX="311.0" layoutY="153.0" />
+      <TextField id="txtStoreID" fx:id="txtQuantityOfOrder" editable="false" layoutX="311.0" layoutY="304.0" />
    </children>
 </AnchorPane>

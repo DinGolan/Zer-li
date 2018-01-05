@@ -23,7 +23,6 @@ import javafx.fxml.Initializable;
 public class QuarterlyRevenueReportController implements Initializable{
 
 	private Store store;
-	private Report report;
 	
 	 @FXML
 	private TextField txtQuarterDate;
@@ -55,12 +54,6 @@ public class QuarterlyRevenueReportController implements Initializable{
 		this.txtQuantityOfOrder.setText(String.valueOf(store.getQuantityOfOrders()));
 		this.txtRevenueStore.setText(String.valueOf(store.getTotalRevenue()));
 	}
-	
-	/*public void loadReport(Report r)
-	{
-		this.report = r;
-		this.txtQuarterDate.setText(report.getQaurterReport());
-	}*/
     
 	public void closeQuarterlyRevenueReportWindow(ActionEvent event) throws Exception    /* To close the The Window of the Product GUI and Show The Catalog GUI again */
 	{ 
