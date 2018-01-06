@@ -6,8 +6,6 @@ import java.util.ResourceBundle;
 import boundery.DataCompanyManagerUI;
 import entity.Message;
 import entity.User;
-import entity.User.UserPermission;
-import entity.User.UserStatus;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -26,7 +24,7 @@ public class DataCompanyManagerController implements Initializable{
 	
 	private UserInfoController uic;
 	private Message msg;
-	private static int itemIndex = 2; /* This Variable Need for the the Case - that we not choose any Product from the ComboBox , so we take the product that in Index 2 By Default */
+	private static int itemIndex = 2; 	/* This Variable Need for the the Case - that we not choose any User from the ComboBox , so we take the User that in Index 2 By Default */
 	public User toCompare; 
 	
 	ArrayList<Object> Temp_Array_For_Update;
@@ -42,7 +40,7 @@ public class DataCompanyManagerController implements Initializable{
 	private ComboBox<String> cmbUsers;  /* ComboBox With List Of Users */
 	
 	@FXML
-	private Button btnUserInfo = null; /* Button Of User Info */	
+	private Button btnUserInfo = null;  /* Button Of User Info */	
 	
 /* ----------------------- Method's For the First Window GUI ------------------------ */	
 	
@@ -50,11 +48,12 @@ public class DataCompanyManagerController implements Initializable{
 	{	
 		Parent root = FXMLLoader.load(getClass().getResource("/controller/UserToChooseFrame.fxml"));
 		Scene scene = new Scene(root);
-		/* scene.getStylesheets().add(getClass().getResource("/boundery/CatalogFrame.css").toExternalForm()); */
 		primaryStage.setTitle("Data Company Manager - Managment Tool");
 		primaryStage.setScene(scene);
 		primaryStage.show();		
 	}
+
+/* ----------------------- Method's For the Second Window GUI ------------------------ */	
 	
 	public void UserInfo(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Choose User' and Show the GUI of the User that we Choose */
 	{
@@ -63,34 +62,40 @@ public class DataCompanyManagerController implements Initializable{
 		FXMLLoader loader = new FXMLLoader();
 		Pane root = loader.load(getClass().getResource("/controller/UserInfoForm.fxml").openStream());
 		
-		UserInfoController userInfoController = loader.getController();		                                    /* ? - Not Sure */        
-		userInfoController.loadUser(DataCompanyManagerUI.users.get(getItemIndex())); 	    /* In this Line We take the User that we Choose and Show his Details On the GUI */
+		UserInfoController userInfoController = loader.getController();		                                        
+		userInfoController.loadUser(DataCompanyManagerUI.users.get(getItemIndex()));  /* In this Line We take the User that we Choose and Show his Details On the GUI */
 		
 		Scene scene = new Scene(root);			
-		/* scene.getStylesheets().add(getClass().getResource("/boundery/UserInfoForm.css").toExternalForm()); */
-		
 		primaryStage.setScene(scene);		
 		primaryStage.show();
 	}
 
-	public int getItemIndex()                                   	/* With this Method we Take User from the List of the Users at the ComboBox */
+/* -------------------------- Taking User From The Combo Box of User ------------------------------------ */		
+	
+	public int getItemIndex()   /* With this Method we Take User from the List of the Users at the ComboBox */
 	{
 		if(cmbUsers.getSelectionModel().getSelectedIndex() == -1)
 			return itemIndex;
 	
 		return cmbUsers.getSelectionModel().getSelectedIndex();
 	}
+	
+/* ----------------------------------------- Exit Button --------------------------------------------------- */	
 
-	public void getExitBtn(ActionEvent event) throws Exception      /* With this Method we Exit from the Catalog */ 
+	public void getExitBtn(ActionEvent event) throws Exception      /* With this Method we Exit from the Data Company Manager GUI */ 
 	{
 		System.out.println("Exit From - Tool");
 		System.exit(0);			
 	}
 	
-	public void loadUser(User user) 	/* Loading Product */
+/* --------------------------------- Loading User To the Text Fields ------------------------------------------------- */
+	
+	public void loadUser(User user) 	/* Loading User */
 	{
 		this.uic.loadUser(user);
 	}
+	
+/* ----------------------------------------- Set The Combo Box Of Users ----------------------------------- */	
 	
 	public void setUsersComboBox()      /* In this Method we Set the Product at the ComboBox */
 	{ 				
@@ -105,6 +110,8 @@ public class DataCompanyManagerController implements Initializable{
 		cmbUsers.setItems(userList);
 	}
 	
+/* -------------------------------- Initialized The ComboBox In the First Window ------------------------------- */		
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) // Initialized The ComboBox of the Product 
 	{
@@ -115,5 +122,8 @@ public class DataCompanyManagerController implements Initializable{
 		while(DataCompanyManagerUI.users.size() == 0);
 		setUsersComboBox();
 	}
+	
+/* ------------------------------------------------------------------------------------------------------------------- */	
+	
 }
 

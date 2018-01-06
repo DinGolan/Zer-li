@@ -114,7 +114,7 @@ public class ClientConsole implements ChatIF
   @SuppressWarnings("unchecked")
 public void displayUI(Object message) 
   {
-	    if(((Message)message).getOption().compareTo("get all products in DB") ==0) 		/* Check that its update */
+	    if(((Message)message).getOption().compareTo("get all products in DB") ==0) 		
 	    {
 	  	  	int i=0;
 	  	  	ArrayList<Product> temp = new ArrayList<Product>();
@@ -165,7 +165,6 @@ public void displayUI(Object message)
 		  	  }
 	    } 
    }
-  
   
   public void sendUser(Object message) 
   {

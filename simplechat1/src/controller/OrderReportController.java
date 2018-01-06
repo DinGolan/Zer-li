@@ -29,39 +29,47 @@ public class OrderReportController implements Initializable{
 	private Store store;
 	private Message msg;
 	
-	 @FXML
-	 private TextField txtStoreID;
+/* -------------------------  For The Window Of Order Report ----------------------------------- */		
 	
 	 @FXML
-	 private BarChart<String, Integer> ChartOrderReport;
+	 private TextField txtStoreID;                /* Text Field Of the Store ID */
+	
+	 @FXML
+	 private BarChart<String, Integer> ChartOrderReport;    /* Bar Chart */
 
 	 @FXML
-	 private CategoryAxis X_ProductType;
+	 private CategoryAxis X_ProductType;            /* Axis X of the - Bar Chart */
 
 	 @FXML
-	 private NumberAxis Y_OrderSpecificStore;
+	 private NumberAxis Y_OrderSpecificStore;       /* Axis Y of the - Bar Chart */
 	 
 	 @FXML
-	 private Button btnClose;
+	 private Button btnClose;                       /* Button For Close The Window */
 	 
-	public void loadStore(Store s) 					/* To load the User details to the text fields */
+/* --------------------------------- Loading Store To the Text Fields ------------------------------------------------- */	 
+	 
+	public void loadStore(Store s) 					/* To load the Store details to the text fields */
 	{ 
 		this.store = s;
 		this.txtStoreID.setText(String.valueOf(store.getStoreId()));
 	}
 	
-	public void closeOrderReportWindow(ActionEvent event) throws Exception    /* To close the The Window of the Product GUI and Show The Catalog GUI again */
+/* --------------------------------- Close the Order Report Window ------------------------------------------------- */	 	
+	
+	public void closeOrderReportWindow(ActionEvent event) throws Exception   
 	{ 
 		ReportUI.stores.clear();
 		((Node)event.getSource()).getScene().getWindow().hide(); 	 /* Hiding primary window */
 		Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
-		FXMLLoader loader = new FXMLLoader(); 					 	 /* load object */
+		FXMLLoader loader = new FXMLLoader(); 					 	 /* Load object */
 		Pane root = loader.load(getClass().getResource("/controller/ReportForm.fxml").openStream());
 		
 		Scene scene = new Scene(root);			
 		primaryStage.setScene(scene);		
 		primaryStage.show();										   /* show catalog frame window */
 	}
+
+/* --------------------------------- Initialize The Bar Chart Of the Order Report ------------------------------------------------- */	 	
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) 
@@ -76,15 +84,17 @@ public class OrderReportController implements Initializable{
 		PutAtTheChartAllTheOrders();
 	}
 	
+/* --------------------------------- Initialize The Order And the Product Type At the Bar Chart ------------------------------------------------- */	 		
+	
 	public void PutAtTheChartAllTheOrders()
 	{
 		int [] Count_In_Chart;
 		ArrayList<Product.ProductType> product_Of_Specific_Store = new ArrayList<Product.ProductType>();   /* All the Product That We Order On Specific Store */
-		ArrayList<Order> orders = new ArrayList<Order>();                          /* All The Orders That We Order On Specific Store */
-		for(int i = 0 ; i < ReportUI.orders.size() ; i++)
+		ArrayList<Order> orders = new ArrayList<Order>();                         						   /* All The Orders That We Order On Specific Store */
+		for(int i = 0 ; i < ReportUI.orders.size() ; i++)                                                  /* In This Loop We Initialize All the Orders At ArrayList Of Orders */                                             
 		{
 			orders.add(ReportUI.orders.get(i));
-			for(int j = 0 ; j < orders.get(i).getProductsInOrder().size() ; j++)
+			for(int j = 0 ; j < orders.get(i).getProductsInOrder().size() ; j++)                           /* In This Loop We Initialize All the Product Type At the product_Of_Specific_Store */
 			{
 				if((product_Of_Specific_Store.contains(orders.get(i).getProductsInOrder().get(j).getpType())) == false)
 				{
@@ -116,7 +126,9 @@ public class OrderReportController implements Initializable{
 			}
 		}
 		
-		ChartOrderReport.barGapProperty();
 		ChartOrderReport.getData().addAll(setChart);
 	}
+	
+/* ------------------------------------------------------------------------------------------------------------------- */
+	
 }

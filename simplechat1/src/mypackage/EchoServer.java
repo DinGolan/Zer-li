@@ -68,34 +68,34 @@ public class EchoServer extends AbstractServer
 	    System.out.println("Message received: " + msg + " from " + client);
 	    
 	    
-	    if(((Message)msg).getOption().compareTo("0") == 0) 		/* Check that its update */
+	    if(((Message)msg).getOption().compareTo("0") == 0) 									/* Check that its update */
 	    		UpdateProductName(msg,conn); 
 	    
-	    if(((Message)msg).getOption().compareTo("get all products in DB") ==0) 	    /* Check that we get from DB Because We want to Initialized */
+	    if(((Message)msg).getOption().compareTo("get all products in DB") ==0) 	    		/* Check that we get from DB Because We want to Initialized */
 	    {										
 				/* ArrayList<Product> aa = new ArrayList<Product>(); */
 	    		((Message)msg).setMsg(getProductsFromDB(conn));	    
 	    		this.sendToAllClients(msg);
   		}
 	    
-	    if(((Message)msg).getOption().compareTo("Add User To Combo Box From DB") == 0) 	    /* Check that we get from DB Because We want to Initialized */
+	    if(((Message)msg).getOption().compareTo("Add User To Combo Box From DB") == 0) 	    /* Take All the Users from The DB */
         {			
 	    	((Message)msg).setMsg(getUsersFromDB(conn));	
     		this.sendToAllClients(msg);
         }
 	    
-	    if(((Message)msg).getOption().compareTo("add survey") ==0) // add survey to db
+	    if(((Message)msg).getOption().compareTo("add survey") ==0) 							/* add survey to DB */
 	    {
 	    	System.out.println("a");
 	    	AddSurveyToDB(msg,conn);
 	    }
 	    
-	    if(((Message)msg).getOption().compareTo("Update User At Data Base") == 0) 	    /* Check that we get from DB Because We want to Initialized */
+	    if(((Message)msg).getOption().compareTo("Update User At Data Base") == 0) 	    	/* Update The User In the DB */
         {										
 	    	UpdateUserAtDB(msg,conn);
 		}
 	    
-	    if(((Message)msg).getOption().compareTo("Add new account") == 0) //check if we add new account
+	    if(((Message)msg).getOption().compareTo("Add new account") == 0) 					/* check if we add new account */
         {
 	    	System.out.println("a14:44");
     		((Message)msg).setMsg(AddNewAccountToDB(msg,conn));	
@@ -118,13 +118,13 @@ public class EchoServer extends AbstractServer
 	    	changhUserStatus(msg,conn);    
 	    }
 	    
-	    if(((Message)msg).getOption().compareTo("Add Store To Combo Box From DB") == 0) 	    /* change User status to DISCONNECTED in DB */							
+	    if(((Message)msg).getOption().compareTo("Add Store To Combo Box From DB") == 0) 	    /* Taking All the Stores From the DB */							
 	    {
 	    	((Message)msg).setMsg(GetStoresFromDB(conn));  
 	    	this.sendToAllClients(msg);
 	    }
 	    
-	    if(((Message)msg).getOption().compareTo("Take The Orders Of Specific Store") == 0) 	    /* change User status to DISCONNECTED in DB */							
+	    if(((Message)msg).getOption().compareTo("Take The Orders Of Specific Store") == 0) 	    /* Taking All the Orders Of Specific Store */							
 	    {
 	    	((Message)msg).setMsg(GetOrdersFromDB(msg,conn));  
 	    	this.sendToAllClients(msg);
@@ -185,7 +185,7 @@ public class EchoServer extends AbstractServer
   }
   
   @SuppressWarnings("unchecked")
-  protected ArrayList<Order> GetOrdersFromDB(Object msg , Connection conn) /* This method get products table details from DB */
+  protected ArrayList<Order> GetOrdersFromDB(Object msg , Connection conn) /* This method get Orders Of Specific Store from DB */
   {
 	  ArrayList<Order> orders = (ArrayList<Order>)(((Message)msg).getMsg());
 	  Statement stmt;
@@ -193,6 +193,9 @@ public class EchoServer extends AbstractServer
 	  String product_In_OrderField;
 	  Order temp_Order;
 	  Product temp_Product;
+	  
+	  /* -------------------------------- We Take The Order Of Specific Store ------------------------- */
+	  
 	  try {
 		  stmt = conn.createStatement();
 		  String getOrdersNumbersTable = "SELECT * FROM project.order WHERE StoreID = " + "'" + orders.get(0).getStoreId() + "'" + ";"; 
@@ -207,6 +210,7 @@ public class EchoServer extends AbstractServer
 			   orders.add(temp_Order);
 	 	  }
 		  
+		  /* -------------------------------- We Take The Products Type Of Each Order ------------------------- */
 		  
 		  for(int i = 0 ; i < orders.size() ; i++)
 		  {
@@ -227,7 +231,7 @@ public class EchoServer extends AbstractServer
 	  return orders;
   }
   
-  protected ArrayList<Store> GetStoresFromDB(Connection conn) /* This method get products table details from DB */
+  protected ArrayList<Store> GetStoresFromDB(Connection conn) /* This method get Stores table details from DB */
   {
 	  ArrayList<Store> stores = new ArrayList<Store>();
 	  Statement stmt;
@@ -278,10 +282,8 @@ public class EchoServer extends AbstractServer
 	  try {
 		  stmt = conn.createStatement();
 		  
-		  /* UPDATE `project`.`user` SET `UserPermission`='BLOCKED' WHERE `UserName`='DinGolan'; */
 		  String UpdateTableUsersPremmision = "UPDATE project.user SET UserPermission =" + "'" + temp_User.getPermission() + "'" + "WHERE UserName=" + "'" + temp_User.getUserName() + "'" + ";" ;
 		  
-		  /* UPDATE `project`.`user` SET `UserStatus`='STORE_MANAGER' WHERE `UserName`='DinGolan'; */
 		  String UpdateTableUsersStatus = "UPDATE project.user SET UserStatus =" + "'" + temp_User.getStatus() + "'" + "WHERE UserName=" + "'" + temp_User.getUserName() + "'" + ";" ;
 		  
 		  stmt.executeUpdate(UpdateTableUsersPremmision);
@@ -345,7 +347,7 @@ public class EchoServer extends AbstractServer
 	  return products;
   }
   
-  protected ArrayList<User> getUsersFromDB(Connection conn) /* This method get products table details from DB */
+  protected ArrayList<User> getUsersFromDB(Connection conn) /* This method get Users table details from DB */
   {
 	  ArrayList<User> users = new ArrayList<User>();
 	  Statement stmt;

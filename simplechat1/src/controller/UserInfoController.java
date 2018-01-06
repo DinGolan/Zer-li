@@ -31,7 +31,7 @@ public class UserInfoController implements Initializable{
 	ObservableList<User.UserStatus> list_1;
 	ObservableList<User.UserPermission> list_2;
 	
-/*-------------------------  For The Second Window ----------------------------------- */	
+/*-------------------------  For The User Info Window After The Data Company Manager Pick Specific User ----------------------------------- */	
 	
 	@FXML
 	private TextField txtUserID;       /* text field for the User Id */
@@ -46,10 +46,10 @@ public class UserInfoController implements Initializable{
 	private TextField txtUserPassword; /* text field for the User Password */
 	
 	@FXML
-	private ComboBox<User.UserPermission> cmbPremmission;
+	private ComboBox<User.UserPermission> cmbPremmission;  /* ComboBox of User Permission */
 	
 	@FXML
-	private ComboBox<User.UserStatus> cmbStatus;
+	private ComboBox<User.UserStatus> cmbStatus;           /* ComboBox of User Status */
 	
 	@FXML
 	private Button btnClose = null;    /* button close for close product form */
@@ -57,7 +57,7 @@ public class UserInfoController implements Initializable{
 	@FXML
 	private Button btnUpdate = null;   /* button update for update product */
 
-/* ----------------------- Method's For the Second Window GUI ------------------------ */
+/* --------------------------------- Loading User To the Text Fields ------------------------------------------------- */	 
 	
 	public void loadUser(User u) 					/* To load the User details to the text fields */
 	{ 
@@ -70,7 +70,9 @@ public class UserInfoController implements Initializable{
 		this.cmbStatus.setValue(user.getStatus());
 	}
 	
-	public void closeUserWindow(ActionEvent event) throws Exception    /* To close the The Window of the Product GUI and Show The Catalog GUI again */
+/* --------------------------------- Close the User Info Window ------------------------------------------------- */	 		
+	
+	public void closeUserWindow(ActionEvent event) throws Exception   
 	{ 
 		DataCompanyManagerUI.users.clear();
 		((Node)event.getSource()).getScene().getWindow().hide(); 	 /* Hiding primary window */
@@ -83,6 +85,8 @@ public class UserInfoController implements Initializable{
 				
 		primaryStage.show();										   /* show catalog frame window */
 	}
+
+/* ----------------------------------------- Set The Combo Box Of Users Status ----------------------------------- */	
 	
 	private void setStatusComboBox() 							       /* creating list of Faculties */
 	{
@@ -96,6 +100,8 @@ public class UserInfoController implements Initializable{
 		cmbStatus.setItems(FXCollections.observableArrayList(list_1)); /* Set the Items Of Faculty at the ComboBox */
 	}
 	
+/* ----------------------------------------- Set The Combo Box Of Users Permission ----------------------------------- */		
+	
 	private void setPremissionComboBox() 							   /* creating list of Faculties */
 	{
 	   ArrayList<User.UserPermission> all_Users = new ArrayList<User.UserPermission>(); 	
@@ -107,12 +113,16 @@ public class UserInfoController implements Initializable{
 		list_2 = FXCollections.observableArrayList(all_Users); 
 		cmbPremmission.setItems(FXCollections.observableArrayList(list_2)); /* Set the Items Of Faculty at the ComboBox */
 	}
-	                     
+
+/* -------------------------------- Initialized The ComboBoxs In User Info Window ------------------------------- */		
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		setPremissionComboBox();
 		setStatusComboBox();
 	} 
+
+/* -------------------------------- Update The User Fields In And Send To the Server To Update The DB ------------------------------- */			
 	
 	public void updateUser(ActionEvent event) throws Exception         /* Update the product name */
 	{
@@ -126,8 +136,12 @@ public class UserInfoController implements Initializable{
 		msg = new Message(temp_User, "Update User At Data Base");
 		DataCompanyManagerUI.myClient.accept(msg);
 	}
+	
+/* ------------------------------------------------------------------------------------------------------------------- */
+	
+}
 
-/*---------------------------------------------- This Is Belong To the Data Base --------------------------------------------*/
+/* ---------------------------------------------- This Is Belong To the Data Base -------------------------------------------- */
 	
 //      protected ArrayList<Account> getAccounts_With_Negetive_Balance_From_DB(Connection conn) /* This method get products table details from DB */
 //     {
@@ -161,4 +175,3 @@ public class UserInfoController implements Initializable{
 /*------------------------------------------------------------------------------------------------------------------------------- */	
 	
 
-}
