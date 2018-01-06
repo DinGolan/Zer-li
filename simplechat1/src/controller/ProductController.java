@@ -1,15 +1,11 @@
 package controller;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import entity.Message;
-import entity.Product;
-import entity.User;
-import entity.Product.ProductType;
-import boundery.DataCompanyManagerUI;
 import boundery.ProductUI;
-import javafx.collections.FXCollections;
+import entity.Message;
+import entity.Order;
+import entity.Product;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,7 +14,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -26,7 +21,9 @@ import javafx.stage.Stage;
 public class ProductController implements Initializable{
 	private Product p;
 	private Message msg;
-
+	public static Order order;
+	private static int flag =0 ;
+	
 	@FXML
 	private TextField txtPID; /* text field for the product Id */
 	
@@ -56,7 +53,6 @@ public class ProductController implements Initializable{
 		this.p=p1;
 		this.txtPName.setText(p.getpName());
 		this.txtPID.setText(p.getpID());	
-		System.out.println(p.getpType().toString());
 		this.txtPType.setText(p.getpType().toString());
 		this.txtPPrice.setText(String.valueOf(p.getpPrice()));
 	}
@@ -80,6 +76,25 @@ public class ProductController implements Initializable{
 	public void initialize(URL arg0, ResourceBundle arg1) // Initialized The ComboBox of the Product 
 	{
 
+	}
+	
+	public void addToCart(ActionEvent event) throws Exception // add product to cart
+	{
+		if(flag == 0)
+		{
+			order = new Order();
+			flag = 1;
+		}
+		order.getProductsInOrder().add(p);
+		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+		Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
+		FXMLLoader loader = new FXMLLoader(); 					 /* load object */
+		Pane root = loader.load(getClass().getResource("/controller/CatalogBouquet.fxml").openStream());
+		
+		Scene scene = new Scene(root);			
+		primaryStage.setScene(scene);	
+				
+		primaryStage.show();									 /* show catalog frame window */
 	}
 	
 

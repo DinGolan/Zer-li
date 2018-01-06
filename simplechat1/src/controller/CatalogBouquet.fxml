@@ -142,8 +142,6 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
-      <ImageView id="btnCart" fitHeight="54.0" fitWidth="67.0" layoutX="610.0" layoutY="614.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView id="btnLogout" fitHeight="54.0" fitWidth="54.0" layoutX="9.0" layoutY="614.0" pickOnBounds="true" preserveRatio="true" />
       <Hyperlink id="SweetBouquetLink" fx:id="SweetBouquetLink" layoutX="175.0" layoutY="14.0" onAction="#productCategory" text="Sweet Bouquet" textFill="#82059c">
          <font>
             <Font name="System Bold" size="14.0" />
@@ -182,6 +180,16 @@
       <Hyperlink id="SalesLink" fx:id="SalesLink" layoutX="643.0" layoutY="14.0" onAction="#productCategory" text="Sales" textFill="#ff006a">
          <font>
             <Font name="System Bold" size="14.0" />
+         </font>
+      </Hyperlink>
+      <Hyperlink id="LinkCart" fx:id="LinkCart" layoutX="614.0" layoutY="619.0" onAction="#showCart" text="cart" textFill="#00c8ff">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Hyperlink>
+      <Hyperlink id="LinkLogout" fx:id="LinkLogout" layoutX="14.0" layoutY="619.0" onAction="#logout" text="Logout" textFill="#00c8ff">
+         <font>
+            <Font name="System Bold" size="20.0" />
          </font>
       </Hyperlink>
       

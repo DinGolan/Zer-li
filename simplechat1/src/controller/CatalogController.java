@@ -1,6 +1,7 @@
 package controller;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
@@ -10,7 +11,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import boundery.CatalogUI;
-import java.util.Vector;
+import boundery.OrderUI;
 import boundery.UserUI;
 import entity.Message;
 import entity.Product;
@@ -21,6 +22,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
@@ -32,33 +34,29 @@ import javafx.stage.Stage;
 
 public class CatalogController implements Initializable {
 	private Message msg;
-
-	@FXML
-	private Button btnBack = null;
 	
 	@FXML
-	private Hyperlink BouquetsLink;
-	
+	private Button btnBack = null;	
 	@FXML
-	private Hyperlink ArrangementsLink;
-	
+	private Hyperlink BouquetsLink;	
 	@FXML
-	private Hyperlink SweetBouquetLink;
-	
+	private Hyperlink ArrangementsLink;	
 	@FXML
-	private Hyperlink FlowerCrownLink;
-	
+	private Hyperlink SweetBouquetLink;	
 	@FXML
-	private Hyperlink BridalLink;
-	
+	private Hyperlink FlowerCrownLink;	
 	@FXML
-	private Hyperlink FlowerWreathLink;
-	
+	private Hyperlink BridalLink;	
 	@FXML
-	private Hyperlink VaseLink;
-	
+	private Hyperlink FlowerWreathLink;	
+	@FXML
+	private Hyperlink VaseLink;	
 	@FXML
 	private Hyperlink SalesLink;
+	@FXML
+	private Hyperlink LinkCart;
+	@FXML
+	private Hyperlink LinkLogout;
 
 	
 	@FXML
@@ -280,6 +278,7 @@ public class CatalogController implements Initializable {
 			}
 		}
 	}
+
 	
 	
 	public void openProductInfoWindow(ActionEvent event) throws Exception { // open info window of the product the user want info of.
@@ -317,6 +316,33 @@ public class CatalogController implements Initializable {
 		return -1;
 	}
 	
+	public void showCart(ActionEvent event) throws Exception // show all products in cart. 
+	{
+		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+		Stage primaryStage = new Stage();
+		FXMLLoader loader = new FXMLLoader();
+		Pane root = loader.load(getClass().getResource("/controller/CartFrame.fxml").openStream());
+		
+		
+		Scene scene = new Scene(root);			
+		//scene.getStylesheets().add(getClass().getResource("/gui/StudentForm.css").toExternalForm());
+		
+		primaryStage.setScene(scene);		
+		primaryStage.show();
+	}
 	
+	public void logout(ActionEvent event) throws Exception /* logout and open login window */
+	{
+		Message msg = new Message(UserUI.user.getId(), "change User status to DISCONNECTED");
+		UserUI.myClient.accept(msg); // change User status to DISCONNECTED in DB
+		((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+		Stage primaryStage = new Stage(); /* Object present window with graphics elements */
+		FXMLLoader loader = new FXMLLoader(); /* load object */
+		Parent root = FXMLLoader.load(getClass().getResource("/controller/UserLogin.fxml"));
+		Scene scene = new Scene(root);
+		primaryStage.setTitle("LOGIN");
+		primaryStage.setScene(scene);
+		primaryStage.show();
+	}
 
 }

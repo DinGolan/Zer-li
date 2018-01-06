@@ -7,18 +7,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import boundery.CatalogUI;
 import boundery.DataCompanyManagerUI;
-import boundery.ProductUI;
 import boundery.UserUI;
-import controller.AccountController;
-import controller.ComplaintController;
-import controller.UserController;
 import client.ChatClient;
 import common.ChatIF;
+import controller.AccountController;
+import controller.ComplaintController;import controller.SurveyResultController;import controller.UserController;
 import entity.Account;
 import entity.Complaint;
 import entity.Message;
 import entity.Product;
 import entity.User;
+import boundery.SurveyResultUI;
 
 /**
  * This class constructs the UI for a chat client.  It implements the
@@ -136,6 +135,12 @@ public class ClientConsole implements ChatIF
 		  	  {
 				  DataCompanyManagerUI.users.add(temp.get(i));
 		  	  }
+	    }
+	    
+	    if(((Message)message).getOption().compareTo("get all the survey") == 0)
+	    {
+	    	SurveyResultUI.Id = (ArrayList<Integer>)(((Message)message).getMsg());
+	    	SurveyResultController.flag = true;
 	    }
    }
   

@@ -32,7 +32,7 @@
             </Label>
             <TextField id="txtPID" fx:id="txtPID" editable="false" layoutX="181.0" layoutY="121.0" />
             <TextField id="txtPName" fx:id="txtPName" editable="false" layoutX="181.0" layoutY="188.0" />
-            <Button id="btnAddCart" fx:id="btnAddCart" layoutX="132.0" layoutY="400.0" mnemonicParsing="false" text="add to Cart" />
+            <Button id="btnAddCart" fx:id="btnAddCart" layoutX="132.0" layoutY="400.0" mnemonicParsing="false" onAction="#addToCart" text="add to Cart" />
             <Button id="btnClose" fx:id="btnClose" layoutX="307.0" layoutY="400.0" mnemonicParsing="false" onAction="#closeProductWindow" text="Close" />
             <Label layoutX="71.0" layoutY="316.0" text="Product Price:">
                <font>
