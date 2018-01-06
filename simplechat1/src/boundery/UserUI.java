@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import mypackage.ClientConsole;
 import entity.Account;
+import entity.Complaint;
 import entity.Product;
 import entity.User;
 import controller.CatalogController;
@@ -29,6 +30,7 @@ public class UserUI extends Application /* With This Class We Show the Product G
 	public static ClientConsole myClient;
 	public static User user;
 	public static Account account;
+	public static Complaint complaint;
 
 	
 	public static void main( String args[] ) throws Exception 

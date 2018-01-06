@@ -10,10 +10,12 @@ import boundery.DataCompanyManagerUI;
 import boundery.ProductUI;
 import boundery.UserUI;
 import controller.AccountController;
+import controller.ComplaintController;
 import controller.UserController;
 import client.ChatClient;
 import common.ChatIF;
 import entity.Account;
+import entity.Complaint;
 import entity.Message;
 import entity.Product;
 import entity.User;
@@ -158,7 +160,6 @@ public class ClientConsole implements ChatIF
   
   public void addAccount(Object message)
   {
-	  System.out.println("may14:01");
 	  if(((Account)((Message)message).getMsg()).getAccountUserId().equals("Account already exist")) //account is already exist
 	  {
 		  UserUI.account.setAccountUserId("Account already exist");
@@ -173,9 +174,40 @@ public class ClientConsole implements ChatIF
 		  UserUI.account.setAccountSubscriptionEndDate(((Account)((Message)message).getMsg()).getAccountSubscriptionEndDate());
 	  }
 	  
-	  System.out.println("may14:01");
 	  System.out.println(UserUI.account);
 	  AccountController.flag = true;  
+  }
+  
+  public void addComplaint(Object message)
+  {
+	  if(((Complaint)((Message)message).getMsg()).getComplaintDetails().equals("Complaint already exist")) //complaint is already exist
+		  UserUI.complaint.setComplaintDetails("Complaint already exist");
+	  
+	  else if (((Complaint)((Message)message).getMsg()).getComplaintDetails().equals("Customer id that complain doesn't exist")) //customer id doesn't exist
+		  UserUI.complaint.setComplaintDetails("Customer id that complain doesn't exist");
+	  
+	  else if (((Complaint)((Message)message).getMsg()).getComplaintDetails().equals("Order number to complain doesn't exist"))
+		  UserUI.complaint.setComplaintDetails("Order number to complain doesn't exist");
+	  
+	  else if (((Complaint)((Message)message).getMsg()).getComplaintDetails().equals("Customer id and this order number doesn't match"))
+		  UserUI.complaint.setComplaintDetails("Customer id and this order number doesn't match");
+	  
+	  else if (((Complaint)((Message)message).getMsg()).getComplaintDetails().equals("Customer service worker doesn't exist"))
+		  UserUI.complaint.setComplaintDetails("Customer service worker doesn't exist");
+		  
+	  else
+	  {
+		  UserUI.complaint.setComplaintNum(((Complaint)((Message)message).getMsg()).getComplaintNum());
+		  UserUI.complaint.setComplaintStat(((Complaint)((Message)message).getMsg()).getComplaintStat());
+		  UserUI.complaint.setComplaintDate(((Complaint)((Message)message).getMsg()).getComplaintDate());
+		  UserUI.complaint.setComplaintDetails(((Complaint)((Message)message).getMsg()).getComplaintDetails());
+		  UserUI.complaint.setComplaintOrderId(((Complaint)((Message)message).getMsg()).getComplaintOrderId());
+		  UserUI.complaint.setComplaintServiceWorkerUserName(((Complaint)((Message)message).getMsg()).getComplaintServiceWorkerUserName());
+		  UserUI.complaint.setComplaintUserId(((Complaint)((Message)message).getMsg()).getComplaintUserId());
+	  }
+	  
+	  System.out.println(UserUI.complaint);
+	  ComplaintController.flag = true;  
   }
 
   

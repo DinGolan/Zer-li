@@ -14,6 +14,7 @@ import java.util.Scanner;
 import com.mysql.jdbc.PreparedStatement;
 
 import entity.Account;
+import entity.Complaint;
 import entity.Message;
 import entity.Product;
 import entity.Product.ProductType;
@@ -97,9 +98,13 @@ public class EchoServer extends AbstractServer
 	    
 	    if(((Message)msg).getOption().compareTo("Add new account") == 0) //check if we add new account
         {
-	    	System.out.println("a14:44");
     		((Message)msg).setMsg(AddNewAccountToDB(msg,conn));	
-			
+    		this.sendToAllClients(msg);	
+		}
+	    
+	    if(((Message)msg).getOption().compareTo("Add new account") == 0) //check if we add new complaint
+        {
+    		((Message)msg).setMsg(AddNewComplaintToDB(msg,conn));	
     		this.sendToAllClients(msg);	
 		}
 	    
@@ -328,6 +333,69 @@ public class EchoServer extends AbstractServer
 	  //finally{
 		  return account;
 	 // }
+  }
+  
+  protected Complaint AddNewComplaintToDB(Object msg, Connection conn) //this method add new complaint to DB
+  {
+	  Complaint newComplaint = (Complaint)(((Message)msg).getMsg());
+	  System.out.println(((Complaint)((Message)msg).getMsg()));
+	  Complaint complaint=new Complaint();
+	  Statement stmt;	  
+	  try {
+		  stmt = conn.createStatement(); //this statement check if we didn't have this complaint in the DB
+		  String getComplaintexist = "SELECT * FROM project.complaint WHERE ComplaintDetails="+newComplaint.getComplaintDetails()+"AND ComplaintUserId="+newComplaint.getComplaintUserId()+"AND ComplaintOrderId="+newComplaint.getComplaintOrderId()+";"; // get the complaint that already at DB
+		  ResultSet rs = stmt.executeQuery(getComplaintexist);
+		  if(!rs.isBeforeFirst()) //this statement try to enter new complaint to the DB  
+		  {
+			  stmt = conn.createStatement();
+			  String getOrderExist = "SELECT * FROM project.order WHERE orderID="+newComplaint.getComplaintOrderId()+";"; // get if the order is already at DB
+			  ResultSet rs1 = stmt.executeQuery(getOrderExist);
+			  if(rs1.isBeforeFirst()) //we have order at DB
+			  {
+				  stmt = conn.createStatement();
+				  String getCustomerExist = "SELECT * FROM project.user WHERE UserId="+newComplaint.getComplaintUserId()+";"; // get if the customer is already at DB
+				  ResultSet rs2 = stmt.executeQuery(getCustomerExist);
+				  if(rs2.isBeforeFirst()) //we have customer at DB
+				  {
+					  stmt = conn.createStatement();
+					  String getOrderToCustomerExist = "SELECT * FROM project.order WHERE orderID="+newComplaint.getComplaintOrderId()+"AND customerID="+newComplaint.getComplaintUserId()+";"; // get if the customer match to this order at DB
+					  ResultSet rs3 = stmt.executeQuery(getOrderToCustomerExist);
+					  if(rs3.isBeforeFirst()) //we have customer connected to this order at DB
+					  {
+						  stmt = conn.createStatement();
+						  String getCustomerServiceWorkerExist = "SELECT * FROM project.user WHERE UserName="+newComplaint.getComplaintServiceWorkerUserName()+"AND UserPermission='CUSTOMER SERVICE WORKER'"+";"; // get if the customer service worker is at DB
+						  ResultSet rs4 = stmt.executeQuery(getCustomerServiceWorkerExist);
+						  if(rs4.isBeforeFirst()) //we have customer service worker connected to this name at DB
+						  {
+							  stmt = conn.createStatement(); 
+							  String InsertComplaint = "INSERT INTO project.complaint(ComplaintNum, ComplaintUserId, ComplaintStatus, ComplaintDate, ComplaintDetails, ComplaintOrderId, ComplaintServiceWorkerUserName, ComplaintCompanyServiceWorkerAnswer, ComplaintCompansation)" + 
+							  		"VALUES("+newComplaint.getComplaintNum()+","+newComplaint.getComplaintUserId()+",'"+newComplaint.getComplaintStat()+"','"+newComplaint.getComplaintDate()+"',"+newComplaint.getComplaintDetails()+","+newComplaint.getComplaintOrderId()+","+newComplaint.getComplaintServiceWorkerUserName()+","+newComplaint.getComplaintCompanyServiceWorkerAnswer()+","+newComplaint.getComplaintCompansation()+");";
+							  stmt.executeUpdate(InsertComplaint);	 //לבדוק אם אפשר להכניס תלונה חלקית בלי חלק מהשדות
+							  complaint.setComplaintNum(newComplaint.getComplaintNum());
+							  complaint.setComplaintStat(newComplaint.getComplaintStat());
+							  complaint.setComplaintUserId(newComplaint.getComplaintUserId());
+							  complaint.setComplaintDate(newComplaint.getComplaintDate());
+							  complaint.setComplaintDetails(newComplaint.getComplaintDetails());
+							  complaint.setComplaintOrderId(newComplaint.getComplaintOrderId());
+							  complaint.setComplaintServiceWorkerUserName(newComplaint.getComplaintServiceWorkerUserName());
+						  }
+						  else
+							  complaint.setComplaintDetails("Customer service worker doesn't exist");  					  
+					  }
+					  else //if the order match to other customer
+						  complaint.setComplaintDetails("Customer id and this order number doesn't match");				  
+				  }
+				  else //if the customer id that complain is wrong
+					  complaint.setComplaintDetails("Customer id that complain doesn't exist");
+			  }
+			  else //if the order number to complain is wrong
+				  complaint.setComplaintDetails("Order number to complain doesn't exist");	  
+		  }
+		  else //if this complaint is already exist
+			  complaint.setComplaintDetails("Complaint already exist");
+
+	  } catch (SQLException e) {	e.printStackTrace();}	  
+	  return complaint;
   }
   
   protected User getUserStatusFromDB(Object msg, Connection conn) /* This method get products table details from DB */
