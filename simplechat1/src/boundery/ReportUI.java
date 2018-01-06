@@ -6,21 +6,26 @@ import controller.ReportController;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import mypackage.ClientConsole;
+import entity.Complaint;
 import entity.Order;
+import entity.Report;
 import entity.Store;
 
 public class ReportUI extends Application 		/* With This Class We Show the Report GUI */{
 	
 	public static Vector<Store> stores = new Vector<Store>();
+	public static Store Specific_Store = new Store();
 	public static Vector<Order> orders = new Vector<Order>(); 
+	public static Vector<Complaint> complaints = new Vector<Complaint>(); 
+	public static Report report_For_Take_Quarter = new Report();
 	public static ClientConsole myClient;
 	
 	public static void main( String args[] ) throws Exception
 	{ 
-		System.out.println("Please enter the server IP");
-		Scanner scanner = new Scanner(System.in);
-		String IP = scanner.next(); 			/* Enter Server IP */
-		myClient = new ClientConsole(IP, 5555);
+		//System.out.println("Please enter the server IP");
+		//Scanner scanner = new Scanner(System.in);
+		//String IP = scanner.next(); 			/* Enter Server IP */
+		myClient = new ClientConsole("localhost", 5555);
         launch(args);		
 	} 
 	

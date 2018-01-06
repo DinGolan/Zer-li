@@ -70,6 +70,10 @@ public class ChatClient extends AbstractClient
 		  clientUI.displayUI(msg);
 	  else if(((Message)msg).getOption().compareTo("Take The Orders Of Specific Store") == 0) 
 		  clientUI.displayUI(msg);
+	  else if(((Message)msg).getOption().compareTo("Take The Complaints Of Specific Store") == 0) 
+		  clientUI.displayUI(msg);
+	  else if(((Message)msg).getOption().compareTo("Take All the Revenue Of Specific Store") == 0) 
+		  clientUI.displayUI(msg);
   }
 
   /**

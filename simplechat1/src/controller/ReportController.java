@@ -18,6 +18,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.RadioButton;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -29,7 +30,7 @@ public class ReportController implements Initializable {
 	private SatisfactionReportController satisfactionReportController;
 
 	private Message msg;
-	private static int itemIndex = 0; /* This Variable Need for the the Case - that we not choose any Store from the ComboBox , so we take the Store that in Index 0 By Default */
+	private static int itemIndex = 1; /* This Variable Need for the the Case - that we not choose any Store from the ComboBox , so we take the Store that in Index 0 By Default */
 	
 	ObservableList<Integer> storeList;
 	
@@ -37,6 +38,18 @@ public class ReportController implements Initializable {
 	
 	@FXML
 	private ComboBox<Integer> cmbStores;  				    /* ComboBox With List Of Stores */
+	
+	@FXML
+	private RadioButton rbnQuarter_One = null;
+
+	@FXML
+	private RadioButton rbnQuarter_Two = null;
+
+	@FXML
+	private RadioButton rbnQuarter_Three = null;
+
+	@FXML
+	private RadioButton rbnQuarter_Four = null;
 	
 	@FXML
 	private Button btnQuarterlyRevenueReport = null;        /* Button Of Quarterly Revenue Report */
@@ -76,7 +89,7 @@ public class ReportController implements Initializable {
 		Pane root = loader.load(getClass().getResource("/controller/QuarterlyRevenueReportForm.fxml").openStream());
 		
 		QuarterlyRevenueReportController quarterlyRevenueReportController = loader.getController();
-		quarterlyRevenueReportController.loadStore(ReportUI.stores.get(getItemIndex()));
+		quarterlyRevenueReportController.loadStore(ReportUI.stores.get(getItemIndex())); 
 		
 		Scene scene = new Scene(root);			
 		primaryStage.setScene(scene);		
@@ -134,6 +147,94 @@ public class ReportController implements Initializable {
 		primaryStage.show();
 	}
 
+/* -------------------------- The Radio Button's ------------------------------------ */	
+	
+	public void Quarter_One_RadioButten(ActionEvent event) throws Exception //To turn-off the cash radio button
+	{
+		rbnQuarter_Two.setSelected(false);
+		rbnQuarter_Three.setSelected(false);
+		rbnQuarter_Four.setSelected(false);
+		Show_The_Info_Of_The_Specific_Store();
+	}
+	
+	public void Quarter_Two_RadioButten(ActionEvent event) throws Exception //To turn-off the cash radio button
+	{
+		rbnQuarter_One.setSelected(false);
+		rbnQuarter_Three.setSelected(false);
+		rbnQuarter_Four.setSelected(false);
+		Show_The_Info_Of_The_Specific_Store();
+	}
+	
+	public void Quarter_Three_RadioButten(ActionEvent event) throws Exception //To turn-off the cash radio button
+	{
+		rbnQuarter_One.setSelected(false);
+		rbnQuarter_Two.setSelected(false);
+		rbnQuarter_Four.setSelected(false);
+		Show_The_Info_Of_The_Specific_Store();
+	}
+	
+	public void Quarter_Four_RadioButten(ActionEvent event) throws Exception //To turn-off the cash radio button
+	{
+		rbnQuarter_One.setSelected(false);
+		rbnQuarter_Two.setSelected(false);
+		rbnQuarter_Three.setSelected(false);
+		Show_The_Info_Of_The_Specific_Store();
+	}
+	
+/* -------------------------- Taking Store From The Combo Box of Store ------------------------------------ */
+	
+	public void Show_The_Info_Of_The_Specific_Store()
+	{
+		if(rbnQuarter_One.isSelected())
+		{
+			Store temp_Store = new Store();
+			temp_Store.setStoreId(getItemIndex());
+			temp_Store.setStore_Address("1");       /* This Is Not The Real - Address , This Number Is the Quarter - 1 , Its just Help Me To transfer This Details To DB */
+			msg = new Message(temp_Store, "Take All the Revenue Of Specific Store");
+			ReportUI.myClient.accept(msg);
+			while(ReportUI.Specific_Store == null);
+			ReportUI.report_For_Take_Quarter.setQaurterReportNumber("1");
+			quarterlyRevenueReportController.loadQuarter("1");
+			quarterlyRevenueReportController.loadStore(ReportUI.Specific_Store);
+		}
+		else if(rbnQuarter_Two.isSelected())
+		{
+			Store temp_Store = new Store();
+			temp_Store.setStoreId(getItemIndex());
+			temp_Store.setStore_Address("2");       /* This Is Not The Real - Address , This Number Is the Quarter - 1 , Its just Help Me To transfer This Details To DB */
+			msg = new Message(temp_Store, "Take All the Revenue Of Specific Store");
+			ReportUI.myClient.accept(msg);
+			while(ReportUI.Specific_Store == null);
+			ReportUI.report_For_Take_Quarter.setQaurterReportNumber("2");
+			quarterlyRevenueReportController.loadQuarter(ReportUI.report_For_Take_Quarter.getQaurterReportNumber());
+			quarterlyRevenueReportController.loadStore(ReportUI.Specific_Store);
+		}
+		else if(rbnQuarter_Three.isSelected())
+		{
+			Store temp_Store = new Store();
+			temp_Store.setStoreId(getItemIndex());
+			temp_Store.setStore_Address("3");       /* This Is Not The Real - Address , This Number Is the Quarter - 1 , Its just Help Me To transfer This Details To DB */
+			msg = new Message(temp_Store, "Take All the Revenue Of Specific Store");
+			ReportUI.myClient.accept(msg);
+			while(ReportUI.Specific_Store == null);
+			ReportUI.report_For_Take_Quarter.setQaurterReportNumber("3");
+			quarterlyRevenueReportController.loadQuarter(ReportUI.report_For_Take_Quarter.getQaurterReportNumber());
+			quarterlyRevenueReportController.loadStore(ReportUI.Specific_Store);
+		}
+		else if(rbnQuarter_Four.isSelected())
+		{
+			Store temp_Store = new Store();
+			temp_Store.setStoreId(getItemIndex());
+			temp_Store.setStore_Address("4");       /* This Is Not The Real - Address , This Number Is the Quarter - 1 , Its just Help Me To transfer This Details To DB */
+			msg = new Message(temp_Store, "Take All the Revenue Of Specific Store");
+			ReportUI.myClient.accept(msg);
+			while(ReportUI.Specific_Store == null);
+			ReportUI.report_For_Take_Quarter.setQaurterReportNumber("4");
+			quarterlyRevenueReportController.loadQuarter(ReportUI.report_For_Take_Quarter.getQaurterReportNumber());
+			quarterlyRevenueReportController.loadStore(ReportUI.Specific_Store);
+		}
+	}
+	
 /* -------------------------- Taking Store From The Combo Box of Store ------------------------------------ */	
 	
 	public int getItemIndex()                                   	/* With this Method we Take User from the List of the Users at the ComboBox */
@@ -194,7 +295,6 @@ public class ReportController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
-		
 		ArrayList<Store> strores = new ArrayList<Store>();
 		msg = new Message(strores, "Add Store To Combo Box From DB");
 		ReportUI.myClient.accept(msg);

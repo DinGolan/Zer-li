@@ -19,8 +19,13 @@ import javafx.fxml.Initializable;
 public class QuarterlyRevenueReportController implements Initializable{
 	
 	private Store store;
-
+ 
+  
+    
 /* -------------------------  For The Window Of Quarterly Revenue Report ----------------------------------- */	
+	
+	@FXML
+    private TextField txtQuarterNum;
 	
     @FXML
 	private TextField txtStoreID;               /* Text Field Of the Store ID */
@@ -49,6 +54,13 @@ public class QuarterlyRevenueReportController implements Initializable{
 		this.txtQuantityOfOrder.setText(String.valueOf(store.getQuantityOfOrders()));
 		this.txtRevenueStore.setText(String.valueOf(store.getTotalRevenue()));
 	}
+
+/* --------------------------------- Loading Quarter Number To the Text Fields ------------------------------------------------- */	
+	
+	public void loadQuarter(String string) 					/* To load the Store details to the text fields */
+	{ 
+		this.txtQuarterNum.setText(string);
+	}
  
 /* --------------------------------- Close the Quarterly Revenue Report Window ------------------------------------------------- */		
 	
@@ -68,10 +80,10 @@ public class QuarterlyRevenueReportController implements Initializable{
 /* --------------------------------- Initialize The Quarterly Revenue Report GUI ------------------------------------------------- */	 		
 	
 	@Override
-	public void initialize(URL location, ResourceBundle resources) {
+	 public void initialize(URL location, ResourceBundle resources) 
+	{
 		
-		
-	}
+	} 
 	
 /* ------------------------------------------------------------------------------------------------------------------- */
 	

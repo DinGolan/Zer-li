@@ -10,7 +10,9 @@ public class Complaint implements Serializable{
 	private double complaintCompansation;
 	private String complaintCompanyServiceWorkerAnswer;
 	private String complaintDetails;
-	
+	private String complaintMonth;
+	private int orderID;
+
 	public enum ComplaintStatus{ //enum for the complaint status
 		OPEN,INPROGRESS,CLOSE
 	}
@@ -84,6 +86,23 @@ public class Complaint implements Serializable{
 
 	public void setComplaintDetails(String complaintDetails) {
 		this.complaintDetails = complaintDetails;
+	}
+	
+	
+	public int getOrderID() {
+		return orderID;
+	}
+
+	public void setOrderID(int orderID) {
+		this.orderID = orderID;
+	}
+
+	public String getComplaintMonth() {
+		return complaintMonth;
+	}
+	
+	public void setComplaintMonth(String complaintMonth) {
+		this.complaintMonth = complaintMonth;
 	}
 
 	@Override

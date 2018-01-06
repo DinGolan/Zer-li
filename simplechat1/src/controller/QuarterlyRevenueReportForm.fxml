@@ -18,25 +18,31 @@
             <Font name="System Italic" size="16.0" />
          </font>
       </Label>
-      <Label layoutX="64.0" layoutY="153.0" text="Store ID : ">
+      <Label layoutX="65.0" layoutY="210.0" text="Store ID : ">
          <font>
             <Font name="System Italic" size="16.0" />
          </font>
       </Label>
-      <TextField id="txtStoreID" fx:id="txtStoreID" editable="false" layoutX="311.0" layoutY="153.0" />
+      <TextField id="txtStoreID" fx:id="txtStoreID" editable="false" layoutX="311.0" layoutY="210.0" />
       <TextField id="txtRevenueStore" fx:id="txtRevenueStore" editable="false" layoutX="311.0" layoutY="380.0" />
       <Button id="btnClose" fx:id="btnClose" layoutX="278.0" layoutY="438.0" mnemonicParsing="false" onAction="#closeQuarterlyRevenueReportWindow" text="Close" />
-      <Label layoutX="64.0" layoutY="234.0" text="Store - Address :">
+      <Label layoutX="64.0" layoutY="272.0" text="Store - Address :">
          <font>
             <Font name="System Italic" size="16.0" />
          </font>
       </Label>
-      <TextField id="txtStoreID" fx:id="txtStoreAddress" editable="false" layoutX="311.0" layoutY="234.0" />
-      <Label layoutX="65.0" layoutY="304.0" text="Quantity Of Order :">
+      <TextField id="txtStoreAddress" fx:id="txtStoreAddress" editable="false" layoutX="311.0" layoutY="272.0" />
+      <Label layoutX="65.0" layoutY="329.0" text="Quantity Of Order :">
          <font>
             <Font name="System Italic" size="16.0" />
          </font>
       </Label>
-      <TextField id="txtStoreID" fx:id="txtQuantityOfOrder" editable="false" layoutX="311.0" layoutY="304.0" />
+      <TextField id="txtQuantityOfOrder" fx:id="txtQuantityOfOrder" editable="false" layoutX="311.0" layoutY="329.0" />
+      <Label layoutX="64.0" layoutY="152.0" text="Quarter Number :">
+         <font>
+            <Font name="System Italic" size="16.0" />
+         </font>
+      </Label>
+      <TextField id="txtQuarterNum" fx:id="txtQuarterNum" editable="false" layoutX="311.0" layoutY="152.0" />
    </children>
 </AnchorPane>

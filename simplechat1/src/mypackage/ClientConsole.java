@@ -15,6 +15,7 @@ import controller.UserController;
 import client.ChatClient;
 import common.ChatIF;
 import entity.Account;
+import entity.Complaint;
 import entity.Message;
 import entity.Order;
 import entity.Product;
@@ -164,6 +165,22 @@ public void displayUI(Object message)
 				  ReportUI.orders.add(temp_Order.get(i));
 		  	  }
 	    } 
+	    else if(((Message)message).getOption().compareTo("Take The Complaints Of Specific Store") == 0)
+	    {
+		  	  int i=0;
+			  ArrayList<Complaint> temp_Complaint = new ArrayList<Complaint>();
+			  temp_Complaint = (ArrayList<Complaint>)((Message)message).getMsg();
+			  ReportUI.complaints.clear();
+
+			  for(i=0;i<temp_Complaint.size();i++)
+		  	  {
+				  ReportUI.complaints.add(temp_Complaint.get(i));
+		  	  }
+	    }
+	    else if(((Message)message).getOption().compareTo("Take All the Revenue Of Specific Store") == 0)
+	    {
+	    	  ReportUI.Specific_Store = (Store)((Message)message).getMsg();
+	    }
    }
   
   public void sendUser(Object message) 
