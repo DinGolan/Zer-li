@@ -122,7 +122,7 @@ public class QuarterlyRevenueReportController implements Initializable{
 			this.txtQuarterNum.setText(String.valueOf(4));
 		}
 		
-		this.txtRevenueOfSpecificQuarter.setText(Revenue_Of_Specific_Quarter);   				/* Set the Revenue */
+		this.txtRevenueOfSpecificQuarter.setText(Revenue_Of_Specific_Quarter);   /* Set the Revenue */
 	} 
 	
 /* ------------------------------------------------------------------------------------------------------------------- */

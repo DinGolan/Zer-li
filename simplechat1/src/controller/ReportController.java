@@ -235,6 +235,7 @@ public class ReportController implements Initializable {
 		msg = new Message(temp_Store_Id, "Take The Date Of All the Report Of Specific Store");
 		ReportUI.myClient.accept(msg);
 		while(ReportUI.Dates.size() == 0);
+		Thread.sleep(200);
 		set_Dates_Of_Report_At_ComboBox();
 	}
 	
@@ -249,6 +250,7 @@ public class ReportController implements Initializable {
 		msg = new Message(Store_Id_And_Date_Of_Report, "Take the Revenue Of Specific Quarter Of Specific Store");
 		ReportUI.myClient.accept(msg);
 		while(ReportUI.Total_Revenue_In_Specific_Quarter.size() == 0);
+		Thread.sleep(200);
 		ReportUI.Help_To_Transfer_Object.clear();
 		ReportUI.Help_To_Transfer_Object.add(ReportUI.Total_Revenue_In_Specific_Quarter.get(0));
 		ReportUI.Help_To_Transfer_Object.add(temp_Date_Quarter_Report);

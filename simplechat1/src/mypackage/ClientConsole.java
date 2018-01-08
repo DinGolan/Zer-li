@@ -12,6 +12,7 @@ import boundery.ProductUI;
 import boundery.ReportUI;
 import boundery.UserUI;
 import controller.AccountController;
+import controller.ReportController;
 import controller.UserController;
 import client.ChatClient;
 import common.ChatIF;
