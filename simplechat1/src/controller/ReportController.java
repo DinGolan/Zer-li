@@ -249,6 +249,7 @@ public class ReportController implements Initializable {
 		msg = new Message(Store_Id_And_Date_Of_Report, "Take the Revenue Of Specific Quarter Of Specific Store");
 		ReportUI.myClient.accept(msg);
 		while(ReportUI.Total_Revenue_In_Specific_Quarter.size() == 0);
+		ReportUI.Help_To_Transfer_Object.clear();
 		ReportUI.Help_To_Transfer_Object.add(ReportUI.Total_Revenue_In_Specific_Quarter.get(0));
 		ReportUI.Help_To_Transfer_Object.add(temp_Date_Quarter_Report);
 	}
