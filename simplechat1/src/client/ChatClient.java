@@ -66,11 +66,13 @@ public class ChatClient extends AbstractClient
 		  clientUI.displayUI(msg);
 	  else if(((Message)msg).getOption().compareTo("UserStatus") ==0)
 		  clientUI.sendUser(msg);
+	  else if(((Message)msg).getOption().compareTo("Add new complaint") ==0)
+		  clientUI.addComplaint(msg);	  
 	  else if(((Message)msg).getOption().compareTo("get all the survey") ==0)
 		  clientUI.displayUI(msg);
-	  else if(((Message)msg).getOption().compareTo("get all stores from DB") ==0)
-		  clientUI.displayUI(msg);
-	  else if(((Message)msg).getOption().compareTo("Update costomer account") ==0)
+	  else if(((Message)msg).getOption().compareTo("Add new complaint") ==0)
+		  clientUI.addComplaint(msg);
+	  else if(((Message)msg).getOption().compareTo("get all the survey") ==0)
 		  clientUI.displayUI(msg);
   }
 

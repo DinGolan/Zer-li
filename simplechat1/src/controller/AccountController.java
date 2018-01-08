@@ -146,10 +146,10 @@ public class AccountController {
 			String dateStr=localDate.toString();
 			Date parsed = format.parse(dateStr);
 		    dateSql = new java.sql.Date(parsed.getTime());
-		    a.setAccountSubscriptionEndDate(dateSql); //get the date problem
+		    a.setAccountSubscriptionEndDate(dateSql); //set the date
 		}
 		else
-			 a.setAccountSubscriptionEndDate(null); //get the date problem	   
+			 a.setAccountSubscriptionEndDate(null); //set the date   
 		
 		if(rdbtnAccountPaymentArrangmentAnnual.isSelected()) //if we choose Annual
 			a.setAccountPaymentArrangement(PaymentArrangement.ANNUAL);	
@@ -196,7 +196,6 @@ public class AccountController {
 		}
 	} 
 		
-	//לעשות או של try again או שם כללי יותר של הוספת חשבון נוסף
 	public void addNewOtherAccount(ActionEvent event) throws Exception //With this Method we show the GUI of the First Window
 	{	
 		((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window

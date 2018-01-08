@@ -5,24 +5,19 @@ package mypackage;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
 import boundery.CatalogUI;
-import boundery.CustomerUI;
 import boundery.DataCompanyManagerUI;
-import boundery.StoreUI;
-import boundery.SurveyResultUI;
 import boundery.UserUI;
 import client.ChatClient;
 import common.ChatIF;
 import controller.AccountController;
-import controller.OrderController;
-import controller.SurveyResultController;
-import controller.UserController;
+import controller.ComplaintController;import controller.SurveyResultController;import controller.UserController;
 import entity.Account;
+import entity.Complaint;
 import entity.Message;
 import entity.Product;
-import entity.Store;
 import entity.User;
+import boundery.SurveyResultUI;
 
 /**
  * This class constructs the UI for a chat client.  It implements the
@@ -122,6 +117,7 @@ public class ClientConsole implements ChatIF
 	  	  	ArrayList<Product> temp = new ArrayList<Product>();
 	  	  	temp = (ArrayList<Product>)((Message)message).getMsg();
 	  	  	CatalogUI.products.clear();
+
 	  	  	for(i=0;i<temp.size();i++)
 	  	  	{
 	  	  	CatalogUI.products.add(temp.get(i));
@@ -141,30 +137,11 @@ public class ClientConsole implements ChatIF
 		  	  }
 	    }
 	    
-	    if(((Message)message).getOption().compareTo("get all stores from DB") == 0)
-	    {
-		  	  int i=0;
-			  ArrayList<Store> temp = new ArrayList<Store>();
-			  temp = (ArrayList<Store>)((Message)message).getMsg();
-			  StoreUI.stores.clear();
-
-			  for(i=0;i<temp.size();i++)
-		  	  {
-				  StoreUI.stores.add(temp.get(i));
-		  	  }
-	    }
-	    
 	    if(((Message)message).getOption().compareTo("get all the survey") == 0)
 	    {
 	    	SurveyResultUI.Id = (ArrayList<Integer>)(((Message)message).getMsg());
 	    	SurveyResultController.flag = true;
 	    }
-	    
-		if(((Message)message).getOption().compareTo("Update costomer account") ==0)
-		{
-			 CustomerUI.account = (Account)(((Message)message).getMsg());
-			 OrderController.accountFlag = true;
-		}
    }
   
   
@@ -188,7 +165,6 @@ public class ClientConsole implements ChatIF
   
   public void addAccount(Object message)
   {
-	  System.out.println("may14:01");
 	  if(((Account)((Message)message).getMsg()).getAccountUserId().equals("Account already exist")) //account is already exist
 	  {
 		  UserUI.account.setAccountUserId("Account already exist");
@@ -203,9 +179,40 @@ public class ClientConsole implements ChatIF
 		  UserUI.account.setAccountSubscriptionEndDate(((Account)((Message)message).getMsg()).getAccountSubscriptionEndDate());
 	  }
 	  
-	  System.out.println("may14:01");
 	  System.out.println(UserUI.account);
 	  AccountController.flag = true;  
+  }
+  
+  public void addComplaint(Object message)
+  {
+	  if(((Complaint)((Message)message).getMsg()).getComplaintDetails().equals("Complaint already exist")) //complaint is already exist
+		  UserUI.complaint.setComplaintDetails("Complaint already exist");
+	  
+	  else if (((Complaint)((Message)message).getMsg()).getComplaintDetails().equals("Customer id that complain doesn't exist")) //customer id doesn't exist
+		  UserUI.complaint.setComplaintDetails("Customer id that complain doesn't exist");
+	  
+	  else if (((Complaint)((Message)message).getMsg()).getComplaintDetails().equals("Order number to complain doesn't exist"))
+		  UserUI.complaint.setComplaintDetails("Order number to complain doesn't exist");
+	  
+	  else if (((Complaint)((Message)message).getMsg()).getComplaintDetails().equals("Customer id and this order number doesn't match"))
+		  UserUI.complaint.setComplaintDetails("Customer id and this order number doesn't match");
+	  
+	  else if (((Complaint)((Message)message).getMsg()).getComplaintDetails().equals("Customer service worker doesn't exist"))
+		  UserUI.complaint.setComplaintDetails("Customer service worker doesn't exist");
+		  
+	  else
+	  {
+		  UserUI.complaint.setComplaintNum(((Complaint)((Message)message).getMsg()).getComplaintNum());
+		  UserUI.complaint.setComplaintStat(((Complaint)((Message)message).getMsg()).getComplaintStat());
+		  UserUI.complaint.setComplaintDate(((Complaint)((Message)message).getMsg()).getComplaintDate());
+		  UserUI.complaint.setComplaintDetails(((Complaint)((Message)message).getMsg()).getComplaintDetails());
+		  UserUI.complaint.setComplaintOrderId(((Complaint)((Message)message).getMsg()).getComplaintOrderId());
+		  UserUI.complaint.setComplaintServiceWorkerUserName(((Complaint)((Message)message).getMsg()).getComplaintServiceWorkerUserName());
+		  UserUI.complaint.setComplaintUserId(((Complaint)((Message)message).getMsg()).getComplaintUserId());
+	  }
+	  
+	  System.out.println(UserUI.complaint);
+	  ComplaintController.flag = true;  
   }
 
   

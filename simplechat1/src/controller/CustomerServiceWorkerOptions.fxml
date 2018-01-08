@@ -9,17 +9,17 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="387.0" prefWidth="332.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.UserController">
+<AnchorPane prefHeight="387.0" prefWidth="332.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CustomerServiceWorkerController">
    <children>
-      <Button id="btnExit" fx:id="btnExit" layoutX="252.0" layoutY="338.0" mnemonicParsing="false" onAction="#getExitBtn" text="Exit" />
-      <Button id="btnLogout" fx:id="btnTryAgain" layoutX="44.0" layoutY="338.0" mnemonicParsing="false" onAction="#logout" text="Logout" />
+      <Button id="btnCServiceWExit" fx:id="btnCServiceWExit" layoutX="252.0" layoutY="338.0" mnemonicParsing="false" onAction="#exitBtn" text="Exit" />
+      <Button id="btnCServiceWLogout" fx:id="btnCServiceWLogout" layoutX="44.0" layoutY="338.0" mnemonicParsing="false" onAction="#logoutBtn" text="Logout" />
       <Label layoutX="20.0" layoutY="25.0" text="Customer service worker" textFill="#0022ff">
          <font>
             <Font name="Bodoni MT Bold" size="29.0" />
          </font></Label>
-      <Button layoutX="71.0" layoutY="201.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="172.0" text="Follow up exist complaint" />
-      <Button layoutX="71.0" layoutY="139.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="172.0" text="Open new complaint" />
-      <Button layoutX="71.0" layoutY="76.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="172.0" text="Insert survey questions" />
-      <Button layoutX="71.0" layoutY="264.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="172.0" text="Save survey data" />
+      <Button id="btnCServiceWHandleComplaint" fx:id="btnCServiceWHandleComplaint" layoutX="71.0" layoutY="201.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="172.0" text="Follow up exist complaint" />
+      <Button id="btnCServiceWOpenNewComplaint" fx:id="btnCServiceWOpenNewComplaint" layoutX="71.0" layoutY="139.0" mnemonicParsing="false" onAction="#openNewComplaintBtn" prefHeight="44.0" prefWidth="172.0" text="Open new complaint" />
+      <Button id="btnCServiceWInsertSurveyQ" fx:id="btnCServiceWInsertSurveyQ" layoutX="71.0" layoutY="76.0" mnemonicParsing="false" onAction="#insertSurveyQuestionsBtn" prefHeight="44.0" prefWidth="172.0" text="Insert survey questions" />
+      <Button id="btnCServiceWSaveSurveyData" fx:id="btnCServiceWSaveSurveyData" layoutX="71.0" layoutY="264.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="172.0" text="Save survey data" />
    </children>
 </AnchorPane>
