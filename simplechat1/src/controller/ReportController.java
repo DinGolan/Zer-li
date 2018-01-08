@@ -1,6 +1,7 @@
 package controller;
 
 import java.net.URL;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -18,7 +19,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.RadioButton;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -31,8 +31,11 @@ public class ReportController implements Initializable {
 
 	private Message msg;
 	private static int itemIndex = 1; /* This Variable Need for the the Case - that we not choose any Store from the ComboBox , so we take the Store that in Index 0 By Default */
+	private int temp_Store_Id;
+	private Date temp_Date_Quarter_Report;
 	
 	ObservableList<Integer> storeList;
+	ObservableList<Date> DateList;
 	
 /* -------------------------  For The First Window Of Report ----------------------------------- */	
 	
@@ -40,16 +43,13 @@ public class ReportController implements Initializable {
 	private ComboBox<Integer> cmbStores;  				    /* ComboBox With List Of Stores */
 	
 	@FXML
-	private RadioButton rbnQuarter_One = null;
-
+    private ComboBox<Date> cmbReports;
+	
 	@FXML
-	private RadioButton rbnQuarter_Two = null;
-
+	private Button btnEnter_Your_Store_Choise = null;
+	
 	@FXML
-	private RadioButton rbnQuarter_Three = null;
-
-	@FXML
-	private RadioButton rbnQuarter_Four = null;
+    private Button btn_Your_Choise_Of_Quarter_Report;
 	
 	@FXML
 	private Button btnQuarterlyRevenueReport = null;        /* Button Of Quarterly Revenue Report */
@@ -146,94 +146,6 @@ public class ReportController implements Initializable {
 		primaryStage.setScene(scene);		
 		primaryStage.show();
 	}
-
-/* -------------------------- The Radio Button's ------------------------------------ */	
-	
-	public void Quarter_One_RadioButten(ActionEvent event) throws Exception //To turn-off the cash radio button
-	{
-		rbnQuarter_Two.setSelected(false);
-		rbnQuarter_Three.setSelected(false);
-		rbnQuarter_Four.setSelected(false);
-		Show_The_Info_Of_The_Specific_Store();
-	}
-	
-	public void Quarter_Two_RadioButten(ActionEvent event) throws Exception //To turn-off the cash radio button
-	{
-		rbnQuarter_One.setSelected(false);
-		rbnQuarter_Three.setSelected(false);
-		rbnQuarter_Four.setSelected(false);
-		Show_The_Info_Of_The_Specific_Store();
-	}
-	
-	public void Quarter_Three_RadioButten(ActionEvent event) throws Exception //To turn-off the cash radio button
-	{
-		rbnQuarter_One.setSelected(false);
-		rbnQuarter_Two.setSelected(false);
-		rbnQuarter_Four.setSelected(false);
-		Show_The_Info_Of_The_Specific_Store();
-	}
-	
-	public void Quarter_Four_RadioButten(ActionEvent event) throws Exception //To turn-off the cash radio button
-	{
-		rbnQuarter_One.setSelected(false);
-		rbnQuarter_Two.setSelected(false);
-		rbnQuarter_Three.setSelected(false);
-		Show_The_Info_Of_The_Specific_Store();
-	}
-	
-/* -------------------------- Taking Store From The Combo Box of Store ------------------------------------ */
-	
-	public void Show_The_Info_Of_The_Specific_Store()
-	{
-		if(rbnQuarter_One.isSelected())
-		{
-			Store temp_Store = new Store();
-			temp_Store.setStoreId(getItemIndex());
-			temp_Store.setStore_Address("1");       /* This Is Not The Real - Address , This Number Is the Quarter - 1 , Its just Help Me To transfer This Details To DB */
-			msg = new Message(temp_Store, "Take All the Revenue Of Specific Store");
-			ReportUI.myClient.accept(msg);
-			while(ReportUI.Specific_Store == null);
-			ReportUI.report_For_Take_Quarter.setQaurterReportNumber("1");
-			quarterlyRevenueReportController.loadQuarter("1");
-			quarterlyRevenueReportController.loadStore(ReportUI.Specific_Store);
-		}
-		else if(rbnQuarter_Two.isSelected())
-		{
-			Store temp_Store = new Store();
-			temp_Store.setStoreId(getItemIndex());
-			temp_Store.setStore_Address("2");       /* This Is Not The Real - Address , This Number Is the Quarter - 1 , Its just Help Me To transfer This Details To DB */
-			msg = new Message(temp_Store, "Take All the Revenue Of Specific Store");
-			ReportUI.myClient.accept(msg);
-			while(ReportUI.Specific_Store == null);
-			ReportUI.report_For_Take_Quarter.setQaurterReportNumber("2");
-			quarterlyRevenueReportController.loadQuarter(ReportUI.report_For_Take_Quarter.getQaurterReportNumber());
-			quarterlyRevenueReportController.loadStore(ReportUI.Specific_Store);
-		}
-		else if(rbnQuarter_Three.isSelected())
-		{
-			Store temp_Store = new Store();
-			temp_Store.setStoreId(getItemIndex());
-			temp_Store.setStore_Address("3");       /* This Is Not The Real - Address , This Number Is the Quarter - 1 , Its just Help Me To transfer This Details To DB */
-			msg = new Message(temp_Store, "Take All the Revenue Of Specific Store");
-			ReportUI.myClient.accept(msg);
-			while(ReportUI.Specific_Store == null);
-			ReportUI.report_For_Take_Quarter.setQaurterReportNumber("3");
-			quarterlyRevenueReportController.loadQuarter(ReportUI.report_For_Take_Quarter.getQaurterReportNumber());
-			quarterlyRevenueReportController.loadStore(ReportUI.Specific_Store);
-		}
-		else if(rbnQuarter_Four.isSelected())
-		{
-			Store temp_Store = new Store();
-			temp_Store.setStoreId(getItemIndex());
-			temp_Store.setStore_Address("4");       /* This Is Not The Real - Address , This Number Is the Quarter - 1 , Its just Help Me To transfer This Details To DB */
-			msg = new Message(temp_Store, "Take All the Revenue Of Specific Store");
-			ReportUI.myClient.accept(msg);
-			while(ReportUI.Specific_Store == null);
-			ReportUI.report_For_Take_Quarter.setQaurterReportNumber("4");
-			quarterlyRevenueReportController.loadQuarter(ReportUI.report_For_Take_Quarter.getQaurterReportNumber());
-			quarterlyRevenueReportController.loadStore(ReportUI.Specific_Store);
-		}
-	}
 	
 /* -------------------------- Taking Store From The Combo Box of Store ------------------------------------ */	
 	
@@ -243,6 +155,16 @@ public class ReportController implements Initializable {
 			return itemIndex;
 	
 		return cmbStores.getSelectionModel().getSelectedIndex();
+	}
+	
+/* -------------------------- Taking Date From The Combo Box of Store ------------------------------------ */	
+	
+	public int getItemIndexFromDateComboBox()                                   	/* With this Method we Take User from the List of the Users at the ComboBox */
+	{
+		if(cmbReports.getSelectionModel().getSelectedIndex() == -1)
+			return itemIndex;
+	
+		return cmbReports.getSelectionModel().getSelectedIndex();
 	}
 	
 /* --------------------------------- Loading Store To the Text Fields ------------------------------------------------- */	
@@ -277,7 +199,7 @@ public class ReportController implements Initializable {
 
 /* ----------------------------------------- Set The Combo Box Of Stores ----------------------------------- */	
 	
-	public void setStoresComboBox()     								/* In this Method we Set the Stores at the ComboBox */
+	public void setStoresComboBox()    								/* In this Method we Set the Stores at the ComboBox */
 	{ 				
 		ArrayList<Integer> temp_Stores_ID_List = new ArrayList<Integer>();	
 		
@@ -290,16 +212,67 @@ public class ReportController implements Initializable {
 		cmbStores.setItems(storeList);
 	}
 
+/* ----------------------------------------- Set The Combo Box Of All the Date Of the Report Of Specific Store ----------------------------------- */		
+	
+	public void set_Dates_Of_Report_At_ComboBox()      								/* In this Method we Set the Stores at the ComboBox */
+	{ 				
+		ArrayList<Date> Date_Of_Report = new ArrayList<Date>();	
+		
+		for(int i = 0 ; i < ReportUI.Dates.size() ; i++)
+		{
+			Date_Of_Report.add(ReportUI.Dates.get(i));
+		}
+		
+		DateList = FXCollections.observableArrayList(Date_Of_Report);
+		cmbReports.setItems(DateList);
+	}	
+	
+/* -------------------------------- The Button Of The Store That You Choose ------------------------------- */		
+	
+	public void Button_Of_Your_Store_Choise(ActionEvent event) throws Exception
+	{
+		temp_Store_Id = ReportUI.stores.get(getItemIndex()).getStoreId();
+		msg = new Message(temp_Store_Id, "Take The Date Of All the Report Of Specific Store");
+		ReportUI.myClient.accept(msg);
+		while(ReportUI.Dates.size() == 0);
+		set_Dates_Of_Report_At_ComboBox();
+	}
+	
+/* -------------------------------- The Button Of The Report That We Choose ------------------------------- */			
+	
+	public void Button_Of_Your_Quarter_Report(ActionEvent event) throws Exception
+	{
+		temp_Date_Quarter_Report = ReportUI.Dates.get(getItemIndexFromDateComboBox());
+		ArrayList<Object> Store_Id_And_Date_Of_Report = new ArrayList<Object>();
+		Store_Id_And_Date_Of_Report.add(temp_Store_Id);
+		Store_Id_And_Date_Of_Report.add(temp_Date_Quarter_Report);
+		msg = new Message(Store_Id_And_Date_Of_Report, "Take the Revenue Of Specific Quarter Of Specific Store");
+		ReportUI.myClient.accept(msg);
+		while(ReportUI.Total_Revenue_In_Specific_Quarter.size() == 0);
+		ReportUI.Help_To_Transfer_Object.add(ReportUI.Total_Revenue_In_Specific_Quarter.get(0));
+		ReportUI.Help_To_Transfer_Object.add(temp_Date_Quarter_Report);
+	}
+	
 /* -------------------------------- Initialized The ComboBox In the First Window - Report GUI ------------------------------- */	
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
-		ArrayList<Store> strores = new ArrayList<Store>();
-		msg = new Message(strores, "Add Store To Combo Box From DB");
+		ArrayList<Store> stores = new ArrayList<Store>();           /* For the First Connection With The DB the ArrayList Of stores Is Empty */
+		msg = new Message(stores, "Add Store To Combo Box From DB");
 		ReportUI.myClient.accept(msg);
 		while(ReportUI.stores.size() == 0);
 		setStoresComboBox();
+		
+		/* ----------------- Update All the Revenue Of All The Store At The DB ------------------*/
+		
+		for(int i = 0 ; i < ReportUI.stores.size() ; i++)
+		{
+			stores.add(ReportUI.stores.get(i));
+		}
+		
+		msg = new Message(stores, "Update The Total Revenue Of All the Store");
+		ReportUI.myClient.accept(msg);	
 	}
 	
 /* ------------------------------------------------------------------------------------------------------------------- */

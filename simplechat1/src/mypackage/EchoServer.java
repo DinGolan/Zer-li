@@ -127,7 +127,7 @@ public class EchoServer extends AbstractServer
 	    	this.sendToAllClients(msg);
 	    }
 	    
-	    if(((Message)msg).getOption().compareTo("Take All the Revenue Of Specific Store") == 0) /* Taking All the Revenue Of Specific Store */							
+	    if(((Message)msg).getOption().compareTo("Take the Revenue Of Specific Quarter Of Specific Store") == 0) /* Taking All the Revenue Of Specific Store */							
 	    {
 	    	((Message)msg).setMsg(GetTheRevenueOfSpecificStoreFromDB(msg,conn));  
 	    	this.sendToAllClients(msg);
@@ -144,6 +144,15 @@ public class EchoServer extends AbstractServer
 	    	((Message)msg).setMsg(GetComplaintsFromDB(msg,conn));  
 	    	this.sendToAllClients(msg);
 	    }
+	    if(((Message)msg).getOption().compareTo("Take The Date Of All the Report Of Specific Store") == 0) 	    /* Taking All the Complaints Of Specific Store */							
+	    {
+	    	((Message)msg).setMsg(GetAllTheDateOfReportOdSpecificStoreFromDB(msg,conn));  
+	    	this.sendToAllClients(msg);
+	    }
+	    if(((Message)msg).getOption().compareTo("Update The Total Revenue Of All the Store") == 0) 	    /* Taking All the Complaints Of Specific Store */							
+	    {
+	    	Update_The_Revenue_Of_All_The_Store(msg,conn);  
+	    } 
   }
 
     
@@ -197,6 +206,106 @@ public class EchoServer extends AbstractServer
     
       return conn;
      
+  }
+  
+  @SuppressWarnings("unchecked")
+  protected void Update_The_Revenue_Of_All_The_Store(Object msg , Connection conn) /* This method get Orders Of Specific Store from DB */
+  {
+	  ArrayList<Store> All_Stores = (ArrayList<Store>)(((Message)msg).getMsg());
+	  ArrayList<Order> Order_Of_Spicific_Store = new ArrayList<Order>();
+	  ArrayList<Complaint> Complaint_Of_Spicific_Store = new ArrayList<Complaint>();
+	  Statement stmt;
+	  double Sum_Of_Revenue = 0;
+	  double Sum_Of_Compansation = 0;
+	  String order_field;
+	  String Complaint_Field;
+	  Order temp_Order;
+	  Complaint temp_Complaint;
+	  try {
+		  stmt = conn.createStatement();
+		  
+		  for(int index = 0 ; index < All_Stores.size() ; index++)
+		  {
+				  String getOrdersOfSpecificStoreTable = "SELECT * FROM project.order WHERE StoreID = " + "'" + All_Stores.get(index).getStoreId() + "'" + ";"; 
+				  ResultSet rs = stmt.executeQuery(getOrdersOfSpecificStoreTable);
+				  Order_Of_Spicific_Store = new ArrayList<Order>();
+				  Complaint_Of_Spicific_Store = new ArrayList<Complaint>();
+				  Sum_Of_Revenue = 0;
+				  Sum_Of_Compansation = 0;
+				  
+				  while(rs.next())
+			 	  {
+					   temp_Order = new Order();
+					   order_field = rs.getString("orderID");
+					   temp_Order.setOrderID(Integer.parseInt(order_field));
+					   order_field = rs.getString("orderTotalPrice");
+					   temp_Order.setOrderTotalPrice(Double.parseDouble(order_field));
+					   Order_Of_Spicific_Store.add(temp_Order);
+			 	  }
+				  
+				  /* -------------------------------- We Take The Compensation of Each Complaint About The Order's Of Specific Store ------------------------- */
+				  
+				  for(int i = 0 ; i < Order_Of_Spicific_Store.size() ; i++)
+				  {
+					  String getComplaintOfSpecificStoreTable = "SELECT * FROM project.complaint WHERE OrderID = " + "'" + Order_Of_Spicific_Store.get(i).getOrderID() + "'" + ";";
+					  ResultSet rs_2 = stmt.executeQuery(getComplaintOfSpecificStoreTable);
+					  while(rs_2.next())
+				 	  {
+						   temp_Complaint = new Complaint();
+						   Complaint_Field = rs_2.getString("complaintCompansation");
+						   temp_Complaint.setComplaintCompansation(Double.parseDouble(Complaint_Field));
+						   Complaint_Of_Spicific_Store.add(temp_Complaint);
+				 	  }  
+				  }
+				  
+				  /* -------------------------------- Calculate The Sum of Compensation Of Specific Store ------------------------- */
+				  
+				  for(int i = 0 ; i < Complaint_Of_Spicific_Store.size() ; i++)
+				  {
+					  Sum_Of_Compansation += Complaint_Of_Spicific_Store.get(i).getComplaintCompansation();
+				  }
+				  
+				  /* -------------------------------- Calculate The Sum of Revenue Of Specific Store ------------------------- */
+				  
+				  for(int i = 0 ; i < Order_Of_Spicific_Store.size() ; i++)
+				  {
+					  Sum_Of_Revenue += Order_Of_Spicific_Store.get(i).getOrderTotalPrice();
+				  }
+				  
+				  /* -------------------------------- The Final Sum ------------------------- */
+				  
+				  Sum_Of_Revenue = Sum_Of_Revenue - Sum_Of_Compansation;
+				  
+				  /* -------------------------------- Update The DB ------------------------- */
+				  
+				  String Update_Table_Store_Revenue = "UPDATE project.store SET TotalRevenue =" + "'" + Sum_Of_Revenue + "'" + "WHERE StoreID=" + "'" + All_Stores.get(index).getStoreId() + "'" + ";" ;
+				  stmt.executeUpdate(Update_Table_Store_Revenue);
+		  }
+	  } catch (SQLException e) {	e.printStackTrace();}	
+  }
+  
+  protected ArrayList<Date> GetAllTheDateOfReportOdSpecificStoreFromDB(Object msg , Connection conn) /* This method get Orders Of Specific Store from DB */
+  {
+	  int temp_Store_Id = (Integer)(((Message)msg).getMsg());
+	  ArrayList<Date> Date_Of_Report = new ArrayList<Date>();
+	  Statement stmt;
+	  String order_field;
+	  
+	  /* -------------------------------- We Take The Order Of Specific Store ------------------------- */
+	  
+	  try {
+		  stmt = conn.createStatement();
+		  String getDatesNumbersTable = "SELECT * FROM project.report WHERE StoreID = " + "'" + temp_Store_Id + "'" + ";"; 
+		  ResultSet rs = stmt.executeQuery(getDatesNumbersTable);
+		  
+		  while(rs.next())
+	 	  {
+			   order_field = rs.getString("DateOfCreateReport");
+			   Date_Of_Report.add(Date.valueOf(order_field));
+	 	  }
+		  
+	  } catch (SQLException e) {	e.printStackTrace();}	
+	  return Date_Of_Report;
   }
   
   @SuppressWarnings("unchecked")
@@ -317,25 +426,27 @@ public class EchoServer extends AbstractServer
 	  return complaints;
   }
   
-  protected Store GetTheRevenueOfSpecificStoreFromDB(Object msg , Connection conn)
+  @SuppressWarnings("unchecked")
+  protected ArrayList<Double> GetTheRevenueOfSpecificStoreFromDB(Object msg , Connection conn)
   {
-	  Store temp_Store_With_ID = (Store)(((Message)msg).getMsg());
-	  Store Store_To_Return = new Store();
-	  ArrayList<Order> orders = new ArrayList<Order>();
+	  ArrayList<Object> temp_Store_With_ID = (ArrayList<Object>)(((Message)msg).getMsg());
+	  ArrayList<Order> orders_Of_Specific_Store = new ArrayList<Order>();
 	  ArrayList<Complaint> Complaint_Of_Specific_Store = new ArrayList<Complaint>();
-	  ReportUI.report_For_Take_Quarter.setQaurterReportNumber(temp_Store_With_ID.getStore_Address()); /* temp_Store_With_ID.getStore_Address() - Bring Me Only The Number Of the Quarter Because Its Help Me TO work With The DB */
-	  temp_Store_With_ID.setStore_Address(null);
+	  ArrayList<Double> Revenue_To_Return = new ArrayList<Double>();                /* I Only Use With One cell But I Need This ArrayList ---> To Save After I return To the Client */
+	  int temp_Store_Id = (int)temp_Store_With_ID.get(0);
+	  Date date_Of_Report = (Date)temp_Store_With_ID.get(1);
 	  Statement stmt;
-	  double Sum_Of_Revenue = 0;
-	  double Sum_Of_Compansation = 0;
 	  String order_field;
 	  String Complaint_Field;
 	  Order temp_Order;
 	  Complaint temp_Complaint;
+	  
 	  try {
 		  stmt = conn.createStatement();
-		  String getOrdersOfSpecificStoreTable = "SELECT * FROM project.order WHERE StoreID = " + "'" + temp_Store_With_ID.getStoreId() + "'" + ";"; 
+		  String getOrdersOfSpecificStoreTable = "SELECT * FROM project.order WHERE StoreID = " + "'" + temp_Store_Id + "'" + ";"; 
 		  ResultSet rs = stmt.executeQuery(getOrdersOfSpecificStoreTable);
+		  
+		  /* -------------------------------- Take All The Order Of Specific Store ------------------------- */
 		  
 		  while(rs.next())
 	 	  {
@@ -346,187 +457,164 @@ public class EchoServer extends AbstractServer
 			   temp_Order.setOrderTotalPrice(Double.parseDouble(order_field));
 			   order_field = rs.getString("orderDate");
 			   temp_Order.setOrderDate(Date.valueOf(order_field));
-			   orders.add(temp_Order);
+			   orders_Of_Specific_Store.add(temp_Order);
 	 	  }
 		  
-		  /* -------------------------------- We Take The Compensation of Each Complaint About The Order's Of Specific Store ------------------------- */
+		  /* -------------------------------- Take All The Complaint Of Specific Store ------------------------- */
 		  
-		  for(int i = 0 ; i < orders.size() ; i++)
+		  for(int i = 0 ; i < orders_Of_Specific_Store.size() ; i++)
 		  {
-			  String getComplaintOfSpecificStoreTable = "SELECT * FROM project.complaint WHERE OrderID = " + "'" + orders.get(i).getOrderID() + "'" + ";";
+			  String getComplaintOfSpecificStoreTable = "SELECT * FROM project.complaint WHERE OrderID = " + "'" + orders_Of_Specific_Store.get(i).getOrderID() + "'" + ";";
 			  ResultSet rs_2 = stmt.executeQuery(getComplaintOfSpecificStoreTable);
 			  while(rs_2.next())
 		 	  {
 				   temp_Complaint = new Complaint();
-				   Complaint_Field = rs_2.getString("complaintDate");
-				   temp_Complaint.setComplaintDate(Date.valueOf(Complaint_Field));
 				   Complaint_Field = rs_2.getString("complaintCompansation");
 				   temp_Complaint.setComplaintCompansation(Double.parseDouble(Complaint_Field));
+				   Complaint_Field = rs_2.getString("complaintDate");
+				   temp_Complaint.setComplaintDate(Date.valueOf(Complaint_Field));
 				   Complaint_Of_Specific_Store.add(temp_Complaint);
 		 	  }  
 		  }
 		  
-		  /* -------------------------------- Calculate The Sum of Compensation Of Specific Store ------------------------- */
-		  
-		  for(int i = 0 ; i < Complaint_Of_Specific_Store.size() ; i++)
-		  {
-			  Sum_Of_Compansation += Complaint_Of_Specific_Store.get(i).getComplaintCompansation();
-		  }
-		  
-		  /* -------------------------------- Calculate The Sum of Revenue Of Specific Store ------------------------- */
-		  
-		  for(int i = 0 ; i < orders.size() ; i++)
-		  {
-			  Sum_Of_Revenue += orders.get(i).getOrderTotalPrice();
-		  }
-		  
-		  /* -------------------------------- The Final Sum ------------------------- */
-		  
-		  Sum_Of_Revenue = Sum_Of_Revenue - Sum_Of_Compansation;
-		  
-		  /* -------------------------------- Update The DB ------------------------- */
-		  
-		  String Update_Table_Store_Revenue = "UPDATE project.store SET TotalRevenue =" + "'" + Sum_Of_Revenue + "'" + "WHERE StoreID=" + "'" + temp_Store_With_ID.getStoreId() + "'" + ";" ;
-		  stmt.executeUpdate(Update_Table_Store_Revenue);
-		  
 		  /* -------------------------------- Calculate The Revenue According To Quarter ------------------------- */
 		  
-		  String temp_Date_String;
+		  /* Variable That Represent The DB In Table Order */
+		  String Month_From_DB;
+		  String Year_From_DB;
+		  String Date_From_DB;
 		  Date temp_Date;
-		  int temp_Date_Integer = 0;
+		  int Integer_Month_From_DB = 0;
+		  int Integer_Year_From_DB = 0;
 		  double Revenue_Of_Specific_Quarter = 0;
 		  
-		  for(int i = 0 ; i < orders.size() ; i++)
+		  /* Variable That Represent The Client */
+		  String Month_From_Client;
+		  String Year_From_Client;
+		  String Date_From_Client;
+		  int Integer_Month_From_Client = 0;
+		  int Integer_Year_From_Client = 0;
+		  
+		  
+		  for(int i = 0 ; i < orders_Of_Specific_Store.size() ; i++)
 		  {
-			  if(ReportUI.report_For_Take_Quarter.getQaurterReportNumber().compareTo("1") == 0)
+			  /* Take The Date From The DB */
+			  temp_Date = orders_Of_Specific_Store.get(i).getOrderDate();   		/* Take The Date */
+			  Date_From_DB = String.valueOf(temp_Date); 							/* Casting To String */
+			  Month_From_DB = Date_From_DB.substring(5, 7);                 		/* Take The Month */
+			  Year_From_DB = Date_From_DB.substring(0,4);                  			/* Take The Year */
+			  Integer_Month_From_DB = Integer.parseInt(Month_From_DB);      		/* Casting The Month To Integer */
+			  if((Integer_Month_From_DB / 10) == 0) 
 			  {
-				  temp_Date = orders.get(i).getOrderDate();
-				  temp_Date_String = String.valueOf(temp_Date);
-				  temp_Date_String = temp_Date_String.substring(6, 7);
-				  temp_Date_Integer = Integer.parseInt(temp_Date_String);
-				  if(temp_Date_Integer == 1 || temp_Date_Integer == 2 || temp_Date_Integer == 3)
-				  {
-					  Revenue_Of_Specific_Quarter += orders.get(i).getOrderTotalPrice();
-				  }
+				  Integer_Month_From_DB = Integer_Month_From_DB % 10;
 			  }
+			  Integer_Year_From_DB = Integer.parseInt(Year_From_DB);        		/* Casting The Year To Integer */
 			  
-			  else if(ReportUI.report_For_Take_Quarter.getQaurterReportNumber().compareTo("2") == 0)
+			  /* Take The Date From The Client */
+			  Date_From_Client = String.valueOf(date_Of_Report); 					/* Casting To String */
+			  Month_From_Client = Date_From_Client.substring(5, 7);                 /* Take The Month */
+			  Year_From_Client = Date_From_Client.substring(0,4);                   /* Take The Year */
+			  Integer_Month_From_Client = Integer.parseInt(Month_From_Client);      /* Casting The Month To Integer */
+			  if((Integer_Month_From_Client / 10) == 0) 
 			  {
-				  temp_Date = orders.get(i).getOrderDate();
-				  temp_Date_String = String.valueOf(temp_Date);
-				  temp_Date_String = temp_Date_String.substring(6, 7);
-				  temp_Date_Integer = Integer.parseInt(temp_Date_String);
-				  if(temp_Date_Integer == 4 || temp_Date_Integer == 5 || temp_Date_Integer == 6)
-				  {
-					  Revenue_Of_Specific_Quarter += orders.get(i).getOrderTotalPrice();
-				  }
+				  Integer_Month_From_DB = Integer_Month_From_DB % 10;
 			  }
+			  Integer_Year_From_Client = Integer.parseInt(Year_From_Client);        /* Casting The Year To Integer */
 			  
-			  else if(ReportUI.report_For_Take_Quarter.getQaurterReportNumber().compareTo("3") == 0)
+			  if(Integer_Year_From_DB == Integer_Year_From_Client)
 			  {
-				  temp_Date = orders.get(i).getOrderDate();
-				  temp_Date_String = String.valueOf(temp_Date);
-				  temp_Date_String = temp_Date_String.substring(6, 7);
-				  temp_Date_Integer = Integer.parseInt(temp_Date_String);
-				  if(temp_Date_Integer == 7 || temp_Date_Integer == 8 || temp_Date_Integer == 9)
+				  if(Integer_Month_From_Client == 1 || Integer_Month_From_Client == 2 || Integer_Month_From_Client == 3)
 				  {
-					  Revenue_Of_Specific_Quarter += orders.get(i).getOrderTotalPrice();
+					  Revenue_Of_Specific_Quarter += orders_Of_Specific_Store.get(i).getOrderTotalPrice();
 				  }
-			  }
-			  
-			  else if(ReportUI.report_For_Take_Quarter.getQaurterReportNumber().compareTo("4") == 0)
-			  {
-				  temp_Date = orders.get(i).getOrderDate();
-				  temp_Date_String = String.valueOf(temp_Date);
-				  temp_Date_String = temp_Date_String.substring(5, 7);
-				  temp_Date_Integer = Integer.parseInt(temp_Date_String);
-				  if(temp_Date_Integer == 10 || temp_Date_Integer == 11 || temp_Date_Integer == 12)
+				  else if(Integer_Month_From_Client == 4 || Integer_Month_From_Client == 5 || Integer_Month_From_Client == 6)
 				  {
-					  Revenue_Of_Specific_Quarter += orders.get(i).getOrderTotalPrice();
-				  }
-			  }
+					  Revenue_Of_Specific_Quarter += orders_Of_Specific_Store.get(i).getOrderTotalPrice();
+				  } 
+				  else if(Integer_Month_From_Client == 7 || Integer_Month_From_Client == 8 || Integer_Month_From_Client == 9)
+				  {
+					  Revenue_Of_Specific_Quarter += orders_Of_Specific_Store.get(i).getOrderTotalPrice();
+				  } 
+				  else if(Integer_Month_From_Client == 10 || Integer_Month_From_Client == 11 || Integer_Month_From_Client == 12)
+				  {
+					  Revenue_Of_Specific_Quarter += orders_Of_Specific_Store.get(i).getOrderTotalPrice();
+				  } 
+			  }  
 		  }
 		  
 		  /* -------------------------------- Calculate The Compensation According To Quarter ------------------------- */
 		  
-		  String temp_Date_Complaint_String;
-		  Date temp_Date_Complaint;
-		  int temp_Date_Complaint_Integer = 0;
+		  /* Variable That Represent The DB In Table Complaint */
+		  String Complaint_Month_From_DB;
+		  String Complaint_Year_From_DB;
+		  String Complaint_Date_From_DB;
+		  Date Complaint_temp_Date;
+		  int Complaint_Integer_Month_From_DB = 0;
+		  int Complaint_Integer_Year_From_DB = 0;
 		  double Compensation_Of_Specific_Quarter = 0;
+		  
+		  /* Variable That Represent The Client */
+		  String Complaint_Month_From_Client;
+		  String Complaint_Year_From_Client;
+		  String Complaint_Date_From_Client;
+		  int Complaint_Integer_Month_From_Client = 0;
+		  int Complaint_Integer_Year_From_Client = 0;
 		  
 		  for(int i = 0 ; i < Complaint_Of_Specific_Store.size() ; i++)
 		  {
-			  if(ReportUI.report_For_Take_Quarter.getQaurterReportNumber().compareTo("1") == 0)
+			  /* Take The Date From The DB */
+			  Complaint_temp_Date = Complaint_Of_Specific_Store.get(i).getComplaintDate();   		/* Take The Date */
+			  Complaint_Date_From_DB = String.valueOf(Complaint_temp_Date); 							    /* Casting To String */
+			  Complaint_Month_From_DB = Complaint_Date_From_DB.substring(5,7);                 		    /* Take The Month */
+			  Complaint_Year_From_DB = Complaint_Date_From_DB.substring(0,4);                  			    /* Take The Year */
+			  Complaint_Integer_Month_From_DB = Integer.parseInt(Complaint_Month_From_DB);      		    /* Casting The Month To Integer */
+			  if((Complaint_Integer_Month_From_DB / 10) == 0) 
 			  {
-				  temp_Date_Complaint = Complaint_Of_Specific_Store.get(i).getComplaintDate();
-				  temp_Date_Complaint_String = String.valueOf(temp_Date_Complaint);
-				  temp_Date_Complaint_String = temp_Date_Complaint_String.substring(6, 7);
-				  temp_Date_Complaint_Integer = Integer.parseInt(temp_Date_Complaint_String);
-				  if(temp_Date_Complaint_Integer == 1 || temp_Date_Complaint_Integer == 2 || temp_Date_Complaint_Integer == 3)
-				  {
-					  Compensation_Of_Specific_Quarter += Complaint_Of_Specific_Store.get(i).getComplaintCompansation();
-				  }
+				  Complaint_Integer_Month_From_DB = Complaint_Integer_Month_From_DB % 10;
 			  }
+			  Complaint_Integer_Year_From_DB = Integer.parseInt(Complaint_Year_From_DB);        			 /* Casting The Year To Integer */
 			  
-			  else if(ReportUI.report_For_Take_Quarter.getQaurterReportNumber().compareTo("2") == 0)
+			  /* Take The Date From The Client */
+			  Complaint_Date_From_Client = String.valueOf(date_Of_Report); 						 /* Casting To String */
+			  Complaint_Month_From_Client = Complaint_Date_From_Client.substring(5, 7);                 	 /* Take The Month */
+			  Complaint_Year_From_Client = Complaint_Date_From_Client.substring(0,4);                   	 /* Take The Year */
+			  Complaint_Integer_Month_From_Client = Integer.parseInt(Complaint_Month_From_Client);      	 /* Casting The Month To Integer */
+			  if((Complaint_Integer_Month_From_Client / 10) == 0) 
 			  {
-				  temp_Date_Complaint = Complaint_Of_Specific_Store.get(i).getComplaintDate();
-				  temp_Date_Complaint_String = String.valueOf(temp_Date_Complaint);
-				  temp_Date_Complaint_String = temp_Date_Complaint_String.substring(6, 7);
-				  temp_Date_Complaint_Integer = Integer.parseInt(temp_Date_Complaint_String);
-				  if(temp_Date_Complaint_Integer == 4 || temp_Date_Complaint_Integer == 5 || temp_Date_Complaint_Integer == 6)
-				  {
-					  Compensation_Of_Specific_Quarter += Complaint_Of_Specific_Store.get(i).getComplaintCompansation();
-				  }
+				  Complaint_Integer_Month_From_DB = Complaint_Integer_Month_From_DB % 10;
 			  }
+			  Complaint_Integer_Year_From_Client = Integer.parseInt(Complaint_Year_From_Client);       		 /* Casting The Year To Integer */
 			  
-			  else if(ReportUI.report_For_Take_Quarter.getQaurterReportNumber().compareTo("3") == 0)
+			  if(Complaint_Integer_Year_From_DB == Complaint_Integer_Year_From_Client)
 			  {
-				  temp_Date_Complaint = Complaint_Of_Specific_Store.get(i).getComplaintDate();
-				  temp_Date_Complaint_String = String.valueOf(temp_Date_Complaint);
-				  temp_Date_Complaint_String = temp_Date_Complaint_String.substring(6, 7);
-				  temp_Date_Complaint_Integer = Integer.parseInt(temp_Date_Complaint_String);
-				  if(temp_Date_Complaint_Integer == 7 || temp_Date_Complaint_Integer == 8 || temp_Date_Complaint_Integer == 9)
+				  if(Complaint_Integer_Month_From_Client == 1 || Complaint_Integer_Month_From_Client == 2 || Complaint_Integer_Month_From_Client == 3)
 				  {
 					  Compensation_Of_Specific_Quarter += Complaint_Of_Specific_Store.get(i).getComplaintCompansation();
 				  }
-			  }
-			  
-			  else if(ReportUI.report_For_Take_Quarter.getQaurterReportNumber().compareTo("4") == 0)
-			  {
-				  temp_Date_Complaint = Complaint_Of_Specific_Store.get(i).getComplaintDate();
-				  temp_Date_Complaint_String = String.valueOf(temp_Date_Complaint);
-				  temp_Date_Complaint_String = temp_Date_Complaint_String.substring(5, 7);
-				  temp_Date_Complaint_Integer = Integer.parseInt(temp_Date_Complaint_String);
-				  if(temp_Date_Complaint_Integer == 10 || temp_Date_Complaint_Integer == 11 || temp_Date_Complaint_Integer == 12)
+				  else if(Complaint_Integer_Month_From_Client == 4 || Complaint_Integer_Month_From_Client == 5 || Complaint_Integer_Month_From_Client == 6)
 				  {
 					  Compensation_Of_Specific_Quarter += Complaint_Of_Specific_Store.get(i).getComplaintCompansation();
-				  }
+				  } 
+				  else if(Complaint_Integer_Month_From_Client == 7 || Complaint_Integer_Month_From_Client == 8 || Complaint_Integer_Month_From_Client == 9)
+				  {
+					  Compensation_Of_Specific_Quarter += Complaint_Of_Specific_Store.get(i).getComplaintCompansation();
+				  } 
+				  else if(Complaint_Integer_Month_From_Client == 10 || Complaint_Integer_Month_From_Client == 11 || Complaint_Integer_Month_From_Client == 12)
+				  {
+					  Compensation_Of_Specific_Quarter += Complaint_Of_Specific_Store.get(i).getComplaintCompansation();
+				  } 
 			  }
 		  }
 		  
 		  Revenue_Of_Specific_Quarter = Revenue_Of_Specific_Quarter - Compensation_Of_Specific_Quarter;
-		  Store_To_Return.setTotalRevenue(Revenue_Of_Specific_Quarter);
-		  Store_To_Return.setStoreId(temp_Store_With_ID.getStoreId());
-		  String Store_Field;
-		  
-		  String getDetailsOfSpecificStoreTable = "SELECT * FROM project.store WHERE StoreID = " + "'" + Store_To_Return.getStoreId() + "'" + ";"; 
-		  ResultSet rs_3 = stmt.executeQuery(getDetailsOfSpecificStoreTable);
-		  while(rs_3.next())
-	 	  {
-			  Store_Field = rs_3.getString("StoreAddress");
-			  Store_To_Return.setStore_Address(Store_Field);
-		      Store_Field = rs_3.getString("QuantityOfOrder");
-		      Store_To_Return.setQuantityOfOrders(Integer.parseInt(Store_Field));
-	 	  }  
+		  Revenue_To_Return.add(Revenue_Of_Specific_Quarter);
 	  }
 	  catch (SQLException e) 
 	  {	
 		  e.printStackTrace();
 	  }
-	  
-	  return Store_To_Return;
-  }
+	  return Revenue_To_Return;
+  } 
   
   @SuppressWarnings("unchecked")
   protected void UpdateProductName(Object msg, Connection conn) /* This Method Update the DB */

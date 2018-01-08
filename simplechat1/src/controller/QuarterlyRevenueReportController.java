@@ -1,6 +1,7 @@
 package controller;
 
 import java.net.URL;
+import java.sql.Date;
 import java.util.ResourceBundle;
 
 import boundery.ReportUI;
@@ -25,6 +26,9 @@ public class QuarterlyRevenueReportController implements Initializable{
 /* -------------------------  For The Window Of Quarterly Revenue Report ----------------------------------- */	
 	
 	@FXML
+	private TextField txtYear;
+	
+	@FXML
     private TextField txtQuarterNum;
 	
     @FXML
@@ -37,7 +41,7 @@ public class QuarterlyRevenueReportController implements Initializable{
     private TextField txtQuantityOfOrder;       /* Text Field Of the Quantity Of Order At The Store */
     
     @FXML
-    private TextField txtRevenueStore;          /* Text Field Of the Revenue Store */
+    private TextField txtRevenueOfSpecificQuarter;
     
     @FXML
 	private Button btnClose;                    /* Button For Close The Window */
@@ -52,7 +56,6 @@ public class QuarterlyRevenueReportController implements Initializable{
 		this.txtStoreID.setText(String.valueOf(store.getStoreId()));
 		this.txtStoreAddress.setText((store.getStore_Address()));
 		this.txtQuantityOfOrder.setText(String.valueOf(store.getQuantityOfOrders()));
-		this.txtRevenueStore.setText(String.valueOf(store.getTotalRevenue()));
 	}
 
 /* --------------------------------- Loading Quarter Number To the Text Fields ------------------------------------------------- */	
@@ -82,7 +85,44 @@ public class QuarterlyRevenueReportController implements Initializable{
 	@Override
 	 public void initialize(URL location, ResourceBundle resources) 
 	{
+		int Year_Integer;
+		int Month_Integer;
+		String Month;
+		String Year;
+		String Full_Date_String;
+		Date temp_Date_Quarter_Report;
+		String Revenue_Of_Specific_Quarter = String.valueOf(ReportUI.Help_To_Transfer_Object.get(0));
+		temp_Date_Quarter_Report = (Date)ReportUI.Help_To_Transfer_Object.get(1);
+		Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
+		Year = Full_Date_String.substring(0 , 4);
+		Month = Full_Date_String.substring(5 , 7);
+		Year_Integer = Integer.parseInt(Year);
+		Month_Integer = Integer.parseInt(Month);
+		if((Month_Integer / 10) == 0)
+		{
+			Month_Integer = Month_Integer % 10;
+		}
 		
+		this.txtYear.setText(String.valueOf(Year_Integer)); 					/* Set The Year */
+		
+		if(Month_Integer == 1 || Month_Integer == 2 || Month_Integer == 3)      /* Set The Month */
+		{
+			this.txtQuarterNum.setText(String.valueOf(1));
+		}
+		if(Month_Integer == 4 || Month_Integer == 5 || Month_Integer == 6)      /* Set The Month */
+		{
+			this.txtQuarterNum.setText(String.valueOf(2));
+		}
+		if(Month_Integer == 7 || Month_Integer == 8 || Month_Integer == 9)      /* Set The Month */
+		{
+			this.txtQuarterNum.setText(String.valueOf(3));
+		}
+		if(Month_Integer == 10 || Month_Integer == 11 || Month_Integer == 12)   /* Set The Month */
+		{
+			this.txtQuarterNum.setText(String.valueOf(4));
+		}
+		
+		this.txtRevenueOfSpecificQuarter.setText(Revenue_Of_Specific_Quarter);   				/* Set the Revenue */
 	} 
 	
 /* ------------------------------------------------------------------------------------------------------------------- */

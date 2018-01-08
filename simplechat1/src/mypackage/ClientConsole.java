@@ -4,6 +4,7 @@ package mypackage;
 /* license found at www.lloseng.com */
 
 import java.io.IOException;
+import java.sql.Date;
 import java.util.ArrayList;
 import boundery.CatalogUI;
 import boundery.DataCompanyManagerUI;
@@ -177,9 +178,29 @@ public void displayUI(Object message)
 				  ReportUI.complaints.add(temp_Complaint.get(i));
 		  	  }
 	    }
-	    else if(((Message)message).getOption().compareTo("Take All the Revenue Of Specific Store") == 0)
+	    else if(((Message)message).getOption().compareTo("Take the Revenue Of Specific Quarter Of Specific Store") == 0)
 	    {
-	    	  ReportUI.Specific_Store = (Store)((Message)message).getMsg();
+	    	  int i = 0;
+			  ArrayList<Double> temp_Revenue_Of_Specific_Store_Of_Specific_Quarter = new ArrayList<Double>();
+			  temp_Revenue_Of_Specific_Store_Of_Specific_Quarter = (ArrayList<Double>)((Message)message).getMsg();
+			  ReportUI.Total_Revenue_In_Specific_Quarter.clear();
+
+			  for(i=0;i<temp_Revenue_Of_Specific_Store_Of_Specific_Quarter.size();i++)
+		  	  {
+				  ReportUI.Total_Revenue_In_Specific_Quarter.add(temp_Revenue_Of_Specific_Store_Of_Specific_Quarter.get(i));
+		  	  }
+	    }
+	    else if(((Message)message).getOption().compareTo("Take The Date Of All the Report Of Specific Store") == 0)
+	    {
+		  	  int i = 0;
+			  ArrayList<Date> temp_Date_Of_Report = new ArrayList<Date>();
+			  temp_Date_Of_Report = (ArrayList<Date>)((Message)message).getMsg();
+			  ReportUI.Dates.clear();
+
+			  for(i=0;i<temp_Date_Of_Report.size();i++)
+		  	  {
+				  ReportUI.Dates.add(temp_Date_Of_Report.get(i));
+		  	  }
 	    }
    }
   

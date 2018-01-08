@@ -1,5 +1,6 @@
 package boundery;
 
+import java.sql.Date;
 import java.util.Scanner;
 import java.util.Vector;
 import controller.ReportController;
@@ -8,16 +9,16 @@ import javafx.stage.Stage;
 import mypackage.ClientConsole;
 import entity.Complaint;
 import entity.Order;
-import entity.Report;
 import entity.Store;
 
 public class ReportUI extends Application 		/* With This Class We Show the Report GUI */{
 	
 	public static Vector<Store> stores = new Vector<Store>();
-	public static Store Specific_Store = new Store();
 	public static Vector<Order> orders = new Vector<Order>(); 
 	public static Vector<Complaint> complaints = new Vector<Complaint>(); 
-	public static Report report_For_Take_Quarter = new Report();
+	public static Vector<Date> Dates = new Vector<Date>();
+	public static Vector<Double> Total_Revenue_In_Specific_Quarter = new Vector<Double>();
+	public static Vector<Object> Help_To_Transfer_Object = new Vector<Object>();
 	public static ClientConsole myClient;
 	
 	public static void main( String args[] ) throws Exception

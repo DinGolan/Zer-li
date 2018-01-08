@@ -8,7 +8,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="493.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.QuarterlyRevenueReportController">
    <children>
-      <Label layoutX="84.0" layoutY="38.0" prefHeight="60.0" prefWidth="402.0" text="Quarterly Revenue Report" textFill="#0022ff">
+      <Label layoutX="99.0" layoutY="21.0" prefHeight="60.0" prefWidth="402.0" text="Quarterly Revenue Report" textFill="#0022ff">
          <font>
             <Font name="Bodoni MT Bold" size="36.0" />
          </font>
@@ -24,7 +24,6 @@
          </font>
       </Label>
       <TextField id="txtStoreID" fx:id="txtStoreID" editable="false" layoutX="311.0" layoutY="210.0" />
-      <TextField id="txtRevenueStore" fx:id="txtRevenueStore" editable="false" layoutX="311.0" layoutY="380.0" />
       <Button id="btnClose" fx:id="btnClose" layoutX="278.0" layoutY="438.0" mnemonicParsing="false" onAction="#closeQuarterlyRevenueReportWindow" text="Close" />
       <Label layoutX="64.0" layoutY="272.0" text="Store - Address :">
          <font>
@@ -44,5 +43,12 @@
          </font>
       </Label>
       <TextField id="txtQuarterNum" fx:id="txtQuarterNum" editable="false" layoutX="311.0" layoutY="152.0" />
+      <Label layoutX="64.0" layoutY="99.0" text="Year :">
+         <font>
+            <Font name="System Italic" size="16.0" />
+         </font>
+      </Label>
+      <TextField id="txtYear" fx:id="txtYear" editable="false" layoutX="311.0" layoutY="99.0" />
+      <TextField id="txtRevenueOfSpecificQuarter" fx:id="txtRevenueOfSpecificQuarter" editable="false" layoutX="311.0" layoutY="380.0" />
    </children>
 </AnchorPane>
