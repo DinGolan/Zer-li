@@ -19,11 +19,11 @@ public class Order implements Serializable{
 	
 	private LocalDate requiredSupplyDate;
 	
-	private static int orderID = 4;
+	private static int orderID = 10;
 	
 	private String customerID;
 	
-	private String storeID;
+	private int storeID;
 	
 	private String requiredSupplyTime;
 	
@@ -48,7 +48,7 @@ public class Order implements Serializable{
 
 	public Order(SupplyOption supply, double orderTotalPrice, ArrayList<Product> productsInOrder,
 			LocalDate requiredSupplyDate, String customerID, String requiredSupplyTime, String recipientAddress,
-			String recipientName, String recipienPhoneNum, String postCard) {
+			String recipientName, String recipienPhoneNum, String postCard,  int storeID) {
 		super();
 		this.supply = supply;
 		this.orderDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
@@ -61,7 +61,7 @@ public class Order implements Serializable{
 		this.recipientName = recipientName;
 		this.recipienPhoneNum = recipienPhoneNum;
 		this.postCard = postCard;
-
+		this.storeID = storeID;
 	}
 
 
@@ -167,11 +167,11 @@ public class Order implements Serializable{
 		this.recipienPhoneNum = recipienPhoneNum;
 	}
 
-	public String getStoreID() {
+	public int getStoreID() {
 		return storeID;
 	}
 
-	public void setStoreID(String storeID) {
+	public void setStoreID(int storeID) {
 		this.storeID = storeID;
 	}
 

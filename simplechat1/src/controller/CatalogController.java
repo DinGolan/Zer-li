@@ -1,4 +1,5 @@
 package controller;
+import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -186,29 +187,25 @@ public class CatalogController implements Initializable {
 		CatalogUI.products.clear();
 		ArrayList<String> s = new ArrayList<String>();
 		Image image;
-		InputStream is;
 		msg = new Message(s, "get all products in DB");
 		int i=0 , j;
 		Product p;
+		InputStream targetStream;
 		UserUI.myClient.accept(msg);
-		while(CatalogUI.products.size()==0); 
+		while(CatalogUI.products.size()==0);
 		for(j=0 ; j<CatalogUI.products.size() ; j++)
 		{
 			p = CatalogUI.products.get(j);
 			if(p.getpType().equals(ProductType.valueOf("BOUQUET")))
 			{
-			       try {
-			            is = new FileInputStream(p.getpPicture()); 
-						image = new Image(is);
-						Pics.get(i).setImage(image);
-						labels.get(i).setText(p.getpName());
-						labels.get(i).setVisible(true);
-						btnProductInfo.get(i).setVisible(true);
-						btnProductInfo.get(i).setDisable(false);
-						i++;
-			        } catch (FileNotFoundException e) {
-			            e.printStackTrace();
-			        }
+				targetStream= new ByteArrayInputStream(p.getByteArray());
+				image = new Image(targetStream);
+				Pics.get(i).setImage(image);
+				labels.get(i).setText(p.getpName());
+				labels.get(i).setVisible(true);
+				btnProductInfo.get(i).setVisible(true);
+				btnProductInfo.get(i).setDisable(false);
+				i++;
 			}
 		}
 	}
@@ -219,12 +216,12 @@ public class CatalogController implements Initializable {
 		CatalogUI.products.clear();
 		ArrayList<String> s = new ArrayList<String>();
 		Image image;
-		InputStream is;
 		msg = new Message(s, "get all products in DB");
 		Iterator<Product> iter = CatalogUI.products.iterator();
 		int i=0 , j;
 		Product p;
 		String type = null;
+		InputStream targetStream;
 		switch(((Node)event.getSource()).getId()) { //category that pressed
 		case "BouquetsLink":
 			type = "BOUQUET";
@@ -263,18 +260,14 @@ public class CatalogController implements Initializable {
 			p = CatalogUI.products.get(j);
 			if(p.getpType().equals(ProductType.valueOf(type)))
 			{
-			       try {
-			            is = new FileInputStream(p.getpPicture()); 
-						image = new Image(is);
-						Pics.get(i).setImage(image);
-						labels.get(i).setText(p.getpName());
-						labels.get(i).setVisible(true);
-						btnProductInfo.get(i).setVisible(true);
-						btnProductInfo.get(i).setDisable(false);
-						i++;
-			        } catch (FileNotFoundException e) {
-			            e.printStackTrace();
-			        }
+				targetStream= new ByteArrayInputStream(p.getByteArray());
+				image = new Image(targetStream);
+				Pics.get(i).setImage(image);
+				labels.get(i).setText(p.getpName());
+				labels.get(i).setVisible(true);
+				btnProductInfo.get(i).setVisible(true);
+				btnProductInfo.get(i).setDisable(false);
+				i++;
 			}
 		}
 	}

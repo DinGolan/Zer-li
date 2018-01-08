@@ -5,12 +5,15 @@ import java.util.Vector;
 import controller.UserController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import mypackage.ClientConsole;
 import entity.Account;
+import entity.Message;
 import entity.Product;
+import entity.Store;
 import entity.User;
 import controller.CatalogController;
 import javafx.application.Application;
@@ -27,7 +30,8 @@ public class UserUI extends Application /* With This Class We Show the Product G
 	
 	public static Vector<User> users = new Vector<User>();
 	public static ClientConsole myClient;
-	public static User user;
+	public static User user = null;
+	public static Store store;
 	public static Account account;
 
 	
@@ -51,5 +55,11 @@ public class UserUI extends Application /* With This Class We Show the Product G
 		primaryStage.setScene(scene);
 		
 		primaryStage.show();	
+	}
+	
+	@Override
+	public void stop(){
+		Message msg = new Message(UserUI.user.getId(), "change User status to DISCONNECTED");
+		UserUI.myClient.accept(msg); // change User status to DISCONNECTED in DB
 	}
 }

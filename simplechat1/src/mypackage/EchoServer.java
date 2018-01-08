@@ -1,4 +1,9 @@
 package mypackage;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 /* This file contains material supporting section 3.7 of the textbook: */
 /* "Object Oriented Software Engineering" and is issued under the open-source */
 /* license found at www.lloseng.com */
@@ -13,13 +18,17 @@ import java.util.Scanner;
 import com.mysql.jdbc.PreparedStatement;
 
 import entity.Account;
+import entity.Account.PaymentArrangement;
+import entity.Account.PaymentMethod;
 import entity.Message;
 import entity.Order;
 import entity.Product;
 import entity.Product.ProductType;
+import entity.Store;
 import entity.User;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
+
 
 /**
  * This class overrides some of the methods in the abstract 
@@ -75,8 +84,13 @@ public class EchoServer extends AbstractServer
 	    
 	    if(((Message)msg).getOption().compareTo("get all products in DB") ==0) 	    /* Check that we get from DB Because We want to Initialized */
 	    {										
-				/* ArrayList<Product> aa = new ArrayList<Product>(); */
-	    		((Message)msg).setMsg(getProductsFromDB(conn));	    
+	    		((Message)msg).setMsg(getProductsFromDB(conn));	  
+	    		this.sendToAllClients(msg);
+  		}
+	    
+	    if(((Message)msg).getOption().compareTo("get all stores from DB") ==0) 	    /* Check that we get from DB Because We want to Initialized */
+	    {										
+	    		((Message)msg).setMsg(getStoresFromDB(conn));	    
 	    		this.sendToAllClients(msg);
   		}
 	    
@@ -95,6 +109,12 @@ public class EchoServer extends AbstractServer
 	    if(((Message)msg).getOption().compareTo("Update User At Data Base") == 0) 	    /* Check that we get from DB Because We want to Initialized */
         {										
 	    	UpdateUserAtDB(msg,conn);
+		}
+	    
+	    if(((Message)msg).getOption().compareTo("Update costomer account") == 0) 	    /* Check that we get from DB Because We want to Initialized */
+        {										
+	    	((Message)msg).setMsg(UpdateUserAccountAtDB(msg,conn));
+	    	this.sendToAllClients(msg);	
 		}
 	    
 	    if(((Message)msg).getOption().compareTo("insert order to DB") == 0) //add new Order
@@ -350,21 +370,26 @@ public class EchoServer extends AbstractServer
 	  Statement stmt;
 	  String p;
 	  Product pr;
+	  File file = new File("newfile");
+	  FileOutputStream output;
 	  try {
+	      output = new FileOutputStream(file);
 		  stmt = conn.createStatement();
 		  String getProductsTable = "SELECT * FROM product;"; /* Get all the Table from the DB */
 		  ResultSet rs = stmt.executeQuery(getProductsTable);
 		  while(rs.next())
 	 	{
-		  pr = new Product("", "", ProductType.valueOf("BOUQUET") , 0 , "");
+		  pr = new Product();
 		  pr.setpID(rs.getString("ProductID"));
 		  pr.setpName(rs.getString("ProductName"));
 		  pr.setpType(ProductType.valueOf(rs.getString("productType")));
 		  pr.setpPrice(rs.getDouble("productPrice"));
-		  pr.setpPicture(rs.getString("productPicture"));
+		  pr.setImage(rs.getBinaryStream("ProductPicure"));
 		  products.add(pr);
 	 	}
-	  } catch (SQLException e) {	e.printStackTrace();}	
+	  } catch (SQLException e) {e.printStackTrace();} 
+	  catch (FileNotFoundException e){e.printStackTrace(); } 
+	  catch (IOException e) {e.printStackTrace();}	
 	  return products;
   }
   
@@ -504,15 +529,84 @@ public class EchoServer extends AbstractServer
   
   protected void AddNewOrderToDB(Object msg, Connection conn) //this method add new account to DB
   {
+	  
 	  Order newOrder = (Order)(((Message)msg).getMsg());
 	  Statement stmt;	  
+	  Account.PaymentMethod method= null;
 	  try {
 			  stmt = conn.createStatement(); 
-			  String InsertAccountToID = "INSERT INTO project.order(customerID, orderSupplyOption, orderTotalPrice, orderRequiredSupplyDate, orderRequiredSupplyTime, orderRecipientAddress , orderRecipientName , orderRecipientPhoneNumber, orderPostcard ,orderDate)" + 
-			  		"VALUES('"+newOrder.getCustomerID()+"','"+newOrder.getSupply()+ "',"+newOrder.getOrderTotalPrice()+",'"+newOrder.getRequiredSupplyDate()+"','"+newOrder.getRequiredSupplyTime()+"','"+newOrder.getRecipientAddress()+"','"+newOrder.getRecipientName()+"','"+newOrder.getRecipienPhoneNum()+"','"+newOrder.getPostCard()+"','"+newOrder.getOrderDate()+"');";
+			  String getCustomerAccount = "SELECT * FROM project.account WHERE AccountUserId='"+newOrder.getCustomerID()+"'; " ;
+			  ResultSet rs = stmt.executeQuery(getCustomerAccount);
+			  while(rs.next())
+				  method = Account.PaymentMethod.valueOf(rs.getString("AccountPaymentMethod"));
+			  String InsertAccountToID = "INSERT INTO project.order(customerID, orderSupplyOption, orderTotalPrice, orderRequiredSupplyDate, orderRequiredSupplyTime, orderRecipientAddress , orderRecipientName , orderRecipientPhoneNumber, orderPostcard ,orderDate, StoreID, paymentMethod)" + 
+			  		"VALUES('"+newOrder.getCustomerID()+"','"+newOrder.getSupply()+ "',"+newOrder.getOrderTotalPrice()+",'"+newOrder.getRequiredSupplyDate()+"','"+newOrder.getRequiredSupplyTime()+"','"+newOrder.getRecipientAddress()+"','"+newOrder.getRecipientName()+"','"+newOrder.getRecipienPhoneNum()+"','"+newOrder.getPostCard()+"','"+newOrder.getOrderDate()+"',"+newOrder.getStoreID()+",'"+method+"');";
 			  stmt.executeUpdate(InsertAccountToID);	 
 		 
 	  } catch (SQLException e) {	e.printStackTrace();}	
+  }
+  
+  protected ArrayList<Store> getStoresFromDB(Connection conn) /* This method get products table details from DB */
+  {
+	  ArrayList<Store> stores = new ArrayList<Store>();
+	  Statement stmt;
+	  String p;
+	  Store pr;
+	  try {
+		  stmt = conn.createStatement();
+		  String getProductsTable = "SELECT * FROM store;"; /* Get all the Table from the DB */
+		  ResultSet rs = stmt.executeQuery(getProductsTable);
+		  while(rs.next())
+	 	{
+		  pr = new Store();
+		  pr.setStoreId(rs.getInt("StoreID"));
+		  pr.setStore_Address(rs.getString("StoreAddress"));
+		  stores.add(pr);
+	 	}
+	  } catch (SQLException e) {	e.printStackTrace();}	
+	  return stores;
+  }
+  
+  
+  protected Account UpdateUserAccountAtDB(Object msg, Connection conn) /* This Method Update the DB */
+  {
+	  System.out.println("aaaaaa");
+	  Account account = new Account();
+	  Statement stmt;
+	  double prevBalance=0;
+	  Account.PaymentArrangement arrangement = null;
+	  Order customerOrder = (Order)((Message)msg).getMsg();
+	  try {
+		  stmt = conn.createStatement();
+		  String getCustomerAccount = "SELECT * FROM project.account WHERE AccountUserId='"+customerOrder.getCustomerID()+"'; " ;
+		  ResultSet rs = stmt.executeQuery(getCustomerAccount);
+		  while(rs.next())
+		 	{
+		  prevBalance = rs.getDouble("AccountBalanceCard");
+		  arrangement = Account.PaymentArrangement.valueOf(rs.getString("AccountPaymentArrangement"));
+		 	}
+		  if(arrangement.equals(Account.PaymentArrangement.FULLPRICE))
+			  prevBalance -= customerOrder.getOrderTotalPrice();
+		  else if(arrangement.equals(Account.PaymentArrangement.ANNUAL))
+			  prevBalance -= customerOrder.getOrderTotalPrice()*0.9;
+		  else if(arrangement.equals(Account.PaymentArrangement.MONTHLY))
+			  prevBalance -= customerOrder.getOrderTotalPrice()*0.95;		  
+		  String UpdateTableAccount = "UPDATE project.account SET AccountBalanceCard =" +  prevBalance  + "WHERE AccountUserId='"+customerOrder.getCustomerID()+"'; " ;
+		  stmt.executeUpdate(UpdateTableAccount);
+		  getCustomerAccount = "SELECT * FROM project.account WHERE AccountUserId='"+customerOrder.getCustomerID()+"'; " ;
+		  rs = stmt.executeQuery(getCustomerAccount);
+		  while(rs.next())
+		 	{
+
+			  account.setAccountUserId(String.valueOf(rs.getInt("AccountUserId")));
+			  account.setAccountBalanceCard(rs.getDouble("AccountBalanceCard"));
+			  account.setAccountPaymentMethod(Account.PaymentMethod.valueOf(rs.getString("AccountPaymentMethod")));
+			  account.setAccountPaymentArrangement(Account.PaymentArrangement.valueOf(rs.getString("AccountPaymentArrangement")));
+		 	}
+		  System.out.println(account);
+	  } 
+	  catch (SQLException e) {	e.printStackTrace();}	  
+	  return account;
   }
   
   

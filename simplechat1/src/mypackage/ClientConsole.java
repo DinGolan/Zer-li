@@ -5,19 +5,24 @@ package mypackage;
 
 import java.io.IOException;
 import java.util.ArrayList;
+
 import boundery.CatalogUI;
+import boundery.CustomerUI;
 import boundery.DataCompanyManagerUI;
+import boundery.StoreUI;
+import boundery.SurveyResultUI;
 import boundery.UserUI;
 import client.ChatClient;
 import common.ChatIF;
 import controller.AccountController;
+import controller.OrderController;
 import controller.SurveyResultController;
 import controller.UserController;
 import entity.Account;
 import entity.Message;
 import entity.Product;
+import entity.Store;
 import entity.User;
-import boundery.SurveyResultUI;
 
 /**
  * This class constructs the UI for a chat client.  It implements the
@@ -117,7 +122,6 @@ public class ClientConsole implements ChatIF
 	  	  	ArrayList<Product> temp = new ArrayList<Product>();
 	  	  	temp = (ArrayList<Product>)((Message)message).getMsg();
 	  	  	CatalogUI.products.clear();
-
 	  	  	for(i=0;i<temp.size();i++)
 	  	  	{
 	  	  	CatalogUI.products.add(temp.get(i));
@@ -137,11 +141,30 @@ public class ClientConsole implements ChatIF
 		  	  }
 	    }
 	    
+	    if(((Message)message).getOption().compareTo("get all stores from DB") == 0)
+	    {
+		  	  int i=0;
+			  ArrayList<Store> temp = new ArrayList<Store>();
+			  temp = (ArrayList<Store>)((Message)message).getMsg();
+			  StoreUI.stores.clear();
+
+			  for(i=0;i<temp.size();i++)
+		  	  {
+				  StoreUI.stores.add(temp.get(i));
+		  	  }
+	    }
+	    
 	    if(((Message)message).getOption().compareTo("get all the survey") == 0)
 	    {
 	    	SurveyResultUI.Id = (ArrayList<Integer>)(((Message)message).getMsg());
 	    	SurveyResultController.flag = true;
 	    }
+	    
+		if(((Message)message).getOption().compareTo("Update costomer account") ==0)
+		{
+			 CustomerUI.account = (Account)(((Message)message).getMsg());
+			 OrderController.accountFlag = true;
+		}
    }
   
   

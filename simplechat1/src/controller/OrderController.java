@@ -10,8 +10,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.ResourceBundle;
 
+import boundery.CustomerUI;
 import boundery.ProductUI;
 import boundery.UserUI;
+import entity.Account;
 import entity.Message;
 import entity.Order;
 import entity.Product;
@@ -26,6 +28,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -35,7 +38,7 @@ import javafx.stage.Stage;
 public class OrderController implements Initializable{
 
 	private static int flag=0;
-	
+	public static boolean accountFlag = false;
 	@FXML
 	private Button btnRemove = null; /* button remove for remove product from cart */
 	@FXML
@@ -50,6 +53,8 @@ public class OrderController implements Initializable{
 	private Button btnBackToCart = null; /* button order for continue to create order */
 	@FXML
 	private Button btnBackToOrder = null; /* button order for continue to create order */
+	@FXML
+	private Button btnCustomerOption = null; /* button order for continue to create order */
 
 	@FXML
 	private RadioButton rdbtnAddPostCard = null; /* button order for continue to create order */
@@ -78,6 +83,13 @@ public class OrderController implements Initializable{
 	@FXML
 	private TextArea txtPostCard= null; /* text field for Total price of cart */
 	
+	@FXML
+	private Label lbltotalprice= null; /* text field for Total price of cart */
+	@FXML
+	private Label lblArrangement= null; /* text field for Total price of cart */
+	@FXML
+	private Label lblAccountBalance= null; /* text field for Total price of cart */
+	
 	
 	@FXML
 	private DatePicker dpRequiresSupplyDate=new DatePicker(LocalDate.now());  //DatePicker with the end date of the subscription
@@ -95,6 +107,12 @@ public class OrderController implements Initializable{
 			setComboBoxAndPrice();
 		if(flag == 1)
 			txtTotalOrderPrice.setText(String.valueOf(totalPrice));
+		if(flag==3)
+		{
+			lbltotalprice.setText(String.valueOf(totalPrice) + " NS");
+			lblAccountBalance.setText(String.valueOf(CustomerUI.account.getAccountBalanceCard()));
+			lblArrangement.setText(String.valueOf(CustomerUI.account.getAccountPaymentArrangement()));
+		}
 	}
 	
 	public void setComboBoxAndPrice() // set comboBox of products
@@ -246,7 +264,7 @@ public class OrderController implements Initializable{
 			else {
 				 try {
 				LocalTime.parse(txtRequiredTime.getText()); /*if supply time is NOT valid throw exception*/
-				flag=0;  /*for next order*/	
+				flag=3;  /*for next order*/	
 				ProductController.order.getProductsInOrder().clear();  /*for next order*/
 
 				Order.SupplyOption s; 
@@ -254,14 +272,24 @@ public class OrderController implements Initializable{
 					s = Order.SupplyOption.DELIVERY;
 				else 
 					s = Order.SupplyOption.PICKUP;
-				Order saveOrder = new Order(s, totalPrice, ProductController.order.getProductsInOrder(), localDate, UserUI.user.getId(), txtRequiredTime.getText(), txtAddress.getText(), txtRecipientsName.getText(), txtRecipientsPhoneNumber.getText(), txtPostCard.getText());
+				Order saveOrder = new Order(s, totalPrice, ProductController.order.getProductsInOrder(), localDate, UserUI.user.getId(), txtRequiredTime.getText(), txtAddress.getText(), txtRecipientsName.getText(), txtRecipientsPhoneNumber.getText(), txtPostCard.getText() , UserUI.store.getStoreId());
 				Message msg = new Message(saveOrder, "insert order to DB");
 				UserUI.myClient.accept(msg);
+				msg.setOption("Update costomer account");
+				UserUI.myClient.accept(msg);
+				accountFlag = false;
+				while(accountFlag == false) {
+					System.out.print("");
+				}
+				accountFlag = false;
 				((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
 				Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
 				FXMLLoader loader = new FXMLLoader(); 					 /* load object */
-				totalPrice=0;
-				Pane root = loader.load(getClass().getResource("/controller/CustomerOptions.fxml").openStream());
+				if(CustomerUI.account.getAccountPaymentArrangement().equals(Account.PaymentArrangement.ANNUAL))
+					totalPrice *= 0.9;
+				else if(CustomerUI.account.getAccountPaymentArrangement().equals(Account.PaymentArrangement.MONTHLY))
+					totalPrice *= 0.95;
+				Pane root = loader.load(getClass().getResource("/controller/ThankForOrder.fxml").openStream());
 				totalPrice=0;  /*for next order*/
 				Scene scene = new Scene(root);			
 				primaryStage.setScene(scene);	
@@ -331,6 +359,20 @@ public class OrderController implements Initializable{
 		primaryStage.setScene(scene);	
 			
 		primaryStage.show();									 /* show catalog frame window */
+	}
+	
+	public void backToCustomerOption(ActionEvent event) throws Exception
+	{
+		flag=0;
+		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+		Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
+		FXMLLoader loader = new FXMLLoader(); 					 /* load object */
+		Pane root = loader.load(getClass().getResource("/controller/CustomerOptions.fxml").openStream());
+	
+		Scene scene = new Scene(root);			
+		primaryStage.setScene(scene);	
+			
+		primaryStage.show();
 	}
 	
 

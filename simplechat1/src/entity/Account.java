@@ -16,7 +16,7 @@ public class Account implements Serializable{
 		FULLPRICE,MONTHLY,ANNUAL
 	}
 	public enum PaymentMethod{ //enum for the payment method
-		CASH,CREDITCARD;	
+		CASH,CREDIT;	
 	}
 	
 	/*public Account() { //constructor
