@@ -175,6 +175,14 @@ public class ClientConsole implements ChatIF
 	    	SurveyResultUI.Id = (ArrayList<Integer>)(((Message)message).getMsg());
 	    	SurveyResultController.flag = true;
 	    }
+	    
+	    if(((Message)message).getOption().compareTo("insert order to DB") == 0)
+	    {
+	    	if(((String)((Message)message).getMsg()).compareTo("No account") == 0)
+	    		OrderController.accountExistFlag = false;
+	    	OrderController.accountFlag = true;
+	    }
+
    }
   
   

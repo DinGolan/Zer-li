@@ -78,6 +78,8 @@ public class ChatClient extends AbstractClient
 		  clientUI.displayUI(msg);
 	  else if(((Message)msg).getOption().compareTo("Update customer account") ==0)
 		  clientUI.displayUI(msg);
+	  else if(((Message)msg).getOption().compareTo("insert order to DB") ==0)
+		  clientUI.displayUI(msg);
   }
 
   /**

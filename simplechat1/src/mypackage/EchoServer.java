@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Map.Entry;
 
 import com.mysql.jdbc.PreparedStatement;
 
@@ -117,8 +118,9 @@ public class EchoServer extends AbstractServer
 	    
 	    if(((Message)msg).getOption().compareTo("insert order to DB") == 0) //add new Order
 	    {
-	    	AddNewOrderToDB(msg,conn);	
-	    	}
+	    	((Message)msg).setMsg(AddNewOrderToDB(msg,conn));	
+	    	this.sendToAllClients(msg);	
+	    }
 	
 	    
 	    if(((Message)msg).getOption().compareTo("Add new account") == 0) //check if we add new account
@@ -592,17 +594,40 @@ public class EchoServer extends AbstractServer
   }
   
   
-  protected void AddNewOrderToDB(Object msg, Connection conn) //this method add new account to DB
+  protected String AddNewOrderToDB(Object msg, Connection conn) //this method add new account to DB
   {
 	  Order newOrder = (Order)(((Message)msg).getMsg());
-	  Statement stmt;	  
+	  int orderID=0;
+	  Statement stmt;
+	  Account.PaymentMethod method = null;
 	  try {
 			  stmt = conn.createStatement(); 
-			  String InsertAccountToID = "INSERT INTO project.order(customerID, orderSupplyOption, orderTotalPrice, orderRequiredSupplyDate, orderRequiredSupplyTime, orderRecipientAddress , orderRecipientName , orderRecipientPhoneNumber, orderPostcard ,orderDate)" + 
-			  		"VALUES('"+newOrder.getCustomerID()+"','"+newOrder.getSupply()+ "',"+newOrder.getOrderTotalPrice()+",'"+newOrder.getRequiredSupplyDate()+"','"+newOrder.getRequiredSupplyTime()+"','"+newOrder.getRecipientAddress()+"','"+newOrder.getRecipientName()+"','"+newOrder.getRecipienPhoneNum()+"','"+newOrder.getPostCard()+"','"+newOrder.getOrderDate()+"');";
-			  stmt.executeUpdate(InsertAccountToID);	 
-		 
+			  String InsertAccountToID = "SELECT AccountPaymentMethod FROM project.account WHERE AccountUserId = '"+newOrder.getCustomerID()+"';";
+			  ResultSet rs = stmt.executeQuery(InsertAccountToID);
+			  while(rs.next())
+			 	{
+				  method=Account.PaymentMethod.valueOf(rs.getString("AccountPaymentMethod"));
+			 	}
+			  if(method != null) {
+			  InsertAccountToID = "INSERT INTO project.order(customerID, orderSupplyOption, orderTotalPrice, orderRequiredSupplyDate, orderRequiredSupplyTime, orderRecipientAddress , orderRecipientName , orderRecipientPhoneNumber, orderPostcard ,orderDate, StoreID ,paymentMethod)" + 
+			  		"VALUES('"+newOrder.getCustomerID()+"','"+newOrder.getSupply()+ "',"+newOrder.getOrderTotalPrice()+",'"+newOrder.getRequiredSupplyDate()+"','"+newOrder.getRequiredSupplyTime()+"','"+newOrder.getRecipientAddress()+"','"+newOrder.getRecipientName()+"','"+newOrder.getRecipienPhoneNum()+"','"+newOrder.getPostCard()+"','"+newOrder.getOrderDate()+"' , "+newOrder.getStoreID()+",'"+method+"');";
+			  stmt.executeUpdate(InsertAccountToID);
+			  InsertAccountToID = "SELECT orderID FROM project.`order` WHERE customerID = '"+newOrder.getCustomerID()+"' AND orderDate = '"+newOrder.getOrderDate()+"' AND orderTotalPrice = "+newOrder.getOrderTotalPrice()+" AND orderRequiredSupplyTime ='"+newOrder.getRequiredSupplyTime()+"';";
+			  rs = stmt.executeQuery(InsertAccountToID);
+			  while(rs.next())
+			 	{
+			  orderID=rs.getInt("orderID");
+			 	}
+			  for(Entry<Product, Integer> e : ((Order)(((Message)msg).getMsg())).getProductsInOrder().entrySet())
+			  {
+				  InsertAccountToID = "INSERT INTO project.productinorder(ProductID, OrderID, QuantityOfProduct, ProductType, ProductName, productPrice)"+ 
+					  		"VALUES('"+e.getKey().getpID()+"',"+orderID+ ","+e.getValue()+",'"+e.getKey().getpType()+"','"+e.getKey().getpName()+"',"+e.getKey().getpPrice()+");";
+					  stmt.executeUpdate(InsertAccountToID);
+			  }
+			  return "";
+			  }
 	  } catch (SQLException e) {	e.printStackTrace();}	
+	  return "No account";
   }
   
   protected ArrayList<Store> getStoresFromDB(Connection conn) /* This method get products table details from DB */
@@ -629,7 +654,6 @@ public class EchoServer extends AbstractServer
   
   protected Account UpdateUserAccountAtDB(Object msg, Connection conn) /* This Method Update the DB */
   {
-	  
 	  Account account = new Account();
 	  Statement stmt;
 	  double prevBalance=0;

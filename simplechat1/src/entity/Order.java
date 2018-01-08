@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.time.LocalDate;
 
 public class Order implements Serializable{
@@ -15,7 +16,7 @@ public class Order implements Serializable{
 	
 	private double orderTotalPrice;
 	
-	private ArrayList<Product> productsInOrder;
+	private HashMap<Product , Integer> productsInOrder;
 	
 	private LocalDate requiredSupplyDate;
 	
@@ -34,6 +35,8 @@ public class Order implements Serializable{
 	private String recipienPhoneNum;
 	
 	private String postCard;
+	
+	private Account.PaymentMethod paymentMethod;
 
 	private static final double deliveryPrice = 20;
 	
@@ -41,14 +44,14 @@ public class Order implements Serializable{
 	
 	public Order()
 	{
-		productsInOrder = new ArrayList<Product>();
+		productsInOrder = new HashMap<Product, Integer>();
 	}
 
 
 
-	public Order(SupplyOption supply, double orderTotalPrice, ArrayList<Product> productsInOrder,
+	public Order(SupplyOption supply, double orderTotalPrice, HashMap<Product, Integer> productsInOrder,
 			LocalDate requiredSupplyDate, String customerID, String requiredSupplyTime, String recipientAddress,
-			String recipientName, String recipienPhoneNum, String postCard,  int storeID) {
+			String recipientName, String recipienPhoneNum, String postCard,  int storeID, Account.PaymentMethod paymentMethod) {
 		super();
 		this.supply = supply;
 		this.orderDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
@@ -62,6 +65,7 @@ public class Order implements Serializable{
 		this.recipienPhoneNum = recipienPhoneNum;
 		this.postCard = postCard;
 		this.storeID = storeID;
+		this.paymentMethod = paymentMethod;
 	}
 
 
@@ -90,11 +94,11 @@ public class Order implements Serializable{
 		this.orderTotalPrice = orderTotalPrice;
 	}
 
-	public ArrayList<Product> getProductsInOrder() {
+	public HashMap<Product, Integer> getProductsInOrder() {
 		return productsInOrder;
 	}
 
-	public void setProductsInOrder(ArrayList<Product> productsInOrder) {
+	public void setProductsInOrder(HashMap<Product, Integer> productsInOrder) {
 		this.productsInOrder = productsInOrder;
 	}
 
@@ -184,6 +188,16 @@ public class Order implements Serializable{
 				+ ", customerID=" + customerID + ", storeID=" + storeID + ", requiredSupplyTime=" + requiredSupplyTime
 				+ ", recipientAddress=" + recipientAddress + ", recipientName=" + recipientName + ", recipienPhoneNum="
 				+ recipienPhoneNum + ", postCard=" + postCard + "]";
+	}
+
+
+
+	public Account.PaymentMethod getPaymentMethod() {
+		return paymentMethod;
+	}
+
+	public void setPaymentMethod(Account.PaymentMethod paymentMethod) {
+		this.paymentMethod = paymentMethod;
 	}
 	
 	

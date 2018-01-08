@@ -89,5 +89,31 @@ public class Product implements Serializable
 	public byte[] getByteArray() {
 		return buffer;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((pID == null) ? 0 : pID.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this.getpID() == ((Product)obj).getpID())
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Product other = (Product) obj;
+		if (pID == null) {
+			if (other.pID != null)
+				return false;
+		} else if (!pID.equals(other.pID))
+			return false;
+		return true;
+	}
+	
 	
 }
