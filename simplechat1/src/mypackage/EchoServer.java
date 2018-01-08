@@ -1,4 +1,8 @@
 package mypackage;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 /* This file contains material supporting section 3.7 of the textbook: */
 /* "Object Oriented Software Engineering" and is issued under the open-source */
 /* license found at www.lloseng.com */
@@ -18,6 +22,7 @@ import entity.Message;
 import entity.Order;
 import entity.Product;
 import entity.Product.ProductType;
+import entity.Store;
 import entity.User;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
@@ -81,6 +86,12 @@ public class EchoServer extends AbstractServer
 	    		this.sendToAllClients(msg);
   		}
 	    
+	    if(((Message)msg).getOption().compareTo("get all stores from DB") ==0) 	    /* Check that we get from DB Because We want to Initialized */
+	    {										
+	    		((Message)msg).setMsg(getStoresFromDB(conn));	    
+	    		this.sendToAllClients(msg);
+  		}
+	    
 	    if(((Message)msg).getOption().compareTo("Add User To Combo Box From DB") == 0) 	    /* Check that we get from DB Because We want to Initialized */
         {			
 	    	((Message)msg).setMsg(getUsersFromDB(conn));	
@@ -96,6 +107,12 @@ public class EchoServer extends AbstractServer
 	    if(((Message)msg).getOption().compareTo("Update User At Data Base") == 0) 	    /* Check that we get from DB Because We want to Initialized */
         {										
 	    	UpdateUserAtDB(msg,conn);
+		}
+	    
+	    if(((Message)msg).getOption().compareTo("Update customer account") == 0) 	    /* Check that we get from DB Because We want to Initialized */
+        {						
+	    	((Message)msg).setMsg(UpdateUserAccountAtDB(msg,conn));
+	    	this.sendToAllClients(msg);	
 		}
 	    
 	    if(((Message)msg).getOption().compareTo("insert order to DB") == 0) //add new Order
@@ -349,29 +366,34 @@ public class EchoServer extends AbstractServer
     	 
      }
   
-  protected ArrayList<Product> getProductsFromDB(Connection conn) /* This method get products table details from DB */
-  {
-	  ArrayList<Product> products = new ArrayList<Product>();
-	  Statement stmt;
-	  String p;
-	  Product pr;
-	  try {
-		  stmt = conn.createStatement();
-		  String getProductsTable = "SELECT * FROM product;"; /* Get all the Table from the DB */
-		  ResultSet rs = stmt.executeQuery(getProductsTable);
-		  while(rs.next())
-	 	{
-		  pr = new Product("", "", ProductType.valueOf("BOUQUET") , 0 , "");
-		  pr.setpID(rs.getString("ProductID"));
-		  pr.setpName(rs.getString("ProductName"));
-		  pr.setpType(ProductType.valueOf(rs.getString("productType")));
-		  pr.setpPrice(rs.getDouble("productPrice"));
-		  pr.setpPicture(rs.getString("productPicture"));
-		  products.add(pr);
-	 	}
-	  } catch (SQLException e) {	e.printStackTrace();}	
-	  return products;
-  }
+     protected ArrayList<Product> getProductsFromDB(Connection conn) /* This method get products table details from DB */
+     {
+   	  ArrayList<Product> products = new ArrayList<Product>();
+   	  Statement stmt;
+   	  String p;
+   	  Product pr;
+   	  File file = new File("newfile");
+   	  FileOutputStream output;
+   	  try {
+   	      output = new FileOutputStream(file);
+   		  stmt = conn.createStatement();
+   		  String getProductsTable = "SELECT * FROM product;"; /* Get all the Table from the DB */
+   		  ResultSet rs = stmt.executeQuery(getProductsTable);
+   		  while(rs.next())
+   	 	{
+   		  pr = new Product();
+   		  pr.setpID(rs.getString("ProductID"));
+   		  pr.setpName(rs.getString("ProductName"));
+   		  pr.setpType(ProductType.valueOf(rs.getString("productType")));
+   		  pr.setpPrice(rs.getDouble("productPrice"));
+   		  pr.setImage(rs.getBinaryStream("ProductPicure"));
+   		  products.add(pr);
+   	 	}
+   	  } catch (SQLException e) {e.printStackTrace();} 
+   	  catch (FileNotFoundException e){e.printStackTrace(); } 
+   	  catch (IOException e) {e.printStackTrace();}	
+   	  return products;
+     }
   
   protected ArrayList<User> getUsersFromDB(Connection conn) /* This method get products table details from DB */
   {
@@ -474,7 +496,7 @@ public class EchoServer extends AbstractServer
 							  stmt = conn.createStatement(); 
 							  String InsertComplaint = "INSERT INTO project.complaint(ComplaintNum, ComplaintUserId, ComplaintStatus, ComplaintDate, ComplaintDetails, ComplaintOrderId, ComplaintServiceWorkerUserName, ComplaintCompanyServiceWorkerAnswer, ComplaintCompansation)" + 
 							  		"VALUES("+newComplaint.getComplaintNum()+","+newComplaint.getComplaintUserId()+",'"+newComplaint.getComplaintStat()+"','"+newComplaint.getComplaintDate()+"',"+newComplaint.getComplaintDetails()+","+newComplaint.getComplaintOrderId()+","+newComplaint.getComplaintServiceWorkerUserName()+","+newComplaint.getComplaintCompanyServiceWorkerAnswer()+","+newComplaint.getComplaintCompansation()+");";
-							  stmt.executeUpdate(InsertComplaint);	 //ìáãå÷ àí àôùø ìäëðéñ úìåðä çì÷éú áìé çì÷ îäùãåú
+							  stmt.executeUpdate(InsertComplaint);	 //ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 							  complaint.setComplaintNum(newComplaint.getComplaintNum());
 							  complaint.setComplaintStat(newComplaint.getComplaintStat());
 							  complaint.setComplaintUserId(newComplaint.getComplaintUserId());
@@ -583,6 +605,68 @@ public class EchoServer extends AbstractServer
 	  } catch (SQLException e) {	e.printStackTrace();}	
   }
   
+  protected ArrayList<Store> getStoresFromDB(Connection conn) /* This method get products table details from DB */
+  {
+	  ArrayList<Store> stores = new ArrayList<Store>();
+	  Statement stmt;
+	  String p;
+	  Store pr;
+	  try {
+		  stmt = conn.createStatement();
+		  String getProductsTable = "SELECT * FROM store;"; /* Get all the Table from the DB */
+		  ResultSet rs = stmt.executeQuery(getProductsTable);
+		  while(rs.next())
+	 	{
+		  pr = new Store();
+		  pr.setStoreId(rs.getInt("StoreID"));
+		  pr.setStore_Address(rs.getString("StoreAddress"));
+		  stores.add(pr);
+	 	}
+	  } catch (SQLException e) {	e.printStackTrace();}	
+	  return stores;
+  }
+  
+  
+  protected Account UpdateUserAccountAtDB(Object msg, Connection conn) /* This Method Update the DB */
+  {
+	  
+	  Account account = new Account();
+	  Statement stmt;
+	  double prevBalance=0;
+	  Account.PaymentArrangement arrangement = null;
+	  Order customerOrder = (Order)((Message)msg).getMsg();
+	  try {
+		  stmt = conn.createStatement();
+		  String getCustomerAccount = "SELECT * FROM project.account WHERE AccountUserId='"+customerOrder.getCustomerID()+"'; " ;
+		  ResultSet rs = stmt.executeQuery(getCustomerAccount);
+		  while(rs.next())
+		 	{
+		  prevBalance = rs.getDouble("AccountBalanceCard");
+		  arrangement = Account.PaymentArrangement.valueOf(rs.getString("AccountPaymentArrangement"));
+		 	}
+		  if(arrangement.equals(Account.PaymentArrangement.FULLPRICE))
+			  prevBalance -= customerOrder.getOrderTotalPrice();
+		  else if(arrangement.equals(Account.PaymentArrangement.ANNUAL))
+			  prevBalance -= customerOrder.getOrderTotalPrice()*0.9;
+		  else if(arrangement.equals(Account.PaymentArrangement.MONTHLY))
+			  prevBalance -= customerOrder.getOrderTotalPrice()*0.95;		  
+		  String UpdateTableAccount = "UPDATE project.account SET AccountBalanceCard =" +  prevBalance  + "WHERE AccountUserId='"+customerOrder.getCustomerID()+"'; " ;
+		  stmt.executeUpdate(UpdateTableAccount);
+		  getCustomerAccount = "SELECT * FROM project.account WHERE AccountUserId='"+customerOrder.getCustomerID()+"'; " ;
+		  rs = stmt.executeQuery(getCustomerAccount);
+		  while(rs.next())
+		 	{
+			  account.setAccountUserId(rs.getString("AccountUserId"));
+			  account.setAccountBalanceCard(rs.getDouble("AccountBalanceCard"));
+			  account.setAccountCreditCardNum(rs.getString("AccountCreditCardNum"));
+			  account.setAccountSubscriptionEndDate(rs.getDate("AccountSubscriptionEndDate"));
+			  account.setAccountPaymentMethod(Account.PaymentMethod.valueOf(rs.getString("AccountPaymentMethod")));
+			  account.setAccountPaymentArrangement(Account.PaymentArrangement.valueOf(rs.getString("AccountPaymentArrangement")));
+		 	}
+	  } 
+	  catch (SQLException e) {	e.printStackTrace();}	  
+	  return account;
+  }
   
 
   //Class methods ***************************************************

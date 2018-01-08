@@ -5,19 +5,26 @@ package mypackage;
 
 import java.io.IOException;
 import java.util.ArrayList;
+
 import boundery.CatalogUI;
+import boundery.CustomerUI;
 import boundery.DataCompanyManagerUI;
+import boundery.StoreUI;
+import boundery.SurveyResultUI;
 import boundery.UserUI;
 import client.ChatClient;
 import common.ChatIF;
 import controller.AccountController;
-import controller.ComplaintController;import controller.SurveyResultController;import controller.UserController;
+import controller.ComplaintController;
+import controller.OrderController;
+import controller.SurveyResultController;
+import controller.UserController;
 import entity.Account;
 import entity.Complaint;
 import entity.Message;
 import entity.Product;
+import entity.Store;
 import entity.User;
-import boundery.SurveyResultUI;
 
 /**
  * This class constructs the UI for a chat client.  It implements the
@@ -134,6 +141,32 @@ public class ClientConsole implements ChatIF
 			  for(i=0;i<temp.size();i++)
 		  	  {
 				  DataCompanyManagerUI.users.add(temp.get(i));
+		  	  }
+	    }
+	    
+	    if(((Message)message).getOption().compareTo("Update customer account") == 0)
+	    {
+	    	CustomerUI.account = new Account();
+	    	CustomerUI.account.setAccountBalanceCard(((Account)(((Message)message).getMsg())).getAccountBalanceCard());
+	    	CustomerUI.account.setAccountCreditCardNum(((Account)(((Message)message).getMsg())).getAccountCreditCardNum());
+	    	CustomerUI.account.setAccountPaymentArrangement(((Account)(((Message)message).getMsg())).getAccountPaymentArrangement());
+	    	CustomerUI.account.setAccountPaymentMethod(((Account)(((Message)message).getMsg())).getAccountPaymentMethod());
+	    	CustomerUI.account.setAccountSubscriptionEndDate(((Account)(((Message)message).getMsg())).getAccountSubscriptionEndDate());
+	    	CustomerUI.account.setAccountUserId(((Account)(((Message)message).getMsg())).getAccountUserId());
+	    	OrderController.accountFlag = true;
+	    }
+
+	    
+	    if(((Message)message).getOption().compareTo("get all stores from DB") == 0)
+	    {
+		  	  int i=0;
+			  ArrayList<Store> temp = new ArrayList<Store>();
+			  temp = (ArrayList<Store>)((Message)message).getMsg();
+			  StoreUI.stores.clear();
+
+			  for(i=0;i<temp.size();i++)
+		  	  {
+				  StoreUI.stores.add(temp.get(i));
 		  	  }
 	    }
 	    

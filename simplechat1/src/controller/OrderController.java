@@ -275,7 +275,7 @@ public class OrderController implements Initializable{
 				Order saveOrder = new Order(s, totalPrice, ProductController.order.getProductsInOrder(), localDate, UserUI.user.getId(), txtRequiredTime.getText(), txtAddress.getText(), txtRecipientsName.getText(), txtRecipientsPhoneNumber.getText(), txtPostCard.getText() , UserUI.store.getStoreId());
 				Message msg = new Message(saveOrder, "insert order to DB");
 				UserUI.myClient.accept(msg);
-				msg.setOption("Update costomer account");
+				msg.setOption("Update customer account");
 				UserUI.myClient.accept(msg);
 				accountFlag = false;
 				while(accountFlag == false) {
