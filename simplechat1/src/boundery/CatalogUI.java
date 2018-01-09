@@ -14,7 +14,7 @@ import entity.User;
 
 public class CatalogUI extends Application /* With This Class We Show the Catalog GUI */ {
 	public static Vector<Product> products = new Vector<Product>();
-	
+	public static Vector<Product> productsInSale = new Vector<Product>();
 	public static void main( String args[] ) throws Exception
 	{ 
 	

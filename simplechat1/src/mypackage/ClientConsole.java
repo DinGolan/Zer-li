@@ -131,6 +131,19 @@ public class ClientConsole implements ChatIF
 	  	  	}
 	    }
 	    
+	    if(((Message)message).getOption().compareTo("get all products in sale from DB") ==0)
+	    {
+	  	  	int i=0;
+	  	  	ArrayList<Product> temp = new ArrayList<Product>();
+	  	  	temp = (ArrayList<Product>)((Message)message).getMsg();
+	  	  	CatalogUI.productsInSale.clear();
+
+	  	  	for(i=0;i<temp.size();i++)
+	  	  	{
+	  	  	CatalogUI.productsInSale.add(temp.get(i));
+	  	  	}
+	    }
+	    
 	    if(((Message)message).getOption().compareTo("Add User To Combo Box From DB") == 0)
 	    {
 		  	  int i=0;

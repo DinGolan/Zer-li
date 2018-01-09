@@ -87,6 +87,14 @@ public class EchoServer extends AbstractServer
 	    		this.sendToAllClients(msg);
   		}
 	    
+	    if(((Message)msg).getOption().compareTo("get all products in sale from DB") ==0) 	    /* Check that we get from DB Because We want to Initialized */
+	    {										
+				/* ArrayList<Product> aa = new ArrayList<Product>(); */
+	    		((Message)msg).setMsg(getProductsInSaleFromDB(msg, conn));	    
+	    		this.sendToAllClients(msg);
+  		}
+	    
+	    
 	    if(((Message)msg).getOption().compareTo("get all stores from DB") ==0) 	    /* Check that we get from DB Because We want to Initialized */
 	    {										
 	    		((Message)msg).setMsg(getStoresFromDB(conn));	    
@@ -396,6 +404,29 @@ public class EchoServer extends AbstractServer
    	  catch (IOException e) {e.printStackTrace();}	
    	  return products;
      }
+     
+     protected ArrayList<Product> getProductsInSaleFromDB(Object msg, Connection conn) /* This method get products table details from DB */
+     {
+   	  ArrayList<Product> products = new ArrayList<Product>();
+   	  int storeId = ((Store)(((Message)msg).getMsg())).getStoreId();
+   	  Statement stmt;
+   	  String p;
+   	  Product pr;
+   	  try {
+   		  stmt = conn.createStatement();
+   		  String getProductsTable = "SELECT * FROM productinsale WHERE StoreID = "+storeId+";"; /* Get all the Table from the DB */
+   		  ResultSet rs = stmt.executeQuery(getProductsTable);
+   		  while(rs.next())
+   	 	{
+   		  pr = new Product();
+   		  pr.setpID(rs.getString("ProductID"));
+   		  pr.setpStore(rs.getInt("StoreID"));
+   		  pr.setpPrice(rs.getDouble("productPrice"));
+   		  products.add(pr);
+   	 	}
+   	  } catch (SQLException e) {e.printStackTrace();}	
+   	  return products;
+     }
   
   protected ArrayList<User> getUsersFromDB(Connection conn) /* This method get products table details from DB */
   {
@@ -602,7 +633,7 @@ public class EchoServer extends AbstractServer
 	  Account.PaymentMethod method = null;
 	  try {
 			  stmt = conn.createStatement(); 
-			  String InsertAccountToID = "SELECT AccountPaymentMethod FROM project.account WHERE AccountUserId = '"+newOrder.getCustomerID()+"';";
+			  String InsertAccountToID = "SELECT AccountPaymentMethod FROM project.account WHERE AccountUserId = '"+newOrder.getCustomerID()+"' AND AccountStoreId= "+newOrder.getStoreID()+";";
 			  ResultSet rs = stmt.executeQuery(InsertAccountToID);
 			  while(rs.next())
 			 	{

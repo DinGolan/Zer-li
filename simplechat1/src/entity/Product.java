@@ -13,6 +13,7 @@ public class Product implements Serializable
 	private String pID;
 	private String pName;
 	private ProductType pType;	
+	private int pStore;	
 	private double pPrice;	
 	private transient InputStream input;
 	private transient Image image;
@@ -113,6 +114,14 @@ public class Product implements Serializable
 		} else if (!pID.equals(other.pID))
 			return false;
 		return true;
+	}
+
+	public int getpStore() {
+		return pStore;
+	}
+
+	public void setpStore(int pStore) {
+		this.pStore = pStore;
 	}
 	
 	

@@ -28,7 +28,7 @@ public class CustomerController implements Initializable{
 	
 	public static int storeID;
 	
-	private static boolean flag = false;
+	public static boolean flag = false;
 	
 	@FXML
 	private Button btnViewProfile;
@@ -76,6 +76,7 @@ public class CustomerController implements Initializable{
 	
 	public void logout(ActionEvent event) throws Exception /* With this Method we show the GUI of the First Window */
 	{
+		flag= false;
 		Message msg = new Message(UserUI.user.getId(), "change User status to DISCONNECTED");
 		UserUI.myClient.accept(msg); // change User status to DISCONNECTED in DB
 		((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
@@ -115,7 +116,7 @@ public class CustomerController implements Initializable{
 		for(Store s : StoreUI.stores)
 			address.add(s.getStore_Address());
 		listForComboBox = FXCollections.observableArrayList(address); 
-		cmbStores.setItems(FXCollections.observableArrayList(listForComboBox)); /* Set the Items Of Faculty at the ComboBox */
+		cmbStores.setItems(FXCollections.observableArrayList(listForComboBox)); /*  */
 	}
 	
 	public int indexOfStore(String address)
