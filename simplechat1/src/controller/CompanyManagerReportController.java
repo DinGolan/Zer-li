@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import boundery.CompanyManagerReportUI;
-import boundery.StoreManagerReportUI;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -54,7 +53,7 @@ public class CompanyManagerReportController implements Initializable {
 	
 	public void Button_To_See_One_Store_Or_Two_Store(ActionEvent event) throws Exception
 	{
-		String_The_Option_You_Choose = CompanyManagerReportUI.Option_Of_See_One_Store_Or_To_Store.get(getItemIndex());
+		String_The_Option_You_Choose = CompanyManagerReportUI.Option_Of_See_One_Store_Or_To_Store_For_Company_Manager.get(getItemIndex_For_Company_Mangager_For_Option());
 		String_The_Option_You_Choose = String_The_Option_You_Choose.substring(0,1);
 		Integer_The_Option_You_Choose = Integer.parseInt(String_The_Option_You_Choose);
 		if(Integer_The_Option_You_Choose == 1)
@@ -64,8 +63,7 @@ public class CompanyManagerReportController implements Initializable {
 			FXMLLoader loader = new FXMLLoader();
 			Pane root = loader.load(getClass().getResource("/controller/CompanyManagerReportForm_Window_Only_One_Store.fxml").openStream());
 			
-			QuarterlyRevenueReportController quarterlyRevenueReportController = loader.getController();
-			quarterlyRevenueReportController.loadStore(StoreManagerReportUI.stores.get(getItemIndex())); 
+			CompanyManagerController_With_Only_One_Store companyManagerContoroller_With_One_Store = loader.getController();
 			
 			Scene scene = new Scene(root);			
 			primaryStage.setScene(scene);		
@@ -78,10 +76,7 @@ public class CompanyManagerReportController implements Initializable {
 			Stage primaryStage = new Stage();
 			FXMLLoader loader = new FXMLLoader();
 			Pane root = loader.load(getClass().getResource("/controller/CompanyManagerReportForm_Window_With_Two_Store.fxml").openStream());
-			
-			QuarterlyRevenueReportController quarterlyRevenueReportController = loader.getController();
-			quarterlyRevenueReportController.loadStore(StoreManagerReportUI.stores.get(getItemIndex())); 
-			
+
 			Scene scene = new Scene(root);			
 			primaryStage.setScene(scene);		
 			primaryStage.show();
@@ -90,7 +85,7 @@ public class CompanyManagerReportController implements Initializable {
 	
 /* -------------------------- Taking Store From The Combo Box of Store ------------------------------------ */	
 	
-	public int getItemIndex()                                   	/* With this Method we Take User from the List of the Users at the ComboBox */
+	public int getItemIndex_For_Company_Mangager_For_Option()                                   	/* With this Method we Take User from the List of the Users at the ComboBox */
 	{
 		if(cmbOptions.getSelectionModel().getSelectedIndex() == -1)
 			return itemIndex;
@@ -110,12 +105,13 @@ public class CompanyManagerReportController implements Initializable {
 	
 	public void setOptionsComboBox()    								/* In this Method we Set the Stores at the ComboBox */
 	{ 				
+		CompanyManagerReportUI.Option_Of_See_One_Store_Or_To_Store_For_Company_Manager.clear();
 		ArrayList<String> Option_To_See_Amount_Of_Store = new ArrayList<String>();	 
-		CompanyManagerReportUI.Option_Of_See_One_Store_Or_To_Store.add("1 - To See One Store");
-		CompanyManagerReportUI.Option_Of_See_One_Store_Or_To_Store.add("2 - To See Two Store");
-		for(int i = 0 ; i < CompanyManagerReportUI.Option_Of_See_One_Store_Or_To_Store.size() ; i++)
+		CompanyManagerReportUI.Option_Of_See_One_Store_Or_To_Store_For_Company_Manager.add("1 - To See One Store");
+		CompanyManagerReportUI.Option_Of_See_One_Store_Or_To_Store_For_Company_Manager.add("2 - To See Two Store");
+		for(int i = 0 ; i < CompanyManagerReportUI.Option_Of_See_One_Store_Or_To_Store_For_Company_Manager.size() ; i++)
 		{
-			Option_To_See_Amount_Of_Store.add(CompanyManagerReportUI.Option_Of_See_One_Store_Or_To_Store.get(i));
+			Option_To_See_Amount_Of_Store.add(CompanyManagerReportUI.Option_Of_See_One_Store_Or_To_Store_For_Company_Manager.get(i));
 		}
 		
 		OptionList = FXCollections.observableArrayList(Option_To_See_Amount_Of_Store);

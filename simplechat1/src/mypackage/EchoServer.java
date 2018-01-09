@@ -123,7 +123,7 @@ public class EchoServer extends AbstractServer
 	    	changhUserStatus(msg,conn);    
 	    }
 	    
-	    if(((Message)msg).getOption().compareTo("Add Store To Combo Box From DB") == 0) 	    /* Taking All the Stores From the DB */							
+	    if(((Message)msg).getOption().compareTo("Store Manager - Add Store To Combo Box From DB") == 0) 	    /* Taking All the Stores From the DB */							
 	    {
 	    	((Message)msg).setMsg(GetStoresFromDB(conn));  
 	    	this.sendToAllClients(msg);
@@ -161,6 +161,12 @@ public class EchoServer extends AbstractServer
 	    if(((Message)msg).getOption().compareTo("Store Manager - Take The Surveys Of Specific Store In Specific Quarter") == 0) 	    /* Taking All the Complaints Of Specific Store */							
 	    {
 	    	((Message)msg).setMsg(Get_All_The_Survey_Of_Specific_Quarter_Of_Specific_Store_From_DB(msg,conn));  
+	    	this.sendToAllClients(msg);
+	    }
+	    
+	    if(((Message)msg).getOption().compareTo("Company Manager - Add Store To Combo Box From DB") == 0) 	    /* Taking All the Stores From the DB */							
+	    {
+	    	((Message)msg).setMsg(GetStoresFromDB(conn));  
 	    	this.sendToAllClients(msg);
 	    }
 	    
@@ -291,19 +297,27 @@ public class EchoServer extends AbstractServer
 			  
 			  /* -------------------------------- Take All The Survey Of Specific Store In Specific Quarter ------------------------- */
 			  
-			  String getSurveysOfSpecificStoreTable = "SELECT * FROM project.survey WHERE QuarterNumber = " + "'" + temp_Report.getQaurterReportNumber() + "'" + ";" ;  
+			  String getSurveysOfSpecificStoreTable = "SELECT * FROM project.survey ;" ;  
 			  ResultSet rs_2 = stmt.executeQuery(getSurveysOfSpecificStoreTable);
+			  int Integer_Help_Month_In_Survey_Table;
+			  int Real_Quarter_Number = Integer.parseInt(temp_Report.getQaurterReportNumber());
+			  String String_Help_Date_In_Survey_Table;
 			  
 			  while(rs_2.next())
 		 	  {
-				   temp_Survey = new Survey();
-				   survey_field = rs_2.getString("Surveyid");
-				   temp_Survey.setSurvey_Id(Integer.parseInt(survey_field));     		/* Save The Survey ID of Specific Survey */
-				   survey_field = rs_2.getString("SurveyDate");
-				   temp_Survey.setSurvey_Date(Date.valueOf(survey_field));     		    /* Save The Survey ID of Specific Survey */
-				   temp_Survey.setQuarterNumber(temp_Report.getQaurterReportNumber());  /* Save The Quarter Number That We Make The Survey */
-				   temp_Survey.setStore_ID(Store_ID);								    /* Save The Store ID that We Make The Survey */			
-				   Surveys_Of_Specific_Store.add(temp_Survey);
+				  String_Help_Date_In_Survey_Table = rs_2.getString("SurveyDate");
+				  Integer_Help_Month_In_Survey_Table = Integer.parseInt(String_Help_Date_In_Survey_Table.substring(5, 7));
+				  if((Integer_Help_Month_In_Survey_Table == Real_Quarter_Number) || ((Integer_Help_Month_In_Survey_Table + 2) / 3) == Real_Quarter_Number)
+				  {
+					   temp_Survey = new Survey();
+					   survey_field = rs_2.getString("Surveyid");
+					   temp_Survey.setSurvey_Id(Integer.parseInt(survey_field));     		/* Save The Survey ID of Specific Survey */
+					   survey_field = rs_2.getString("SurveyDate");
+					   temp_Survey.setSurvey_Date(Date.valueOf(survey_field));     		    /* Save The Survey ID of Specific Survey */
+					   temp_Survey.setQuarterNumber(temp_Report.getQaurterReportNumber());  /* Save The Quarter Number That We Make The Survey */
+					   temp_Survey.setStore_ID(Store_ID);								    /* Save The Store ID that We Make The Survey */			
+					   Surveys_Of_Specific_Store.add(temp_Survey);
+				  }   
 		 	  }
 			  
 			  

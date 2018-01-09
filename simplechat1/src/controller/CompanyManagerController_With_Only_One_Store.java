@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import boundery.CompanyManagerReportUI;
-import boundery.StoreManagerReportUI;
 import entity.Message;
 import entity.Store;
 import javafx.collections.FXCollections;
@@ -63,9 +62,9 @@ public class CompanyManagerController_With_Only_One_Store implements Initializab
 	
 /* --------------------------------- Close the Order Report Window ------------------------------------------------- */	 	
 	
-	public void closeOneStoreWindowtWindow(ActionEvent event) throws Exception   
+	public void closeOneStoreWindow(ActionEvent event) throws Exception   
 	{ 
-		StoreManagerReportUI.stores.clear();
+		CompanyManagerReportUI.stores_For_Company_Manager.clear();
 		((Node)event.getSource()).getScene().getWindow().hide(); 	 /* Hiding primary window */
 		Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
 		FXMLLoader loader = new FXMLLoader(); 					 	 /* Load object */
@@ -78,7 +77,7 @@ public class CompanyManagerController_With_Only_One_Store implements Initializab
 	
 /* --------------------------------  The Report About Quarterly Revenue ----------------------------------- */	
 	
-	public void QuarterlyRevenueReport(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Report' and Show the GUI of the Quarterly Revenue Report that we Choose */
+	public void QuarterlyRevenueReport_For_Company_Worker(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Report' and Show the GUI of the Quarterly Revenue Report that we Choose */
 	{
 		((Node)event.getSource()).getScene().getWindow().hide();    			  /* Hiding primary window */
 		Stage primaryStage = new Stage();
@@ -86,7 +85,7 @@ public class CompanyManagerController_With_Only_One_Store implements Initializab
 		Pane root = loader.load(getClass().getResource("/controller/QuarterlyRevenueReportForm.fxml").openStream());
 		
 		QuarterlyRevenueReportController quarterlyRevenueReportController = loader.getController();
-		quarterlyRevenueReportController.loadStore(StoreManagerReportUI.stores.get(getItemIndex())); 
+		quarterlyRevenueReportController.loadStore(CompanyManagerReportUI.stores_For_Company_Manager.get(getItemIndex_For_CompanyManager())); 
 		
 		Scene scene = new Scene(root);			
 		primaryStage.setScene(scene);		
@@ -95,7 +94,7 @@ public class CompanyManagerController_With_Only_One_Store implements Initializab
 	
 /* --------------------------------  The Report About Order ----------------------------------- */	
 	
-	public void OrderReport(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Report' and Show the GUI of the Order Report that we Choose */
+	public void OrderReport_For_Company_Worker(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Report' and Show the GUI of the Order Report that we Choose */
 	{
 		((Node)event.getSource()).getScene().getWindow().hide();       /* Hiding primary window */
 		Stage primaryStage = new Stage();
@@ -103,7 +102,7 @@ public class CompanyManagerController_With_Only_One_Store implements Initializab
 		Pane root = loader.load(getClass().getResource("/controller/OrderReportForm.fxml").openStream());
 		
 		OrderReportController orderReportController = loader.getController();
-		orderReportController.loadStore(StoreManagerReportUI.stores.get(getItemIndex()));
+		orderReportController.loadStore(CompanyManagerReportUI.stores_For_Company_Manager.get(getItemIndex_For_CompanyManager()));
 		
 		Scene scene = new Scene(root);			
 		primaryStage.setScene(scene);		
@@ -112,7 +111,7 @@ public class CompanyManagerController_With_Only_One_Store implements Initializab
 	
 /* --------------------------------  The Report About Complaint ----------------------------------- */
 	
-	public void CustomerComplaintStatusReport(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Report' and Show the GUI of the Customer Complaint Status Report that we Choose */
+	public void CustomerComplaintStatusReport_For_Company_Worker(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Report' and Show the GUI of the Customer Complaint Status Report that we Choose */
 	{
 		((Node)event.getSource()).getScene().getWindow().hide();    					 /* Hiding primary window */
 		Stage primaryStage = new Stage();
@@ -120,7 +119,7 @@ public class CompanyManagerController_With_Only_One_Store implements Initializab
 		Pane root = loader.load(getClass().getResource("/controller/CustomerComplaintStatusReportForm.fxml").openStream());
 		
 		CustomerComplaintStatusReportController customerComplaintStatusReportController = loader.getController();
-		customerComplaintStatusReportController.loadStore(StoreManagerReportUI.stores.get(getItemIndex()));
+		customerComplaintStatusReportController.loadStore(CompanyManagerReportUI.stores_For_Company_Manager.get(getItemIndex_For_CompanyManager()));
 		
 		Scene scene = new Scene(root);			
 		primaryStage.setScene(scene);		
@@ -129,7 +128,7 @@ public class CompanyManagerController_With_Only_One_Store implements Initializab
 	
 /* --------------------------------  The Report About Satisfaction ----------------------------------- */
 	
-	public void SatisfactionReport(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Report' and Show the GUI of the Satisfaction Report that we Choose */
+	public void SatisfactionReport_For_Company_Worker(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Report' and Show the GUI of the Satisfaction Report that we Choose */
 	{
 		((Node)event.getSource()).getScene().getWindow().hide();    		  /* Hiding primary window */
 		Stage primaryStage = new Stage();
@@ -137,7 +136,7 @@ public class CompanyManagerController_With_Only_One_Store implements Initializab
 		Pane root = loader.load(getClass().getResource("/controller/SatisfactionReportForm.fxml").openStream());
 		
 		SatisfactionReportController satisfactionReportController = loader.getController();
-		satisfactionReportController.loadStore(StoreManagerReportUI.stores.get(getItemIndex()));
+		satisfactionReportController.loadStore(CompanyManagerReportUI.stores_For_Company_Manager.get(getItemIndex_For_CompanyManager()));
 		
 		Scene scene = new Scene(root);			
 		primaryStage.setScene(scene);
@@ -145,7 +144,8 @@ public class CompanyManagerController_With_Only_One_Store implements Initializab
 	}	
 	
 /* -------------------------- Taking Store From The Combo Box of Store ------------------------------------ */	
-	public int getItemIndex()                                   	/* With this Method we Take User from the List of the Users at the ComboBox */
+	
+	public int getItemIndex_For_CompanyManager()                                   	/* With this Method we Take User from the List of the Users at the ComboBox */
 	{
 		if(cmbStores.getSelectionModel().getSelectedIndex() == -1)
 			return itemIndex;
@@ -155,13 +155,13 @@ public class CompanyManagerController_With_Only_One_Store implements Initializab
 	
 /* ----------------------------------------- Set The Combo Box Of All the Date Of the Report Of Specific Store ----------------------------------- */		
 	
-	public void set_Dates_Of_Report_At_ComboBox()      								/* In this Method we Set the Stores at the ComboBox */
+	public void set_Dates_Of_Report_At_ComboBox_For_CompanyManager()      								/* In this Method we Set the Stores at the ComboBox */
 	{ 				
 		ArrayList<Date> Date_Of_Report = new ArrayList<Date>();	
 		
-		for(int i = 0 ; i < StoreManagerReportUI.Dates.size() ; i++)
+		for(int i = 0 ; i < CompanyManagerReportUI.Dates_For_Company_Manager.size() ; i++)
 		{
-			Date_Of_Report.add(StoreManagerReportUI.Dates.get(i));
+			Date_Of_Report.add(CompanyManagerReportUI.Dates_For_Company_Manager.get(i));
 		}
 		
 		DateList = FXCollections.observableArrayList(Date_Of_Report);
@@ -170,11 +170,11 @@ public class CompanyManagerController_With_Only_One_Store implements Initializab
 	
 /* ----------------------------------------- Set The Combo Box Of Stores ----------------------------------- */	
 	
-	public void setStoresComboBox()    								/* In this Method we Set the Stores at the ComboBox */
+	public void setStoresComboBox_ComapnyManager()    								/* In this Method we Set the Stores at the ComboBox */
 	{ 				
 		ArrayList<String> temp_Stores_ID_And_Address_List = new ArrayList<String>();	
 		
-		for(Store s: StoreManagerReportUI.stores)
+		for(Store s: CompanyManagerReportUI.stores_For_Company_Manager)
 		{
 			temp_Stores_ID_And_Address_List.add(String.valueOf(s.getStoreId()) + " ---> " + s.getStore_Address());
 		}
@@ -185,52 +185,52 @@ public class CompanyManagerController_With_Only_One_Store implements Initializab
 	
 /* -------------------------------- The Button Of The Store That You Choose ------------------------------- */		
 	
-	public void Button_Of_Your_Store_Choise(ActionEvent event) throws Exception
+	public void Button_Of_Your_Store_Choise_For_CompanyManager(ActionEvent event) throws Exception
 	{
-		temp_Store_Id = StoreManagerReportUI.stores.get(getItemIndex()).getStoreId();
-		msg = new Message(temp_Store_Id, "Take The Date Of All the Report Of Specific Store");
-		StoreManagerReportUI.myClient.accept(msg);
-		while(StoreManagerReportUI.Dates.size() == 0);
+		temp_Store_Id = CompanyManagerReportUI.stores_For_Company_Manager.get(getItemIndex_For_CompanyManager()).getStoreId();
+		msg = new Message(temp_Store_Id, "Comapny Manager - Take The Date Of All the Report Of Specific Store");
+		CompanyManagerReportUI.myClient.accept(msg);
+		while(CompanyManagerReportUI.Dates_For_Company_Manager.size() == 0);
 		Thread.sleep(200);
-		set_Dates_Of_Report_At_ComboBox();
+		set_Dates_Of_Report_At_ComboBox_For_CompanyManager();
 	}	
 	
 /* -------------------------------- The Button Of The Report That We Choose ------------------------------- */				
 	
-	public void Button_Of_Your_Quarter_Report(ActionEvent event) throws Exception
+	public void Button_Of_Your_Quarter_Report_For_CompanyManager(ActionEvent event) throws Exception
 	{
 		
 		/* ---------------------- For The Revenue Report ---------------------------*/
-		temp_Date_Quarter_Report = StoreManagerReportUI.Dates.get(getItemIndex());
+		temp_Date_Quarter_Report = CompanyManagerReportUI.Dates_For_Company_Manager.get(getItemIndex_For_CompanyManager());
 		ArrayList<Object> Store_Id_And_Date_Of_Report = new ArrayList<Object>();
 		Store_Id_And_Date_Of_Report.add(temp_Store_Id);
 		Store_Id_And_Date_Of_Report.add(temp_Date_Quarter_Report);
-		msg = new Message(Store_Id_And_Date_Of_Report, "Take the Revenue Of Specific Quarter Of Specific Store");
-		StoreManagerReportUI.myClient.accept(msg);
-		while(CompanyManagerReportUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter.size() == 0);
+		msg = new Message(Store_Id_And_Date_Of_Report, "Company Manager - Take the Revenue Of Specific Quarter Of Specific Store");
+		CompanyManagerReportUI.myClient.accept(msg);
+		while(CompanyManagerReportUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter_For_Company_Manager.size() == 0);
 		Thread.sleep(200);
-		CompanyManagerReportUI.Help_To_Transfer_Object_At_Revenue_Report.clear();
-		CompanyManagerReportUI.Help_To_Transfer_Object_At_Revenue_Report.add(StoreManagerReportUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter.get(0));
-		CompanyManagerReportUI.Help_To_Transfer_Object_At_Revenue_Report.add(StoreManagerReportUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter.get(1));
-		CompanyManagerReportUI.Help_To_Transfer_Object_At_Revenue_Report.add(temp_Date_Quarter_Report);
+		CompanyManagerReportUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.clear();
+		CompanyManagerReportUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.add(CompanyManagerReportUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter_For_Company_Manager.get(0));
+		CompanyManagerReportUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.add(CompanyManagerReportUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter_For_Company_Manager.get(1));
+		CompanyManagerReportUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.add(temp_Date_Quarter_Report);
 		
 		/* ----------------------- For The Order Report -----------------------------*/
 		
-		CompanyManagerReportUI.Help_To_Transfer_Object_At_Order_Report.clear();
-		CompanyManagerReportUI.Help_To_Transfer_Object_At_Order_Report.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
-		CompanyManagerReportUI.Help_To_Transfer_Object_At_Order_Report.add(Store_Id_And_Date_Of_Report.get(1));  /* The Date Of the Report */
+		CompanyManagerReportUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager.clear();
+		CompanyManagerReportUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
+		CompanyManagerReportUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager.add(Store_Id_And_Date_Of_Report.get(1));  /* The Date Of the Report */
 		
 		/* ----------------------- For The Complaint Report -----------------------------*/
 		
-		CompanyManagerReportUI.Help_To_Transfer_Object_At_Complaint_Report.clear();
-		CompanyManagerReportUI.Help_To_Transfer_Object_At_Complaint_Report.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
-		CompanyManagerReportUI.Help_To_Transfer_Object_At_Complaint_Report.add(Store_Id_And_Date_Of_Report.get(1));  /* The Date Of the Report */
+		CompanyManagerReportUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager.clear();
+		CompanyManagerReportUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
+		CompanyManagerReportUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager.add(Store_Id_And_Date_Of_Report.get(1));  /* The Date Of the Report */
 		
 		/* ----------------------- For The Satisfaction Report -----------------------------*/
 		
-		CompanyManagerReportUI.Help_To_Transfer_Object_At_Satisfaction_Report.clear();
-		CompanyManagerReportUI.Help_To_Transfer_Object_At_Satisfaction_Report.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
-		CompanyManagerReportUI.Help_To_Transfer_Object_At_Satisfaction_Report.add(Store_Id_And_Date_Of_Report.get(1));  /* The Date Of the Report */
+		CompanyManagerReportUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.clear();
+		CompanyManagerReportUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
+		CompanyManagerReportUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.add(Store_Id_And_Date_Of_Report.get(1));  /* The Date Of the Report */
 	}	
 	
 /* -------------------------------- Initialized The ComboBox In the First Window - Report GUI ------------------------------- */		
@@ -239,9 +239,9 @@ public class CompanyManagerController_With_Only_One_Store implements Initializab
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
 		ArrayList<Store> stores = new ArrayList<Store>();           /* For the First Connection With The DB the ArrayList Of stores Is Empty */
-		msg = new Message(stores, "Add Store To Combo Box From DB");
+		msg = new Message(stores, "Company Manager - Add Store To Combo Box From DB");
 		CompanyManagerReportUI.myClient.accept(msg);
-		while(CompanyManagerReportUI.stores.size() == 0);
-		setStoresComboBox();
+		while(CompanyManagerReportUI.stores_For_Company_Manager.size() == 0);
+		setStoresComboBox_ComapnyManager();
 	}
 }

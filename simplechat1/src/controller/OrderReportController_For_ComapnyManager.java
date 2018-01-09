@@ -68,7 +68,7 @@ public class OrderReportController_For_ComapnyManager implements Initializable {
 	
 	public void closeOrderReportWindow(ActionEvent event) throws Exception   
 	{ 
-		CompanyManagerReportUI.stores.clear();
+		CompanyManagerReportUI.stores_For_Company_Manager.clear();
 		((Node)event.getSource()).getScene().getWindow().hide(); 	 /* Hiding primary window */
 		Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
 		FXMLLoader loader = new FXMLLoader(); 					 	 /* Load object */
@@ -90,7 +90,7 @@ public class OrderReportController_For_ComapnyManager implements Initializable {
 		String Year;
 		String Full_Date_String;
 		Date temp_Date_Quarter_Report;
-		temp_Date_Quarter_Report = (Date)CompanyManagerReportUI.Help_To_Transfer_Object_At_Order_Report.get(1);                             /* The Date */
+		temp_Date_Quarter_Report = (Date)CompanyManagerReportUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager.get(1);                             /* The Date */
 		Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
 		Year = Full_Date_String.substring(0 , 4);
 		Month = Full_Date_String.substring(5 , 7);
@@ -118,11 +118,11 @@ public class OrderReportController_For_ComapnyManager implements Initializable {
 		
 		
 		ArrayList<Object> StoreID_And_Date_Of_Report = new ArrayList<Object>();
-		StoreID_And_Date_Of_Report.add(CompanyManagerReportUI.Help_To_Transfer_Object_At_Order_Report.get(0)); /* The Store Id */
-		StoreID_And_Date_Of_Report.add(CompanyManagerReportUI.Help_To_Transfer_Object_At_Order_Report.get(1)); /* The Date Of the Report */
-		msg = new Message(StoreID_And_Date_Of_Report, "Store Manager - Take The Orders Of Specific Store");
+		StoreID_And_Date_Of_Report.add(CompanyManagerReportUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager.get(0)); /* The Store Id */
+		StoreID_And_Date_Of_Report.add(CompanyManagerReportUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager.get(1)); /* The Date Of the Report */
+		msg = new Message(StoreID_And_Date_Of_Report, "Company Manager - Take The Orders Of Specific Store");
 		CompanyManagerReportUI.myClient.accept(msg);
-		while(CompanyManagerReportUI.orders.size() == 0);
+		while(CompanyManagerReportUI.orders_For_Company_Manager.size() == 0);
 		try 
 		{
 			Thread.sleep(200);
@@ -141,9 +141,9 @@ public class OrderReportController_For_ComapnyManager implements Initializable {
 		int [] Count_In_Chart;
 		ArrayList<Product.ProductType> productType_Of_Specific_Order_Of_Specific_Store = new ArrayList<Product.ProductType>();   /* All the Product That We Order On Specific Store */
 		ArrayList<Order> orders = new ArrayList<Order>();                         						   /* All The Orders That We Order On Specific Store */
-		for(int i = 0 ; i < CompanyManagerReportUI.orders.size() ; i++)                                                  /* In This Loop We Initialize All the Orders At ArrayList Of Orders */                                             
+		for(int i = 0 ; i < CompanyManagerReportUI.orders_For_Company_Manager.size() ; i++)                                                  /* In This Loop We Initialize All the Orders At ArrayList Of Orders */                                             
 		{
-			orders.add(CompanyManagerReportUI.orders.get(i));
+			orders.add(CompanyManagerReportUI.orders_For_Company_Manager.get(i));
 			for(int j = 0 ; j < orders.get(i).getProductsInOrder().size() ; j++)                           /* In This Loop We Initialize All the Product Type At the product_Of_Specific_Store */
 			{
 				if((productType_Of_Specific_Order_Of_Specific_Store.contains(orders.get(i).getProductsInOrder().get(j).getpType())) == false)

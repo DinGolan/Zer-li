@@ -286,7 +286,7 @@ public class StoreManagerReportController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
 		ArrayList<Store> stores = new ArrayList<Store>();           /* For the First Connection With The DB the ArrayList Of stores Is Empty */
-		msg = new Message(stores, "Add Store To Combo Box From DB");
+		msg = new Message(stores, "Store Manager - Add Store To Combo Box From DB");
 		StoreManagerReportUI.myClient.accept(msg);
 		while(StoreManagerReportUI.stores.size() == 0);
 		setStoresComboBox();

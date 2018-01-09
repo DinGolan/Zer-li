@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import boundery.CompanyManagerReportUI;
-import boundery.StoreManagerReportUI;
 import entity.Message;
 import entity.Store;
 import javafx.collections.FXCollections;
@@ -31,8 +30,10 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 	private Date temp_Date_Quarter_Report_1;
 	private Date temp_Date_Quarter_Report_2;
 	
-	ObservableList<String> storeList;
-	ObservableList<Date> DateList;
+	ObservableList<String> storeList_One;
+	ObservableList<String> storeList_Two;
+	ObservableList<Date> DateList_One;
+	ObservableList<Date> DateList_Two;
 	
 /* -------------------------  For The Window Of Company Manager Report - To See One Store ----------------------------------- */		
 	
@@ -91,7 +92,7 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 	
 	public void closeTwoStoreWindow(ActionEvent event) throws Exception   
 	{ 
-		StoreManagerReportUI.stores.clear();
+		CompanyManagerReportUI.stores_For_Company_Manager.clear();
 		((Node)event.getSource()).getScene().getWindow().hide(); 	 /* Hiding primary window */
 		Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
 		FXMLLoader loader = new FXMLLoader(); 					 	 /* Load object */
@@ -114,7 +115,7 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 		Pane root = loader.load(getClass().getResource("/controller/QuarterlyRevenueReportForm.fxml").openStream());
 		
 		QuarterlyRevenueReportController quarterlyRevenueReportController = loader.getController();
-		quarterlyRevenueReportController.loadStore(StoreManagerReportUI.stores.get(getItemIndex_First_Store())); 
+		quarterlyRevenueReportController.loadStore(CompanyManagerReportUI.stores_For_Company_Manager.get(getItemIndex_First_Store())); 
 		
 		Scene scene = new Scene(root);			
 		primaryStage.setScene(scene);		
@@ -131,7 +132,7 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 		Pane root = loader.load(getClass().getResource("/controller/QuarterlyRevenueReportForm.fxml").openStream());
 		
 		QuarterlyRevenueReportController quarterlyRevenueReportController = loader.getController();
-		quarterlyRevenueReportController.loadStore(StoreManagerReportUI.stores.get(getItemIndex_Second_Store())); 
+		quarterlyRevenueReportController.loadStore(CompanyManagerReportUI.stores_For_Company_Manager.get(getItemIndex_Second_Store())); 
 		
 		Scene scene = new Scene(root);			
 		primaryStage.setScene(scene);		
@@ -150,7 +151,7 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 		Pane root = loader.load(getClass().getResource("/controller/OrderReportForm.fxml").openStream());
 		
 		OrderReportController orderReportController = loader.getController();
-		orderReportController.loadStore(StoreManagerReportUI.stores.get(getItemIndex_First_Store()));
+		orderReportController.loadStore(CompanyManagerReportUI.stores_For_Company_Manager.get(getItemIndex_First_Store()));
 		
 		Scene scene = new Scene(root);			
 		primaryStage.setScene(scene);		
@@ -167,7 +168,7 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 		Pane root = loader.load(getClass().getResource("/controller/OrderReportForm.fxml").openStream());
 		
 		OrderReportController orderReportController = loader.getController();
-		orderReportController.loadStore(StoreManagerReportUI.stores.get(getItemIndex_Second_Store()));
+		orderReportController.loadStore(CompanyManagerReportUI.stores_For_Company_Manager.get(getItemIndex_Second_Store()));
 		
 		Scene scene = new Scene(root);			
 		primaryStage.setScene(scene);		
@@ -186,7 +187,7 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 		Pane root = loader.load(getClass().getResource("/controller/CustomerComplaintStatusReportForm.fxml").openStream());
 		
 		CustomerComplaintStatusReportController customerComplaintStatusReportController = loader.getController();
-		customerComplaintStatusReportController.loadStore(StoreManagerReportUI.stores.get(getItemIndex_First_Store()));
+		customerComplaintStatusReportController.loadStore(CompanyManagerReportUI.stores_For_Company_Manager.get(getItemIndex_First_Store()));
 		
 		Scene scene = new Scene(root);			
 		primaryStage.setScene(scene);		
@@ -203,7 +204,7 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 		Pane root = loader.load(getClass().getResource("/controller/CustomerComplaintStatusReportForm.fxml").openStream());
 		
 		CustomerComplaintStatusReportController customerComplaintStatusReportController = loader.getController();
-		customerComplaintStatusReportController.loadStore(StoreManagerReportUI.stores.get(getItemIndex_Second_Store()));
+		customerComplaintStatusReportController.loadStore(CompanyManagerReportUI.stores_For_Company_Manager.get(getItemIndex_Second_Store()));
 		
 		Scene scene = new Scene(root);			
 		primaryStage.setScene(scene);		
@@ -222,7 +223,7 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 		Pane root = loader.load(getClass().getResource("/controller/SatisfactionReportForm.fxml").openStream());
 		
 		SatisfactionReportController satisfactionReportController = loader.getController();
-		satisfactionReportController.loadStore(StoreManagerReportUI.stores.get(getItemIndex_First_Store()));
+		satisfactionReportController.loadStore(CompanyManagerReportUI.stores_For_Company_Manager.get(getItemIndex_First_Store()));
 		
 		Scene scene = new Scene(root);			
 		primaryStage.setScene(scene);
@@ -239,7 +240,7 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 		Pane root = loader.load(getClass().getResource("/controller/SatisfactionReportForm.fxml").openStream());
 		
 		SatisfactionReportController satisfactionReportController = loader.getController();
-		satisfactionReportController.loadStore(StoreManagerReportUI.stores.get(getItemIndex_Second_Store()));
+		satisfactionReportController.loadStore(CompanyManagerReportUI.stores_For_Company_Manager.get(getItemIndex_Second_Store()));
 		
 		Scene scene = new Scene(root);			
 		primaryStage.setScene(scene);
@@ -270,58 +271,90 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 	}
 /* ----------------------------------------- Set The Combo Box Of All the Date Of the Report Of Specific Store ----------------------------------- */		
 	
-	public void set_Dates_Of_Report_At_ComboBox()      								/* In this Method we Set the Stores at the ComboBox */
+	/* -------------------------------- Store 1 ----------------------------------- */
+	
+	public void set_Dates_Of_Report_Of_Store_One_At_ComboBox()      								/* In this Method we Set the Stores at the ComboBox */
 	{ 				
 		ArrayList<Date> Date_Of_Report = new ArrayList<Date>();	
 		
-		for(int i = 0 ; i < StoreManagerReportUI.Dates.size() ; i++)
+		for(int i = 0 ; i < CompanyManagerReportUI.Dates_For_Company_Manager.size() ; i++)
 		{
-			Date_Of_Report.add(StoreManagerReportUI.Dates.get(i));
+			Date_Of_Report.add(CompanyManagerReportUI.Dates_For_Company_Manager.get(i));
 		}
 		
-		DateList = FXCollections.observableArrayList(Date_Of_Report);
-		cmbReportsFirstStore.setItems(DateList);
-		cmbReportsSecondStore.setItems(DateList);
+		DateList_One = FXCollections.observableArrayList(Date_Of_Report);
+		cmbReportsFirstStore.setItems(DateList_One);
+	}
+	
+	/* -------------------------------- Store 2 ----------------------------------- */
+	
+	public void set_Dates_Of_Report_Of_Store_Two_At_ComboBox()      								/* In this Method we Set the Stores at the ComboBox */
+	{ 				
+		ArrayList<Date> Date_Of_Report = new ArrayList<Date>();	
+		
+		for(int i = 0 ; i < CompanyManagerReportUI.Dates_For_Company_Manager.size() ; i++)
+		{
+			Date_Of_Report.add(CompanyManagerReportUI.Dates_For_Company_Manager.get(i));
+		}
+		
+		DateList_Two = FXCollections.observableArrayList(Date_Of_Report);
+		cmbReportsSecondStore.setItems(DateList_Two);
 	}
 	
 /* ----------------------------------------- Set The Combo Box Of Stores ----------------------------------- */	
 	
-	public void setStoresComboBox()    								/* In this Method we Set the Stores at the ComboBox */
+	/* -------------------------------- Store 1 ----------------------------------- */
+	
+	public void setStores_Two_ComboBox()    								/* In this Method we Set the Stores at the ComboBox */
 	{ 				
 		ArrayList<String> temp_Stores_ID_And_Address_List = new ArrayList<String>();	
 		
-		for(Store s: StoreManagerReportUI.stores)
+		for(Store s: CompanyManagerReportUI.stores_For_Company_Manager)
 		{
 			temp_Stores_ID_And_Address_List.add(String.valueOf(s.getStoreId()) + " ---> " + s.getStore_Address());
 		}
 		
-		storeList = FXCollections.observableArrayList(temp_Stores_ID_And_Address_List);
-		cmbFirstStores.setItems(storeList);
-		cmbSecondStores.setItems(storeList);
+		storeList_One = FXCollections.observableArrayList(temp_Stores_ID_And_Address_List);
+		cmbFirstStores.setItems(storeList_One);
+	}	
+	
+	/* -------------------------------- Store 2 ----------------------------------- */
+	
+	public void setStores_One_ComboBox()    								/* In this Method we Set the Stores at the ComboBox */
+	{ 				
+		ArrayList<String> temp_Stores_ID_And_Address_List = new ArrayList<String>();	
+		
+		for(Store s: CompanyManagerReportUI.stores_For_Company_Manager)
+		{
+			temp_Stores_ID_And_Address_List.add(String.valueOf(s.getStoreId()) + " ---> " + s.getStore_Address());
+		}
+		
+		storeList_Two = FXCollections.observableArrayList(temp_Stores_ID_And_Address_List);
+		cmbSecondStores.setItems(storeList_Two);
 	}	
 	
 /* -------------------------------- The Button Of The Store That You Choose ------------------------------- */		
 	
 	public void Button_Of_Your_First_Store_Choise(ActionEvent event) throws Exception
 	{
-		temp_Store_Id_1 = StoreManagerReportUI.stores.get(getItemIndex_First_Store()).getStoreId();
-		msg = new Message(temp_Store_Id_1, "Take The Date Of All the Report Of Specific Store");
-		StoreManagerReportUI.myClient.accept(msg);
-		while(StoreManagerReportUI.Dates.size() == 0);
+		temp_Store_Id_1 = CompanyManagerReportUI.stores_For_Company_Manager.get(getItemIndex_First_Store()).getStoreId();
+		msg = new Message(temp_Store_Id_1, "Company Manager - Take The Date Of All the Report Of Specific Store");
+		CompanyManagerReportUI.myClient.accept(msg);
+		while(CompanyManagerReportUI.Dates_For_Company_Manager.size() == 0);
 		Thread.sleep(200);
-		set_Dates_Of_Report_At_ComboBox();
+		set_Dates_Of_Report_Of_Store_One_At_ComboBox();
 	}	
 	
 /* -------------------------------- The Button Of The Store That You Choose ------------------------------- */		
 	
 	public void Button_Of_Your_Second_Store_Choise(ActionEvent event) throws Exception
 	{
-		temp_Store_Id_2 = StoreManagerReportUI.stores.get(getItemIndex_Second_Store()).getStoreId();
-		msg = new Message(temp_Store_Id_2, "Take The Date Of All the Report Of Specific Store");
-		StoreManagerReportUI.myClient.accept(msg);
-		while(StoreManagerReportUI.Dates.size() == 0);
+		temp_Store_Id_2 = CompanyManagerReportUI.stores_For_Company_Manager.get(getItemIndex_Second_Store()).getStoreId();
+		msg = new Message(temp_Store_Id_2, "Company Manager - Take The Date Of All the Report Of Specific Store");
+		CompanyManagerReportUI.myClient.accept(msg);
+		while(CompanyManagerReportUI.Dates_For_Company_Manager.size() == 0);
 		Thread.sleep(200);
-		set_Dates_Of_Report_At_ComboBox();
+		set_Dates_Of_Report_Of_Store_Two_At_ComboBox();
 	}
 	
 /* -------------------------------- The Button Of The Report That We Choose ------------------------------- */				
@@ -330,36 +363,36 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 	{
 		
 		/* ---------------------- For The Revenue Report ---------------------------*/
-		temp_Date_Quarter_Report_1 = StoreManagerReportUI.Dates.get(getItemIndex_First_Store());
+		temp_Date_Quarter_Report_1 = CompanyManagerReportUI.Dates_For_Company_Manager.get(getItemIndex_First_Store());
 		ArrayList<Object> Store_Id_And_Date_Of_Report = new ArrayList<Object>();
 		Store_Id_And_Date_Of_Report.add(temp_Store_Id_1);
 		Store_Id_And_Date_Of_Report.add(temp_Date_Quarter_Report_1);
-		msg = new Message(Store_Id_And_Date_Of_Report, "Take the Revenue Of Specific Quarter Of Specific Store");
-		StoreManagerReportUI.myClient.accept(msg);
-		while(CompanyManagerReportUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter.size() == 0);
+		msg = new Message(Store_Id_And_Date_Of_Report, "Company Manager - Take the Revenue Of Specific Quarter Of Specific Store");
+		CompanyManagerReportUI.myClient.accept(msg);
+		while(CompanyManagerReportUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter_For_Company_Manager.size() == 0);
 		Thread.sleep(200);
-		CompanyManagerReportUI.Help_To_Transfer_Object_At_Revenue_Report.clear();
-		CompanyManagerReportUI.Help_To_Transfer_Object_At_Revenue_Report.add(StoreManagerReportUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter.get(0));
-		CompanyManagerReportUI.Help_To_Transfer_Object_At_Revenue_Report.add(StoreManagerReportUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter.get(1));
-		CompanyManagerReportUI.Help_To_Transfer_Object_At_Revenue_Report.add(temp_Date_Quarter_Report_1);
+		CompanyManagerReportUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.clear();
+		CompanyManagerReportUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.add(CompanyManagerReportUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter_For_Company_Manager.get(0));
+		CompanyManagerReportUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.add(CompanyManagerReportUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter_For_Company_Manager.get(1));
+		CompanyManagerReportUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.add(temp_Date_Quarter_Report_1);
 		
 		/* ----------------------- For The Order Report -----------------------------*/
 		
-		CompanyManagerReportUI.Help_To_Transfer_Object_At_Order_Report.clear();
-		CompanyManagerReportUI.Help_To_Transfer_Object_At_Order_Report.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
-		CompanyManagerReportUI.Help_To_Transfer_Object_At_Order_Report.add(Store_Id_And_Date_Of_Report.get(1));  /* The Date Of the Report */
+		CompanyManagerReportUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager.clear();
+		CompanyManagerReportUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
+		CompanyManagerReportUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager.add(Store_Id_And_Date_Of_Report.get(1));  /* The Date Of the Report */
 		
 		/* ----------------------- For The Complaint Report -----------------------------*/
 		
-		CompanyManagerReportUI.Help_To_Transfer_Object_At_Complaint_Report.clear();
-		CompanyManagerReportUI.Help_To_Transfer_Object_At_Complaint_Report.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
-		CompanyManagerReportUI.Help_To_Transfer_Object_At_Complaint_Report.add(Store_Id_And_Date_Of_Report.get(1));  /* The Date Of the Report */
+		CompanyManagerReportUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager.clear();
+		CompanyManagerReportUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
+		CompanyManagerReportUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager.add(Store_Id_And_Date_Of_Report.get(1));  /* The Date Of the Report */
 		
 		/* ----------------------- For The Satisfaction Report -----------------------------*/
 		
-		CompanyManagerReportUI.Help_To_Transfer_Object_At_Satisfaction_Report.clear();
-		CompanyManagerReportUI.Help_To_Transfer_Object_At_Satisfaction_Report.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
-		CompanyManagerReportUI.Help_To_Transfer_Object_At_Satisfaction_Report.add(Store_Id_And_Date_Of_Report.get(1));  /* The Date Of the Report */
+		CompanyManagerReportUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.clear();
+		CompanyManagerReportUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
+		CompanyManagerReportUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.add(Store_Id_And_Date_Of_Report.get(1));  /* The Date Of the Report */
 	}	
 	
 /* -------------------------------- The Button Of The Report That We Choose ------------------------------- */				
@@ -368,36 +401,36 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 	{
 		
 		/* ---------------------- For The Revenue Report ---------------------------*/
-		temp_Date_Quarter_Report_2 = StoreManagerReportUI.Dates.get(getItemIndex_First_Store());
+		temp_Date_Quarter_Report_2 = CompanyManagerReportUI.Dates_For_Company_Manager.get(getItemIndex_First_Store());
 		ArrayList<Object> Store_Id_And_Date_Of_Report = new ArrayList<Object>();
 		Store_Id_And_Date_Of_Report.add(temp_Store_Id_2);
 		Store_Id_And_Date_Of_Report.add(temp_Date_Quarter_Report_2);
-		msg = new Message(Store_Id_And_Date_Of_Report, "Take the Revenue Of Specific Quarter Of Specific Store");
-		StoreManagerReportUI.myClient.accept(msg);
-		while(CompanyManagerReportUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter.size() == 0);
+		msg = new Message(Store_Id_And_Date_Of_Report, "Company Manager - Take the Revenue Of Specific Quarter Of Specific Store");
+		CompanyManagerReportUI.myClient.accept(msg);
+		while(CompanyManagerReportUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter_For_Company_Manager.size() == 0);
 		Thread.sleep(200);
-		CompanyManagerReportUI.Help_To_Transfer_Object_At_Revenue_Report.clear();
-		CompanyManagerReportUI.Help_To_Transfer_Object_At_Revenue_Report.add(StoreManagerReportUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter.get(0));
-		CompanyManagerReportUI.Help_To_Transfer_Object_At_Revenue_Report.add(StoreManagerReportUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter.get(1));
-		CompanyManagerReportUI.Help_To_Transfer_Object_At_Revenue_Report.add(temp_Date_Quarter_Report_2);
+		CompanyManagerReportUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.clear();
+		CompanyManagerReportUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.add(CompanyManagerReportUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter_For_Company_Manager.get(0));
+		CompanyManagerReportUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.add(CompanyManagerReportUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter_For_Company_Manager.get(1));
+		CompanyManagerReportUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.add(temp_Date_Quarter_Report_2);
 		
 		/* ----------------------- For The Order Report -----------------------------*/
 		
-		CompanyManagerReportUI.Help_To_Transfer_Object_At_Order_Report.clear();
-		CompanyManagerReportUI.Help_To_Transfer_Object_At_Order_Report.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
-		CompanyManagerReportUI.Help_To_Transfer_Object_At_Order_Report.add(Store_Id_And_Date_Of_Report.get(1));  /* The Date Of the Report */
+		CompanyManagerReportUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager.clear();
+		CompanyManagerReportUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
+		CompanyManagerReportUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager.add(Store_Id_And_Date_Of_Report.get(1));  /* The Date Of the Report */
 		
 		/* ----------------------- For The Complaint Report -----------------------------*/
 		
-		CompanyManagerReportUI.Help_To_Transfer_Object_At_Complaint_Report.clear();
-		CompanyManagerReportUI.Help_To_Transfer_Object_At_Complaint_Report.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
-		CompanyManagerReportUI.Help_To_Transfer_Object_At_Complaint_Report.add(Store_Id_And_Date_Of_Report.get(1));  /* The Date Of the Report */
+		CompanyManagerReportUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager.clear();
+		CompanyManagerReportUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
+		CompanyManagerReportUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager.add(Store_Id_And_Date_Of_Report.get(1));  /* The Date Of the Report */
 		
 		/* ----------------------- For The Satisfaction Report -----------------------------*/
 		
-		CompanyManagerReportUI.Help_To_Transfer_Object_At_Satisfaction_Report.clear();
-		CompanyManagerReportUI.Help_To_Transfer_Object_At_Satisfaction_Report.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
-		CompanyManagerReportUI.Help_To_Transfer_Object_At_Satisfaction_Report.add(Store_Id_And_Date_Of_Report.get(1));  /* The Date Of the Report */
+		CompanyManagerReportUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.clear();
+		CompanyManagerReportUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
+		CompanyManagerReportUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.add(Store_Id_And_Date_Of_Report.get(1));  /* The Date Of the Report */
 	}
 	
 /* -------------------------------- Initialized The ComboBox In the First Window - Report GUI ------------------------------- */		
@@ -406,10 +439,11 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
 		ArrayList<Store> stores = new ArrayList<Store>();           /* For the First Connection With The DB the ArrayList Of stores Is Empty */
-		msg = new Message(stores, "Add Store To Combo Box From DB");
+		msg = new Message(stores, "Company Manager - Add Store To Combo Box From DB");
 		CompanyManagerReportUI.myClient.accept(msg);
-		while(CompanyManagerReportUI.stores.size() == 0);
-		setStoresComboBox();
+		while(CompanyManagerReportUI.stores_For_Company_Manager.size() == 0);
+		setStores_One_ComboBox();
+		setStores_Two_ComboBox();
 	}
 
 }
