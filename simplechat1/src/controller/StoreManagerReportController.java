@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Vector;
 
-import boundery.ReportUI;
+import boundery.StoreManagerReportUI;
 import entity.Message;
 import entity.Store;
 import javafx.collections.FXCollections;
@@ -25,7 +25,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class ReportController implements Initializable {
+public class StoreManagerReportController implements Initializable {
 
 	private QuarterlyRevenueReportController quarterlyRevenueReportController;
 	private OrderReportController orderReportController;
@@ -75,7 +75,7 @@ public class ReportController implements Initializable {
 	
 	public void start(Stage primaryStage) throws Exception          			  /* With this Method we show the GUI of the First Window */
 	{	
-		Parent root = FXMLLoader.load(getClass().getResource("/controller/ReportForm.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("/controller/StoreManagerReportForm.fxml"));
 		Scene scene = new Scene(root);
 		primaryStage.setTitle("Quarterly Report - Managment Tool");
 		primaryStage.setScene(scene);
@@ -92,7 +92,7 @@ public class ReportController implements Initializable {
 		Pane root = loader.load(getClass().getResource("/controller/QuarterlyRevenueReportForm.fxml").openStream());
 		
 		QuarterlyRevenueReportController quarterlyRevenueReportController = loader.getController();
-		quarterlyRevenueReportController.loadStore(ReportUI.stores.get(getItemIndex())); 
+		quarterlyRevenueReportController.loadStore(StoreManagerReportUI.stores.get(getItemIndex())); 
 		
 		Scene scene = new Scene(root);			
 		primaryStage.setScene(scene);		
@@ -109,7 +109,7 @@ public class ReportController implements Initializable {
 		Pane root = loader.load(getClass().getResource("/controller/OrderReportForm.fxml").openStream());
 		
 		OrderReportController orderReportController = loader.getController();
-		orderReportController.loadStore(ReportUI.stores.get(getItemIndex()));
+		orderReportController.loadStore(StoreManagerReportUI.stores.get(getItemIndex()));
 		
 		Scene scene = new Scene(root);			
 		primaryStage.setScene(scene);		
@@ -126,7 +126,7 @@ public class ReportController implements Initializable {
 		Pane root = loader.load(getClass().getResource("/controller/CustomerComplaintStatusReportForm.fxml").openStream());
 		
 		CustomerComplaintStatusReportController customerComplaintStatusReportController = loader.getController();
-		customerComplaintStatusReportController.loadStore(ReportUI.stores.get(getItemIndex()));
+		customerComplaintStatusReportController.loadStore(StoreManagerReportUI.stores.get(getItemIndex()));
 		
 		Scene scene = new Scene(root);			
 		primaryStage.setScene(scene);		
@@ -143,7 +143,7 @@ public class ReportController implements Initializable {
 		Pane root = loader.load(getClass().getResource("/controller/SatisfactionReportForm.fxml").openStream());
 		
 		SatisfactionReportController satisfactionReportController = loader.getController();
-		satisfactionReportController.loadStore(ReportUI.stores.get(getItemIndex()));
+		satisfactionReportController.loadStore(StoreManagerReportUI.stores.get(getItemIndex()));
 		
 		Scene scene = new Scene(root);			
 		primaryStage.setScene(scene);
@@ -206,7 +206,7 @@ public class ReportController implements Initializable {
 	{ 				
 		ArrayList<String> temp_Stores_ID_And_Address_List = new ArrayList<String>();	
 		
-		for(Store s: ReportUI.stores)
+		for(Store s: StoreManagerReportUI.stores)
 		{
 			temp_Stores_ID_And_Address_List.add(String.valueOf(s.getStoreId()) + " ---> " + s.getStore_Address());
 		}
@@ -221,9 +221,9 @@ public class ReportController implements Initializable {
 	{ 				
 		ArrayList<Date> Date_Of_Report = new ArrayList<Date>();	
 		
-		for(int i = 0 ; i < ReportUI.Dates.size() ; i++)
+		for(int i = 0 ; i < StoreManagerReportUI.Dates.size() ; i++)
 		{
-			Date_Of_Report.add(ReportUI.Dates.get(i));
+			Date_Of_Report.add(StoreManagerReportUI.Dates.get(i));
 		}
 		
 		DateList = FXCollections.observableArrayList(Date_Of_Report);
@@ -234,10 +234,10 @@ public class ReportController implements Initializable {
 	
 	public void Button_Of_Your_Store_Choise(ActionEvent event) throws Exception
 	{
-		temp_Store_Id = ReportUI.stores.get(getItemIndex()).getStoreId();
+		temp_Store_Id = StoreManagerReportUI.stores.get(getItemIndex()).getStoreId();
 		msg = new Message(temp_Store_Id, "Take The Date Of All the Report Of Specific Store");
-		ReportUI.myClient.accept(msg);
-		while(ReportUI.Dates.size() == 0);
+		StoreManagerReportUI.myClient.accept(msg);
+		while(StoreManagerReportUI.Dates.size() == 0);
 		Thread.sleep(200);
 		set_Dates_Of_Report_At_ComboBox();
 	}
@@ -248,36 +248,36 @@ public class ReportController implements Initializable {
 	{
 		
 		/* ---------------------- For The Revenue Report ---------------------------*/
-		temp_Date_Quarter_Report = ReportUI.Dates.get(getItemIndexFromDateComboBox());
+		temp_Date_Quarter_Report = StoreManagerReportUI.Dates.get(getItemIndexFromDateComboBox());
 		ArrayList<Object> Store_Id_And_Date_Of_Report = new ArrayList<Object>();
 		Store_Id_And_Date_Of_Report.add(temp_Store_Id);
 		Store_Id_And_Date_Of_Report.add(temp_Date_Quarter_Report);
 		msg = new Message(Store_Id_And_Date_Of_Report, "Take the Revenue Of Specific Quarter Of Specific Store");
-		ReportUI.myClient.accept(msg);
-		while(ReportUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter.size() == 0);
+		StoreManagerReportUI.myClient.accept(msg);
+		while(StoreManagerReportUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter.size() == 0);
 		Thread.sleep(200);
-		ReportUI.Help_To_Transfer_Object_At_Revenue_Report.clear();
-		ReportUI.Help_To_Transfer_Object_At_Revenue_Report.add(ReportUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter.get(0));
-		ReportUI.Help_To_Transfer_Object_At_Revenue_Report.add(ReportUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter.get(1));
-		ReportUI.Help_To_Transfer_Object_At_Revenue_Report.add(temp_Date_Quarter_Report);
+		StoreManagerReportUI.Help_To_Transfer_Object_At_Revenue_Report.clear();
+		StoreManagerReportUI.Help_To_Transfer_Object_At_Revenue_Report.add(StoreManagerReportUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter.get(0));
+		StoreManagerReportUI.Help_To_Transfer_Object_At_Revenue_Report.add(StoreManagerReportUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter.get(1));
+		StoreManagerReportUI.Help_To_Transfer_Object_At_Revenue_Report.add(temp_Date_Quarter_Report);
 		
 		/* ----------------------- For The Order Report -----------------------------*/
 		
-		ReportUI.Help_To_Transfer_Object_At_Order_Report.clear();
-		ReportUI.Help_To_Transfer_Object_At_Order_Report.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
-		ReportUI.Help_To_Transfer_Object_At_Order_Report.add(Store_Id_And_Date_Of_Report.get(1));  /* The Date Of the Report */
+		StoreManagerReportUI.Help_To_Transfer_Object_At_Order_Report.clear();
+		StoreManagerReportUI.Help_To_Transfer_Object_At_Order_Report.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
+		StoreManagerReportUI.Help_To_Transfer_Object_At_Order_Report.add(Store_Id_And_Date_Of_Report.get(1));  /* The Date Of the Report */
 		
 		/* ----------------------- For The Complaint Report -----------------------------*/
 		
-		ReportUI.Help_To_Transfer_Object_At_Complaint_Report.clear();
-		ReportUI.Help_To_Transfer_Object_At_Complaint_Report.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
-		ReportUI.Help_To_Transfer_Object_At_Complaint_Report.add(Store_Id_And_Date_Of_Report.get(1));  /* The Date Of the Report */
+		StoreManagerReportUI.Help_To_Transfer_Object_At_Complaint_Report.clear();
+		StoreManagerReportUI.Help_To_Transfer_Object_At_Complaint_Report.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
+		StoreManagerReportUI.Help_To_Transfer_Object_At_Complaint_Report.add(Store_Id_And_Date_Of_Report.get(1));  /* The Date Of the Report */
 		
 /* ----------------------- For The Satisfaction Report -----------------------------*/
 		
-		ReportUI.Help_To_Transfer_Object_At_Satisfaction_Report.clear();
-		ReportUI.Help_To_Transfer_Object_At_Satisfaction_Report.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
-		ReportUI.Help_To_Transfer_Object_At_Satisfaction_Report.add(Store_Id_And_Date_Of_Report.get(1));  /* The Date Of the Report */
+		StoreManagerReportUI.Help_To_Transfer_Object_At_Satisfaction_Report.clear();
+		StoreManagerReportUI.Help_To_Transfer_Object_At_Satisfaction_Report.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
+		StoreManagerReportUI.Help_To_Transfer_Object_At_Satisfaction_Report.add(Store_Id_And_Date_Of_Report.get(1));  /* The Date Of the Report */
 	}
 	
 /* -------------------------------- Initialized The ComboBox In the First Window - Report GUI ------------------------------- */	
@@ -287,19 +287,19 @@ public class ReportController implements Initializable {
 	{
 		ArrayList<Store> stores = new ArrayList<Store>();           /* For the First Connection With The DB the ArrayList Of stores Is Empty */
 		msg = new Message(stores, "Add Store To Combo Box From DB");
-		ReportUI.myClient.accept(msg);
-		while(ReportUI.stores.size() == 0);
+		StoreManagerReportUI.myClient.accept(msg);
+		while(StoreManagerReportUI.stores.size() == 0);
 		setStoresComboBox();
 		
 		/* ----------------- Update All the Revenue Of All The Store At The DB ------------------*/
 		
-		for(int i = 0 ; i < ReportUI.stores.size() ; i++)
+		for(int i = 0 ; i < StoreManagerReportUI.stores.size() ; i++)
 		{
-			stores.add(ReportUI.stores.get(i));
+			stores.add(StoreManagerReportUI.stores.get(i));
 		}
 		
 		msg = new Message(stores, "Update The Total Revenue Of All the Store");
-		ReportUI.myClient.accept(msg);	
+		StoreManagerReportUI.myClient.accept(msg);	
 	}
 	
 /* ------------------------------------------------------------------------------------------------------------------- */

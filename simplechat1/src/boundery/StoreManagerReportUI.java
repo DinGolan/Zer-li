@@ -3,7 +3,7 @@ package boundery;
 import java.sql.Date;
 import java.util.Scanner;
 import java.util.Vector;
-import controller.ReportController;
+import controller.StoreManagerReportController;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import mypackage.ClientConsole;
@@ -12,9 +12,9 @@ import entity.Order;
 import entity.Store;
 import entity.Survey;
 
-public class ReportUI extends Application 		/* With This Class We Show the Report GUI */{
+public class StoreManagerReportUI extends Application 		/* With This Class We Show the Report GUI */{
 	
-	/* Vector Of ---> { Store , Order , Complaint , Date , Survey } */
+	/* Vector Of ---> { Store , Order , Complaint , Date , Average Of Result At Survey } */
 	public static Vector<Store> stores = new Vector<Store>();
 	public static Vector<Order> orders = new Vector<Order>(); 
 	public static Vector<Complaint> complaints = new Vector<Complaint>(); 
@@ -43,7 +43,7 @@ public class ReportUI extends Application 		/* With This Class We Show the Repor
 	@Override
 	public void start(Stage arg0) throws Exception 
 	{		
-		ReportController aFrame = new ReportController(); /* Create Report Frame */				  
+		StoreManagerReportController aFrame = new StoreManagerReportController(); /* Create Report Frame */				  
 		aFrame.start(arg0);
 	}
 }

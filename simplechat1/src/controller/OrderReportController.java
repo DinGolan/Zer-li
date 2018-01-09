@@ -5,7 +5,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import boundery.ReportUI;
+import boundery.StoreManagerReportUI;
 import entity.Message;
 import entity.Order;
 import entity.Product;
@@ -66,11 +66,11 @@ public class OrderReportController implements Initializable{
 	
 	public void closeOrderReportWindow(ActionEvent event) throws Exception   
 	{ 
-		ReportUI.stores.clear();
+		StoreManagerReportUI.stores.clear();
 		((Node)event.getSource()).getScene().getWindow().hide(); 	 /* Hiding primary window */
 		Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
 		FXMLLoader loader = new FXMLLoader(); 					 	 /* Load object */
-		Pane root = loader.load(getClass().getResource("/controller/ReportForm.fxml").openStream());
+		Pane root = loader.load(getClass().getResource("/controller/StoreManagerReportForm.fxml").openStream());
 		
 		Scene scene = new Scene(root);			
 		primaryStage.setScene(scene);		
@@ -88,7 +88,7 @@ public class OrderReportController implements Initializable{
 		String Year;
 		String Full_Date_String;
 		Date temp_Date_Quarter_Report;
-		temp_Date_Quarter_Report = (Date)ReportUI.Help_To_Transfer_Object_At_Order_Report.get(1);                             /* The Date */
+		temp_Date_Quarter_Report = (Date)StoreManagerReportUI.Help_To_Transfer_Object_At_Order_Report.get(1);                             /* The Date */
 		Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
 		Year = Full_Date_String.substring(0 , 4);
 		Month = Full_Date_String.substring(5 , 7);
@@ -116,11 +116,11 @@ public class OrderReportController implements Initializable{
 		
 		
 		ArrayList<Object> StoreID_And_Date_Of_Report = new ArrayList<Object>();
-		StoreID_And_Date_Of_Report.add(ReportUI.Help_To_Transfer_Object_At_Order_Report.get(0)); /* The Store Id */
-		StoreID_And_Date_Of_Report.add(ReportUI.Help_To_Transfer_Object_At_Order_Report.get(1)); /* The Date Of the Report */
+		StoreID_And_Date_Of_Report.add(StoreManagerReportUI.Help_To_Transfer_Object_At_Order_Report.get(0)); /* The Store Id */
+		StoreID_And_Date_Of_Report.add(StoreManagerReportUI.Help_To_Transfer_Object_At_Order_Report.get(1)); /* The Date Of the Report */
 		msg = new Message(StoreID_And_Date_Of_Report, "Take The Orders Of Specific Store");
-		ReportUI.myClient.accept(msg);
-		while(ReportUI.orders.size() == 0);
+		StoreManagerReportUI.myClient.accept(msg);
+		while(StoreManagerReportUI.orders.size() == 0);
 		try 
 		{
 			Thread.sleep(200);
@@ -139,9 +139,9 @@ public class OrderReportController implements Initializable{
 		int [] Count_In_Chart;
 		ArrayList<Product.ProductType> productType_Of_Specific_Order_Of_Specific_Store = new ArrayList<Product.ProductType>();   /* All the Product That We Order On Specific Store */
 		ArrayList<Order> orders = new ArrayList<Order>();                         						   /* All The Orders That We Order On Specific Store */
-		for(int i = 0 ; i < ReportUI.orders.size() ; i++)                                                  /* In This Loop We Initialize All the Orders At ArrayList Of Orders */                                             
+		for(int i = 0 ; i < StoreManagerReportUI.orders.size() ; i++)                                                  /* In This Loop We Initialize All the Orders At ArrayList Of Orders */                                             
 		{
-			orders.add(ReportUI.orders.get(i));
+			orders.add(StoreManagerReportUI.orders.get(i));
 			for(int j = 0 ; j < orders.get(i).getProductsInOrder().size() ; j++)                           /* In This Loop We Initialize All the Product Type At the product_Of_Specific_Store */
 			{
 				if((productType_Of_Specific_Order_Of_Specific_Store.contains(orders.get(i).getProductsInOrder().get(j).getpType())) == false)

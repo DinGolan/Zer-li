@@ -9,10 +9,10 @@ import java.util.ArrayList;
 import boundery.CatalogUI;
 import boundery.DataCompanyManagerUI;
 import boundery.ProductUI;
-import boundery.ReportUI;
+import boundery.StoreManagerReportUI;
 import boundery.UserUI;
 import controller.AccountController;
-import controller.ReportController;
+import controller.StoreManagerReportController;
 import controller.UserController;
 import client.ChatClient;
 import common.ChatIF;
@@ -148,11 +148,11 @@ public void displayUI(Object message)
 		  	  int i=0;
 			  ArrayList<Store> temp = new ArrayList<Store>();
 			  temp = (ArrayList<Store>)((Message)message).getMsg();
-			  ReportUI.stores.clear();
+			  StoreManagerReportUI.stores.clear();
 
 			  for(i=0;i<temp.size();i++)
 		  	  {
-				  ReportUI.stores.add(temp.get(i));
+				  StoreManagerReportUI.stores.add(temp.get(i));
 		  	  }
 	    }
 	    else if(((Message)message).getOption().compareTo("Take The Orders Of Specific Store") == 0)
@@ -160,11 +160,11 @@ public void displayUI(Object message)
 		  	  int i=0;
 			  ArrayList<Order> temp_Order = new ArrayList<Order>();
 			  temp_Order = (ArrayList<Order>)((Message)message).getMsg();
-			  ReportUI.orders.clear();
+			  StoreManagerReportUI.orders.clear();
 
 			  for(i=0;i<temp_Order.size();i++)
 		  	  {
-				  ReportUI.orders.add(temp_Order.get(i));
+				  StoreManagerReportUI.orders.add(temp_Order.get(i));
 		  	  }
 	    } 
 	    else if(((Message)message).getOption().compareTo("Take The Complaints Of Specific Store") == 0)
@@ -172,11 +172,11 @@ public void displayUI(Object message)
 		  	  int i=0;
 			  ArrayList<Complaint> temp_Complaint = new ArrayList<Complaint>();
 			  temp_Complaint = (ArrayList<Complaint>)((Message)message).getMsg();
-			  ReportUI.complaints.clear();
+			  StoreManagerReportUI.complaints.clear();
 
 			  for(i=0;i<temp_Complaint.size();i++)
 		  	  {
-				  ReportUI.complaints.add(temp_Complaint.get(i));
+				  StoreManagerReportUI.complaints.add(temp_Complaint.get(i));
 		  	  }
 	    }
 	    else if(((Message)message).getOption().compareTo("Take the Revenue Of Specific Quarter Of Specific Store") == 0)
@@ -184,11 +184,11 @@ public void displayUI(Object message)
 	    	  int i = 0;
 			  ArrayList<Object> temp_Revenue_And_Number_Of_Order_Of_Specific_Store_Of_Specific_Quarter = new ArrayList<Object>();
 			  temp_Revenue_And_Number_Of_Order_Of_Specific_Store_Of_Specific_Quarter = (ArrayList<Object>)((Message)message).getMsg();
-			  ReportUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter.clear();
+			  StoreManagerReportUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter.clear();
 
 			  for(i=0;i<temp_Revenue_And_Number_Of_Order_Of_Specific_Store_Of_Specific_Quarter.size();i++)
 		  	  {
-				  ReportUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter.add(temp_Revenue_And_Number_Of_Order_Of_Specific_Store_Of_Specific_Quarter.get(i));
+				  StoreManagerReportUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter.add(temp_Revenue_And_Number_Of_Order_Of_Specific_Store_Of_Specific_Quarter.get(i));
 		  	  }
 	    }
 	    else if(((Message)message).getOption().compareTo("Take The Date Of All the Report Of Specific Store") == 0)
@@ -196,11 +196,11 @@ public void displayUI(Object message)
 		  	  int i = 0;
 			  ArrayList<Date> temp_Date_Of_Report = new ArrayList<Date>();
 			  temp_Date_Of_Report = (ArrayList<Date>)((Message)message).getMsg();
-			  ReportUI.Dates.clear();
+			  StoreManagerReportUI.Dates.clear();
 
 			  for(i=0;i<temp_Date_Of_Report.size();i++)
 		  	  {
-				  ReportUI.Dates.add(temp_Date_Of_Report.get(i));
+				  StoreManagerReportUI.Dates.add(temp_Date_Of_Report.get(i));
 		  	  }
 	    }
 	    else if(((Message)message).getOption().compareTo("Take The Surveys Of Specific Store In Specific Quarter") == 0)
@@ -208,11 +208,11 @@ public void displayUI(Object message)
 		  	  int i = 0;
 			  ArrayList<Double> temp_Survey_Result = new ArrayList<Double>();
 			  temp_Survey_Result = (ArrayList<Double>)((Message)message).getMsg();
-			  ReportUI.Average_Result_Of_Each_Qustions_In_surveys.clear();
+			  StoreManagerReportUI.Average_Result_Of_Each_Qustions_In_surveys.clear();
 
 			  for(i=0;i<temp_Survey_Result.size();i++)
 		  	  {
-				  ReportUI.Average_Result_Of_Each_Qustions_In_surveys.add(temp_Survey_Result.get(i));
+				  StoreManagerReportUI.Average_Result_Of_Each_Qustions_In_surveys.add(temp_Survey_Result.get(i));
 		  	  }
 	    }
    }
