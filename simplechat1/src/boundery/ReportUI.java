@@ -10,15 +10,25 @@ import mypackage.ClientConsole;
 import entity.Complaint;
 import entity.Order;
 import entity.Store;
+import entity.Survey;
 
 public class ReportUI extends Application 		/* With This Class We Show the Report GUI */{
 	
+	/* Vector Of ---> { Store , Order , Complaint , Date , Survey } */
 	public static Vector<Store> stores = new Vector<Store>();
 	public static Vector<Order> orders = new Vector<Order>(); 
 	public static Vector<Complaint> complaints = new Vector<Complaint>(); 
 	public static Vector<Date> Dates = new Vector<Date>();
-	public static Vector<Double> Total_Revenue_In_Specific_Quarter = new Vector<Double>();
-	public static Vector<Object> Help_To_Transfer_Object = new Vector<Object>();
+	public static Vector<Survey> surveys = new Vector<Survey>();
+	
+	/* ArrayList Of Object */
+	public static Vector<Object> Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter = new Vector<Object>();
+	public static Vector<Object> Help_To_Transfer_Object_At_Revenue_Report = new Vector<Object>();
+	public static Vector<Object> Help_To_Transfer_Object_At_Order_Report = new Vector<Object>();
+	public static Vector<Object> Help_To_Transfer_Object_At_Complaint_Report = new Vector<Object>();
+	public static Vector<Object> Help_To_Transfer_Object_At_Satisfaction_Report = new Vector<Object>();
+	
+	/* Client Console */
 	public static ClientConsole myClient;
 	
 	public static void main( String args[] ) throws Exception

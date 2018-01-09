@@ -1,12 +1,12 @@
 package controller;
 
 import java.net.URL;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import boundery.ReportUI;
 import entity.Message;
-import entity.Order;
 import entity.Store;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -37,6 +37,12 @@ public class CustomerComplaintStatusReportController implements Initializable {
 	 @FXML
 	 private TextField txtStoreID;
 	
+	 @FXML
+	 private TextField txtYear;
+
+	    @FXML
+	 private TextField txtNumberOfQuarter;  
+	    
 	 @FXML
 	 private BarChart<String, Integer> Complaint_BarChart;
 	 
@@ -69,53 +75,133 @@ public class CustomerComplaintStatusReportController implements Initializable {
 	}
 	
 	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		ArrayList<Order> orders = new ArrayList<Order>();
-		Order temp_Order = new Order();                      /* Help me For take Only The Orders of the Store That I choose */
-		orders.add(temp_Order);
-		orders.get(0).setStoreId(1); 						 /* Integer.parseInt(this.txtStoreID.getText()) */
-		msg = new Message(orders, "Take The Complaints Of Specific Store"); /* I take All the Orders Of Specific Store , And After That I Take All the Complaint Of All The Order Of the Specific Store */
+	public void initialize(URL location, ResourceBundle resources) 
+	{
+		int Year_Integer;
+		int Month_Integer;
+		String Month;
+		String Year;
+		String Full_Date_String;
+		Date temp_Date_Quarter_Report;
+		temp_Date_Quarter_Report = (Date)ReportUI.Help_To_Transfer_Object_At_Order_Report.get(1);                             /* The Date */
+		Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
+		Year = Full_Date_String.substring(0 , 4);
+		Month = Full_Date_String.substring(5 , 7);
+		Year_Integer = Integer.parseInt(Year);
+		Month_Integer = Integer.parseInt(Month);
+		
+		this.txtYear.setText(String.valueOf(Year_Integer)); 					/* Set The Year */
+		
+		if(Month_Integer == 1 || Month_Integer == 2 || Month_Integer == 3)      /* Set The Month */
+		{
+			this.txtNumberOfQuarter.setText(String.valueOf(1));
+		}
+		if(Month_Integer == 4 || Month_Integer == 5 || Month_Integer == 6)      /* Set The Month */
+		{
+			this.txtNumberOfQuarter.setText(String.valueOf(2));
+		}
+		if(Month_Integer == 7 || Month_Integer == 8 || Month_Integer == 9)      /* Set The Month */
+		{
+			this.txtNumberOfQuarter.setText(String.valueOf(3));
+		}
+		if(Month_Integer == 10 || Month_Integer == 11 || Month_Integer == 12)   /* Set The Month */
+		{
+			this.txtNumberOfQuarter.setText(String.valueOf(4));
+		}
+		
+		ArrayList<Object> StoreID_And_Date_Of_Report = new ArrayList<Object>();
+		StoreID_And_Date_Of_Report.add(ReportUI.Help_To_Transfer_Object_At_Complaint_Report.get(0));    /* The Store Id */
+		StoreID_And_Date_Of_Report.add(ReportUI.Help_To_Transfer_Object_At_Complaint_Report.get(1));    /* The Date Of the Report */
+		msg = new Message(StoreID_And_Date_Of_Report, "Take The Complaints Of Specific Store"); 		/* I take All the Orders Of Specific Store , And After That I Take All the Complaint Of All The Order Of the Specific Store */
 		ReportUI.myClient.accept(msg);
 		while(ReportUI.complaints.size() == 0);
-		PutAtTheChartAllTheComplaints();
+		try 
+		{
+			Thread.sleep(200);
+		} 
+		catch (InterruptedException e) 
+		{
+		
+			e.printStackTrace();
+		}
+		Put_At_The_Chart_All_The_Complaints();
 	}
 
-	public void PutAtTheChartAllTheComplaints()
+/* --------------------------------- Initialize The Customer Complaint And The Month Of the Complaint At the Bar Chart ------------------------------------------------- */	 			
+	
+	public void Put_At_The_Chart_All_The_Complaints()
 	{
 		int [] Count_In_Chart;
-		ArrayList<String> Month_Of_Complaint = new ArrayList<String>();   /* All the Product That We Order On Specific Store */
+		ArrayList<String> Months_Of_Complaint = new ArrayList<String>();   /* All the Product That We Order On Specific Store */
 		ArrayList<String> Month_Of_Complaint_Without_Duplicate = new ArrayList<String>();
+		Date date_Report = (Date)ReportUI.Help_To_Transfer_Object_At_Complaint_Report.get(1);
+		String String_Date_Report = String.valueOf(date_Report);
+		String Month = String_Date_Report.substring(5 , 7);
+		int Integer_Month = Integer.parseInt(Month);
 		                       						  
 		for(int i = 0 ; i < ReportUI.complaints.size() ; i++)             /* In This Loop We Initialize All the Orders At ArrayList Of Orders */                                             
 		{
-			Month_Of_Complaint.add(ReportUI.complaints.get(i).getComplaintMonth());
+			Months_Of_Complaint.add(ReportUI.complaints.get(i).getComplaintMonth());
 		}
 		
-		for(int i = 0 ; i < Month_Of_Complaint.size() ; i++)             /* In This Loop We Initialize All the Orders At ArrayList Of Orders */                                             
+		for(int i = 0 ; i < Months_Of_Complaint.size() ; i++)             /* In This Loop We Initialize All the Orders At ArrayList Of Orders */                                             
 		{
-			if((Month_Of_Complaint_Without_Duplicate.contains(Month_Of_Complaint.get(i))) == false) /* If Month_Of_Complaint_Without_Duplicate Not Contain */
-				Month_Of_Complaint_Without_Duplicate.add(Month_Of_Complaint.get(i));
+			if((Month_Of_Complaint_Without_Duplicate.contains(Months_Of_Complaint.get(i))) == false) /* If Month_Of_Complaint_Without_Duplicate Not Contain */
+				Month_Of_Complaint_Without_Duplicate.add(Months_Of_Complaint.get(i));
 		}
 		
-		Count_In_Chart = new int[Month_Of_Complaint_Without_Duplicate.size()];
+		Count_In_Chart = new int[3];   /* 3 = Three Month In Each Quarter */
 		ArrayList<XYChart.Series<String,Integer>> setChart = new ArrayList<XYChart.Series<String,Integer>>();
-		for(int i = 0 ; i < Month_Of_Complaint_Without_Duplicate.size() ; i++)
+		
+		if(Integer_Month == 1 || Integer_Month == 2 || Integer_Month == 3)
 		{
-			XYChart.Series<String,Integer> Chart = new XYChart.Series<String,Integer>();
-			Chart.setName(Month_Of_Quarter_One[i]);
-			setChart.add(Chart);
+			for(int i = 0 ; i < Month_Of_Quarter_One.length ; i++)
+			{
+				XYChart.Series<String,Integer> Chart = new XYChart.Series<String,Integer>();
+				Chart.setName(Month_Of_Quarter_One[i]);
+				setChart.add(Chart);
+			}
+		}
+		else if(Integer_Month == 4 || Integer_Month == 5 || Integer_Month == 6)
+		{
+			for(int i = 0 ; i < Month_Of_Quarter_Two.length ; i++)
+			{
+				XYChart.Series<String,Integer> Chart = new XYChart.Series<String,Integer>();
+				Chart.setName(Month_Of_Quarter_Two[i]);
+				setChart.add(Chart);
+			}
+		}
+		else if(Integer_Month == 7 || Integer_Month == 8 || Integer_Month == 9)
+		{
+			for(int i = 0 ; i < Month_Of_Quarter_Three.length ; i++)
+			{
+				XYChart.Series<String,Integer> Chart = new XYChart.Series<String,Integer>();
+				Chart.setName(Month_Of_Quarter_Three[i]);
+				setChart.add(Chart);
+			}
+		}
+		else if(Integer_Month == 10 || Integer_Month == 11 || Integer_Month == 12)
+		{
+			for(int i = 0 ; i < Month_Of_Quarter_Four.length ; i++)
+			{
+				XYChart.Series<String,Integer> Chart = new XYChart.Series<String,Integer>();
+				Chart.setName(Month_Of_Quarter_Four[i]);
+				setChart.add(Chart);
+			}
 		}
 		
-		for(int i = 0 ; i < Month_Of_Complaint.size() ; i++)
+		
+		
+		for(int i = 0 ; i < Months_Of_Complaint.size() ; i++)
 		{
-			for(int j = 0 ; j < Month_Of_Complaint_Without_Duplicate.size() ; j++)
+			for(int WithOut_Duplicate_Index = 0 ; WithOut_Duplicate_Index < Month_Of_Complaint_Without_Duplicate.size() ; WithOut_Duplicate_Index++)
 			{
-				if(Month_Of_Complaint.get(i).compareTo(Month_Of_Complaint_Without_Duplicate.get(j)) == 0) /* If Equals Than get In Into The If Statement */
+				if(Months_Of_Complaint.get(i).compareTo(Month_Of_Complaint_Without_Duplicate.get(WithOut_Duplicate_Index)) == 0) /* If Equals Than get In Into The 'If' Statement */
 				{
-					for(int k = 0 ; k < setChart.size() ; k++)
+					for(int SetChart_Index = 0 ; SetChart_Index < setChart.size() ; SetChart_Index++)
 					{
-						if(setChart.get(k).getName().compareTo(Month_Of_Complaint_Without_Duplicate.get(j)) == 0)
-							setChart.get(k).getData().add(new XYChart.Data<String, Integer>(Month_Of_Complaint_Without_Duplicate.get(j), ++(Count_In_Chart[j])));
+						if(setChart.get(SetChart_Index).getName().compareTo(Month_Of_Complaint_Without_Duplicate.get(WithOut_Duplicate_Index)) == 0)
+							setChart.get(SetChart_Index).getData().add(new XYChart.Data<String, Integer>(setChart.get(SetChart_Index).getName() , ++(Count_In_Chart[SetChart_Index])));
 					}
 				}
 			}

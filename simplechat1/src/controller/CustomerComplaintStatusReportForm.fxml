@@ -16,12 +16,12 @@
             <Font name="Bodoni MT Bold" size="30.0" />
          </font>
       </Label>
-      <Label layoutX="70.0" layoutY="114.0" text="Store ID : ">
+      <Label layoutX="45.0" layoutY="102.0" text="Store ID : ">
          <font>
             <Font name="System Italic" size="16.0" />
          </font>
       </Label>
-      <TextField id="txtStoreID" fx:id="txtStoreID" editable="false" layoutX="267.0" layoutY="114.0" />
+      <TextField id="txtStoreID" fx:id="txtStoreID" editable="false" layoutX="113.0" layoutY="102.0" prefHeight="25.0" prefWidth="53.0" />
       <BarChart id="Complaint_BarChart" fx:id="Complaint_BarChart" layoutX="39.0" layoutY="155.0" title="Complaint According To Month">
         <xAxis>
           <CategoryAxis fx:id="X_Month" label="Month " side="BOTTOM" />
@@ -31,5 +31,17 @@
         </yAxis>
       </BarChart>
       <Button id="btnClose" fx:id="btnClose" layoutX="256.0" layoutY="567.0" mnemonicParsing="false" onAction="#closeCustomerComplaintStatusReportWindow" text="Close" />
+      <Label layoutX="206.0" layoutY="102.0" text="Year : ">
+         <font>
+            <Font name="System Italic" size="16.0" />
+         </font>
+      </Label>
+      <TextField id="txtYear" fx:id="txtYear" editable="false" layoutX="250.0" layoutY="102.0" prefHeight="25.0" prefWidth="57.0" />
+      <Label layoutX="349.0" layoutY="102.0" text="Number Of Quarter :">
+         <font>
+            <Font name="System Italic" size="16.0" />
+         </font>
+      </Label>
+      <TextField id="txtNumberOfQuarter" fx:id="txtNumberOfQuarter" editable="false" layoutX="500.0" layoutY="102.0" prefHeight="25.0" prefWidth="57.0" />
    </children>
 </AnchorPane>

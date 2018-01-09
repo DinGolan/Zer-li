@@ -3,7 +3,10 @@ package controller;
 import java.net.URL;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Vector;
 
 import boundery.ReportUI;
 import entity.Message;
@@ -34,13 +37,13 @@ public class ReportController implements Initializable {
 	private int temp_Store_Id;
 	private Date temp_Date_Quarter_Report;
 	
-	ObservableList<Integer> storeList;
+	ObservableList<String> storeList;
 	ObservableList<Date> DateList;
 	
 /* -------------------------  For The First Window Of Report ----------------------------------- */	
 	
 	@FXML
-	private ComboBox<Integer> cmbStores;  				    /* ComboBox With List Of Stores */
+	private ComboBox<String> cmbStores;  				    /* ComboBox With List Of Stores */
 	
 	@FXML
     private ComboBox<Date> cmbReports;
@@ -130,7 +133,7 @@ public class ReportController implements Initializable {
 		primaryStage.show();
 	}
 	
-	/* --------------------------------  The Report About Satisfaction ----------------------------------- */
+/* --------------------------------  The Report About Satisfaction ----------------------------------- */
 	
 	public void SatisfactionReport(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Report' and Show the GUI of the Satisfaction Report that we Choose */
 	{
@@ -201,14 +204,14 @@ public class ReportController implements Initializable {
 	
 	public void setStoresComboBox()    								/* In this Method we Set the Stores at the ComboBox */
 	{ 				
-		ArrayList<Integer> temp_Stores_ID_List = new ArrayList<Integer>();	
+		ArrayList<String> temp_Stores_ID_And_Address_List = new ArrayList<String>();	
 		
 		for(Store s: ReportUI.stores)
 		{
-			temp_Stores_ID_List.add(s.getStoreId());
+			temp_Stores_ID_And_Address_List.add(String.valueOf(s.getStoreId()) + " ---> " + s.getStore_Address());
 		}
 		
-		storeList = FXCollections.observableArrayList(temp_Stores_ID_List);
+		storeList = FXCollections.observableArrayList(temp_Stores_ID_And_Address_List);
 		cmbStores.setItems(storeList);
 	}
 
@@ -243,17 +246,38 @@ public class ReportController implements Initializable {
 	
 	public void Button_Of_Your_Quarter_Report(ActionEvent event) throws Exception
 	{
+		
+		/* ---------------------- For The Revenue Report ---------------------------*/
 		temp_Date_Quarter_Report = ReportUI.Dates.get(getItemIndexFromDateComboBox());
 		ArrayList<Object> Store_Id_And_Date_Of_Report = new ArrayList<Object>();
 		Store_Id_And_Date_Of_Report.add(temp_Store_Id);
 		Store_Id_And_Date_Of_Report.add(temp_Date_Quarter_Report);
 		msg = new Message(Store_Id_And_Date_Of_Report, "Take the Revenue Of Specific Quarter Of Specific Store");
 		ReportUI.myClient.accept(msg);
-		while(ReportUI.Total_Revenue_In_Specific_Quarter.size() == 0);
+		while(ReportUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter.size() == 0);
 		Thread.sleep(200);
-		ReportUI.Help_To_Transfer_Object.clear();
-		ReportUI.Help_To_Transfer_Object.add(ReportUI.Total_Revenue_In_Specific_Quarter.get(0));
-		ReportUI.Help_To_Transfer_Object.add(temp_Date_Quarter_Report);
+		ReportUI.Help_To_Transfer_Object_At_Revenue_Report.clear();
+		ReportUI.Help_To_Transfer_Object_At_Revenue_Report.add(ReportUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter.get(0));
+		ReportUI.Help_To_Transfer_Object_At_Revenue_Report.add(ReportUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter.get(1));
+		ReportUI.Help_To_Transfer_Object_At_Revenue_Report.add(temp_Date_Quarter_Report);
+		
+		/* ----------------------- For The Order Report -----------------------------*/
+		
+		ReportUI.Help_To_Transfer_Object_At_Order_Report.clear();
+		ReportUI.Help_To_Transfer_Object_At_Order_Report.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
+		ReportUI.Help_To_Transfer_Object_At_Order_Report.add(Store_Id_And_Date_Of_Report.get(1));  /* The Date Of the Report */
+		
+		/* ----------------------- For The Complaint Report -----------------------------*/
+		
+		ReportUI.Help_To_Transfer_Object_At_Complaint_Report.clear();
+		ReportUI.Help_To_Transfer_Object_At_Complaint_Report.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
+		ReportUI.Help_To_Transfer_Object_At_Complaint_Report.add(Store_Id_And_Date_Of_Report.get(1));  /* The Date Of the Report */
+		
+/* ----------------------- For The Satisfaction Report -----------------------------*/
+		
+		ReportUI.Help_To_Transfer_Object_At_Satisfaction_Report.clear();
+		ReportUI.Help_To_Transfer_Object_At_Satisfaction_Report.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
+		ReportUI.Help_To_Transfer_Object_At_Satisfaction_Report.add(Store_Id_And_Date_Of_Report.get(1));  /* The Date Of the Report */
 	}
 	
 /* -------------------------------- Initialized The ComboBox In the First Window - Report GUI ------------------------------- */	

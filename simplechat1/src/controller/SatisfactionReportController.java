@@ -1,6 +1,8 @@
 package controller;
 
 import java.net.URL;
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import boundery.ReportUI;
@@ -27,6 +29,15 @@ public class SatisfactionReportController implements Initializable {
 	 @FXML
 	 private TextField txtStoreID;           /* Text Field Of the Store ID */
 	
+	 @FXML
+	 private TextField txtYear;
+
+	 @FXML
+	 private TextField txtNumberOfQuarter;
+	 
+	 @FXML
+	 private TextField txtTotalAvgRank; 
+	 
 	 @FXML
 	 private Button btnClose;                /* Button For Exit from The Window */
 	
@@ -56,7 +67,62 @@ public class SatisfactionReportController implements Initializable {
 /* --------------------------------- Initialize The Satisfaction Report GUI ------------------------------------------------- */	 			
 	
 	@Override
-	public void initialize(URL location, ResourceBundle resources) {
+	public void initialize(URL location, ResourceBundle resources) 
+	{
+		int Year_Integer;
+		int Month_Integer;
+		String Month;
+		String Year;
+		String Full_Date_String;
+		Date temp_Date_Quarter_Report;
+		temp_Date_Quarter_Report = (Date)ReportUI.Help_To_Transfer_Object_At_Satisfaction_Report.get(1);                             /* The Date */
+		Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
+		Year = Full_Date_String.substring(0 , 4);
+		Month = Full_Date_String.substring(5 , 7);
+		Year_Integer = Integer.parseInt(Year);
+		Month_Integer = Integer.parseInt(Month);
+		
+		this.txtYear.setText(String.valueOf(Year_Integer)); 					/* Set The Year */
+		
+		if(Month_Integer == 1 || Month_Integer == 2 || Month_Integer == 3)      /* Set The Month */
+		{
+			this.txtNumberOfQuarter.setText(String.valueOf(1));
+		}
+		if(Month_Integer == 4 || Month_Integer == 5 || Month_Integer == 6)      /* Set The Month */
+		{
+			this.txtNumberOfQuarter.setText(String.valueOf(2));
+		}
+		if(Month_Integer == 7 || Month_Integer == 8 || Month_Integer == 9)      /* Set The Month */
+		{
+			this.txtNumberOfQuarter.setText(String.valueOf(3));
+		}
+		if(Month_Integer == 10 || Month_Integer == 11 || Month_Integer == 12)   /* Set The Month */
+		{
+			this.txtNumberOfQuarter.setText(String.valueOf(4));
+		}
+		
+		ArrayList<Object> StoreID_And_Date_Of_Report = new ArrayList<Object>();
+		StoreID_And_Date_Of_Report.add(ReportUI.Help_To_Transfer_Object_At_Complaint_Report.get(0)); /* The Store Id */
+		StoreID_And_Date_Of_Report.add(ReportUI.Help_To_Transfer_Object_At_Complaint_Report.get(1)); /* The Date Of the Report */
+		msg = new Message(StoreID_And_Date_Of_Report, "Take The Surveys Of Specific Store In Specific Quarter"); 		/* I take All the Orders Of Specific Store , And After That I Take All the Complaint Of All The Order Of the Specific Store */
+		ReportUI.myClient.accept(msg);
+		while(ReportUI.surveys.size() == 0);
+		try 
+		{
+			Thread.sleep(200);
+		} 
+		catch (InterruptedException e) 
+		{
+		
+			e.printStackTrace();
+		}
+		Put_At_The_Chart_All_The_Surveys();
+	}
+	
+/* --------------------------------- Initialize The Survey And The Rank On The Bar Chart ------------------------------------------------- */	 			
+	
+	public void Put_At_The_Chart_All_The_Surveys()
+	{
 		
 		
 	}

@@ -10,16 +10,18 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Scanner;
-import com.mysql.jdbc.PreparedStatement;
+import java.util.Vector;
 
-import boundery.ReportUI;
+import com.mysql.jdbc.PreparedStatement;
 import entity.Account;
 import entity.Complaint;
 import entity.Message;
 import entity.Order;
 import entity.Product;
 import entity.Product.ProductType;
+import entity.Report;
 import entity.Store;
+import entity.Survey;
 import entity.User;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
@@ -129,30 +131,35 @@ public class EchoServer extends AbstractServer
 	    
 	    if(((Message)msg).getOption().compareTo("Take the Revenue Of Specific Quarter Of Specific Store") == 0) /* Taking All the Revenue Of Specific Store */							
 	    {
-	    	((Message)msg).setMsg(GetTheRevenueOfSpecificStoreFromDB(msg,conn));  
+	    	((Message)msg).setMsg(Get_The_Revenue_Of_Specific_Store_From_DB(msg,conn));  
 	    	this.sendToAllClients(msg);
 	    }
 	    
 	    if(((Message)msg).getOption().compareTo("Take The Orders Of Specific Store") == 0) 	    /* Taking All the Orders Of Specific Store */							
 	    {
-	    	((Message)msg).setMsg(GetOrdersFromDB(msg,conn));  
+	    	((Message)msg).setMsg(Get_Orders_Of_Specific_Store_From_DB(msg,conn));  
 	    	this.sendToAllClients(msg);
 	    }
 	    
 	    if(((Message)msg).getOption().compareTo("Take The Complaints Of Specific Store") == 0) 	    /* Taking All the Complaints Of Specific Store */							
 	    {
-	    	((Message)msg).setMsg(GetComplaintsFromDB(msg,conn));  
+	    	((Message)msg).setMsg(Get_Complaints_Of_Specific_Store_From_DB(msg,conn));  
 	    	this.sendToAllClients(msg);
 	    }
 	    if(((Message)msg).getOption().compareTo("Take The Date Of All the Report Of Specific Store") == 0) 	    /* Taking All the Complaints Of Specific Store */							
 	    {
-	    	((Message)msg).setMsg(GetAllTheDateOfReportOdSpecificStoreFromDB(msg,conn));  
+	    	((Message)msg).setMsg(Get_All_The_Date_Of_Report_Of_Specific_Store_FromDB(msg,conn));  
 	    	this.sendToAllClients(msg);
 	    }
 	    if(((Message)msg).getOption().compareTo("Update The Total Revenue Of All the Store") == 0) 	    /* Taking All the Complaints Of Specific Store */							
 	    {
 	    	Update_The_Revenue_Of_All_The_Store(msg,conn);  
 	    } 
+	    if(((Message)msg).getOption().compareTo("Take The Surveys Of Specific Store In Specific Quarter") == 0) 	    /* Taking All the Complaints Of Specific Store */							
+	    {
+	    	((Message)msg).setMsg(Get_All_The_Survey_Of_Specific_Quarter_Of_Specific_Store_From_DB(msg,conn));  
+	    	this.sendToAllClients(msg);
+	    }
   }
 
     
@@ -176,7 +183,6 @@ public class EchoServer extends AbstractServer
     System.out.println
       ("Server has stopped listening for connections.");
   }
-  
   
   protected Connection connectToDB()
   {
@@ -209,6 +215,142 @@ public class EchoServer extends AbstractServer
   }
   
   @SuppressWarnings("unchecked")
+  protected Vector<Survey> Get_All_The_Survey_Of_Specific_Quarter_Of_Specific_Store_From_DB(Object msg , Connection conn)
+  {
+	  Vector<Survey> All_The_Survey_To_Return = new Vector<Survey>();
+	  ArrayList<Object> StoreID_And_Date_Of_Report = (ArrayList<Object>)(((Message)msg).getMsg());
+	  ArrayList<Survey> Surveys_Of_Specific_Store = new ArrayList<Survey>();
+	  ArrayList<Survey> Final_Survey_ArrayList_To_Return = new ArrayList<Survey>();
+	  ArrayList<Integer> Sum_of_Result = new ArrayList<Integer>();
+	  int Store_ID = (int)StoreID_And_Date_Of_Report.get(0);
+	  Date date_Of_Report = (Date)StoreID_And_Date_Of_Report.get(1);
+	  Statement stmt;
+	  double Total_Average_Rank = 0;
+	  String survey_field;
+	  String Report_Field;
+	  Report temp_Report = null;
+	  Survey temp_Survey;
+	  
+	  try {
+		  
+			  stmt = conn.createStatement();
+			  
+			  /* -------------------------------- Take The Quarter Of Specific Report ------------------------- */
+			  
+			  String getSpecificQuarterReportTable = "SELECT * FROM project.report WHERE StoreID = " + "'" + Store_ID + "'" + "AND DateOfCreateReport = " + "'" + date_Of_Report + "'" + ";"; 
+			  ResultSet rs = stmt.executeQuery(getSpecificQuarterReportTable);
+			  
+			  while(rs.next())
+		 	  {
+				  temp_Report = new Report();
+				  Report_Field = rs.getString("reportNumber");
+				  temp_Report.setSerialNumberReport(Integer.parseInt(Report_Field));
+				  Report_Field = rs.getString("storeID");
+				  temp_Report.setStoreId(Integer.parseInt(Report_Field));
+				  Report_Field = rs.getString("QuarterNumber");
+				  temp_Report.setQaurterReportNumber(Report_Field);
+		 	  }
+			  
+			  /* -------------------------------- Take All The Survey Of Specific Store In Specific Quarter ------------------------- */
+			  
+			  String getSurveysOfSpecificStoreTable = "SELECT * FROM project.survey WHERE StoreID =" + "'" + Store_ID + "'" + "AND QuarterNumber = " + "'" + temp_Report.getQaurterReportNumber() + "'" + ";"; 
+			  ResultSet rs_2 = stmt.executeQuery(getSurveysOfSpecificStoreTable);
+			  
+			  while(rs_2.next())
+		 	  {
+				   temp_Survey = new Survey();
+				   survey_field = rs_2.getString("Surveyid");
+				   temp_Survey.setSurvey_Id(Integer.parseInt(survey_field));
+				   survey_field = rs_2.getString("SurveyDate");
+				   temp_Survey.setSurvey_Date(Date.valueOf(survey_field));
+				   survey_field = rs_2.getString("QuarterNumber");
+				   temp_Survey.setQuarterNumber(survey_field);
+				   Surveys_Of_Specific_Store.add(temp_Survey);
+		 	  }
+			  
+			  /* -------------------------------- Take All The Survey Of Specific Store In Specific Quarter ------------------------- */
+			  
+			  /* Variable That Represent The DB In Table Order */
+			  String Month_From_DB;
+			  String Year_From_DB;
+			  String Date_From_DB;
+			  Date temp_Date;
+			  int Integer_Month_From_DB = 0;
+			  int Integer_Year_From_DB = 0;
+			  
+			  /* Variable That Represent The Client */
+			  String Month_From_Client;
+			  String Year_From_Client;
+			  String Date_From_Client;
+			  int Integer_Month_From_Client = 0;
+			  int Integer_Year_From_Client = 0;
+			  
+			  for(int i = 0 ; i < Surveys_Of_Specific_Store.size() ; i++)
+			  {
+				  /* Take The Date From The DB */
+				  temp_Date = Surveys_Of_Specific_Store.get(i).getSurvey_Date();   		/* Take The Date */
+				  Date_From_DB = String.valueOf(temp_Date); 							/* Casting To String */
+				  Month_From_DB = Date_From_DB.substring(5, 7);                 		/* Take The Month */
+				  Year_From_DB = Date_From_DB.substring(0,4);                  			/* Take The Year */
+				  Integer_Month_From_DB = Integer.parseInt(Month_From_DB);      		/* Casting The Month To Integer */
+				  Integer_Year_From_DB = Integer.parseInt(Year_From_DB);        		/* Casting The Year To Integer */
+				  
+				  /* Take The Date From The Client */
+				  Date_From_Client = String.valueOf(date_Of_Report); 					/* Casting To String */
+				  Month_From_Client = Date_From_Client.substring(5, 7);                 /* Take The Month */
+				  Year_From_Client = Date_From_Client.substring(0,4);                   /* Take The Year */
+				  Integer_Month_From_Client = Integer.parseInt(Month_From_Client);      /* Casting The Month To Integer */
+				  Integer_Year_From_Client = Integer.parseInt(Year_From_Client);        /* Casting The Year To Integer */
+				  
+				  if(Integer_Year_From_DB == Integer_Year_From_Client)
+				  {
+					  Final_Survey_ArrayList_To_Return.add(Surveys_Of_Specific_Store.get(i));
+				  }
+			  }
+			  
+			  /* -------------------------------- Take All The Answer Of The Survey's Of ---> Specific Store In Specific Quarter ------------------------- */
+			  
+			  int Sum_Of_Clients = 0;
+			  int Sum_Of_Result_Per_Question_Per_Survey = 0;
+			  int Sum_All_The_Result_Of_All_The_Survey = 0;
+			  
+			  for(int i = 0 ; i < Final_Survey_ArrayList_To_Return.size() ; i++)
+			  {
+				  Sum_Of_Result_Per_Question_Per_Survey = 0;
+				  String getAnswerSurveyOfSpecificStoreTable = "SELECT * FROM project.survey_result WHERE StoreID =" + "'" + Final_Survey_ArrayList_To_Return.get(i).getSurvey_Id() + "'" + ";"; 
+				  ResultSet rs_3 = stmt.executeQuery(getAnswerSurveyOfSpecificStoreTable);
+			  
+				  while(rs_3.next())
+			 	  {
+					  for(int Index_Of_Question = 1 ; Index_Of_Question < 7 ; Index_Of_Question++)                 /* The Iteration is ---> 1 To 7 Because We Have 6 Question's */
+					  {														
+						  survey_field = rs_3.getString("sumQ" + Index_Of_Question);
+						  Sum_Of_Result_Per_Question_Per_Survey += Integer.parseInt(survey_field);
+					  }
+					  
+					  survey_field = rs_3.getString("numOfClients");
+					  Sum_Of_Clients += Integer.parseInt(survey_field);
+			 	  }
+				  
+				  Sum_of_Result.add(Sum_Of_Result_Per_Question_Per_Survey);
+			  }
+			  
+			  for(int i = 0 ; i < Sum_of_Result.size() ; i++)
+			  {
+				  Sum_All_The_Result_Of_All_The_Survey += Sum_of_Result.get(i);
+			  }
+			  
+			  Total_Average_Rank = (double)(Sum_All_The_Result_Of_All_The_Survey / Sum_Of_Clients);
+			  
+	  }
+	  catch (SQLException e) 
+	  {	
+		  e.printStackTrace();
+	  }
+	  return All_The_Survey_To_Return;
+  }
+  
+  @SuppressWarnings("unchecked")
   protected void Update_The_Revenue_Of_All_The_Store(Object msg , Connection conn) /* This method get Orders Of Specific Store from DB */
   {
 	  ArrayList<Store> All_Stores = (ArrayList<Store>)(((Message)msg).getMsg());
@@ -217,6 +359,7 @@ public class EchoServer extends AbstractServer
 	  Statement stmt;
 	  double Sum_Of_Revenue = 0;
 	  double Sum_Of_Compansation = 0;
+	  int Zero_The_Field_Of_Total_Revenue = 0;
 	  String order_field;
 	  String Complaint_Field;
 	  Order temp_Order;
@@ -226,6 +369,9 @@ public class EchoServer extends AbstractServer
 		  
 		  for(int index = 0 ; index < All_Stores.size() ; index++)
 		  {
+			      String Update_Table_Before_Store_Revenue = "UPDATE project.store SET TotalRevenue =" + "'" + Zero_The_Field_Of_Total_Revenue + "'" + "WHERE StoreID=" + "'" + All_Stores.get(index).getStoreId() + "'" + ";" ;
+			      stmt.executeUpdate(Update_Table_Before_Store_Revenue);
+			  
 				  String getOrdersOfSpecificStoreTable = "SELECT * FROM project.order WHERE StoreID = " + "'" + All_Stores.get(index).getStoreId() + "'" + ";"; 
 				  ResultSet rs = stmt.executeQuery(getOrdersOfSpecificStoreTable);
 				  Order_Of_Spicific_Store = new ArrayList<Order>();
@@ -281,10 +427,14 @@ public class EchoServer extends AbstractServer
 				  String Update_Table_Store_Revenue = "UPDATE project.store SET TotalRevenue =" + "'" + Sum_Of_Revenue + "'" + "WHERE StoreID=" + "'" + All_Stores.get(index).getStoreId() + "'" + ";" ;
 				  stmt.executeUpdate(Update_Table_Store_Revenue);
 		  }
-	  } catch (SQLException e) {	e.printStackTrace();}	
+	  } 
+	  catch (SQLException e) 
+	  {	
+		  e.printStackTrace();
+	  }	
   }
   
-  protected ArrayList<Date> GetAllTheDateOfReportOdSpecificStoreFromDB(Object msg , Connection conn) /* This method get Orders Of Specific Store from DB */
+  protected ArrayList<Date> Get_All_The_Date_Of_Report_Of_Specific_Store_FromDB(Object msg , Connection conn) /* This method get Orders Of Specific Store from DB */
   {
 	  int temp_Store_Id = (Integer)(((Message)msg).getMsg());
 	  ArrayList<Date> Date_Of_Report = new ArrayList<Date>();
@@ -309,51 +459,117 @@ public class EchoServer extends AbstractServer
   }
   
   @SuppressWarnings("unchecked")
-  protected ArrayList<Order> GetOrdersFromDB(Object msg , Connection conn) /* This method get Orders Of Specific Store from DB */
+  protected ArrayList<Order> Get_Orders_Of_Specific_Store_From_DB(Object msg , Connection conn) /* This method get Orders Of Specific Store from DB */
   {
-	  ArrayList<Order> orders = (ArrayList<Order>)(((Message)msg).getMsg());
+	  ArrayList<Object> StoreID_And_Date_Of_Report = (ArrayList<Object>)(((Message)msg).getMsg());
+	  ArrayList<Order> orders_Of_Specific_Store = new ArrayList<Order>();
+	  ArrayList<Order> Final_Order_Of_Specific_Quarter = new ArrayList<Order>();
+	  int Store_ID = (int)StoreID_And_Date_Of_Report.get(0);
+	  Date date_Of_Report = (Date)StoreID_And_Date_Of_Report.get(1);
 	  Statement stmt;
 	  String order_field;
 	  String product_In_OrderField;
+	  String Report_Field;
 	  Order temp_Order;
 	  Product temp_Product;
-	  
-	  /* -------------------------------- We Take The Order Of Specific Store ------------------------- */
+	  Report temp_Report = null;
 	  
 	  try {
+		  
 		  stmt = conn.createStatement();
-		  String getOrdersNumbersTable = "SELECT * FROM project.order WHERE StoreID = " + "'" + orders.get(0).getStoreId() + "'" + ";"; 
-		  orders.clear();
-		  ResultSet rs = stmt.executeQuery(getOrdersNumbersTable);
+		  
+		  /* -------------------------------- Take The Quarter Of Specific Report ------------------------- */
+		  
+		  String getSpecificQuarterReportTable = "SELECT * FROM project.report WHERE StoreID = " + "'" + Store_ID + "'" + "AND DateOfCreateReport = " + "'" + date_Of_Report + "'" + ";"; 
+		  ResultSet rs = stmt.executeQuery(getSpecificQuarterReportTable);
 		  
 		  while(rs.next())
 	 	  {
-			   temp_Order = new Order();
-			   order_field = rs.getString("orderID");
-			   temp_Order.setOrderID(Integer.parseInt(order_field));
-			   orders.add(temp_Order);
+			  temp_Report = new Report();
+			  Report_Field = rs.getString("reportNumber");
+			  temp_Report.setSerialNumberReport(Integer.parseInt(Report_Field));
+			  Report_Field = rs.getString("storeID");
+			  temp_Report.setStoreId(Integer.parseInt(Report_Field));
+			  Report_Field = rs.getString("QuarterNumber");
+			  temp_Report.setQaurterReportNumber(Report_Field);
 	 	  }
 		  
-		  /* -------------------------------- We Take The Products Type Of Each Order ------------------------- */
+		  /* -------------------------------- Take All The Order Of Specific Store In Specific Quarter ------------------------- */
 		  
-		  for(int i = 0 ; i < orders.size() ; i++)
+		  String getOrdersOfSpecificStoreTable = "SELECT * FROM project.order WHERE StoreID = " + "'" + Store_ID + "'" + "AND QuarterNumber = " + "'" + temp_Report.getQaurterReportNumber() + "'" +  ";"; 
+		  ResultSet rs_2 = stmt.executeQuery(getOrdersOfSpecificStoreTable);
+		  
+		  while(rs_2.next())
+	 	  {
+			   temp_Order = new Order();
+			   order_field = rs_2.getString("orderID");
+			   temp_Order.setOrderID(Integer.parseInt(order_field));
+			   order_field = rs_2.getString("orderDate");
+			   temp_Order.setOrderDate(Date.valueOf(order_field));
+			   orders_Of_Specific_Store.add(temp_Order);
+	 	  }
+		  
+		  /* ----------------------------------- we Check The Year Of Each Order That We Get From The DB ----------------------------------*/
+		  
+		  /* Variable That Represent The DB In Table Order */
+		  String Month_From_DB;
+		  String Year_From_DB;
+		  String Date_From_DB;
+		  Date temp_Date;
+		  int Integer_Month_From_DB = 0;
+		  int Integer_Year_From_DB = 0;
+		  double Revenue_Of_Specific_Quarter = 0;
+		  
+		  /* Variable That Represent The Client */
+		  String Month_From_Client;
+		  String Year_From_Client;
+		  String Date_From_Client;
+		  int Integer_Month_From_Client = 0;
+		  int Integer_Year_From_Client = 0;
+		  
+		  for(int i = 0 ; i < orders_Of_Specific_Store.size() ; i++)
+		  {
+			  /* Take The Date From The DB */
+			  temp_Date = orders_Of_Specific_Store.get(i).getOrderDate();   		/* Take The Date */
+			  Date_From_DB = String.valueOf(temp_Date); 							/* Casting To String */
+			  Month_From_DB = Date_From_DB.substring(5, 7);                 		/* Take The Month */
+			  Year_From_DB = Date_From_DB.substring(0,4);                  			/* Take The Year */
+			  Integer_Month_From_DB = Integer.parseInt(Month_From_DB);      		/* Casting The Month To Integer */
+			  Integer_Year_From_DB = Integer.parseInt(Year_From_DB);        		/* Casting The Year To Integer */
+			  
+			  /* Take The Date From The Client */
+			  Date_From_Client = String.valueOf(date_Of_Report); 					/* Casting To String */
+			  Month_From_Client = Date_From_Client.substring(5, 7);                 /* Take The Month */
+			  Year_From_Client = Date_From_Client.substring(0,4);                   /* Take The Year */
+			  Integer_Month_From_Client = Integer.parseInt(Month_From_Client);      /* Casting The Month To Integer */
+			  Integer_Year_From_Client = Integer.parseInt(Year_From_Client);        /* Casting The Year To Integer */
+			  
+			  if(Integer_Year_From_DB == Integer_Year_From_Client)
+			  {
+				  Final_Order_Of_Specific_Quarter.add(orders_Of_Specific_Store.get(i));
+			  }
+		  }
+		  
+		  /* -------------------------------- We Take The Products Type Of Each Order Of Specific Store & Quarter ------------------------- */
+		  
+		  for(int i = 0 ; i < Final_Order_Of_Specific_Quarter.size() ; i++)
 		  {
 			  ArrayList<Product> productsInOrder = new ArrayList<Product>();
-			  String getOrdersProductTable = "SELECT * FROM project.productinorder WHERE OrderID = " + "'" + orders.get(i).getOrderID() + "'" + ";";
-			  ResultSet rs_2 = stmt.executeQuery(getOrdersProductTable);
-			  while(rs_2.next())
+			  String getOrdersProductTable = "SELECT * FROM project.productinorder WHERE OrderID = " + "'" + Final_Order_Of_Specific_Quarter.get(i).getOrderID() + "'" + ";";
+			  ResultSet rs_3 = stmt.executeQuery(getOrdersProductTable);
+			  while(rs_3.next())
 		 	  {
 				   temp_Product = new Product();
-				   product_In_OrderField = rs_2.getString("ProductType");
+				   product_In_OrderField = rs_3.getString("ProductType");
 				   temp_Product.setpType(ProductType.valueOf(product_In_OrderField));
 				   productsInOrder.add(temp_Product);
 		 	  }  
 			  
-			  orders.get(i).setProductsInOrder(productsInOrder);
+			  Final_Order_Of_Specific_Quarter.get(i).setProductsInOrder(productsInOrder);
 		  }
 		  
 	  } catch (SQLException e) {	e.printStackTrace();}	
-	  return orders;
+	  return Final_Order_Of_Specific_Quarter;
   }
   
   protected ArrayList<Store> GetStoresFromDB(Connection conn) /* This method get Stores table details from DB */
@@ -382,42 +598,107 @@ public class EchoServer extends AbstractServer
   }
   
   @SuppressWarnings("unchecked")
-  protected ArrayList<Complaint> GetComplaintsFromDB(Object msg , Connection conn)
+  protected ArrayList<Complaint> Get_Complaints_Of_Specific_Store_From_DB(Object msg , Connection conn)
   {
-	  ArrayList<Order> orders = (ArrayList<Order>)(((Message)msg).getMsg());
+	  ArrayList<Object> StoreID_And_Date_Of_Report = (ArrayList<Object>)(((Message)msg).getMsg());
+	  ArrayList<Order> orders_Of_Specific_Store = new ArrayList<Order>();
+	  ArrayList<Order> Final_Order_Of_Specific_Quarter = new ArrayList<Order>();
 	  ArrayList<Complaint> complaints = new ArrayList<Complaint>();
+	  int Store_ID = (int)StoreID_And_Date_Of_Report.get(0);
+	  Date date_Of_Report = (Date)StoreID_And_Date_Of_Report.get(1);
 	  Statement stmt;
 	  String order_field;
 	  String complaint_Field;
+	  String Report_Field;
 	  Order temp_Order;
 	  Complaint temp_Complaint;
-	  
-	  /* -------------------------------- We Take The Order Of Specific Store ------------------------- */
+	  Report temp_Report = null;
 	  
 	  try {
+		  
 		  stmt = conn.createStatement();
-		  String getOrdersNumbersTable = "SELECT * FROM project.order WHERE StoreID = " + "'" + orders.get(0).getStoreId() + "'" + ";"; 
-		  orders.clear();
-		  ResultSet rs = stmt.executeQuery(getOrdersNumbersTable);
+		  
+		  /* -------------------------------- Take The Quarter Of Specific Report ------------------------- */
+		  
+		  String getSpecificQuarterReportTable = "SELECT * FROM project.report WHERE StoreID = " + "'" + Store_ID + "'" + "AND DateOfCreateReport = " + "'" + date_Of_Report + "'" + ";"; 
+		  ResultSet rs = stmt.executeQuery(getSpecificQuarterReportTable);           
 		  
 		  while(rs.next())
 	 	  {
-			   temp_Order = new Order();
-			   order_field = rs.getString("orderID");
-			   temp_Order.setOrderID(Integer.parseInt(order_field));
-			   orders.add(temp_Order);
+			  temp_Report = new Report();
+			  Report_Field = rs.getString("reportNumber");
+			  temp_Report.setSerialNumberReport(Integer.parseInt(Report_Field));
+			  Report_Field = rs.getString("storeID");
+			  temp_Report.setStoreId(Integer.parseInt(Report_Field));
+			  Report_Field = rs.getString("QuarterNumber");
+			  temp_Report.setQaurterReportNumber(Report_Field);
 	 	  }
+		  
+		  /* -------------------------------- Take All The Order Of Specific Store In Specific Quarter ------------------------- */
+		  
+		  String getOrdersOfSpecificStoreTable = "SELECT * FROM project.order WHERE StoreID = " + "'" + Store_ID + "'" + "AND QuarterNumber = " + "'" + temp_Report.getQaurterReportNumber() + "'" +  ";"; 
+		  ResultSet rs_2 = stmt.executeQuery(getOrdersOfSpecificStoreTable);
+		  
+		  while(rs_2.next())
+	 	  {
+			   temp_Order = new Order();
+			   order_field = rs_2.getString("orderID");
+			   temp_Order.setOrderID(Integer.parseInt(order_field));
+			   order_field = rs_2.getString("orderDate");
+			   temp_Order.setOrderDate(Date.valueOf(order_field));
+			   orders_Of_Specific_Store.add(temp_Order);
+	 	  }
+		  
+		  /* ----------------------------------- We Check The Year Of Each Order That We Get From The DB ----------------------------------*/
+		  
+		  /* Variable That Represent The DB In Table Order */
+		  String Month_From_DB;
+		  String Year_From_DB;
+		  String Date_From_DB;
+		  Date temp_Date;
+		  int Integer_Month_From_DB = 0;
+		  int Integer_Year_From_DB = 0;
+		  
+		  /* Variable That Represent The Client */
+		  String Month_From_Client;
+		  String Year_From_Client;
+		  String Date_From_Client;
+		  int Integer_Month_From_Client = 0;
+		  int Integer_Year_From_Client = 0;
+		  
+		  for(int i = 0 ; i < orders_Of_Specific_Store.size() ; i++)
+		  {
+			  /* Take The Date From The DB */
+			  temp_Date = orders_Of_Specific_Store.get(i).getOrderDate();   		/* Take The Date */
+			  Date_From_DB = String.valueOf(temp_Date); 							/* Casting To String */
+			  Month_From_DB = Date_From_DB.substring(5, 7);                 		/* Take The Month */
+			  Year_From_DB = Date_From_DB.substring(0,4);                  			/* Take The Year */
+			  Integer_Month_From_DB = Integer.parseInt(Month_From_DB);      		/* Casting The Month To Integer */
+			  Integer_Year_From_DB = Integer.parseInt(Year_From_DB);        		/* Casting The Year To Integer */
+			  
+			  /* Take The Date From The Client */
+			  Date_From_Client = String.valueOf(date_Of_Report); 					/* Casting To String */
+			  Month_From_Client = Date_From_Client.substring(5, 7);                 /* Take The Month */
+			  Year_From_Client = Date_From_Client.substring(0,4);                   /* Take The Year */
+			  Integer_Month_From_Client = Integer.parseInt(Month_From_Client);      /* Casting The Month To Integer */
+			  Integer_Year_From_Client = Integer.parseInt(Year_From_Client);        /* Casting The Year To Integer */
+			  
+			  if(Integer_Year_From_DB == Integer_Year_From_Client)
+			  {
+				  Final_Order_Of_Specific_Quarter.add(orders_Of_Specific_Store.get(i));
+			  }
+		  }
 		  
 		  /* -------------------------------- We Take The Complaints Of Each Order ------------------------- */
 		  
-		  for(int i = 0 ; i < orders.size() ; i++)
+		  for(int i = 0 ; i < Final_Order_Of_Specific_Quarter.size() ; i++)
 		  {
-			  String getComplaintTable = "SELECT * FROM project.complaint WHERE OrderID = " + "'" + orders.get(i).getOrderID() + "'" + ";";
-			  ResultSet rs_2 = stmt.executeQuery(getComplaintTable);
-			  while(rs_2.next())
+			  String getComplaintTable = "SELECT * FROM project.complaint WHERE OrderID = " + "'" + Final_Order_Of_Specific_Quarter.get(i).getOrderID() + "'" + ";";
+			  ResultSet rs_3 = stmt.executeQuery(getComplaintTable);
+			  while(rs_3.next())
 		 	  {
 				  temp_Complaint = new Complaint();
-				  complaint_Field = rs_2.getString("complaintMonth");
+				  complaint_Field = rs_3.getString("complaintMonth");
 				  temp_Complaint.setComplaintMonth(complaint_Field);
 				  complaints.add(temp_Complaint);
 		 	  }  
@@ -427,35 +708,50 @@ public class EchoServer extends AbstractServer
   }
   
   @SuppressWarnings("unchecked")
-  protected ArrayList<Double> GetTheRevenueOfSpecificStoreFromDB(Object msg , Connection conn)
+  protected ArrayList<Object> Get_The_Revenue_Of_Specific_Store_From_DB(Object msg , Connection conn)
   {
 	  ArrayList<Object> temp_Store_With_ID = (ArrayList<Object>)(((Message)msg).getMsg());
 	  ArrayList<Order> orders_Of_Specific_Store = new ArrayList<Order>();
 	  ArrayList<Complaint> Complaint_Of_Specific_Store = new ArrayList<Complaint>();
-	  ArrayList<Double> Revenue_To_Return = new ArrayList<Double>();                /* I Only Use With One cell But I Need This ArrayList ---> To Save After I return To the Client */
+	  ArrayList<Object> Revenue_To_Return_And_Number_Of_Order = new ArrayList<Object>();                /* I Only Use With One cell But I Need This ArrayList ---> To Save After I return To the Client */
 	  int temp_Store_Id = (int)temp_Store_With_ID.get(0);
 	  Date date_Of_Report = (Date)temp_Store_With_ID.get(1);
 	  Statement stmt;
 	  String order_field;
 	  String Complaint_Field;
+	  String Report_Field;
 	  Order temp_Order;
 	  Complaint temp_Complaint;
+	  Report temp_Report = null;
 	  
 	  try {
 		  stmt = conn.createStatement();
-		  String getOrdersOfSpecificStoreTable = "SELECT * FROM project.order WHERE StoreID = " + "'" + temp_Store_Id + "'" + ";"; 
-		  ResultSet rs = stmt.executeQuery(getOrdersOfSpecificStoreTable);
 		  
-		  /* -------------------------------- Take All The Order Of Specific Store ------------------------- */
+		  /* -------------------------------- Take The Quarter Of Specific Report ------------------------- */
+		  
+		  String getSpecificQuarterReportTable = "SELECT * FROM project.report WHERE StoreID = " + "'" + temp_Store_Id + "'" + "AND DateOfCreateReport = " + "'" + date_Of_Report + "'" + ";"; 
+		  ResultSet rs = stmt.executeQuery(getSpecificQuarterReportTable);
 		  
 		  while(rs.next())
 	 	  {
+			  temp_Report = new Report();
+			  Report_Field = rs.getString("QuarterNumber");
+			  temp_Report.setQaurterReportNumber(Report_Field);
+	 	  }
+		    
+		  /* -------------------------------- Take All The Order Of Specific Store In Specific Quarter ------------------------- */
+		  
+		  String getOrdersOfSpecificStoreTable = "SELECT * FROM project.order WHERE StoreID = " + "'" + temp_Store_Id + "'" + "AND QuarterNumber = " + "'" + temp_Report.getQaurterReportNumber() + "'" +  ";"; 
+		  ResultSet rs_2 = stmt.executeQuery(getOrdersOfSpecificStoreTable);
+		  
+		  while(rs_2.next())
+	 	  {
 			   temp_Order = new Order();
-			   order_field = rs.getString("orderID");
+			   order_field = rs_2.getString("orderID");
 			   temp_Order.setOrderID(Integer.parseInt(order_field));
-			   order_field = rs.getString("orderTotalPrice");
+			   order_field = rs_2.getString("orderTotalPrice");
 			   temp_Order.setOrderTotalPrice(Double.parseDouble(order_field));
-			   order_field = rs.getString("orderDate");
+			   order_field = rs_2.getString("orderDate");
 			   temp_Order.setOrderDate(Date.valueOf(order_field));
 			   orders_Of_Specific_Store.add(temp_Order);
 	 	  }
@@ -465,19 +761,21 @@ public class EchoServer extends AbstractServer
 		  for(int i = 0 ; i < orders_Of_Specific_Store.size() ; i++)
 		  {
 			  String getComplaintOfSpecificStoreTable = "SELECT * FROM project.complaint WHERE OrderID = " + "'" + orders_Of_Specific_Store.get(i).getOrderID() + "'" + ";";
-			  ResultSet rs_2 = stmt.executeQuery(getComplaintOfSpecificStoreTable);
-			  while(rs_2.next())
+			  ResultSet rs_3 = stmt.executeQuery(getComplaintOfSpecificStoreTable);
+			  while(rs_3.next())
 		 	  {
 				   temp_Complaint = new Complaint();
-				   Complaint_Field = rs_2.getString("complaintCompansation");
+				   Complaint_Field = rs_3.getString("complaintCompansation");
 				   temp_Complaint.setComplaintCompansation(Double.parseDouble(Complaint_Field));
-				   Complaint_Field = rs_2.getString("complaintDate");
+				   Complaint_Field = rs_3.getString("complaintDate");
 				   temp_Complaint.setComplaintDate(Date.valueOf(Complaint_Field));
 				   Complaint_Of_Specific_Store.add(temp_Complaint);
 		 	  }  
 		  }
 		  
 		  /* -------------------------------- Calculate The Revenue According To Quarter ------------------------- */
+		  
+		  int Count_Of_Order_Of_Specific_Quarter = 0;
 		  
 		  /* Variable That Represent The DB In Table Order */
 		  String Month_From_DB;
@@ -504,10 +802,6 @@ public class EchoServer extends AbstractServer
 			  Month_From_DB = Date_From_DB.substring(5, 7);                 		/* Take The Month */
 			  Year_From_DB = Date_From_DB.substring(0,4);                  			/* Take The Year */
 			  Integer_Month_From_DB = Integer.parseInt(Month_From_DB);      		/* Casting The Month To Integer */
-			  if((Integer_Month_From_DB / 10) == 0) 
-			  {
-				  Integer_Month_From_DB = Integer_Month_From_DB % 10;
-			  }
 			  Integer_Year_From_DB = Integer.parseInt(Year_From_DB);        		/* Casting The Year To Integer */
 			  
 			  /* Take The Date From The Client */
@@ -515,29 +809,32 @@ public class EchoServer extends AbstractServer
 			  Month_From_Client = Date_From_Client.substring(5, 7);                 /* Take The Month */
 			  Year_From_Client = Date_From_Client.substring(0,4);                   /* Take The Year */
 			  Integer_Month_From_Client = Integer.parseInt(Month_From_Client);      /* Casting The Month To Integer */
-			  if((Integer_Month_From_Client / 10) == 0) 
-			  {
-				  Integer_Month_From_DB = Integer_Month_From_DB % 10;
-			  }
 			  Integer_Year_From_Client = Integer.parseInt(Year_From_Client);        /* Casting The Year To Integer */
+			  
+			  /* Note - I Can Make The Operation Of The Sum Only With The 'If' Statement of The Year */
+			  /* Note - I Not Need The Other 'If' Statement ---> Of the Month */
 			  
 			  if(Integer_Year_From_DB == Integer_Year_From_Client)
 			  {
 				  if(Integer_Month_From_Client == 1 || Integer_Month_From_Client == 2 || Integer_Month_From_Client == 3)
 				  {
 					  Revenue_Of_Specific_Quarter += orders_Of_Specific_Store.get(i).getOrderTotalPrice();
+					  Count_Of_Order_Of_Specific_Quarter++;
 				  }
 				  else if(Integer_Month_From_Client == 4 || Integer_Month_From_Client == 5 || Integer_Month_From_Client == 6)
 				  {
 					  Revenue_Of_Specific_Quarter += orders_Of_Specific_Store.get(i).getOrderTotalPrice();
+					  Count_Of_Order_Of_Specific_Quarter++;
 				  } 
 				  else if(Integer_Month_From_Client == 7 || Integer_Month_From_Client == 8 || Integer_Month_From_Client == 9)
 				  {
 					  Revenue_Of_Specific_Quarter += orders_Of_Specific_Store.get(i).getOrderTotalPrice();
+					  Count_Of_Order_Of_Specific_Quarter++;
 				  } 
 				  else if(Integer_Month_From_Client == 10 || Integer_Month_From_Client == 11 || Integer_Month_From_Client == 12)
 				  {
 					  Revenue_Of_Specific_Quarter += orders_Of_Specific_Store.get(i).getOrderTotalPrice();
+					  Count_Of_Order_Of_Specific_Quarter++;
 				  } 
 			  }  
 		  }
@@ -568,10 +865,6 @@ public class EchoServer extends AbstractServer
 			  Complaint_Month_From_DB = Complaint_Date_From_DB.substring(5,7);                 		    /* Take The Month */
 			  Complaint_Year_From_DB = Complaint_Date_From_DB.substring(0,4);                  			    /* Take The Year */
 			  Complaint_Integer_Month_From_DB = Integer.parseInt(Complaint_Month_From_DB);      		    /* Casting The Month To Integer */
-			  if((Complaint_Integer_Month_From_DB / 10) == 0) 
-			  {
-				  Complaint_Integer_Month_From_DB = Complaint_Integer_Month_From_DB % 10;
-			  }
 			  Complaint_Integer_Year_From_DB = Integer.parseInt(Complaint_Year_From_DB);        			 /* Casting The Year To Integer */
 			  
 			  /* Take The Date From The Client */
@@ -579,10 +872,6 @@ public class EchoServer extends AbstractServer
 			  Complaint_Month_From_Client = Complaint_Date_From_Client.substring(5, 7);                 	 /* Take The Month */
 			  Complaint_Year_From_Client = Complaint_Date_From_Client.substring(0,4);                   	 /* Take The Year */
 			  Complaint_Integer_Month_From_Client = Integer.parseInt(Complaint_Month_From_Client);      	 /* Casting The Month To Integer */
-			  if((Complaint_Integer_Month_From_Client / 10) == 0) 
-			  {
-				  Complaint_Integer_Month_From_DB = Complaint_Integer_Month_From_DB % 10;
-			  }
 			  Complaint_Integer_Year_From_Client = Integer.parseInt(Complaint_Year_From_Client);       		 /* Casting The Year To Integer */
 			  
 			  if(Complaint_Integer_Year_From_DB == Complaint_Integer_Year_From_Client)
@@ -607,13 +896,14 @@ public class EchoServer extends AbstractServer
 		  }
 		  
 		  Revenue_Of_Specific_Quarter = Revenue_Of_Specific_Quarter - Compensation_Of_Specific_Quarter;
-		  Revenue_To_Return.add(Revenue_Of_Specific_Quarter);
+		  Revenue_To_Return_And_Number_Of_Order.add(Revenue_Of_Specific_Quarter);
+		  Revenue_To_Return_And_Number_Of_Order.add(Count_Of_Order_Of_Specific_Quarter);
 	  }
 	  catch (SQLException e) 
 	  {	
 		  e.printStackTrace();
 	  }
-	  return Revenue_To_Return;
+	  return Revenue_To_Return_And_Number_Of_Order;
   } 
   
   @SuppressWarnings("unchecked")

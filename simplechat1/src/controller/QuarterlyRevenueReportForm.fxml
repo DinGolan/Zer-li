@@ -37,7 +37,7 @@
          </font>
       </Label>
       <TextField id="txtQuantityOfOrder" fx:id="txtQuantityOfOrder" editable="false" layoutX="311.0" layoutY="329.0" />
-      <Label layoutX="64.0" layoutY="152.0" text="Quarter Number :">
+      <Label layoutX="64.0" layoutY="152.0" text="Number Of Quarter :">
          <font>
             <Font name="System Italic" size="16.0" />
          </font>

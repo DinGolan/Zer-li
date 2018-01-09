@@ -20,12 +20,12 @@
             <Font name="Bodoni MT Bold" size="64.0" />
          </font>
       </Label>
-      <Label layoutX="53.0" layoutY="116.0" text="Store ID : ">
+      <Label layoutX="61.0" layoutY="116.0" text="Store ID : ">
          <font>
             <Font name="System Italic" size="16.0" />
          </font>
       </Label>
-      <TextField id="txtStoreID" fx:id="txtStoreID" editable="false" layoutX="178.0" layoutY="115.0" />
+      <TextField id="txtStoreID" fx:id="txtStoreID" editable="false" layoutX="129.0" layoutY="116.0" prefHeight="25.0" prefWidth="57.0" />
       <Button id="btnClose" fx:id="btnClose" layoutX="313.0" layoutY="622.0" mnemonicParsing="false" onAction="#closeOrderReportWindow" text="Close" />
       <BarChart id="ChartOrderReport" fx:id="ChartOrderReport" layoutX="24.0" layoutY="175.0" prefHeight="435.0" prefWidth="599.0" title="Order Of Store According To Product Type">
         <xAxis>
@@ -35,5 +35,17 @@
           <NumberAxis id="Y_OrderSpecificStore" fx:id="Y_OrderSpecificStore" label="Order Of Specific Store" side="LEFT" />
         </yAxis>
       </BarChart>
+      <Label layoutX="235.0" layoutY="116.0" text="Year : ">
+         <font>
+            <Font name="System Italic" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="382.0" layoutY="115.0" text="Number Of Quarter :">
+         <font>
+            <Font name="System Italic" size="16.0" />
+         </font>
+      </Label>
+      <TextField id="txtYear" fx:id="txtYear" editable="false" layoutX="279.0" layoutY="116.0" prefHeight="25.0" prefWidth="57.0" />
+      <TextField id="txtNumberOfQuarter" fx:id="txtNumberOfQuarter" editable="false" layoutX="534.0" layoutY="116.0" prefHeight="25.0" prefWidth="57.0" />
    </children>
 </AnchorPane>

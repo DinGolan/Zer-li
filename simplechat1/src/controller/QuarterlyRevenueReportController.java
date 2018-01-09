@@ -55,7 +55,6 @@ public class QuarterlyRevenueReportController implements Initializable{
 		this.store = s;
 		this.txtStoreID.setText(String.valueOf(store.getStoreId()));
 		this.txtStoreAddress.setText((store.getStore_Address()));
-		this.txtQuantityOfOrder.setText(String.valueOf(store.getQuantityOfOrders()));
 	}
 
 /* --------------------------------- Loading Quarter Number To the Text Fields ------------------------------------------------- */	
@@ -91,17 +90,14 @@ public class QuarterlyRevenueReportController implements Initializable{
 		String Year;
 		String Full_Date_String;
 		Date temp_Date_Quarter_Report;
-		String Revenue_Of_Specific_Quarter = String.valueOf(ReportUI.Help_To_Transfer_Object.get(0));
-		temp_Date_Quarter_Report = (Date)ReportUI.Help_To_Transfer_Object.get(1);
+		String Revenue_Of_Specific_Quarter = String.valueOf(ReportUI.Help_To_Transfer_Object_At_Revenue_Report.get(0));         /* The Revenue */
+		String Amount_Of_Order_Of_Specific_Quarter = String.valueOf(ReportUI.Help_To_Transfer_Object_At_Revenue_Report.get(1)); /* The Amount Of Order */
+		temp_Date_Quarter_Report = (Date)ReportUI.Help_To_Transfer_Object_At_Revenue_Report.get(2);                             /* The Date */
 		Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
 		Year = Full_Date_String.substring(0 , 4);
 		Month = Full_Date_String.substring(5 , 7);
 		Year_Integer = Integer.parseInt(Year);
 		Month_Integer = Integer.parseInt(Month);
-		if((Month_Integer / 10) == 0)
-		{
-			Month_Integer = Month_Integer % 10;
-		}
 		
 		this.txtYear.setText(String.valueOf(Year_Integer)); 					/* Set The Year */
 		
@@ -122,6 +118,7 @@ public class QuarterlyRevenueReportController implements Initializable{
 			this.txtQuarterNum.setText(String.valueOf(4));
 		}
 		
+		this.txtQuantityOfOrder.setText(String.valueOf(Amount_Of_Order_Of_Specific_Quarter));
 		this.txtRevenueOfSpecificQuarter.setText(Revenue_Of_Specific_Quarter);   /* Set the Revenue */
 	} 
 	

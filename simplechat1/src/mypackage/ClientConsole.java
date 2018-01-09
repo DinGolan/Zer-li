@@ -182,13 +182,13 @@ public void displayUI(Object message)
 	    else if(((Message)message).getOption().compareTo("Take the Revenue Of Specific Quarter Of Specific Store") == 0)
 	    {
 	    	  int i = 0;
-			  ArrayList<Double> temp_Revenue_Of_Specific_Store_Of_Specific_Quarter = new ArrayList<Double>();
-			  temp_Revenue_Of_Specific_Store_Of_Specific_Quarter = (ArrayList<Double>)((Message)message).getMsg();
-			  ReportUI.Total_Revenue_In_Specific_Quarter.clear();
+			  ArrayList<Object> temp_Revenue_And_Number_Of_Order_Of_Specific_Store_Of_Specific_Quarter = new ArrayList<Object>();
+			  temp_Revenue_And_Number_Of_Order_Of_Specific_Store_Of_Specific_Quarter = (ArrayList<Object>)((Message)message).getMsg();
+			  ReportUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter.clear();
 
-			  for(i=0;i<temp_Revenue_Of_Specific_Store_Of_Specific_Quarter.size();i++)
+			  for(i=0;i<temp_Revenue_And_Number_Of_Order_Of_Specific_Store_Of_Specific_Quarter.size();i++)
 		  	  {
-				  ReportUI.Total_Revenue_In_Specific_Quarter.add(temp_Revenue_Of_Specific_Store_Of_Specific_Quarter.get(i));
+				  ReportUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter.add(temp_Revenue_And_Number_Of_Order_Of_Specific_Store_Of_Specific_Quarter.get(i));
 		  	  }
 	    }
 	    else if(((Message)message).getOption().compareTo("Take The Date Of All the Report Of Specific Store") == 0)
