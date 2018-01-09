@@ -3,6 +3,8 @@ package boundery;
 import java.sql.Date;
 import java.util.Scanner;
 import java.util.Vector;
+
+import controller.CompanyManagerReportController;
 import controller.StoreManagerReportController;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -11,7 +13,7 @@ import entity.Complaint;
 import entity.Order;
 import entity.Store;
 
-public class StoreManagerReportUI extends Application 		/* With This Class We Show the Report GUI */{
+public class CompanyManagerReportUI extends Application 		/* With This Class We Show the Report GUI */{
 	
 	/* Vector Of ---> { Store , Order , Complaint , Date , Average Of Result At Survey } */
 	public static Vector<Store> stores = new Vector<Store>();
@@ -19,6 +21,7 @@ public class StoreManagerReportUI extends Application 		/* With This Class We Sh
 	public static Vector<Complaint> complaints = new Vector<Complaint>(); 
 	public static Vector<Date> Dates = new Vector<Date>();
 	public static Vector<Double> Average_Result_Of_Each_Qustions_In_surveys = new Vector<Double>();
+	public static Vector<String> Option_Of_See_One_Store_Or_To_Store = new Vector<String>();
 	
 	/* ArrayList Of Object */
 	public static Vector<Object> Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter = new Vector<Object>();
@@ -42,7 +45,7 @@ public class StoreManagerReportUI extends Application 		/* With This Class We Sh
 	@Override
 	public void start(Stage arg0) throws Exception 
 	{		
-		StoreManagerReportController aFrame = new StoreManagerReportController(); /* Create Report Frame */				  
+		CompanyManagerReportController aFrame = new CompanyManagerReportController(); /* Create Report Frame */				  
 		aFrame.start(arg0);
 	}
 }

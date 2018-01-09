@@ -8,9 +8,9 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="565.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.StoreManagerReportController">
    <children>
-      <Label layoutX="67.0" layoutY="37.0" prefHeight="60.0" prefWidth="464.0" text="Quarterly Report" textFill="#0022ff">
+      <Label layoutX="40.0" layoutY="38.0" prefHeight="60.0" prefWidth="504.0" text="Store Manager Quarterly Report" textFill="#0022ff">
          <font>
-            <Font name="Bodoni MT Bold" size="64.0" />
+            <Font name="Bodoni MT Bold" size="37.0" />
          </font>
       </Label>
       <ComboBox id="cmbStores" fx:id="cmbStores" layoutX="52.0" layoutY="128.0" onAction="#setStoresComboBox" prefHeight="39.0" prefWidth="175.0" promptText="Select Your Store" />

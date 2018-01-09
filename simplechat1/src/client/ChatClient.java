@@ -68,15 +68,25 @@ public class ChatClient extends AbstractClient
 		  clientUI.sendUser(msg);
 	  else if(((Message)msg).getOption().compareTo("Add Store To Combo Box From DB") == 0) 
 		  clientUI.displayUI(msg);
-	  else if(((Message)msg).getOption().compareTo("Take The Orders Of Specific Store") == 0) 
+	  else if(((Message)msg).getOption().compareTo("Store Manager - Take The Orders Of Specific Store") == 0) 
 		  clientUI.displayUI(msg);
-	  else if(((Message)msg).getOption().compareTo("Take The Complaints Of Specific Store") == 0) 
+	  else if(((Message)msg).getOption().compareTo("Store Manager - Take The Complaints Of Specific Store") == 0) 
 		  clientUI.displayUI(msg);
-	  else if(((Message)msg).getOption().compareTo("Take the Revenue Of Specific Quarter Of Specific Store") == 0) 
+	  else if(((Message)msg).getOption().compareTo("Store Manager - Take the Revenue Of Specific Quarter Of Specific Store") == 0) 
 		  clientUI.displayUI(msg);
-	  else if(((Message)msg).getOption().compareTo("Take The Date Of All the Report Of Specific Store") == 0) 
+	  else if(((Message)msg).getOption().compareTo("Store Manager - Take The Date Of All the Report Of Specific Store") == 0) 
 		  clientUI.displayUI(msg);
-	  else if(((Message)msg).getOption().compareTo("Take The Surveys Of Specific Store In Specific Quarter") == 0) 
+	  else if(((Message)msg).getOption().compareTo("Store Manager - Take The Surveys Of Specific Store In Specific Quarter") == 0) 
+		  clientUI.displayUI(msg);
+	  else if(((Message)msg).getOption().compareTo("Company Manager - Take The Orders Of Specific Store") == 0) 
+		  clientUI.displayUI(msg);
+	  else if(((Message)msg).getOption().compareTo("Company Manager - Take The Complaints Of Specific Store") == 0) 
+		  clientUI.displayUI(msg);
+	  else if(((Message)msg).getOption().compareTo("Company Manager - Take the Revenue Of Specific Quarter Of Specific Store") == 0) 
+		  clientUI.displayUI(msg);
+	  else if(((Message)msg).getOption().compareTo("Company Manager - Take The Date Of All the Report Of Specific Store") == 0) 
+		  clientUI.displayUI(msg);
+	  else if(((Message)msg).getOption().compareTo("Company Manager - Take The Surveys Of Specific Store In Specific Quarter") == 0) 
 		  clientUI.displayUI(msg);
   }
 

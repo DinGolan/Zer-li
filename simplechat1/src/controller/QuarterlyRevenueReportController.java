@@ -21,8 +21,6 @@ public class QuarterlyRevenueReportController implements Initializable{
 	
 	private Store store;
  
-  
-    
 /* -------------------------  For The Window Of Quarterly Revenue Report ----------------------------------- */	
 	
 	@FXML
