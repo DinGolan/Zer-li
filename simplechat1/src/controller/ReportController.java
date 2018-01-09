@@ -146,7 +146,7 @@ public class ReportController implements Initializable {
 		satisfactionReportController.loadStore(ReportUI.stores.get(getItemIndex()));
 		
 		Scene scene = new Scene(root);			
-		primaryStage.setScene(scene);		
+		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
 	

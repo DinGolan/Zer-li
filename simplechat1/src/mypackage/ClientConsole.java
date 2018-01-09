@@ -203,6 +203,18 @@ public void displayUI(Object message)
 				  ReportUI.Dates.add(temp_Date_Of_Report.get(i));
 		  	  }
 	    }
+	    else if(((Message)message).getOption().compareTo("Take The Surveys Of Specific Store In Specific Quarter") == 0)
+	    {
+		  	  int i = 0;
+			  ArrayList<Double> temp_Survey_Result = new ArrayList<Double>();
+			  temp_Survey_Result = (ArrayList<Double>)((Message)message).getMsg();
+			  ReportUI.Average_Result_Of_Each_Qustions_In_surveys.clear();
+
+			  for(i=0;i<temp_Survey_Result.size();i++)
+		  	  {
+				  ReportUI.Average_Result_Of_Each_Qustions_In_surveys.add(temp_Survey_Result.get(i));
+		  	  }
+	    }
    }
   
   public void sendUser(Object message) 

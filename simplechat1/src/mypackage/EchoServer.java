@@ -215,13 +215,13 @@ public class EchoServer extends AbstractServer
   }
   
   @SuppressWarnings("unchecked")
-  protected Vector<Survey> Get_All_The_Survey_Of_Specific_Quarter_Of_Specific_Store_From_DB(Object msg , Connection conn)
+  protected ArrayList<Double> Get_All_The_Survey_Of_Specific_Quarter_Of_Specific_Store_From_DB(Object msg , Connection conn)
   {
-	  Vector<Survey> All_The_Survey_To_Return = new Vector<Survey>();
+	  Vector<double []> All_The_Survey_To_Return = new Vector<double []>();
 	  ArrayList<Object> StoreID_And_Date_Of_Report = (ArrayList<Object>)(((Message)msg).getMsg());
 	  ArrayList<Survey> Surveys_Of_Specific_Store = new ArrayList<Survey>();
 	  ArrayList<Survey> Final_Survey_ArrayList_To_Return = new ArrayList<Survey>();
-	  ArrayList<Integer> Sum_of_Result = new ArrayList<Integer>();
+	  ArrayList<Double> Final_Average_Of_Each_Question = new ArrayList<Double>();
 	  int Store_ID = (int)StoreID_And_Date_Of_Report.get(0);
 	  Date date_Of_Report = (Date)StoreID_And_Date_Of_Report.get(1);
 	  Statement stmt;
@@ -253,20 +253,21 @@ public class EchoServer extends AbstractServer
 			  
 			  /* -------------------------------- Take All The Survey Of Specific Store In Specific Quarter ------------------------- */
 			  
-			  String getSurveysOfSpecificStoreTable = "SELECT * FROM project.survey WHERE StoreID =" + "'" + Store_ID + "'" + "AND QuarterNumber = " + "'" + temp_Report.getQaurterReportNumber() + "'" + ";"; 
+			  String getSurveysOfSpecificStoreTable = "SELECT * FROM project.survey WHERE QuarterNumber = " + "'" + temp_Report.getQaurterReportNumber() + "'" + ";" ;  
 			  ResultSet rs_2 = stmt.executeQuery(getSurveysOfSpecificStoreTable);
 			  
 			  while(rs_2.next())
 		 	  {
 				   temp_Survey = new Survey();
 				   survey_field = rs_2.getString("Surveyid");
-				   temp_Survey.setSurvey_Id(Integer.parseInt(survey_field));
+				   temp_Survey.setSurvey_Id(Integer.parseInt(survey_field));     		/* Save The Survey ID of Specific Survey */
 				   survey_field = rs_2.getString("SurveyDate");
-				   temp_Survey.setSurvey_Date(Date.valueOf(survey_field));
-				   survey_field = rs_2.getString("QuarterNumber");
-				   temp_Survey.setQuarterNumber(survey_field);
+				   temp_Survey.setSurvey_Date(Date.valueOf(survey_field));     		    /* Save The Survey ID of Specific Survey */
+				   temp_Survey.setQuarterNumber(temp_Report.getQaurterReportNumber());  /* Save The Quarter Number That We Make The Survey */
+				   temp_Survey.setStore_ID(Store_ID);								    /* Save The Store ID that We Make The Survey */			
 				   Surveys_Of_Specific_Store.add(temp_Survey);
 		 	  }
+			  
 			  
 			  /* -------------------------------- Take All The Survey Of Specific Store In Specific Quarter ------------------------- */
 			  
@@ -311,13 +312,16 @@ public class EchoServer extends AbstractServer
 			  /* -------------------------------- Take All The Answer Of The Survey's Of ---> Specific Store In Specific Quarter ------------------------- */
 			  
 			  int Sum_Of_Clients = 0;
-			  int Sum_Of_Result_Per_Question_Per_Survey = 0;
-			  int Sum_All_The_Result_Of_All_The_Survey = 0;
+			  int Sum_Of_Clients_Per_Survey = 0;
+			  double [] Sum_Result_Per_Question_Per_Survey = new double[6];
+			  double [] All_Sum_Per_Qustiones_Of_All_Survey = new double[6];
+			  double [] Temp_Array;
 			  
 			  for(int i = 0 ; i < Final_Survey_ArrayList_To_Return.size() ; i++)
 			  {
-				  Sum_Of_Result_Per_Question_Per_Survey = 0;
-				  String getAnswerSurveyOfSpecificStoreTable = "SELECT * FROM project.survey_result WHERE StoreID =" + "'" + Final_Survey_ArrayList_To_Return.get(i).getSurvey_Id() + "'" + ";"; 
+				  Sum_Of_Clients_Per_Survey = 0;
+				  Sum_Result_Per_Question_Per_Survey = new double[6];
+				  String getAnswerSurveyOfSpecificStoreTable = "SELECT * FROM project.survey_result WHERE Surveyid =" + "'" + Final_Survey_ArrayList_To_Return.get(i).getSurvey_Id() + "'" + ";"; 
 				  ResultSet rs_3 = stmt.executeQuery(getAnswerSurveyOfSpecificStoreTable);
 			  
 				  while(rs_3.next())
@@ -325,29 +329,51 @@ public class EchoServer extends AbstractServer
 					  for(int Index_Of_Question = 1 ; Index_Of_Question < 7 ; Index_Of_Question++)                 /* The Iteration is ---> 1 To 7 Because We Have 6 Question's */
 					  {														
 						  survey_field = rs_3.getString("sumQ" + Index_Of_Question);
-						  Sum_Of_Result_Per_Question_Per_Survey += Integer.parseInt(survey_field);
+						  Sum_Result_Per_Question_Per_Survey[Index_Of_Question - 1] += Integer.parseInt(survey_field);
 					  }
 					  
 					  survey_field = rs_3.getString("numOfClients");
-					  Sum_Of_Clients += Integer.parseInt(survey_field);
+					  Sum_Of_Clients_Per_Survey += Integer.parseInt(survey_field);
 			 	  }
 				  
-				  Sum_of_Result.add(Sum_Of_Result_Per_Question_Per_Survey);
+				  for(int j = 0 ; j < Sum_Result_Per_Question_Per_Survey.length ; j++)
+				  {
+					  Sum_Result_Per_Question_Per_Survey[j] = Sum_Result_Per_Question_Per_Survey[j] / Sum_Of_Clients_Per_Survey;
+				  }
+				  
+				  Sum_Of_Clients += Sum_Of_Clients_Per_Survey;
+				  All_The_Survey_To_Return.add(Sum_Result_Per_Question_Per_Survey);
 			  }
 			  
-			  for(int i = 0 ; i < Sum_of_Result.size() ; i++)
+			  for(int i = 0 ; i < All_The_Survey_To_Return.size() ; i++)
 			  {
-				  Sum_All_The_Result_Of_All_The_Survey += Sum_of_Result.get(i);
+				  	 Temp_Array = new double[6];
+				  	 Temp_Array = All_The_Survey_To_Return.get(i);
+					 for(int j = 0 ; j < All_The_Survey_To_Return.get(i).length ; j++)
+					 {
+						 All_Sum_Per_Qustiones_Of_All_Survey[j] += Temp_Array[j];
+					 }
 			  }
 			  
-			  Total_Average_Rank = (double)(Sum_All_The_Result_Of_All_The_Survey / Sum_Of_Clients);
+			  for(int i = 0 ; i < All_Sum_Per_Qustiones_Of_All_Survey.length ; i++)
+			  {
+				  All_Sum_Per_Qustiones_Of_All_Survey[i] = All_Sum_Per_Qustiones_Of_All_Survey[i] / All_The_Survey_To_Return.size();
+				  Final_Average_Of_Each_Question.add(All_Sum_Per_Qustiones_Of_All_Survey[i] );
+			  }
 			  
+			  for(int i = 0 ; i < Final_Average_Of_Each_Question.size() ; i++)
+			  {
+				  Total_Average_Rank += Final_Average_Of_Each_Question.get(i); 
+			  }
+			  
+			  Final_Average_Of_Each_Question.add(Total_Average_Rank); /* At Index 7 Will Be The Total Average Of All The Survey */
+			  Final_Average_Of_Each_Question.add((double)(Sum_Of_Clients));     /* At Index 8 Will Be The Number Of Client */
 	  }
 	  catch (SQLException e) 
 	  {	
 		  e.printStackTrace();
 	  }
-	  return All_The_Survey_To_Return;
+	  return Final_Average_Of_Each_Question;
   }
   
   @SuppressWarnings("unchecked")

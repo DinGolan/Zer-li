@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="896.0" prefWidth="687.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SatisfactionReportController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="796.0" prefWidth="687.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SatisfactionReportController">
    <children>
       <Label layoutX="112.0" layoutY="20.0" prefHeight="78.0" prefWidth="497.0" text="Saticfaction Report" textFill="#0022ff">
          <font>
@@ -21,33 +21,39 @@
             <Font name="System Italic" size="16.0" />
          </font>
       </Label>
-      <TextField id="txtStoreID" fx:id="txtStoreID" editable="false" layoutX="317.0" layoutY="114.0" />
-      <Label layoutX="63.0" layoutY="228.0" text="The Total Average Rank Is :">
+      <TextField id="txtStoreID" fx:id="txtStoreID" editable="false" layoutX="135.0" layoutY="114.0" prefHeight="25.0" prefWidth="45.0" />
+      <Label layoutX="64.0" layoutY="160.0" text="The Total Average Rank Is :">
          <font>
             <Font name="System Italic" size="16.0" />
          </font>
       </Label>
-      <TextField id="txtTotalAvgRank" fx:id="txtTotalAvgRank" editable="false" layoutX="317.0" layoutY="228.0" />
-      <Button id="btnClose" fx:id="btnClose" layoutX="310.0" layoutY="832.0" mnemonicParsing="false" onAction="#closeSatisfactionReportWindow" text="Close" />
-      <BarChart id="Chart_SatisfactionReport" fx:id="Chart_SatisfactionReport" layoutX="25.0" layoutY="280.0" prefHeight="519.0" prefWidth="584.0" title="Satisfaction Of The User's">
+      <TextField id="txtTotalAvgRank" fx:id="txtTotalAvgRank" editable="false" layoutX="262.0" layoutY="160.0" prefHeight="25.0" prefWidth="39.0" />
+      <Button id="btnClose" fx:id="btnClose" layoutX="338.0" layoutY="635.0" mnemonicParsing="false" onAction="#closeSatisfactionReportWindow" text="Close" />
+      <BarChart id="Chart_SatisfactionReport" fx:id="Chart_SatisfactionReport" layoutX="46.0" layoutY="199.0" prefHeight="423.0" prefWidth="584.0" title="Satisfaction Of The User's">
         <xAxis>
-          <CategoryAxis id="X_Rank" fx:id="X_Rank" label="Rank" side="BOTTOM" />
+          <CategoryAxis id="X_Questions" fx:id="X_Questions" label="Questions" side="BOTTOM" />
         </xAxis>
         <yAxis>
-          <NumberAxis id="Y_Users" fx:id="Y_Users" label="User's" side="LEFT" />
+          <NumberAxis id="Y_Average" fx:id="Y_Average" label="Average Of Questions" side="LEFT" />
         </yAxis>
       </BarChart>
-      <Label layoutX="63.0" layoutY="153.0" text="Year :">
+      <Label layoutX="208.0" layoutY="114.0" text="Year :">
          <font>
             <Font name="System Italic" size="16.0" />
          </font>
       </Label>
-      <TextField id="txtYear" fx:id="txtYear" editable="false" layoutX="317.0" layoutY="153.0" />
-      <Label layoutX="63.0" layoutY="190.0" text="Number Of Quarter :">
+      <TextField id="txtYear" fx:id="txtYear" editable="false" layoutX="251.0" layoutY="114.0" prefHeight="25.0" prefWidth="60.0" />
+      <Label layoutX="333.0" layoutY="114.0" text="Number Of Quarter :">
          <font>
             <Font name="System Italic" size="16.0" />
          </font>
       </Label>
-      <TextField id="txtNumberOfQuarter" fx:id="txtNumberOfQuarter" editable="false" layoutX="317.0" layoutY="190.0" />
+      <TextField id="txtNumberOfQuarter" fx:id="txtNumberOfQuarter" editable="false" layoutX="486.0" layoutY="114.0" prefHeight="25.0" prefWidth="60.0" />
+      <Label layoutX="338.0" layoutY="160.0" text="Number Of Client : ">
+         <font>
+            <Font name="System Italic" size="16.0" />
+         </font>
+      </Label>
+      <TextField id="txtNumberOfClient" fx:id="txtNumberOfClient" editable="false" layoutX="478.0" layoutY="160.0" prefHeight="25.0" prefWidth="39.0" />
    </children>
 </AnchorPane>

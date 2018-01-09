@@ -19,7 +19,7 @@ public class ReportUI extends Application 		/* With This Class We Show the Repor
 	public static Vector<Order> orders = new Vector<Order>(); 
 	public static Vector<Complaint> complaints = new Vector<Complaint>(); 
 	public static Vector<Date> Dates = new Vector<Date>();
-	public static Vector<Survey> surveys = new Vector<Survey>();
+	public static Vector<Double> Average_Result_Of_Each_Qustions_In_surveys = new Vector<Double>();
 	
 	/* ArrayList Of Object */
 	public static Vector<Object> Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter = new Vector<Object>();
