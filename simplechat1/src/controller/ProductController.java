@@ -85,7 +85,10 @@ public class ProductController implements Initializable{
 			order = new Order();
 			flag = 1;
 		}
-		order.getProductsInOrder().add(p);
+		if(order.getProductsInOrder().containsKey(p))
+			order.getProductsInOrder().put(p, (order.getProductsInOrder().get(p))+1);
+		else
+			order.getProductsInOrder().put(p, 1);
 		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
 		Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
 		FXMLLoader loader = new FXMLLoader(); 					 /* load object */

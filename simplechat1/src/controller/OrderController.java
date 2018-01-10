@@ -8,10 +8,13 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Map.Entry;
 import java.util.ResourceBundle;
 
+import boundery.CustomerUI;
 import boundery.ProductUI;
 import boundery.UserUI;
+import entity.Account;
 import entity.Message;
 import entity.Order;
 import entity.Product;
@@ -26,6 +29,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -35,7 +39,9 @@ import javafx.stage.Stage;
 public class OrderController implements Initializable{
 
 	private static int flag=0;
+	public static boolean accountFlag = false;
 	
+	public static boolean accountExistFlag = true;
 	@FXML
 	private Button btnRemove = null; /* button remove for remove product from cart */
 	@FXML
@@ -50,6 +56,10 @@ public class OrderController implements Initializable{
 	private Button btnBackToCart = null; /* button order for continue to create order */
 	@FXML
 	private Button btnBackToOrder = null; /* button order for continue to create order */
+	@FXML
+	private Button btnCustomerOption = null; /* button order for continue to create order */
+	@FXML
+	private Button btnBackToOptions = null; /* button order for continue to create order */
 
 	@FXML
 	private RadioButton rdbtnAddPostCard = null; /* button order for continue to create order */
@@ -78,6 +88,13 @@ public class OrderController implements Initializable{
 	@FXML
 	private TextArea txtPostCard= null; /* text field for Total price of cart */
 	
+	@FXML
+	private Label lbltotalprice= null; /* text field for Total price of cart */
+	@FXML
+	private Label lblArrangement= null; /* text field for Total price of cart */
+	@FXML
+	private Label lblAccountBalance= null; /* text field for Total price of cart */
+	
 	
 	@FXML
 	private DatePicker dpRequiresSupplyDate=new DatePicker(LocalDate.now());  //DatePicker with the end date of the subscription
@@ -95,17 +112,28 @@ public class OrderController implements Initializable{
 			setComboBoxAndPrice();
 		if(flag == 1)
 			txtTotalOrderPrice.setText(String.valueOf(totalPrice));
+		if(flag==3)
+		{
+			lbltotalprice.setText(String.valueOf(totalPrice) + " NS");
+			lblAccountBalance.setText(String.valueOf(CustomerUI.account.getAccountBalanceCard()));
+			lblArrangement.setText(String.valueOf(CustomerUI.account.getAccountPaymentArrangement()));
+		}
 	}
 	
 	public void setComboBoxAndPrice() // set comboBox of products
 	{
 		   ArrayList<String> productsNames = new ArrayList<String>();
 		   double totalPrice= 0;
-			for(Product p : ProductController.order.getProductsInOrder())   /* We add to the ArrayList all the Faculty */
+		   if(ProductController.order.getProductsInOrder() != null) {
+			for(Entry<Product, Integer> e : ProductController.order.getProductsInOrder().entrySet())   /* We add to the ArrayList all the Faculty */
 			{
-				productsNames.add(p.getpName());
-				totalPrice += p.getpPrice();
+				for(int i=0; i< e.getValue() ; i++)
+				{
+				productsNames.add(e.getKey().getpName());
+				totalPrice += e.getKey().getpPrice();
+				}
 			}
+		   }
 			this.totalPrice = totalPrice;
 			listForComboBox = FXCollections.observableArrayList(productsNames); 
 			cmbProducts.setItems(FXCollections.observableArrayList(listForComboBox)); /* Set the Items Of Faculty at the ComboBox */
@@ -117,11 +145,13 @@ public class OrderController implements Initializable{
 		String productToRemove = cmbProducts.getValue();
 		if(productToRemove != null)
 		{
-			for(int i =0 ; i<ProductController.order.getProductsInOrder().size() ; i++)   
+			for(Product p : ProductController.order.getProductsInOrder().keySet())   
 			{
-				if(ProductController.order.getProductsInOrder().get(i).getpName().equals(productToRemove)) /*we found the product we want to remove*/
+				if(p.getpName().compareTo(productToRemove) == 0) /*we found the product we want to remove*/
 				{
-					ProductController.order.getProductsInOrder().remove(i);
+					ProductController.order.getProductsInOrder().put(p, (ProductController.order.getProductsInOrder().get(p))-1);
+					if(ProductController.order.getProductsInOrder().get(p) == 0)
+						ProductController.order.getProductsInOrder().remove(p);
 					break;
 				}
 			}
@@ -199,7 +229,6 @@ public class OrderController implements Initializable{
 		else {
 			if((rdbtnDelivery.isSelected() == true) &&(txtAddress.getText().equals(null) || txtRecipientsName.getText().equals(null) ||  localDate == null))
 			{
-					flag = 2;
 					((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
 					Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
 					FXMLLoader loader = new FXMLLoader(); 					 /* load object */
@@ -246,28 +275,58 @@ public class OrderController implements Initializable{
 			else {
 				 try {
 				LocalTime.parse(txtRequiredTime.getText()); /*if supply time is NOT valid throw exception*/
-				flag=0;  /*for next order*/	
-				ProductController.order.getProductsInOrder().clear();  /*for next order*/
+				flag=3;  /*for next order*/	
 
 				Order.SupplyOption s; 
 				if(rdbtnDelivery.isSelected() == true)
 					s = Order.SupplyOption.DELIVERY;
 				else 
 					s = Order.SupplyOption.PICKUP;
-				Order saveOrder = new Order(s, totalPrice, ProductController.order.getProductsInOrder(), localDate, UserUI.user.getId(), txtRequiredTime.getText(), txtAddress.getText(), txtRecipientsName.getText(), txtRecipientsPhoneNumber.getText(), txtPostCard.getText());
+				Order saveOrder = new Order(s, totalPrice, ProductController.order.getProductsInOrder(), localDate, UserUI.user.getId(), txtRequiredTime.getText(), txtAddress.getText(), txtRecipientsName.getText(), txtRecipientsPhoneNumber.getText(), txtPostCard.getText() , UserUI.store.getStoreId(), CustomerUI.account.getAccountPaymentMethod());
 				Message msg = new Message(saveOrder, "insert order to DB");
 				UserUI.myClient.accept(msg);
+				accountFlag = false;
+				while(accountFlag == false) {
+					System.out.print("");
+				}
+				accountFlag = false;
+				if(accountExistFlag == false) // no account exist for this customer
+				{
+					flag=2;
+					((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+					Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
+					FXMLLoader loader = new FXMLLoader(); 					 /* load object */
+					Pane root = loader.load(getClass().getResource("/controller/NoAccountMsg.fxml").openStream());
+				
+					Scene scene = new Scene(root);			
+					primaryStage.setScene(scene);	
+						
+					primaryStage.show();
+				}
+				else {
+				msg.setOption("Update customer account");
+				UserUI.myClient.accept(msg);
+				accountFlag = false;
+				while(accountFlag == false) {
+					System.out.print("");
+				}
+				accountFlag = false;
+				ProductController.order.getProductsInOrder().clear();  /*for next order*/
 				((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
 				Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
 				FXMLLoader loader = new FXMLLoader(); 					 /* load object */
-				totalPrice=0;
-				Pane root = loader.load(getClass().getResource("/controller/CustomerOptions.fxml").openStream());
+				if(CustomerUI.account.getAccountPaymentArrangement().equals(Account.PaymentArrangement.ANNUAL))
+					totalPrice *= 0.9;
+				else if(CustomerUI.account.getAccountPaymentArrangement().equals(Account.PaymentArrangement.MONTHLY))
+					totalPrice *= 0.95;
+				Pane root = loader.load(getClass().getResource("/controller/ThankForOrder.fxml").openStream());
 				totalPrice=0;  /*for next order*/
 				Scene scene = new Scene(root);			
 				primaryStage.setScene(scene);	
 						
 				primaryStage.show();
 				} 
+				 }
 				 catch (DateTimeParseException e) /*if supply time is NOT valid*/
 				 {
 						flag = 2;
@@ -331,6 +390,20 @@ public class OrderController implements Initializable{
 		primaryStage.setScene(scene);	
 			
 		primaryStage.show();									 /* show catalog frame window */
+	}
+	
+	public void backToCustomerOption(ActionEvent event) throws Exception
+	{
+		flag=0;
+		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+		Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
+		FXMLLoader loader = new FXMLLoader(); 					 /* load object */
+		Pane root = loader.load(getClass().getResource("/controller/CustomerOptions.fxml").openStream());
+	
+		Scene scene = new Scene(root);			
+		primaryStage.setScene(scene);	
+			
+		primaryStage.show();
 	}
 	
 
