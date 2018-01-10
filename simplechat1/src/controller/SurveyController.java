@@ -1,19 +1,19 @@
 package controller;
 
-import javafx.fxml.FXML;
-
+import java.io.IOException;
 import java.util.ArrayList;
 
-import boundery.ProductUI;
-import boundery.SurveyUI;
-import javafx.fxml.FXML;
-import javafx.scene.layout.Pane;
+import boundery.UserUI;
 import entity.Message;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 
@@ -62,11 +62,19 @@ public class SurveyController {
 		temp.add(this.txtQ6.getText());
 		msg = new Message(temp, "add survey");
 
-		SurveyUI.myClient.accept(msg);
+		UserUI.myClient.accept(msg);
 	}
 	
-	public void Close() {
-		System.exit(0);			
+	public void Close(ActionEvent event) throws IOException {
+		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+		Stage primaryStage = new Stage();
+		FXMLLoader loader = new FXMLLoader();
+		Pane root = loader.load(getClass().getResource("/controller/CustomerServiceWorkerOptions.fxml").openStream());
+		
+		Scene scene = new Scene(root);			
+		
+		primaryStage.setScene(scene);		
+		primaryStage.show();		
 
 	}
 }

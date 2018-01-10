@@ -1,5 +1,6 @@
 package boundery;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Vector;
 import controller.CatalogController;
@@ -12,6 +13,7 @@ import entity.User;
 
 public class SurveyUI extends Application {
 	public static ClientConsole myClient;
+
 
 	public static void main( String args[] ) throws Exception
 	{

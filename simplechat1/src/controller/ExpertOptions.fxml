@@ -5,14 +5,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="322.0" prefWidth="332.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.UserController">
+<AnchorPane prefHeight="322.0" prefWidth="332.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ExpertButton">
    <children>
-      <Button id="btnExit" fx:id="btnExit" layoutX="209.0" layoutY="274.0" mnemonicParsing="false" onAction="#getExitBtn" text="Exit" />
-      <Button id="btnLogout" fx:id="btnTryAgain" layoutX="61.0" layoutY="274.0" mnemonicParsing="false" onAction="#logout" text="Logout" />
+      <Button id="btnExit" fx:id="btnClose" layoutX="209.0" layoutY="274.0" mnemonicParsing="false" text="Exit" />
+      <Button id="btnLogout" fx:id="btnLogOut" layoutX="61.0" layoutY="274.0" mnemonicParsing="false" onAction="#Logout" text="Logout" />
       <Label layoutX="89.0" layoutY="28.0" text="Expert Menu" textFill="#0022ff">
          <font>
             <Font name="Bodoni MT Bold" size="29.0" />
          </font></Label>
-      <Button layoutX="54.0" layoutY="139.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="225.0" text="Analysis and Attach Survey Conclusions" />
+      <Button id="btnAttach" fx:id="btnAttach" layoutX="54.0" layoutY="139.0" mnemonicParsing="false" onAction="#AttachSurveyConclusion" prefHeight="44.0" prefWidth="225.0" text="Analysis and Attach Survey Conclusions" />
    </children>
 </AnchorPane>
