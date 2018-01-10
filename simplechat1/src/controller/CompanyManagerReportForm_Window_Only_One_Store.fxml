@@ -17,10 +17,8 @@
             <Font name="Bodoni MT Bold" size="30.0" />
          </font>
       </Label>
-      <ComboBox id="cmbStores" fx:id="cmbStores" layoutX="68.0" layoutY="138.0" onAction="#setStoresComboBox_ComapnyManager" prefHeight="39.0" prefWidth="175.0" promptText="Select Your Store" />
-      <ComboBox id="cmbReports" fx:id="cmbReports" layoutX="393.0" layoutY="138.0" onAction="#set_Dates_Of_Report_At_ComboBox_For_CompanyManager" prefHeight="39.0" prefWidth="175.0" promptText="Select The Report" />
-      <Button id="btnEnter_Your_Store_Choise" fx:id="btnEnter_Your_Store_Choise" layoutX="61.0" layoutY="222.0" mnemonicParsing="false" onAction="#Button_Of_Your_Store_Choise_For_CompanyManager" text="Enter On Your Store You Choose" />
-      <Button id="btn_Your_Choise_Of_Quarter_Report" fx:id="btn_Your_Choise_Of_Quarter_Report" layoutX="393.0" layoutY="222.0" mnemonicParsing="false" onAction="#Button_Of_Your_Quarter_Report_For_CompanyManager" text="Enter On Your Quarter Report" />
+      <ComboBox id="cmbStores" fx:id="cmbStores" layoutX="68.0" layoutY="138.0" onAction="#Click_On_Your_Store_Choise_For_CompanyManager" prefHeight="39.0" prefWidth="175.0" promptText="Select Your Store" />
+      <ComboBox id="cmbReports" fx:id="cmbReports" layoutX="393.0" layoutY="138.0" onAction="#Click_On_Your_Quarter_Report_For_CompanyManager" prefHeight="39.0" prefWidth="175.0" promptText="Select The Report" />
       <Button id="btnCustomerComplaintStatusReport" fx:id="btnCustomerComplaintStatusReport" layoutX="216.0" layoutY="291.0" mnemonicParsing="false" onAction="#CustomerComplaintStatusReport_For_Company_Worker" text="Customer Complaint Status Report" />
       <Button id="btnQuarterlyRevenueReport" fx:id="btnQuarterlyRevenueReport" layoutX="239.0" layoutY="336.0" mnemonicParsing="false" onAction="#QuarterlyRevenueReport_For_Company_Worker" text="Quarterly Revenue Report" />
       <Button id="btnSatisfactionReport" fx:id="btnSatisfactionReport" layoutX="258.0" layoutY="379.0" mnemonicParsing="false" onAction="#SatisfactionReport_For_Company_Worker" text="Satisfaction Report" />

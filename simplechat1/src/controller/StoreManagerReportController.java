@@ -33,7 +33,7 @@ public class StoreManagerReportController implements Initializable {
 	private SatisfactionReportController satisfactionReportController;
 
 	private Message msg;
-	private static int itemIndex = 1; /* This Variable Need for the the Case - that we not choose any Store from the ComboBox , so we take the Store that in Index 1 By Default */
+	private static int itemIndex = 0; /* This Variable Need for the the Case - that we not choose any Store from the ComboBox , so we take the Store that in Index 0 By Default - Store 1 */
 	private int temp_Store_Id;
 	private Date temp_Date_Quarter_Report;
 	
@@ -47,12 +47,6 @@ public class StoreManagerReportController implements Initializable {
 	
 	@FXML
     private ComboBox<Date> cmbReports;
-	
-	@FXML
-	private Button btnEnter_Your_Store_Choise = null;
-	
-	@FXML
-    private Button btn_Your_Choise_Of_Quarter_Report;
 	
 	@FXML
 	private Button btnQuarterlyRevenueReport = null;        /* Button Of Quarterly Revenue Report */
@@ -232,7 +226,7 @@ public class StoreManagerReportController implements Initializable {
 	
 /* -------------------------------- The Button Of The Store That You Choose ------------------------------- */		
 	
-	public void Button_Of_Your_Store_Choise(ActionEvent event) throws Exception
+	public void Click_On_Your_Store_Choise(ActionEvent event) throws Exception
 	{
 		temp_Store_Id = StoreManagerReportUI.stores.get(getItemIndex()).getStoreId();
 		msg = new Message(temp_Store_Id, "Store Manager - Take The Date Of All the Report Of Specific Store");
@@ -244,7 +238,7 @@ public class StoreManagerReportController implements Initializable {
 	
 /* -------------------------------- The Button Of The Report That We Choose ------------------------------- */			
 	
-	public void Button_Of_Your_Quarter_Report(ActionEvent event) throws Exception
+	public void Click_On_Your_Quarter_Report(ActionEvent event) throws Exception
 	{
 		
 		/* ---------------------- For The Revenue Report ---------------------------*/

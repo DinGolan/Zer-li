@@ -23,9 +23,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-/* For Company Manager */
-
-public class CustomerComplaintStatusReportController_For_CompanyManager implements Initializable {
+public class CustomerComplaintStatusReportController_For_CompanyManager_2 implements Initializable{
 
 	private Store store;
 	private Message msg;

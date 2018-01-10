@@ -13,14 +13,12 @@
             <Font name="Bodoni MT Bold" size="37.0" />
          </font>
       </Label>
-      <ComboBox id="cmbStores" fx:id="cmbStores" layoutX="52.0" layoutY="128.0" onAction="#setStoresComboBox" prefHeight="39.0" prefWidth="175.0" promptText="Select Your Store" />
+      <ComboBox id="cmbStores" fx:id="cmbStores" layoutX="52.0" layoutY="128.0" onAction="#Click_On_Your_Store_Choise" prefHeight="39.0" prefWidth="175.0" promptText="Select Your Store" />
       <Button id="btnQuarterlyRevenueReport" fx:id="btnQuarterlyRevenueReport" layoutX="215.0" layoutY="348.0" mnemonicParsing="false" onAction="#QuarterlyRevenueReport" text="Quarterly Revenue Report" />
       <Button id="btnOrderReport" fx:id="btnOrderReport" layoutX="249.0" layoutY="427.0" mnemonicParsing="false" onAction="#OrderReport" text="Order Report" />
       <Button id="btnCustomerComplaintStatusReport" fx:id="btnCustomerComplaintStatusReport" layoutX="192.0" layoutY="308.0" mnemonicParsing="false" onAction="#CustomerComplaintStatusReport" text="Customer Complaint Status Report" />
       <Button id="btnSatisfactionReport" fx:id="btnSatisfactionReport" layoutX="234.0" layoutY="389.0" mnemonicParsing="false" onAction="#SatisfactionReport" text="Satisfaction Report" />
       <Button id="btnExit" fx:id="btnExit" layoutX="275.0" layoutY="473.0" mnemonicParsing="false" onAction="#getExitBtn" text="Exit" />
-      <ComboBox id="cmbReports" fx:id="cmbReports" layoutX="350.0" layoutY="128.0" onAction="#set_Dates_Of_Report_At_ComboBox" prefHeight="39.0" prefWidth="175.0" promptText="Select The Report" />
-      <Button fx:id="btnEnter_Your_Store_Choise" layoutX="45.0" layoutY="212.0" mnemonicParsing="false" onAction="#Button_Of_Your_Store_Choise" text="Enter On Your Store You Choose" />
-      <Button id="btn_Your_Choise_Of_Quarter_Report" fx:id="btn_Your_Choise_Of_Quarter_Report" layoutX="351.0" layoutY="212.0" mnemonicParsing="false" onAction="#Button_Of_Your_Quarter_Report" text="Enter On Your Quarter Report" />
+      <ComboBox id="cmbReports" fx:id="cmbReports" layoutX="350.0" layoutY="128.0" onAction="#Click_On_Your_Quarter_Report" prefHeight="39.0" prefWidth="175.0" promptText="Select The Report" />
    </children>
 </AnchorPane>

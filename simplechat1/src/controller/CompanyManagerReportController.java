@@ -23,7 +23,8 @@ public class CompanyManagerReportController implements Initializable {
 
 	private int Integer_The_Option_You_Choose;
 	private String String_The_Option_You_Choose;
-	private static int itemIndex = 1; 		/* This Variable Need for the the Case - that we not choose any Option - So By Default it will Be One */
+	private static int itemIndex = 0; 		/* This Variable Need for the the Case - that we not choose any Option - So By Default it will Be The Index 0 Its Mean - One */
+	public static int Flag_For_Return_Window_With_One_Store_Or_With_Two_Store = 1;
 	
 	ObservableList<String> OptionList;
 	
@@ -58,12 +59,11 @@ public class CompanyManagerReportController implements Initializable {
 		Integer_The_Option_You_Choose = Integer.parseInt(String_The_Option_You_Choose);
 		if(Integer_The_Option_You_Choose == 1)
 		{
+			Flag_For_Return_Window_With_One_Store_Or_With_Two_Store = 1;
 			((Node)event.getSource()).getScene().getWindow().hide();    			  /* Hiding primary window */
 			Stage primaryStage = new Stage();
 			FXMLLoader loader = new FXMLLoader();
 			Pane root = loader.load(getClass().getResource("/controller/CompanyManagerReportForm_Window_Only_One_Store.fxml").openStream());
-			
-			CompanyManagerController_With_Only_One_Store companyManagerContoroller_With_One_Store = loader.getController();
 			
 			Scene scene = new Scene(root);			
 			primaryStage.setScene(scene);		
@@ -72,6 +72,7 @@ public class CompanyManagerReportController implements Initializable {
 		}
 		else if(Integer_The_Option_You_Choose == 2)
 		{
+			Flag_For_Return_Window_With_One_Store_Or_With_Two_Store = 2;
 			((Node)event.getSource()).getScene().getWindow().hide();    			  /* Hiding primary window */
 			Stage primaryStage = new Stage();
 			FXMLLoader loader = new FXMLLoader();

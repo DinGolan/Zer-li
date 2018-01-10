@@ -25,9 +25,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-/* For Company Manager */
-
-public class OrderReportController_For_ComapnyManager implements Initializable {
+public class OrderReportController_For_ComapnyManager_2 implements Initializable {
 
 	private Store store;
 	private Message msg;
@@ -193,5 +191,5 @@ public class OrderReportController_For_ComapnyManager implements Initializable {
 	}
 	
 /* ------------------------------------------------------------------------------------------------------------------- */
-	
+
 }

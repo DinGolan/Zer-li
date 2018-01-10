@@ -218,7 +218,7 @@ public void displayUI(Object message)
 		  	  int i=0;
 			  ArrayList<Store> temp = new ArrayList<Store>();
 			  temp = (ArrayList<Store>)((Message)message).getMsg();
-			  StoreManagerReportUI.stores.clear();
+			  CompanyManagerReportUI.stores_For_Company_Manager.clear();
 
 			  for(i=0;i<temp.size();i++)
 		  	  {
@@ -261,7 +261,7 @@ public void displayUI(Object message)
 				  CompanyManagerReportUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter_For_Company_Manager.add(temp_Revenue_And_Number_Of_Order_Of_Specific_Store_Of_Specific_Quarter.get(i));
 		  	  }
 	    }
-	    else if(((Message)message).getOption().compareTo("Company Manager - Take The Date Of All the Report Of Specific Store") == 0)
+	    else if(((Message)message).getOption().compareTo("Comapny Manager - Take The Date Of All the Report Of Specific Store") == 0)
 	    {
 		  	  int i = 0;
 			  ArrayList<Date> temp_Date_Of_Report = new ArrayList<Date>();

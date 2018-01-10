@@ -24,7 +24,7 @@ import javafx.stage.Stage;
 public class CompanyManagerController_With_Two_Store implements Initializable{
 
 	private Message msg;
-	private static int itemIndex = 1; /* This Variable Need for the the Case - that we not choose any Store from the ComboBox , so we take the Store that in Index 1 By Default */
+	private static int itemIndex = 0; /* This Variable Need for the the Case - that we not choose any Store from the ComboBox , so we take the Store that in Index 0 By Default - Store 1 */
 	private int temp_Store_Id_1;
 	private int temp_Store_Id_2;
 	private Date temp_Date_Quarter_Report_1;
@@ -50,12 +50,6 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 	 private ComboBox<Date> cmbReportsSecondStore;
 
 	 @FXML
-	 private Button btnClickFirstStore;
-
-	 @FXML
-	 private Button btnClickFirstStoreReport;
-
-	 @FXML
 	 private Button btnCustomerComplaintStatusReport_Store_1;
 
 	 @FXML
@@ -68,15 +62,6 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 	 private Button btnOrderReport_Store_1;
 
 	 @FXML
-	 private Button btnClose;
-
-	 @FXML
-	 private Button btnClickSecondStore;
-
-	 @FXML
-	 private Button btnClickSecondStoreReport;
-
-	 @FXML
 	 private Button btnCustomerComplaintStatusReport_Store_2;
 
 	 @FXML
@@ -87,11 +72,15 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 
 	 @FXML
 	 private Button btnOrderReport_Store_2;
+	 
+	 @FXML
+	 private Button btnClose;
 	
 /* --------------------------------- Close the Order Report Window ------------------------------------------------- */	 	
 	
 	public void closeTwoStoreWindow(ActionEvent event) throws Exception   
 	{ 
+		CompanyManagerReportController.Flag_For_Return_Window_With_One_Store_Or_With_Two_Store = 1;
 		CompanyManagerReportUI.stores_For_Company_Manager.clear();
 		((Node)event.getSource()).getScene().getWindow().hide(); 	 /* Hiding primary window */
 		Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
@@ -107,145 +96,177 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 	
 	/* -------------------------------- Store 1 ----------------------------------- */
 	
-	public void QuarterlyRevenueReport_Store_One(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Report' and Show the GUI of the Quarterly Revenue Report that we Choose */
+	public void QuarterlyRevenueReport_Store(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Report' and Show the GUI of the Quarterly Revenue Report that we Choose */
 	{
 		((Node)event.getSource()).getScene().getWindow().hide();    			  /* Hiding primary window */
 		Stage primaryStage = new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		Pane root = loader.load(getClass().getResource("/controller/QuarterlyRevenueReportForm.fxml").openStream());
+		Stage primaryStage_2 = new Stage();
 		
-		QuarterlyRevenueReportController quarterlyRevenueReportController = loader.getController();
+		FXMLLoader loader = new FXMLLoader();
+		Pane root = loader.load(getClass().getResource("/controller/QuarterlyRevenueReportForm_For_CompanyManager.fxml").openStream());
+		QuarterlyRevenueReportController_For_CompanyManager quarterlyRevenueReportController = loader.getController();
 		quarterlyRevenueReportController.loadStore(CompanyManagerReportUI.stores_For_Company_Manager.get(getItemIndex_First_Store())); 
 		
-		Scene scene = new Scene(root);			
-		primaryStage.setScene(scene);		
+		Pane root_2 = loader.load(getClass().getResource("/controller/QuarterlyRevenueReportForm_For_CompanyManager_2.fxml").openStream());
+		QuarterlyRevenueReportController_For_CompanyManager quarterlyRevenueReportController_2 = loader.getController();
+		quarterlyRevenueReportController_2.loadStore(CompanyManagerReportUI.stores_For_Company_Manager.get(getItemIndex_First_Store())); 
+		
+		Scene scene = new Scene(root);
+		Scene scene_2 = new Scene(root_2);
+		primaryStage.setScene(scene);	
+		primaryStage_2.setScene(scene_2);
 		primaryStage.show();
+		primaryStage_2.show();
 	}
 	
 	/* -------------------------------- Store 2 ----------------------------------- */
 	
-	public void QuarterlyRevenueReport_Store_Two(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Report' and Show the GUI of the Quarterly Revenue Report that we Choose */
-	{
-		((Node)event.getSource()).getScene().getWindow().hide();    			  /* Hiding primary window */
-		Stage primaryStage = new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		Pane root = loader.load(getClass().getResource("/controller/QuarterlyRevenueReportForm.fxml").openStream());
-		
-		QuarterlyRevenueReportController quarterlyRevenueReportController = loader.getController();
-		quarterlyRevenueReportController.loadStore(CompanyManagerReportUI.stores_For_Company_Manager.get(getItemIndex_Second_Store())); 
-		
-		Scene scene = new Scene(root);			
-		primaryStage.setScene(scene);		
-		primaryStage.show();
-	}
+//	public void QuarterlyRevenueReport_Store_Two(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Report' and Show the GUI of the Quarterly Revenue Report that we Choose */
+//	{
+//		((Node)event.getSource()).getScene().getWindow().hide();    			  /* Hiding primary window */
+//		Stage primaryStage = new Stage();
+//		FXMLLoader loader = new FXMLLoader();
+//		Pane root = loader.load(getClass().getResource("/controller/QuarterlyRevenueReportForm_For_CompanyManager_2.fxml").openStream());
+//		
+//		QuarterlyRevenueReportController_For_CompanyManager quarterlyRevenueReportController = loader.getController();
+//		quarterlyRevenueReportController.loadStore(CompanyManagerReportUI.stores_For_Company_Manager.get(getItemIndex_Second_Store())); 
+//		
+//		Scene scene = new Scene(root);			
+//		primaryStage.setScene(scene);		
+//		primaryStage.show();
+//	}
 	
 /* --------------------------------  The Report About Order ----------------------------------- */	
 	
 	/* -------------------------------- Store 1 ----------------------------------- */
 	
-	public void OrderReport_Store_One(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Report' and Show the GUI of the Order Report that we Choose */
+	public void OrderReport_Store(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Report' and Show the GUI of the Order Report that we Choose */
 	{
 		((Node)event.getSource()).getScene().getWindow().hide();       /* Hiding primary window */
 		Stage primaryStage = new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		Pane root = loader.load(getClass().getResource("/controller/OrderReportForm.fxml").openStream());
+		Stage primaryStage_2 = new Stage();
 		
-		OrderReportController orderReportController = loader.getController();
+		FXMLLoader loader = new FXMLLoader();
+		Pane root = loader.load(getClass().getResource("/controller/OrderReportForm_For_CompanyManager.fxml").openStream());
+		OrderReportController_For_ComapnyManager orderReportController = loader.getController();
 		orderReportController.loadStore(CompanyManagerReportUI.stores_For_Company_Manager.get(getItemIndex_First_Store()));
 		
-		Scene scene = new Scene(root);			
-		primaryStage.setScene(scene);		
+		Pane root_2 = loader.load(getClass().getResource("/controller/OrderReportForm_For_CompanyManager_2.fxml").openStream());
+		OrderReportController_For_ComapnyManager_2 orderReportController_2 = loader.getController();
+		orderReportController_2.loadStore(CompanyManagerReportUI.stores_For_Company_Manager.get(getItemIndex_First_Store()));
+		
+		Scene scene = new Scene(root);
+		Scene scene_2 = new Scene(root_2);
+		primaryStage.setScene(scene);	
+		primaryStage_2.setScene(scene_2);
 		primaryStage.show();
+		primaryStage_2.show();
 	}
 	
 	/* -------------------------------- Store 2 ----------------------------------- */
 	
-	public void OrderReport_Store_Two(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Report' and Show the GUI of the Order Report that we Choose */
-	{
-		((Node)event.getSource()).getScene().getWindow().hide();       /* Hiding primary window */
-		Stage primaryStage = new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		Pane root = loader.load(getClass().getResource("/controller/OrderReportForm.fxml").openStream());
-		
-		OrderReportController orderReportController = loader.getController();
-		orderReportController.loadStore(CompanyManagerReportUI.stores_For_Company_Manager.get(getItemIndex_Second_Store()));
-		
-		Scene scene = new Scene(root);			
-		primaryStage.setScene(scene);		
-		primaryStage.show();
-	}
+//	public void OrderReport_Store_Two(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Report' and Show the GUI of the Order Report that we Choose */
+//	{
+//		((Node)event.getSource()).getScene().getWindow().hide();       /* Hiding primary window */
+//		Stage primaryStage = new Stage();
+//		FXMLLoader loader = new FXMLLoader();
+//		Pane root = loader.load(getClass().getResource("/controller/OrderReportForm_For_CompanyManager_2.fxml").openStream());
+//		
+//		OrderReportController_For_ComapnyManager orderReportController = loader.getController();
+//		orderReportController.loadStore(CompanyManagerReportUI.stores_For_Company_Manager.get(getItemIndex_Second_Store()));
+//		
+//		Scene scene = new Scene(root);			
+//		primaryStage.setScene(scene);		
+//		primaryStage.show();
+//	}
 	
 /* --------------------------------  The Report About Complaint ----------------------------------- */
 	
 	/* -------------------------------- Store 1 ----------------------------------- */
 	
-	public void CustomerComplaintStatusReport_Store_One(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Report' and Show the GUI of the Customer Complaint Status Report that we Choose */
+	public void CustomerComplaintStatusReport_Store(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Report' and Show the GUI of the Customer Complaint Status Report that we Choose */
 	{
 		((Node)event.getSource()).getScene().getWindow().hide();    					 /* Hiding primary window */
 		Stage primaryStage = new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		Pane root = loader.load(getClass().getResource("/controller/CustomerComplaintStatusReportForm.fxml").openStream());
+		Stage primaryStage_2 = new Stage();
 		
-		CustomerComplaintStatusReportController customerComplaintStatusReportController = loader.getController();
+		FXMLLoader loader = new FXMLLoader();
+		Pane root = loader.load(getClass().getResource("/controller/CustomerComplaintStatusReportForm_For_ComapnyManager.fxml").openStream());
+		CustomerComplaintStatusReportController_For_CompanyManager customerComplaintStatusReportController = loader.getController();
 		customerComplaintStatusReportController.loadStore(CompanyManagerReportUI.stores_For_Company_Manager.get(getItemIndex_First_Store()));
 		
-		Scene scene = new Scene(root);			
-		primaryStage.setScene(scene);		
+		Pane root_2 = loader.load(getClass().getResource("/controller/CustomerComplaintStatusReportForm_For_ComapnyManager.fxml").openStream());
+		CustomerComplaintStatusReportController_For_CompanyManager_2 customerComplaintStatusReportController_2 = loader.getController();
+		customerComplaintStatusReportController_2.loadStore(CompanyManagerReportUI.stores_For_Company_Manager.get(getItemIndex_First_Store()));
+		
+		Scene scene = new Scene(root);
+		Scene scene_2 = new Scene(root_2);
+		primaryStage.setScene(scene);
+		primaryStage_2.setScene(scene_2);
 		primaryStage.show();
+		primaryStage_2.show();	
 	}
 	
 	/* -------------------------------- Store 2 ----------------------------------- */
 	
-	public void CustomerComplaintStatusReport_Store_Two(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Report' and Show the GUI of the Customer Complaint Status Report that we Choose */
-	{
-		((Node)event.getSource()).getScene().getWindow().hide();    					 /* Hiding primary window */
-		Stage primaryStage = new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		Pane root = loader.load(getClass().getResource("/controller/CustomerComplaintStatusReportForm.fxml").openStream());
-		
-		CustomerComplaintStatusReportController customerComplaintStatusReportController = loader.getController();
-		customerComplaintStatusReportController.loadStore(CompanyManagerReportUI.stores_For_Company_Manager.get(getItemIndex_Second_Store()));
-		
-		Scene scene = new Scene(root);			
-		primaryStage.setScene(scene);		
-		primaryStage.show();
-	}
+//	public void CustomerComplaintStatusReport_Store_Two(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Report' and Show the GUI of the Customer Complaint Status Report that we Choose */
+//	{
+//		((Node)event.getSource()).getScene().getWindow().hide();    					 /* Hiding primary window */
+//		Stage primaryStage = new Stage();
+//		FXMLLoader loader = new FXMLLoader();
+//		Pane root = loader.load(getClass().getResource("/controller/CustomerComplaintStatusReportForm_For_ComapnyManager.fxml").openStream());
+//		
+//		CustomerComplaintStatusReportController_For_CompanyManager customerComplaintStatusReportController = loader.getController();
+//		customerComplaintStatusReportController.loadStore(CompanyManagerReportUI.stores_For_Company_Manager.get(getItemIndex_Second_Store()));
+//		
+//		Scene scene = new Scene(root);			
+//		primaryStage.setScene(scene);		
+//		primaryStage.show();
+//	}
 	
 /* --------------------------------  The Report About Satisfaction ----------------------------------- */
 	
 	/* -------------------------------- Store 1 ----------------------------------- */
 	
-	public void SatisfactionReport_Store_One(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Report' and Show the GUI of the Satisfaction Report that we Choose */
+	public void SatisfactionReport_Store(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Report' and Show the GUI of the Satisfaction Report that we Choose */
 	{
 		((Node)event.getSource()).getScene().getWindow().hide();    		  /* Hiding primary window */
 		Stage primaryStage = new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		Pane root = loader.load(getClass().getResource("/controller/SatisfactionReportForm.fxml").openStream());
+		Stage primaryStage_2 = new Stage();
 		
-		SatisfactionReportController satisfactionReportController = loader.getController();
+		FXMLLoader loader = new FXMLLoader();
+		Pane root = loader.load(getClass().getResource("/controller/SatisfactionReportForm_For_CompanyManager.fxml").openStream());
+		SatisfactionReportController_For_CompanyManager satisfactionReportController = loader.getController();
 		satisfactionReportController.loadStore(CompanyManagerReportUI.stores_For_Company_Manager.get(getItemIndex_First_Store()));
 		
-		Scene scene = new Scene(root);			
+		Pane root_2 = loader.load(getClass().getResource("/controller/SatisfactionReportForm_For_CompanyManager.fxml").openStream());
+		SatisfactionReportController_For_CompanyManager_2 satisfactionReportController_2 = loader.getController();
+		satisfactionReportController_2.loadStore(CompanyManagerReportUI.stores_For_Company_Manager.get(getItemIndex_First_Store()));
+		
+		Scene scene = new Scene(root);
+		Scene scene_2 = new Scene(root_2);
 		primaryStage.setScene(scene);
+		primaryStage_2.setScene(scene_2);
 		primaryStage.show();
+		primaryStage_2.show();
 	}	
 	
 	/* -------------------------------- Store 2 ----------------------------------- */
 	
-	public void SatisfactionReport_Store_Two(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Report' and Show the GUI of the Satisfaction Report that we Choose */
-	{
-		((Node)event.getSource()).getScene().getWindow().hide();    		  /* Hiding primary window */
-		Stage primaryStage = new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		Pane root = loader.load(getClass().getResource("/controller/SatisfactionReportForm.fxml").openStream());
-		
-		SatisfactionReportController satisfactionReportController = loader.getController();
-		satisfactionReportController.loadStore(CompanyManagerReportUI.stores_For_Company_Manager.get(getItemIndex_Second_Store()));
-		
-		Scene scene = new Scene(root);			
-		primaryStage.setScene(scene);
-		primaryStage.show();
-	}	
+//	public void SatisfactionReport_Store_Two(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Report' and Show the GUI of the Satisfaction Report that we Choose */
+//	{
+//		((Node)event.getSource()).getScene().getWindow().hide();    		  /* Hiding primary window */
+//		Stage primaryStage = new Stage();
+//		FXMLLoader loader = new FXMLLoader();
+//		Pane root = loader.load(getClass().getResource("/controller/SatisfactionReportForm_For_CompanyManager.fxml").openStream());
+//		
+//		SatisfactionReportController_For_CompanyManager satisfactionReportController = loader.getController();
+//		satisfactionReportController.loadStore(CompanyManagerReportUI.stores_For_Company_Manager.get(getItemIndex_Second_Store()));
+//		
+//		Scene scene = new Scene(root);			
+//		primaryStage.setScene(scene);
+//		primaryStage.show();
+//	}	
 	
 /* -------------------------- Taking Store From The Combo Box of Store ------------------------------------ */	
 	
@@ -269,6 +290,31 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 		return cmbFirstStores.getSelectionModel().getSelectedIndex();
 		
 	}
+	
+/* -------------------------- Taking Date From The Combo Box of Report ------------------------------------ */	
+	
+	/* -------------------------------- Store 1 ----------------------------------- */
+	
+	public int getItemIndexFromDateComboBox_For_CompanyManager_FirstStore()                                   	/* With this Method we Take User from the List of the Users at the ComboBox */
+	{
+		if(cmbReportsFirstStore.getSelectionModel().getSelectedIndex() == -1)
+			return itemIndex;
+	
+		return cmbReportsFirstStore.getSelectionModel().getSelectedIndex();
+	}
+	
+/* -------------------------- Taking Date From The Combo Box of Report ------------------------------------ */	
+	
+	/* -------------------------------- Store 2 ----------------------------------- */
+	
+	public int getItemIndexFromDateComboBox_For_CompanyManager_SecondStore()                                   	/* With this Method we Take User from the List of the Users at the ComboBox */
+	{
+		if(cmbReportsSecondStore.getSelectionModel().getSelectedIndex() == -1)
+			return itemIndex;
+	
+		return cmbReportsSecondStore.getSelectionModel().getSelectedIndex();
+	}
+	
 /* ----------------------------------------- Set The Combo Box Of All the Date Of the Report Of Specific Store ----------------------------------- */		
 	
 	/* -------------------------------- Store 1 ----------------------------------- */
@@ -305,7 +351,7 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 	
 	/* -------------------------------- Store 1 ----------------------------------- */
 	
-	public void setStores_Two_ComboBox()    								/* In this Method we Set the Stores at the ComboBox */
+	public void setStores_One_ComboBox()    								/* In this Method we Set the Stores at the ComboBox */
 	{ 				
 		ArrayList<String> temp_Stores_ID_And_Address_List = new ArrayList<String>();	
 		
@@ -320,7 +366,7 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 	
 	/* -------------------------------- Store 2 ----------------------------------- */
 	
-	public void setStores_One_ComboBox()    								/* In this Method we Set the Stores at the ComboBox */
+	public void setStores_Two_ComboBox()    								/* In this Method we Set the Stores at the ComboBox */
 	{ 				
 		ArrayList<String> temp_Stores_ID_And_Address_List = new ArrayList<String>();	
 		
@@ -335,10 +381,10 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 	
 /* -------------------------------- The Button Of The Store That You Choose ------------------------------- */		
 	
-	public void Button_Of_Your_First_Store_Choise(ActionEvent event) throws Exception
+	public void Click_On_Your_First_Store_Choise(ActionEvent event) throws Exception
 	{
 		temp_Store_Id_1 = CompanyManagerReportUI.stores_For_Company_Manager.get(getItemIndex_First_Store()).getStoreId();
-		msg = new Message(temp_Store_Id_1, "Company Manager - Take The Date Of All the Report Of Specific Store");
+		msg = new Message(temp_Store_Id_1,"Comapny Manager - Take The Date Of All the Report Of Specific Store");
 		CompanyManagerReportUI.myClient.accept(msg);
 		while(CompanyManagerReportUI.Dates_For_Company_Manager.size() == 0);
 		Thread.sleep(200);
@@ -347,10 +393,10 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 	
 /* -------------------------------- The Button Of The Store That You Choose ------------------------------- */		
 	
-	public void Button_Of_Your_Second_Store_Choise(ActionEvent event) throws Exception
+	public void Click_On_Your_Second_Store_Choise(ActionEvent event) throws Exception
 	{
 		temp_Store_Id_2 = CompanyManagerReportUI.stores_For_Company_Manager.get(getItemIndex_Second_Store()).getStoreId();
-		msg = new Message(temp_Store_Id_2, "Company Manager - Take The Date Of All the Report Of Specific Store");
+		msg = new Message(temp_Store_Id_2,"Comapny Manager - Take The Date Of All the Report Of Specific Store");
 		CompanyManagerReportUI.myClient.accept(msg);
 		while(CompanyManagerReportUI.Dates_For_Company_Manager.size() == 0);
 		Thread.sleep(200);
@@ -359,15 +405,15 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 	
 /* -------------------------------- The Button Of The Report That We Choose ------------------------------- */				
 	
-	public void Button_Of_Your_Quarter_Report_Store_One(ActionEvent event) throws Exception
+	public void Click_On_Your_Quarter_Report_Store_One(ActionEvent event) throws Exception
 	{
 		
 		/* ---------------------- For The Revenue Report ---------------------------*/
-		temp_Date_Quarter_Report_1 = CompanyManagerReportUI.Dates_For_Company_Manager.get(getItemIndex_First_Store());
+		temp_Date_Quarter_Report_1 = CompanyManagerReportUI.Dates_For_Company_Manager.get(getItemIndexFromDateComboBox_For_CompanyManager_FirstStore());
 		ArrayList<Object> Store_Id_And_Date_Of_Report = new ArrayList<Object>();
 		Store_Id_And_Date_Of_Report.add(temp_Store_Id_1);
 		Store_Id_And_Date_Of_Report.add(temp_Date_Quarter_Report_1);
-		msg = new Message(Store_Id_And_Date_Of_Report, "Company Manager - Take the Revenue Of Specific Quarter Of Specific Store");
+		msg = new Message(Store_Id_And_Date_Of_Report,"Company Manager - Take the Revenue Of Specific Quarter Of Specific Store");
 		CompanyManagerReportUI.myClient.accept(msg);
 		while(CompanyManagerReportUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter_For_Company_Manager.size() == 0);
 		Thread.sleep(200);
@@ -397,15 +443,15 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 	
 /* -------------------------------- The Button Of The Report That We Choose ------------------------------- */				
 	
-	public void Button_Of_Your_Quarter_Report_Store_Two(ActionEvent event) throws Exception
+	public void Click_On_Your_Quarter_Report_Store_Two(ActionEvent event) throws Exception
 	{
 		
 		/* ---------------------- For The Revenue Report ---------------------------*/
-		temp_Date_Quarter_Report_2 = CompanyManagerReportUI.Dates_For_Company_Manager.get(getItemIndex_First_Store());
+		temp_Date_Quarter_Report_2 = CompanyManagerReportUI.Dates_For_Company_Manager.get(getItemIndexFromDateComboBox_For_CompanyManager_SecondStore());
 		ArrayList<Object> Store_Id_And_Date_Of_Report = new ArrayList<Object>();
 		Store_Id_And_Date_Of_Report.add(temp_Store_Id_2);
 		Store_Id_And_Date_Of_Report.add(temp_Date_Quarter_Report_2);
-		msg = new Message(Store_Id_And_Date_Of_Report, "Company Manager - Take the Revenue Of Specific Quarter Of Specific Store");
+		msg = new Message(Store_Id_And_Date_Of_Report,"Company Manager - Take the Revenue Of Specific Quarter Of Specific Store");
 		CompanyManagerReportUI.myClient.accept(msg);
 		while(CompanyManagerReportUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter_For_Company_Manager.size() == 0);
 		Thread.sleep(200);
@@ -433,13 +479,31 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 		CompanyManagerReportUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.add(Store_Id_And_Date_Of_Report.get(1));  /* The Date Of the Report */
 	}
 	
+	public void Compare(ActionEvent event) throws Exception
+	{
+		((Node)event.getSource()).getScene().getWindow().hide();    		  /* Hiding primary window */
+		Stage primaryStage = new Stage();
+		FXMLLoader loader = new FXMLLoader();
+		Pane root = loader.load(getClass().getResource("/controller/CompareBetweenTwoDiffrentQuarter.fxml").openStream());
+		
+		/* Need to Create Class Of Compare Two Different Quarter And Change The SaticFaction */
+		/* Need To Make GUI  for the Compare */
+		/* Need To Give Different Vector Name For Each Store */
+		SatisfactionReportController satisfactionReportController = loader.getController();
+		satisfactionReportController.loadStore(CompanyManagerReportUI.stores_For_Company_Manager.get(getItemIndex_First_Store()));
+		
+		Scene scene = new Scene(root);			
+		primaryStage.setScene(scene);
+		primaryStage.show();
+	}
+	
 /* -------------------------------- Initialized The ComboBox In the First Window - Report GUI ------------------------------- */		
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
 		ArrayList<Store> stores = new ArrayList<Store>();           /* For the First Connection With The DB the ArrayList Of stores Is Empty */
-		msg = new Message(stores, "Company Manager - Add Store To Combo Box From DB");
+		msg = new Message(stores,"Company Manager - Add Store To Combo Box From DB");
 		CompanyManagerReportUI.myClient.accept(msg);
 		while(CompanyManagerReportUI.stores_For_Company_Manager.size() == 0);
 		setStores_One_ComboBox();

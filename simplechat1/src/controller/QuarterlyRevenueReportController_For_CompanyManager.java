@@ -21,9 +21,9 @@ import javafx.stage.Stage;
 
 public class QuarterlyRevenueReportController_For_CompanyManager implements Initializable {
 
-	private Store store;
+		private Store store;
 	 
-	/* -------------------------  For The Window Of Quarterly Revenue Report ----------------------------------- */	
+		/* -------------------------  For The Window Of Quarterly Revenue Report ----------------------------------- */	
 		
 		@FXML
 		private TextField txtYear;
@@ -72,7 +72,15 @@ public class QuarterlyRevenueReportController_For_CompanyManager implements Init
 			((Node)event.getSource()).getScene().getWindow().hide(); 	 /* Hiding primary window */
 			Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
 			FXMLLoader loader = new FXMLLoader(); 					 	 /* load object */
-			Pane root = loader.load(getClass().getResource("/controller/StoreManagerReportForm.fxml").openStream());
+			Pane root = null;
+			if(CompanyManagerReportController.Flag_For_Return_Window_With_One_Store_Or_With_Two_Store == 1)
+			{
+				root = loader.load(getClass().getResource("/controller/CompanyManagerReportForm_Window_Only_One_Store.fxml").openStream());
+			}
+			else if(CompanyManagerReportController.Flag_For_Return_Window_With_One_Store_Or_With_Two_Store == 2)
+			{
+				root = loader.load(getClass().getResource("/controller/CompanyManagerReportForm_Window_With_Two_Store.fxml").openStream());
+			}
 			
 			Scene scene = new Scene(root);			
 			primaryStage.setScene(scene);		

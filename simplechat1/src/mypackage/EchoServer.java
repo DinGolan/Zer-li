@@ -170,19 +170,19 @@ public class EchoServer extends AbstractServer
 	    	this.sendToAllClients(msg);
 	    }
 	    
-	    if(((Message)msg).getOption().compareTo("Comapny Manager - Take the Revenue Of Specific Quarter Of Specific Store") == 0) /* Taking All the Revenue Of Specific Store */							
+	    if(((Message)msg).getOption().compareTo("Company Manager - Take the Revenue Of Specific Quarter Of Specific Store") == 0) /* Taking All the Revenue Of Specific Store */							
 	    {
 	    	((Message)msg).setMsg(Get_The_Revenue_Of_Specific_Store_From_DB(msg,conn));  
 	    	this.sendToAllClients(msg);
 	    }
 	    
-	    if(((Message)msg).getOption().compareTo("Comapny Manager - Take The Orders Of Specific Store") == 0) 	    /* Taking All the Orders Of Specific Store */							
+	    if(((Message)msg).getOption().compareTo("Company Manager - Take The Orders Of Specific Store") == 0) 	    /* Taking All the Orders Of Specific Store */							
 	    {
 	    	((Message)msg).setMsg(Get_Orders_Of_Specific_Store_From_DB(msg,conn));  
 	    	this.sendToAllClients(msg);
 	    }
 	    
-	    if(((Message)msg).getOption().compareTo("Comapny Manager - Take The Complaints Of Specific Store") == 0) 	    /* Taking All the Complaints Of Specific Store */							
+	    if(((Message)msg).getOption().compareTo("Company Manager - Take The Complaints Of Specific Store") == 0) 	    /* Taking All the Complaints Of Specific Store */							
 	    {
 	    	((Message)msg).setMsg(Get_Complaints_Of_Specific_Store_From_DB(msg,conn));  
 	    	this.sendToAllClients(msg);
@@ -199,7 +199,7 @@ public class EchoServer extends AbstractServer
 	    	Update_The_Revenue_Of_All_The_Store(msg,conn);  
 	    } 
 	    
-	    if(((Message)msg).getOption().compareTo("Comapny Manager - Take The Surveys Of Specific Store In Specific Quarter") == 0) 	    /* Taking All the Complaints Of Specific Store */							
+	    if(((Message)msg).getOption().compareTo("Company Manager - Take The Surveys Of Specific Store In Specific Quarter") == 0) 	    /* Taking All the Complaints Of Specific Store */							
 	    {
 	    	((Message)msg).setMsg(Get_All_The_Survey_Of_Specific_Quarter_Of_Specific_Store_From_DB(msg,conn));  
 	    	this.sendToAllClients(msg);
