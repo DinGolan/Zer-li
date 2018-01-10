@@ -70,8 +70,6 @@ public class ChatClient extends AbstractClient
 		  clientUI.addComplaint(msg);	  
 	  else if(((Message)msg).getOption().compareTo("get all the survey") ==0)
 		  clientUI.displayUI(msg);
-	  else if(((Message)msg).getOption().compareTo("Add new complaint") ==0)
-		  clientUI.addComplaint(msg);
 	  else if(((Message)msg).getOption().compareTo("get all the survey") ==0)
 		  clientUI.displayUI(msg);
 	  else if(((Message)msg).getOption().compareTo("get all stores from DB") ==0)
@@ -81,9 +79,10 @@ public class ChatClient extends AbstractClient
 	  else if(((Message)msg).getOption().compareTo("insert order to DB") ==0)
 		  clientUI.displayUI(msg);
 	  else if(((Message)msg).getOption().compareTo("get all products in sale from DB") ==0)
+		  clientUI.displayUI(msg);	else if(((Message)msg).getOption().compareTo("Get all orders for this customer") ==0)
 		  clientUI.displayUI(msg);
-	  
-  }
+	  else if(((Message)msg).getOption().compareTo("Get all complaints numbers for this customer service worker") ==0)
+		  clientUI.displayUI(msg);  }
 
   /**
    * This method handles all data coming from the UI            

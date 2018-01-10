@@ -2,12 +2,8 @@ package controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import boundery.SurveyResultUI;
-import boundery.SurveyUI;
 import boundery.UserUI;
 import entity.Message;
-import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
