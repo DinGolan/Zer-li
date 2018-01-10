@@ -17,7 +17,7 @@
          <font>
             <Font name="Bodoni MT Bold" size="29.0" />
          </font></Label>
-      <Button id="btnCServiceWHandleComplaint" fx:id="btnCServiceWHandleComplaint" layoutX="71.0" layoutY="201.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="172.0" text="Follow up exist complaint" />
+      <Button id="btnCServiceWHandleComplaint" fx:id="btnCServiceWHandleComplaint" layoutX="71.0" layoutY="201.0" mnemonicParsing="false" onAction="#followComplaintBtn" prefHeight="44.0" prefWidth="172.0" text="Follow up exist complaint" />
       <Button id="btnCServiceWOpenNewComplaint" fx:id="btnCServiceWOpenNewComplaint" layoutX="71.0" layoutY="139.0" mnemonicParsing="false" onAction="#openNewComplaintBtn" prefHeight="44.0" prefWidth="172.0" text="Open new complaint" />
       <Button id="btnCServiceWInsertSurveyQ" fx:id="btnCServiceWInsertSurveyQ" layoutX="71.0" layoutY="76.0" mnemonicParsing="false" onAction="#insertSurveyQuestionsBtn" prefHeight="44.0" prefWidth="172.0" text="Insert survey questions" />
       <Button id="btnCServiceWSaveSurveyData" fx:id="btnCServiceWSaveSurveyData" layoutX="71.0" layoutY="264.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="172.0" text="Save survey data" />

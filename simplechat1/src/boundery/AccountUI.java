@@ -14,21 +14,10 @@ public class AccountUI extends Application //With This Class We Show the Account
 	//public static Vector<Account> accounts = new Vector<Account>();
 	public static Account account;
 	
-	public static void main( String args[] ) throws Exception
-	{ 
-		System.out.println("Please enter the server IP");
-		Scanner scanner = new Scanner(System.in);
-		String IP = "localhost"; //scanner.next(); /* Enter Server IP */
-		myClient = new ClientConsole(IP, 5555);
-        launch(args);		
-	} 
-	
 	@Override
-	public void start(Stage arg0) throws Exception 
-	{		
-		AccountController aFrame = new AccountController(); /* Create AccountController */				  
-		aFrame.start(arg0);
-	}
-	
+	public void start(Stage primaryStage) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}	
 }
 

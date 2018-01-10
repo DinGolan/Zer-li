@@ -39,13 +39,31 @@ public class CustomerServiceWorkerController {
 		FXMLLoader loader = new FXMLLoader();
 		Pane root = loader.load(getClass().getResource("/controller/ComplaintForm.fxml").openStream());
 		
-		ComplaintController complaintController = loader.getController();		
-		complaintController.loadComplaint(); //In this Line We take the Product that we Choose and Show his Details On the GUI */
+		//ComplaintController complaintController = loader.getController();		
+		//complaintController.loadComplaint(); //In this Line We take the Product that we Choose and Show his Details On the GUI */
 		
 		Scene scene = new Scene(root);			
 		//scene.getStylesheets().add(getClass().getResource("/controller/AccountForm.css").toExternalForm());
 		primaryStage.setScene(scene);
-		//primaryStage.setTitle("Account Credit-Card details");
+		primaryStage.setTitle("Complaint Form");
+		primaryStage.show();
+	
+	}
+	
+	public void followComplaintBtn(ActionEvent event) throws Exception //To open follow complaint option
+	{
+		((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
+		Stage primaryStage = new Stage();
+		FXMLLoader loader = new FXMLLoader();
+		Pane root = loader.load(getClass().getResource("/controller/ComplaintForWorker.fxml").openStream());
+		
+		//ComplaintHandleController complaintHandleController = loader.getController();		
+		//complaintHandleController.loadHisComplaints(); //we are loading all the requested complaints for this customer service worker
+		
+		Scene scene = new Scene(root);			
+		//scene.getStylesheets().add(getClass().getResource("/controller/AccountForm.css").toExternalForm());
+		primaryStage.setScene(scene);
+		primaryStage.setTitle("Complaints to handle");
 		primaryStage.show();
 	
 	}

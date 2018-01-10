@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="186.0" prefWidth="353.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ComplaintHandleController">
+   <children>
+      <Label layoutX="90.0" layoutY="27.0" prefHeight="32.0" prefWidth="193.0" text="Handle your complaint:" textAlignment="CENTER" textFill="#000dff">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font></Label>
+      <Button id="btnComplaintClose" fx:id="btnComplaintClose" layoutX="249.0" layoutY="140.0" mnemonicParsing="false" onAction="#closeComplaintHandleWindow" text="Close" />
+      <Button id="btnComplaintOpen" fx:id="btnComplaintOpen" layoutX="60.0" layoutY="140.0" mnemonicParsing="false" text="Open" />
+      <ComboBox layoutX="102.0" layoutY="68.0" prefWidth="150.0" />
+   </children>
+</AnchorPane>

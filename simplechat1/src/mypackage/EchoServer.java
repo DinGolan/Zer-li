@@ -101,18 +101,29 @@ public class EchoServer extends AbstractServer
 	    if(((Message)msg).getOption().compareTo("insert order to DB") == 0) //add new Order
 	    {
 	    	AddNewOrderToDB(msg,conn);	
-	    	}
-	
-	    
+	    }
+		    
 	    if(((Message)msg).getOption().compareTo("Add new account") == 0) //check if we add new account
         {
-    		((Message)msg).setMsg(AddNewAccountToDB(msg,conn));	
+    		((Message)msg).setMsg(addNewAccountToDB(msg,conn));	
     		this.sendToAllClients(msg);	
 		}
 	    
-	    if(((Message)msg).getOption().compareTo("Add new account") == 0) //check if we add new complaint
+	    if(((Message)msg).getOption().compareTo("Add new complaint") == 0) //check if we add new complaint
         {
-    		((Message)msg).setMsg(AddNewComplaintToDB(msg,conn));	
+    		((Message)msg).setMsg(addNewComplaintToDB(msg,conn));	
+    		this.sendToAllClients(msg);	
+		}
+	    
+	    if(((Message)msg).getOption().compareTo("Get all orders for this customer") == 0) //get all the orders that connected to specific customer
+        {
+    		((Message)msg).setMsg(getAllOrdersToCustomer(msg,conn));	
+    		this.sendToAllClients(msg);	
+		}
+	    
+	    if(((Message)msg).getOption().compareTo("Get all complaints numbers for this customer service worker") == 0) //get all the complaints that connected to specific customer service worker
+        {
+    		((Message)msg).setMsg(getAllComplaintsForWorker(msg,conn));	
     		this.sendToAllClients(msg);	
 		}
 	    
@@ -404,7 +415,65 @@ public class EchoServer extends AbstractServer
 	  return users;
   }
   
-  protected Account AddNewAccountToDB(Object msg, Connection conn) //this method add new account to DB
+  protected ArrayList<Integer> getAllOrdersToCustomer(Object msg, Connection conn) //this method get all the orders that match to specific customer
+  {
+	  String requestedCustomerId=(String)(((Message)msg).getMsg());
+	  ArrayList<Integer> ordersNums = new ArrayList<Integer>();
+	  Statement stmt;
+	  Integer co;
+
+	  try {
+		  	stmt = conn.createStatement();
+		  	String getCustomerExist = "SELECT * FROM project.user WHERE UserId='"+requestedCustomerId+"'AND UserPermission='CUSTOMER';"; // get if the customer is already at DB
+		  	ResultSet rs1 = stmt.executeQuery(getCustomerExist);
+		  	if(rs1.isBeforeFirst()) //we have customer at DB
+		  	{
+		  		stmt = conn.createStatement();
+		  		String getOrders = "SELECT * FROM project.order WHERE customerID='"+requestedCustomerId+"';"; //get all the orders numbers that connected to this customer
+		  		ResultSet rs2 = stmt.executeQuery(getOrders);
+		  		if(rs2.isBeforeFirst()) //we have orders to this customer at DB
+		  		{
+		  			while(rs2.next())
+		  			{
+		  				co = rs2.getInt("orderID");
+		  				ordersNums.add(co);
+		  			}
+		  		}
+		  		else
+		  			ordersNums.add(-1); //to know that we didn't have orders to this customer at DB
+		  	}
+		  	else
+		  		ordersNums.add(-2); //to know that we didn't have this customer at DB
+		  } catch (SQLException e) {	e.printStackTrace();}			  
+	  return ordersNums;
+  }
+  
+  protected ArrayList<Integer> getAllComplaintsForWorker(Object msg, Connection conn) //this method get all the complaints that match to specific customer service worker
+  {
+	  String requestedCustomerServiceWorkerName=(String)(((Message)msg).getMsg());
+	  ArrayList<Integer> complaintsNums = new ArrayList<Integer>();
+	  Statement stmt;
+	  Integer co;
+
+	  try {
+		  stmt = conn.createStatement();
+		  String getComplaints = "SELECT * FROM project.complaint WHERE ComplaintServiceWorkerUserName='"+requestedCustomerServiceWorkerName+"' AND ComplaintStatus!='CLOSE';"; //get all the unclosed complaints numbers that connected to this customer service worker
+		  ResultSet rs = stmt.executeQuery(getComplaints);
+		  if(rs.isBeforeFirst()) //we have complaints to this customer at DB
+		  {
+			  while(rs.next())
+			  {
+				  co = rs.getInt("ComplaintNum");
+				  complaintsNums.add(co);
+			  }
+		  }
+		  else
+			  complaintsNums.add(-1); //to know that we didn't have complaints to handle to this customer service worker at DB
+		  } catch (SQLException e) {	e.printStackTrace();}			  
+	  return complaintsNums;
+  }
+  
+  protected Account addNewAccountToDB(Object msg, Connection conn) //this method add new account to DB
   {
 	  Account newAccount = (Account)(((Message)msg).getMsg());
 	  System.out.println(((Account)((Message)msg).getMsg()));
@@ -439,61 +508,36 @@ public class EchoServer extends AbstractServer
 	 // }
   }
   
-  protected Complaint AddNewComplaintToDB(Object msg, Connection conn) //this method add new complaint to DB
+  protected Complaint addNewComplaintToDB(Object msg, Connection conn) //this method add new complaint to DB
   {
 	  Complaint newComplaint = (Complaint)(((Message)msg).getMsg());
-	  System.out.println(((Complaint)((Message)msg).getMsg()));
 	  Complaint complaint=new Complaint();
 	  Statement stmt;	  
 	  try {
 		  stmt = conn.createStatement(); //this statement check if we didn't have this complaint in the DB
-		  String getComplaintexist = "SELECT * FROM project.complaint WHERE ComplaintDetails="+newComplaint.getComplaintDetails()+"AND ComplaintUserId="+newComplaint.getComplaintUserId()+"AND ComplaintOrderId="+newComplaint.getComplaintOrderId()+";"; // get the complaint that already at DB
+		  String getComplaintexist = "SELECT * FROM project.complaint WHERE ComplaintOrderId="+newComplaint.getComplaintOrderId()+" AND ComplaintDetails='"+newComplaint.getComplaintDetails()+"';"; // get the complaint that already at DB (if the order is the same and the details of the complaint are the same)
 		  ResultSet rs = stmt.executeQuery(getComplaintexist);
 		  if(!rs.isBeforeFirst()) //this statement try to enter new complaint to the DB  
 		  {
 			  stmt = conn.createStatement();
-			  String getOrderExist = "SELECT * FROM project.order WHERE orderID="+newComplaint.getComplaintOrderId()+";"; // get if the order is already at DB
-			  ResultSet rs1 = stmt.executeQuery(getOrderExist);
-			  if(rs1.isBeforeFirst()) //we have order at DB
+			  String getCustomerServiceWorkerExist = "SELECT * FROM project.user WHERE UserName='"+newComplaint.getComplaintServiceWorkerUserName()+"' AND UserPermission='CUSTOMER_SERVICE_WORKER'"+";"; // get if the customer service worker is at DB
+			  ResultSet rs1 = stmt.executeQuery(getCustomerServiceWorkerExist);
+			  if(rs1.isBeforeFirst()) //we have customer service worker connected to this name at DB
 			  {
-				  stmt = conn.createStatement();
-				  String getCustomerExist = "SELECT * FROM project.user WHERE UserId="+newComplaint.getComplaintUserId()+";"; // get if the customer is already at DB
-				  ResultSet rs2 = stmt.executeQuery(getCustomerExist);
-				  if(rs2.isBeforeFirst()) //we have customer at DB
-				  {
-					  stmt = conn.createStatement();
-					  String getOrderToCustomerExist = "SELECT * FROM project.order WHERE orderID="+newComplaint.getComplaintOrderId()+"AND customerID="+newComplaint.getComplaintUserId()+";"; // get if the customer match to this order at DB
-					  ResultSet rs3 = stmt.executeQuery(getOrderToCustomerExist);
-					  if(rs3.isBeforeFirst()) //we have customer connected to this order at DB
-					  {
-						  stmt = conn.createStatement();
-						  String getCustomerServiceWorkerExist = "SELECT * FROM project.user WHERE UserName="+newComplaint.getComplaintServiceWorkerUserName()+"AND UserPermission='CUSTOMER SERVICE WORKER'"+";"; // get if the customer service worker is at DB
-						  ResultSet rs4 = stmt.executeQuery(getCustomerServiceWorkerExist);
-						  if(rs4.isBeforeFirst()) //we have customer service worker connected to this name at DB
-						  {
-							  stmt = conn.createStatement(); 
-							  String InsertComplaint = "INSERT INTO project.complaint(ComplaintNum, ComplaintUserId, ComplaintStatus, ComplaintDate, ComplaintDetails, ComplaintOrderId, ComplaintServiceWorkerUserName, ComplaintCompanyServiceWorkerAnswer, ComplaintCompansation)" + 
-							  		"VALUES("+newComplaint.getComplaintNum()+","+newComplaint.getComplaintUserId()+",'"+newComplaint.getComplaintStat()+"','"+newComplaint.getComplaintDate()+"',"+newComplaint.getComplaintDetails()+","+newComplaint.getComplaintOrderId()+","+newComplaint.getComplaintServiceWorkerUserName()+","+newComplaint.getComplaintCompanyServiceWorkerAnswer()+","+newComplaint.getComplaintCompansation()+");";
-							  stmt.executeUpdate(InsertComplaint);	 //Ï·„Â˜ ‡Ì ‡Ù˘¯ Ï‰ÎÈÒ ˙ÏÂ‰ ÁÏ˜È˙ ·ÏÈ ÁÏ˜ Ó‰˘„Â˙
-							  complaint.setComplaintNum(newComplaint.getComplaintNum());
-							  complaint.setComplaintStat(newComplaint.getComplaintStat());
-							  complaint.setComplaintUserId(newComplaint.getComplaintUserId());
-							  complaint.setComplaintDate(newComplaint.getComplaintDate());
-							  complaint.setComplaintDetails(newComplaint.getComplaintDetails());
-							  complaint.setComplaintOrderId(newComplaint.getComplaintOrderId());
-							  complaint.setComplaintServiceWorkerUserName(newComplaint.getComplaintServiceWorkerUserName());
-						  }
-						  else
-							  complaint.setComplaintDetails("Customer service worker doesn't exist");  					  
-					  }
-					  else //if the order match to other customer
-						  complaint.setComplaintDetails("Customer id and this order number doesn't match");				  
-				  }
-				  else //if the customer id that complain is wrong
-					  complaint.setComplaintDetails("Customer id that complain doesn't exist");
-			  }
-			  else //if the order number to complain is wrong
-				  complaint.setComplaintDetails("Order number to complain doesn't exist");	  
+				  stmt = conn.createStatement(); 
+				  String InsertComplaint = "INSERT INTO project.complaint(ComplaintUserId, ComplaintStatus, ComplaintDate, ComplaintDetails, ComplaintOrderId, ComplaintServiceWorkerUserName)" + 
+						"VALUES('"+newComplaint.getComplaintUserId()+"','"+newComplaint.getComplaintStat()+"','"+newComplaint.getComplaintDate()+"','"+newComplaint.getComplaintDetails()+"',"+newComplaint.getComplaintOrderId()+",'"+newComplaint.getComplaintServiceWorkerUserName()+"');";
+				  stmt.executeUpdate(InsertComplaint);	
+				  //complaint.setComplaintNum(newComplaint.getComplaintNum());
+				  complaint.setComplaintStat(newComplaint.getComplaintStat());
+				  complaint.setComplaintUserId(newComplaint.getComplaintUserId());
+				  complaint.setComplaintDate(newComplaint.getComplaintDate());
+				  complaint.setComplaintDetails(newComplaint.getComplaintDetails());
+				  complaint.setComplaintOrderId(newComplaint.getComplaintOrderId());
+				  complaint.setComplaintServiceWorkerUserName(newComplaint.getComplaintServiceWorkerUserName());		  	  
+			  }//◊ê◊ï◊ú◊ô ◊ú◊ë◊ò◊ú ◊ê◊™ ◊õ◊ú ◊îSET ◊î◊ñ◊î
+			  else
+				  complaint.setComplaintDetails("Customer service worker doesn't exist");  					    
 		  }
 		  else //if this complaint is already exist
 			  complaint.setComplaintDetails("Complaint already exist");

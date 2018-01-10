@@ -70,9 +70,11 @@ public class ChatClient extends AbstractClient
 		  clientUI.addComplaint(msg);	  
 	  else if(((Message)msg).getOption().compareTo("get all the survey") ==0)
 		  clientUI.displayUI(msg);
-	  else if(((Message)msg).getOption().compareTo("Add new complaint") ==0)
-		  clientUI.addComplaint(msg);
 	  else if(((Message)msg).getOption().compareTo("get all the survey") ==0)
+		  clientUI.displayUI(msg);
+	  else if(((Message)msg).getOption().compareTo("Get all orders for this customer") ==0)
+		  clientUI.displayUI(msg);
+	  else if(((Message)msg).getOption().compareTo("Get all complaints numbers for this customer service worker") ==0)
 		  clientUI.displayUI(msg);
   }
 

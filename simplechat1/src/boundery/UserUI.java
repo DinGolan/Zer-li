@@ -29,8 +29,8 @@ public class UserUI extends Application /* With This Class We Show the Product G
 	public static Vector<User> users = new Vector<User>();
 	public static ClientConsole myClient;
 	public static User user;
-	public static Account account;
-	public static Complaint complaint;
+	//public static Account account;
+	//public static Complaint complaint;
 
 	
 	public static void main( String args[] ) throws Exception 
