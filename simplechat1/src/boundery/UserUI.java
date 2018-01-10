@@ -1,5 +1,6 @@
 package boundery;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Vector;
 import controller.UserController;
@@ -34,6 +35,7 @@ public class UserUI extends Application /* With This Class We Show the Product G
 	public static Store store;
 	public static Account account;
 	public static Complaint complaint;
+	public static ArrayList<Integer> Id = new ArrayList<Integer>();
 
 	
 	public static void main( String args[] ) throws Exception 

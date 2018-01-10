@@ -185,7 +185,7 @@ public class ClientConsole implements ChatIF
 	    
 	    if(((Message)message).getOption().compareTo("get all the survey") == 0)
 	    {
-	    	SurveyResultUI.Id = (ArrayList<Integer>)(((Message)message).getMsg());
+	    	UserUI.Id = (ArrayList<Integer>)(((Message)message).getMsg());
 	    	SurveyResultController.flag = true;
 	    }
 	    
