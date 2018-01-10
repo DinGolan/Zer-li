@@ -518,11 +518,11 @@ public class EchoServer extends AbstractServer
 		  ResultSet rs = stmt.executeQuery(getComplaintexist);
 		  if(!rs.isBeforeFirst()) //this statement try to enter new complaint to the DB  
 		  {
-			  stmt = conn.createStatement();
-			  String getCustomerServiceWorkerExist = "SELECT * FROM project.user WHERE UserName='"+newComplaint.getComplaintServiceWorkerUserName()+"' AND UserPermission='CUSTOMER_SERVICE_WORKER'"+";"; // get if the customer service worker is at DB
-			  ResultSet rs1 = stmt.executeQuery(getCustomerServiceWorkerExist);
-			  if(rs1.isBeforeFirst()) //we have customer service worker connected to this name at DB
-			  {
+			  //stmt = conn.createStatement();
+			  //String getCustomerServiceWorkerExist = "SELECT * FROM project.user WHERE UserName='"+newComplaint.getComplaintServiceWorkerUserName()+"' AND UserPermission='CUSTOMER_SERVICE_WORKER'"+";"; // get if the customer service worker is at DB
+			  //ResultSet rs1 = stmt.executeQuery(getCustomerServiceWorkerExist);
+			  //if(rs1.isBeforeFirst()) //we have customer service worker connected to this name at DB
+			 // {
 				  stmt = conn.createStatement(); 
 				  String InsertComplaint = "INSERT INTO project.complaint(ComplaintUserId, ComplaintStatus, ComplaintDate, ComplaintDetails, ComplaintOrderId, ComplaintServiceWorkerUserName)" + 
 						"VALUES('"+newComplaint.getComplaintUserId()+"','"+newComplaint.getComplaintStat()+"','"+newComplaint.getComplaintDate()+"','"+newComplaint.getComplaintDetails()+"',"+newComplaint.getComplaintOrderId()+",'"+newComplaint.getComplaintServiceWorkerUserName()+"');";
@@ -534,8 +534,8 @@ public class EchoServer extends AbstractServer
 				  complaint.setComplaintDetails(newComplaint.getComplaintDetails());
 				  complaint.setComplaintOrderId(newComplaint.getComplaintOrderId());
 				  complaint.setComplaintServiceWorkerUserName(newComplaint.getComplaintServiceWorkerUserName());		  	  
-			  }//אולי לבטל את כל הSET הזה
-			  else
+			 // }//אולי לבטל את כל הSET הזה
+			 // else
 				  complaint.setComplaintDetails("Customer service worker doesn't exist");  					    
 		  }
 		  else //if this complaint is already exist

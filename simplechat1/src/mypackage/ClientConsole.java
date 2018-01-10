@@ -220,8 +220,8 @@ public class ClientConsole implements ChatIF
 	  if(((Complaint)((Message)message).getMsg()).getComplaintDetails().equals("Complaint already exist")) //complaint is already exist
 		  ComplaintUI.complaint.setComplaintDetails("Complaint already exist");
 	  	  
-	  else if (((Complaint)((Message)message).getMsg()).getComplaintDetails().equals("Customer service worker doesn't exist"))
-		  ComplaintUI.complaint.setComplaintDetails("Customer service worker doesn't exist");
+	  //else if (((Complaint)((Message)message).getMsg()).getComplaintDetails().equals("Customer service worker doesn't exist"))
+		//  ComplaintUI.complaint.setComplaintDetails("Customer service worker doesn't exist");
 		  
 	  else //אולי לבטל בכלל
 	  {

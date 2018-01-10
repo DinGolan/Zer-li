@@ -21,8 +21,6 @@
       <Button id="btnComplaintSave" fx:id="btnComplaintSave" layoutX="69.0" layoutY="446.0" mnemonicParsing="false" onAction="#saveComplaintButton" text="Save" />
       <Button id="btnComplaintClose" fx:id="btnComplaintClose" layoutX="320.0" layoutY="446.0" mnemonicParsing="false" onAction="#closeComplaintFormWindow" text="Close" />
       <Label layoutX="19.0" layoutY="132.0" text="Order number to complain:" />
-      <Label layoutX="19.0" layoutY="409.0" text="Customer service worker user name:" />
-      <TextField id="txtComplaintSreviceWorkerUserName" fx:id="txtComplaintSreviceWorkerUserName" layoutX="226.0" layoutY="405.0" />
       <ComboBox id="cmbComplaintOrderId" fx:id="cmbComplaintOrderId" disable="true" layoutX="186.0" layoutY="128.0" prefWidth="150.0" promptText="Press Load orders" />
       <Button id="btnComplaintLoadOrders" fx:id="btnComplaintLoadOrders" layoutX="349.0" layoutY="75.0" mnemonicParsing="false" onAction="#loadOrdersComboBox" text="Load orders" />
    </children>

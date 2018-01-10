@@ -3,6 +3,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+import boundery.CatalogUI;
 import boundery.ComplaintUI;
 import boundery.UserUI;
 import entity.Message;
@@ -79,9 +81,27 @@ public class ComplaintHandleController implements Initializable{
 	
 	public void initialize(URL arg0, ResourceBundle arg1) // Initialized The ComboBox of the complaint form
 	{
-	if(viewComplaintFlag == true)
+		while(viewComplaintFlag == false)
+		{
+			System.out.print(" ");
+		}
+		viewComplaintFlag=false;
 		loadHisComplaints();
 	}
+	
+	/*public void start(ActionEvent event) throws Exception     // With this Method we show the GUI of the Catalog 
+	{	
+		((Node)event.getSource()).getScene().getWindow().hide(); // Hiding primary window 
+		Stage primaryStage = new Stage();
+		FXMLLoader loader = new FXMLLoader();
+		Pane root = loader.load(getClass().getResource("/controller/ComplaintForWorker.fxml").openStream());
+		
+		Scene scene = new Scene(root);			
+		
+		primaryStage.setScene(scene);		
+		primaryStage.show();
+	    
+	}*/
 	
 	public void loadHisComplaints() //load his complaints
 	{
@@ -89,6 +109,7 @@ public class ComplaintHandleController implements Initializable{
 		Stage primaryStage = new Stage(); //Object present window with graphics elements
 		FXMLLoader loader = new FXMLLoader(); //load object
 		String cuurentCustomerServiceWorkerUserName=UserUI.user.getUserName();
+		System.out.println(cuurentCustomerServiceWorkerUserName);
 		ArrayList<Integer> complaintsNum = new ArrayList<Integer>();
 		Message msg = new Message(cuurentCustomerServiceWorkerUserName , "Get all complaints numbers for this customer service worker");
 		UserUI.myClient.accept(msg); // get all complaints for this customer service worker from DB
@@ -98,7 +119,7 @@ public class ComplaintHandleController implements Initializable{
 		}
 		loadComplaintsFlag=false;
 		for(Integer c : ComplaintUI.complaintsNumbers)
-			complaintsNum.add(c);
+			complaintsNum.add(c);//לבדוק מקרה שאין לו תלונות בכלל
 		if(complaintsNum.get(0)==-1) //we didn't have complaint to handle for this customer service worker at DB
 		{
 			//((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
@@ -115,61 +136,55 @@ public class ComplaintHandleController implements Initializable{
 		}
 		else 
 		{
-			cmbComplaintForWorker.setPromptText("Choose a complaint number");
+			//cmbComplaintForWorker.setPromptText("Choose a complaint number");
 			listForComplaintsWorkerComboBox = FXCollections.observableArrayList(complaintsNum); 
 			cmbComplaintForWorker.setItems(FXCollections.observableArrayList(listForComplaintsWorkerComboBox)); //set the complaints to this user
-			cmbComplaintForWorker.setDisable(false); //view the option to open combobox	
 		}
 	}
 	
-	/*public void viewComplaintDetails(ActionEvent event) throws Exception
+	public int getItemIndex() //With this Method we Take the selected complaint number
+	{
+		if(cmbComplaintForWorker.getSelectionModel().getSelectedIndex() == -1)
+			return -1;
+		return cmbComplaintForWorker.getSelectionModel().getSelectedIndex();
+	}
+	
+	public void viewComplaintDetails(ActionEvent event) throws Exception //open window with the complaint details
 	{
 		Pane root = null;
 		Stage primaryStage = new Stage(); //Object present window with graphics elements
 		FXMLLoader loader = new FXMLLoader(); //load object
-		String customerThatComplain=txtComplaintUserId.getText(); //אולי להפוך לגלובלי
-		ArrayList<Integer> ordersNum = new ArrayList<Integer>();
-		Message msg = new Message(customerThatComplain , "Get all orders for this customer");
-		UserUI.myClient.accept(msg); // get all orders for this user from DB
-		//while(ComplaintUI.ordersNumbers.size() == 0); //the waiting time is low להחליף  ל flag ואז לנסות לבטל את הכפתור של טעינת הזמנות
-		while(loadOrdersFlag==false)
-		{
-			System.out.print(""); //DOES NOT RUN WITHOUT THIS LINE
-		}
-		loadOrdersFlag=false;
-		for(Integer o : ComplaintUI.ordersNumbers)
-			ordersNum.add(o);
-		if(ordersNum.get(0)==-1) //we didn't have orders to this customer at DB
-		{
-			//לבדוק הדפסות ונעילות של אנבל דיסאבל
-			txtComplaintUserId.clear();
-			cmbComplaintOrderId.setPromptText("Doesn't have orders");
-			cmbComplaintOrderId.setDisable(true); //view the option to open combobox
-			root = loader.load(getClass().getResource("/controller/ComplaintOrderMsg.fxml").openStream());
-			Scene scene = new Scene(root);			
-			primaryStage.setScene(scene);	
-			primaryStage.setTitle("Error msg");
-			primaryStage.show();		
-		}
-		else if(ordersNum.get(0)==-2) //we didn't have this customer at DB
-		{
-			//txtComplaintUserId.clear();
-			cmbComplaintOrderId.setPromptText("Press Load orders");
-			cmbComplaintOrderId.setDisable(true); //view the option to open combobox
-			txtComplaintUserId.setPromptText("User doesn't exist");
-			root = loader.load(getClass().getResource("/controller/ComplaintCustomerMsg.fxml").openStream());
+		
+		if(getItemIndex() == -1) //didn't choose complaint number from the combobox
+		{ 
+			//((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
+			root = loader.load(getClass().getResource("/controller/ComplaintHandleComboboxMsg.fxml").openStream());
 			Scene scene = new Scene(root);			
 			primaryStage.setScene(scene);	
 			primaryStage.setTitle("Error msg");
 			primaryStage.show();	
 		}
-		else {
-		cmbComplaintOrderId.setPromptText("Press Load orders");
-		listForOrderComboBox = FXCollections.observableArrayList(ordersNum); 
-		cmbComplaintOrderId.setItems(FXCollections.observableArrayList(listForOrderComboBox)); //set the orders to this user
-		cmbComplaintOrderId.setDisable(false); //view the option to open combobox
+		else //choose complaint at the combobox
+		{
+			int complaintN=ComplaintUI.complaintsNumbers.get(getItemIndex()); //the requested complaint number
+			Message msg = new Message(complaintN , "Get complaint details");
+			UserUI.myClient.accept(msg); // get complaint details from DB
+			while(ComplaintUI.complaintFlag==false)
+			{
+				System.out.print(""); //DOES NOT RUN WITHOUT THIS LINE
+			}
+			ComplaintUI.complaintFlag=false;
+			//if(ordersNum.get(0)==-1) 
+			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+			root = loader.load(getClass().getResource("/controller/ComplaintAnswerForm.fxml").openStream());
+			Scene scene = new Scene(root);			
+			primaryStage.setScene(scene);	
+			primaryStage.setTitle("Complaint answer form");
+			primaryStage.show();
+		
+		//else if(ordersNum.get(0)==-2) //we didn't have this customer at DB
 		}
-	}*/
+	}
 	
 	/*public void loadOrdersComboBox(ActionEvent event) throws Exception
 	{
@@ -219,26 +234,6 @@ public class ComplaintHandleController implements Initializable{
 		cmbComplaintOrderId.setDisable(false); //view the option to open combobox
 		}
 	}*/
-	
-	//יש בעיה מדפיס את זה בנוסף להודעה אחחרתת
-	public int getItemIndex() //With this Method we Take the selected order number
-	{
-		if(cmbComplaintForWorker.getSelectionModel().getSelectedIndex() == -1)
-			return -1;
-		/*{
-			Pane root = null;
-			Stage primaryStage = new Stage(); //Object present window with graphics elements
-			FXMLLoader loader = new FXMLLoader(); //load object
-			root = loader.load(getClass().getResource("/controller/ComplaintComboboxMsg.fxml").openStream());
-			Scene scene = new Scene(root);			
-			primaryStage.setScene(scene);	
-			primaryStage.setTitle("Error msg");
-			primaryStage.show();	
-			return 0;
-		}*/
-			//return itemIndex;// לעשות שיקפיץ הודעה שהוא חייב לבחור משהו
-		return cmbComplaintForWorker.getSelectionModel().getSelectedIndex();
-	}
 			
 	/*public void saveComplaintButton(ActionEvent event) throws Exception //add new complaint to Zer-Li system
 	{		
