@@ -2,29 +2,16 @@ package boundery;
 
 import java.util.Scanner;
 import java.util.Vector;
-import controller.UserController;
+
+import entity.Message;
+import entity.Store;
+import entity.User;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import mypackage.ClientConsole;
-import entity.Account;
-
-import entity.Complaint;import entity.Message;import entity.Product;
-import entity.Store;
-import entity.User;
-import controller.CatalogController;
-import javafx.application.Application;
-import javafx.stage.Stage;
-import mypackage.ClientConsole;
-import java.util.Vector;
-import controller.DataCompanyManagerController;
-import javafx.application.Application;
-import javafx.stage.Stage;
-import mypackage.ClientConsole;
-import entity.User;
 
 public class UserUI extends Application /* With This Class We Show the Product GUI */{
 	
