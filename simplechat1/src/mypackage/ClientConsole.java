@@ -11,6 +11,7 @@ import boundery.UserUI;
 import client.ChatClient;
 import common.ChatIF;
 import controller.AccountController;
+import controller.ExpertSurveyController;
 import controller.SurveyResultController;
 import controller.UserController;
 import entity.Account;
@@ -139,8 +140,10 @@ public class ClientConsole implements ChatIF
 	    
 	    if(((Message)message).getOption().compareTo("get all the survey") == 0)
 	    {
-	    	SurveyResultUI.Id = (ArrayList<Integer>)(((Message)message).getMsg());
+	    	UserUI.Id = (ArrayList<Integer>)(((Message)message).getMsg());
 	    	SurveyResultController.flag = true;
+	    	ExpertSurveyController.flag= true;
+
 	    }
    }
   

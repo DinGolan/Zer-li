@@ -41,6 +41,7 @@ public class EchoServer extends AbstractServer
   final public static int DEFAULT_PORT = 5555;
   public static int counter=1;
 	public static ArrayList<Integer> resulrId = new ArrayList<Integer>();
+	public static ArrayList<Integer> conclusionId = new ArrayList<Integer>();
 
   //Constructors ****************************************************
   
@@ -88,7 +89,6 @@ public class EchoServer extends AbstractServer
 	    
 	    if(((Message)msg).getOption().compareTo("add survey") ==0) // add survey to db
 	    {
-	    	System.out.println("a");
 	    	AddSurveyToDB(msg,conn);
 	    }
 	    
@@ -130,6 +130,7 @@ public class EchoServer extends AbstractServer
 	    {
 	    	
 	    	((Message)msg).setMsg(getSurvey(msg,conn));	
+	    	resulrId = (ArrayList<Integer>)(((Message)msg).getMsg());
     		this.sendToAllClients(msg);
 
 	    }
@@ -146,6 +147,11 @@ public class EchoServer extends AbstractServer
 			    	addSurveyResult(msg,conn);
 
 	    	}
+	    }
+	    
+	    if(((Message)msg).getOption().compareTo("add surveyConclusion") ==0)							
+	    {
+			addSurveyConclusion(msg,conn);
 	    }
   }
 
@@ -270,9 +276,26 @@ public class EchoServer extends AbstractServer
   
     }
      
+     protected void addSurveyConclusion(Object msg, Connection conn) {
+    	 int id = Integer.parseInt(((ArrayList<String>)(((Message)msg).getMsg())).get(0));
+    	 if(conclusionId.contains(id) == true)//update one raw only once !! mybe add error msg
+    		 return;
+    	 conclusionId.add(id);
+    	        String query = "INSERT INTO project.expertaddconclusion (Surveyid, Conclusion)"
+    	                + " VALUES (?, ?)";
+    	        try {
+    	              PreparedStatement preparedStmt = (PreparedStatement) conn.prepareStatement(query);
+    	              preparedStmt.setInt(1, id);
+    	              preparedStmt.setString(2, ((ArrayList<String>)(((Message)msg).getMsg())).get(1));
+    	              preparedStmt.execute();
+    	        }catch (SQLException e) {	e.printStackTrace();}	
+
+    	 //}
+     }
+     
      protected void addSurveyResult(Object msg, Connection conn) {
     	 int id = ((ArrayList<Integer>)(((Message)msg).getMsg())).get(0);
-    	 resulrId.add(id);
+    	 //resulrId.add(id);
     	        String query = "INSERT INTO project.survey_result (Surveyid, sumQ1 ,sumQ2, sumQ3, sumQ4, sumQ5, sumQ6 , numOfClients)"
     	                + " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     	        try {
@@ -288,7 +311,6 @@ public class EchoServer extends AbstractServer
     	              preparedStmt.execute();
     	        }catch (SQLException e) {	e.printStackTrace();}	
 
-    	 //}
      }
      
      protected void updateSurveyResult(Object msg, Connection conn) {
@@ -485,7 +507,6 @@ public class EchoServer extends AbstractServer
   }
   
   protected ArrayList<Integer> getSurvey(Object msg, Connection conn){
-	  
 	  ArrayList<Integer> Id = new ArrayList<Integer>();
 	  Statement stmt;
 	  try {
