@@ -1,4 +1,5 @@
 package controller;
+import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -184,31 +185,45 @@ public class CatalogController implements Initializable {
 		btnProductInfo = Arrays.asList(info1, info2 , info3 ,info4 , info5 , info6 , info7 , info8 , info9 , info10 , info11 , info12);
 		labels = Arrays.asList(label1 , label2 , label3 , label4 , label5 , label6 , label7 , label8 , label9 , label10 , label11 , label12);
 		CatalogUI.products.clear();
+		CatalogUI.productsInSale.clear();
 		ArrayList<String> s = new ArrayList<String>();
 		Image image;
-		InputStream is;
 		msg = new Message(s, "get all products in DB");
-		int i=0 , j;
+		int i=0 , j ,k;
 		Product p;
+		boolean flagSale = false;
+		InputStream targetStream;
 		UserUI.myClient.accept(msg);
-		while(CatalogUI.products.size()==0); 
+		while(CatalogUI.products.size()==0);
+		msg.setOption("get all products in sale from DB");
+		msg.setMsg(UserUI.store);
+		UserUI.myClient.accept(msg);
+		while(CatalogUI.productsInSale.size()==0);
 		for(j=0 ; j<CatalogUI.products.size() ; j++)
 		{
+			flagSale = false;
 			p = CatalogUI.products.get(j);
-			if(p.getpType().equals(ProductType.valueOf("BOUQUET")))
+			for(k = 0 ; k<CatalogUI.productsInSale.size() ; k++)
 			{
-			       try {
-			            is = new FileInputStream(p.getpPicture()); 
-						image = new Image(is);
-						Pics.get(i).setImage(image);
-						labels.get(i).setText(p.getpName());
-						labels.get(i).setVisible(true);
-						btnProductInfo.get(i).setVisible(true);
-						btnProductInfo.get(i).setDisable(false);
-						i++;
-			        } catch (FileNotFoundException e) {
-			            e.printStackTrace();
-			        }
+				if(p.getpID().compareTo(CatalogUI.productsInSale.get(k).getpID()) == 0)
+				{
+					flagSale = true;
+					break;
+				}
+			}
+			if(flagSale == false) 
+			{
+				if(p.getpType().equals(ProductType.valueOf("BOUQUET")))
+				{
+					targetStream= new ByteArrayInputStream(p.getByteArray());
+					image = new Image(targetStream);
+					Pics.get(i).setImage(image);
+					labels.get(i).setText(p.getpName());
+					labels.get(i).setVisible(true);
+					btnProductInfo.get(i).setVisible(true);
+					btnProductInfo.get(i).setDisable(false);
+					i++;
+				}
 			}
 		}
 	}
@@ -217,14 +232,16 @@ public class CatalogController implements Initializable {
 	{
 		initall();
 		CatalogUI.products.clear();
+		CatalogUI.productsInSale.clear();
 		ArrayList<String> s = new ArrayList<String>();
 		Image image;
-		InputStream is;
 		msg = new Message(s, "get all products in DB");
 		Iterator<Product> iter = CatalogUI.products.iterator();
-		int i=0 , j;
+		int i=0 , j, k;
 		Product p;
+		boolean flagSale = false;
 		String type = null;
+		InputStream targetStream;
 		switch(((Node)event.getSource()).getId()) { //category that pressed
 		case "BouquetsLink":
 			type = "BOUQUET";
@@ -254,27 +271,73 @@ public class CatalogController implements Initializable {
 			type = "VASE";
 			flag = "VASE";
 			break;
+		case "SalesLink":
+			type = "SALE";
+			flag = "SALE";
+			break;
 		}
-		
+
 		UserUI.myClient.accept(msg);
 		while(CatalogUI.products.size()==0);
-		for(j=0 ; j<CatalogUI.products.size() ; j++) //create product in catalog
-		{
-			p = CatalogUI.products.get(j);
-			if(p.getpType().equals(ProductType.valueOf(type)))
+		msg.setOption("get all products in sale from DB");
+		msg.setMsg(UserUI.store);		
+		UserUI.myClient.accept(msg);
+		while(CatalogUI.productsInSale.size()==0);
+		if(type.compareTo("SALE") !=0)
 			{
-			       try {
-			            is = new FileInputStream(p.getpPicture()); 
-						image = new Image(is);
+			for(j=0 ; j<CatalogUI.products.size() ; j++) //create product in catalog
+			{
+				flagSale = false;
+				p = CatalogUI.products.get(j);
+				for(k = 0 ; k<CatalogUI.productsInSale.size() ; k++)
+				{
+					if(p.getpID().compareTo(CatalogUI.productsInSale.get(k).getpID()) == 0)
+					{
+						flagSale = true;
+						break;
+					}
+				}
+				if(flagSale == false) 
+				{
+					if(p.getpType().equals(Product.ProductType.valueOf(type)))
+					{
+						targetStream= new ByteArrayInputStream(p.getByteArray());
+						image = new Image(targetStream);
 						Pics.get(i).setImage(image);
 						labels.get(i).setText(p.getpName());
 						labels.get(i).setVisible(true);
 						btnProductInfo.get(i).setVisible(true);
 						btnProductInfo.get(i).setDisable(false);
 						i++;
-			        } catch (FileNotFoundException e) {
-			            e.printStackTrace();
-			        }
+					}
+				}
+			}
+		}
+		else
+		{
+			for(j=0 ; j<CatalogUI.products.size() ; j++) //create product in catalog
+			{
+				flagSale = false;
+				p = CatalogUI.products.get(j);
+				for(k = 0 ; k<CatalogUI.productsInSale.size() ; k++)
+				{
+					if(p.getpID().compareTo(CatalogUI.productsInSale.get(k).getpID()) == 0)
+					{
+						flagSale = true;
+						break;
+					}
+				}
+				if(flagSale == true) 
+				{
+					targetStream= new ByteArrayInputStream(p.getByteArray());
+					image = new Image(targetStream);
+					Pics.get(i).setImage(image);
+					labels.get(i).setText(p.getpName());
+					labels.get(i).setVisible(true);
+					btnProductInfo.get(i).setVisible(true);
+					btnProductInfo.get(i).setDisable(false);
+					i++;
+				}
 			}
 		}
 	}
@@ -333,6 +396,7 @@ public class CatalogController implements Initializable {
 	
 	public void logout(ActionEvent event) throws Exception /* logout and open login window */
 	{
+		CustomerController.flag = false;
 		Message msg = new Message(UserUI.user.getId(), "change User status to DISCONNECTED");
 		UserUI.myClient.accept(msg); // change User status to DISCONNECTED in DB
 		((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
