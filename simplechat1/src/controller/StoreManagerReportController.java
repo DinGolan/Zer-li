@@ -246,7 +246,7 @@ public class StoreManagerReportController implements Initializable {
 		ArrayList<Object> Store_Id_And_Date_Of_Report = new ArrayList<Object>();
 		Store_Id_And_Date_Of_Report.add(temp_Store_Id);
 		Store_Id_And_Date_Of_Report.add(temp_Date_Quarter_Report);
-		msg = new Message(Store_Id_And_Date_Of_Report, "Store Manager - Take the Revenue Of Specific Quarter Of Specific Store");
+		msg = new Message(Store_Id_And_Date_Of_Report,"Store Manager - Take the Revenue Of Specific Quarter Of Specific Store");
 		StoreManagerReportUI.myClient.accept(msg);
 		while(StoreManagerReportUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter.size() == 0);
 		Thread.sleep(200);
@@ -285,17 +285,18 @@ public class StoreManagerReportController implements Initializable {
 		while(StoreManagerReportUI.stores.size() == 0);
 		setStoresComboBox();
 		
-		/* ----------------- Update All the Revenue Of All The Store At The DB ------------------*/
-		
-		for(int i = 0 ; i < StoreManagerReportUI.stores.size() ; i++)
-		{
-			stores.add(StoreManagerReportUI.stores.get(i));
-		}
-		
-		msg = new Message(stores, "Store Manager - Update The Total Revenue Of All the Store");
-		StoreManagerReportUI.myClient.accept(msg);	
-	}
-	
+/**		/* ----------------- Update All the Revenue Of All The Store At The DB ------------------*/
+/**		
+/**		for(int i = 0 ; i < StoreManagerReportUI.stores.size() ; i++)
+/**		{
+/**			stores.add(StoreManagerReportUI.stores.get(i));
+/**		}
+/**		
+/**		msg = new Message(stores,"Store Manager - Update The Total Revenue Of All the Store");
+/**		StoreManagerReportUI.myClient.accept(msg);	
+/**	}  
+**/	
+	 }
 /* ------------------------------------------------------------------------------------------------------------------- */
 	
 }

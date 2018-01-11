@@ -16,10 +16,10 @@
       <ComboBox id="cmbFirstStores" fx:id="cmbFirstStores" layoutX="62.0" layoutY="134.0" onAction="#Click_On_Your_First_Store_Choise" prefHeight="39.0" prefWidth="175.0" promptText="Select Your First Store" />
       <ComboBox id="cmbReportsFirstStore" fx:id="cmbReportsFirstStore" layoutX="20.0" layoutY="232.0" onAction="#Click_On_Your_Quarter_Report_Store_One" prefHeight="39.0" prefWidth="259.0" promptText="Select The Date Report Of First Store" />
       <ComboBox id="cmbSecondStores" fx:id="cmbSecondStores" layoutX="381.0" layoutY="134.0" onAction="#Click_On_Your_Second_Store_Choise" prefHeight="39.0" prefWidth="175.0" promptText="Select Your Second Store" />
-      <Button id="btnCustomerComplaintStatusReport_Store_1" fx:id="btnCustomerComplaintStatusReport_Store_1" layoutX="220.0" layoutY="342.0" mnemonicParsing="false" onAction="#CustomerComplaintStatusReport_Store" text="Customer Complaint Status Report" />
-      <Button id="btnQuarterlyRevenueReport_Store_1" fx:id="btnQuarterlyRevenueReport_Store_1" layoutX="237.0" layoutY="384.0" mnemonicParsing="false" onAction="#QuarterlyRevenueReport_Store" text="Quarterly Revenue Report" />
-      <Button id="btnSatisfactionReport_Store_1" fx:id="btnSatisfactionReport_Store_1" layoutX="256.0" layoutY="427.0" mnemonicParsing="false" onAction="#SatisfactionReport_Store" text="Satisfaction Report" />
-      <Button id="btnOrderReport_Store_1" fx:id="btnOrderReport_Store_1" layoutX="277.0" layoutY="467.0" mnemonicParsing="false" onAction="#OrderReport_Store" text="Order Report" />
+      <Button id="btnCustomerComplaintStatusReport_Store" fx:id="btnCustomerComplaintStatusReport_Store" layoutX="220.0" layoutY="342.0" mnemonicParsing="false" onAction="#CustomerComplaintStatusReport_Store" text="Customer Complaint Status Report" />
+      <Button id="btnQuarterlyRevenueReport_Store" fx:id="btnQuarterlyRevenueReport_Store" layoutX="237.0" layoutY="384.0" mnemonicParsing="false" onAction="#QuarterlyRevenueReport_Store" text="Quarterly Revenue Report" />
+      <Button id="btnSatisfactionReport_Store" fx:id="btnSatisfactionReport_Store" layoutX="256.0" layoutY="427.0" mnemonicParsing="false" onAction="#SatisfactionReport_Store" text="Satisfaction Report" />
+      <Button id="btnOrderReport_Store" fx:id="btnOrderReport_Store" layoutX="277.0" layoutY="467.0" mnemonicParsing="false" onAction="#OrderReport_Store" text="Order Report" />
       <Button id="btnClose" fx:id="btnClose" layoutX="295.0" layoutY="509.0" mnemonicParsing="false" onAction="#closeTwoStoreWindow" prefHeight="25.0" prefWidth="50.0" text="Close" />
       <ComboBox id="cmbReportsSecondStore" fx:id="cmbReportsSecondStore" layoutX="345.0" layoutY="232.0" onAction="#Click_On_Your_Quarter_Report_Store_Two" prefHeight="39.0" prefWidth="259.0" promptText="Select The Date Report Of Second Store" />
       <Label layoutX="116.0" layoutY="85.0" text="Store - 1" textFill="#e41b1b">
@@ -32,5 +32,6 @@
             <Font name="System Italic" size="18.0" />
          </font>
       </Label>
+      <Button id="btnCompare" fx:id="btnCompare" layoutX="282.0" layoutY="300.0" mnemonicParsing="false" onAction="#Compare" text="Compare" />
    </children>
 </AnchorPane>

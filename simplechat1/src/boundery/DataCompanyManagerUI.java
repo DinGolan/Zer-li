@@ -15,10 +15,10 @@ public class DataCompanyManagerUI extends Application /* With This Class We Show
 	
 	public static void main( String args[] ) throws Exception
 	{ 
-		System.out.println("Please enter the server IP");
-		Scanner scanner = new Scanner(System.in);
-		String IP = scanner.next(); 				 /* Enter Server IP */
-		myClient = new ClientConsole(IP, 5555);
+//		System.out.println("Please enter the server IP");
+//		Scanner scanner = new Scanner(System.in);
+//		String IP = scanner.next(); 				 /* Enter Server IP */
+		myClient = new ClientConsole("localhost", 5555);
         launch(args);		
 	} 
 	

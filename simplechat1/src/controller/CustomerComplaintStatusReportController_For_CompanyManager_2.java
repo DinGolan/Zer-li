@@ -10,18 +10,14 @@ import entity.Message;
 import entity.Store;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 
 public class CustomerComplaintStatusReportController_For_CompanyManager_2 implements Initializable{
 
@@ -61,23 +57,8 @@ public class CustomerComplaintStatusReportController_For_CompanyManager_2 implem
 	
 	public void closeCustomerComplaintStatusReportWindow(ActionEvent event) throws Exception    /* To close the The Window of the Product GUI and Show The Catalog GUI again */
 	{ 
-		CompanyManagerReportUI.stores_For_Company_Manager.clear();
+		CompanyManagerReportUI.stores_For_Company_Manager_2.clear();
 		((Node)event.getSource()).getScene().getWindow().hide(); 	 /* Hiding primary window */
-		Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
-		FXMLLoader loader = new FXMLLoader(); 					 	 /* load object */
-		Pane root = null;
-		if(CompanyManagerReportController.Flag_For_Return_Window_With_One_Store_Or_With_Two_Store == 1)
-		{
-			root = loader.load(getClass().getResource("/controller/CompanyManagerReportForm_Window_Only_One_Store.fxml").openStream());
-		}
-		else if(CompanyManagerReportController.Flag_For_Return_Window_With_One_Store_Or_With_Two_Store == 2)
-		{
-			root = loader.load(getClass().getResource("/controller/CompanyManagerReportForm_Window_With_Two_Store.fxml").openStream());
-		}
-		
-		Scene scene = new Scene(root);			
-		primaryStage.setScene(scene);		
-		primaryStage.show();										   /* show catalog frame window */
 	}
 	
 	@Override
@@ -89,7 +70,7 @@ public class CustomerComplaintStatusReportController_For_CompanyManager_2 implem
 		String Year;
 		String Full_Date_String;
 		Date temp_Date_Quarter_Report;
-		temp_Date_Quarter_Report = (Date)CompanyManagerReportUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager.get(1);                             /* The Date */
+		temp_Date_Quarter_Report = (Date)CompanyManagerReportUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager_2.get(1);                             /* The Date */
 		Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
 		Year = Full_Date_String.substring(0 , 4);
 		Month = Full_Date_String.substring(5 , 7);
@@ -116,11 +97,11 @@ public class CustomerComplaintStatusReportController_For_CompanyManager_2 implem
 		}
 		
 		ArrayList<Object> StoreID_And_Date_Of_Report = new ArrayList<Object>();
-		StoreID_And_Date_Of_Report.add(CompanyManagerReportUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager.get(0));    /* The Store Id */
-		StoreID_And_Date_Of_Report.add(CompanyManagerReportUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager.get(1));    /* The Date Of the Report */
+		StoreID_And_Date_Of_Report.add(CompanyManagerReportUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager_2.get(0));    /* The Store Id */
+		StoreID_And_Date_Of_Report.add(CompanyManagerReportUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager_2.get(1));    /* The Date Of the Report */
 		msg = new Message(StoreID_And_Date_Of_Report,"Company Manager - Take The Complaints Of Specific Store"); 		/* I take All the Orders Of Specific Store , And After That I Take All the Complaint Of All The Order Of the Specific Store */
 		CompanyManagerReportUI.myClient.accept(msg);
-		while(CompanyManagerReportUI.complaints_For_Company_Manager.size() == 0);
+		while(CompanyManagerReportUI.complaints_For_Company_Manager_2.size() == 0);
 		try 
 		{
 			Thread.sleep(200);
@@ -140,14 +121,14 @@ public class CustomerComplaintStatusReportController_For_CompanyManager_2 implem
 		int [] Count_In_Chart;
 		ArrayList<String> Months_Of_Complaint = new ArrayList<String>();   /* All the Product That We Order On Specific Store */
 		ArrayList<String> Month_Of_Complaint_Without_Duplicate = new ArrayList<String>();
-		Date date_Report = (Date)CompanyManagerReportUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager.get(1);
+		Date date_Report = (Date)CompanyManagerReportUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager_2.get(1);
 		String String_Date_Report = String.valueOf(date_Report);
 		String Month = String_Date_Report.substring(5 , 7);
 		int Integer_Month = Integer.parseInt(Month);
 		                       						  
-		for(int i = 0 ; i < CompanyManagerReportUI.complaints_For_Company_Manager.size() ; i++)             /* In This Loop We Initialize All the Orders At ArrayList Of Orders */                                             
+		for(int i = 0 ; i < CompanyManagerReportUI.complaints_For_Company_Manager_2.size() ; i++)             /* In This Loop We Initialize All the Orders At ArrayList Of Orders */                                             
 		{
-			Months_Of_Complaint.add(CompanyManagerReportUI.complaints_For_Company_Manager.get(i).getComplaintMonth());
+			Months_Of_Complaint.add(CompanyManagerReportUI.complaints_For_Company_Manager_2.get(i).getComplaintMonth());
 		}
 		
 		for(int i = 0 ; i < Months_Of_Complaint.size() ; i++)             /* In This Loop We Initialize All the Orders At ArrayList Of Orders */                                             

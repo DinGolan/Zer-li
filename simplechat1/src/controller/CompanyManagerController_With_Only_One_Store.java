@@ -197,7 +197,7 @@ public class CompanyManagerController_With_Only_One_Store implements Initializab
 		msg = new Message(temp_Store_Id,"Comapny Manager - Take The Date Of All the Report Of Specific Store");
 		CompanyManagerReportUI.myClient.accept(msg);
 		while(CompanyManagerReportUI.Dates_For_Company_Manager.size() == 0);
-		Thread.sleep(500);
+		Thread.sleep(200);
 		set_Dates_Of_Report_At_ComboBox_For_CompanyManager();
 	}	
 	

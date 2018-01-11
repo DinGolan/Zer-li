@@ -204,6 +204,11 @@ public class EchoServer extends AbstractServer
 	    	((Message)msg).setMsg(Get_All_The_Survey_Of_Specific_Quarter_Of_Specific_Store_From_DB(msg,conn));  
 	    	this.sendToAllClients(msg);
 	    }
+	    if(((Message)msg).getOption().compareTo("Company Manager - Compare Between Two Different Quarter") == 0) 	    /* Taking All the Complaints Of Specific Store */							
+	    {
+	    	((Message)msg).setMsg(Get_All_The_Compare_Details_Between_Two_Diffrent_Quarter_From_DB(msg,conn));  
+	    	this.sendToAllClients(msg);
+	    }
   }
 
     
@@ -259,7 +264,472 @@ public class EchoServer extends AbstractServer
   }
   
   @SuppressWarnings("unchecked")
+  protected ArrayList<Object> Get_All_The_Compare_Details_Between_Two_Diffrent_Quarter_From_DB(Object msg , Connection conn)
+  {
+	  Statement stmt;
+	  ArrayList<Object> Date_Report_And_Store_ID = (ArrayList<Object>)(((Message)msg).getMsg());
+	  ArrayList<Object> All_The_Object_To_Return = new ArrayList<Object>();
+	  ArrayList<Order> Order_From_DB_Store_1 = new ArrayList<Order>();
+	  ArrayList<Order> Order_From_DB_Store_2 = new ArrayList<Order>();
+	  ArrayList<Product.ProductType> Product_Type_Of_Store_One = new ArrayList<Product.ProductType>();
+	  ArrayList<Product.ProductType> Product_Type_Of_Store_Two = new ArrayList<Product.ProductType>();
+	  ArrayList<Product> All_Product_Of_Store_One = new ArrayList<Product>();
+	  ArrayList<Product> All_Product_Of_Store_Two = new ArrayList<Product>();
+	  ArrayList<Survey> Survey_Of_Store_One = new ArrayList<Survey>();
+	  ArrayList<Survey> Survey_Of_Store_Two = new ArrayList<Survey>();
+	  int Store_One_ID = (int)Date_Report_And_Store_ID.get(0);
+	  int Store_Two_ID = (int)Date_Report_And_Store_ID.get(1);
+	  Date Date_Report_Store_One = (Date)Date_Report_And_Store_ID.get(2);
+	  Date Date_Report_Store_Two = (Date)Date_Report_And_Store_ID.get(3);
+	  String Report_Field;
+	  String Order_Field;
+	  String Product_In_Order_Field;
+	  String Complaint_Field;
+	  String Survey_Field;
+	  Order temp_Order = null;
+	  Product temp_Product = null;
+	  Survey temp_Survey = null;
+	  
+	  /* The Expected ArrayList<Object> --->
+	   * Index 0 = First Store ID 
+	   * Index 1 = Second Store ID 
+	   * Index 2 = Quarter Report - First Store
+	   * Index 3 = Quarter Report - Second Store 
+	   * Index 4 = Quantity Of Order - First Store
+	   * Index 5 = Quantity Of Order - Second Store 
+	   * Index 6 = Type Of Product In Order - First Store
+	   * Index 7 = Type Of Product In Order - Second Store
+	   * Index 8 = Quantity Of Each Product Type In Order - First Store
+	   * Index 9 = Quantity Of Each Product Type In Order - Second Store
+	   * Index 10 = The Revenue Of Store - First Store
+	   * Index 11 = The Revenue Of Store - Second Store
+	   * Index 12 = The Number Of Complaint - First Store
+	   * Index 13 = The Number Of Complaint - Second Store
+	   * Index 14 = Number Of Client That Fill Survey - First Store
+	   * Index 15 = Number Of Client That Fill Survey - Second Store
+	   * Index 16 = Total Average Of Survey Answer - First Store
+	   * Index 17 = Total Average Of Survey Answer - Second Store 
+	   * */
+	  
+	  /* ---------------------------------------------------------------------------------------------------------------------- */
+	  
+	  /* Add To The 'All_The_Object_To_Return' ---> Store ID Of Store One & Store ID Of Store Two */
+	  All_The_Object_To_Return.add(Store_One_ID);      /* Index Number ---> 0  */
+	  All_The_Object_To_Return.add(Store_Two_ID);      /* Index Number ---> 1  */
+	   
+	  try {
+		  
+	  /* ---------------------------------------------------------------------------------------------------------------------- */
+		  
+		  /* Add To The 'All_The_Object_To_Return' ---> Number Of Quarter Of Store One & Number Of Quarter Of Store Two */
+		  
+		  stmt = conn.createStatement();
+		  String getQuarterNumber_Store_One_Table = "SELECT * FROM project.report WHERE storeID = " + "'" + Store_One_ID + "'" + "AND DateOfCreateReport = " + "'" + Date_Report_Store_One + "'" + ";"; 
+		  ResultSet rs = stmt.executeQuery(getQuarterNumber_Store_One_Table);
+		  while(rs.next())
+	 	  {
+			  Report_Field = rs.getString("QuarterNumber");
+			  All_The_Object_To_Return.add(Report_Field);   /* Index Number ---> 2  */
+	 	  }
+		  
+		  String getQuarterNumberStore_Two_Table = "SELECT * FROM project.report WHERE storeID = " + "'" + Store_Two_ID + "'" + "AND DateOfCreateReport = " + "'" + Date_Report_Store_Two + "'" + ";"; 
+		  ResultSet rs_2 = stmt.executeQuery(getQuarterNumberStore_Two_Table);
+		  while(rs_2.next())
+	 	  {
+			  Report_Field = rs_2.getString("QuarterNumber");
+			  All_The_Object_To_Return.add(Report_Field);   /* Index Number ---> 3  */
+	 	  }
+		  
+	  /* ---------------------------------------------------------------------------------------------------------------------- */
+		  
+		  /* Add To The 'All_The_Object_To_Return' ---> The Number Of Quantity Order At Store One & Store Two */
+		  int Count_The_Number_Of_Order_In_Store_One = 0;
+		  int Count_The_Number_Of_Order_In_Store_Two = 0;
+		  int Integer_Help_Month_In_Order_Table_1;
+		  int Integer_Help_Year_In_Order_Table_1;
+		  int Real_Quarter_Number = Integer.parseInt((String.valueOf(All_The_Object_To_Return.get(2))));
+		  int Real_Year = Integer.parseInt(String.valueOf(Date_Report_Store_One).substring(0,4)); /* The Real Year */
+		  String String_Help_Date_In_Order_Table_1;
+		  String getOrderNumber_Of_Store_One = "SELECT * FROM project.order WHERE StoreID = " + "'" + Store_One_ID + "'" + ";"; 
+		  ResultSet rs_3 = stmt.executeQuery(getOrderNumber_Of_Store_One);
+		  while(rs_3.next())
+	 	  {
+			  String_Help_Date_In_Order_Table_1 = rs_3.getString("orderDate");
+			  Integer_Help_Month_In_Order_Table_1 = Integer.parseInt(String_Help_Date_In_Order_Table_1.substring(5, 7));
+			  if((Integer_Help_Month_In_Order_Table_1 == Real_Quarter_Number) || ((Integer_Help_Month_In_Order_Table_1 + 2) / 3) == Real_Quarter_Number)
+			  {
+				  Integer_Help_Year_In_Order_Table_1 = Integer.parseInt(String_Help_Date_In_Order_Table_1.substring(0, 4));
+				  if(Real_Year == Integer_Help_Year_In_Order_Table_1)
+				  {
+					  temp_Order = new Order();
+					  Order_Field = rs_3.getString("orderID");
+					  temp_Order.setOrderID(Integer.parseInt(Order_Field));
+					  Order_Field = rs_3.getString("orderTotalPrice");
+					  temp_Order.setOrderTotalPrice(Integer.parseInt(Order_Field));
+					  Order_Field = rs_3.getString("orderDate");
+					  temp_Order.setOrderDate(Date.valueOf(Order_Field));
+					  Order_From_DB_Store_1.add(temp_Order);
+					  Count_The_Number_Of_Order_In_Store_One++;
+				  }
+		 	  }
+	 	  }  
+		  
+		  All_The_Object_To_Return.add(Count_The_Number_Of_Order_In_Store_One);      /* Index Number ---> 4  */
+		  
+		  int Integer_Help_Month_In_Order_Table_2;
+		  int Integer_Help_Year_In_Order_Table_2;
+		  String String_Help_Date_In_Order_Table_2;
+		  Real_Quarter_Number = Integer.parseInt((String.valueOf(All_The_Object_To_Return.get(3)))); 
+		  Real_Year = Integer.parseInt(String.valueOf(Date_Report_Store_Two).substring(0,4)); /* The Real Year */
+		  
+		  String getOrderNumber_Of_Store_Two = "SELECT * FROM project.order WHERE StoreID = " + "'" + Store_Two_ID + "'" + ";"; 
+		  ResultSet rs_4 = stmt.executeQuery(getOrderNumber_Of_Store_Two);
+		  while(rs_4.next())
+	 	  {
+			  String_Help_Date_In_Order_Table_2 = rs_4.getString("orderDate");
+			  Integer_Help_Month_In_Order_Table_2 = Integer.parseInt(String_Help_Date_In_Order_Table_2.substring(5, 7));
+			  if((Integer_Help_Month_In_Order_Table_2 == Real_Quarter_Number) || ((Integer_Help_Month_In_Order_Table_2 + 2) / 3) == Real_Quarter_Number)
+			  {
+				  Integer_Help_Year_In_Order_Table_2 = Integer.parseInt(String_Help_Date_In_Order_Table_2.substring(0, 4));
+				  if(Real_Year == Integer_Help_Year_In_Order_Table_2)
+				  {
+					  temp_Order = new Order();
+					  Order_Field = rs_4.getString("orderID");
+					  temp_Order.setOrderID(Integer.parseInt(Order_Field));
+					  Order_Field = rs_4.getString("orderTotalPrice");
+					  temp_Order.setOrderTotalPrice(Integer.parseInt(Order_Field));
+					  Order_Field = rs_4.getString("orderDate");
+					  temp_Order.setOrderDate(Date.valueOf(Order_Field));
+					  Order_From_DB_Store_2.add(temp_Order);
+					  Count_The_Number_Of_Order_In_Store_Two++;
+				  }
+			  }  
+	 	  } 
+		  
+		  All_The_Object_To_Return.add(Count_The_Number_Of_Order_In_Store_Two);      /* Index Number ---> 5  */
+		
+     /* ---------------------------------------------------------------------------------------------------------------------- */
+		  
+		  /* Add To The 'All_The_Object_To_Return' ---> The Product Type Of Order At Store One & Store Two */
+		  
+		  String temp_Product_In_Order_Field;
+		  
+		  for(int i = 0 ; i < Order_From_DB_Store_1.size() ; i++)
+		  {
+			  String getProduct_Type_Of_Store_One = "SELECT * FROM project.productinorder WHERE OrderID = " + "'" + Order_From_DB_Store_1.get(i).getOrderID() + "'" + ";"; 
+			  ResultSet rs_5 = stmt.executeQuery(getProduct_Type_Of_Store_One);
+			  while(rs_5.next())
+		 	  {
+				  Product_In_Order_Field =  rs_5.getString("ProductType");
+				  if(Product_Type_Of_Store_One.contains(Product.ProductType.valueOf(Product_In_Order_Field)) == false) /* I He Not Contain */
+				  {
+					  Product_Type_Of_Store_One.add(Product.ProductType.valueOf(Product_In_Order_Field));
+					  
+					  temp_Product = new Product();
+					  temp_Product.setpType(Product.ProductType.valueOf(Product_In_Order_Field));
+					  Product_In_Order_Field =  rs_5.getString("QuantityOfProduct");
+					  temp_Product.setQuantity(Integer.parseInt(Product_In_Order_Field));
+					  All_Product_Of_Store_One.add(temp_Product);
+				  }
+				  else
+				  {
+					  Product_In_Order_Field =  rs_5.getString("QuantityOfProduct");
+					  temp_Product_In_Order_Field = rs_5.getString("ProductType");
+					  for(int j = 0 ; j < All_Product_Of_Store_One.size() ; j++)
+					  {
+						  if(String.valueOf(All_Product_Of_Store_One.get(j).getpType()).compareTo(temp_Product_In_Order_Field) == 0) /* If The Type In The Array List Equal to The Type In DB */
+						  {
+							  All_Product_Of_Store_One.get(j).setQuantity(All_Product_Of_Store_One.get(j).getQuantity() + Integer.parseInt(Product_In_Order_Field));
+						  }
+					  }
+				  }
+		 	  }
+			  
+			
+		  }
+		  
+		  All_The_Object_To_Return.add(Product_Type_Of_Store_One);   /* Index Number ---> 6 */
+		  
+		  for(int i = 0 ; i < Order_From_DB_Store_2.size() ; i++)
+		  {
+			  String getProduct_Type_Of_Store_Two = "SELECT * FROM project.productinorder WHERE OrderID = " + "'" + Order_From_DB_Store_2.get(i).getOrderID() + "'" + ";"; 
+			  ResultSet rs_6 = stmt.executeQuery(getProduct_Type_Of_Store_Two);
+			  while(rs_6.next())
+		 	  {
+				  Product_In_Order_Field =  rs_6.getString("ProductType");
+				  if(Product_Type_Of_Store_Two.contains(Product.ProductType.valueOf(Product_In_Order_Field)) == false) /* I He Not Contain */
+				  {
+					  Product_Type_Of_Store_Two.add(Product.ProductType.valueOf(Product_In_Order_Field));
+					  
+					  temp_Product = new Product();
+					  temp_Product.setpType(Product.ProductType.valueOf(Product_In_Order_Field));
+					  Product_In_Order_Field = rs_6.getString("QuantityOfProduct");
+					  temp_Product.setQuantity(Integer.parseInt(Product_In_Order_Field));
+					  All_Product_Of_Store_Two.add(temp_Product);
+				  }
+				  else
+				  {
+					  Product_In_Order_Field =  rs_6.getString("QuantityOfProduct");
+					  temp_Product_In_Order_Field = rs_6.getString("ProductType");
+					  for(int j = 0 ; j < All_Product_Of_Store_Two.size() ; j++)
+					  {
+						  if(String.valueOf(All_Product_Of_Store_Two.get(j).getpType()).compareTo(temp_Product_In_Order_Field) == 0) /* If The Type In The Array List Equal to The Type In DB */
+						  {
+							  All_Product_Of_Store_Two.get(j).setQuantity(All_Product_Of_Store_Two.get(j).getQuantity() + Integer.parseInt(Product_In_Order_Field));
+						  }
+					  }
+				  }
+		 	  }
+		  }
+		  
+		  All_The_Object_To_Return.add(Product_Type_Of_Store_Two);        /* Index Number ---> 7 */
+		  
+		  
+		  
+	/* ---------------------------------------------------------------------------------------------------------------------- */	  
+		  
+		  /* Add To The 'All_The_Object_To_Return' ---> The Size Of Each Product Type In Order - At Store One & Store Two */
+		  
+		  All_The_Object_To_Return.add(All_Product_Of_Store_One); /* Index Number ---> 8 */
+		  All_The_Object_To_Return.add(All_Product_Of_Store_Two); /* Index Number ---> 9 */
+		  
+	 /* ---------------------------------------------------------------------------------------------------------------------- */  
+		  
+		  /* Add To The 'All_The_Object_To_Return' ---> The Revenue Of - Store One & Store Two */
+		  
+		  int Integer_Help_Year_In_Complaint_Table_1;
+		  int Integer_Help_Month_In_Complaint_Table_1;
+		  String String_Help_Date_In_Complaint_Table_1;
+		  int Count_Number_Of_Complaint_In_Store_One = 0;
+		  int Count_Number_Of_Complaint_In_Store_Two = 0;
+		  double Revenue_Of_Specific_Order = 0;
+		  double Sum_The_Revenue_Of_Store_One = 0;
+		  double Sum_The_Revenue_Of_Store_Two = 0;
+		  Real_Quarter_Number = Integer.parseInt((String.valueOf(All_The_Object_To_Return.get(2)))); 
+		  Real_Year = Integer.parseInt(String.valueOf(Date_Report_Store_One).substring(0,4)); /* The Real Year */
+		  
+		  for(int i = 0 ; i < Order_From_DB_Store_1.size() ; i++)
+		  {
+			  Revenue_Of_Specific_Order = Order_From_DB_Store_1.get(i).getOrderTotalPrice();
+			  String getComlaint_Of_Store_One = "SELECT * FROM project.complaint WHERE orderID = " + "'" + Order_From_DB_Store_1.get(i).getOrderID() + "'" + ";"; 
+			  ResultSet rs_7 = stmt.executeQuery(getComlaint_Of_Store_One);
+			  
+			  while(rs_7.next())
+		 	  {
+				  String_Help_Date_In_Complaint_Table_1 = rs_7.getString("complaintDate");
+				  Integer_Help_Month_In_Complaint_Table_1 = Integer.parseInt(String_Help_Date_In_Complaint_Table_1.substring(5,7));
+				  if((Integer_Help_Month_In_Complaint_Table_1 == Real_Quarter_Number) || ((Integer_Help_Month_In_Complaint_Table_1 + 2) / 3) == Real_Quarter_Number)
+				  {
+					  Integer_Help_Year_In_Complaint_Table_1 = Integer.parseInt(String_Help_Date_In_Complaint_Table_1.substring(0,4));
+					  if(Real_Year == Integer_Help_Year_In_Complaint_Table_1)
+					  {
+						  Count_Number_Of_Complaint_In_Store_One++;
+						  Complaint_Field = rs_7.getString("complaintCompansation");
+						  Revenue_Of_Specific_Order = Revenue_Of_Specific_Order - Double.parseDouble(Complaint_Field);
+						  Order_From_DB_Store_1.get(i).setOrderTotalPrice(Revenue_Of_Specific_Order);
+						  Revenue_Of_Specific_Order = Order_From_DB_Store_1.get(i).getOrderTotalPrice();
+					  }
+				  } 
+		 	  } 
+			  
+			  Sum_The_Revenue_Of_Store_One += Order_From_DB_Store_1.get(i).getOrderTotalPrice();;
+		  }
+		  
+		  All_The_Object_To_Return.add(Sum_The_Revenue_Of_Store_One); /* Index Number ---> 10 */
+		  
+		  Revenue_Of_Specific_Order = 0;
+		  int Integer_Help_Year_In_Complaint_Table_2;
+		  int Integer_Help_Month_In_Complaint_Table_2;
+		  String String_Help_Date_In_Complaint_Table_2;
+		  Real_Quarter_Number = Integer.parseInt((String.valueOf(All_The_Object_To_Return.get(3)))); 
+		  Real_Year = Integer.parseInt(String.valueOf(Date_Report_Store_Two).substring(0,4)); /* The Real Year */
+		  
+		  for(int i = 0 ; i < Order_From_DB_Store_2.size() ; i++)
+		  {
+			  Revenue_Of_Specific_Order = Order_From_DB_Store_2.get(i).getOrderTotalPrice();
+			  String getComlaint_Of_Store_Two = "SELECT * FROM project.complaint WHERE orderID = " + "'" + Order_From_DB_Store_2.get(i).getOrderID() + "'" + ";"; 
+			  ResultSet rs_8 = stmt.executeQuery(getComlaint_Of_Store_Two);
+			  
+			  while(rs_8.next())
+		 	  {
+				  String_Help_Date_In_Complaint_Table_2 = rs_8.getString("complaintDate");
+				  Integer_Help_Month_In_Complaint_Table_2 = Integer.parseInt(String_Help_Date_In_Complaint_Table_2.substring(5,7));
+				  if((Integer_Help_Month_In_Complaint_Table_2 == Real_Quarter_Number) || ((Integer_Help_Month_In_Complaint_Table_2 + 2) / 3) == Real_Quarter_Number)
+				  {
+					  Integer_Help_Year_In_Complaint_Table_2 = Integer.parseInt(String_Help_Date_In_Complaint_Table_2.substring(0,4));
+					  if(Real_Year == Integer_Help_Year_In_Complaint_Table_2)
+					  {
+						  Count_Number_Of_Complaint_In_Store_Two++;
+						  Complaint_Field = rs_8.getString("complaintCompansation");
+						  Revenue_Of_Specific_Order = Revenue_Of_Specific_Order - Double.parseDouble(Complaint_Field);
+						  Order_From_DB_Store_2.get(i).setOrderTotalPrice(Revenue_Of_Specific_Order);
+						  Revenue_Of_Specific_Order = Order_From_DB_Store_2.get(i).getOrderTotalPrice();
+					  }
+				  } 
+		 	  } 
+			  
+			  Sum_The_Revenue_Of_Store_Two += Order_From_DB_Store_2.get(i).getOrderTotalPrice();;
+		  }
+		  
+		  All_The_Object_To_Return.add(Sum_The_Revenue_Of_Store_Two); /* Index Number ---> 11 */
+		  
+     /* ---------------------------------------------------------------------------------------------------------------------- */  
+		  
+		  /* Add To The 'All_The_Object_To_Return' ---> The Number Of Complaint At - Store One & Store Two */
+		  
+		  All_The_Object_To_Return.add(Count_Number_Of_Complaint_In_Store_One); /* Index Number ---> 12 */
+		  All_The_Object_To_Return.add(Count_Number_Of_Complaint_In_Store_Two); /* Index Number ---> 13 */
+		  
+	 /* ---------------------------------------------------------------------------------------------------------------------- */  
+		  
+		  /* Add To The 'All_The_Object_To_Return' ---> The Number Of Client That Fill The Survey At - Store One & Store Two */
+		  
+		  /* -------------------------------------- For Store - 1 ------------------------------------------- */
+		  
+		  int Integer_Help_Year_In_Survey_Table_1;
+		  int Integer_Help_Month_In_Survey_Table_1;
+		  String String_Help_Date_In_Survey_Table_1;
+		  double [] Sum_Of_Specific_Question_At_Store_One = new double[6];
+		  double Sum_Number_Of_Client_Store_One = 0;
+		  double Total_Avg_At_Store_One = 0;
+		  Real_Quarter_Number = Integer.parseInt((String.valueOf(All_The_Object_To_Return.get(2))));
+		  Real_Year = Integer.parseInt(String.valueOf(Date_Report_Store_One).substring(0,4));      /* The Real Year */
+		  
+		  String getSurvey_Of_Store_One = "SELECT * FROM project.survey ;" ; 
+		  ResultSet rs_9 = stmt.executeQuery(getSurvey_Of_Store_One);
+		  while(rs_9.next())
+		  {
+			  String_Help_Date_In_Survey_Table_1 = rs_9.getString("SurveyDate");
+			  Integer_Help_Month_In_Survey_Table_1 = Integer.parseInt(String_Help_Date_In_Survey_Table_1.substring(5,7));
+			  if((Integer_Help_Month_In_Survey_Table_1 == Real_Quarter_Number) || ((Integer_Help_Month_In_Survey_Table_1 + 2) / 3) == Real_Quarter_Number)
+			  {
+				  Integer_Help_Year_In_Survey_Table_1 = Integer.parseInt(String_Help_Date_In_Survey_Table_1.substring(0,4));
+				  if(Real_Year == Integer_Help_Year_In_Survey_Table_1)
+				  {
+					  temp_Survey = new Survey();
+					  Survey_Field  = rs_9.getString("Surveyid");
+					  temp_Survey.setSurvey_Id(Integer.parseInt(Survey_Field));
+					  Survey_Of_Store_One.add(temp_Survey);
+				  }
+			  } 
+		  }
+		  
+		  for(int i = 0 ; i < Survey_Of_Store_One.size() ; i++)
+		  {
+			  String getAnswer_Of_Specific_Survey_At_Store_One = "SELECT * FROM project.survey_result WHERE Surveyid = " + "'" + Survey_Of_Store_One.get(i).getSurvey_Id() + "'" + ";"; 
+			  ResultSet rs_10 = stmt.executeQuery(getAnswer_Of_Specific_Survey_At_Store_One);
+			  while(rs_10.next())
+			  {
+				  Survey_Field = rs_10.getString("numOfClients");
+				  Survey_Of_Store_One.get(i).setNum_Of_Clients(Integer.parseInt(Survey_Field));
+				  Survey_Field = rs_10.getString("sumQ1");
+				  Sum_Of_Specific_Question_At_Store_One[0] += Integer.parseInt(Survey_Field);
+				  Survey_Field = rs_10.getString("sumQ2");
+				  Sum_Of_Specific_Question_At_Store_One[1] += Integer.parseInt(Survey_Field);
+				  Survey_Field = rs_10.getString("sumQ3");
+				  Sum_Of_Specific_Question_At_Store_One[2] += Integer.parseInt(Survey_Field);
+				  Survey_Field = rs_10.getString("sumQ4");
+				  Sum_Of_Specific_Question_At_Store_One[3] += Integer.parseInt(Survey_Field);
+				  Survey_Field = rs_10.getString("sumQ5");
+				  Sum_Of_Specific_Question_At_Store_One[4] += Integer.parseInt(Survey_Field);
+				  Survey_Field = rs_10.getString("sumQ6");
+				  Sum_Of_Specific_Question_At_Store_One[5] += Integer.parseInt(Survey_Field);
+			  }
+		  }
+		  
+		  for(int i = 0 ; i < Survey_Of_Store_One.size() ; i++)
+		  {
+			  Sum_Number_Of_Client_Store_One += Survey_Of_Store_One.get(i).getNum_Of_Clients();
+		  }
+		  
+		  for(int i = 0 ; i < Sum_Of_Specific_Question_At_Store_One.length ; i++)
+		  {
+			  Sum_Of_Specific_Question_At_Store_One[i] /= Sum_Number_Of_Client_Store_One;     /* In Each Cell I get The Average Of Each Question */
+			  Total_Avg_At_Store_One += Sum_Of_Specific_Question_At_Store_One[i];
+		  }
+		  
+		  All_The_Object_To_Return.add(Sum_Number_Of_Client_Store_One); /* Index Number ---> 14 */
+		  
+		  /* -------------------------------------- For Store - 2 ------------------------------------------- */
+		  
+		  double [] Sum_Of_Specific_Question_At_Store_Two = new double[6];
+		  double Sum_Number_Of_Client_Store_Two = 0;
+		  double Total_Avg_At_Store_Two = 0;
+		  int Integer_Help_Year_In_Survey_Table_2;
+		  int Integer_Help_Month_In_Survey_Table_2;
+		  String String_Help_Date_In_Survey_Table_2;
+		  Real_Quarter_Number = Integer.parseInt((String.valueOf(All_The_Object_To_Return.get(3))));
+		  Real_Year = Integer.parseInt(String.valueOf(Date_Report_Store_One).substring(0,4)); /* The Real Year */
+		 
+		  String getSurvey_Of_Store_Two = "SELECT * FROM project.survey ;" ; 
+		  ResultSet rs_11 = stmt.executeQuery(getSurvey_Of_Store_Two);
+		  while(rs_11.next())
+		  {
+			  String_Help_Date_In_Survey_Table_2 = rs_11.getString("SurveyDate");
+			  Integer_Help_Month_In_Survey_Table_2 = Integer.parseInt(String_Help_Date_In_Survey_Table_2.substring(5,7));
+			  if((Integer_Help_Month_In_Survey_Table_2 == Real_Quarter_Number) || ((Integer_Help_Month_In_Survey_Table_2 + 2) / 3) == Real_Quarter_Number)
+			  {
+				  Integer_Help_Year_In_Survey_Table_2 = Integer.parseInt(String_Help_Date_In_Survey_Table_2.substring(0,4));
+				  if(Real_Year == Integer_Help_Year_In_Survey_Table_2)
+				  {
+					  temp_Survey = new Survey();
+					  Survey_Field  = rs_11.getString("Surveyid");
+					  temp_Survey.setSurvey_Id(Integer.parseInt(Survey_Field));
+					  Survey_Of_Store_Two.add(temp_Survey);
+				  }
+			  } 
+		  }
+		  
+		  for(int i = 0 ; i < Survey_Of_Store_Two.size() ; i++)
+		  {
+			  String getAnswer_Of_Specific_Survey_At_Store_Two = "SELECT * FROM project.survey_result WHERE Surveyid = " + "'" + Survey_Of_Store_Two.get(i).getSurvey_Id() + "'" + ";"; 
+			  ResultSet rs_12 = stmt.executeQuery(getAnswer_Of_Specific_Survey_At_Store_Two);
+			  while(rs_12.next())
+			  {
+				  Survey_Field = rs_12.getString("numOfClients");
+				  Survey_Of_Store_Two.get(i).setNum_Of_Clients(Integer.parseInt(Survey_Field));
+				  Survey_Field = rs_12.getString("sumQ1");
+				  Sum_Of_Specific_Question_At_Store_Two[0] += Integer.parseInt(Survey_Field);
+				  Survey_Field = rs_12.getString("sumQ2");
+				  Sum_Of_Specific_Question_At_Store_Two[1] += Integer.parseInt(Survey_Field);
+				  Survey_Field = rs_12.getString("sumQ3");
+				  Sum_Of_Specific_Question_At_Store_Two[2] += Integer.parseInt(Survey_Field);
+				  Survey_Field = rs_12.getString("sumQ4");
+				  Sum_Of_Specific_Question_At_Store_Two[3] += Integer.parseInt(Survey_Field);
+				  Survey_Field = rs_12.getString("sumQ5");
+				  Sum_Of_Specific_Question_At_Store_Two[4] += Integer.parseInt(Survey_Field);
+				  Survey_Field = rs_12.getString("sumQ6");
+				  Sum_Of_Specific_Question_At_Store_Two[5] += Integer.parseInt(Survey_Field);
+			  }
+		  }
+		  
+		  for(int i = 0 ; i < Survey_Of_Store_Two.size() ; i++)
+		  {
+			  Sum_Number_Of_Client_Store_Two += Survey_Of_Store_Two.get(i).getNum_Of_Clients();
+		  }
+		  
+		  for(int i = 0 ; i < Sum_Of_Specific_Question_At_Store_Two.length ; i++)
+		  {
+			  Sum_Of_Specific_Question_At_Store_Two[i] /= Sum_Number_Of_Client_Store_Two;     /* In Each Cell I get The Average Of Each Question */
+			  Total_Avg_At_Store_Two += Sum_Of_Specific_Question_At_Store_Two[i];
+		  }
+		  
+		  All_The_Object_To_Return.add(Sum_Number_Of_Client_Store_Two); /* Index Number ---> 15 */
+		  
+		  All_The_Object_To_Return.add(Total_Avg_At_Store_One);         /* Index Number ---> 16 */
+		  All_The_Object_To_Return.add(Total_Avg_At_Store_Two);         /* Index Number ---> 17 */
+		  
+	  } 
+	  catch (SQLException e) 
+	  {	
+		  e.printStackTrace();
+	  }	
+	  return All_The_Object_To_Return;
+  }
+  
+  @SuppressWarnings("unchecked")
   protected ArrayList<Double> Get_All_The_Survey_Of_Specific_Quarter_Of_Specific_Store_From_DB(Object msg , Connection conn)
+
   {
 	  Vector<double []> All_The_Survey_To_Return = new Vector<double []>();
 	  ArrayList<Object> StoreID_And_Date_Of_Report = (ArrayList<Object>)(((Message)msg).getMsg());
@@ -428,7 +898,9 @@ public class EchoServer extends AbstractServer
 	  return Final_Average_Of_Each_Question;
   }
   
+  
   @SuppressWarnings("unchecked")
+  
   protected void Update_The_Revenue_Of_All_The_Store(Object msg , Connection conn) /* This method get Orders Of Specific Store from DB */
   {
 	  ArrayList<Store> All_Stores = (ArrayList<Store>)(((Message)msg).getMsg());
@@ -574,17 +1046,25 @@ public class EchoServer extends AbstractServer
 		  
 		  /* -------------------------------- Take All The Order Of Specific Store In Specific Quarter ------------------------- */
 		  
-		  String getOrdersOfSpecificStoreTable = "SELECT * FROM project.order WHERE StoreID = " + "'" + Store_ID + "'" + "AND QuarterNumber = " + "'" + temp_Report.getQaurterReportNumber() + "'" +  ";"; 
+		  String getOrdersOfSpecificStoreTable = "SELECT * FROM project.order WHERE StoreID = " + "'" + Store_ID + "'" + ";"; 
 		  ResultSet rs_2 = stmt.executeQuery(getOrdersOfSpecificStoreTable);
+		  int Integer_Help_Month_In_Order_Table;
+		  int Real_Quarter_Number = Integer.parseInt(temp_Report.getQaurterReportNumber());
+		  String String_Help_Date_In_Order_Table;
 		  
 		  while(rs_2.next())
 	 	  {
-			   temp_Order = new Order();
-			   order_field = rs_2.getString("orderID");
-			   temp_Order.setOrderID(Integer.parseInt(order_field));
-			   order_field = rs_2.getString("orderDate");
-			   temp_Order.setOrderDate(Date.valueOf(order_field));
-			   orders_Of_Specific_Store.add(temp_Order);
+			  String_Help_Date_In_Order_Table = rs_2.getString("orderDate");
+			  Integer_Help_Month_In_Order_Table = Integer.parseInt(String_Help_Date_In_Order_Table.substring(5, 7));
+			  if((Integer_Help_Month_In_Order_Table == Real_Quarter_Number) || ((Integer_Help_Month_In_Order_Table + 2) / 3) == Real_Quarter_Number)
+			  {
+				   temp_Order = new Order();
+				   order_field = rs_2.getString("orderID");
+				   temp_Order.setOrderID(Integer.parseInt(order_field));
+				   order_field = rs_2.getString("orderDate");
+				   temp_Order.setOrderDate(Date.valueOf(order_field));
+				   orders_Of_Specific_Store.add(temp_Order);
+			  }
 	 	  }
 		  
 		  /* ----------------------------------- we Check The Year Of Each Order That We Get From The DB ----------------------------------*/
@@ -714,17 +1194,25 @@ public class EchoServer extends AbstractServer
 		  
 		  /* -------------------------------- Take All The Order Of Specific Store In Specific Quarter ------------------------- */
 		  
-		  String getOrdersOfSpecificStoreTable = "SELECT * FROM project.order WHERE StoreID = " + "'" + Store_ID + "'" + "AND QuarterNumber = " + "'" + temp_Report.getQaurterReportNumber() + "'" +  ";"; 
+		  String getOrdersOfSpecificStoreTable = "SELECT * FROM project.order WHERE StoreID = " + "'" + Store_ID + "'" + ";"; 
 		  ResultSet rs_2 = stmt.executeQuery(getOrdersOfSpecificStoreTable);
+		  int Integer_Help_Month_In_Order_Table;
+		  int Real_Quarter_Number = Integer.parseInt(temp_Report.getQaurterReportNumber());
+		  String String_Help_Date_In_Order_Table;
 		  
 		  while(rs_2.next())
 	 	  {
-			   temp_Order = new Order();
-			   order_field = rs_2.getString("orderID");
-			   temp_Order.setOrderID(Integer.parseInt(order_field));
-			   order_field = rs_2.getString("orderDate");
-			   temp_Order.setOrderDate(Date.valueOf(order_field));
-			   orders_Of_Specific_Store.add(temp_Order);
+			  String_Help_Date_In_Order_Table = rs_2.getString("orderDate");
+			  Integer_Help_Month_In_Order_Table = Integer.parseInt(String_Help_Date_In_Order_Table.substring(5, 7));
+			  if((Integer_Help_Month_In_Order_Table == Real_Quarter_Number) || ((Integer_Help_Month_In_Order_Table + 2) / 3) == Real_Quarter_Number)
+			  {
+				   temp_Order = new Order();
+				   order_field = rs_2.getString("orderID");
+				   temp_Order.setOrderID(Integer.parseInt(order_field));
+				   order_field = rs_2.getString("orderDate");
+				   temp_Order.setOrderDate(Date.valueOf(order_field));
+				   orders_Of_Specific_Store.add(temp_Order);
+			  }
 	 	  }
 		  
 		  /* ----------------------------------- We Check The Year Of Each Order That We Get From The DB ----------------------------------*/
@@ -819,19 +1307,27 @@ public class EchoServer extends AbstractServer
 		    
 		  /* -------------------------------- Take All The Order Of Specific Store In Specific Quarter ------------------------- */
 		  
-		  String getOrdersOfSpecificStoreTable = "SELECT * FROM project.order WHERE StoreID = " + "'" + temp_Store_Id + "'" + "AND QuarterNumber = " + "'" + temp_Report.getQaurterReportNumber() + "'" +  ";"; 
+		  String getOrdersOfSpecificStoreTable = "SELECT * FROM project.order WHERE StoreID = " + "'" + temp_Store_Id + "'" + ";"; 
 		  ResultSet rs_2 = stmt.executeQuery(getOrdersOfSpecificStoreTable);
+		  int Integer_Help_Month_In_Order_Table;
+		  int Real_Quarter_Number = Integer.parseInt(temp_Report.getQaurterReportNumber());
+		  String String_Help_Date_In_Order_Table;
 		  
 		  while(rs_2.next())
 	 	  {
-			   temp_Order = new Order();
-			   order_field = rs_2.getString("orderID");
-			   temp_Order.setOrderID(Integer.parseInt(order_field));
-			   order_field = rs_2.getString("orderTotalPrice");
-			   temp_Order.setOrderTotalPrice(Double.parseDouble(order_field));
-			   order_field = rs_2.getString("orderDate");
-			   temp_Order.setOrderDate(Date.valueOf(order_field));
-			   orders_Of_Specific_Store.add(temp_Order);
+			  String_Help_Date_In_Order_Table = rs_2.getString("orderDate");
+			  Integer_Help_Month_In_Order_Table = Integer.parseInt(String_Help_Date_In_Order_Table.substring(5, 7));
+			  if((Integer_Help_Month_In_Order_Table == Real_Quarter_Number) || ((Integer_Help_Month_In_Order_Table + 2) / 3) == Real_Quarter_Number)
+			  {
+				   temp_Order = new Order();
+				   order_field = rs_2.getString("orderID");
+				   temp_Order.setOrderID(Integer.parseInt(order_field));
+				   order_field = rs_2.getString("orderTotalPrice");
+				   temp_Order.setOrderTotalPrice(Double.parseDouble(order_field));
+				   order_field = rs_2.getString("orderDate");
+				   temp_Order.setOrderDate(Date.valueOf(order_field));
+				   orders_Of_Specific_Store.add(temp_Order);
+			  }
 	 	  }
 		  
 		  /* -------------------------------- Take All The Complaint Of Specific Store ------------------------- */
@@ -1076,33 +1572,103 @@ public class EchoServer extends AbstractServer
   
   protected ArrayList<User> getUsersFromDB(Connection conn) /* This method get Users table details from DB */
   {
-	  ArrayList<User> users = new ArrayList<User>();
+	  ArrayList<User> users_Before_Change = new ArrayList<User>();
+	  ArrayList<User> Users_With_Negetive_Account = new ArrayList<User>();
+	  ArrayList<User> users_After_Change = new ArrayList<User>();
 	  Statement stmt;
-	  String u;
-	  User ur;
+	  String user_Field;
+	  String user_Account_Field;
+	  User temp_User = null;
 	  try {
 		  stmt = conn.createStatement();
-		  String getUsersTable = "SELECT * FROM user;"; /* Get all the Table from the DB */
+		  String getUsersTable = "SELECT * FROM project.user ;"; /* Get all the Table from the DB */
 		  ResultSet rs = stmt.executeQuery(getUsersTable);
 		  while(rs.next())
 	 	  {
-				  ur = new User();
-				  u = rs.getString("UserId");
-				  ur.setId(u);
-				  u = rs.getString("UserName");
-				  ur.setUserName(u);
-				  u = rs.getString("UserPhone");
-				  ur.setPhone(u);
-				  u = rs.getString("UserPassword");
-				  ur.setPassword(u);
-				  u = rs.getString("UserPermission");
-				  ur.setPermission(User.UserPermission.valueOf(u));
-				  u = rs.getString("UserStatus");
-				  ur.setStatus(User.UserStatus.valueOf(u));
-				  users.add(ur);
+			  	  temp_User = new User();
+				  user_Field = rs.getString("UserId");
+				  temp_User.setId(user_Field);
+				  user_Field = rs.getString("UserName");
+				  temp_User.setUserName(user_Field);
+				  user_Field = rs.getString("UserPhone");
+				  temp_User.setPhone(user_Field);
+				  user_Field = rs.getString("UserPassword");
+				  temp_User.setPassword(user_Field);
+				  user_Field = rs.getString("UserPermission");
+				  temp_User.setPermission(User.UserPermission.valueOf(user_Field));
+				  user_Field = rs.getString("UserStatus");
+				  temp_User.setStatus(User.UserStatus.valueOf(user_Field));
+				  users_Before_Change.add(temp_User);
 	 	  }
-	  } catch (SQLException e) {	e.printStackTrace();}	
-	  return users;
+		  
+		  temp_User = new User();
+		  String getAccountUser_With_Negetive_Balance = "SELECT * FROM project.account WHERE AccountBalanceCard < 0 ;"; 
+		  ResultSet rs_4 = stmt.executeQuery(getAccountUser_With_Negetive_Balance);
+		  while(rs_4.next())
+		  {
+			  user_Account_Field = rs_4.getString("AccountUserId");
+			  temp_User.setId(user_Account_Field);
+			  Users_With_Negetive_Account.add(temp_User);
+		  }
+		  
+		  for(int i = 0 ; i < Users_With_Negetive_Account.size() ; i++)
+		  {
+			  String Update_The_User_Table_With_User_With_Negetive_Balanced = "UPDATE project.user SET UserStatus =" + "'" + "BLOCKED" + "'" + "WHERE UserId=" + "'" + Users_With_Negetive_Account.get(i).getId() + "'" + ";" ;
+			  stmt.executeUpdate(Update_The_User_Table_With_User_With_Negetive_Balanced);
+		  }
+		  
+		  temp_User = new User();
+		  String getUsersTable_After_Change = "SELECT * FROM project.user;"; /* Get all the Table from the DB */
+		  ResultSet rs_5 = stmt.executeQuery(getUsersTable_After_Change);
+		  while(rs_5.next())
+	 	  {
+			  	  temp_User = new User();
+				  user_Field = rs_5.getString("UserId");
+				  temp_User.setId(user_Field);
+				  user_Field = rs_5.getString("UserName");
+				  temp_User.setUserName(user_Field);
+				  user_Field = rs_5.getString("UserPhone");
+				  temp_User.setPhone(user_Field);
+				  user_Field = rs_5.getString("UserPassword");
+				  temp_User.setPassword(user_Field);
+				  user_Field = rs_5.getString("UserPermission");
+				  temp_User.setPermission(User.UserPermission.valueOf(user_Field));
+				  user_Field = rs_5.getString("UserStatus");
+				  temp_User.setStatus(User.UserStatus.valueOf(user_Field));
+				  users_After_Change.add(temp_User);
+	 	  }
+		  
+//		  for(int i = 0 ; i < users_Before_Change.size() ; i++)
+//		  {
+//			  String get_All_The_Users_Account_Table = "SELECT * FROM project.account WHERE AccountUserId = " + "'" + users_Before_Change.get(i).getId() + "'" + ";"; 
+//			  ResultSet rs_2 = stmt.executeQuery(get_All_The_Users_Account_Table);
+//			  while(rs_2.next())
+//		 	  {
+//				  user_Field = rs_2.getString("AccountBalanceCard");
+//				  Account_Balanced = Integer.parseInt(user_Field);
+//				  if(Account_Balanced < 0)
+//				  { 
+//					  String Update_The_User_Table_With_User_With_Negetive_Balanced = "UPDATE project.user SET UserStatus =" + "'" + "BLOCKED" + "'" + "WHERE UserId=" + "'" + users_Before_Change.get(i).getId() + "'" + ";" ;
+//					  stmt.executeUpdate(Update_The_User_Table_With_User_With_Negetive_Balanced);
+//					  String get_The_User_Status_After_Change_From_User_Table = "SELECT * FROM project.user WHERE UserId = " + "'" + users_Before_Change.get(i).getId() + "'" + ";"; 
+//					  ResultSet rs_3 = stmt.executeQuery(get_The_User_Status_After_Change_From_User_Table);
+//					  while(rs_3.next())
+//				 	  {
+//						  user_Field = rs_3.getString("UserStatus");
+//						  users_Before_Change.get(i).setStatus(User.UserStatus.valueOf(user_Field));    /* After The Change I Put - 'BLOCKED' Status */
+//				 	  }   
+//				  }   
+//		 	  }
+//			  
+//			  users_After_Change.add(users_Before_Change.get(i));
+//		  }
+	  } 
+	  catch (SQLException e)
+	  {	
+		  e.printStackTrace();
+	  }	
+	  
+	  return users_After_Change;
   }
   
   protected Account AddNewAccountToDB(Object msg, Connection conn) //this method add new account to DB

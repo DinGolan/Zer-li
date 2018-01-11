@@ -22,7 +22,7 @@ import javafx.stage.Stage;
 
 public class DataCompanyManagerController implements Initializable{
 	
-	private UserInfoController uic;
+	private UserInfoController_For_DataCompanyManagerController uic;
 	private Message msg;
 	private static int itemIndex = 2; 	/* This Variable Need for the the Case - that we not choose any User from the ComboBox , so we take the User that in Index 2 By Default */
 	public User toCompare; 
@@ -46,7 +46,7 @@ public class DataCompanyManagerController implements Initializable{
 	
 	public void start(Stage primaryStage) throws Exception          /* With this Method we show the GUI of the First Window */
 	{	
-		Parent root = FXMLLoader.load(getClass().getResource("/controller/UserToChooseFrame.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("/controller/UserToChooseFrame_For_DataCompanyManager.fxml"));
 		Scene scene = new Scene(root);
 		primaryStage.setTitle("Data Company Manager - Managment Tool");
 		primaryStage.setScene(scene);
@@ -60,10 +60,10 @@ public class DataCompanyManagerController implements Initializable{
 		((Node)event.getSource()).getScene().getWindow().hide();    /* Hiding primary window */
 		Stage primaryStage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
-		Pane root = loader.load(getClass().getResource("/controller/UserInfoForm.fxml").openStream());
+		Pane root = loader.load(getClass().getResource("/controller/UserInfoForm_For_DataCompanyManager.fxml").openStream());
 		
-		UserInfoController userInfoController = loader.getController();		                                        
-		userInfoController.loadUser(DataCompanyManagerUI.users.get(getItemIndex()));  /* In this Line We take the User that we Choose and Show his Details On the GUI */
+		UserInfoController_For_DataCompanyManagerController userInfoController_For_DataCompanyManagerController = loader.getController();		                                        
+		userInfoController_For_DataCompanyManagerController.loadUser(DataCompanyManagerUI.users.get(getItemIndex()));  /* In this Line We take the User that we Choose and Show his Details On the GUI */
 		
 		Scene scene = new Scene(root);			
 		primaryStage.setScene(scene);		

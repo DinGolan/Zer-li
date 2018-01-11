@@ -219,10 +219,12 @@ public void displayUI(Object message)
 			  ArrayList<Store> temp = new ArrayList<Store>();
 			  temp = (ArrayList<Store>)((Message)message).getMsg();
 			  CompanyManagerReportUI.stores_For_Company_Manager.clear();
+			  CompanyManagerReportUI.stores_For_Company_Manager_2.clear();
 
 			  for(i=0;i<temp.size();i++)
 		  	  {
 				  CompanyManagerReportUI.stores_For_Company_Manager.add(temp.get(i));
+				  CompanyManagerReportUI.stores_For_Company_Manager_2.add(temp.get(i));
 		  	  }
 	    }
 	    else if(((Message)message).getOption().compareTo("Company Manager - Take The Orders Of Specific Store") == 0)
@@ -231,10 +233,12 @@ public void displayUI(Object message)
 			  ArrayList<Order> temp_Order = new ArrayList<Order>();
 			  temp_Order = (ArrayList<Order>)((Message)message).getMsg();
 			  CompanyManagerReportUI.orders_For_Company_Manager.clear();
+			  CompanyManagerReportUI.orders_For_Company_Manager_2.clear();
 
 			  for(i=0;i<temp_Order.size();i++)
 		  	  {
 				  CompanyManagerReportUI.orders_For_Company_Manager.add(temp_Order.get(i));
+				  CompanyManagerReportUI.orders_For_Company_Manager_2.add(temp_Order.get(i));
 		  	  }
 	    } 
 	    else if(((Message)message).getOption().compareTo("Company Manager - Take The Complaints Of Specific Store") == 0)
@@ -243,10 +247,12 @@ public void displayUI(Object message)
 			  ArrayList<Complaint> temp_Complaint = new ArrayList<Complaint>();
 			  temp_Complaint = (ArrayList<Complaint>)((Message)message).getMsg();
 			  CompanyManagerReportUI.complaints_For_Company_Manager.clear();
+			  CompanyManagerReportUI.complaints_For_Company_Manager_2.clear();
 
 			  for(i=0;i<temp_Complaint.size();i++)
 		  	  {
 				  CompanyManagerReportUI.complaints_For_Company_Manager.add(temp_Complaint.get(i));
+				  CompanyManagerReportUI.complaints_For_Company_Manager_2.add(temp_Complaint.get(i));
 		  	  }
 	    }
 	    else if(((Message)message).getOption().compareTo("Company Manager - Take the Revenue Of Specific Quarter Of Specific Store") == 0)
@@ -255,10 +261,11 @@ public void displayUI(Object message)
 			  ArrayList<Object> temp_Revenue_And_Number_Of_Order_Of_Specific_Store_Of_Specific_Quarter = new ArrayList<Object>();
 			  temp_Revenue_And_Number_Of_Order_Of_Specific_Store_Of_Specific_Quarter = (ArrayList<Object>)((Message)message).getMsg();
 			  CompanyManagerReportUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter_For_Company_Manager.clear();
-
+			  CompanyManagerReportUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter_For_Company_Manager_2.clear();
 			  for(i=0;i<temp_Revenue_And_Number_Of_Order_Of_Specific_Store_Of_Specific_Quarter.size();i++)
 		  	  {
 				  CompanyManagerReportUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter_For_Company_Manager.add(temp_Revenue_And_Number_Of_Order_Of_Specific_Store_Of_Specific_Quarter.get(i));
+				  CompanyManagerReportUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter_For_Company_Manager_2.add(temp_Revenue_And_Number_Of_Order_Of_Specific_Store_Of_Specific_Quarter.get(i));
 		  	  }
 	    }
 	    else if(((Message)message).getOption().compareTo("Comapny Manager - Take The Date Of All the Report Of Specific Store") == 0)
@@ -267,10 +274,12 @@ public void displayUI(Object message)
 			  ArrayList<Date> temp_Date_Of_Report = new ArrayList<Date>();
 			  temp_Date_Of_Report = (ArrayList<Date>)((Message)message).getMsg();
 			  CompanyManagerReportUI.Dates_For_Company_Manager.clear();
+			  CompanyManagerReportUI.Dates_For_Company_Manager_2.clear();
 
 			  for(i=0;i<temp_Date_Of_Report.size();i++)
 		  	  {
 				  CompanyManagerReportUI.Dates_For_Company_Manager.add(temp_Date_Of_Report.get(i));
+				  CompanyManagerReportUI.Dates_For_Company_Manager_2.add(temp_Date_Of_Report.get(i));
 		  	  }
 	    }
 	    else if(((Message)message).getOption().compareTo("Company Manager - Take The Surveys Of Specific Store In Specific Quarter") == 0)
@@ -279,10 +288,32 @@ public void displayUI(Object message)
 			  ArrayList<Double> temp_Survey_Result = new ArrayList<Double>();
 			  temp_Survey_Result = (ArrayList<Double>)((Message)message).getMsg();
 			  CompanyManagerReportUI.Average_Result_Of_Each_Qustions_In_surveys_For_Company_Manager.clear();
-
+			  CompanyManagerReportUI.Average_Result_Of_Each_Qustions_In_surveys_For_Company_Manager_2.clear();
+			  
 			  for(i=0;i<temp_Survey_Result.size();i++)
 		  	  {
 				  CompanyManagerReportUI.Average_Result_Of_Each_Qustions_In_surveys_For_Company_Manager.add(temp_Survey_Result.get(i));
+				  CompanyManagerReportUI.Average_Result_Of_Each_Qustions_In_surveys_For_Company_Manager_2.add(temp_Survey_Result.get(i));
+		  	  }
+	    }
+	    else if(((Message)message).getOption().compareTo("Company Manager - Compare Between Two Different Quarter") == 0)
+	    {
+		  	  int i = 0;
+			  ArrayList<Object> temp_Object_From_Comparing = new ArrayList<Object>();
+			  temp_Object_From_Comparing = (ArrayList<Object>)((Message)message).getMsg();
+			  CompanyManagerReportUI.Object_From_Comparing_For_Store_1.clear();
+			  CompanyManagerReportUI.Object_From_Comparing_For_Store_2.clear();
+			  
+			  for(i = 0 ; i < temp_Object_From_Comparing.size() ; i++)
+		  	  {
+				  if(i % 2 == 0)
+				  {
+					  CompanyManagerReportUI.Object_From_Comparing_For_Store_1.add(temp_Object_From_Comparing.get(i));
+				  }
+				  else 
+				  {
+					  CompanyManagerReportUI.Object_From_Comparing_For_Store_2.add(temp_Object_From_Comparing.get(i));
+				  }
 		  	  }
 	    }
    }

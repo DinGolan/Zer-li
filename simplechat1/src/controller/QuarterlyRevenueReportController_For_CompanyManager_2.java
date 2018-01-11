@@ -8,14 +8,10 @@ import boundery.CompanyManagerReportUI;
 import entity.Store;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 
 public class QuarterlyRevenueReportController_For_CompanyManager_2 implements Initializable {
 
@@ -66,23 +62,8 @@ public class QuarterlyRevenueReportController_For_CompanyManager_2 implements In
 	
 	public void closeQuarterlyRevenueReportWindow(ActionEvent event) throws Exception
 	{
-		CompanyManagerReportUI.stores_For_Company_Manager.clear();
+		CompanyManagerReportUI.stores_For_Company_Manager_2.clear();
 		((Node)event.getSource()).getScene().getWindow().hide(); 	 /* Hiding primary window */
-		Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
-		FXMLLoader loader = new FXMLLoader(); 					 	 /* load object */
-		Pane root = null;
-		if(CompanyManagerReportController.Flag_For_Return_Window_With_One_Store_Or_With_Two_Store == 1)
-		{
-			root = loader.load(getClass().getResource("/controller/CompanyManagerReportForm_Window_Only_One_Store.fxml").openStream());
-		}
-		else if(CompanyManagerReportController.Flag_For_Return_Window_With_One_Store_Or_With_Two_Store == 2)
-		{
-			root = loader.load(getClass().getResource("/controller/CompanyManagerReportForm_Window_With_Two_Store.fxml").openStream());
-		}
-		
-		Scene scene = new Scene(root);			
-		primaryStage.setScene(scene);		
-		primaryStage.show();										   /* show catalog frame window */
 	}
 
 /* --------------------------------- Initialize The Quarterly Revenue Report GUI ------------------------------------------------- */	 		
@@ -96,9 +77,9 @@ public class QuarterlyRevenueReportController_For_CompanyManager_2 implements In
 		String Year;
 		String Full_Date_String;
 		Date temp_Date_Quarter_Report;
-		String Revenue_Of_Specific_Quarter = String.valueOf(CompanyManagerReportUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.get(0));         /* The Revenue */
-		String Amount_Of_Order_Of_Specific_Quarter = String.valueOf(CompanyManagerReportUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.get(1)); /* The Amount Of Order */
-		temp_Date_Quarter_Report = (Date)CompanyManagerReportUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.get(2);                             /* The Date */
+		String Revenue_Of_Specific_Quarter = String.valueOf(CompanyManagerReportUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager_2.get(0));         /* The Revenue */
+		String Amount_Of_Order_Of_Specific_Quarter = String.valueOf(CompanyManagerReportUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager_2.get(1)); /* The Amount Of Order */
+		temp_Date_Quarter_Report = (Date)CompanyManagerReportUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager_2.get(2);                             /* The Date */
 		Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
 		Year = Full_Date_String.substring(0 , 4);
 		Month = Full_Date_String.substring(5 , 7);

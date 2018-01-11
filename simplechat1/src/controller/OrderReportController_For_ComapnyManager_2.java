@@ -12,18 +12,14 @@ import entity.Product;
 import entity.Store;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 
 public class OrderReportController_For_ComapnyManager_2 implements Initializable {
 
@@ -66,23 +62,8 @@ public class OrderReportController_For_ComapnyManager_2 implements Initializable
 	
 	public void closeOrderReportWindow(ActionEvent event) throws Exception   
 	{ 
-		CompanyManagerReportUI.stores_For_Company_Manager.clear();
-		((Node)event.getSource()).getScene().getWindow().hide(); 	 /* Hiding primary window */
-		Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
-		FXMLLoader loader = new FXMLLoader(); 					 	 /* Load object */
-		Pane root = null;
-		if(CompanyManagerReportController.Flag_For_Return_Window_With_One_Store_Or_With_Two_Store == 1)
-		{
-			root = loader.load(getClass().getResource("/controller/CompanyManagerReportForm_Window_Only_One_Store.fxml").openStream());
-		}
-		else if(CompanyManagerReportController.Flag_For_Return_Window_With_One_Store_Or_With_Two_Store == 2)
-		{
-			root = loader.load(getClass().getResource("/controller/CompanyManagerReportForm_Window_With_Two_Store.fxml").openStream());
-		}
-		
-		Scene scene = new Scene(root);			
-		primaryStage.setScene(scene);		
-		primaryStage.show();										   /* show catalog frame window */
+		CompanyManagerReportUI.stores_For_Company_Manager_2.clear();
+		((Node)event.getSource()).getScene().getWindow().hide(); 	 /* Hiding primary window */										   
 	}
 
 /* --------------------------------- Initialize The Bar Chart Of the Order Report ------------------------------------------------- */	 	
@@ -96,7 +77,7 @@ public class OrderReportController_For_ComapnyManager_2 implements Initializable
 		String Year;
 		String Full_Date_String;
 		Date temp_Date_Quarter_Report;
-		temp_Date_Quarter_Report = (Date)CompanyManagerReportUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager.get(1);                             /* The Date */
+		temp_Date_Quarter_Report = (Date)CompanyManagerReportUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager_2.get(1);                             /* The Date */
 		Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
 		Year = Full_Date_String.substring(0 , 4);
 		Month = Full_Date_String.substring(5 , 7);
@@ -124,11 +105,11 @@ public class OrderReportController_For_ComapnyManager_2 implements Initializable
 		
 		
 		ArrayList<Object> StoreID_And_Date_Of_Report = new ArrayList<Object>();
-		StoreID_And_Date_Of_Report.add(CompanyManagerReportUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager.get(0)); /* The Store Id */
-		StoreID_And_Date_Of_Report.add(CompanyManagerReportUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager.get(1)); /* The Date Of the Report */
+		StoreID_And_Date_Of_Report.add(CompanyManagerReportUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager_2.get(0)); /* The Store Id */
+		StoreID_And_Date_Of_Report.add(CompanyManagerReportUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager_2.get(1)); /* The Date Of the Report */
 		msg = new Message(StoreID_And_Date_Of_Report,"Company Manager - Take The Orders Of Specific Store");
 		CompanyManagerReportUI.myClient.accept(msg);
-		while(CompanyManagerReportUI.orders_For_Company_Manager.size() == 0);
+		while(CompanyManagerReportUI.orders_For_Company_Manager_2.size() == 0);
 		try 
 		{
 			Thread.sleep(200);
@@ -147,9 +128,9 @@ public class OrderReportController_For_ComapnyManager_2 implements Initializable
 		int [] Count_In_Chart;
 		ArrayList<Product.ProductType> productType_Of_Specific_Order_Of_Specific_Store = new ArrayList<Product.ProductType>();   /* All the Product That We Order On Specific Store */
 		ArrayList<Order> orders = new ArrayList<Order>();                         						   /* All The Orders That We Order On Specific Store */
-		for(int i = 0 ; i < CompanyManagerReportUI.orders_For_Company_Manager.size() ; i++)                                                  /* In This Loop We Initialize All the Orders At ArrayList Of Orders */                                             
+		for(int i = 0 ; i < CompanyManagerReportUI.orders_For_Company_Manager_2.size() ; i++)                                                  /* In This Loop We Initialize All the Orders At ArrayList Of Orders */                                             
 		{
-			orders.add(CompanyManagerReportUI.orders_For_Company_Manager.get(i));
+			orders.add(CompanyManagerReportUI.orders_For_Company_Manager_2.get(i));
 			for(int j = 0 ; j < orders.get(i).getProductsInOrder().size() ; j++)                           /* In This Loop We Initialize All the Product Type At the product_Of_Specific_Store */
 			{
 				if((productType_Of_Specific_Order_Of_Specific_Store.contains(orders.get(i).getProductsInOrder().get(j).getpType())) == false)

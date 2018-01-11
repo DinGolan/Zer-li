@@ -23,7 +23,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class UserInfoController implements Initializable{
+public class UserInfoController_For_DataCompanyManagerController implements Initializable{
 	
 	private User user;
 	private Message msg;
@@ -78,7 +78,7 @@ public class UserInfoController implements Initializable{
 		((Node)event.getSource()).getScene().getWindow().hide(); 	 /* Hiding primary window */
 		Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
 		FXMLLoader loader = new FXMLLoader(); 					 	 /* load object */
-		Pane root = loader.load(getClass().getResource("/controller/UserToChooseFrame.fxml").openStream());
+		Pane root = loader.load(getClass().getResource("/controller/UserToChooseFrame_For_DataCompanyManager.fxml").openStream());
 		
 		Scene scene = new Scene(root);			
 		primaryStage.setScene(scene);	
@@ -141,37 +141,6 @@ public class UserInfoController implements Initializable{
 	
 }
 
-/* ---------------------------------------------- This Is Belong To the Data Base -------------------------------------------- */
-	
-//      protected ArrayList<Account> getAccounts_With_Negetive_Balance_From_DB(Connection conn) /* This method get products table details from DB */
-//     {
-//	      ArrayList<Account> accounts = new ArrayList<Account>();
-//	      Statement stmt;
-//	      String result_Str;
-//
-//	      try {
-//		 	  stmt = conn.createStatement();
-//		 	  String getProductsTable = "SELECT * FROM account WHERE BalanceInCustomerAccount < 0;"; /* Get all the Table from the DB */
-//		      ResultSet rs = stmt.executeQuery(getProductsTable);
-//		  while(rs.next())
-//	 	  {
-//		      single_Account = new Account();									
-//		      result_Str = rs.getString("CustomerID");
-//		      single_Account.setAccountUserId(result_Str);                    /* Take The Id Of the Customer */
-//		      result_Str = rs.getString("BalanceInCustomerAccount");
-//		      single_Account.setAccountBalanceCard(Double.parseDouble(result_Str));    /* Take The BalanceInCustomerAccount Of the Customer */
-//		      result_Str = rs.getString("PaymentWay");
-//		      single_Account.setAccountPaymentMethod(Account.PaymentMethod.valueOf(result_Str));          /* Take The PaymentWay Of the Customer */
-//		      result_Str = rs.getString("Arrangement");
-//		      single_Account.setAccountPaymentArrangement(Account.PaymentArrangement.valueOf(result_Str));        /* Take The Arrangement Of the Customer */
-//		      result_Str = rs.getString("NumberOfCreditCard");
-//		      single_Account.setAccountCreditCardNum(result_Str);                              /* Take The NumberOfCreditCard Of the Customer */
-//		      accounts.add(single_Account);
-//	 	   }
-//	  } catch (SQLException e) {	e.printStackTrace();}	
-//	    return accounts;
-//  }
-	
-/*------------------------------------------------------------------------------------------------------------------------------- */	
+
 	
 
