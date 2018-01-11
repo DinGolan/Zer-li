@@ -103,7 +103,7 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 		quarterlyRevenueReportController.loadStore(CompanyManagerReportUI.stores_For_Company_Manager.get(getItemIndex_First_Store())); 
 		
 		Pane root_2 = loader_2.load(getClass().getResource("/controller/QuarterlyRevenueReportForm_For_CompanyManager_2.fxml").openStream());
-		QuarterlyRevenueReportController_For_CompanyManager quarterlyRevenueReportController_2 = loader_2.getController();
+		QuarterlyRevenueReportController_For_CompanyManager_2 quarterlyRevenueReportController_2 = loader_2.getController();
 		quarterlyRevenueReportController_2.loadStore(CompanyManagerReportUI.stores_For_Company_Manager_2.get(getItemIndex_Second_Store())); 
 		
 		Scene scene = new Scene(root);
