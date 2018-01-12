@@ -12,7 +12,7 @@ import entity.Complaint;
 import entity.Order;
 import entity.Store;
 
-public class StoreManagerReportUI extends Application 		/* With This Class We Show the Report GUI */{
+public class StoreManagerUI extends Application 		/* With This Class We Show the Report GUI */{
 	
 	/* Vector Of ---> { Store , Order , Complaint , Date , Average Of Result At Survey } */
 	public static Vector<Store> stores = new Vector<Store>();

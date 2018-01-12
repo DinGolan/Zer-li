@@ -120,6 +120,14 @@ public class DataCompanyManagerController implements Initializable{
 		msg = new Message(users, "Add User To Combo Box From DB");
 		DataCompanyManagerUI.myClient.accept(msg);
 		while(DataCompanyManagerUI.users.size() == 0);
+		try 
+		{
+			Thread.sleep(200);
+		} 
+		catch (InterruptedException e) 
+		{
+			e.printStackTrace();
+		}
 		setUsersComboBox();
 	}
 	

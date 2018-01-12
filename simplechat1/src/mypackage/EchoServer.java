@@ -1608,6 +1608,7 @@ public class EchoServer extends AbstractServer
 		  ResultSet rs_4 = stmt.executeQuery(getAccountUser_With_Negetive_Balance);
 		  while(rs_4.next())
 		  {
+			  temp_User = new User();
 			  user_Account_Field = rs_4.getString("AccountUserId");
 			  temp_User.setId(user_Account_Field);
 			  Users_With_Negetive_Account.add(temp_User);
@@ -1639,31 +1640,6 @@ public class EchoServer extends AbstractServer
 				  temp_User.setStatus(User.UserStatus.valueOf(user_Field));
 				  users_After_Change.add(temp_User);
 	 	  }
-		  
-//		  for(int i = 0 ; i < users_Before_Change.size() ; i++)
-//		  {
-//			  String get_All_The_Users_Account_Table = "SELECT * FROM project.account WHERE AccountUserId = " + "'" + users_Before_Change.get(i).getId() + "'" + ";"; 
-//			  ResultSet rs_2 = stmt.executeQuery(get_All_The_Users_Account_Table);
-//			  while(rs_2.next())
-//		 	  {
-//				  user_Field = rs_2.getString("AccountBalanceCard");
-//				  Account_Balanced = Integer.parseInt(user_Field);
-//				  if(Account_Balanced < 0)
-//				  { 
-//					  String Update_The_User_Table_With_User_With_Negetive_Balanced = "UPDATE project.user SET UserStatus =" + "'" + "BLOCKED" + "'" + "WHERE UserId=" + "'" + users_Before_Change.get(i).getId() + "'" + ";" ;
-//					  stmt.executeUpdate(Update_The_User_Table_With_User_With_Negetive_Balanced);
-//					  String get_The_User_Status_After_Change_From_User_Table = "SELECT * FROM project.user WHERE UserId = " + "'" + users_Before_Change.get(i).getId() + "'" + ";"; 
-//					  ResultSet rs_3 = stmt.executeQuery(get_The_User_Status_After_Change_From_User_Table);
-//					  while(rs_3.next())
-//				 	  {
-//						  user_Field = rs_3.getString("UserStatus");
-//						  users_Before_Change.get(i).setStatus(User.UserStatus.valueOf(user_Field));    /* After The Change I Put - 'BLOCKED' Status */
-//				 	  }   
-//				  }   
-//		 	  }
-//			  
-//			  users_After_Change.add(users_Before_Change.get(i));
-//		  }
 	  } 
 	  catch (SQLException e)
 	  {	

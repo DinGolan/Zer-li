@@ -5,8 +5,8 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import boundery.CompanyManagerReportUI;
-import boundery.StoreManagerReportUI;
+import boundery.CompanyManagerUI;
+import boundery.StoreManagerUI;
 import entity.Message;
 import entity.Product;
 import entity.Store;
@@ -97,8 +97,8 @@ public class CompanyManagerReportController_Compare_Between_Two_Diffrent_Quarter
 	
 	public void close_Window_Compare_Between_TWo_Different_Quarter(ActionEvent event) throws Exception   
 	{ 
-		CompanyManagerReportUI.Object_From_Comparing_For_Store_1.clear();
-		CompanyManagerReportUI.Object_From_Comparing_For_Store_2.clear();
+		CompanyManagerUI.Object_From_Comparing_For_Store_1.clear();
+		CompanyManagerUI.Object_From_Comparing_For_Store_2.clear();
 		((Node)event.getSource()).getScene().getWindow().hide(); 	 /* Hiding primary window */
 		Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
 		FXMLLoader loader = new FXMLLoader(); 					 	 /* Load object */
@@ -123,22 +123,22 @@ public class CompanyManagerReportController_Compare_Between_Two_Diffrent_Quarter
 		   * Index 8 = Total Average Of Survey Answer - First Store 
 		   * */
 		
-		this.txtStoreID_1.setText(String.valueOf(CompanyManagerReportUI.Object_From_Comparing_For_Store_1.get(0)));
-		this.txtNumOfQuarter_1.setText(String.valueOf(CompanyManagerReportUI.Object_From_Comparing_For_Store_1.get(1)));
-		this.txtQuantityOfOrder_1.setText(String.valueOf(CompanyManagerReportUI.Object_From_Comparing_For_Store_1.get(2)));
+		this.txtStoreID_1.setText(String.valueOf(CompanyManagerUI.Object_From_Comparing_For_Store_1.get(0)));
+		this.txtNumOfQuarter_1.setText(String.valueOf(CompanyManagerUI.Object_From_Comparing_For_Store_1.get(1)));
+		this.txtQuantityOfOrder_1.setText(String.valueOf(CompanyManagerUI.Object_From_Comparing_For_Store_1.get(2)));
 		set_Check_Box_Product_Type_Of_Store_One();
 		set_Check_Box_Quantity_Of_Product_Type_Of_Store_One();
-		this.txtRevenuOfStore_1.setText(String.valueOf(CompanyManagerReportUI.Object_From_Comparing_For_Store_1.get(5)));
-		this.txtNumberOfComplaint_1.setText(String.valueOf(CompanyManagerReportUI.Object_From_Comparing_For_Store_1.get(6)));
-		this.txtNumberOfClientInSurvey_1.setText(String.valueOf(CompanyManagerReportUI.Object_From_Comparing_For_Store_1.get(7)));
-		this.txtTotalAverageInSurvey_1.setText(String.valueOf(CompanyManagerReportUI.Object_From_Comparing_For_Store_1.get(8)));
+		this.txtRevenuOfStore_1.setText(String.valueOf(CompanyManagerUI.Object_From_Comparing_For_Store_1.get(5)));
+		this.txtNumberOfComplaint_1.setText(String.valueOf(CompanyManagerUI.Object_From_Comparing_For_Store_1.get(6)));
+		this.txtNumberOfClientInSurvey_1.setText(String.valueOf(CompanyManagerUI.Object_From_Comparing_For_Store_1.get(7)));
+		this.txtTotalAverageInSurvey_1.setText(String.valueOf(CompanyManagerUI.Object_From_Comparing_For_Store_1.get(8)));
 	}
 	
 	@SuppressWarnings("unchecked")
 	public void set_Check_Box_Product_Type_Of_Store_One()
 	{
 		ArrayList<Product.ProductType> Product_Type_Of_Store_One = new ArrayList<Product.ProductType>();
-		ArrayList<Product.ProductType> temp_Product_Type_Of_Store_One = (ArrayList<Product.ProductType>)CompanyManagerReportUI.Object_From_Comparing_For_Store_1.get(3);	
+		ArrayList<Product.ProductType> temp_Product_Type_Of_Store_One = (ArrayList<Product.ProductType>)CompanyManagerUI.Object_From_Comparing_For_Store_1.get(3);	
 		
 		for(int i = 0 ; i < temp_Product_Type_Of_Store_One.size() ; i++)
 		{
@@ -154,7 +154,7 @@ public class CompanyManagerReportController_Compare_Between_Two_Diffrent_Quarter
 	{
 		ArrayList<Product> Product_Of_Store_One = new ArrayList<Product>();
 		ArrayList<String> String_Product_Of_Store_One = new ArrayList<String>();
-		ArrayList<Product> temp_Product_Of_Store_One = (ArrayList<Product>)CompanyManagerReportUI.Object_From_Comparing_For_Store_1.get(4);	
+		ArrayList<Product> temp_Product_Of_Store_One = (ArrayList<Product>)CompanyManagerUI.Object_From_Comparing_For_Store_1.get(4);	
 		
 		for(int i = 0 ; i < temp_Product_Of_Store_One.size() ; i++)
 		{
@@ -183,22 +183,22 @@ public class CompanyManagerReportController_Compare_Between_Two_Diffrent_Quarter
 		   * Index 7 = Number Of Client That Fill Survey - Second Store
 		   * Index 8 = Total Average Of Survey Answer - Second Store 
 		   * */
-		this.txtStoreID_2.setText(String.valueOf(CompanyManagerReportUI.Object_From_Comparing_For_Store_2.get(0)));
-		this.txtNumOfQuarter_2.setText(String.valueOf(CompanyManagerReportUI.Object_From_Comparing_For_Store_2.get(1)));
-		this.txtQuantityOfOrder_2.setText(String.valueOf(CompanyManagerReportUI.Object_From_Comparing_For_Store_2.get(2)));
+		this.txtStoreID_2.setText(String.valueOf(CompanyManagerUI.Object_From_Comparing_For_Store_2.get(0)));
+		this.txtNumOfQuarter_2.setText(String.valueOf(CompanyManagerUI.Object_From_Comparing_For_Store_2.get(1)));
+		this.txtQuantityOfOrder_2.setText(String.valueOf(CompanyManagerUI.Object_From_Comparing_For_Store_2.get(2)));
 		set_Check_Box_Product_Type_Of_Store_Two();
 		set_Check_Box_Quantity_Of_Product_Type_Of_Store_Two();
-		this.txtRevenuOfStore_2.setText(String.valueOf(CompanyManagerReportUI.Object_From_Comparing_For_Store_2.get(5)));
-		this.txtNumberOfComplaint_2.setText(String.valueOf(CompanyManagerReportUI.Object_From_Comparing_For_Store_2.get(6)));
-		this.txtNumberOfClientInSurvey_2.setText(String.valueOf(CompanyManagerReportUI.Object_From_Comparing_For_Store_2.get(7)));
-		this.txtTotalAverageInSurvey_2.setText(String.valueOf(CompanyManagerReportUI.Object_From_Comparing_For_Store_2.get(8)));
+		this.txtRevenuOfStore_2.setText(String.valueOf(CompanyManagerUI.Object_From_Comparing_For_Store_2.get(5)));
+		this.txtNumberOfComplaint_2.setText(String.valueOf(CompanyManagerUI.Object_From_Comparing_For_Store_2.get(6)));
+		this.txtNumberOfClientInSurvey_2.setText(String.valueOf(CompanyManagerUI.Object_From_Comparing_For_Store_2.get(7)));
+		this.txtTotalAverageInSurvey_2.setText(String.valueOf(CompanyManagerUI.Object_From_Comparing_For_Store_2.get(8)));
 	}
 	
 	@SuppressWarnings("unchecked")
 	public void set_Check_Box_Product_Type_Of_Store_Two()
 	{
 		ArrayList<Product.ProductType> Product_Type_Of_Store_Two = new ArrayList<Product.ProductType>();
-		ArrayList<Product.ProductType> temp_Product_Type_Of_Store_Two = (ArrayList<Product.ProductType>)CompanyManagerReportUI.Object_From_Comparing_For_Store_2.get(3);	
+		ArrayList<Product.ProductType> temp_Product_Type_Of_Store_Two = (ArrayList<Product.ProductType>)CompanyManagerUI.Object_From_Comparing_For_Store_2.get(3);	
 		
 		for(int i = 0 ; i < temp_Product_Type_Of_Store_Two.size() ; i++)
 		{
@@ -214,7 +214,7 @@ public class CompanyManagerReportController_Compare_Between_Two_Diffrent_Quarter
 	{
 		ArrayList<Product> Product_Of_Store_Two = new ArrayList<Product>();
 		ArrayList<String> String_Product_Of_Store_Two = new ArrayList<String>();
-		ArrayList<Product> temp_Product_Of_Store_Two = (ArrayList<Product>)CompanyManagerReportUI.Object_From_Comparing_For_Store_2.get(4);	
+		ArrayList<Product> temp_Product_Of_Store_Two = (ArrayList<Product>)CompanyManagerUI.Object_From_Comparing_For_Store_2.get(4);	
 		
 		for(int i = 0 ; i < temp_Product_Of_Store_Two.size() ; i++)
 		{
@@ -233,19 +233,19 @@ public class CompanyManagerReportController_Compare_Between_Two_Diffrent_Quarter
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
-		Store_ID_1 = (int) CompanyManagerReportUI.Help_To_Transfer_Object_From_Comparing_For_Store_1.get(0);
-		Store_ID_2 = (int) CompanyManagerReportUI.Help_To_Transfer_Object_From_Comparing_For_Store_2.get(0);
-		Date_Quarter_Report_1 = (Date) CompanyManagerReportUI.Help_To_Transfer_Object_From_Comparing_For_Store_1.get(1);
-		Date_Quarter_Report_2 = (Date) CompanyManagerReportUI.Help_To_Transfer_Object_From_Comparing_For_Store_2.get(1);
+		Store_ID_1 = (int) CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_1.get(0);
+		Store_ID_2 = (int) CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_2.get(0);
+		Date_Quarter_Report_1 = (Date) CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_1.get(1);
+		Date_Quarter_Report_2 = (Date) CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_2.get(1);
 		ArrayList<Object> ArrayList_Of_Field_To_Compare = new ArrayList<Object>(); 
 		ArrayList_Of_Field_To_Compare.add(Store_ID_1);
 		ArrayList_Of_Field_To_Compare.add(Store_ID_2);
 		ArrayList_Of_Field_To_Compare.add(Date_Quarter_Report_1);
 		ArrayList_Of_Field_To_Compare.add(Date_Quarter_Report_2);
 		msg = new Message(ArrayList_Of_Field_To_Compare,"Company Manager - Compare Between Two Different Quarter");
-		CompanyManagerReportUI.myClient.accept(msg);
-		while(CompanyManagerReportUI.Object_From_Comparing_For_Store_1.size() == 0);
-		while(CompanyManagerReportUI.Object_From_Comparing_For_Store_2.size() == 0);
+		CompanyManagerUI.myClient.accept(msg);
+		while(CompanyManagerUI.Object_From_Comparing_For_Store_1.size() == 0);
+		while(CompanyManagerUI.Object_From_Comparing_For_Store_2.size() == 0);
 		try 
 		{
 			Thread.sleep(200);

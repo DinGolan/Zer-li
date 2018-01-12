@@ -5,7 +5,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import boundery.StoreManagerReportUI;
+import boundery.StoreManagerUI;
 import entity.Message;
 import entity.Store;
 import javafx.event.ActionEvent;
@@ -63,7 +63,7 @@ public class CustomerComplaintStatusReportController implements Initializable {
 	
 	public void closeCustomerComplaintStatusReportWindow(ActionEvent event) throws Exception    /* To close the The Window of the Product GUI and Show The Catalog GUI again */
 	{ 
-		StoreManagerReportUI.stores.clear();
+		StoreManagerUI.stores.clear();
 		((Node)event.getSource()).getScene().getWindow().hide(); 	 /* Hiding primary window */
 		Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
 		FXMLLoader loader = new FXMLLoader(); 					 	 /* load object */
@@ -83,7 +83,7 @@ public class CustomerComplaintStatusReportController implements Initializable {
 		String Year;
 		String Full_Date_String;
 		Date temp_Date_Quarter_Report;
-		temp_Date_Quarter_Report = (Date)StoreManagerReportUI.Help_To_Transfer_Object_At_Order_Report.get(1);                             /* The Date */
+		temp_Date_Quarter_Report = (Date)StoreManagerUI.Help_To_Transfer_Object_At_Order_Report.get(1);                             /* The Date */
 		Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
 		Year = Full_Date_String.substring(0 , 4);
 		Month = Full_Date_String.substring(5 , 7);
@@ -110,11 +110,11 @@ public class CustomerComplaintStatusReportController implements Initializable {
 		}
 		
 		ArrayList<Object> StoreID_And_Date_Of_Report = new ArrayList<Object>();
-		StoreID_And_Date_Of_Report.add(StoreManagerReportUI.Help_To_Transfer_Object_At_Complaint_Report.get(0));    /* The Store Id */
-		StoreID_And_Date_Of_Report.add(StoreManagerReportUI.Help_To_Transfer_Object_At_Complaint_Report.get(1));    /* The Date Of the Report */
+		StoreID_And_Date_Of_Report.add(StoreManagerUI.Help_To_Transfer_Object_At_Complaint_Report.get(0));    /* The Store Id */
+		StoreID_And_Date_Of_Report.add(StoreManagerUI.Help_To_Transfer_Object_At_Complaint_Report.get(1));    /* The Date Of the Report */
 		msg = new Message(StoreID_And_Date_Of_Report, "Store Manager - Take The Complaints Of Specific Store"); 		/* I take All the Orders Of Specific Store , And After That I Take All the Complaint Of All The Order Of the Specific Store */
-		StoreManagerReportUI.myClient.accept(msg);
-		while(StoreManagerReportUI.complaints.size() == 0);
+		StoreManagerUI.myClient.accept(msg);
+		while(StoreManagerUI.complaints.size() == 0);
 		try 
 		{
 			Thread.sleep(200);
@@ -134,14 +134,14 @@ public class CustomerComplaintStatusReportController implements Initializable {
 		int [] Count_In_Chart;
 		ArrayList<String> Months_Of_Complaint = new ArrayList<String>();   /* All the Product That We Order On Specific Store */
 		ArrayList<String> Month_Of_Complaint_Without_Duplicate = new ArrayList<String>();
-		Date date_Report = (Date)StoreManagerReportUI.Help_To_Transfer_Object_At_Complaint_Report.get(1);
+		Date date_Report = (Date)StoreManagerUI.Help_To_Transfer_Object_At_Complaint_Report.get(1);
 		String String_Date_Report = String.valueOf(date_Report);
 		String Month = String_Date_Report.substring(5 , 7);
 		int Integer_Month = Integer.parseInt(Month);
 		                       						  
-		for(int i = 0 ; i < StoreManagerReportUI.complaints.size() ; i++)             /* In This Loop We Initialize All the Orders At ArrayList Of Orders */                                             
+		for(int i = 0 ; i < StoreManagerUI.complaints.size() ; i++)             /* In This Loop We Initialize All the Orders At ArrayList Of Orders */                                             
 		{
-			Months_Of_Complaint.add(StoreManagerReportUI.complaints.get(i).getComplaintMonth());
+			Months_Of_Complaint.add(StoreManagerUI.complaints.get(i).getComplaintMonth());
 		}
 		
 		for(int i = 0 ; i < Months_Of_Complaint.size() ; i++)             /* In This Loop We Initialize All the Orders At ArrayList Of Orders */                                             

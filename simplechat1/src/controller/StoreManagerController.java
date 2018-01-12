@@ -3,7 +3,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import boundery.ProductUI;
-import boundery.StoreManagerReportUI;
+import boundery.StoreManagerUI;
 import entity.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

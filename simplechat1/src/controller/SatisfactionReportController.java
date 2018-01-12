@@ -5,7 +5,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import boundery.StoreManagerReportUI;
+import boundery.StoreManagerUI;
 import entity.Message;
 import entity.Store;
 import javafx.event.ActionEvent;
@@ -70,7 +70,7 @@ public class SatisfactionReportController implements Initializable {
 	
 	public void closeSatisfactionReportWindow(ActionEvent event) throws Exception  
 	{ 
-		StoreManagerReportUI.stores.clear();
+		StoreManagerUI.stores.clear();
 		((Node)event.getSource()).getScene().getWindow().hide(); 	 /* Hiding primary window */
 		Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
 		FXMLLoader loader = new FXMLLoader(); 					 	 /* Load object */
@@ -92,7 +92,7 @@ public class SatisfactionReportController implements Initializable {
 		String Year;
 		String Full_Date_String;
 		Date temp_Date_Quarter_Report;
-		temp_Date_Quarter_Report = (Date)StoreManagerReportUI.Help_To_Transfer_Object_At_Satisfaction_Report.get(1);                             /* The Date */
+		temp_Date_Quarter_Report = (Date)StoreManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report.get(1);                             /* The Date */
 		Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
 		Year = Full_Date_String.substring(0 , 4);
 		Month = Full_Date_String.substring(5 , 7);
@@ -119,11 +119,11 @@ public class SatisfactionReportController implements Initializable {
 		}
 		
 		ArrayList<Object> StoreID_And_Date_Of_Report = new ArrayList<Object>();
-		StoreID_And_Date_Of_Report.add(StoreManagerReportUI.Help_To_Transfer_Object_At_Complaint_Report.get(0)); /* The Store Id */
-		StoreID_And_Date_Of_Report.add(StoreManagerReportUI.Help_To_Transfer_Object_At_Complaint_Report.get(1)); /* The Date Of the Report */
+		StoreID_And_Date_Of_Report.add(StoreManagerUI.Help_To_Transfer_Object_At_Complaint_Report.get(0)); /* The Store Id */
+		StoreID_And_Date_Of_Report.add(StoreManagerUI.Help_To_Transfer_Object_At_Complaint_Report.get(1)); /* The Date Of the Report */
 		msg = new Message(StoreID_And_Date_Of_Report , "Store Manager - Take The Surveys Of Specific Store In Specific Quarter"); 		/* I take All the Orders Of Specific Store , And After That I Take All the Complaint Of All The Order Of the Specific Store */
-		StoreManagerReportUI.myClient.accept(msg);
-		while(StoreManagerReportUI.Average_Result_Of_Each_Qustions_In_surveys.size() == 0);
+		StoreManagerUI.myClient.accept(msg);
+		while(StoreManagerUI.Average_Result_Of_Each_Qustions_In_surveys.size() == 0);
 		try 
 		{
 			Thread.sleep(200);
@@ -144,9 +144,9 @@ public class SatisfactionReportController implements Initializable {
 		int Number_Of_Client;
 		ArrayList<Double> The_Average_Result_Of_Each_Question = new ArrayList<Double>();   				  /* All the Product That We Order On Specific Store */
 		                       						  
-		for(int i = 0 ; i < StoreManagerReportUI.Average_Result_Of_Each_Qustions_In_surveys.size() ; i++)             /* In This Loop We Initialize All the Orders At ArrayList Of Orders */                                             
+		for(int i = 0 ; i < StoreManagerUI.Average_Result_Of_Each_Qustions_In_surveys.size() ; i++)             /* In This Loop We Initialize All the Orders At ArrayList Of Orders */                                             
 		{
-			The_Average_Result_Of_Each_Question.add(StoreManagerReportUI.Average_Result_Of_Each_Qustions_In_surveys.get(i));
+			The_Average_Result_Of_Each_Question.add(StoreManagerUI.Average_Result_Of_Each_Qustions_In_surveys.get(i));
 		}
 		
 		Total_Average = The_Average_Result_Of_Each_Question.get(6);       		   /* In The 6 Cell There Have The Total Average Of The Survey */

@@ -4,7 +4,7 @@ import java.net.URL;
 import java.sql.Date;
 import java.util.ResourceBundle;
 
-import boundery.CompanyManagerReportUI;
+import boundery.CompanyManagerUI;
 import entity.Store;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -68,7 +68,7 @@ public class QuarterlyRevenueReportController_For_CompanyManager implements Init
 		
 		public void closeQuarterlyRevenueReportWindow(ActionEvent event) throws Exception
 		{
-			CompanyManagerReportUI.stores_For_Company_Manager.clear();
+			CompanyManagerUI.stores_For_Company_Manager.clear();
 			((Node)event.getSource()).getScene().getWindow().hide(); 	 /* Hiding primary window */
 			Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
 			FXMLLoader loader = new FXMLLoader(); 					 	 /* load object */
@@ -98,9 +98,9 @@ public class QuarterlyRevenueReportController_For_CompanyManager implements Init
 			String Year;
 			String Full_Date_String;
 			Date temp_Date_Quarter_Report;
-			String Revenue_Of_Specific_Quarter = String.valueOf(CompanyManagerReportUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.get(0));         /* The Revenue */
-			String Amount_Of_Order_Of_Specific_Quarter = String.valueOf(CompanyManagerReportUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.get(1)); /* The Amount Of Order */
-			temp_Date_Quarter_Report = (Date)CompanyManagerReportUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.get(2);                             /* The Date */
+			String Revenue_Of_Specific_Quarter = String.valueOf(CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.get(0));         /* The Revenue */
+			String Amount_Of_Order_Of_Specific_Quarter = String.valueOf(CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.get(1)); /* The Amount Of Order */
+			temp_Date_Quarter_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.get(2);                             /* The Date */
 			Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
 			Year = Full_Date_String.substring(0 , 4);
 			Month = Full_Date_String.substring(5 , 7);

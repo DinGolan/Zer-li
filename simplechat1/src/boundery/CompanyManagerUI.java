@@ -12,7 +12,7 @@ import entity.Complaint;
 import entity.Order;
 import entity.Store;
 
-public class CompanyManagerReportUI extends Application { 					/* With This Class We Show the Report GUI */		
+public class CompanyManagerUI extends Application { 					/* With This Class We Show the Report GUI */		
 	
 	/*--------------------------------------- For - Store One ------------------------------------------ */
 	

@@ -4,7 +4,7 @@ import java.net.URL;
 import java.sql.Date;
 import java.util.ResourceBundle;
 
-import boundery.StoreManagerReportUI;
+import boundery.StoreManagerUI;
 import entity.Store;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -66,7 +66,7 @@ public class QuarterlyRevenueReportController implements Initializable{
 	
 	public void closeQuarterlyRevenueReportWindow(ActionEvent event) throws Exception
 	{
-		StoreManagerReportUI.stores.clear();
+		StoreManagerUI.stores.clear();
 		((Node)event.getSource()).getScene().getWindow().hide(); 	 /* Hiding primary window */
 		Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
 		FXMLLoader loader = new FXMLLoader(); 					 	 /* load object */
@@ -88,9 +88,9 @@ public class QuarterlyRevenueReportController implements Initializable{
 		String Year;
 		String Full_Date_String;
 		Date temp_Date_Quarter_Report;
-		String Revenue_Of_Specific_Quarter = String.valueOf(StoreManagerReportUI.Help_To_Transfer_Object_At_Revenue_Report.get(0));         /* The Revenue */
-		String Amount_Of_Order_Of_Specific_Quarter = String.valueOf(StoreManagerReportUI.Help_To_Transfer_Object_At_Revenue_Report.get(1)); /* The Amount Of Order */
-		temp_Date_Quarter_Report = (Date)StoreManagerReportUI.Help_To_Transfer_Object_At_Revenue_Report.get(2);                             /* The Date */
+		String Revenue_Of_Specific_Quarter = String.valueOf(StoreManagerUI.Help_To_Transfer_Object_At_Revenue_Report.get(0));         /* The Revenue */
+		String Amount_Of_Order_Of_Specific_Quarter = String.valueOf(StoreManagerUI.Help_To_Transfer_Object_At_Revenue_Report.get(1)); /* The Amount Of Order */
+		temp_Date_Quarter_Report = (Date)StoreManagerUI.Help_To_Transfer_Object_At_Revenue_Report.get(2);                             /* The Date */
 		Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
 		Year = Full_Date_String.substring(0 , 4);
 		Month = Full_Date_String.substring(5 , 7);
