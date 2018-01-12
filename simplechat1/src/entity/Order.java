@@ -4,8 +4,11 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.time.LocalDate;
 
-public class Order implements Serializable {
+public class Order implements Serializable{
 
 	private Date orderDate;
 	
@@ -13,13 +16,15 @@ public class Order implements Serializable {
 	
 	private double orderTotalPrice;
 	
-	private ArrayList<Product> productsInOrder;
+	private HashMap<Product , Integer> productsInOrder;
 	
 	private LocalDate requiredSupplyDate;
 	
-	private int orderID;
+	private static int orderID = 10;
 	
 	private String customerID;
+	
+	private int storeID;
 	
 	private String requiredSupplyTime;
 	
@@ -31,7 +36,7 @@ public class Order implements Serializable {
 	
 	private String postCard;
 	
-	private int StoreId;
+	private Account.PaymentMethod paymentMethod;
 
 	private static final double deliveryPrice = 20;
 	
@@ -39,14 +44,17 @@ public class Order implements Serializable {
 	
 	public Order()
 	{
-		productsInOrder = new ArrayList<Product>();
+		productsInOrder = new HashMap<Product, Integer>();
 	}
 
-	public Order(SupplyOption supply, double orderTotalPrice, ArrayList<Product> productsInOrder,
+
+
+	public Order(SupplyOption supply, double orderTotalPrice, HashMap<Product, Integer> productsInOrder,
 			LocalDate requiredSupplyDate, String customerID, String requiredSupplyTime, String recipientAddress,
-			String recipientName, String recipienPhoneNum, String postCard) {
+			String recipientName, String recipienPhoneNum, String postCard,  int storeID, Account.PaymentMethod paymentMethod) {
 		super();
 		this.supply = supply;
+		this.orderDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
 		this.orderTotalPrice = orderTotalPrice;
 		this.productsInOrder = productsInOrder;
 		this.requiredSupplyDate = requiredSupplyDate;
@@ -56,12 +64,12 @@ public class Order implements Serializable {
 		this.recipientName = recipientName;
 		this.recipienPhoneNum = recipienPhoneNum;
 		this.postCard = postCard;
+		this.storeID = storeID;
+		this.paymentMethod = paymentMethod;
 	}
-	
-	public static double getDeliveryprice() {
-		return deliveryPrice;
-	}
-	
+
+
+
 	public Date getOrderDate() {
 		return orderDate;
 	}
@@ -86,11 +94,11 @@ public class Order implements Serializable {
 		this.orderTotalPrice = orderTotalPrice;
 	}
 
-	public ArrayList<Product> getProductsInOrder() {
+	public HashMap<Product, Integer> getProductsInOrder() {
 		return productsInOrder;
 	}
 
-	public void setProductsInOrder(ArrayList<Product> productsInOrder) {
+	public void setProductsInOrder(HashMap<Product, Integer> productsInOrder) {
 		this.productsInOrder = productsInOrder;
 	}
 
@@ -103,6 +111,7 @@ public class Order implements Serializable {
 	}
 
 	public int getOrderID() {
+		orderID++;
 		return orderID;
 	}
 
@@ -161,12 +170,36 @@ public class Order implements Serializable {
 	public void setRecipienPhoneNum(String recipienPhoneNum) {
 		this.recipienPhoneNum = recipienPhoneNum;
 	}
-	
-	public int getStoreId() {
-		return StoreId;
+
+	public int getStoreID() {
+		return storeID;
 	}
 
-	public void setStoreId(int storeId) {
-		StoreId = storeId;
+	public void setStoreID(int storeID) {
+		this.storeID = storeID;
 	}
+
+
+
+	@Override
+	public String toString() {
+		return "Order [orderDate=" + orderDate + ", supply=" + supply + ", orderTotalPrice=" + orderTotalPrice
+				+ ", productsInOrder=" + productsInOrder + ", requiredSupplyDate=" + requiredSupplyDate
+				+ ", customerID=" + customerID + ", storeID=" + storeID + ", requiredSupplyTime=" + requiredSupplyTime
+				+ ", recipientAddress=" + recipientAddress + ", recipientName=" + recipientName + ", recipienPhoneNum="
+				+ recipienPhoneNum + ", postCard=" + postCard + "]";
+	}
+
+
+
+	public Account.PaymentMethod getPaymentMethod() {
+		return paymentMethod;
+	}
+
+	public void setPaymentMethod(Account.PaymentMethod paymentMethod) {
+		this.paymentMethod = paymentMethod;
+	}
+	
+	
+	
 }

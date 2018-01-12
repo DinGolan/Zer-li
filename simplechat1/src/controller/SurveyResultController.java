@@ -1,75 +1,136 @@
 package controller;
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.Vector;
+import java.util.ResourceBundle;
 
-import boundery.SurveyUI;
-import controller.CatalogController;
-import controller.SurveyController;
-import javafx.application.Application;
+import boundery.UserUI;
+import entity.Message;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
+import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
+import javafx.scene.control.ComboBox;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import mypackage.ClientConsole;
-import entity.Message;
-import entity.Product;
-import entity.User;
 
-public class SurveyResultController {
+public class SurveyResultController implements Initializable{
 
 
 	@FXML
-	private TextField txtQ1; /* text field for the product Id */
+	private ComboBox cmbAnswer1;  /* ComboBox With List Of Product */
 	@FXML
-	private TextField txtQ2; /* text field for the product Id */
+	private ComboBox cmbAnswer2;  /* ComboBox With List Of Product */
 	@FXML
-	private TextField txtQ3; /* text field for the product Id */
+	private ComboBox cmbAnswer3;  /* ComboBox With List Of Product */
 	@FXML
-	private TextField txtQ4; /* text field for the product Id */
+	private ComboBox cmbAnswer4;  /* ComboBox With List Of Product */
 	@FXML
-	private TextField txtQ5; /* text field for the product Id */
+	private ComboBox cmbAnswer5;  /* ComboBox With List Of Product */
 	@FXML
-	private TextField txtQ6; /* text field for the product Id */
+	private ComboBox cmbAnswer6;  /* ComboBox With List Of Product */
 	
 	@FXML
 	private Button btnClose = null; /* button close for close product form */
 	@FXML
 	private Button btnAdd = null; /* button close for close product form */
-	ArrayList<String> temp;
-	Message msg;
+	@FXML
+	private ComboBox cmbSurveyId= null;  /* ComboBox With List Of Product */
 	
+	private ArrayList<Integer> temp;
+	private Message msg;
+	private ObservableList<Integer> slist;
+	public static boolean flag = false;
 	
-	public void start(Stage primaryStage) throws Exception     /* With this Method we show the GUI of the Catalog */
+	private static int itemIndex = 1; /* This Variable Need for the the Case - that we not choose any Product from the ComboBox , so we take the product that in Index 2 By Defualt */
+
+	
+	public void start(ActionEvent event) throws Exception     // With this Method we show the GUI of the Catalog 
 	{	
-		Parent root = FXMLLoader.load(getClass().getResource("/controller/SurveyResultFrame.fxml"));
-				
-		Scene scene = new Scene(root);
-		//scene.getStylesheets().add(getClass().getResource("/boundery/CatalogFrame.css").toExternalForm());
-		primaryStage.setTitle("Catalog Managment Tool");
-		primaryStage.setScene(scene);
+		((Node)event.getSource()).getScene().getWindow().hide(); // Hiding primary window 
+		Stage primaryStage = new Stage();
+		FXMLLoader loader = new FXMLLoader();
+		Pane root = loader.load(getClass().getResource("/controller/SurveyResultFrame.fxml").openStream());
 		
-		primaryStage.show();		
+		Scene scene = new Scene(root);			
+		
+		primaryStage.setScene(scene);		
+		primaryStage.show();
+	    
+	}
+	
+	public int getItemIndex(ComboBox cmb) /* With this Method we Take Product from the List of the Product at the ComboBox */
+	{
+		if(cmb.getSelectionModel().getSelectedIndex() ==-1)
+			return itemIndex;
+	
+		return cmb.getSelectionModel().getSelectedIndex();
 	}
 	
 	public void addSurveyResult() {
-		temp = new ArrayList<String>();
-		temp.add(this.txtQ1.getText());
-		temp.add(this.txtQ2.getText());
-		temp.add(this.txtQ3.getText());
-		temp.add(this.txtQ4.getText());
-		temp.add(this.txtQ5.getText());
-		temp.add(this.txtQ6.getText());
-		msg = new Message(temp, "add survey");
+		ArrayList<Integer> i = new ArrayList<Integer>();
+		i.add(UserUI.Id.get(getItemIndex(cmbSurveyId)));
+		i.add(getItemIndex(cmbAnswer1) +1);
+		i.add(getItemIndex(cmbAnswer2) +1);
+		i.add(getItemIndex(cmbAnswer3) +1);
+		i.add(getItemIndex(cmbAnswer4) +1);
+		i.add(getItemIndex(cmbAnswer5) +1);
+		i.add(getItemIndex(cmbAnswer6) +1);
 
-		SurveyUI.myClient.accept(msg);
+		//if(resulrId.contains(i.get(0))==true)
+		//{
+			//msg = new Message(i, "update surveyResult");
+		//}
+		//else {
+			msg = new Message(i, "add surveyResult");
+		//}
+		
+			UserUI.myClient.accept(msg);
 	}
 	
-	public void Close() {
-		System.exit(0);			
+	public void Close(ActionEvent event) throws IOException {
+		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+		Stage primaryStage = new Stage();
+		FXMLLoader loader = new FXMLLoader();
+		Pane root = loader.load(getClass().getResource("/controller/CustomerServiceWorkerOptions.fxml").openStream());
+		
+		Scene scene = new Scene(root);			
+		
+		primaryStage.setScene(scene);		
+		primaryStage.show();		
+
+	}
+
+	
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+
+		temp = new ArrayList<Integer>();
+		msg = new Message(temp, "get all the survey");
+		//UserUI.Id.clear();
+		UserUI.myClient.accept(msg);
+		while(SurveyResultController.flag == false)
+		{
+			System.out.print("SACA");
+		}
+
+		flag = false;
+		//CustomerServiceWorkerButton.flag =false;
+		slist = FXCollections.observableArrayList(UserUI.Id);
+		cmbSurveyId.setItems(slist); // initelize id combo box
+		Integer[] answar = new Integer[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+		slist = FXCollections.observableArrayList(answar);
+		cmbAnswer1.setItems(slist);
+		cmbAnswer2.setItems(slist);
+		cmbAnswer3.setItems(slist);
+		cmbAnswer4.setItems(slist);
+		cmbAnswer5.setItems(slist);	
+		cmbAnswer6.setItems(slist);
 
 	}
 }

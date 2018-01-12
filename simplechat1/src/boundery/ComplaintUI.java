@@ -1,32 +1,24 @@
 package boundery;
+import java.util.Vector;
 
-import java.util.Scanner;
-import controller.ComplaintController;
 import entity.Complaint;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import mypackage.ClientConsole;
 
-public class ComplaintUI extends Application{ //With This Class We Show the Account GUI
-	
-	public static ClientConsole myClient;
-	//public static Vector<Account> accounts = new Vector<Account>();
+
+public class ComplaintUI extends Application 
+{
+	//public static Vector<Complaint> complaints = new Vector<Complaint>();
+	public static Vector<Integer> ordersNumbers = new Vector<Integer>();
+	public static Vector<Integer> complaintsNumbers = new Vector<Integer>();
 	public static Complaint complaint;
-	
-	public static void main( String args[] ) throws Exception
-	{ 
-		System.out.println("Please enter the server IP");
-		Scanner scanner = new Scanner(System.in);
-		String IP = "localhost"; //scanner.next(); /* Enter Server IP */
-		myClient = new ClientConsole(IP, 5555);
-        launch(args);		
-	} 
-	
+	public static boolean complaintFlag=false;
+
 	@Override
-	public void start(Stage arg0) throws Exception 
-	{		
-		ComplaintController aFrame = new ComplaintController(); //Create ComplaintController			  
-		aFrame.start(arg0);
+	public void start(Stage arg0) throws Exception {
+		// TODO Auto-generated method stub
+		
 	}
-	
+		
 }
+

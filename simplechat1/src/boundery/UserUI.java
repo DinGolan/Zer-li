@@ -2,33 +2,26 @@ package boundery;
 
 import java.util.Scanner;
 import java.util.Vector;
-import controller.UserController;
+
+import entity.Message;
+import entity.Store;
+import entity.User;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import mypackage.ClientConsole;
-import entity.Account;
-import entity.Product;
-import entity.User;
-import controller.CatalogController;
-import javafx.application.Application;
-import javafx.stage.Stage;
-import mypackage.ClientConsole;
-import java.util.Vector;
-import controller.DataCompanyManagerController;
-import javafx.application.Application;
-import javafx.stage.Stage;
-import mypackage.ClientConsole;
-import entity.User;
 
 public class UserUI extends Application /* With This Class We Show the Product GUI */{
 	
 	public static Vector<User> users = new Vector<User>();
 	public static ClientConsole myClient;
-	public static User user;
-	public static Account account;
+	public static User user = null;
+	public static Store store;
+
+	//public static Account account;
+	//public static Complaint complaint;
 
 	
 	public static void main( String args[] ) throws Exception 
@@ -51,5 +44,11 @@ public class UserUI extends Application /* With This Class We Show the Product G
 		primaryStage.setScene(scene);
 		
 		primaryStage.show();	
+	}
+	
+	@Override
+	public void stop(){
+		Message msg = new Message(UserUI.user.getId(), "change User status to DISCONNECTED");
+		UserUI.myClient.accept(msg); // change User status to DISCONNECTED in DB
 	}
 }

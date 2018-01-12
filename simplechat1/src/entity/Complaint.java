@@ -10,9 +10,10 @@ public class Complaint implements Serializable{
 	private double complaintCompansation;
 	private String complaintCompanyServiceWorkerAnswer;
 	private String complaintDetails;
-	private String complaintMonth;
-	private int orderID;
-
+	private String complaintUserId;
+	private String complaintServiceWorkerUserName;
+	private int complaintOrderId;
+	
 	public enum ComplaintStatus{ //enum for the complaint status
 		OPEN,INPROGRESS,CLOSE
 	}
@@ -72,14 +73,6 @@ public class Complaint implements Serializable{
 		this.complaintCompansation = complaintCompansation;
 	}
 
-	public String getCompanyServiceWorkerAnswer() {
-		return complaintCompanyServiceWorkerAnswer;
-	}
-
-	public void setCompanyServiceWorkerAnswer(String complaintCompanyServiceWorkerAnswer) {
-		this.complaintCompanyServiceWorkerAnswer = complaintCompanyServiceWorkerAnswer;
-	}
-
 	public String getComplaintDetails() {
 		return complaintDetails;
 	}
@@ -87,30 +80,48 @@ public class Complaint implements Serializable{
 	public void setComplaintDetails(String complaintDetails) {
 		this.complaintDetails = complaintDetails;
 	}
-	
-	
-	public int getOrderID() {
-		return orderID;
+
+	public String getComplaintCompanyServiceWorkerAnswer() {
+		return complaintCompanyServiceWorkerAnswer;
 	}
 
-	public void setOrderID(int orderID) {
-		this.orderID = orderID;
+	public void setComplaintCompanyServiceWorkerAnswer(String complaintCompanyServiceWorkerAnswer) {
+		this.complaintCompanyServiceWorkerAnswer = complaintCompanyServiceWorkerAnswer;
 	}
 
-	public String getComplaintMonth() {
-		return complaintMonth;
+	public String getComplaintUserId() {
+		return complaintUserId;
 	}
-	
-	public void setComplaintMonth(String complaintMonth) {
-		this.complaintMonth = complaintMonth;
+
+	public void setComplaintUserId(String complaintUserId) {
+		this.complaintUserId = complaintUserId;
+	}
+
+	public String getComplaintServiceWorkerUserName() {
+		return complaintServiceWorkerUserName;
+	}
+
+	public void setComplaintServiceWorkerUserName(String complaintServiceWorkerUserName) {
+		this.complaintServiceWorkerUserName = complaintServiceWorkerUserName;
+	}
+
+	public int getComplaintOrderId() {
+		return complaintOrderId;
+	}
+
+	public void setComplaintOrderId(int complaintOrderId) {
+		this.complaintOrderId = complaintOrderId;
 	}
 
 	@Override
 	public String toString() {
 		return "Complaint [complaintNum=" + complaintNum + ", complaintDate=" + complaintDate + ", complaintStat="
-				+ complaintStat + ", complaintCompansation=" + complaintCompansation + ", complaintCompanyServiceWorkerAnswer="
-				+ complaintCompanyServiceWorkerAnswer + ", complaintDetails=" + complaintDetails + "]";
-	}	
+				+ complaintStat + ", complaintCompansation=" + complaintCompansation
+				+ ", complaintCompanyServiceWorkerAnswer=" + complaintCompanyServiceWorkerAnswer + ", complaintDetails="
+				+ complaintDetails + ", complaintUserId=" + complaintUserId + ", complaintServiceWorkerUserName="
+				+ complaintServiceWorkerUserName + ", complaintOrderId=" + complaintOrderId + "]";
+	}
+	
 }
 	
 	

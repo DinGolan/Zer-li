@@ -71,7 +71,6 @@ public class UserController implements Initializable {
 		u.setPassword(this.txtPassword.getText());
 
 		Message msg = new Message(u.getUserName(), "UserStatus");
-
 		UserUI.myClient.accept(msg);
 		while (flag == false) {
 			System.out.print(""); // DOES NOT RUN WITHOUT THIS LINE
@@ -102,7 +101,6 @@ public class UserController implements Initializable {
 			msg.setMsg(UserUI.user.getId());
 			msg.setOption("change User status to CONNECTED");
 			UserUI.myClient.accept(msg); // change User status to CONNECTED in DB
-			System.out.println("user can do Login");
 			switch (UserUI.user.getPermission()) {
 			case COMPANY_MANAGER:
 				permission = "CompanyManagerOptions";
@@ -117,7 +115,7 @@ public class UserController implements Initializable {
 				permission = "CustomerServiceWorkerOptions";
 				break;
 			case CUSTOMER:
-				permission = "CustomerOptions";
+				permission = "CustomerChooseStore";
 				break;
 			case DATA_COMPANY_MANAGER:
 				permission = "DataCompanyManagerOptions";

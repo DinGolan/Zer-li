@@ -2,13 +2,12 @@ package entity;
 
 import java.io.Serializable;
 
-@SuppressWarnings("serial")
 public class Store implements Serializable {
 	
 	private int StoreId;
 	private String Store_Address;
 	private int QuantityOfOrders;
-	private double TotalRevenue;
+	private int TotalRevenue;
 	
 	public Store() {}
 	
@@ -41,11 +40,11 @@ public class Store implements Serializable {
 		QuantityOfOrders = quantityOfOrders;
 	}
 
-	public double getTotalRevenue() {
+	public int getTotalRevenue() {
 		return TotalRevenue;
 	}
 
-	public void setTotalRevenue(double totalRevenue) {
+	public void setTotalRevenue(int totalRevenue) {
 		TotalRevenue = totalRevenue;
 	}
 

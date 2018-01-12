@@ -1,207 +1,411 @@
 package controller;
 
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Map.Entry;
 import java.util.ResourceBundle;
 
-import boundery.OrderUI;
+import boundery.CustomerUI;
 import boundery.ProductUI;
-import entity.Complaint;
+import boundery.UserUI;
+import entity.Account;
 import entity.Message;
 import entity.Order;
-import entity.User;
+import entity.Product;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class OrderController {
+public class OrderController implements Initializable{
 
-	private Message msg;
-	private Order order;
-	private static int itemIndex = 1; /* This Variable Need for the the Case - that we not choose any Product from the ComboBox , so we take the product that in Index 2 By Default */
+	private static int flag=0;
+	public static boolean accountFlag = false;
 	
-	ObservableList<String> userList;
-	
-/* -------------------------  For The First Window ----------------------------------- */	
+	public static boolean accountExistFlag = true;
+	@FXML
+	private Button btnRemove = null; /* button remove for remove product from cart */
+	@FXML
+	private Button btnBack = null; /* button back for return to catalog */
+	@FXML
+	private Button btnOrder = null; /* button order for continue to create order */
+	@FXML
+	private Button btnBackToCatalog = null; /* button order for continue to create order */
+	@FXML
+	private Button btnOrderNow = null; /* button order for continue to create order */
+	@FXML
+	private Button btnBackToCart = null; /* button order for continue to create order */
+	@FXML
+	private Button btnBackToOrder = null; /* button order for continue to create order */
+	@FXML
+	private Button btnCustomerOption = null; /* button order for continue to create order */
+	@FXML
+	private Button btnBackToOptions = null; /* button order for continue to create order */
+
+	@FXML
+	private RadioButton rdbtnAddPostCard = null; /* button order for continue to create order */
+	@FXML
+	private RadioButton rdbtnNoAddPostCard = null; /* button order for continue to create order */
+	@FXML
+	private RadioButton rdbtnDelivery = null; /* button order for continue to create order */
+	@FXML
+	private RadioButton rdbtnPickup = null; /* button order for continue to create order */
 	
 	@FXML
-	private Button btnExit = null;
+	private ComboBox<String> cmbProducts = null; /* list of product in cart */
 	
 	@FXML
-	private ComboBox cmbCustomerOption;  /* ComboBox With List Of Users */
+	private TextField txtPrice= null; /* text field for Total price of cart */
+	@FXML
+	private TextField txtTotalOrderPrice= null; /* text field for Total price of cart */
+	@FXML
+	private TextField txtAddress= null; /* text field for Total price of cart */
+	@FXML
+	private TextField txtRecipientsName= null; /* text field for Total price of cart */
+	@FXML
+	private TextField txtRecipientsPhoneNumber= null; /* text field for Total price of cart */
+	@FXML
+	private TextField txtRequiredTime= null; /* text field for Total price of cart */
+	@FXML
+	private TextArea txtPostCard= null; /* text field for Total price of cart */
 	
 	@FXML
-	private Button btnUserInfo = null; /* Button Of User Info */
+	private Label lbltotalprice= null; /* text field for Total price of cart */
+	@FXML
+	private Label lblArrangement= null; /* text field for Total price of cart */
+	@FXML
+	private Label lblAccountBalance= null; /* text field for Total price of cart */
 	
-/* ----------------------- Method's For the First Window GUI ------------------------ */
 	
-	public void start(Stage primaryStage) throws Exception          /* With this Method we show the GUI of the First Window */
-	{	
-		Parent root = FXMLLoader.load(getClass().getResource("/boundery/CustomerChoiseFrame.fxml"));
-				
-		Scene scene = new Scene(root);
-		/* scene.getStylesheets().add(getClass().getResource("/boundery/CatalogFrame.css").toExternalForm()); */
-		primaryStage.setTitle("Customer - Managment Tool");
-		primaryStage.setScene(scene);
-		
-		primaryStage.show();		
-	}
+	@FXML
+	private DatePicker dpRequiresSupplyDate=new DatePicker(LocalDate.now());  //DatePicker with the end date of the subscription
 	
-	public int getItemIndex()                                   	/* With this Method we Take User from the List of the Users at the ComboBox */
-	{
-		if(cmbCustomerOption.getSelectionModel().getSelectedIndex() == -1)
-			return itemIndex;
 	
-		return cmbCustomerOption.getSelectionModel().getSelectedIndex();
-	}
+	private static double totalPrice;
+	
+	ObservableList<String> listForComboBox;
+	
 
-	public void getExitBtn(ActionEvent event) throws Exception      /* With this Method we Exit from the Catalog */ 
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) // Initialized The ComboBox of the Product 
 	{
-		System.out.println("Exit From - Tool");
-		System.exit(0);			
+		if(flag == 0)
+			setComboBoxAndPrice();
+		if(flag == 1)
+			txtTotalOrderPrice.setText(String.valueOf(totalPrice));
+		if(flag==3)
+		{
+			lbltotalprice.setText(String.valueOf(totalPrice) + " NS");
+			lblAccountBalance.setText(String.valueOf(CustomerUI.account.getAccountBalanceCard()));
+			lblArrangement.setText(String.valueOf(CustomerUI.account.getAccountPaymentArrangement()));
+		}
 	}
 	
-	
-	public void setCustomerChoiseComboBox()      /* In this Method we Set the Product at the ComboBox */
-	{ 				
-		ArrayList<String> temp_Customer_Choise_List = new ArrayList<String>();	
-		
-		
-		temp_Customer_Choise_List.add("Cancel Order");
-		temp_Customer_Choise_List.add("Create Order");
-		temp_Customer_Choise_List.add("Create Complaint");
-		temp_Customer_Choise_List.add("View Profile");
-		
-		
-		userList = FXCollections.observableArrayList(temp_Customer_Choise_List);
-		cmbCustomerOption.setItems(userList);
-	}
-	
-	public void initialize_One(URL arg0, ResourceBundle arg1) // Initialized The ComboBox of the Product 
+	public void setComboBoxAndPrice() // set comboBox of products
 	{
-		ArrayList<String> str = new ArrayList<String>();  /* We Not Use In This Variable , Its Only For send Parameter To the Message Class */
-		 
-		msg = new Message(str, "1");
-
-		OrderUI.myClient.accept(msg);
-		/* while(OrderUI.orders.size() == 0); */ /* For The Window Of the Customer Choose We not Need This Line */
-		setCustomerChoiseComboBox();
+		   ArrayList<String> productsNames = new ArrayList<String>();
+		   double totalPrice= 0;
+		   if(ProductController.order.getProductsInOrder() != null) {
+			for(Entry<Product, Integer> e : ProductController.order.getProductsInOrder().entrySet())   /* We add to the ArrayList all the Faculty */
+			{
+				for(int i=0; i< e.getValue() ; i++)
+				{
+				productsNames.add(e.getKey().getpName());
+				totalPrice += e.getKey().getpPrice();
+				}
+			}
+		   }
+			this.totalPrice = totalPrice;
+			listForComboBox = FXCollections.observableArrayList(productsNames); 
+			cmbProducts.setItems(FXCollections.observableArrayList(listForComboBox)); /* Set the Items Of Faculty at the ComboBox */
+			txtPrice.setText(String.valueOf(totalPrice));
 	}
 	
-/*------------------------ For - Cancel Order --------------------------------------- */
-	
-	public void OpenCancelOrderGUI(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Choose User' and Show the GUI of the User that we Choose */
+	public void removeProduct(ActionEvent event) throws Exception // remove product from cart
 	{
-		((Node)event.getSource()).getScene().getWindow().hide();    /* Hiding primary window */
-		Stage primaryStage = new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		Pane root = loader.load(getClass().getResource("/boundery/OrderWindow.fxml").openStream());
-		
-		loader.getController();		                                    /* ? - Not Sure */        
-		this.loadOrder_For_Cancel(OrderUI.orders.get(getItemIndex())); 	    /* In this Line We take the User that we Choose and Show his Details On the GUI */
-		
-		Scene scene = new Scene(root);			
-		/* scene.getStylesheets().add(getClass().getResource("/boundery/UserInfoForm.css").toExternalForm()); */
-		
-		primaryStage.setScene(scene);		
-		primaryStage.show();
+		String productToRemove = cmbProducts.getValue();
+		if(productToRemove != null)
+		{
+			for(Product p : ProductController.order.getProductsInOrder().keySet())   
+			{
+				if(p.getpName().compareTo(productToRemove) == 0) /*we found the product we want to remove*/
+				{
+					ProductController.order.getProductsInOrder().put(p, (ProductController.order.getProductsInOrder().get(p))-1);
+					if(ProductController.order.getProductsInOrder().get(p) == 0)
+						ProductController.order.getProductsInOrder().remove(p);
+					break;
+				}
+			}
+			setComboBoxAndPrice();
+		}
 	}
 	
-	public void loadOrder_For_Cancel(Order order) /* Loading Product */
-	{
-		this.loadOrder_For_Cancel_At_Window_Two(order);
-	}
-	
-/*------------------------ For - Create Order --------------------------------------- */	
-	
-	public void OpenCreateOrderGUI(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Choose User' and Show the GUI of the User that we Choose */
-	{
-		((Node)event.getSource()).getScene().getWindow().hide();    /* Hiding primary window */
-		Stage primaryStage = new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		Pane root = loader.load(getClass().getResource("/boundery/CatalogWindow.fxml").openStream());
-		
-		loader.getController();		                                    /* ? - Not Sure */        
-		//this.loadUser_One(OrderUI.users.get(getItemIndex())); 	    /* In this Line We take the User that we Choose and Show his Details On the GUI */
-		
-		Scene scene = new Scene(root);			
-		/* scene.getStylesheets().add(getClass().getResource("/boundery/UserInfoForm.css").toExternalForm()); */
-		
-		primaryStage.setScene(scene);		
-		primaryStage.show();
-	}
-	
-	public void loadOrder_For_Create(Order order) /* Loading Product */
-	{
-		//this.loadOrder_For_Create_At_Window_Two(order);
-	}
-	
-/*------------------------ For - Open Complaint --------------------------------------- */	
-	
-	public void OpenCreateComplaintGUI(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Choose User' and Show the GUI of the User that we Choose */
-	{
-		((Node)event.getSource()).getScene().getWindow().hide();    /* Hiding primary window */
-		Stage primaryStage = new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		Pane root = loader.load(getClass().getResource("/boundery/CreateComplaintWindow.fxml").openStream());
-		
-		loader.getController();		                                    /* ? - Not Sure */        
-		//this.loadUser_One(OrderUI.orders.get(getItemIndex())); 	    /* In this Line We take the User that we Choose and Show his Details On the GUI */
-		
-		Scene scene = new Scene(root);			
-		/* scene.getStylesheets().add(getClass().getResource("/boundery/UserInfoForm.css").toExternalForm()); */
-		
-		primaryStage.setScene(scene);		
-		primaryStage.show();
-	}
-	
-	public void loadOrder_For_Complaint(Complaint complaint) /* Loading Product */
-	{
-		//this.loadOrder_For_Complaint_At_Window_Two(complaint);
-	}
-	
-	
-/*------------------------ For - View Profile --------------------------------------- */	
-	
-	public void OpenViewProfileGUI(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Choose User' and Show the GUI of the User that we Choose */
-	{
-		((Node)event.getSource()).getScene().getWindow().hide();    /* Hiding primary window */
-		Stage primaryStage = new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		Pane root = loader.load(getClass().getResource("/boundery/ViewProfileWindow.fxml").openStream());
-		
-		loader.getController();		                                    /* ? - Not Sure */        
-		//this.loadUser_One(OrderUI.orders.get(getItemIndex())); 	    /* In this Line We take the User that we Choose and Show his Details On the GUI */
-		
-		Scene scene = new Scene(root);			
-		/* scene.getStylesheets().add(getClass().getResource("/boundery/UserInfoForm.css").toExternalForm()); */
-		
-		primaryStage.setScene(scene);		
-		primaryStage.show();
-	}
-
-/* ----------------------- Method's For the Second Window GUI ------------------------ */
-	
-	public void loadOrder_For_Cancel_At_Window_Two(Order o) 					/* To load the User details to the text fields */
+	public void closeCarttWindow(ActionEvent event) throws Exception  /* To close the The Window of the Product GUI and Show The Catalog GUI again */
 	{ 
-		this.order = o;
-		//this.txtUserID.setText(user.getId());
-		//this.txtUserName.setText(user.getUserName());		
-		//this.txtUserPhone.setText(user.getPhone());
-		//this.txtUserPassword.setText(user.getPassword());
-		//this.cmbPremmission.setValue(user.getPermission());
-		//this.cmbStatus.setValue(user.getStatus());
+		flag = 0;
+		totalPrice =0;
+		ProductUI.products.clear();
+		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+		Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
+		FXMLLoader loader = new FXMLLoader(); 					 /* load object */
+		Pane root = loader.load(getClass().getResource("/controller/CatalogBouquet.fxml").openStream());
+		
+		Scene scene = new Scene(root);			
+		primaryStage.setScene(scene);	
+				
+		primaryStage.show();									 /* show catalog frame window */
 	}
 	
-/*------------------------ For - Cancel Order ---------------------------------------- */	
+	public void continueToOrder(ActionEvent event) throws Exception  /* To close the The Window of the Product GUI and Show The Catalog GUI again */
+	{ 
+		if(ProductController.order.getProductsInOrder().size() > 0)
+		{
+			flag = 1;
+			((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+			Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
+			FXMLLoader loader = new FXMLLoader(); 					 /* load object */
+			Pane root = loader.load(getClass().getResource("/controller/OrderForm.fxml").openStream());
+		
+			Scene scene = new Scene(root);			
+			primaryStage.setScene(scene);	
+				
+			primaryStage.show();									 /* show catalog frame window */
+		}
+		else {
+			flag = 2;
+			((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+			Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
+			FXMLLoader loader = new FXMLLoader(); 					 /* load object */
+			Pane root = loader.load(getClass().getResource("/controller/NoProductsInOrderMsg.fxml").openStream());
+		
+			Scene scene = new Scene(root);			
+			primaryStage.setScene(scene);	
+				
+			primaryStage.show();									 /* show catalog frame window */
+		}
+	}
+	public void checkAndSaveOrderDetails(ActionEvent event) throws Exception  /*check all order fields and save in DB*/
+	{
+		LocalDate localDate = dpRequiresSupplyDate.getValue();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		LocalDate today = LocalDate.now();
+        Calendar cal = Calendar.getInstance();
+        int minute = cal.get(Calendar.MINUTE); /*get now time */
+        int hour = cal.get(Calendar.HOUR);
+        if(cal.get(Calendar.AM_PM) != 0)
+        	hour += 12;
+		if((localDate != null) && (localDate.isBefore(today))) // required supply date passed
+		{
+			flag = 2;
+			((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+			Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
+			FXMLLoader loader = new FXMLLoader(); 					 /* load object */
+			Pane root = loader.load(getClass().getResource("/controller/ErrDateMsg.fxml").openStream());
+		
+			Scene scene = new Scene(root);			
+			primaryStage.setScene(scene);	
+				
+			primaryStage.show();
+		}
+		else {
+			if((rdbtnDelivery.isSelected() == true) &&(txtAddress.getText().equals(null) || txtRecipientsName.getText().equals(null) ||  localDate == null))
+			{
+					((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+					Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
+					FXMLLoader loader = new FXMLLoader(); 					 /* load object */
+					Pane root = loader.load(getClass().getResource("/controller/ErrEmptyFieldMsg.fxml").openStream());
+					
+					Scene scene = new Scene(root);			
+					primaryStage.setScene(scene);	
+					
+					primaryStage.show();
+			}
+			else if (txtRequiredTime.getText().equals(null) || localDate == null)
+			{
+				flag = 2;
+				((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+				Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
+				FXMLLoader loader = new FXMLLoader(); 					 /* load object */
+				Pane root = loader.load(getClass().getResource("/controller/ErrEmptyFieldMsg.fxml").openStream());
+				
+				Scene scene = new Scene(root);			
+				primaryStage.setScene(scene);	
+				
+				primaryStage.show();
+			}
+			else if(localDate.isEqual(today)) /* requested supply date is today , check time is more than hour from now*/
+			{
+				String time = txtRequiredTime.getText();
+				String hours = time.substring(0, 2);
+				String minutes = time.substring(3, 5);
+				System.out.println(hour);
+				if ((Integer.valueOf(hours) <= hour) || ((Integer.valueOf(hours) == (hour+1)) && (Integer.valueOf(minutes) <= minute)))
+				{
+					flag = 2;
+					((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+					Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
+					FXMLLoader loader = new FXMLLoader(); 					 /* load object */
+					Pane root = loader.load(getClass().getResource("/controller/ErrDateMsg.fxml").openStream());
+				
+					Scene scene = new Scene(root);			
+					primaryStage.setScene(scene);	
+						
+					primaryStage.show();
+				}
+			}
+			else {
+				 try {
+				LocalTime.parse(txtRequiredTime.getText()); /*if supply time is NOT valid throw exception*/
+				flag=3;  /*for next order*/	
+
+				Order.SupplyOption s; 
+				if(rdbtnDelivery.isSelected() == true)
+					s = Order.SupplyOption.DELIVERY;
+				else 
+					s = Order.SupplyOption.PICKUP;
+				Order saveOrder = new Order(s, totalPrice, ProductController.order.getProductsInOrder(), localDate, UserUI.user.getId(), txtRequiredTime.getText(), txtAddress.getText(), txtRecipientsName.getText(), txtRecipientsPhoneNumber.getText(), txtPostCard.getText() , UserUI.store.getStoreId(), CustomerUI.account.getAccountPaymentMethod());
+				Message msg = new Message(saveOrder, "insert order to DB");
+				UserUI.myClient.accept(msg);
+				accountFlag = false;
+				while(accountFlag == false) {
+					System.out.print("");
+				}
+				accountFlag = false;
+				if(accountExistFlag == false) // no account exist for this customer
+				{
+					flag=2;
+					((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+					Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
+					FXMLLoader loader = new FXMLLoader(); 					 /* load object */
+					Pane root = loader.load(getClass().getResource("/controller/NoAccountMsg.fxml").openStream());
+				
+					Scene scene = new Scene(root);			
+					primaryStage.setScene(scene);	
+						
+					primaryStage.show();
+				}
+				else {
+				msg.setOption("Update customer account");
+				UserUI.myClient.accept(msg);
+				accountFlag = false;
+				while(accountFlag == false) {
+					System.out.print("");
+				}
+				accountFlag = false;
+				ProductController.order.getProductsInOrder().clear();  /*for next order*/
+				((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+				Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
+				FXMLLoader loader = new FXMLLoader(); 					 /* load object */
+				if(CustomerUI.account.getAccountPaymentArrangement().equals(Account.PaymentArrangement.ANNUAL))
+					totalPrice *= 0.9;
+				else if(CustomerUI.account.getAccountPaymentArrangement().equals(Account.PaymentArrangement.MONTHLY))
+					totalPrice *= 0.95;
+				Pane root = loader.load(getClass().getResource("/controller/ThankForOrder.fxml").openStream());
+				totalPrice=0;  /*for next order*/
+				Scene scene = new Scene(root);			
+				primaryStage.setScene(scene);	
+						
+				primaryStage.show();
+				} 
+				 }
+				 catch (DateTimeParseException e) /*if supply time is NOT valid*/
+				 {
+						flag = 2;
+						((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+						Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
+						FXMLLoader loader = new FXMLLoader(); 					 /* load object */
+						Pane root = loader.load(getClass().getResource("/controller/ErrTimmeMsg.fxml").openStream());
+					
+						Scene scene = new Scene(root);			
+						primaryStage.setScene(scene);	
+							
+						primaryStage.show();
+				 }
+			}
+		}
+	}
+	
+	public void AddPostCard(ActionEvent event) throws Exception  /*  */
+	{
+		rdbtnNoAddPostCard.setSelected(false);
+		txtPostCard.setEditable(true);
+	}
+	
+	public void NotAddPostCard(ActionEvent event) throws Exception  /*  */
+	{
+		rdbtnAddPostCard.setSelected(false);
+		txtPostCard.setEditable(false);
+	}
+	
+	public void supplyByPickup(ActionEvent event) throws Exception  /*  */
+	{
+		rdbtnDelivery.setSelected(false);
+		txtAddress.setText("");
+		txtRecipientsName.setText("");
+		txtRecipientsPhoneNumber.setText("");
+		txtAddress.setEditable(false);
+		txtRecipientsName.setEditable(false);
+		txtRecipientsPhoneNumber.setEditable(false);
+		txtTotalOrderPrice.setText(String.valueOf(totalPrice));
+	}
+	
+	public void supplyByDelivery(ActionEvent event) throws Exception  /*  */
+	{
+		rdbtnPickup.setSelected(false);
+		txtAddress.setEditable(true);
+		txtRecipientsName.setEditable(true);
+		txtRecipientsPhoneNumber.setEditable(true);
+		double price = totalPrice + Order.getDeliveryPrice();
+		txtTotalOrderPrice.setText(String.valueOf(price));
+	}
+	
+	public void backToOrder(ActionEvent event) throws Exception  /*  */
+	{
+		flag = 1;
+		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+		Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
+		FXMLLoader loader = new FXMLLoader(); 					 /* load object */
+		Pane root = loader.load(getClass().getResource("/controller/OrderForm.fxml").openStream());
+	
+		Scene scene = new Scene(root);			
+		primaryStage.setScene(scene);	
 			
+		primaryStage.show();									 /* show catalog frame window */
+	}
+	
+	public void backToCustomerOption(ActionEvent event) throws Exception
+	{
+		flag=0;
+		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+		Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
+		FXMLLoader loader = new FXMLLoader(); 					 /* load object */
+		Pane root = loader.load(getClass().getResource("/controller/CustomerOptions.fxml").openStream());
+	
+		Scene scene = new Scene(root);			
+		primaryStage.setScene(scene);	
+			
+		primaryStage.show();
+	}
+	
+
 }
+	

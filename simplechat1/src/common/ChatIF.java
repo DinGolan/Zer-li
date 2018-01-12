@@ -22,4 +22,5 @@ public interface ChatIF
   public abstract void displayUI(Object message);
   public abstract void sendUser(Object message);
   public abstract void addAccount(Object message);
+  public abstract void addComplaint(Object msg);
 }

@@ -2,6 +2,8 @@ package controller;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
+
+import boundery.AccountUI;
 import boundery.UserUI;
 import entity.Account;
 import entity.Account.PaymentArrangement;
@@ -125,7 +127,7 @@ public class AccountController {
 		Pane root = null;
 		Stage primaryStage = new Stage(); //Object present window with graphics elements
 		FXMLLoader loader = new FXMLLoader(); //load object
-		UserUI.account=new Account();
+		AccountUI.account=new Account();
 
 		a.setAccountUserId(txtAccountUserId.getText()); //set the user id
 		a.setAccountBalanceCard(Double.parseDouble(txtAccountBalanceCard.getText())); //set the balance account
@@ -146,10 +148,10 @@ public class AccountController {
 			String dateStr=localDate.toString();
 			Date parsed = format.parse(dateStr);
 		    dateSql = new java.sql.Date(parsed.getTime());
-		    a.setAccountSubscriptionEndDate(dateSql); //get the date problem
+		    a.setAccountSubscriptionEndDate(dateSql); //set the date
 		}
 		else
-			 a.setAccountSubscriptionEndDate(null); //get the date problem	   
+			 a.setAccountSubscriptionEndDate(null); //set the date   
 		
 		if(rdbtnAccountPaymentArrangmentAnnual.isSelected()) //if we choose Annual
 			a.setAccountPaymentArrangement(PaymentArrangement.ANNUAL);	
@@ -172,7 +174,7 @@ public class AccountController {
 		}
 		flag = false;
 		
-		if(UserUI.account.getAccountUserId().equals("Account already exist")) //account for this user already exist
+		if(AccountUI.account.getAccountUserId().equals("Account already exist")) //account for this user already exist
 		{
 			((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
 			root = loader.load(getClass().getResource("/controller/UserAccountExistMsg.fxml").openStream());
@@ -196,7 +198,6 @@ public class AccountController {
 		}
 	} 
 		
-	//לעשות או של try again או שם כללי יותר של הוספת חשבון נוסף
 	public void addNewOtherAccount(ActionEvent event) throws Exception //With this Method we show the GUI of the First Window
 	{	
 		((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
@@ -217,9 +218,10 @@ public class AccountController {
 		FXMLLoader loader = new FXMLLoader(); 					 //load object
 		Pane root = loader.load(getClass().getResource("/controller/StoreManagerOptions.fxml").openStream());	
 		Scene scene = new Scene(root);			
-		primaryStage.setScene(scene);					
+		primaryStage.setScene(scene);	
+		primaryStage.setTitle("Menu");
 		primaryStage.show(); //show sore manager options window
-		System.out.println("Exit from- Account card form");							
+		//System.out.println("Exit from- Account card form");							
 	}
 		
 }

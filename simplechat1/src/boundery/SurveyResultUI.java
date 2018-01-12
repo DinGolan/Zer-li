@@ -1,5 +1,6 @@
 package boundery;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import controller.SurveyController;
@@ -11,22 +12,23 @@ import mypackage.ClientConsole;
 public class SurveyResultUI extends Application{
 
 	public static ClientConsole myClient;
-
+	public static ArrayList<Integer> Id = new ArrayList<Integer>();
+	
 	public static void main( String args[] ) throws Exception
-	{
+	{	
 
-		System.out.println("Please enter the server IP");
-		Scanner scanner = new Scanner(System.in);
-		String IP = scanner.next(); /* Enter Server IP */
-		myClient = new ClientConsole(IP, 5555);
-        launch(args);		
+		//System.out.println("Please enter the server IP");
+		//Scanner scanner = new Scanner(System.in);
+		//String IP = scanner.next(); /* Enter Server IP */
+		//myClient = new ClientConsole(IP, 5555);
+        //launch(args);		
 	} 
 	
 	@Override
 	public void start(Stage arg0) throws Exception 
 	{		
-		SurveyResultController aFrame = new SurveyResultController(); /* Create SurveyFrame */				  
-		aFrame.start(arg0);
+		//SurveyResultController aFrame = new SurveyResultController(); /* Create SurveyFrame */				  
+		//aFrame.start(arg0);
 	}
 
 }

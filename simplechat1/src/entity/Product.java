@@ -1,27 +1,30 @@
 package entity;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
+
+import javafx.scene.image.Image;
 
 public class Product implements Serializable
 {
 	private String pID;
 	private String pName;
 	private ProductType pType;	
+	private int pStore;	
 	private double pPrice;	
-	private String pPicture;
-	private int Quantity;
+	private transient InputStream input;
+	private transient Image image;
+	private byte[] buffer;
 
 	public enum ProductType {BOUQUET , ARRANGEMENT , SWEET_BOUQUET , FLOWER_CROWN , BRIDAL_BOUQUET , VASE , FLOWER_WREATH}
 	
-	public Product() {}
 	
-	public Product(String pID, String pName, ProductType pType ,double pPrice , String pPicture) {
+
+	public Product() {
 		super();
-		this.pID = pID;
-		this.pName = pName;
-		this.pType = pType; 
-		this.pPrice = pPrice;
-		this.pPicture = pPicture;
 	}
 
 	public String getpID() {
@@ -47,6 +50,10 @@ public class Product implements Serializable
 	public void setpType(ProductType pType) {
 		this.pType = pType;
 	}
+	
+	public String toString(){
+		return String.format("\nProduct: %s\t %s\t %s\n",pID,pName,pType);
+	}
 
 	public double getpPrice() {
 		return pPrice;
@@ -56,23 +63,66 @@ public class Product implements Serializable
 		this.pPrice = pPrice;
 	}
 
-	public String getpPicture() {
-		return pPicture;
+
+	public InputStream getInput() {
+		return input;
 	}
 
-	public void setpPicture(String pPicture) {
-		this.pPicture = pPicture;
+	public void setInput(InputStream input) {
+		this.input = input;
 	}	
-	
-	public int getQuantity() {
-		return Quantity;
+
+	public void setImage(InputStream inputStream)
+	{
+		this.input = inputStream;
+		try {
+			buffer = new byte[inputStream.available()];
+			inputStream.read(buffer);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 	}
 
-	public void setQuantity(int quantity) {
-		Quantity = quantity;
+	public Image getImage() {
+		return image;
 	}
 	
-	public String toString(){
-		return String.format("\nProduct: %s\t %s\t %s\n",pID,pName,pType);
+	public byte[] getByteArray() {
+		return buffer;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((pID == null) ? 0 : pID.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this.getpID() == ((Product)obj).getpID())
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Product other = (Product) obj;
+		if (pID == null) {
+			if (other.pID != null)
+				return false;
+		} else if (!pID.equals(other.pID))
+			return false;
+		return true;
+	}
+
+	public int getpStore() {
+		return pStore;
+	}
+
+	public void setpStore(int pStore) {
+		this.pStore = pStore;
+	}
+	
+	
 }

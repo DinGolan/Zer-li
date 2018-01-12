@@ -1,14 +1,9 @@
 package controller;
-import java.net.URL;
-import java.util.ResourceBundle;
-
-import boundery.ProductUI;
-import boundery.StoreManagerUI;
-import entity.User;
+import boundery.UserUI;
+import entity.Message;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -16,56 +11,31 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class StoreManagerController implements Initializable {
+public class StoreManagerController {
+	@FXML
+	private Button btnStoreManagerViewSReport = null; //button to view report
 
-    @FXML
-    private Button btnStoreManagerExit;   /* Button For Exit From The GUI Of The Store Manager */
-
-    @FXML
-    private Button btnStoreManagerLogout; /* Button For Logout From The User Of Store Manager */
-
-    @FXML
-    private Button btnViewReport;         /* Button For View Report */
-
-    @FXML
-    private Button btnUpdateCatalog;      /* Button For Update Catalog */
-
-    @FXML
-    private Button btnStoreManagerOpenNewAccount;  /* Button For Open New Account */
-
-/* ----------------------------------- Open For Us The GUI Of the Store Manager -------------------------------------- */
-    
-	public void start(Stage primaryStage) throws Exception          			  /* With this Method we show the GUI of the First Window */
-	{	
-		Parent root = FXMLLoader.load(getClass().getResource("/controller/StoreManagerOptions.fxml"));
-		Scene scene = new Scene(root);
-		primaryStage.setTitle("Quarterly Report - Managment Tool");
-		primaryStage.setScene(scene);
-		primaryStage.show();		
-	}
+	@FXML
+	private Button btnStoreManagerUpdateCatalogSales = null; //button to view catalog and update sales
 	
-/* ----------------------------------- Open For Us The GUI Of the Store Manager Report Window -------------------------------------- */	
+	@FXML
+	private Button btnStoreManagerOpenNewAccount = null; //button to open new customer account
+	
+	@FXML
+	private Button btnStoreManagerExit = null; //button to exit the menu options
+	
+	@FXML
+	private Button btnStoreManagerLogout = null; //button to do logout
 	
 	public void viewReportBtn(ActionEvent event) throws Exception //To open the view report option
 	{
-		((Node)event.getSource()).getScene().getWindow().hide();    			  /* Hiding primary window */
-		Stage primaryStage = new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		Pane root = loader.load(getClass().getResource("/controller/StoreManagerReportForm.fxml").openStream()); 
-		
-		Scene scene = new Scene(root);			
-		primaryStage.setScene(scene);		
-		primaryStage.show();
+
 	}
-	
-/* ----------------------------------- Open For Us The GUI Of the Store Manager - Update Catalog And Make Sales -------------------------------------- */	
 	
 	public void updateCatalogAndSalesBtn(ActionEvent event) throws Exception //To open the update catalog and sales option
 	{
 	
 	}
-	
-/* ----------------------------------- Open For Us The GUI Of the Store Manager - Open New Account -------------------------------------- */
 	
 	public void openNewAccountBtn(ActionEvent event) throws Exception //To open the add new account option
 	{
@@ -84,7 +54,6 @@ public class StoreManagerController implements Initializable {
 		primaryStage.show();
 	}
 	
-/* ----------------------------------- Exit From the Window Of The Store Manager -------------------------------------- */
 	
 	/////אולי להוריד את קיום הכפתור יציאה
 	public void exitBtn(ActionEvent event) throws Exception //Exit from the store manager options
@@ -93,19 +62,19 @@ public class StoreManagerController implements Initializable {
 		System.exit(0);			
 	}
 	
-/* ----------------------------------- Logout From the User Of - Store Manager -------------------------------------- */
 	
-	///יש בעיה!!!!
 	public void logoutBtn(ActionEvent event) throws Exception //logout by the store manager
 	{
-		UserController u = new UserController();
-		u.logout(event);		
-	}
-
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
-	
-	
+		Message msg = new Message(UserUI.user.getId(), "change User status to DISCONNECTED");
+		UserUI.myClient.accept(msg); // change User status to DISCONNECTED in DB
+		((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+		Stage primaryStage = new Stage(); /* Object present window with graphics elements */
+		FXMLLoader loader = new FXMLLoader(); /* load object */
+		Parent root = FXMLLoader.load(getClass().getResource("/controller/UserLogin.fxml"));
+		Scene scene = new Scene(root);
+		primaryStage.setTitle("LOGIN");
+		primaryStage.setScene(scene);
+		primaryStage.show();		
 	}
 
 }

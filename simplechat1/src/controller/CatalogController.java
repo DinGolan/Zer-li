@@ -1,6 +1,8 @@
 package controller;
+import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
@@ -10,7 +12,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import boundery.CatalogUI;
-import java.util.Vector;
+import boundery.OrderUI;
 import boundery.UserUI;
 import entity.Message;
 import entity.Product;
@@ -21,6 +23,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
@@ -32,33 +35,29 @@ import javafx.stage.Stage;
 
 public class CatalogController implements Initializable {
 	private Message msg;
-
-	@FXML
-	private Button btnBack = null;
 	
 	@FXML
-	private Hyperlink BouquetsLink;
-	
+	private Button btnBack = null;	
 	@FXML
-	private Hyperlink ArrangementsLink;
-	
+	private Hyperlink BouquetsLink;	
 	@FXML
-	private Hyperlink SweetBouquetLink;
-	
+	private Hyperlink ArrangementsLink;	
 	@FXML
-	private Hyperlink FlowerCrownLink;
-	
+	private Hyperlink SweetBouquetLink;	
 	@FXML
-	private Hyperlink BridalLink;
-	
+	private Hyperlink FlowerCrownLink;	
 	@FXML
-	private Hyperlink FlowerWreathLink;
-	
+	private Hyperlink BridalLink;	
 	@FXML
-	private Hyperlink VaseLink;
-	
+	private Hyperlink FlowerWreathLink;	
+	@FXML
+	private Hyperlink VaseLink;	
 	@FXML
 	private Hyperlink SalesLink;
+	@FXML
+	private Hyperlink LinkCart;
+	@FXML
+	private Hyperlink LinkLogout;
 
 	
 	@FXML
@@ -186,31 +185,45 @@ public class CatalogController implements Initializable {
 		btnProductInfo = Arrays.asList(info1, info2 , info3 ,info4 , info5 , info6 , info7 , info8 , info9 , info10 , info11 , info12);
 		labels = Arrays.asList(label1 , label2 , label3 , label4 , label5 , label6 , label7 , label8 , label9 , label10 , label11 , label12);
 		CatalogUI.products.clear();
+		CatalogUI.productsInSale.clear();
 		ArrayList<String> s = new ArrayList<String>();
 		Image image;
-		InputStream is;
 		msg = new Message(s, "get all products in DB");
-		int i=0 , j;
+		int i=0 , j ,k;
 		Product p;
+		boolean flagSale = false;
+		InputStream targetStream;
 		UserUI.myClient.accept(msg);
-		while(CatalogUI.products.size()==0); 
+		while(CatalogUI.products.size()==0);
+		msg.setOption("get all products in sale from DB");
+		msg.setMsg(UserUI.store);
+		UserUI.myClient.accept(msg);
+		while(CatalogUI.productsInSale.size()==0);
 		for(j=0 ; j<CatalogUI.products.size() ; j++)
 		{
+			flagSale = false;
 			p = CatalogUI.products.get(j);
-			if(p.getpType().equals(ProductType.valueOf("BOUQUET")))
+			for(k = 0 ; k<CatalogUI.productsInSale.size() ; k++)
 			{
-			       try {
-			            is = new FileInputStream(p.getpPicture()); 
-						image = new Image(is);
-						Pics.get(i).setImage(image);
-						labels.get(i).setText(p.getpName());
-						labels.get(i).setVisible(true);
-						btnProductInfo.get(i).setVisible(true);
-						btnProductInfo.get(i).setDisable(false);
-						i++;
-			        } catch (FileNotFoundException e) {
-			            e.printStackTrace();
-			        }
+				if(p.getpID().compareTo(CatalogUI.productsInSale.get(k).getpID()) == 0)
+				{
+					flagSale = true;
+					break;
+				}
+			}
+			if(flagSale == false) 
+			{
+				if(p.getpType().equals(ProductType.valueOf("BOUQUET")))
+				{
+					targetStream= new ByteArrayInputStream(p.getByteArray());
+					image = new Image(targetStream);
+					Pics.get(i).setImage(image);
+					labels.get(i).setText(p.getpName());
+					labels.get(i).setVisible(true);
+					btnProductInfo.get(i).setVisible(true);
+					btnProductInfo.get(i).setDisable(false);
+					i++;
+				}
 			}
 		}
 	}
@@ -219,14 +232,16 @@ public class CatalogController implements Initializable {
 	{
 		initall();
 		CatalogUI.products.clear();
+		CatalogUI.productsInSale.clear();
 		ArrayList<String> s = new ArrayList<String>();
 		Image image;
-		InputStream is;
 		msg = new Message(s, "get all products in DB");
 		Iterator<Product> iter = CatalogUI.products.iterator();
-		int i=0 , j;
+		int i=0 , j, k;
 		Product p;
+		boolean flagSale = false;
 		String type = null;
+		InputStream targetStream;
 		switch(((Node)event.getSource()).getId()) { //category that pressed
 		case "BouquetsLink":
 			type = "BOUQUET";
@@ -256,30 +271,77 @@ public class CatalogController implements Initializable {
 			type = "VASE";
 			flag = "VASE";
 			break;
+		case "SalesLink":
+			type = "SALE";
+			flag = "SALE";
+			break;
 		}
-		
+
 		UserUI.myClient.accept(msg);
 		while(CatalogUI.products.size()==0);
-		for(j=0 ; j<CatalogUI.products.size() ; j++) //create product in catalog
-		{
-			p = CatalogUI.products.get(j);
-			if(p.getpType().equals(ProductType.valueOf(type)))
+		msg.setOption("get all products in sale from DB");
+		msg.setMsg(UserUI.store);		
+		UserUI.myClient.accept(msg);
+		while(CatalogUI.productsInSale.size()==0);
+		if(type.compareTo("SALE") !=0)
 			{
-			       try {
-			            is = new FileInputStream(p.getpPicture()); 
-						image = new Image(is);
+			for(j=0 ; j<CatalogUI.products.size() ; j++) //create product in catalog
+			{
+				flagSale = false;
+				p = CatalogUI.products.get(j);
+				for(k = 0 ; k<CatalogUI.productsInSale.size() ; k++)
+				{
+					if(p.getpID().compareTo(CatalogUI.productsInSale.get(k).getpID()) == 0)
+					{
+						flagSale = true;
+						break;
+					}
+				}
+				if(flagSale == false) 
+				{
+					if(p.getpType().equals(Product.ProductType.valueOf(type)))
+					{
+						targetStream= new ByteArrayInputStream(p.getByteArray());
+						image = new Image(targetStream);
 						Pics.get(i).setImage(image);
 						labels.get(i).setText(p.getpName());
 						labels.get(i).setVisible(true);
 						btnProductInfo.get(i).setVisible(true);
 						btnProductInfo.get(i).setDisable(false);
 						i++;
-			        } catch (FileNotFoundException e) {
-			            e.printStackTrace();
-			        }
+					}
+				}
+			}
+		}
+		else
+		{
+			for(j=0 ; j<CatalogUI.products.size() ; j++) //create product in catalog
+			{
+				flagSale = false;
+				p = CatalogUI.products.get(j);
+				for(k = 0 ; k<CatalogUI.productsInSale.size() ; k++)
+				{
+					if(p.getpID().compareTo(CatalogUI.productsInSale.get(k).getpID()) == 0)
+					{
+						flagSale = true;
+						break;
+					}
+				}
+				if(flagSale == true) 
+				{
+					targetStream= new ByteArrayInputStream(p.getByteArray());
+					image = new Image(targetStream);
+					Pics.get(i).setImage(image);
+					labels.get(i).setText(p.getpName());
+					labels.get(i).setVisible(true);
+					btnProductInfo.get(i).setVisible(true);
+					btnProductInfo.get(i).setDisable(false);
+					i++;
+				}
 			}
 		}
 	}
+
 	
 	
 	public void openProductInfoWindow(ActionEvent event) throws Exception { // open info window of the product the user want info of.
@@ -317,6 +379,34 @@ public class CatalogController implements Initializable {
 		return -1;
 	}
 	
+	public void showCart(ActionEvent event) throws Exception // show all products in cart. 
+	{
+		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+		Stage primaryStage = new Stage();
+		FXMLLoader loader = new FXMLLoader();
+		Pane root = loader.load(getClass().getResource("/controller/CartFrame.fxml").openStream());
+		
+		
+		Scene scene = new Scene(root);			
+		//scene.getStylesheets().add(getClass().getResource("/gui/StudentForm.css").toExternalForm());
+		
+		primaryStage.setScene(scene);		
+		primaryStage.show();
+	}
 	
+	public void logout(ActionEvent event) throws Exception /* logout and open login window */
+	{
+		CustomerController.flag = false;
+		Message msg = new Message(UserUI.user.getId(), "change User status to DISCONNECTED");
+		UserUI.myClient.accept(msg); // change User status to DISCONNECTED in DB
+		((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+		Stage primaryStage = new Stage(); /* Object present window with graphics elements */
+		FXMLLoader loader = new FXMLLoader(); /* load object */
+		Parent root = FXMLLoader.load(getClass().getResource("/controller/UserLogin.fxml"));
+		Scene scene = new Scene(root);
+		primaryStage.setTitle("LOGIN");
+		primaryStage.setScene(scene);
+		primaryStage.show();
+	}
 
 }
