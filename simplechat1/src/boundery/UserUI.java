@@ -1,5 +1,6 @@
 package boundery;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Vector;
 
@@ -19,6 +20,8 @@ public class UserUI extends Application /* With This Class We Show the Product G
 	public static ClientConsole myClient;
 	public static User user = null;
 	public static Store store;
+	public static ArrayList<Integer> Id = new ArrayList<Integer>();
+
 
 	//public static Account account;
 	//public static Complaint complaint;

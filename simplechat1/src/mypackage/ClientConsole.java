@@ -4,11 +4,14 @@ package mypackage;
 /* license found at www.lloseng.com */
 
 import java.io.IOException;
+import java.sql.Date;
 import java.util.ArrayList;
 import boundery.AccountUI;
 import boundery.CatalogUI;
+import boundery.CompanyManagerUI;
 import boundery.ComplaintUI;
 import boundery.DataCompanyManagerUI;
+import boundery.StoreManagerUI;
 import boundery.UserUI;
 import client.ChatClient;
 import common.ChatIF;
@@ -22,6 +25,7 @@ import entity.Complaint;
 import entity.Message;
 import entity.Order;
 import entity.Product;
+import entity.Store;
 import entity.User;
 import boundery.SurveyResultUI;
 
@@ -115,7 +119,8 @@ public class ClientConsole implements ChatIF
    *
    * @param message - The string to be displayed.
    */
-  public void displayUI(Object message) 
+  @SuppressWarnings("unchecked")
+public void displayUI(Object message) 
   {
 	    if(((Message)message).getOption().compareTo("get all products in DB") ==0) 		/* Check that its update */
 	    {
@@ -173,6 +178,181 @@ public class ClientConsole implements ChatIF
 	  	  		ComplaintUI.complaintsNumbers.add(temp.get(i));
 	  	  	
 	  	  	ComplaintHandleController.loadComplaintsFlag=true; //finish to get all the complaints to this customer service worker
+	    }
+	    else if(((Message)message).getOption().compareTo("Store Manager - Add Store To Combo Box From DB") == 0)
+	    {
+		  	  int i=0;
+			  ArrayList<Store> temp = new ArrayList<Store>();
+			  temp = (ArrayList<Store>)((Message)message).getMsg();
+			  StoreManagerUI.stores.clear();
+
+			  for(i=0;i<temp.size();i++)
+		  	  {
+				  StoreManagerUI.stores.add(temp.get(i));
+		  	  }
+	    }
+	    else if(((Message)message).getOption().compareTo("Store Manager - Take The Orders Of Specific Store") == 0)
+	    {
+		  	  int i=0;
+			  ArrayList<Order> temp_Order = new ArrayList<Order>();
+			  temp_Order = (ArrayList<Order>)((Message)message).getMsg();
+			  StoreManagerUI.orders.clear();
+
+			  for(i=0;i<temp_Order.size();i++)
+		  	  {
+				  StoreManagerUI.orders.add(temp_Order.get(i));
+		  	  }
+	    } 
+	    else if(((Message)message).getOption().compareTo("Store Manager - Take The Complaints Of Specific Store") == 0)
+	    {
+		  	  int i=0;
+			  ArrayList<Complaint> temp_Complaint = new ArrayList<Complaint>();
+			  temp_Complaint = (ArrayList<Complaint>)((Message)message).getMsg();
+			  StoreManagerUI.complaints.clear();
+
+			  for(i=0;i<temp_Complaint.size();i++)
+		  	  {
+				  StoreManagerUI.complaints.add(temp_Complaint.get(i));
+		  	  }
+	    }
+	    else if(((Message)message).getOption().compareTo("Store Manager - Take the Revenue Of Specific Quarter Of Specific Store") == 0)
+	    {
+	    	  int i = 0;
+			  ArrayList<Object> temp_Revenue_And_Number_Of_Order_Of_Specific_Store_Of_Specific_Quarter = new ArrayList<Object>();
+			  temp_Revenue_And_Number_Of_Order_Of_Specific_Store_Of_Specific_Quarter = (ArrayList<Object>)((Message)message).getMsg();
+			  StoreManagerUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter.clear();
+
+			  for(i=0;i<temp_Revenue_And_Number_Of_Order_Of_Specific_Store_Of_Specific_Quarter.size();i++)
+		  	  {
+				  StoreManagerUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter.add(temp_Revenue_And_Number_Of_Order_Of_Specific_Store_Of_Specific_Quarter.get(i));
+		  	  }
+	    }
+	    else if(((Message)message).getOption().compareTo("Store Manager - Take The Date Of All the Report Of Specific Store") == 0)
+	    {
+		  	  int i = 0;
+			  ArrayList<Date> temp_Date_Of_Report = new ArrayList<Date>();
+			  temp_Date_Of_Report = (ArrayList<Date>)((Message)message).getMsg();
+			  StoreManagerUI.Dates.clear();
+
+			  for(i=0;i<temp_Date_Of_Report.size();i++)
+		  	  {
+				  StoreManagerUI.Dates.add(temp_Date_Of_Report.get(i));
+		  	  }
+	    }
+	    else if(((Message)message).getOption().compareTo("Store Manager - Take The Surveys Of Specific Store In Specific Quarter") == 0)
+	    {
+		  	  int i = 0;
+			  ArrayList<Double> temp_Survey_Result = new ArrayList<Double>();
+			  temp_Survey_Result = (ArrayList<Double>)((Message)message).getMsg();
+			  StoreManagerUI.Average_Result_Of_Each_Qustions_In_surveys.clear();
+
+			  for(i=0;i<temp_Survey_Result.size();i++)
+		  	  {
+				  StoreManagerUI.Average_Result_Of_Each_Qustions_In_surveys.add(temp_Survey_Result.get(i));
+		  	  }
+	    }
+	    else if(((Message)message).getOption().compareTo("Company Manager - Add Store To Combo Box From DB") == 0)
+	    {
+		  	  int i=0;
+			  ArrayList<Store> temp = new ArrayList<Store>();
+			  temp = (ArrayList<Store>)((Message)message).getMsg();
+			  CompanyManagerUI.stores_For_Company_Manager.clear();
+			  CompanyManagerUI.stores_For_Company_Manager_2.clear();
+
+			  for(i=0;i<temp.size();i++)
+		  	  {
+				  CompanyManagerUI.stores_For_Company_Manager.add(temp.get(i));
+				  CompanyManagerUI.stores_For_Company_Manager_2.add(temp.get(i));
+		  	  }
+	    }
+	    else if(((Message)message).getOption().compareTo("Company Manager - Take The Orders Of Specific Store") == 0)
+	    {
+		  	  int i=0;
+			  ArrayList<Order> temp_Order = new ArrayList<Order>();
+			  temp_Order = (ArrayList<Order>)((Message)message).getMsg();
+			  CompanyManagerUI.orders_For_Company_Manager.clear();
+			  CompanyManagerUI.orders_For_Company_Manager_2.clear();
+
+			  for(i=0;i<temp_Order.size();i++)
+		  	  {
+				  CompanyManagerUI.orders_For_Company_Manager.add(temp_Order.get(i));
+				  CompanyManagerUI.orders_For_Company_Manager_2.add(temp_Order.get(i));
+		  	  }
+	    } 
+	    else if(((Message)message).getOption().compareTo("Company Manager - Take The Complaints Of Specific Store") == 0)
+	    {
+		  	  int i=0;
+			  ArrayList<Complaint> temp_Complaint = new ArrayList<Complaint>();
+			  temp_Complaint = (ArrayList<Complaint>)((Message)message).getMsg();
+			  CompanyManagerUI.complaints_For_Company_Manager.clear();
+			  CompanyManagerUI.complaints_For_Company_Manager_2.clear();
+
+			  for(i=0;i<temp_Complaint.size();i++)
+		  	  {
+				  CompanyManagerUI.complaints_For_Company_Manager.add(temp_Complaint.get(i));
+				  CompanyManagerUI.complaints_For_Company_Manager_2.add(temp_Complaint.get(i));
+		  	  }
+	    }
+	    else if(((Message)message).getOption().compareTo("Company Manager - Take the Revenue Of Specific Quarter Of Specific Store") == 0)
+	    {
+	    	  int i = 0;
+			  ArrayList<Object> temp_Revenue_And_Number_Of_Order_Of_Specific_Store_Of_Specific_Quarter = new ArrayList<Object>();
+			  temp_Revenue_And_Number_Of_Order_Of_Specific_Store_Of_Specific_Quarter = (ArrayList<Object>)((Message)message).getMsg();
+			  CompanyManagerUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter_For_Company_Manager.clear();
+			  CompanyManagerUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter_For_Company_Manager_2.clear();
+			  for(i=0;i<temp_Revenue_And_Number_Of_Order_Of_Specific_Store_Of_Specific_Quarter.size();i++)
+		  	  {
+				  CompanyManagerUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter_For_Company_Manager.add(temp_Revenue_And_Number_Of_Order_Of_Specific_Store_Of_Specific_Quarter.get(i));
+				  CompanyManagerUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter_For_Company_Manager_2.add(temp_Revenue_And_Number_Of_Order_Of_Specific_Store_Of_Specific_Quarter.get(i));
+		  	  }
+	    }
+	    else if(((Message)message).getOption().compareTo("Comapny Manager - Take The Date Of All the Report Of Specific Store") == 0)
+	    {
+		  	  int i = 0;
+			  ArrayList<Date> temp_Date_Of_Report = new ArrayList<Date>();
+			  temp_Date_Of_Report = (ArrayList<Date>)((Message)message).getMsg();
+			  CompanyManagerUI.Dates_For_Company_Manager.clear();
+			  CompanyManagerUI.Dates_For_Company_Manager_2.clear();
+
+			  for(i=0;i<temp_Date_Of_Report.size();i++)
+		  	  {
+				  CompanyManagerUI.Dates_For_Company_Manager.add(temp_Date_Of_Report.get(i));
+				  CompanyManagerUI.Dates_For_Company_Manager_2.add(temp_Date_Of_Report.get(i));
+		  	  }
+	    }
+	    else if(((Message)message).getOption().compareTo("Company Manager - Take The Surveys Of Specific Store In Specific Quarter") == 0)
+	    {
+		  	  int i = 0;
+			  ArrayList<Double> temp_Survey_Result = new ArrayList<Double>();
+			  temp_Survey_Result = (ArrayList<Double>)((Message)message).getMsg();
+			  CompanyManagerUI.Average_Result_Of_Each_Qustions_In_surveys_For_Company_Manager.clear();
+			  CompanyManagerUI.Average_Result_Of_Each_Qustions_In_surveys_For_Company_Manager_2.clear();
+			  
+			  for(i=0;i<temp_Survey_Result.size();i++)
+		  	  {
+				  CompanyManagerUI.Average_Result_Of_Each_Qustions_In_surveys_For_Company_Manager.add(temp_Survey_Result.get(i));
+				  CompanyManagerUI.Average_Result_Of_Each_Qustions_In_surveys_For_Company_Manager_2.add(temp_Survey_Result.get(i));
+		  	  }
+	    }
+	    else if(((Message)message).getOption().compareTo("Company Manager - Compare Between Two Different Quarter") == 0)
+	    {
+		  	  int i = 0;
+			  ArrayList<Object> temp_Object_From_Comparing = new ArrayList<Object>();
+			  temp_Object_From_Comparing = (ArrayList<Object>)((Message)message).getMsg();
+			  CompanyManagerUI.Object_From_Comparing_For_Store_1.clear();
+			  CompanyManagerUI.Object_From_Comparing_For_Store_2.clear();
+			  
+			  for(i = 0 ; i < temp_Object_From_Comparing.size() ; i++)
+		  	  {
+				  if(i % 2 == 0)
+				  {
+					  CompanyManagerUI.Object_From_Comparing_For_Store_1.add(temp_Object_From_Comparing.get(i));
+				  }
+				  else 
+				  {
+					  CompanyManagerUI.Object_From_Comparing_For_Store_2.add(temp_Object_From_Comparing.get(i));
+				  }
+		  	  }
 	    }
    }
   

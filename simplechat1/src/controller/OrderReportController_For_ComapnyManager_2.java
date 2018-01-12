@@ -3,13 +3,18 @@ package controller;
 import java.net.URL;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Map.Entry;
 
 import boundery.CompanyManagerUI;
 import entity.Message;
 import entity.Order;
 import entity.Product;
 import entity.Store;
+import entity.Product.ProductType;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -121,21 +126,24 @@ public class OrderReportController_For_ComapnyManager_2 implements Initializable
 		Put_At_The_Chart_All_The_Orders();
 	}
 	
-/* --------------------------------- Initialize The Order And the Product Type At the Bar Chart ------------------------------------------------- */	 		
+/* --------------------------------- Initialize The Order And the Product Type At the Bar Chart ------------------------------------------------- */	 		               
 	
 	public void Put_At_The_Chart_All_The_Orders()
 	{
 		int [] Count_In_Chart;
+		Product.ProductType product_Type;
 		ArrayList<Product.ProductType> productType_Of_Specific_Order_Of_Specific_Store = new ArrayList<Product.ProductType>();   /* All the Product That We Order On Specific Store */
 		ArrayList<Order> orders = new ArrayList<Order>();                         						   /* All The Orders That We Order On Specific Store */
+		
 		for(int i = 0 ; i < CompanyManagerUI.orders_For_Company_Manager_2.size() ; i++)                                                  /* In This Loop We Initialize All the Orders At ArrayList Of Orders */                                             
 		{
 			orders.add(CompanyManagerUI.orders_For_Company_Manager_2.get(i));
-			for(int j = 0 ; j < orders.get(i).getProductsInOrder().size() ; j++)                           /* In This Loop We Initialize All the Product Type At the product_Of_Specific_Store */
+			for (Entry<ProductType, Integer> entry : orders.get(i).getProductInOrderType().entrySet()) 
 			{
-				if((productType_Of_Specific_Order_Of_Specific_Store.contains(orders.get(i).getProductsInOrder().get(j).getpType())) == false)
+				if((productType_Of_Specific_Order_Of_Specific_Store.contains(entry.getKey()) == false))
 				{
-					productType_Of_Specific_Order_Of_Specific_Store.add(orders.get(i).getProductsInOrder().get(j).getpType());
+					product_Type = entry.getKey();
+					productType_Of_Specific_Order_Of_Specific_Store.add(product_Type);
 				}
 			}
 		}
@@ -153,11 +161,11 @@ public class OrderReportController_For_ComapnyManager_2 implements Initializable
 		
 		for(int Order_Index = 0 ; Order_Index < orders.size() ; Order_Index++)
 		{
-			for(int Product_In_Order_Index = 0 ; Product_In_Order_Index < orders.get(Order_Index).getProductsInOrder().size() ; Product_In_Order_Index++)
+			for (Entry<ProductType, Integer> entry : orders.get(Order_Index).getProductInOrderType().entrySet()) 
 			{
 				for(int Product_Type_Index = 0 ; Product_Type_Index < productType_Of_Specific_Order_Of_Specific_Store.size(); Product_Type_Index++)
 				{
-					if(orders.get(Order_Index).getProductsInOrder().get(Product_In_Order_Index).getpType().equals(productType_Of_Specific_Order_Of_Specific_Store.get(Product_Type_Index)) == true)
+					if(entry.getKey().equals(productType_Of_Specific_Order_Of_Specific_Store.get(Product_Type_Index)) == true)
 					{
 						for(int SetChart_Index = 0 ; SetChart_Index < setChart.size() ; SetChart_Index++)
 						{
@@ -168,6 +176,7 @@ public class OrderReportController_For_ComapnyManager_2 implements Initializable
 				}
 			}
 		}
+		
 		ChartOrderReport.getData().addAll(setChart);
 	}
 	
