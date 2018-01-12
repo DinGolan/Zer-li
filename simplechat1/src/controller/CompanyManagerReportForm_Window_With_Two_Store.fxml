@@ -22,12 +22,12 @@
       <Button id="btnOrderReport_Store" fx:id="btnOrderReport_Store" layoutX="277.0" layoutY="467.0" mnemonicParsing="false" onAction="#OrderReport_Store" text="Order Report" />
       <Button id="btnClose" fx:id="btnClose" layoutX="295.0" layoutY="509.0" mnemonicParsing="false" onAction="#closeTwoStoreWindow" prefHeight="25.0" prefWidth="50.0" text="Close" />
       <ComboBox id="cmbReportsSecondStore" fx:id="cmbReportsSecondStore" layoutX="345.0" layoutY="232.0" onAction="#Click_On_Your_Quarter_Report_Store_Two" prefHeight="39.0" prefWidth="259.0" promptText="Select The Date Report Of Second Store" />
-      <Label layoutX="116.0" layoutY="85.0" text="Store - 1" textFill="#e41b1b">
+      <Label layoutX="94.0" layoutY="85.0" text="The First Store" textFill="#e41b1b">
          <font>
             <Font name="System Italic" size="18.0" />
          </font>
       </Label>
-      <Label layoutX="435.0" layoutY="85.0" text="Store - 2" textFill="#e41b1b">
+      <Label layoutX="408.0" layoutY="85.0" text="The Second Store" textFill="#e41b1b">
          <font>
             <Font name="System Italic" size="18.0" />
          </font>

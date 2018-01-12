@@ -36,7 +36,7 @@ public class OrderReportController_For_ComapnyManager implements Initializable {
 
 	private Store store;
 	private Message msg;
-	private static String[] Type_Of_Products_In_Order = {"BOUQUET","ARRANGEMENT","VASE","BRIDAL_BOUQUET"};
+	private static String[] Type_Of_Products_In_Order = {"BOUQUET","ARRANGEMENT","VASE","BRIDAL_BOUQUET","FLOWER_CROWN","SWEET_BOUQUET","FLOWER_WREATH"};
 	
 /* -------------------------  For The Window Of Order Report ----------------------------------- */		
 	
