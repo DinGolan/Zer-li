@@ -516,6 +516,14 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 		CompanyManagerReportUI.myClient.accept(msg);
 		while(CompanyManagerReportUI.stores_For_Company_Manager.size() == 0);
 		while(CompanyManagerReportUI.stores_For_Company_Manager_2.size() == 0);
+		try 
+		{
+			Thread.sleep(200);
+		} 
+		catch (InterruptedException e) 
+		{
+			e.printStackTrace();
+		}
 		setStores_One_ComboBox();
 		setStores_Two_ComboBox();
 	}

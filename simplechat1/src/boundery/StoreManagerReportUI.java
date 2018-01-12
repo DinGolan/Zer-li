@@ -3,7 +3,8 @@ package boundery;
 import java.sql.Date;
 import java.util.Scanner;
 import java.util.Vector;
-import controller.StoreManagerReportController;
+
+import controller.StoreManagerController;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import mypackage.ClientConsole;
@@ -42,7 +43,7 @@ public class StoreManagerReportUI extends Application 		/* With This Class We Sh
 	@Override
 	public void start(Stage arg0) throws Exception 
 	{		
-		StoreManagerReportController aFrame = new StoreManagerReportController(); /* Create Report Frame */				  
+		StoreManagerController aFrame = new StoreManagerController(); /* Create Report Frame */				  
 		aFrame.start(arg0);
 	}
 }

@@ -356,7 +356,7 @@ public class EchoServer extends AbstractServer
 	 	  {
 			  String_Help_Date_In_Order_Table_1 = rs_3.getString("orderDate");
 			  Integer_Help_Month_In_Order_Table_1 = Integer.parseInt(String_Help_Date_In_Order_Table_1.substring(5, 7));
-			  if((Integer_Help_Month_In_Order_Table_1 == Real_Quarter_Number) || ((Integer_Help_Month_In_Order_Table_1 + 2) / 3) == Real_Quarter_Number)
+			  if(((Integer_Help_Month_In_Order_Table_1 + 2) / 3) == Real_Quarter_Number)
 			  {
 				  Integer_Help_Year_In_Order_Table_1 = Integer.parseInt(String_Help_Date_In_Order_Table_1.substring(0, 4));
 				  if(Real_Year == Integer_Help_Year_In_Order_Table_1)
@@ -388,7 +388,7 @@ public class EchoServer extends AbstractServer
 	 	  {
 			  String_Help_Date_In_Order_Table_2 = rs_4.getString("orderDate");
 			  Integer_Help_Month_In_Order_Table_2 = Integer.parseInt(String_Help_Date_In_Order_Table_2.substring(5, 7));
-			  if((Integer_Help_Month_In_Order_Table_2 == Real_Quarter_Number) || ((Integer_Help_Month_In_Order_Table_2 + 2) / 3) == Real_Quarter_Number)
+			  if(((Integer_Help_Month_In_Order_Table_2 + 2) / 3) == Real_Quarter_Number)
 			  {
 				  Integer_Help_Year_In_Order_Table_2 = Integer.parseInt(String_Help_Date_In_Order_Table_2.substring(0, 4));
 				  if(Real_Year == Integer_Help_Year_In_Order_Table_2)
@@ -511,20 +511,20 @@ public class EchoServer extends AbstractServer
 		  for(int i = 0 ; i < Order_From_DB_Store_1.size() ; i++)
 		  {
 			  Revenue_Of_Specific_Order = Order_From_DB_Store_1.get(i).getOrderTotalPrice();
-			  String getComlaint_Of_Store_One = "SELECT * FROM project.complaint WHERE orderID = " + "'" + Order_From_DB_Store_1.get(i).getOrderID() + "'" + ";"; 
+			  String getComlaint_Of_Store_One = "SELECT * FROM project.complaint WHERE ComplaintOrderId = " + "'" + Order_From_DB_Store_1.get(i).getOrderID() + "'" + ";"; 
 			  ResultSet rs_7 = stmt.executeQuery(getComlaint_Of_Store_One);
 			  
 			  while(rs_7.next())
 		 	  {
-				  String_Help_Date_In_Complaint_Table_1 = rs_7.getString("complaintDate");
+				  String_Help_Date_In_Complaint_Table_1 = rs_7.getString("ComplaintDate");
 				  Integer_Help_Month_In_Complaint_Table_1 = Integer.parseInt(String_Help_Date_In_Complaint_Table_1.substring(5,7));
-				  if((Integer_Help_Month_In_Complaint_Table_1 == Real_Quarter_Number) || ((Integer_Help_Month_In_Complaint_Table_1 + 2) / 3) == Real_Quarter_Number)
+				  if(((Integer_Help_Month_In_Complaint_Table_1 + 2) / 3) == Real_Quarter_Number)
 				  {
 					  Integer_Help_Year_In_Complaint_Table_1 = Integer.parseInt(String_Help_Date_In_Complaint_Table_1.substring(0,4));
 					  if(Real_Year == Integer_Help_Year_In_Complaint_Table_1)
 					  {
 						  Count_Number_Of_Complaint_In_Store_One++;
-						  Complaint_Field = rs_7.getString("complaintCompansation");
+						  Complaint_Field = rs_7.getString("ComplaintCompansation");
 						  Revenue_Of_Specific_Order = Revenue_Of_Specific_Order - Double.parseDouble(Complaint_Field);
 						  Order_From_DB_Store_1.get(i).setOrderTotalPrice(Revenue_Of_Specific_Order);
 						  Revenue_Of_Specific_Order = Order_From_DB_Store_1.get(i).getOrderTotalPrice();
@@ -547,20 +547,20 @@ public class EchoServer extends AbstractServer
 		  for(int i = 0 ; i < Order_From_DB_Store_2.size() ; i++)
 		  {
 			  Revenue_Of_Specific_Order = Order_From_DB_Store_2.get(i).getOrderTotalPrice();
-			  String getComlaint_Of_Store_Two = "SELECT * FROM project.complaint WHERE orderID = " + "'" + Order_From_DB_Store_2.get(i).getOrderID() + "'" + ";"; 
+			  String getComlaint_Of_Store_Two = "SELECT * FROM project.complaint WHERE ComplaintOrderId = " + "'" + Order_From_DB_Store_2.get(i).getOrderID() + "'" + ";"; 
 			  ResultSet rs_8 = stmt.executeQuery(getComlaint_Of_Store_Two);
 			  
 			  while(rs_8.next())
 		 	  {
-				  String_Help_Date_In_Complaint_Table_2 = rs_8.getString("complaintDate");
+				  String_Help_Date_In_Complaint_Table_2 = rs_8.getString("ComplaintDate");
 				  Integer_Help_Month_In_Complaint_Table_2 = Integer.parseInt(String_Help_Date_In_Complaint_Table_2.substring(5,7));
-				  if((Integer_Help_Month_In_Complaint_Table_2 == Real_Quarter_Number) || ((Integer_Help_Month_In_Complaint_Table_2 + 2) / 3) == Real_Quarter_Number)
+				  if(((Integer_Help_Month_In_Complaint_Table_2 + 2) / 3) == Real_Quarter_Number)
 				  {
 					  Integer_Help_Year_In_Complaint_Table_2 = Integer.parseInt(String_Help_Date_In_Complaint_Table_2.substring(0,4));
 					  if(Real_Year == Integer_Help_Year_In_Complaint_Table_2)
 					  {
 						  Count_Number_Of_Complaint_In_Store_Two++;
-						  Complaint_Field = rs_8.getString("complaintCompansation");
+						  Complaint_Field = rs_8.getString("ComplaintCompansation");
 						  Revenue_Of_Specific_Order = Revenue_Of_Specific_Order - Double.parseDouble(Complaint_Field);
 						  Order_From_DB_Store_2.get(i).setOrderTotalPrice(Revenue_Of_Specific_Order);
 						  Revenue_Of_Specific_Order = Order_From_DB_Store_2.get(i).getOrderTotalPrice();
@@ -601,7 +601,7 @@ public class EchoServer extends AbstractServer
 		  {
 			  String_Help_Date_In_Survey_Table_1 = rs_9.getString("SurveyDate");
 			  Integer_Help_Month_In_Survey_Table_1 = Integer.parseInt(String_Help_Date_In_Survey_Table_1.substring(5,7));
-			  if((Integer_Help_Month_In_Survey_Table_1 == Real_Quarter_Number) || ((Integer_Help_Month_In_Survey_Table_1 + 2) / 3) == Real_Quarter_Number)
+			  if(((Integer_Help_Month_In_Survey_Table_1 + 2) / 3) == Real_Quarter_Number)
 			  {
 				  Integer_Help_Year_In_Survey_Table_1 = Integer.parseInt(String_Help_Date_In_Survey_Table_1.substring(0,4));
 				  if(Real_Year == Integer_Help_Year_In_Survey_Table_1)
@@ -659,7 +659,7 @@ public class EchoServer extends AbstractServer
 		  int Integer_Help_Month_In_Survey_Table_2;
 		  String String_Help_Date_In_Survey_Table_2;
 		  Real_Quarter_Number = Integer.parseInt((String.valueOf(All_The_Object_To_Return.get(3))));
-		  Real_Year = Integer.parseInt(String.valueOf(Date_Report_Store_One).substring(0,4)); /* The Real Year */
+		  Real_Year = Integer.parseInt(String.valueOf(Date_Report_Store_Two).substring(0,4)); /* The Real Year */
 		 
 		  String getSurvey_Of_Store_Two = "SELECT * FROM project.survey ;" ; 
 		  ResultSet rs_11 = stmt.executeQuery(getSurvey_Of_Store_Two);
@@ -667,7 +667,7 @@ public class EchoServer extends AbstractServer
 		  {
 			  String_Help_Date_In_Survey_Table_2 = rs_11.getString("SurveyDate");
 			  Integer_Help_Month_In_Survey_Table_2 = Integer.parseInt(String_Help_Date_In_Survey_Table_2.substring(5,7));
-			  if((Integer_Help_Month_In_Survey_Table_2 == Real_Quarter_Number) || ((Integer_Help_Month_In_Survey_Table_2 + 2) / 3) == Real_Quarter_Number)
+			  if(((Integer_Help_Month_In_Survey_Table_2 + 2) / 3) == Real_Quarter_Number)
 			  {
 				  Integer_Help_Year_In_Survey_Table_2 = Integer.parseInt(String_Help_Date_In_Survey_Table_2.substring(0,4));
 				  if(Real_Year == Integer_Help_Year_In_Survey_Table_2)
@@ -729,7 +729,6 @@ public class EchoServer extends AbstractServer
   
   @SuppressWarnings("unchecked")
   protected ArrayList<Double> Get_All_The_Survey_Of_Specific_Quarter_Of_Specific_Store_From_DB(Object msg , Connection conn)
-
   {
 	  Vector<double []> All_The_Survey_To_Return = new Vector<double []>();
 	  ArrayList<Object> StoreID_And_Date_Of_Report = (ArrayList<Object>)(((Message)msg).getMsg());
@@ -777,7 +776,7 @@ public class EchoServer extends AbstractServer
 		 	  {
 				  String_Help_Date_In_Survey_Table = rs_2.getString("SurveyDate");
 				  Integer_Help_Month_In_Survey_Table = Integer.parseInt(String_Help_Date_In_Survey_Table.substring(5, 7));
-				  if((Integer_Help_Month_In_Survey_Table == Real_Quarter_Number) || ((Integer_Help_Month_In_Survey_Table + 2) / 3) == Real_Quarter_Number)
+				  if(((Integer_Help_Month_In_Survey_Table + 2) / 3) == Real_Quarter_Number)
 				  {
 					   temp_Survey = new Survey();
 					   survey_field = rs_2.getString("Surveyid");
@@ -870,10 +869,14 @@ public class EchoServer extends AbstractServer
 			  for(int i = 0 ; i < All_The_Survey_To_Return.size() ; i++)
 			  {
 				  	 Temp_Array = new double[6];
-				  	 Temp_Array = All_The_Survey_To_Return.get(i);
-					 for(int j = 0 ; j < All_The_Survey_To_Return.get(i).length ; j++)
+				  	 for(int j = 0 ; j < All_The_Survey_To_Return.get(i).length ; j++)
+				  	 {
+				  		Temp_Array[j] = All_The_Survey_To_Return.get(i)[j];
+				  	 }
+				  	 
+					 for(int k = 0 ; k < All_The_Survey_To_Return.get(i).length ; k++)
 					 {
-						 All_Sum_Per_Qustiones_Of_All_Survey[j] += Temp_Array[j];
+						 All_Sum_Per_Qustiones_Of_All_Survey[k] += Temp_Array[k];
 					 }
 			  }
 			  
@@ -897,8 +900,7 @@ public class EchoServer extends AbstractServer
 	  }
 	  return Final_Average_Of_Each_Question;
   }
-  
-  
+   
   @SuppressWarnings("unchecked")
   
   protected void Update_The_Revenue_Of_All_The_Store(Object msg , Connection conn) /* This method get Orders Of Specific Store from DB */
@@ -943,12 +945,12 @@ public class EchoServer extends AbstractServer
 				  
 				  for(int i = 0 ; i < Order_Of_Spicific_Store.size() ; i++)
 				  {
-					  String getComplaintOfSpecificStoreTable = "SELECT * FROM project.complaint WHERE OrderID = " + "'" + Order_Of_Spicific_Store.get(i).getOrderID() + "'" + ";";
+					  String getComplaintOfSpecificStoreTable = "SELECT * FROM project.complaint WHERE ComplaintOrderId = " + "'" + Order_Of_Spicific_Store.get(i).getOrderID() + "'" + ";";
 					  ResultSet rs_2 = stmt.executeQuery(getComplaintOfSpecificStoreTable);
 					  while(rs_2.next())
 				 	  {
 						   temp_Complaint = new Complaint();
-						   Complaint_Field = rs_2.getString("complaintCompansation");
+						   Complaint_Field = rs_2.getString("ComplaintCompansation");
 						   temp_Complaint.setComplaintCompansation(Double.parseDouble(Complaint_Field));
 						   Complaint_Of_Spicific_Store.add(temp_Complaint);
 				 	  }  
@@ -1056,7 +1058,7 @@ public class EchoServer extends AbstractServer
 	 	  {
 			  String_Help_Date_In_Order_Table = rs_2.getString("orderDate");
 			  Integer_Help_Month_In_Order_Table = Integer.parseInt(String_Help_Date_In_Order_Table.substring(5, 7));
-			  if((Integer_Help_Month_In_Order_Table == Real_Quarter_Number) || ((Integer_Help_Month_In_Order_Table + 2) / 3) == Real_Quarter_Number)
+			  if(((Integer_Help_Month_In_Order_Table + 2) / 3) == Real_Quarter_Number)
 			  {
 				   temp_Order = new Order();
 				   order_field = rs_2.getString("orderID");
@@ -1204,7 +1206,7 @@ public class EchoServer extends AbstractServer
 	 	  {
 			  String_Help_Date_In_Order_Table = rs_2.getString("orderDate");
 			  Integer_Help_Month_In_Order_Table = Integer.parseInt(String_Help_Date_In_Order_Table.substring(5, 7));
-			  if((Integer_Help_Month_In_Order_Table == Real_Quarter_Number) || ((Integer_Help_Month_In_Order_Table + 2) / 3) == Real_Quarter_Number)
+			  if(((Integer_Help_Month_In_Order_Table + 2) / 3) == Real_Quarter_Number)
 			  {
 				   temp_Order = new Order();
 				   order_field = rs_2.getString("orderID");
@@ -1259,7 +1261,7 @@ public class EchoServer extends AbstractServer
 		  
 		  for(int i = 0 ; i < Final_Order_Of_Specific_Quarter.size() ; i++)
 		  {
-			  String getComplaintTable = "SELECT * FROM project.complaint WHERE OrderID = " + "'" + Final_Order_Of_Specific_Quarter.get(i).getOrderID() + "'" + ";";
+			  String getComplaintTable = "SELECT * FROM project.complaint WHERE ComplaintOrderId = " + "'" + Final_Order_Of_Specific_Quarter.get(i).getOrderID() + "'" + ";";
 			  ResultSet rs_3 = stmt.executeQuery(getComplaintTable);
 			  while(rs_3.next())
 		 	  {
@@ -1317,7 +1319,7 @@ public class EchoServer extends AbstractServer
 	 	  {
 			  String_Help_Date_In_Order_Table = rs_2.getString("orderDate");
 			  Integer_Help_Month_In_Order_Table = Integer.parseInt(String_Help_Date_In_Order_Table.substring(5, 7));
-			  if((Integer_Help_Month_In_Order_Table == Real_Quarter_Number) || ((Integer_Help_Month_In_Order_Table + 2) / 3) == Real_Quarter_Number)
+			  if(((Integer_Help_Month_In_Order_Table + 2) / 3) == Real_Quarter_Number)
 			  {
 				   temp_Order = new Order();
 				   order_field = rs_2.getString("orderID");
@@ -1334,14 +1336,14 @@ public class EchoServer extends AbstractServer
 		  
 		  for(int i = 0 ; i < orders_Of_Specific_Store.size() ; i++)
 		  {
-			  String getComplaintOfSpecificStoreTable = "SELECT * FROM project.complaint WHERE OrderID = " + "'" + orders_Of_Specific_Store.get(i).getOrderID() + "'" + ";";
+			  String getComplaintOfSpecificStoreTable = "SELECT * FROM project.complaint WHERE ComplaintOrderId = " + "'" + orders_Of_Specific_Store.get(i).getOrderID() + "'" + ";";
 			  ResultSet rs_3 = stmt.executeQuery(getComplaintOfSpecificStoreTable);
 			  while(rs_3.next())
 		 	  {
 				   temp_Complaint = new Complaint();
-				   Complaint_Field = rs_3.getString("complaintCompansation");
+				   Complaint_Field = rs_3.getString("ComplaintCompansation");
 				   temp_Complaint.setComplaintCompansation(Double.parseDouble(Complaint_Field));
-				   Complaint_Field = rs_3.getString("complaintDate");
+				   Complaint_Field = rs_3.getString("ComplaintDate");
 				   temp_Complaint.setComplaintDate(Date.valueOf(Complaint_Field));
 				   Complaint_Of_Specific_Store.add(temp_Complaint);
 		 	  }  

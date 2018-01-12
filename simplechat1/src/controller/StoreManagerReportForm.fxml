@@ -18,7 +18,7 @@
       <Button id="btnOrderReport" fx:id="btnOrderReport" layoutX="249.0" layoutY="427.0" mnemonicParsing="false" onAction="#OrderReport" text="Order Report" />
       <Button id="btnCustomerComplaintStatusReport" fx:id="btnCustomerComplaintStatusReport" layoutX="192.0" layoutY="308.0" mnemonicParsing="false" onAction="#CustomerComplaintStatusReport" text="Customer Complaint Status Report" />
       <Button id="btnSatisfactionReport" fx:id="btnSatisfactionReport" layoutX="234.0" layoutY="389.0" mnemonicParsing="false" onAction="#SatisfactionReport" text="Satisfaction Report" />
-      <Button id="btnExit" fx:id="btnExit" layoutX="275.0" layoutY="473.0" mnemonicParsing="false" onAction="#getExitBtn" text="Exit" />
+      <Button id="btnClose" fx:id="btnClose" layoutX="275.0" layoutY="473.0" mnemonicParsing="false" onAction="#closeStoreManagerReportWindow" text="Close" />
       <ComboBox id="cmbReports" fx:id="cmbReports" layoutX="350.0" layoutY="128.0" onAction="#Click_On_Your_Quarter_Report" prefHeight="39.0" prefWidth="175.0" promptText="Select The Report" />
    </children>
 </AnchorPane>

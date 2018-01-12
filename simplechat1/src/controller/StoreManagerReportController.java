@@ -3,11 +3,7 @@ package controller;
 import java.net.URL;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.ResourceBundle;
-import java.util.Vector;
-
 import boundery.StoreManagerReportUI;
 import entity.Message;
 import entity.Store;
@@ -18,7 +14,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -61,20 +56,7 @@ public class StoreManagerReportController implements Initializable {
 	private Button btnSatisfactionReport = null;            /* Button Of Satisfaction Report */
 	
 	@FXML
-	private Button btnExit = null;
-	
-	
-	
-/* ----------------------- Method's For the First Window GUI - Report ------------------------ */
-	
-	public void start(Stage primaryStage) throws Exception          			  /* With this Method we show the GUI of the First Window */
-	{	
-		Parent root = FXMLLoader.load(getClass().getResource("/controller/StoreManagerReportForm.fxml"));
-		Scene scene = new Scene(root);
-		primaryStage.setTitle("Quarterly Report - Managment Tool");
-		primaryStage.setScene(scene);
-		primaryStage.show();		
-	}
+	private Button btnClose = null;
 	
 /* --------------------------------  The Report About Quarterly Revenue ----------------------------------- */	
 	
@@ -185,13 +167,20 @@ public class StoreManagerReportController implements Initializable {
 	{
 		this.customerComplaintStatusReportController.loadStore(store);
 	}
-
-/* ----------------------------------------- Exit Button --------------------------------------------------- */
 	
-	public void getExitBtn(ActionEvent event) throws Exception      	/* With this Method we Exit from the Report UI */ 
-	{
-		System.out.println("Exit From - Tool");
-		System.exit(0);			
+/* --------------------------------- Close the Store Manager Report Window ------------------------------------------------- */	 	
+	
+	public void closeStoreManagerReportWindow(ActionEvent event) throws Exception   
+	{ 
+		StoreManagerReportUI.stores.clear();
+		((Node)event.getSource()).getScene().getWindow().hide(); 	 /* Hiding primary window */
+		Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
+		FXMLLoader loader = new FXMLLoader(); 					 	 /* Load object */
+		Pane root = loader.load(getClass().getResource("/controller/StoreManagerOptions.fxml").openStream());
+		
+		Scene scene = new Scene(root);			
+		primaryStage.setScene(scene);		
+		primaryStage.show();										   /* show catalog frame window */
 	}
 
 /* ----------------------------------------- Set The Combo Box Of Stores ----------------------------------- */	
@@ -283,6 +272,14 @@ public class StoreManagerReportController implements Initializable {
 		msg = new Message(stores, "Store Manager - Add Store To Combo Box From DB");
 		StoreManagerReportUI.myClient.accept(msg);
 		while(StoreManagerReportUI.stores.size() == 0);
+		try 
+		{
+			Thread.sleep(200);
+		} 
+		catch (InterruptedException e) 
+		{
+			e.printStackTrace();
+		}
 		setStoresComboBox();
 		
 /**		/* ----------------- Update All the Revenue Of All The Store At The DB ------------------*/

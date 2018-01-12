@@ -1,11 +1,10 @@
 package boundery;
 
-import java.awt.GraphicsEnvironment;
 import java.sql.Date;
 import java.util.Scanner;
 import java.util.Vector;
 
-import controller.CompanyManagerReportController;
+import controller.CompanyManagerController;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import mypackage.ClientConsole;
@@ -68,7 +67,7 @@ public class CompanyManagerReportUI extends Application { 					/* With This Clas
 	@Override
 	public void start(Stage arg0) throws Exception 
 	{		
-		CompanyManagerReportController aFrame = new CompanyManagerReportController(); /* Create Report Frame */				  
+		CompanyManagerController aFrame = new CompanyManagerController(); /* Create Report Frame */				  
 		aFrame.start(arg0);
 	}
 }

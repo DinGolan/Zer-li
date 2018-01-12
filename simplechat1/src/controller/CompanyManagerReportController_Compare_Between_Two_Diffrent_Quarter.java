@@ -246,6 +246,14 @@ public class CompanyManagerReportController_Compare_Between_Two_Diffrent_Quarter
 		CompanyManagerReportUI.myClient.accept(msg);
 		while(CompanyManagerReportUI.Object_From_Comparing_For_Store_1.size() == 0);
 		while(CompanyManagerReportUI.Object_From_Comparing_For_Store_2.size() == 0);
+		try 
+		{
+			Thread.sleep(200);
+		} 
+		catch (InterruptedException e) 
+		{
+			e.printStackTrace();
+		}
 		put_The_Details_Of_Store_One_On_GUI();
 		put_The_Details_Of_Store_Two_On_GUI();
 	}

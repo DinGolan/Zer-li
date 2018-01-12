@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import boundery.CompanyManagerReportUI;
+import boundery.StoreManagerReportUI;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -37,18 +38,7 @@ public class CompanyManagerReportController implements Initializable {
 	private Button btnClick;
 	
 	@FXML
-	private Button btnExit;
-	
-/* ----------------------- Method's For the First Window GUI - Of Company Manager Report ------------------------ */	
-	
-	public void start(Stage primaryStage) throws Exception          			  /* With this Method we show the GUI of the First Window */
-	{	
-		Parent root = FXMLLoader.load(getClass().getResource("/controller/CompanyManagerReportForm.fxml"));
-		Scene scene = new Scene(root);
-		primaryStage.setTitle("Quarterly Report - Managment Tool");
-		primaryStage.setScene(scene);
-		primaryStage.show();		
-	}
+	private Button btnClose;
 	
 /* ------------------------------------- The First Option Is - To see 1 Store , The Second Option Is to see 2 Store --------------------------------- */	
 	
@@ -94,12 +84,20 @@ public class CompanyManagerReportController implements Initializable {
 		return cmbOptions.getSelectionModel().getSelectedIndex();
 	}
 	
-/* ----------------------------------------- Exit Button --------------------------------------------------- */
+/* --------------------------------- Close the Store Manager Report Window ------------------------------------------------- */	 	
 	
-	public void getExitBtn(ActionEvent event) throws Exception      	/* With this Method we Exit from the Report UI */ 
-	{
-		System.out.println("Exit From - Tool");
-		System.exit(0);			
+	public void closeCompanyManagerReportWindow(ActionEvent event) throws Exception   
+	{ 
+		CompanyManagerReportUI.stores_For_Company_Manager.clear();
+		CompanyManagerReportUI.stores_For_Company_Manager_2.clear();
+		((Node)event.getSource()).getScene().getWindow().hide(); 	 /* Hiding primary window */
+		Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
+		FXMLLoader loader = new FXMLLoader(); 					 	 /* Load object */
+		Pane root = loader.load(getClass().getResource("/controller/CompanyManagerOptions.fxml").openStream());
+		
+		Scene scene = new Scene(root);			
+		primaryStage.setScene(scene);		
+		primaryStage.show();										   /* show catalog frame window */
 	}
 	
 /* ----------------------------------------- Set The Combo Box Of Option's ----------------------------------- */		

@@ -20,6 +20,6 @@
          </font>
       </Label>
       <Button id="btnClick" fx:id="btnClick" layoutX="103.0" layoutY="289.0" mnemonicParsing="false" onAction="#Button_To_See_One_Store_Or_Two_Store" text="Click To See The Next Window Of ---&gt; { One Report , Two Report } " />
-      <Button id="btnExit" fx:id="btnExit" layoutX="271.0" layoutY="366.0" mnemonicParsing="false" onAction="#getExitBtn" text="Exit" />
+      <Button id="btnClose" fx:id="btnClose" layoutX="271.0" layoutY="366.0" mnemonicParsing="false" onAction="#closeCompanyManagerReportWindow" text="Close" />
    </children>
 </AnchorPane>

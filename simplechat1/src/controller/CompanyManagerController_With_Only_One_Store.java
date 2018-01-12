@@ -247,6 +247,14 @@ public class CompanyManagerController_With_Only_One_Store implements Initializab
 		msg = new Message(stores,"Company Manager - Add Store To Combo Box From DB");
 		CompanyManagerReportUI.myClient.accept(msg);
 		while(CompanyManagerReportUI.stores_For_Company_Manager.size() == 0);
+		try 
+		{
+			Thread.sleep(200);
+		} 
+		catch (InterruptedException e) 
+		{
+			e.printStackTrace();
+		}
 		setStoresComboBox_ComapnyManager();
 	}
 }
