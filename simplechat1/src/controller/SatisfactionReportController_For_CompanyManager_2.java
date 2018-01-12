@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import boundery.CompanyManagerUI;
+import boundery.UserUI;
 import entity.Message;
 import entity.Store;
 import javafx.event.ActionEvent;
@@ -111,7 +112,7 @@ public class SatisfactionReportController_For_CompanyManager_2 implements Initia
 		StoreID_And_Date_Of_Report.add(CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager_2.get(0)); /* The Store Id */
 		StoreID_And_Date_Of_Report.add(CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager_2.get(1)); /* The Date Of the Report */
 		msg = new Message(StoreID_And_Date_Of_Report ,"Company Manager - Take The Surveys Of Specific Store In Specific Quarter"); 		/* I take All the Orders Of Specific Store , And After That I Take All the Complaint Of All The Order Of the Specific Store */
-		CompanyManagerUI.myClient.accept(msg);
+		UserUI.myClient.accept(msg);
 		while(CompanyManagerUI.Average_Result_Of_Each_Qustions_In_surveys_For_Company_Manager_2.size() == 0);
 		try 
 		{

@@ -3,6 +3,8 @@ package controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import boundery.UserUI;
+import entity.Message;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,10 +17,6 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class CompanyManagerController implements Initializable {
-
-
-    @FXML
-    private Button btnExit;
 
     @FXML
     private Button btnLogout;
@@ -61,20 +59,20 @@ public class CompanyManagerController implements Initializable {
 	
 	}
 	
-/* ----------------------------------- Exit From the Window Of The Company Manager -------------------------------------- */
-	
-	public void exitBtn(ActionEvent event) throws Exception //Exit from the store manager options
-	{
-		System.out.println("exit store manager options");
-		System.exit(0);			
-	}
-	
 /* ----------------------------------- Logout From the User Of - Company Manager -------------------------------------- */
 	
 	public void logoutBtn(ActionEvent event) throws Exception //logout by the store manager
 	{
-		UserController u = new UserController();
-		u.logout(event);		
+		Message msg = new Message(UserUI.user.getId(), "change User status to DISCONNECTED");
+		UserUI.myClient.accept(msg); 				/* change User status to DISCONNECTED in DB */
+		((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+		Stage primaryStage = new Stage(); 			/* Object present window with graphics elements */
+		FXMLLoader loader = new FXMLLoader(); 		/* load object */
+		Parent root = FXMLLoader.load(getClass().getResource("/controller/UserLogin.fxml"));
+		Scene scene = new Scene(root);
+		primaryStage.setTitle("LOGIN");
+		primaryStage.setScene(scene);
+		primaryStage.show();			
 	}
 	
 	@Override

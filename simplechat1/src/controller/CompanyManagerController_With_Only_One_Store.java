@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import boundery.CompanyManagerUI;
+import boundery.UserUI;
 import controller.CustomerComplaintStatusReportController_For_CompanyManager;
 import entity.Message;
 import entity.Store;
@@ -195,7 +196,7 @@ public class CompanyManagerController_With_Only_One_Store implements Initializab
 	{
 		temp_Store_Id = CompanyManagerUI.stores_For_Company_Manager.get(getItemIndex_For_CompanyManager()).getStoreId();
 		msg = new Message(temp_Store_Id,"Comapny Manager - Take The Date Of All the Report Of Specific Store");
-		CompanyManagerUI.myClient.accept(msg);
+		UserUI.myClient.accept(msg);
 		while(CompanyManagerUI.Dates_For_Company_Manager.size() == 0);
 		Thread.sleep(200);
 		set_Dates_Of_Report_At_ComboBox_For_CompanyManager();
@@ -211,7 +212,7 @@ public class CompanyManagerController_With_Only_One_Store implements Initializab
 		Store_Id_And_Date_Of_Report.add(temp_Store_Id);
 		Store_Id_And_Date_Of_Report.add(temp_Date_Quarter_Report);
 		msg = new Message(Store_Id_And_Date_Of_Report,"Company Manager - Take the Revenue Of Specific Quarter Of Specific Store");
-		CompanyManagerUI.myClient.accept(msg);
+		UserUI.myClient.accept(msg);
 		while(CompanyManagerUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter_For_Company_Manager.size() == 0);
 		Thread.sleep(200);
 		CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.clear();
@@ -245,7 +246,7 @@ public class CompanyManagerController_With_Only_One_Store implements Initializab
 	{
 		ArrayList<Store> stores = new ArrayList<Store>();           /* For the First Connection With The DB the ArrayList Of stores Is Empty */
 		msg = new Message(stores,"Company Manager - Add Store To Combo Box From DB");
-		CompanyManagerUI.myClient.accept(msg);
+		UserUI.myClient.accept(msg);
 		while(CompanyManagerUI.stores_For_Company_Manager.size() == 0);
 		try 
 		{

@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 import java.util.ResourceBundle;
 
 import boundery.StoreManagerUI;
+import boundery.UserUI;
 import entity.Message;
 import entity.Order;
 import entity.Product;
@@ -125,7 +126,7 @@ public class OrderReportController implements Initializable{
 		StoreID_And_Date_Of_Report.add(StoreManagerUI.Help_To_Transfer_Object_At_Order_Report.get(0)); /* The Store Id */
 		StoreID_And_Date_Of_Report.add(StoreManagerUI.Help_To_Transfer_Object_At_Order_Report.get(1)); /* The Date Of the Report */
 		msg = new Message(StoreID_And_Date_Of_Report, "Store Manager - Take The Orders Of Specific Store");
-		StoreManagerUI.myClient.accept(msg);
+		UserUI.myClient.accept(msg);
 		while(StoreManagerUI.orders.size() == 0);
 		try 
 		{

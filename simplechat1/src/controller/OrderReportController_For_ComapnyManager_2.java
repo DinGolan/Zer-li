@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 import java.util.Map.Entry;
 
 import boundery.CompanyManagerUI;
+import boundery.UserUI;
 import entity.Message;
 import entity.Order;
 import entity.Product;
@@ -113,7 +114,7 @@ public class OrderReportController_For_ComapnyManager_2 implements Initializable
 		StoreID_And_Date_Of_Report.add(CompanyManagerUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager_2.get(0)); /* The Store Id */
 		StoreID_And_Date_Of_Report.add(CompanyManagerUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager_2.get(1)); /* The Date Of the Report */
 		msg = new Message(StoreID_And_Date_Of_Report,"Company Manager - Take The Orders Of Specific Store");
-		CompanyManagerUI.myClient.accept(msg);
+		UserUI.myClient.accept(msg);
 		while(CompanyManagerUI.orders_For_Company_Manager_2.size() == 0);
 		try 
 		{

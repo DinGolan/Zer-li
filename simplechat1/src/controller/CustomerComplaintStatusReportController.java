@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import boundery.StoreManagerUI;
+import boundery.UserUI;
 import entity.Message;
 import entity.Store;
 import javafx.event.ActionEvent;
@@ -113,7 +114,7 @@ public class CustomerComplaintStatusReportController implements Initializable {
 		StoreID_And_Date_Of_Report.add(StoreManagerUI.Help_To_Transfer_Object_At_Complaint_Report.get(0));    /* The Store Id */
 		StoreID_And_Date_Of_Report.add(StoreManagerUI.Help_To_Transfer_Object_At_Complaint_Report.get(1));    /* The Date Of the Report */
 		msg = new Message(StoreID_And_Date_Of_Report, "Store Manager - Take The Complaints Of Specific Store"); 		/* I take All the Orders Of Specific Store , And After That I Take All the Complaint Of All The Order Of the Specific Store */
-		StoreManagerUI.myClient.accept(msg);
+		UserUI.myClient.accept(msg);
 		while(StoreManagerUI.complaints.size() == 0);
 		try 
 		{

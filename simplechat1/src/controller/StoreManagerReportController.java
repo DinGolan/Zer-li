@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import boundery.StoreManagerUI;
+import boundery.UserUI;
 import entity.Message;
 import entity.Store;
 import javafx.collections.FXCollections;
@@ -219,7 +220,7 @@ public class StoreManagerReportController implements Initializable {
 	{
 		temp_Store_Id = StoreManagerUI.stores.get(getItemIndex()).getStoreId();
 		msg = new Message(temp_Store_Id, "Store Manager - Take The Date Of All the Report Of Specific Store");
-		StoreManagerUI.myClient.accept(msg);
+		UserUI.myClient.accept(msg);
 		while(StoreManagerUI.Dates.size() == 0);
 		Thread.sleep(200);
 		set_Dates_Of_Report_At_ComboBox();
@@ -236,7 +237,7 @@ public class StoreManagerReportController implements Initializable {
 		Store_Id_And_Date_Of_Report.add(temp_Store_Id);
 		Store_Id_And_Date_Of_Report.add(temp_Date_Quarter_Report);
 		msg = new Message(Store_Id_And_Date_Of_Report,"Store Manager - Take the Revenue Of Specific Quarter Of Specific Store");
-		StoreManagerUI.myClient.accept(msg);
+		UserUI.myClient.accept(msg);
 		while(StoreManagerUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter.size() == 0);
 		Thread.sleep(200);
 		StoreManagerUI.Help_To_Transfer_Object_At_Revenue_Report.clear();
@@ -270,7 +271,7 @@ public class StoreManagerReportController implements Initializable {
 	{
 		ArrayList<Store> stores = new ArrayList<Store>();           /* For the First Connection With The DB the ArrayList Of stores Is Empty */
 		msg = new Message(stores, "Store Manager - Add Store To Combo Box From DB");
-		StoreManagerUI.myClient.accept(msg);
+		UserUI.myClient.accept(msg);
 		while(StoreManagerUI.stores.size() == 0);
 		try 
 		{

@@ -1919,7 +1919,7 @@ public void handleMessageFromClient
 	  Product pr;
 	  try {
 		  stmt = conn.createStatement();
-		  getUserStatus = "SELECT * FROM project.user WHERE UserName='"+userName+"';"; /* Get all the Table from the DB */
+		  getUserStatus = "SELECT * FROM project.user WHERE UserName = " + "'" +  userName + "'" + ";" ; /* Get all the Table from the DB */
 		  ResultSet rs = stmt.executeQuery(getUserStatus);
 		  if (!rs.isBeforeFirst())
 		  {
@@ -1927,7 +1927,7 @@ public void handleMessageFromClient
 		  }
 		  else // if the user DOSE  exist
 		  {
-			  if(rs.next() != false)
+			  while(rs.next())
 			  {
 				  user.setId(rs.getString("UserId"));
 				  user.setUserName(rs.getString("UserName"));

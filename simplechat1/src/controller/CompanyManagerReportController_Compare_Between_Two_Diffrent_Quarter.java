@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 
 import boundery.CompanyManagerUI;
 import boundery.StoreManagerUI;
+import boundery.UserUI;
 import entity.Message;
 import entity.Product;
 import entity.Store;
@@ -243,7 +244,7 @@ public class CompanyManagerReportController_Compare_Between_Two_Diffrent_Quarter
 		ArrayList_Of_Field_To_Compare.add(Date_Quarter_Report_1);
 		ArrayList_Of_Field_To_Compare.add(Date_Quarter_Report_2);
 		msg = new Message(ArrayList_Of_Field_To_Compare,"Company Manager - Compare Between Two Different Quarter");
-		CompanyManagerUI.myClient.accept(msg);
+		UserUI.myClient.accept(msg);
 		while(CompanyManagerUI.Object_From_Comparing_For_Store_1.size() == 0);
 		while(CompanyManagerUI.Object_From_Comparing_For_Store_2.size() == 0);
 		try 

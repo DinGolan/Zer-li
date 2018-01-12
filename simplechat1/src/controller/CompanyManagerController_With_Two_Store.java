@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import boundery.CompanyManagerUI;
+import boundery.UserUI;
 import entity.Message;
 import entity.Store;
 import javafx.collections.FXCollections;
@@ -114,7 +115,7 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 		primaryStage_2.show();
 	}
 	
-	/* -------------------------------- Store 2 ----------------------------------- */
+	/* -------------------------------- Its Should Be For The Second Store But I Not Need That ----------------------------------- */
 	
 /**	public void QuarterlyRevenueReport_Store_Two(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Report' and Show the GUI of the Quarterly Revenue Report that we Choose */
 /**	{
@@ -161,7 +162,7 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 		primaryStage_2.show();
 	}
 	
-	/* -------------------------------- Store 2 ----------------------------------- */
+	/* -------------------------------- Its Should Be For The Second Store But I Not Need That  ----------------------------------- */
 	
 /**	public void OrderReport_Store_Two(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Report' and Show the GUI of the Order Report that we Choose */
 /**	{
@@ -208,7 +209,7 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 		primaryStage_2.show();	
 	}
 	
-	/* -------------------------------- Store 2 ----------------------------------- */
+	/* -------------------------------- Its Should Be For The Second Store But I Not Need That  ----------------------------------- */
 	
 /**	public void CustomerComplaintStatusReport_Store_Two(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Report' and Show the GUI of the Customer Complaint Status Report that we Choose */
 /**	{
@@ -255,7 +256,7 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 		primaryStage_2.show();
 	}	
 	
-	/* -------------------------------- Store 2 ----------------------------------- */
+	/* -------------------------------- Its Should Be For The Second Store But I Not Need That  ----------------------------------- */
 	
 /**	public void SatisfactionReport_Store_Two(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Report' and Show the GUI of the Satisfaction Report that we Choose */
 /**	{
@@ -390,7 +391,7 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 	{
 		temp_Store_Id_1 = CompanyManagerUI.stores_For_Company_Manager.get(getItemIndex_First_Store()).getStoreId();
 		msg = new Message(temp_Store_Id_1,"Comapny Manager - Take The Date Of All the Report Of Specific Store");
-		CompanyManagerUI.myClient.accept(msg);
+		UserUI.myClient.accept(msg);
 		while(CompanyManagerUI.Dates_For_Company_Manager.size() == 0);
 		Thread.sleep(200);
 		set_Dates_Of_Report_Of_Store_One_At_ComboBox();
@@ -402,7 +403,7 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 	{
 		temp_Store_Id_2 = CompanyManagerUI.stores_For_Company_Manager_2.get(getItemIndex_Second_Store()).getStoreId();
 		msg = new Message(temp_Store_Id_2,"Comapny Manager - Take The Date Of All the Report Of Specific Store");
-		CompanyManagerUI.myClient.accept(msg);
+		UserUI.myClient.accept(msg);
 		while(CompanyManagerUI.Dates_For_Company_Manager_2.size() == 0);
 		Thread.sleep(200);
 		set_Dates_Of_Report_Of_Store_Two_At_ComboBox();
@@ -419,7 +420,7 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 		Store_Id_And_Date_Of_Report.add(temp_Store_Id_1);
 		Store_Id_And_Date_Of_Report.add(temp_Date_Quarter_Report_1);
 		msg = new Message(Store_Id_And_Date_Of_Report,"Company Manager - Take the Revenue Of Specific Quarter Of Specific Store");
-		CompanyManagerUI.myClient.accept(msg);
+		UserUI.myClient.accept(msg);
 		while(CompanyManagerUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter_For_Company_Manager.size() == 0);
 		Thread.sleep(200);
 		CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.clear();
@@ -461,7 +462,7 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 		Store_Id_And_Date_Of_Report.add(temp_Store_Id_2);
 		Store_Id_And_Date_Of_Report.add(temp_Date_Quarter_Report_2);
 		msg = new Message(Store_Id_And_Date_Of_Report,"Company Manager - Take the Revenue Of Specific Quarter Of Specific Store");
-		CompanyManagerUI.myClient.accept(msg);
+		UserUI.myClient.accept(msg);
 		while(CompanyManagerUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter_For_Company_Manager_2.size() == 0);
 		Thread.sleep(200);
 		CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager_2.clear();
@@ -513,7 +514,7 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 	{
 		ArrayList<Store> stores = new ArrayList<Store>();           /* For the First Connection With The DB the ArrayList Of stores Is Empty */
 		msg = new Message(stores,"Company Manager - Add Store To Combo Box From DB");
-		CompanyManagerUI.myClient.accept(msg);
+		UserUI.myClient.accept(msg);
 		while(CompanyManagerUI.stores_For_Company_Manager.size() == 0);
 		while(CompanyManagerUI.stores_For_Company_Manager_2.size() == 0);
 		try 
