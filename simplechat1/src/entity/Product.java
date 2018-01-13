@@ -18,6 +18,7 @@ public class Product implements Serializable
 	private transient InputStream input;
 	private transient Image image;
 	private byte[] buffer;
+	private int Quantity;
 
 	public enum ProductType {BOUQUET , ARRANGEMENT , SWEET_BOUQUET , FLOWER_CROWN , BRIDAL_BOUQUET , VASE , FLOWER_WREATH}
 	
@@ -123,6 +124,12 @@ public class Product implements Serializable
 	public void setpStore(int pStore) {
 		this.pStore = pStore;
 	}
-	
-	
+
+	public int getQuantity() {
+		return Quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		Quantity = quantity;
+	}
 }

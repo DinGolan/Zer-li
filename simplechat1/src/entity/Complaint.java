@@ -13,6 +13,7 @@ public class Complaint implements Serializable{
 	private String complaintUserId;
 	private String complaintServiceWorkerUserName;
 	private int complaintOrderId;
+	private String complaintMonth;
 	
 	public enum ComplaintStatus{ //enum for the complaint status
 		OPEN,INPROGRESS,CLOSE
@@ -112,6 +113,15 @@ public class Complaint implements Serializable{
 	public void setComplaintOrderId(int complaintOrderId) {
 		this.complaintOrderId = complaintOrderId;
 	}
+	
+	public String getComplaintMonth() {
+		return complaintMonth;
+	}
+
+	public void setComplaintMonth(String complaintMonth) {
+		this.complaintMonth = complaintMonth;
+	}
+
 
 	@Override
 	public String toString() {
