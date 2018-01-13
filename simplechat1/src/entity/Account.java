@@ -11,6 +11,7 @@ public class Account implements Serializable{
 	private double accountBalanceCard;
 	private String accountCreditCardNum;
 	private Date accountSubscriptionEndDate;
+	private int accountStoreNum;
 	
 	public enum PaymentArrangement{ //enum for the payment arrangement
 		FULLPRICE,MONTHLY,ANNUAL
@@ -90,12 +91,20 @@ public class Account implements Serializable{
 		this.accountSubscriptionEndDate = date;
 	}
 
+	public int getAccountStoreNum() {
+		return accountStoreNum;
+	}
+
+	public void setAccountStoreNum(int accountStoreNum) {
+		this.accountStoreNum = accountStoreNum;
+	}
+
 	@Override
 	public String toString() {
 		return "Account [accountUserId=" + accountUserId + ", accountPaymentArrangement=" + accountPaymentArrangement
 				+ ", accountPaymentMethod=" + accountPaymentMethod + ", accountBalanceCard=" + accountBalanceCard
 				+ ", accountCreditCardNum=" + accountCreditCardNum + ", accountSubscriptionEndDate="
-				+ accountSubscriptionEndDate + "]";
-	}	
+				+ accountSubscriptionEndDate + ", accountStoreNum=" + accountStoreNum + "]";
+	}
 	
 }

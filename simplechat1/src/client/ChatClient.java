@@ -83,7 +83,15 @@ public class ChatClient extends AbstractClient
 	  else if(((Message)msg).getOption().compareTo("Get all orders for this customer") ==0)
 		  clientUI.displayUI(msg);
 	  else if(((Message)msg).getOption().compareTo("Get all complaints numbers for this customer service worker") ==0)
-		  clientUI.displayUI(msg);  }
+		  clientUI.displayUI(msg);
+	  else if(((Message)msg).getOption().compareTo("Get complaint details") ==0)
+	  {
+		  System.out.println("maymay");
+		  clientUI.displayUI(msg);
+		  }
+	  //else if(((Message)msg).getOption().compareTo("Update complaint") ==0)
+	//	  clientUI.displayUI(msg);	  
+  }
 
   /**
    * This method handles all data coming from the UI            

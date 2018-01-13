@@ -1,12 +1,17 @@
 package controller;
 import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 import boundery.CatalogUI;
 import boundery.ComplaintUI;
 import boundery.UserUI;
+import entity.Complaint;
 import entity.Message;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,15 +30,17 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class ComplaintHandleController implements Initializable{
-	//private Complaint c= new Complaint();
+	private Complaint c;
 	//public static int complaintIndex=6;
-	//public static boolean flag = false;
+	//public static boolean saveComplaintflag = false;
 	public static boolean loadComplaintsFlag = false;
 	public static boolean viewComplaintFlag = false;
+	public static boolean complaintFlag = false;
+	private static int itemIndex = 1; //INPROGRESS
 	//private static int itemIndex = 0; //the default if he didn't choose an order take the first one 
 	
 	@FXML
-	private TextField txtComplaintNum; //text field for the complaint number
+	private TextField txtComplaintNumber; //text field for the complaint number
 	
 	@FXML
 	private TextField txtComplaintUserId; //text field for the complaint customer id
@@ -55,8 +62,8 @@ public class ComplaintHandleController implements Initializable{
 	private ComboBox <Integer> cmbComplaintForWorker=null; //combobox to view all the complaint for the specific customer service worker
 	ObservableList<Integer> listForComplaintsWorkerComboBox;
 		
-	//@FXML
-	//private Button btnComplaintTryAgain = null; //button exit for the error msg
+	@FXML
+	private Button btnComplaintTryAgain = null; //button exit for the error msg
 	
 	@FXML
 	private Button btnComplaintClose = null; //button close for the complaint form
@@ -70,8 +77,8 @@ public class ComplaintHandleController implements Initializable{
 	@FXML
 	private Button btnComplaintOpen = null; //button to open complaint details
 	
-	//@FXML
-	//private Button btnComplaintHandleOther = null; //button to add a new other complaint
+	@FXML
+	private Button btnComplaintHandleOther = null; //button to handle other complaint
 	
 	@FXML
 	private TextArea txtComplaintReason; //text area for the complaint details
@@ -79,14 +86,11 @@ public class ComplaintHandleController implements Initializable{
 	@FXML
 	private TextArea txtComplaintAnswer; //text area for the complaint answer
 	
+	ArrayList <String> stat=new ArrayList<String>(Arrays.asList("OPEN", "INPROGRESS", "CLOSE"));
+	
 	public void initialize(URL arg0, ResourceBundle arg1) // Initialized The ComboBox of the complaint form
 	{
-		while(viewComplaintFlag == false)
-		{
-			System.out.print(" ");
-		}
-		viewComplaintFlag=false;
-		loadHisComplaints();
+
 	}
 	
 	/*public void start(ActionEvent event) throws Exception     // With this Method we show the GUI of the Catalog 
@@ -158,7 +162,7 @@ public class ComplaintHandleController implements Initializable{
 		if(getItemIndex() == -1) //didn't choose complaint number from the combobox
 		{ 
 			//((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
-			root = loader.load(getClass().getResource("/controller/ComplaintHandleComboboxMsg.fxml").openStream());
+			root = loader.load(getClass().getResource("/controller/ComplaintToHandleComboboxMsg.fxml").openStream());
 			Scene scene = new Scene(root);			
 			primaryStage.setScene(scene);	
 			primaryStage.setTitle("Error msg");
@@ -169,21 +173,83 @@ public class ComplaintHandleController implements Initializable{
 			int complaintN=ComplaintUI.complaintsNumbers.get(getItemIndex()); //the requested complaint number
 			Message msg = new Message(complaintN , "Get complaint details");
 			UserUI.myClient.accept(msg); // get complaint details from DB
-			while(ComplaintUI.complaintFlag==false)
+			while(complaintFlag==false)
 			{
 				System.out.print(""); //DOES NOT RUN WITHOUT THIS LINE
 			}
-			ComplaintUI.complaintFlag=false;
-			//if(ordersNum.get(0)==-1) 
+			complaintFlag=false;
+			//loadStatusFlag=true;
 			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 			root = loader.load(getClass().getResource("/controller/ComplaintAnswerForm.fxml").openStream());
+			
+			//show complaint details
+			//this.txtComplaintNumber.setText("may");// מכאן זה נופל
+			this.c=ComplaintUI.complaint;
+			this.txtComplaintNumber.setText(String.valueOf(c.getComplaintNum()));
+			/*this.txtComplaintNumber.setText(String.valueOf(ComplaintUI.complaint.getComplaintNum()));
+			this.txtComplaintUserId.setText(String.valueOf(ComplaintUI.complaint.getComplaintUserId()));
+			this.txtComplaintDate.setText(String.valueOf(ComplaintUI.complaint.getComplaintDate()));
+			this.txtComplaintOrderId.setText(String.valueOf(ComplaintUI.complaint.getComplaintOrderId()));*/
+			listForStatusComboBox = FXCollections.observableArrayList(stat); 
+			//this.cmbComplaintStatus.setItems(FXCollections.observableArrayList(listForStatusComboBox)); //set the status to this user
+			//this.cmbComplaintStatus.setPromptText(String.valueOf(ComplaintUI.complaint.getComplaintStat()));
+			
+			//System.out.println(ComplaintUI.complaint);
 			Scene scene = new Scene(root);			
 			primaryStage.setScene(scene);	
 			primaryStage.setTitle("Complaint answer form");
-			primaryStage.show();
-		
-		//else if(ordersNum.get(0)==-2) //we didn't have this customer at DB
+			primaryStage.show();					
+			//txtComplaintAnswer;
+			//txtComplaintCompansationAmount;	
 		}
+	}
+	
+	public int getStatusIndex() //With this Method we Take the selected status
+	{
+		if(cmbComplaintStatus.getSelectionModel().getSelectedIndex() == -1)
+			return itemIndex;
+		return cmbComplaintStatus.getSelectionModel().getSelectedIndex();
+	}
+	
+	public void saveComplaintButton(ActionEvent event) throws Exception //update complaint to Zer-Li system
+	{		
+		Pane root = null;
+		Stage primaryStage = new Stage(); //Object present window with graphics elements
+		FXMLLoader loader = new FXMLLoader(); //load object
+		//ComplaintUI.complaint=new Complaint();
+		
+		if(txtComplaintAnswer.getLength()>200) //enter complain answer more then 200 characters
+		{
+			((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
+			root = loader.load(getClass().getResource("/controller/ComplaintAnswerLengthMsg.fxml").openStream());
+			Scene scene = new Scene(root);			
+			primaryStage.setScene(scene);	
+			primaryStage.setTitle("Error msg");
+			primaryStage.show();
+		}
+		
+		else 
+		{ //enter 200 characters for the reason field
+			c.setComplaintCompanyServiceWorkerAnswer(txtComplaintAnswer.getText()); 
+			c.setComplaintCompansation(Double.parseDouble(txtComplaintCompansationAmount.getText()));
+			c.setComplaintStat(Complaint.ComplaintStatus.valueOf(stat.get(getStatusIndex()))); //take the status
+			Message msg = new Message(c, "Update complaint");	
+			UserUI.myClient.accept(msg);
+			/*while(saveComplaintflag == false)
+			{
+					System.out.print(""); //DOES NOT RUN WITHOUT THIS LINE
+			}
+			saveComplaintflag = false;*/
+			((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
+			if(c.getComplaintStat().equals("INPROGRESS"))
+				root = loader.load(getClass().getResource("/controller/UpdateComplaintMsg.fxml").openStream());
+			else if(c.getComplaintStat().equals("CLOSE"))
+				root = loader.load(getClass().getResource("/controller/UpdateComplaintCloseMsg.fxml").openStream());
+			Scene scene = new Scene(root);			
+			primaryStage.setScene(scene);	
+			primaryStage.setTitle("Update complaint msg");
+			primaryStage.show();						
+		}					
 	}
 	
 	/*public void loadOrdersComboBox(ActionEvent event) throws Exception
@@ -235,102 +301,15 @@ public class ComplaintHandleController implements Initializable{
 		}
 	}*/
 			
-	/*public void saveComplaintButton(ActionEvent event) throws Exception //add new complaint to Zer-Li system
-	{		
-		Pane root = null;
-		Stage primaryStage = new Stage(); //Object present window with graphics elements
-		FXMLLoader loader = new FXMLLoader(); //load object
-		UserUI.complaint=new Complaint();
-		//c.setComplaintNum(complaintIndex); //set the complaint num
-		c.setComplaintStat(Complaint.ComplaintStatus.OPEN);
-		c.setComplaintUserId(txtComplaintUserId.getText());
 		
-		LocalDate localDate = LocalDate.now(); //get the current date
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		String dateStr=localDate.toString();
-		Date parsed = format.parse(dateStr);
-		java.sql.Date dateSql = new java.sql.Date(parsed.getTime());
-		c.setComplaintDate(dateSql); //set the date
-		
-		if(txtComplaintReason.getLength()>200) //enter complain reason more then 200 characters
-		{
-			((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
-			root = loader.load(getClass().getResource("/controller/ComplaintReasonLengthMsg.fxml").openStream());
-			Scene scene = new Scene(root);			
-			primaryStage.setScene(scene);	
-			primaryStage.setTitle("Error msg");
-			primaryStage.show();
-		}
-		
-		else 
-		{ //enter 200 characters for the reason field
-			c.setComplaintDetails(txtComplaintReason.getText()); 
-		
-			if(getItemIndex() == -1) //didn't choose order number from the combobox
-			{ 
-				((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
-				root = loader.load(getClass().getResource("/controller/ComplaintComboboxMsg.fxml").openStream());
-				Scene scene = new Scene(root);			
-				primaryStage.setScene(scene);	
-				primaryStage.setTitle("Error msg");
-				primaryStage.show();	
-			}
-			else //choose order at the combobox
-			{
-				c.setComplaintOrderId(ComplaintUI.ordersNumbers.get(getItemIndex())); //take the order number
-				c.setComplaintServiceWorkerUserName(txtComplaintSreviceWorkerUserName.getText());
-				Message msg = new Message(c, "Add new complaint");	
-				//complaintIndex++; // for the next complaint number
-				UserUI.myClient.accept(msg);
-		
-				while(flag == false)
-				{
-					System.out.print(""); //DOES NOT RUN WITHOUT THIS LINE
-				}
-				flag = false;
-		
-				if(UserUI.complaint.getComplaintDetails().equals("Complaint already exist")) //this complaint already exist
-				{
-					((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
-					root = loader.load(getClass().getResource("/controller/ComplaintExistMsg.fxml").openStream());
-					Scene scene = new Scene(root);			
-					primaryStage.setScene(scene);	
-					primaryStage.setTitle("Error msg");
-					primaryStage.show();	
-				}
-				else //start create complaint
-				{
-					if(UserUI.complaint.getComplaintDetails().equals("Customer service worker doesn't exist"))
-					{
-						((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
-						root = loader.load(getClass().getResource("/controller/ComplaintCustomerServiceWorkerMsg.fxml").openStream());//עדיין לא קיים צריך להוסיף
-						Scene scene = new Scene(root);			
-						primaryStage.setScene(scene);	
-						primaryStage.setTitle("Error msg");
-						primaryStage.show();
-					}
-					else //all the details are good
-					{
-						((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
-						root = loader.load(getClass().getResource("/controller/AddNewComplaintMsg.fxml").openStream());
-						Scene scene = new Scene(root);			
-						primaryStage.setScene(scene);	
-						primaryStage.setTitle("New complaint msg");
-						primaryStage.show();						
-					}					
-				}
-			}
-		} 
-	}*/
-		
-	public void addNewOtherComplaint(ActionEvent event) throws Exception //With this Method we show the GUI of the First Window
+	public void EditOtherComplaint(ActionEvent event) throws Exception //With this Method we show the GUI of the First Window
 	{	
 		((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
 		Stage primaryStage = new Stage();						 //Object present window with graphics elements
 		FXMLLoader loader = new FXMLLoader(); 					 //load object
-		Parent root = FXMLLoader.load(getClass().getResource("/controller/ComplaintForm.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("/controller/ComplaintForWorker.fxml"));
 		Scene scene = new Scene(root);
-		primaryStage.setTitle("Complaint Form");
+		primaryStage.setTitle("Complaints to handle");
 		primaryStage.setScene(scene);
 		primaryStage.show();	
 	}

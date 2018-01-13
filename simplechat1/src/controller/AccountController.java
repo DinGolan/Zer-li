@@ -160,7 +160,9 @@ public class AccountController {
 			a.setAccountPaymentArrangement(PaymentArrangement.MONTHLY);
 			
 		else //if we choose full price or none
-			a.setAccountPaymentArrangement(PaymentArrangement.FULLPRICE);	
+			a.setAccountPaymentArrangement(PaymentArrangement.FULLPRICE);
+		
+		a.setAccountStoreNum(UserUI.store.getStoreId()); //save the store number that connected to this account and user
 
 		Message msg = new Message(a, "Add new account");
 		System.out.println(msg);

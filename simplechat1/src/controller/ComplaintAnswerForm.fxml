@@ -12,7 +12,7 @@
       <Label layoutX="16.0" layoutY="26.0" text="Complaint number:" />
       <Label layoutX="20.0" layoutY="150.0" text="Complaint status:" />
       <Label layoutX="23.0" layoutY="192.0" text="Complaint date:" />
-      <TextField id="txtComplaintNum" fx:id="txtComplaintNum" editable="false" layoutX="185.0" layoutY="22.0" />
+      <TextField id="txtComplaintNumber" fx:id="txtComplaintNumber" editable="false" layoutX="185.0" layoutY="22.0" />
       <Button id="btnComplaintSave" fx:id="btnComplaintSave" layoutX="67.0" layoutY="474.0" mnemonicParsing="false" text="Save" />
       <Button id="btnComplaintClose" fx:id="btnComplaintClose" layoutX="259.0" layoutY="474.0" mnemonicParsing="false" text="Close" />
       <ComboBox id="cmbComplaintStatus" fx:id="cmbComplaintStatus" editable="true" layoutX="184.0" layoutY="146.0" prefWidth="150.0" />
@@ -26,7 +26,7 @@
           </Tab>
           <Tab text="Company service worker answer">
                <content>
-                  <TextArea id="txtComplaintAnswer" fx:id="txtComplaintAnswer" prefHeight="200.0" prefWidth="200.0" promptText="Enter Your answer for the complaint (until 200 characters)" />
+                  <TextArea id="txtComplaintAnswer" fx:id="txtComplaintAnswer" editable="false" prefHeight="200.0" prefWidth="200.0" promptText="Enter Your answer for the complaint (until 200 characters)" />
                </content>
           </Tab>
         </tabs>

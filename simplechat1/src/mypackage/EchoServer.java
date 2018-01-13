@@ -3,6 +3,7 @@ package mypackage;
 /* "Object Oriented Software Engineering" and is issued under the open-source */
 /* license found at www.lloseng.com */
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,6 +15,7 @@ import com.mysql.jdbc.PreparedStatement;
 
 import entity.Account;
 import entity.Complaint;
+import entity.Complaint.ComplaintStatus;
 import entity.Message;
 import entity.Order;
 import entity.Product;
@@ -112,6 +114,7 @@ public class EchoServer extends AbstractServer
 	    if(((Message)msg).getOption().compareTo("Add new complaint") == 0) //check if we add new complaint
         {
     		((Message)msg).setMsg(addNewComplaintToDB(msg,conn));	
+    		System.out.println(msg);
     		this.sendToAllClients(msg);	
 		}
 	    
@@ -125,6 +128,17 @@ public class EchoServer extends AbstractServer
         {
     		((Message)msg).setMsg(getAllComplaintsForWorker(msg,conn));	
     		this.sendToAllClients(msg);	
+		}
+	    
+	    if(((Message)msg).getOption().compareTo("Get complaint details") == 0) //get all the details for the complaint that he choose
+        {
+    		((Message)msg).setMsg(getSelectedComplaintDetails(msg,conn));	
+    		this.sendToAllClients(msg);	
+		}
+	    
+	    if(((Message)msg).getOption().compareTo("Update complaint") ==0) //update compalint at DB
+        {									
+	    	UpdateComplaint(msg,conn);    
 		}
 	    
 	    if(((Message)msg).getOption().compareTo("UserStatus") ==0) 	    /* return user with specific UserName */
@@ -447,6 +461,54 @@ public class EchoServer extends AbstractServer
 	  return ordersNums;
   }
   
+  protected Complaint getSelectedComplaintDetails(Object msg, Connection conn) //this method return a complaint from the DB
+  {
+	  int requestedComplaintNum=(int)(((Message)msg).getMsg());
+	  Complaint c = null;
+	  Statement stmt;
+	  Integer temp;
+	  String str;
+	  Date day;
+
+	  try {
+		  	stmt = conn.createStatement();
+		  	String getComplaint = "SELECT * FROM project.complaint WHERE ComplaintNum="+requestedComplaintNum+";"; //get the complaint details
+		  	ResultSet rs = stmt.executeQuery(getComplaint);
+		  	while(rs.next())
+		  	{
+		  		c=new Complaint();
+		  		temp = rs.getInt("ComplaintNum");
+		  		c.setComplaintNum(temp);
+		  		str = rs.getString("ComplaintUserId");
+		  		c.setComplaintUserId(str);
+		  		str = rs.getString("ComplaintStatus");
+		  		c.setComplaintStat(Complaint.ComplaintStatus.valueOf(str));
+		  		day = rs.getDate("ComplaintDate");
+		  		c.setComplaintDate(day);
+		  		str = rs.getString("ComplaintDetails");
+		  		c.setComplaintDetails(str);
+		  		temp = rs.getInt("ComplaintOrderId");
+		  		c.setComplaintOrderId(temp);
+		  		str = rs.getString("ComplaintServiceWorkerUserName");
+		  		c.setComplaintServiceWorkerUserName(str);
+		  	}
+		  } catch (SQLException e) {	e.printStackTrace();}	
+	  System.out.print(c);
+	  return c;
+  }
+  
+  protected void UpdateComplaint(Object msg, Connection conn) //this method update the compplaint at DB
+  {
+	 // ArrayList<String> temp = new ArrayList<String>();
+	  Complaint co = (Complaint)(((Message)msg).getMsg());
+	  Statement stmt;
+	  try {
+			stmt = conn.createStatement();
+			String updateProductName = "UPDATE project.complaint SET ComplaintStatus =" + "'" + co.getComplaintStat() +"', ComplaintCompansation="+co.getComplaintCompansation()+", ComplaintCompanyServiceWorkerAnswer='"+ co.getComplaintCompanyServiceWorkerAnswer()+ "' WHERE ComplaintNum='" +co.getComplaintNum() + "';";
+			stmt.executeUpdate(updateProductName);
+			} catch (SQLException e) {	e.printStackTrace();}	  
+  }
+  
   protected ArrayList<Integer> getAllComplaintsForWorker(Object msg, Connection conn) //this method get all the complaints that match to specific customer service worker
   {
 	  String requestedCustomerServiceWorkerName=(String)(((Message)msg).getMsg());
@@ -480,20 +542,20 @@ public class EchoServer extends AbstractServer
 	  Statement stmt;	  
 	  try {
 		  stmt = conn.createStatement(); //this statement check if we didn't have account with this userID
-		  String getAccountToID = "SELECT * FROM project.account WHERE AccountUserId="+newAccount.getAccountUserId()+";"; // get the account that connected to new account id of exist
+		  String getAccountToID = "SELECT * FROM project.account WHERE AccountUserId="+newAccount.getAccountUserId()+" AND AccountStoreId="+newAccount.getAccountStoreNum()+";"; // get the account that connected to new account id of exist
 		  ResultSet rs = stmt.executeQuery(getAccountToID);
 		  if(!rs.isBeforeFirst()) //this statement enter new account to the DB  
 		  {
 			  stmt = conn.createStatement(); 
-			  String InsertAccountToID = "INSERT INTO project.account(AccountUserId, AccountBalanceCard, AccountPaymentMethod, AccountPaymentArrangement,AccountCreditCardNum,AccountSubscriptionEndDate)" + 
-			  		"VALUES("+newAccount.getAccountUserId()+","+newAccount.getAccountBalanceCard()+ ",'"+newAccount.getAccountPaymentMethod()+"','"+newAccount.getAccountPaymentArrangement()+"',"+newAccount.getAccountCreditCardNum()+",'"+newAccount.getAccountSubscriptionEndDate()+"');";
+			  String InsertAccountToID = "INSERT INTO project.account(AccountUserId, AccountStoreId, AccountBalanceCard, AccountPaymentMethod, AccountPaymentArrangement,AccountCreditCardNum,AccountSubscriptionEndDate)" + 
+			  		"VALUES("+newAccount.getAccountUserId()+","+newAccount.getAccountStoreNum()+","+newAccount.getAccountBalanceCard()+ ",'"+newAccount.getAccountPaymentMethod()+"','"+newAccount.getAccountPaymentArrangement()+"',"+newAccount.getAccountCreditCardNum()+",'"+newAccount.getAccountSubscriptionEndDate()+"');";
 			  stmt.executeUpdate(InsertAccountToID);	 
 			 // success="Add user successfully"; 
 			  account.setAccountUserId(newAccount.getAccountUserId());
-			  account.setAccountUserId(newAccount.getAccountUserId());
-			  account.setAccountPaymentArrangement(newAccount.getAccountPaymentArrangement());
-			  account.setAccountPaymentMethod(newAccount.getAccountPaymentMethod());
+			  account.setAccountStoreNum(newAccount.getAccountStoreNum());
 			  account.setAccountBalanceCard(newAccount.getAccountBalanceCard());
+			  account.setAccountPaymentMethod(newAccount.getAccountPaymentMethod());
+			  account.setAccountPaymentArrangement(newAccount.getAccountPaymentArrangement());
 			  account.setAccountCreditCardNum(newAccount.getAccountCreditCardNum());
 			  account.setAccountSubscriptionEndDate(newAccount.getAccountSubscriptionEndDate());
 		  }

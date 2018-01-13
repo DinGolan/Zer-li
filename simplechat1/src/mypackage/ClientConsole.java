@@ -174,6 +174,24 @@ public class ClientConsole implements ChatIF
 	  	  	
 	  	  	ComplaintHandleController.loadComplaintsFlag=true; //finish to get all the complaints to this customer service worker
 	    }
+	    
+	    else if(((Message)message).getOption().compareTo("Get complaint details") == 0) //get all the details for this complaint
+	    {
+	    	System.out.println("clientcons");
+	  	  	//ComplaintUI.complaint=new Complaint();
+	  	  	ComplaintUI.complaint=(Complaint)((Message)message).getMsg(); //save the complaint from the DB with all the details at the ComplaintUI
+	  	  	ComplaintHandleController.complaintFlag=true; //finish to get all the details for this complaint
+	  	  	System.out.println(ComplaintUI.complaint);
+	    }
+	    
+	    /*else if(((Message)message).getOption().compareTo("Update complaint") == 0) //update complaint
+	    {
+	    	System.out.println("clientcons");
+	  	  	//ComplaintUI.complaint=new Complaint();
+	  	  	ComplaintUI.complaint=(Complaint)((Message)message).getMsg(); //save the complaint from the DB with all the details at the ComplaintUI
+	  	  	ComplaintHandleController.complaintFlag=true; //finish to get all the details for this complaint
+	  	  	System.out.println(ComplaintUI.complaint);
+	    }*/
    }
   
   
@@ -204,13 +222,13 @@ public class ClientConsole implements ChatIF
 	  else
 	  {
 		  AccountUI.account.setAccountUserId(((Account)((Message)message).getMsg()).getAccountUserId());
+		  AccountUI.account.setAccountStoreNum(((Account)((Message)message).getMsg()).getAccountStoreNum());
 		  AccountUI.account.setAccountPaymentArrangement(((Account)((Message)message).getMsg()).getAccountPaymentArrangement());
 		  AccountUI.account.setAccountPaymentMethod(((Account)((Message)message).getMsg()).getAccountPaymentMethod());
 		  AccountUI.account.setAccountBalanceCard(((Account)((Message)message).getMsg()).getAccountBalanceCard());
 		  AccountUI.account.setAccountCreditCardNum(((Account)((Message)message).getMsg()).getAccountCreditCardNum());
 		  AccountUI.account.setAccountSubscriptionEndDate(((Account)((Message)message).getMsg()).getAccountSubscriptionEndDate());
 	  }
-	  
 	  System.out.println(AccountUI.account);
 	  AccountController.flag = true;  
   }
