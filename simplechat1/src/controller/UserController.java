@@ -44,20 +44,9 @@ public class UserController implements Initializable {
 	
 	@FXML
 	private Label lblName;
+	
 	@FXML
 	private Label lblSerialNum;
-
-
-	public void getExitBtn(ActionEvent event) throws Exception /* With this Method we Exit from the Catalog */
-	{
-		System.out.println("Exit From - Login form");
-		System.exit(0);
-	}
-
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) // Initialized The ComboBox of the Product
-	{
-	}
 
 	public void tryLoginUser(ActionEvent event) throws Exception /* To load the product details to the text fields */
 	{
@@ -84,9 +73,12 @@ public class UserController implements Initializable {
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("error msg");
 			primaryStage.show();
-		} else // user exist
-		if (!UserUI.user.getPassword().equals(u.getPassword())) // insert the wrong password
-		{
+		} 
+		
+		/* לבצע בדיקה ב - תנאי הזה , כי משהו לא תקין */
+		/* The Change That I Made its Instead Of Making The If Statement With '!= 0' , Its With '== 0' */
+		else if ((UserUI.user.getPassword().compareTo(u.getPassword())) == 0) // If The User Exist And He insert the wrong password
+		{ 
 			System.out.println("WrongPasswordMsg");
 			((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
 			root = FXMLLoader.load(getClass().getResource("/controller/WrongPasswordMsg.fxml"));
@@ -178,5 +170,18 @@ public class UserController implements Initializable {
 		primaryStage.setTitle("LOGIN");
 		primaryStage.setScene(scene);
 		primaryStage.show();
+	}
+	
+
+	public void getExitBtn(ActionEvent event) throws Exception /* With this Method we Exit from the Catalog */
+	{
+		System.out.println("Exit From - Login form");
+		System.exit(0);
+	}
+	
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) // Initialized The ComboBox of the Product
+	{
+		
 	}
 }

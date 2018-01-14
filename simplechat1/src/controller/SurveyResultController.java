@@ -1,21 +1,22 @@
 package controller;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import boundery.SurveyResultUI;
-import boundery.SurveyUI;
+import boundery.UserUI;
 import entity.Message;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class SurveyResultController implements Initializable{
@@ -39,25 +40,28 @@ public class SurveyResultController implements Initializable{
 	@FXML
 	private Button btnAdd = null; /* button close for close product form */
 	@FXML
-	private ComboBox cmbSurveyId;  /* ComboBox With List Of Product */
+	private ComboBox cmbSurveyId= null;  /* ComboBox With List Of Product */
 	
 	private ArrayList<Integer> temp;
 	private Message msg;
 	private ObservableList<Integer> slist;
 	public static boolean flag = false;
+	
 	private static int itemIndex = 1; /* This Variable Need for the the Case - that we not choose any Product from the ComboBox , so we take the product that in Index 2 By Defualt */
 
 	
-	public void start(Stage primaryStage) throws Exception     /* With this Method we show the GUI of the Catalog */
+	public void start(ActionEvent event) throws Exception     // With this Method we show the GUI of the Catalog 
 	{	
-		Parent root = FXMLLoader.load(getClass().getResource("/controller/SurveyResultFrame.fxml"));
-				
-		Scene scene = new Scene(root);
-		//scene.getStylesheets().add(getClass().getResource("/boundery/CatalogFrame.css").toExternalForm());
-		primaryStage.setTitle("Catalog Managment Tool");
-		primaryStage.setScene(scene);
+		((Node)event.getSource()).getScene().getWindow().hide(); // Hiding primary window 
+		Stage primaryStage = new Stage();
+		FXMLLoader loader = new FXMLLoader();
+		Pane root = loader.load(getClass().getResource("/controller/SurveyResultFrame.fxml").openStream());
 		
-		primaryStage.show();		
+		Scene scene = new Scene(root);			
+		
+		primaryStage.setScene(scene);		
+		primaryStage.show();
+	    
 	}
 	
 	public int getItemIndex(ComboBox cmb) /* With this Method we Take Product from the List of the Product at the ComboBox */
@@ -70,7 +74,7 @@ public class SurveyResultController implements Initializable{
 	
 	public void addSurveyResult() {
 		ArrayList<Integer> i = new ArrayList<Integer>();
-		i.add(SurveyResultUI.Id.get(getItemIndex(cmbSurveyId)));
+		i.add(UserUI.Id.get(getItemIndex(cmbSurveyId)));
 		i.add(getItemIndex(cmbAnswer1) +1);
 		i.add(getItemIndex(cmbAnswer2) +1);
 		i.add(getItemIndex(cmbAnswer3) +1);
@@ -86,11 +90,19 @@ public class SurveyResultController implements Initializable{
 			msg = new Message(i, "add surveyResult");
 		//}
 		
-		SurveyResultUI.myClient.accept(msg);
+			UserUI.myClient.accept(msg);
 	}
 	
-	public void Close() {
-		System.exit(0);			
+	public void Close(ActionEvent event) throws IOException {
+		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+		Stage primaryStage = new Stage();
+		FXMLLoader loader = new FXMLLoader();
+		Pane root = loader.load(getClass().getResource("/controller/CustomerServiceWorkerOptions.fxml").openStream());
+		
+		Scene scene = new Scene(root);			
+		
+		primaryStage.setScene(scene);		
+		primaryStage.show();		
 
 	}
 
@@ -100,14 +112,16 @@ public class SurveyResultController implements Initializable{
 
 		temp = new ArrayList<Integer>();
 		msg = new Message(temp, "get all the survey");
-		//SurveyResultUI.Id.clear();
-		SurveyResultUI.myClient.accept(msg);
+		//UserUI.Id.clear();
+		UserUI.myClient.accept(msg);
 		while(SurveyResultController.flag == false)
 		{
-			System.out.print("");
+			System.out.print("SACA");
 		}
+
 		flag = false;
-		slist = FXCollections.observableArrayList(SurveyResultUI.Id);
+		//CustomerServiceWorkerButton.flag =false;
+		slist = FXCollections.observableArrayList(UserUI.Id);
 		cmbSurveyId.setItems(slist); // initelize id combo box
 		Integer[] answar = new Integer[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 		slist = FXCollections.observableArrayList(answar);

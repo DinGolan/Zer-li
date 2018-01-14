@@ -1,14 +1,23 @@
 package controller;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+
+import boundery.UserUI;
+import entity.Message;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class CustomerServiceWorkerController {
+public class CustomerServiceWorkerController implements Initializable{
+	
 	@FXML
 	private Button btnCServiceWInsertSurveyQ = null; //button to insert survey questions
 
@@ -27,9 +36,37 @@ public class CustomerServiceWorkerController {
 	@FXML
 	private Button btnCServiceWLogout = null; //button to do logout
 	
+	String[] primaryStage;
+	public static boolean flag = false;
+	
 	public void insertSurveyQuestionsBtn(ActionEvent event) throws Exception //To open the view report option
 	{
+		((Node)event.getSource()).getScene().getWindow().hide(); // Hiding primary window 
+		Stage primaryStage = new Stage();
+		FXMLLoader loader = new FXMLLoader();
+		Pane root = loader.load(getClass().getResource("/controller/SurveyFrame.fxml").openStream());
+		Scene scene = new Scene(root);			
+		primaryStage.setScene(scene);		
+		primaryStage.show();
+		flag=true;
 
+	}
+	
+	@SuppressWarnings("static-access")
+	public void SaveSurveyBtn(ActionEvent event) throws Exception{
+		((Node)event.getSource()).getScene().getWindow().hide(); // Hiding primary window 
+		Stage primaryStage = new Stage();
+		FXMLLoader loader = new FXMLLoader();
+		Pane root = loader.load(getClass().getResource("/controller/SurveyResultFrame.fxml").openStream());
+		
+		Scene scene = new Scene(root);			
+		
+		primaryStage.setScene(scene);		
+		primaryStage.show();
+		//SurveyResultController sr = new SurveyResultController();				  
+		//sr.start(primaryStage);
+		//SurveyResultUI s = new SurveyResultUI();
+		//s.main(primaryStage);
 	}
 	
 	public void openNewComplaintBtn(ActionEvent event) throws Exception //To open new complaint option
@@ -39,15 +76,33 @@ public class CustomerServiceWorkerController {
 		FXMLLoader loader = new FXMLLoader();
 		Pane root = loader.load(getClass().getResource("/controller/ComplaintForm.fxml").openStream());
 		
-		ComplaintController complaintController = loader.getController();		
-		complaintController.loadComplaint(); //In this Line We take the Product that we Choose and Show his Details On the GUI */
+		//ComplaintController complaintController = loader.getController();		
+		//complaintController.loadComplaint(); //In this Line We take the Product that we Choose and Show his Details On the GUI */
 		
 		Scene scene = new Scene(root);			
 		//scene.getStylesheets().add(getClass().getResource("/controller/AccountForm.css").toExternalForm());
 		primaryStage.setScene(scene);
-		//primaryStage.setTitle("Account Credit-Card details");
+		primaryStage.setTitle("Complaint Form");
 		primaryStage.show();
 	
+	}
+	
+	public void followComplaintBtn(ActionEvent event) throws Exception //To open follow complaint option
+	{
+		ComplaintHandleController.viewComplaintFlag=true;
+		((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
+		Stage primaryStage = new Stage();
+		FXMLLoader loader = new FXMLLoader();
+		Pane root = loader.load(getClass().getResource("/controller/ComplaintForWorker.fxml").openStream());
+		
+		ComplaintHandleController complaintHandleController = loader.getController();		
+		complaintHandleController.loadHisComplaints(); //we are loading all the requested complaints for this customer service worker
+		
+		Scene scene = new Scene(root);			
+		//scene.getStylesheets().add(getClass().getResource("/controller/AccountForm.css").toExternalForm());
+		primaryStage.setScene(scene);
+		primaryStage.setTitle("Complaints to handle");
+		primaryStage.show();	
 	}
 	
 	/////אולי להוריד את קיום הכפתור יציאה
@@ -58,11 +113,24 @@ public class CustomerServiceWorkerController {
 	}
 	
 	
-	///יש בעיה!!!!
-	public void logoutBtn(ActionEvent event) throws Exception //logout by the customer service worker
+	public void LogoutBtn(ActionEvent event) throws IOException
 	{
-		UserController u = new UserController();
-		u.logout(event);		
+		Message msg = new Message(UserUI.user.getId(), "change User status to DISCONNECTED");
+		UserUI.myClient.accept(msg); // change User status to DISCONNECTED in DB
+		((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+		Stage primaryStage = new Stage(); /* Object present window with graphics elements */
+		FXMLLoader loader = new FXMLLoader(); /* load object */
+		Parent root = FXMLLoader.load(getClass().getResource("/controller/UserLogin.fxml"));
+		Scene scene = new Scene(root);
+		primaryStage.setTitle("LOGIN");
+		primaryStage.setScene(scene);
+		primaryStage.show();
+	}
+
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

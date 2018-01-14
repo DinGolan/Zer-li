@@ -18,9 +18,11 @@ public class Order implements Serializable{
 	
 	private HashMap<Product , Integer> productsInOrder;
 	
+	private HashMap<Product.ProductType,Integer> ProductInOrderType; 
+
 	private LocalDate requiredSupplyDate;
 	
-	private static int orderID = 10;
+	private int orderID;
 	
 	private String customerID;
 	
@@ -111,7 +113,6 @@ public class Order implements Serializable{
 	}
 
 	public int getOrderID() {
-		orderID++;
 		return orderID;
 	}
 
@@ -179,6 +180,13 @@ public class Order implements Serializable{
 		this.storeID = storeID;
 	}
 
+	public HashMap<Product.ProductType, Integer> getProductInOrderType() {
+		return ProductInOrderType;
+	}
+
+	public void setProductInOrderType(HashMap<Product.ProductType, Integer> productInOrderType) {
+		ProductInOrderType = productInOrderType;
+	}
 
 
 	@Override

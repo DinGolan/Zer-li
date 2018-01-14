@@ -1,30 +1,18 @@
 package boundery;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Vector;
-import controller.UserController;
+
+import entity.Message;
+import entity.Store;
+import entity.User;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import mypackage.ClientConsole;
-import entity.Account;
-
-import entity.Complaint;import entity.Message;import entity.Product;
-import entity.Store;
-import entity.User;
-import controller.CatalogController;
-import javafx.application.Application;
-import javafx.stage.Stage;
-import mypackage.ClientConsole;
-import java.util.Vector;
-import controller.DataCompanyManagerController;
-import javafx.application.Application;
-import javafx.stage.Stage;
-import mypackage.ClientConsole;
-import entity.User;
 
 public class UserUI extends Application /* With This Class We Show the Product GUI */{
 	
@@ -32,16 +20,19 @@ public class UserUI extends Application /* With This Class We Show the Product G
 	public static ClientConsole myClient;
 	public static User user = null;
 	public static Store store;
-	public static Account account;
-	public static Complaint complaint;
+	public static ArrayList<Integer> Id = new ArrayList<Integer>();
+
+
+	//public static Account account;
+	//public static Complaint complaint;
 
 	
 	public static void main( String args[] ) throws Exception 
 	{ 
-		System.out.println("Please enter the server IP");
-		Scanner scanner = new Scanner(System.in);
-		String IP = "localhost";//scanner.next(); /* Enter Server IP */
-		myClient = new ClientConsole(IP, 5555); //create connection with server
+//		System.out.println("Please enter the server IP");
+//		Scanner scanner = new Scanner(System.in);
+//		String IP = scanner.next(); /* Enter Server IP */
+		myClient = new ClientConsole("localhost", 5555); //create connection with server
         launch(args);		 
 	} 
 	

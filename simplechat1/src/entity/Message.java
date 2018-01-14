@@ -29,8 +29,4 @@ public class Message implements Serializable{
 	public void setOption(String option) {
 		this.option = option;
 	}
-	
-
-	
-
 }

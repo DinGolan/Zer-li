@@ -12,7 +12,7 @@
 
 <AnchorPane prefHeight="215.0" prefWidth="354.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ComplaintController">
    <children>
-      <Button id="btnAccountClose" fx:id="btnAccountClose" layoutX="240.0" layoutY="168.0" mnemonicParsing="false" onAction="#closeAccountFormWindow" prefHeight="25.0" prefWidth="52.0" text="Close" />
+      <Button id="btnComplaintClose" fx:id="btnComplaintClose" layoutX="240.0" layoutY="168.0" mnemonicParsing="false" onAction="#closeComplaintFormWindow" prefHeight="25.0" prefWidth="52.0" text="Close" />
       <Label layoutX="4.0" layoutY="32.0" text="Add new complaint - successed" textFill="#0022ff">
          <font>
             <Font name="Bodoni MT" size="29.0" />

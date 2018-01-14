@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="768.0" prefWidth="671.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.OrderReportController">
+   <children>
+      <Label layoutX="93.0" layoutY="119.0" />
+      <Label fx:id="T3" layoutX="93.0" layoutY="247.0" />
+      <Label fx:id="T2" layoutX="93.0" layoutY="111.0" />
+      <Label fx:id="T1" layoutX="93.0" layoutY="161.0" />
+      <Label layoutX="146.0" layoutY="20.0" prefHeight="78.0" prefWidth="356.0" text="Order Report" textFill="#0022ff">
+         <font>
+            <Font name="Bodoni MT Bold" size="64.0" />
+         </font>
+      </Label>
+      <Label layoutX="61.0" layoutY="116.0" text="Store ID : ">
+         <font>
+            <Font name="System Italic" size="16.0" />
+         </font>
+      </Label>
+      <TextField id="txtStoreID" fx:id="txtStoreID" editable="false" layoutX="129.0" layoutY="116.0" prefHeight="25.0" prefWidth="57.0" />
+      <Button id="btnClose" fx:id="btnClose" layoutX="313.0" layoutY="622.0" mnemonicParsing="false" onAction="#closeOrderReportWindow" text="Close" />
+      <BarChart id="ChartOrderReport" fx:id="ChartOrderReport" layoutX="24.0" layoutY="175.0" prefHeight="435.0" prefWidth="599.0" title="Order Of Store According To Product Type">
+        <xAxis>
+          <CategoryAxis id="X_ProductType" fx:id="X_ProductType" label="Product Type" side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis id="Y_OrderSpecificStore" fx:id="Y_OrderSpecificStore" label="Order Of Specific Store" side="LEFT" />
+        </yAxis>
+      </BarChart>
+      <Label layoutX="235.0" layoutY="116.0" text="Year : ">
+         <font>
+            <Font name="System Italic" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="382.0" layoutY="115.0" text="Number Of Quarter :">
+         <font>
+            <Font name="System Italic" size="16.0" />
+         </font>
+      </Label>
+      <TextField id="txtYear" fx:id="txtYear" editable="false" layoutX="279.0" layoutY="116.0" prefHeight="25.0" prefWidth="57.0" />
+      <TextField id="txtNumberOfQuarter" fx:id="txtNumberOfQuarter" editable="false" layoutX="534.0" layoutY="116.0" prefHeight="25.0" prefWidth="57.0" />
+   </children>
+</AnchorPane>
