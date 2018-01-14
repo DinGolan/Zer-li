@@ -2,8 +2,11 @@ package controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import boundery.ComplaintUI;
 import boundery.UserUI;
 import entity.Message;
+import entity.Store;
+import entity.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,6 +19,9 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class StoreManagerController implements Initializable {
+	
+	public static Integer storeID;
+	public static boolean flag = false;
 
     @FXML
     private Button btnStoreManagerLogout; /* Button For Logout From The User Of Store Manager */
@@ -35,7 +41,7 @@ public class StoreManagerController implements Initializable {
 	{	
 		Parent root = FXMLLoader.load(getClass().getResource("/controller/StoreManagerOptions.fxml"));
 		Scene scene = new Scene(root);
-	    primaryStage.setTitle("Quarterly Report - Management Tool");
+	    primaryStage.setTitle("Menu");
         primaryStage.setScene(scene);
 		primaryStage.show();		
 	}
@@ -65,18 +71,23 @@ public class StoreManagerController implements Initializable {
 	
 	public void openNewAccountBtn(ActionEvent event) throws Exception //To open the add new account option
 	{
+		Message msg = new Message(UserUI.user.getId(), "Store manager want store number");
+		UserUI.myClient.accept(msg);
+		while (flag == false) {
+			System.out.print(""); // DOES NOT RUN WITHOUT THIS LINE
+		}
+		flag = false;
+		UserUI.store=new Store();
+		UserUI.store.setStoreId(storeID);
 		((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
 		Stage primaryStage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
 		Pane root = loader.load(getClass().getResource("/controller/AccountForm.fxml").openStream());
 		
-		//ProductController productFormController = loader.getController();		
-		//productFormController.loadProduct(ProductUI.products.get(getItemIndex())); //In this Line We take the Product that we Choose and Show his Details On the GUI */
-		
 		Scene scene = new Scene(root);			
 		scene.getStylesheets().add(getClass().getResource("/controller/AccountForm.css").toExternalForm());
 		primaryStage.setScene(scene);
-		//primaryStage.setTitle("Account Credit-Card details");
+		primaryStage.setTitle("Account Card Form");
 		primaryStage.show();
 	}
 	
