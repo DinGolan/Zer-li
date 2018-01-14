@@ -18,6 +18,7 @@ import boundery.UserUI;
 import client.ChatClient;
 import common.ChatIF;
 import controller.AccountController;
+import controller.CatalogController;
 import controller.ComplaintController;
 import controller.ComplaintHandleController;
 import controller.OrderController;import controller.StoreManagerController;import controller.SurveyResultController;
@@ -129,12 +130,13 @@ public void displayUI(Object message)
 	  	  	int i=0;
 	  	  	ArrayList<Product> temp = new ArrayList<Product>();
 	  	  	temp = (ArrayList<Product>)((Message)message).getMsg();
+	  	  	
 	  	  	CatalogUI.products.clear();
-
 	  	  	for(i=0;i<temp.size();i++)
 	  	  	{
 	  	  	CatalogUI.products.add(temp.get(i));
 	  	  	}
+	  	  	CatalogController.waitFlag=1;
 	    }
 	    
 	    if(((Message)message).getOption().compareTo("get all products in sale from DB") ==0)
@@ -148,6 +150,7 @@ public void displayUI(Object message)
 	  	  	{
 	  	  	CatalogUI.productsInSale.add(temp.get(i));
 	  	  	}
+	  	  CatalogController.waitFlag=1;
 	    }
 	    
 	    if(((Message)message).getOption().compareTo("insert order to DB") == 0)

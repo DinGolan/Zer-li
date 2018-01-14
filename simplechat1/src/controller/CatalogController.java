@@ -37,6 +37,8 @@ public class CatalogController implements Initializable {
 	
 	public static Order order;
 	
+	public static int waitFlag=0;
+	
 	public static boolean basicFlowersFlag=false;
 	@FXML
 	private Button btnBack = null;	
@@ -117,11 +119,18 @@ public class CatalogController implements Initializable {
 		boolean flagSale = false;
 		InputStream targetStream;
 		UserUI.myClient.accept(msg);
-		while(CatalogUI.products.size()==0);
+		waitFlag=0;
+		while(waitFlag==0) {
+		System.out.print("");
+		}
 		msg.setOption("get all products in sale from DB");
 		msg.setMsg(UserUI.store);
 		UserUI.myClient.accept(msg);
-		while(CatalogUI.productsInSale.size()==0);
+		waitFlag=0;
+		while(waitFlag==0){
+			System.out.print("");
+			}
+		waitFlag=0;
 		for(j=0 ; j<CatalogUI.products.size() ; j++)
 		{
 			flagSale = false;
@@ -207,7 +216,11 @@ public class CatalogController implements Initializable {
 		msg.setOption("get all products in sale from DB");
 		msg.setMsg(UserUI.store);		
 		UserUI.myClient.accept(msg);
-		while(CatalogUI.productsInSale.size()==0);
+		waitFlag=0;
+		while(waitFlag==0){
+			System.out.print("");
+			}
+		waitFlag=0;
 		if(type.compareTo("SALE") !=0)
 			{
 			for(j=0 ; j<CatalogUI.products.size() ; j++) //create product in catalog

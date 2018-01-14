@@ -23,7 +23,7 @@ public class Product implements Serializable,Comparable<Product>
 	private int Quantity;
 
 	public enum ProductColor {RED, PINK, ORANGE, WHITE, YELLOW}
-	public enum ProductType {BOUQUET , ARRANGEMENT , SWEET_BOUQUET , FLOWER_CROWN , BRIDAL_BOUQUET , VASE , FLOWER_WREATH}
+	public enum ProductType {BOUQUET , ARRANGEMENT , SWEET_BOUQUET , FLOWER_CROWN , BRIDAL_BOUQUET , VASE , WREATH_FLOWERS}
 	
 	
 
