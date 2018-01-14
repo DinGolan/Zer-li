@@ -17,11 +17,11 @@
       <Label layoutX="29.0" layoutY="187.0" text="Payment arrangement:" />
       <Label layoutX="28.0" layoutY="134.0" text="Credit card number:" />
       <TextField id="txtAccountUserId" fx:id="txtAccountUserId" layoutX="180.0" layoutY="75.0" />
-      <Button id="btnAccountAddAccount" fx:id="btnAccountAddAccount" layoutX="92.0" layoutY="223.0" mnemonicParsing="false" onAction="#addNewAccountButton" text="Add account" />
-      <Button id="btnAccountClose" fx:id="btnAccountClose" layoutX="341.0" layoutY="223.0" mnemonicParsing="false" onAction="#closeAccountFormWindow" text="Close" />
+      <TextField id="txtAccountCreditCardNum" fx:id="txtAccountCreditCardNum" layoutX="181.0" layoutY="130.0" />
       <RadioButton id="rdbtnAccountPaymentArrangmentFullPrice" fx:id="rdbtnAccountPaymentArrangmentFullPrice" layoutX="180.0" layoutY="187.0" mnemonicParsing="false" onAction="#FULLPRICEbtn" selected="true" text="Full-price" />
       <RadioButton id="rdbtnAccountPaymentArrangmentAnnual" fx:id="rdbtnAccountPaymentArrangmentAnnual" layoutX="282.0" layoutY="187.0" mnemonicParsing="false" onAction="#ANNUALbtn" text="Annual" />
       <RadioButton id="rdbtnAccountPaymentArrangmentMonthly" fx:id="rdbtnAccountPaymentArrangmentMonthly" layoutX="382.0" layoutY="187.0" mnemonicParsing="false" onAction="#MONTHLYbtn" text="Monthly" />
-      <TextField id="txtAccountCreditCardNum" fx:id="txtAccountCreditCardNum" layoutX="181.0" layoutY="130.0" />
+      <Button id="btnAccountAddAccount" fx:id="btnAccountAddAccount" layoutX="92.0" layoutY="223.0" mnemonicParsing="false" onAction="#addNewAccountButton" text="Add account" />
+      <Button id="btnAccountClose" fx:id="btnAccountClose" layoutX="341.0" layoutY="223.0" mnemonicParsing="false" onAction="#closeAccountFormWindow" text="Close" />
    </children>
 </AnchorPane>

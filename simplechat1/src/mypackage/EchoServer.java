@@ -2216,7 +2216,6 @@ public void handleMessageFromClient
 			  account.setAccountBalanceCard(rs.getDouble("AccountBalanceCard"));
 			  account.setAccountCreditCardNum(rs.getString("AccountCreditCardNum"));
 			  account.setAccountSubscriptionEndDate(rs.getDate("AccountSubscriptionEndDate"));
-			  account.setAccountPaymentMethod(Account.PaymentMethod.valueOf(rs.getString("AccountPaymentMethod")));
 			  account.setAccountPaymentArrangement(Account.PaymentArrangement.valueOf(rs.getString("AccountPaymentArrangement")));
 		 	}
 	  } 
@@ -2256,20 +2255,6 @@ public void handleMessageFromClient
 	 name= scanner.next();
 	//name = "project";
 	url = "jdbc:mysql://localhost/" + name;/* Enter jbdc mySQL */
-	//String sql = "jdbc:mysql://localhost/project";
-
-	System.out.println("Please enter the mySQL user name:");
-	 username =scanner.next(); /* Enter mySQL name */
-	 //username = "root";
-
-	 System.out.println("Please enter the mySQL password:");
-	 password = scanner.next(); /* Enter mySQL password */
-     //password = "Braude";<<<<<<< .mine
-	Scanner scanner = new Scanner(System.in);
-	 name= scanner.next();
-	//name = "project";
-	url = "jdbc:mysql://localhost/" + name;/* Enter jbdc mySQL */
-	//String sql = "jdbc:mysql://localhost/project";
 
 	System.out.println("Please enter the mySQL user name:");
 	 username =scanner.next(); /* Enter mySQL name */
@@ -2278,22 +2263,6 @@ public void handleMessageFromClient
 	 System.out.println("Please enter the mySQL password:");
 	 password = scanner.next(); /* Enter mySQL password */
      //password = "Braude";
-=======
-		Scanner scanner = new Scanner(System.in);
-		 name= scanner.next();
-		 url = "jdbc:mysql://localhost/"+name;/* Enter jbdc mySQL */
-		//String sql = "jdbc:mysql://localhost/project";
-	
-	System.out.println("Please enter the mySQL user name:");
-		 username =scanner.next(); /* Enter mySQL name */
-	
-	System.out.println("Please enter the mySQL password:");
-		 password =scanner.next(); /* Enter mySQL password */
-	
-
-
->>>>>>> .theirs
-    
     try 
     {
       sv.listen(); /* Start listening for connections */

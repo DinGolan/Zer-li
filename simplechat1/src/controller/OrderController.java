@@ -288,11 +288,7 @@ public class OrderController implements Initializable{
 					s = Order.SupplyOption.DELIVERY;
 				else 
 					s = Order.SupplyOption.PICKUP;
-<<<<<<< .mine
-				Order saveOrder = new Order(s, totalPrice, ProductController.order.getProductsInOrder(), localDate, UserUI.user.getId(), txtRequiredTime.getText(), txtAddress.getText(), txtRecipientsName.getText(), txtRecipientsPhoneNumber.getText(), txtPostCard.getText() , UserUI.store.getStoreId());
-=======
-				Order saveOrder = new Order(s, totalPrice, CatalogController.order.getProductsInOrder(), localDate, UserUI.user.getId(), txtRequiredTime.getText(), txtAddress.getText(), txtRecipientsName.getText(), txtRecipientsPhoneNumber.getText(), txtPostCard.getText() , UserUI.store.getStoreId(), CustomerUI.account.getAccountPaymentMethod());
->>>>>>> .theirs
+				Order saveOrder = new Order(s, totalPrice, CatalogController.order.getProductsInOrder(), localDate, UserUI.user.getId(), txtRequiredTime.getText(), txtAddress.getText(), txtRecipientsName.getText(), txtRecipientsPhoneNumber.getText(), txtPostCard.getText() , UserUI.store.getStoreId());
 				Message msg = new Message(saveOrder, "insert order to DB");
 				UserUI.myClient.accept(msg);
 				accountFlag = false;
