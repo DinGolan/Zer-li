@@ -10,14 +10,17 @@ import boundery.AccountUI;
 import boundery.CatalogUI;
 import boundery.CompanyManagerUI;
 import boundery.ComplaintUI;
+import boundery.CustomerUI;
 import boundery.DataCompanyManagerUI;
 import boundery.StoreManagerUI;
+import boundery.StoreUI;
 import boundery.UserUI;
 import client.ChatClient;
 import common.ChatIF;
 import controller.AccountController;
 import controller.ComplaintController;
 import controller.ComplaintHandleController;
+import controller.OrderController;
 import controller.SurveyResultController;
 import controller.UserController;
 import entity.Account;
@@ -135,6 +138,19 @@ public void displayUI(Object message)
 	  	  	}
 	    }
 	    
+	    if(((Message)message).getOption().compareTo("get all products in sale from DB") ==0)
+	    {
+	  	  	int i=0,j;
+	  	  	ArrayList<Product> temp = new ArrayList<Product>();
+	  	  	temp = (ArrayList<Product>)((Message)message).getMsg();
+	  	  	CatalogUI.productsInSale.clear();
+
+	  	  	for(i=0;i<temp.size();i++)
+	  	  	{
+	  	  	CatalogUI.productsInSale.add(temp.get(i));
+	  	  	}
+	    }
+	    
 	    if(((Message)message).getOption().compareTo("Add User To Combo Box From DB") == 0)
 	    {
 		  	  int i=0;
@@ -145,6 +161,31 @@ public void displayUI(Object message)
 			  for(i=0;i<temp.size();i++)
 		  	  {
 				  DataCompanyManagerUI.users.add(temp.get(i));
+		  	  }
+	    }
+	    
+	    if(((Message)message).getOption().compareTo("Update customer account") == 0)
+	    {
+	    	CustomerUI.account = new Account();
+	    	CustomerUI.account.setAccountBalanceCard(((Account)(((Message)message).getMsg())).getAccountBalanceCard());
+	    	CustomerUI.account.setAccountCreditCardNum(((Account)(((Message)message).getMsg())).getAccountCreditCardNum());
+	    	CustomerUI.account.setAccountPaymentArrangement(((Account)(((Message)message).getMsg())).getAccountPaymentArrangement());
+	    	CustomerUI.account.setAccountPaymentMethod(((Account)(((Message)message).getMsg())).getAccountPaymentMethod());
+	    	CustomerUI.account.setAccountSubscriptionEndDate(((Account)(((Message)message).getMsg())).getAccountSubscriptionEndDate());
+	    	CustomerUI.account.setAccountUserId(((Account)(((Message)message).getMsg())).getAccountUserId());
+	    	OrderController.accountFlag = true;
+	    }
+	    
+	    if(((Message)message).getOption().compareTo("get all stores from DB") == 0)
+	    {
+		  	  int i=0;
+			  ArrayList<Store> temp = new ArrayList<Store>();
+			  temp = (ArrayList<Store>)((Message)message).getMsg();
+			  StoreUI.stores.clear();
+
+			  for(i=0;i<temp.size();i++)
+		  	  {
+				  StoreUI.stores.add(temp.get(i));
 		  	  }
 	    }
 	    

@@ -62,7 +62,7 @@ public class UserController implements Initializable {
 		Message msg = new Message(u.getUserName(), "UserStatus");
 		UserUI.myClient.accept(msg);
 		while (flag == false) {
-			System.out.print(""); // DOES NOT RUN WITHOUT THIS LINE
+			System.out.print("aa"); // DOES NOT RUN WITHOUT THIS LINE
 		}
 		flag = false;
 		if (UserUI.user.getId().equals("Does Not Exist")) // user dos NOT exist
@@ -75,10 +75,8 @@ public class UserController implements Initializable {
 			primaryStage.show();
 		} 
 		
-		/* לבצע בדיקה ב - תנאי הזה , כי משהו לא תקין */
-		/* The Change That I Made its Instead Of Making The If Statement With '!= 0' , Its With '== 0' */
-		else if ((UserUI.user.getPassword().compareTo(u.getPassword())) == 0) // If The User Exist And He insert the wrong password
-		{ 
+		else if (!UserUI.user.getPassword().equals(u.getPassword())) // insert the wrong password
+		{
 			System.out.println("WrongPasswordMsg");
 			((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
 			root = FXMLLoader.load(getClass().getResource("/controller/WrongPasswordMsg.fxml"));

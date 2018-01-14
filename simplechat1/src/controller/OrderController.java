@@ -293,7 +293,7 @@ public class OrderController implements Initializable{
 				UserUI.myClient.accept(msg);
 				accountFlag = false;
 				while(accountFlag == false) {
-					System.out.print("");
+					System.out.print("aa");
 				}
 				accountFlag = false;
 				if(accountExistFlag == false) // no account exist for this customer

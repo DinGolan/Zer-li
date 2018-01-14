@@ -22,7 +22,7 @@ public class Order implements Serializable{
 
 	private LocalDate requiredSupplyDate;
 	
-	private int orderID;
+	private int orderID = 200;
 	
 	private String customerID;
 	

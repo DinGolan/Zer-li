@@ -294,16 +294,20 @@ public class CatalogController implements Initializable {
 	public void addToCart(ActionEvent event) throws Exception // add product to cart
 	{
 		String pId = txtPId.getText();
-		int pAmmount = Integer.valueOf(txtPAmmount.getText());
-		Product p = getproductById(pId);
-		if(p != null)
+		int pAmmount;
+		if(txtPAmmount.getText().compareTo("")!=0)
 		{
-			if(order.getProductsInOrder().containsKey(p))
-				order.getProductsInOrder().put(p, (order.getProductsInOrder().get(p))+pAmmount);
-			else
-				order.getProductsInOrder().put(p, pAmmount);
-			txtPId.setText("");
-			txtPAmmount.setText("");
+			pAmmount = Integer.valueOf(txtPAmmount.getText());
+			Product p = getproductById(pId);
+			if(p != null)
+			{
+				if(order.getProductsInOrder().containsKey(p))
+					order.getProductsInOrder().put(p, (order.getProductsInOrder().get(p))+pAmmount);
+				else
+					order.getProductsInOrder().put(p, pAmmount);
+				txtPId.setText("");
+				txtPAmmount.setText("");
+			}
 		}
 	}
 
