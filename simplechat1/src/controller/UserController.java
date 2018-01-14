@@ -62,7 +62,7 @@ public class UserController implements Initializable {
 		Message msg = new Message(u.getUserName(), "UserStatus");
 		UserUI.myClient.accept(msg);
 		while (flag == false) {
-			System.out.print("aa"); // DOES NOT RUN WITHOUT THIS LINE
+			System.out.print(""); // DOES NOT RUN WITHOUT THIS LINE
 		}
 		flag = false;
 		if (UserUI.user.getId().equals("Does Not Exist")) // user dos NOT exist

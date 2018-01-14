@@ -174,7 +174,10 @@ public class OrderController implements Initializable{
 		if(flag!=4)
 			root = loader.load(getClass().getResource("/controller/Catalog.fxml").openStream());
 		else
+		{
+			SelfDefenitionProductController.modeFlag = 1;
 			root = loader.load(getClass().getResource("/controller/SelfDefenitionProduct.fxml").openStream());
+		}
 		flag = 0;
 		Scene scene = new Scene(root);			
 		primaryStage.setScene(scene);	
@@ -401,6 +404,7 @@ public class OrderController implements Initializable{
 	public void backToCustomerOption(ActionEvent event) throws Exception
 	{
 		flag=0;
+		CatalogController.order= new Order();
 		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
 		Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
 		FXMLLoader loader = new FXMLLoader(); 					 /* load object */
