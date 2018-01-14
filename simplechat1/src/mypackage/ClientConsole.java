@@ -15,6 +15,7 @@ import boundery.UserUI;
 import client.ChatClient;
 import common.ChatIF;
 import controller.AccountController;
+import controller.CatalogController;
 import controller.ComplaintController;
 import controller.OrderController;
 import controller.SurveyResultController;
@@ -131,9 +132,10 @@ public class ClientConsole implements ChatIF
 	  	  	}
 	    }
 	    
+	    
 	    if(((Message)message).getOption().compareTo("get all products in sale from DB") ==0)
 	    {
-	  	  	int i=0;
+	  	  	int i=0,j;
 	  	  	ArrayList<Product> temp = new ArrayList<Product>();
 	  	  	temp = (ArrayList<Product>)((Message)message).getMsg();
 	  	  	CatalogUI.productsInSale.clear();

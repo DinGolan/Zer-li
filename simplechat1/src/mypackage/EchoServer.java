@@ -22,6 +22,7 @@ import entity.Complaint;
 import entity.Message;
 import entity.Order;
 import entity.Product;
+import entity.Product.ProductColor;
 import entity.Product.ProductType;
 import entity.Store;
 import entity.User;
@@ -86,6 +87,7 @@ public class EchoServer extends AbstractServer
 	    		((Message)msg).setMsg(getProductsFromDB(conn));	    
 	    		this.sendToAllClients(msg);
   		}
+    
 	    
 	    if(((Message)msg).getOption().compareTo("get all products in sale from DB") ==0) 	    /* Check that we get from DB Because We want to Initialized */
 	    {										
@@ -397,6 +399,7 @@ public class EchoServer extends AbstractServer
    		  pr.setpType(ProductType.valueOf(rs.getString("productType")));
    		  pr.setpPrice(rs.getDouble("productPrice"));
    		  pr.setImage(rs.getBinaryStream("ProductPicure"));
+   		  pr.setpColor(ProductColor.valueOf(rs.getString("productColor")));
    		  products.add(pr);
    	 	}
    	  } catch (SQLException e) {e.printStackTrace();} 
@@ -404,6 +407,8 @@ public class EchoServer extends AbstractServer
    	  catch (IOException e) {e.printStackTrace();}	
    	  return products;
      }
+      
+ 
      
      protected ArrayList<Product> getProductsInSaleFromDB(Object msg, Connection conn) /* This method get products table details from DB */
      {
@@ -422,6 +427,7 @@ public class EchoServer extends AbstractServer
    		  pr.setpID(rs.getString("ProductID"));
    		  pr.setpStore(rs.getInt("StoreID"));
    		  pr.setpPrice(rs.getDouble("productPrice"));
+   	      pr.setpType(Product.ProductType.valueOf(rs.getString("productType")));
    		  products.add(pr);
    	 	}
    	  } catch (SQLException e) {e.printStackTrace();}	
@@ -639,23 +645,24 @@ public class EchoServer extends AbstractServer
 			 	{
 				  method=Account.PaymentMethod.valueOf(rs.getString("AccountPaymentMethod"));
 			 	}
-			  if(method != null) {
-			  InsertAccountToID = "INSERT INTO project.order(customerID, orderSupplyOption, orderTotalPrice, orderRequiredSupplyDate, orderRequiredSupplyTime, orderRecipientAddress , orderRecipientName , orderRecipientPhoneNumber, orderPostcard ,orderDate, StoreID ,paymentMethod)" + 
-			  		"VALUES('"+newOrder.getCustomerID()+"','"+newOrder.getSupply()+ "',"+newOrder.getOrderTotalPrice()+",'"+newOrder.getRequiredSupplyDate()+"','"+newOrder.getRequiredSupplyTime()+"','"+newOrder.getRecipientAddress()+"','"+newOrder.getRecipientName()+"','"+newOrder.getRecipienPhoneNum()+"','"+newOrder.getPostCard()+"','"+newOrder.getOrderDate()+"' , "+newOrder.getStoreID()+",'"+method+"');";
-			  stmt.executeUpdate(InsertAccountToID);
-			  InsertAccountToID = "SELECT orderID FROM project.`order` WHERE customerID = '"+newOrder.getCustomerID()+"' AND orderDate = '"+newOrder.getOrderDate()+"' AND orderTotalPrice = "+newOrder.getOrderTotalPrice()+" AND orderRequiredSupplyTime ='"+newOrder.getRequiredSupplyTime()+"';";
-			  rs = stmt.executeQuery(InsertAccountToID);
-			  while(rs.next())
-			 	{
-			  orderID=rs.getInt("orderID");
-			 	}
-			  for(Entry<Product, Integer> e : ((Order)(((Message)msg).getMsg())).getProductsInOrder().entrySet())
+			  if(method != null) 
 			  {
-				  InsertAccountToID = "INSERT INTO project.productinorder(ProductID, OrderID, QuantityOfProduct, ProductType, ProductName, productPrice)"+ 
-					  		"VALUES('"+e.getKey().getpID()+"',"+orderID+ ","+e.getValue()+",'"+e.getKey().getpType()+"','"+e.getKey().getpName()+"',"+e.getKey().getpPrice()+");";
-					  stmt.executeUpdate(InsertAccountToID);
-			  }
-			  return "";
+				  InsertAccountToID = "INSERT INTO project.order(customerID, orderSupplyOption, orderTotalPrice, orderRequiredSupplyDate, orderRequiredSupplyTime, orderRecipientAddress , orderRecipientName , orderRecipientPhoneNumber, orderPostcard ,orderDate, StoreID ,paymentMethod)" + 
+				  		"VALUES('"+newOrder.getCustomerID()+"','"+newOrder.getSupply()+ "',"+newOrder.getOrderTotalPrice()+",'"+newOrder.getRequiredSupplyDate()+"','"+newOrder.getRequiredSupplyTime()+"','"+newOrder.getRecipientAddress()+"','"+newOrder.getRecipientName()+"','"+newOrder.getRecipienPhoneNum()+"','"+newOrder.getPostCard()+"','"+newOrder.getOrderDate()+"' , "+newOrder.getStoreID()+",'"+method+"');";
+				  stmt.executeUpdate(InsertAccountToID);
+				  InsertAccountToID = "SELECT orderID FROM project.`order` WHERE customerID = '"+newOrder.getCustomerID()+"' AND orderDate = '"+newOrder.getOrderDate()+"' AND orderTotalPrice = "+newOrder.getOrderTotalPrice()+" AND orderRequiredSupplyTime ='"+newOrder.getRequiredSupplyTime()+"';";
+				  rs = stmt.executeQuery(InsertAccountToID);
+				  while(rs.next())
+				 	{
+					  orderID=rs.getInt("orderID");
+				 	}
+				  for(Entry<Product, Integer> e : ((Order)(((Message)msg).getMsg())).getProductsInOrder().entrySet())
+				  {
+					  InsertAccountToID = "INSERT INTO project.productinorder(ProductID, OrderID, QuantityOfProduct, ProductType, ProductName, productPrice)"+ 
+						  		"VALUES('"+e.getKey().getpID()+"',"+orderID+ ","+e.getValue()+",'"+e.getKey().getpType()+"','"+e.getKey().getpName()+"',"+e.getKey().getpPrice()+");";
+						  stmt.executeUpdate(InsertAccountToID);
+				  }
+				  return "";
 			  }
 	  } catch (SQLException e) {	e.printStackTrace();}	
 	  return "No account";
@@ -751,15 +758,15 @@ public class EchoServer extends AbstractServer
 
   System.out.println("Please enter the mySQL scheme name:");
 		Scanner scanner = new Scanner(System.in);
-		 name= scanner.next();
+		 name= "project";//scanner.next();
 		 url = "jdbc:mysql://localhost/"+name;/* Enter jbdc mySQL */
 		//String sql = "jdbc:mysql://localhost/project";
 	
 	System.out.println("Please enter the mySQL user name:");
-		 username =scanner.next(); /* Enter mySQL name */
+		 username = "root";// scanner.next(); /* Enter mySQL name */
 	
 	System.out.println("Please enter the mySQL password:");
-		 password = scanner.next(); /* Enter mySQL password */
+		 password ="308155308"; //scanner.next(); /* Enter mySQL password */
 	
     
     try 

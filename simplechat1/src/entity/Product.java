@@ -8,18 +8,21 @@ import java.io.Serializable;
 
 import javafx.scene.image.Image;
 
-public class Product implements Serializable
+public class Product implements Serializable,Comparable<Product>
 {
 	private String pID;
 	private String pName;
 	private ProductType pType;	
+	private ProductColor pColor = ProductColor.YELLOW;
 	private int pStore;	
-	private double pPrice;	
+	private double pPrice;
+	private double pSalePrice;	
 	private transient InputStream input;
-	private transient Image image;
+	private Image image;
 	private byte[] buffer;
 
-	public enum ProductType {BOUQUET , ARRANGEMENT , SWEET_BOUQUET , FLOWER_CROWN , BRIDAL_BOUQUET , VASE , FLOWER_WREATH}
+	public enum ProductColor {RED, PINK, ORANGE, WHITE, YELLOW}
+	public enum ProductType {BOUQUET , ARRANGEMENT , SWEET_BOUQUET , FLOWER_CROWN , BRIDAL_BOUQUET , VASE , WREATH_FLOWERS ,SELF_DEFENITION}
 	
 	
 
@@ -122,6 +125,31 @@ public class Product implements Serializable
 
 	public void setpStore(int pStore) {
 		this.pStore = pStore;
+	}
+
+	public double getpSalePrice() {
+		return pSalePrice;
+	}
+
+	public void setpSalePrice(double pSalePrice) {
+		this.pSalePrice = pSalePrice;
+	}
+
+	public ProductColor getpColor() {
+		return pColor;
+	}
+
+	public void setpColor(ProductColor pColor) {
+		this.pColor = pColor;
+	}
+
+	@Override
+	public int compareTo(Product pro) {
+		return (int)this.getpPrice() - (int)pro.getpPrice();
+	}
+
+	public void setImage(Image image) {
+		this.image = image;
 	}
 	
 	
