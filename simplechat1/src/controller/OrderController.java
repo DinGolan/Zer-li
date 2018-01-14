@@ -7,11 +7,11 @@ import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Map.Entry;
 import java.util.ResourceBundle;
 
 import boundery.CustomerUI;
+import boundery.OrderUI;
 import boundery.ProductUI;
 import boundery.UserUI;
 import entity.Account;
@@ -38,7 +38,7 @@ import javafx.stage.Stage;
 
 public class OrderController implements Initializable{
 
-	private static int flag=0;
+	public static int flag=0;
 	public static boolean accountFlag = false;
 	
 	public static boolean accountExistFlag = true;
@@ -100,7 +100,7 @@ public class OrderController implements Initializable{
 	private DatePicker dpRequiresSupplyDate=new DatePicker(LocalDate.now());  //DatePicker with the end date of the subscription
 	
 	
-	private static double totalPrice;
+	public static double totalPrice;
 	
 	ObservableList<String> listForComboBox;
 	
@@ -108,7 +108,7 @@ public class OrderController implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) // Initialized The ComboBox of the Product 
 	{
-		if(flag == 0)
+		if((flag == 0) || (flag == 4))
 			setComboBoxAndPrice();
 		if(flag == 1)
 			txtTotalOrderPrice.setText(String.valueOf(totalPrice));
@@ -124,13 +124,16 @@ public class OrderController implements Initializable{
 	{
 		   ArrayList<String> productsNames = new ArrayList<String>();
 		   double totalPrice= 0;
-		   if(ProductController.order.getProductsInOrder() != null) {
-			for(Entry<Product, Integer> e : ProductController.order.getProductsInOrder().entrySet())   /* We add to the ArrayList all the Faculty */
+		   if(!CatalogController.order.getProductsInOrder().equals(null)) {
+			for(Entry<Product, Integer> e : CatalogController.order.getProductsInOrder().entrySet())   /* We add to the ArrayList all the Faculty */
 			{
 				for(int i=0; i< e.getValue() ; i++)
 				{
 				productsNames.add(e.getKey().getpName());
-				totalPrice += e.getKey().getpPrice();
+				if(e.getKey().getpSalePrice()==0)
+					totalPrice += e.getKey().getpPrice();
+				else
+					totalPrice += e.getKey().getpSalePrice();
 				}
 			}
 		   }
@@ -143,32 +146,36 @@ public class OrderController implements Initializable{
 	public void removeProduct(ActionEvent event) throws Exception // remove product from cart
 	{
 		String productToRemove = cmbProducts.getValue();
-		if(productToRemove != null)
-		{
-			for(Product p : ProductController.order.getProductsInOrder().keySet())   
+
+			if(productToRemove != null)
 			{
-				if(p.getpName().compareTo(productToRemove) == 0) /*we found the product we want to remove*/
+				for(Product p : CatalogController.order.getProductsInOrder().keySet())   
 				{
-					ProductController.order.getProductsInOrder().put(p, (ProductController.order.getProductsInOrder().get(p))-1);
-					if(ProductController.order.getProductsInOrder().get(p) == 0)
-						ProductController.order.getProductsInOrder().remove(p);
-					break;
+					if(p.getpName().compareTo(productToRemove) == 0) /*we found the product we want to remove*/
+					{
+						CatalogController.order.getProductsInOrder().put(p, (CatalogController.order.getProductsInOrder().get(p))-1);
+						if(CatalogController.order.getProductsInOrder().get(p) == 0)
+							CatalogController.order.getProductsInOrder().remove(p);
+						break;
+					}
 				}
+				setComboBoxAndPrice();
 			}
-			setComboBoxAndPrice();
-		}
 	}
 	
 	public void closeCarttWindow(ActionEvent event) throws Exception  /* To close the The Window of the Product GUI and Show The Catalog GUI again */
 	{ 
-		flag = 0;
+		Pane root;
 		totalPrice =0;
 		ProductUI.products.clear();
 		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
 		Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
 		FXMLLoader loader = new FXMLLoader(); 					 /* load object */
-		Pane root = loader.load(getClass().getResource("/controller/CatalogBouquet.fxml").openStream());
-		
+		if(flag!=4)
+			root = loader.load(getClass().getResource("/controller/Catalog.fxml").openStream());
+		else
+			root = loader.load(getClass().getResource("/controller/SelfDefenitionProduct.fxml").openStream());
+		flag = 0;
 		Scene scene = new Scene(root);			
 		primaryStage.setScene(scene);	
 				
@@ -177,7 +184,7 @@ public class OrderController implements Initializable{
 	
 	public void continueToOrder(ActionEvent event) throws Exception  /* To close the The Window of the Product GUI and Show The Catalog GUI again */
 	{ 
-		if(ProductController.order.getProductsInOrder().size() > 0)
+		if(CatalogController.order.getProductsInOrder().size() > 0)
 		{
 			flag = 1;
 			((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
@@ -257,7 +264,6 @@ public class OrderController implements Initializable{
 				String time = txtRequiredTime.getText();
 				String hours = time.substring(0, 2);
 				String minutes = time.substring(3, 5);
-				System.out.println(hour);
 				if ((Integer.valueOf(hours) <= hour) || ((Integer.valueOf(hours) == (hour+1)) && (Integer.valueOf(minutes) <= minute)))
 				{
 					flag = 2;
@@ -282,12 +288,16 @@ public class OrderController implements Initializable{
 					s = Order.SupplyOption.DELIVERY;
 				else 
 					s = Order.SupplyOption.PICKUP;
+<<<<<<< .mine
 				Order saveOrder = new Order(s, totalPrice, ProductController.order.getProductsInOrder(), localDate, UserUI.user.getId(), txtRequiredTime.getText(), txtAddress.getText(), txtRecipientsName.getText(), txtRecipientsPhoneNumber.getText(), txtPostCard.getText() , UserUI.store.getStoreId());
+=======
+				Order saveOrder = new Order(s, totalPrice, CatalogController.order.getProductsInOrder(), localDate, UserUI.user.getId(), txtRequiredTime.getText(), txtAddress.getText(), txtRecipientsName.getText(), txtRecipientsPhoneNumber.getText(), txtPostCard.getText() , UserUI.store.getStoreId(), CustomerUI.account.getAccountPaymentMethod());
+>>>>>>> .theirs
 				Message msg = new Message(saveOrder, "insert order to DB");
 				UserUI.myClient.accept(msg);
 				accountFlag = false;
 				while(accountFlag == false) {
-					System.out.print("");
+					System.out.print("aa");
 				}
 				accountFlag = false;
 				if(accountExistFlag == false) // no account exist for this customer
@@ -311,7 +321,7 @@ public class OrderController implements Initializable{
 					System.out.print("");
 				}
 				accountFlag = false;
-				ProductController.order.getProductsInOrder().clear();  /*for next order*/
+				OrderUI.order = null;
 				((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
 				Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
 				FXMLLoader loader = new FXMLLoader(); 					 /* load object */

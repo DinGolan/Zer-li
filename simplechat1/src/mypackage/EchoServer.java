@@ -1,4 +1,8 @@
 package mypackage;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 /* This file contains material supporting section 3.7 of the textbook: */
 /* "Object Oriented Software Engineering" and is issued under the open-source */
 /* license found at www.lloseng.com */
@@ -10,6 +14,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map.Entry;
 import java.util.Scanner;
 import java.util.Vector;
 import com.mysql.jdbc.PreparedStatement;
@@ -20,6 +25,7 @@ import entity.Complaint;
 import entity.Message;
 import entity.Order;
 import entity.Product;
+import entity.Product.ProductColor;
 import entity.Product.ProductType;
 import entity.Report;
 import entity.Store;
@@ -88,6 +94,19 @@ public void handleMessageFromClient
 	    		this.sendToAllClients(msg);
   		}
 	    
+	    if(((Message)msg).getOption().compareTo("get all products in sale from DB") ==0) 	    /* Check that we get from DB Because We want to Initialized */
+	    {										
+				/* ArrayList<Product> aa = new ArrayList<Product>(); */
+	    		((Message)msg).setMsg(getProductsInSaleFromDB(msg, conn));	    
+	    		this.sendToAllClients(msg);
+  		}
+	    
+	    if(((Message)msg).getOption().compareTo("get all stores from DB") ==0) 	    /* Check that we get from DB Because We want to Initialized */
+	    {										
+	    		((Message)msg).setMsg(getStoresFromDB(conn));	    
+	    		this.sendToAllClients(msg);
+  		}
+	    
 	    if(((Message)msg).getOption().compareTo("Add User To Combo Box From DB") == 0) 	    /* Check that we get from DB Because We want to Initialized */
         {			
 	    	((Message)msg).setMsg(getUsersFromDB(conn));	
@@ -103,6 +122,12 @@ public void handleMessageFromClient
 	    if(((Message)msg).getOption().compareTo("Update User At Data Base") == 0) 	    /* Check that we get from DB Because We want to Initialized */
         {										
 	    	UpdateUserAtDB(msg,conn);
+		}
+	    
+	    if(((Message)msg).getOption().compareTo("Update customer account") == 0) 	    /* Check that we get from DB Because We want to Initialized */
+        {						
+	    	((Message)msg).setMsg(UpdateUserAccountAtDB(msg,conn));
+	    	this.sendToAllClients(msg);	
 		}
 	    
 	    if(((Message)msg).getOption().compareTo("insert order to DB") == 0) //add new Order
@@ -1694,26 +1719,57 @@ public void handleMessageFromClient
     	 
      }
   
-  protected ArrayList<Product> getProductsFromDB(Connection conn) /* This method get products table details from DB */
+     protected ArrayList<Product> getProductsFromDB(Connection conn) /* This method get products table details from DB */
+     {
+   	  ArrayList<Product> products = new ArrayList<Product>();
+   	  Statement stmt;
+   	  String p;
+   	  Product pr;
+   	  File file = new File("newfile");
+   	  FileOutputStream output;
+   	  try {
+   	      output = new FileOutputStream(file);
+   		  stmt = conn.createStatement();
+   		  String getProductsTable = "SELECT * FROM product;"; /* Get all the Table from the DB */
+   		  ResultSet rs = stmt.executeQuery(getProductsTable);
+   		  while(rs.next())
+   	 	{
+   		  pr = new Product();
+   		  pr.setpID(rs.getString("ProductID"));
+   		  pr.setpName(rs.getString("ProductName"));
+   		  pr.setpType(ProductType.valueOf(rs.getString("productType")));
+   		  pr.setpPrice(rs.getDouble("productPrice"));
+   		  pr.setImage(rs.getBinaryStream("ProductPicure"));
+   		  pr.setpColor(ProductColor.valueOf(rs.getString("productColor")));
+   		  products.add(pr);
+   	 	}
+   	  } catch (SQLException e) {e.printStackTrace();} 
+   	  catch (FileNotFoundException e){e.printStackTrace(); } 
+   	  catch (IOException e) {e.printStackTrace();}	
+   	  return products;
+     }
+  
+  protected ArrayList<Product> getProductsInSaleFromDB(Object msg, Connection conn) /* This method get products table details from DB */
   {
 	  ArrayList<Product> products = new ArrayList<Product>();
+	  int storeId = ((Store)(((Message)msg).getMsg())).getStoreId();
 	  Statement stmt;
 	  String p;
 	  Product pr;
 	  try {
 		  stmt = conn.createStatement();
-		  String getProductsTable = "SELECT * FROM product;"; /* Get all the Table from the DB */
+		  String getProductsTable = "SELECT * FROM productinsale WHERE StoreID = "+storeId+";"; /* Get all the Table from the DB */
 		  ResultSet rs = stmt.executeQuery(getProductsTable);
 		  while(rs.next())
 	 	{
 		  pr = new Product();
 		  pr.setpID(rs.getString("ProductID"));
-		  pr.setpName(rs.getString("ProductName"));
-		  pr.setpType(ProductType.valueOf(rs.getString("productType")));
+		  pr.setpStore(rs.getInt("StoreID"));
 		  pr.setpPrice(rs.getDouble("productPrice"));
+	      pr.setpType(Product.ProductType.valueOf(rs.getString("productType")));
 		  products.add(pr);
 	 	}
-	  } catch (SQLException e) {	e.printStackTrace();}	
+	  } catch (SQLException e) {e.printStackTrace();}	
 	  return products;
   }
   
@@ -2067,17 +2123,103 @@ public void handleMessageFromClient
 	  return Id;
   }
   
-  protected void AddNewOrderToDB(Object msg, Connection conn) //this method add new account to DB
+  protected String AddNewOrderToDB(Object msg, Connection conn) //this method add new account to DB
   {
 	  Order newOrder = (Order)(((Message)msg).getMsg());
-	  Statement stmt;	  
+	  int orderID=0;
+	  Statement stmt;
+	  Account.PaymentMethod method = null;
 	  try {
 			  stmt = conn.createStatement(); 
-			  String InsertAccountToID = "INSERT INTO project.order(customerID, orderSupplyOption, orderTotalPrice, orderRequiredSupplyDate, orderRequiredSupplyTime, orderRecipientAddress , orderRecipientName , orderRecipientPhoneNumber, orderPostcard ,orderDate)" + 
-			  		"VALUES('"+newOrder.getCustomerID()+"','"+newOrder.getSupply()+ "',"+newOrder.getOrderTotalPrice()+",'"+newOrder.getRequiredSupplyDate()+"','"+newOrder.getRequiredSupplyTime()+"','"+newOrder.getRecipientAddress()+"','"+newOrder.getRecipientName()+"','"+newOrder.getRecipienPhoneNum()+"','"+newOrder.getPostCard()+"','"+newOrder.getOrderDate()+"');";
-			  stmt.executeUpdate(InsertAccountToID);	 
-		 
+			  String InsertAccountToID = "SELECT AccountPaymentMethod FROM project.account WHERE AccountUserId = '"+newOrder.getCustomerID()+"' AND AccountStoreId= "+newOrder.getStoreID()+";";
+			  ResultSet rs = stmt.executeQuery(InsertAccountToID);
+			  while(rs.next())
+			 	{
+				  method=Account.PaymentMethod.valueOf(rs.getString("AccountPaymentMethod"));
+			 	}
+			  if(method != null) 
+			  {
+				  InsertAccountToID = "INSERT INTO project.order(customerID, orderSupplyOption, orderTotalPrice, orderRequiredSupplyDate, orderRequiredSupplyTime, orderRecipientAddress , orderRecipientName , orderRecipientPhoneNumber, orderPostcard ,orderDate, StoreID ,paymentMethod)" + 
+				  		"VALUES('"+newOrder.getCustomerID()+"','"+newOrder.getSupply()+ "',"+newOrder.getOrderTotalPrice()+",'"+newOrder.getRequiredSupplyDate()+"','"+newOrder.getRequiredSupplyTime()+"','"+newOrder.getRecipientAddress()+"','"+newOrder.getRecipientName()+"','"+newOrder.getRecipienPhoneNum()+"','"+newOrder.getPostCard()+"','"+newOrder.getOrderDate()+"' , "+newOrder.getStoreID()+",'"+method+"');";
+				  stmt.executeUpdate(InsertAccountToID);
+				  InsertAccountToID = "SELECT orderID FROM project.`order` WHERE customerID = '"+newOrder.getCustomerID()+"' AND orderDate = '"+newOrder.getOrderDate()+"' AND orderTotalPrice = "+newOrder.getOrderTotalPrice()+" AND orderRequiredSupplyTime ='"+newOrder.getRequiredSupplyTime()+"';";
+				  rs = stmt.executeQuery(InsertAccountToID);
+				  while(rs.next())
+				 	{
+					  orderID=rs.getInt("orderID");
+				 	}
+				  for(Entry<Product, Integer> e : ((Order)(((Message)msg).getMsg())).getProductsInOrder().entrySet())
+				  {
+					  InsertAccountToID = "INSERT INTO project.productinorder(ProductID, OrderID, QuantityOfProduct, ProductType, ProductName, productPrice)"+ 
+						  		"VALUES('"+e.getKey().getpID()+"',"+orderID+ ","+e.getValue()+",'"+e.getKey().getpType()+"','"+e.getKey().getpName()+"',"+e.getKey().getpPrice()+");";
+						  stmt.executeUpdate(InsertAccountToID);
+				  }
+				  return "";
+			  }
 	  } catch (SQLException e) {	e.printStackTrace();}	
+	  return "No account";
+  }
+  
+  protected ArrayList<Store> getStoresFromDB(Connection conn) /* This method get products table details from DB */
+  {
+	  ArrayList<Store> stores = new ArrayList<Store>();
+	  Statement stmt;
+	  String p;
+	  Store pr;
+	  try {
+		  stmt = conn.createStatement();
+		  String getProductsTable = "SELECT * FROM store;"; /* Get all the Table from the DB */
+		  ResultSet rs = stmt.executeQuery(getProductsTable);
+		  while(rs.next())
+	 	{
+		  pr = new Store();
+		  pr.setStoreId(rs.getInt("StoreID"));
+		  pr.setStore_Address(rs.getString("StoreAddress"));
+		  stores.add(pr);
+	 	}
+	  } catch (SQLException e) {	e.printStackTrace();}	
+	  return stores;
+  }
+  
+  
+  protected Account UpdateUserAccountAtDB(Object msg, Connection conn) /* This Method Update the DB */
+  {
+	  Account account = new Account();
+	  Statement stmt;
+	  double prevBalance=0;
+	  Account.PaymentArrangement arrangement = null;
+	  Order customerOrder = (Order)((Message)msg).getMsg();
+	  try {
+		  stmt = conn.createStatement();
+		  String getCustomerAccount = "SELECT * FROM project.account WHERE AccountUserId='"+customerOrder.getCustomerID()+"'; " ;
+		  ResultSet rs = stmt.executeQuery(getCustomerAccount);
+		  while(rs.next())
+		 	{
+		  prevBalance = rs.getDouble("AccountBalanceCard");
+		  arrangement = Account.PaymentArrangement.valueOf(rs.getString("AccountPaymentArrangement"));
+		 	}
+		  if(arrangement.equals(Account.PaymentArrangement.FULLPRICE))
+			  prevBalance -= customerOrder.getOrderTotalPrice();
+		  else if(arrangement.equals(Account.PaymentArrangement.ANNUAL))
+			  prevBalance -= customerOrder.getOrderTotalPrice()*0.9;
+		  else if(arrangement.equals(Account.PaymentArrangement.MONTHLY))
+			  prevBalance -= customerOrder.getOrderTotalPrice()*0.95;		  
+		  String UpdateTableAccount = "UPDATE project.account SET AccountBalanceCard =" +  prevBalance  + "WHERE AccountUserId='"+customerOrder.getCustomerID()+"'; " ;
+		  stmt.executeUpdate(UpdateTableAccount);
+		  getCustomerAccount = "SELECT * FROM project.account WHERE AccountUserId='"+customerOrder.getCustomerID()+"'; " ;
+		  rs = stmt.executeQuery(getCustomerAccount);
+		  while(rs.next())
+		 	{
+			  account.setAccountUserId(rs.getString("AccountUserId"));
+			  account.setAccountBalanceCard(rs.getDouble("AccountBalanceCard"));
+			  account.setAccountCreditCardNum(rs.getString("AccountCreditCardNum"));
+			  account.setAccountSubscriptionEndDate(rs.getDate("AccountSubscriptionEndDate"));
+			  account.setAccountPaymentMethod(Account.PaymentMethod.valueOf(rs.getString("AccountPaymentMethod")));
+			  account.setAccountPaymentArrangement(Account.PaymentArrangement.valueOf(rs.getString("AccountPaymentArrangement")));
+		 	}
+	  } 
+	  catch (SQLException e) {	e.printStackTrace();}	  
+	  return account;
   }
   
   
@@ -2120,7 +2262,35 @@ public void handleMessageFromClient
 
 	 System.out.println("Please enter the mySQL password:");
 	 password = scanner.next(); /* Enter mySQL password */
+     //password = "Braude";<<<<<<< .mine
+	Scanner scanner = new Scanner(System.in);
+	 name= scanner.next();
+	//name = "project";
+	url = "jdbc:mysql://localhost/" + name;/* Enter jbdc mySQL */
+	//String sql = "jdbc:mysql://localhost/project";
+
+	System.out.println("Please enter the mySQL user name:");
+	 username =scanner.next(); /* Enter mySQL name */
+	 //username = "root";
+
+	 System.out.println("Please enter the mySQL password:");
+	 password = scanner.next(); /* Enter mySQL password */
      //password = "Braude";
+=======
+		Scanner scanner = new Scanner(System.in);
+		 name= scanner.next();
+		 url = "jdbc:mysql://localhost/"+name;/* Enter jbdc mySQL */
+		//String sql = "jdbc:mysql://localhost/project";
+	
+	System.out.println("Please enter the mySQL user name:");
+		 username =scanner.next(); /* Enter mySQL name */
+	
+	System.out.println("Please enter the mySQL password:");
+		 password =scanner.next(); /* Enter mySQL password */
+	
+
+
+>>>>>>> .theirs
     
     try 
     {

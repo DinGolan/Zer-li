@@ -5,9 +5,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="322.0" prefWidth="332.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CustomerController">
+<AnchorPane prefHeight="364.0" prefWidth="332.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CustomerController">
    <children>
-      <Button id="btnLogout" fx:id="btnLogout" layoutX="129.0" layoutY="274.0" mnemonicParsing="false" onAction="#logout" text="Logout" />
+      <Button id="btnLogout" fx:id="btnLogout" layoutX="129.0" layoutY="321.0" mnemonicParsing="false" onAction="#logout" text="Logout" />
       <Label layoutX="54.0" layoutY="29.0" text="Customer - Menu" textFill="#0022ff">
          <font>
             <Font name="Bodoni MT Bold" size="29.0" />
@@ -15,5 +15,6 @@
       <Button id="btnViewProfile" layoutX="71.0" layoutY="201.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="172.0" text="View profile" />
       <Button id="btnCancelOrder" layoutX="71.0" layoutY="139.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="172.0" text="Cancel order" />
       <Button id="btnCatalog" fx:id="btnCatalog" layoutX="71.0" layoutY="76.0" mnemonicParsing="false" onAction="#openCatalogWindow" prefHeight="44.0" prefWidth="172.0" text="View catalog" />
+      <Button id="btnSelfDef" fx:id="btnSelfDef" layoutX="71.0" layoutY="260.0" mnemonicParsing="false" onAction="#openSelfDef" prefHeight="44.0" prefWidth="172.0" text="Self - Defenition Product" />
    </children>
 </AnchorPane>

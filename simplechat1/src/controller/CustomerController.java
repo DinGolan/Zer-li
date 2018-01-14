@@ -49,6 +49,9 @@ public class CustomerController implements Initializable{
 	private Button btnLogout;
 	
 	@FXML
+	private Button btnSelfDef;
+	
+	@FXML
 	private ComboBox<String> cmbStores = null; /* list of product in cart */
 	
 	ObservableList<String> listForComboBox;
@@ -58,7 +61,7 @@ public class CustomerController implements Initializable{
 		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
 		Stage primaryStage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
-		Pane root = loader.load(getClass().getResource("/controller/CatalogBouquet.fxml").openStream());
+		Pane root = loader.load(getClass().getResource("/controller/Catalog.fxml").openStream());
 		
 		Scene scene = new Scene(root);			
 		//scene.getStylesheets().add(getClass().getResource("/gui/StudentForm.css").toExternalForm());
@@ -104,6 +107,19 @@ public class CustomerController implements Initializable{
 		
 		primaryStage.setScene(scene);		
 		primaryStage.show();}
+	}
+	
+	public void openSelfDef(ActionEvent event) throws Exception {
+		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+		Stage primaryStage = new Stage();
+		FXMLLoader loader = new FXMLLoader();
+		Pane root = loader.load(getClass().getResource("/controller/SelfDefenitionProduct.fxml").openStream());
+		
+		Scene scene = new Scene(root);			
+		//scene.getStylesheets().add(getClass().getResource("/gui/StudentForm.css").toExternalForm());
+		
+		primaryStage.setScene(scene);		
+		primaryStage.show();
 	}
 	
 	public void setComboBox()
