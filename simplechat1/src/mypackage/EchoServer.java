@@ -134,7 +134,8 @@ public void handleMessageFromClient
 	    
 	    if(((Message)msg).getOption().compareTo("insert order to DB") == 0) //add new Order
 	    {
-	    	AddNewOrderToDB(msg,conn);	
+	    	((Message)msg).setMsg(AddNewOrderToDB(msg,conn));	
+	    	this.sendToAllClients(msg);	
 	    }
 		    
 	    if(((Message)msg).getOption().compareTo("Add new account") == 0) //check if we add new account
@@ -2109,6 +2110,7 @@ public void handleMessageFromClient
 			 	}
 			  if(method != null) 
 			  {
+				 
 				  InsertAccountToID = "INSERT INTO project.order(customerID, orderSupplyOption, orderTotalPrice, orderRequiredSupplyDate, orderRequiredSupplyTime, orderRecipientAddress , orderRecipientName , orderRecipientPhoneNumber, orderPostcard ,orderDate, StoreID ,paymentMethod)" + 
 				  		"VALUES('"+newOrder.getCustomerID()+"','"+newOrder.getSupply()+ "',"+newOrder.getOrderTotalPrice()+",'"+newOrder.getRequiredSupplyDate()+"','"+newOrder.getRequiredSupplyTime()+"','"+newOrder.getRecipientAddress()+"','"+newOrder.getRecipientName()+"','"+newOrder.getRecipienPhoneNum()+"','"+newOrder.getPostCard()+"','"+newOrder.getOrderDate()+"' , "+newOrder.getStoreID()+",'"+method+"');";
 				  stmt.executeUpdate(InsertAccountToID);

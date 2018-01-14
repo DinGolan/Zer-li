@@ -151,6 +151,13 @@ public void displayUI(Object message)
 	  	  	}
 	    }
 	    
+	    if(((Message)message).getOption().compareTo("insert order to DB") == 0)
+	    {
+	    	if(((String)((Message)message).getMsg()).compareTo("No account") == 0)
+	    		OrderController.accountExistFlag = false;
+	    	OrderController.accountFlag = true;
+	    }
+	    
 	    if(((Message)message).getOption().compareTo("Add User To Combo Box From DB") == 0)
 	    {
 		  	  int i=0;
