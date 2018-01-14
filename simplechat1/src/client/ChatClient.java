@@ -89,6 +89,8 @@ public class ChatClient extends AbstractClient
 		  System.out.println("maymay");
 		  clientUI.displayUI(msg);
 	  }
+	  else if(((Message)msg).getOption().compareTo("Store manager want store number") ==0)
+		  clientUI.displayUI(msg);
 	  //else if(((Message)msg).getOption().compareTo("Update complaint") ==0)
 	//	  clientUI.displayUI(msg);	   else if(((Message)msg).getOption().compareTo("Store Manager - Add Store To Combo Box From DB") == 0) 
 

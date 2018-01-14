@@ -7,26 +7,21 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="410.0" prefWidth="491.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AccountController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="270.0" prefWidth="491.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AccountController">
    <children>
       <Label layoutX="194.0" layoutY="25.0" prefHeight="32.0" prefWidth="122.0" text="Account Card" textAlignment="CENTER" textFill="#000dff">
          <font>
             <Font name="System Bold" size="16.0" />
          </font></Label>
       <Label layoutX="31.0" layoutY="79.0" text="User id number:" />
-      <Label layoutX="29.0" layoutY="187.0" text="Payment Arrangement:" />
-      <Label layoutX="34.0" layoutY="300.0" text="Balance on site:" />
-      <Label layoutX="28.0" layoutY="134.0" text="Payment method:" />
+      <Label layoutX="29.0" layoutY="187.0" text="Payment arrangement:" />
+      <Label layoutX="28.0" layoutY="134.0" text="Credit card number:" />
       <TextField id="txtAccountUserId" fx:id="txtAccountUserId" layoutX="180.0" layoutY="75.0" />
-      <RadioButton id="rdbtnAccountPaymentMethodCREDITCARD" fx:id="rdbtnAccountPaymentMethodCREDITCARD" layoutX="153.0" layoutY="134.0" mnemonicParsing="false" onAction="#CREDITCARDbtn" text="Credit card" />
-      <RadioButton id="rdbtnAccountPaymentMethodCASH" fx:id="rdbtnAccountPaymentMethodCASH" layoutX="275.0" layoutY="134.0" mnemonicParsing="false" onAction="#CASHbtn" selected="true" text="Cash" />
-      <DatePicker id="dpAccountEndSubscriptionDate" fx:id="dpAccountEndSubscriptionDate" layoutX="178.0" layoutY="236.0" promptText="None" />
-      <Label layoutX="31.0" layoutY="240.0" text="End of subscription date:" />
-      <TextField id="txtAccountBalanceCard" fx:id="txtAccountBalanceCard" layoutX="180.0" layoutY="296.0" promptText="0.0" />
-      <Button id="btnAccountAddAccount" fx:id="btnAccountAddAccount" layoutX="67.0" layoutY="351.0" mnemonicParsing="false" onAction="#addNewAccountButton" text="Add account" />
-      <Button id="btnAccountClose" fx:id="btnAccountClose" layoutX="382.0" layoutY="351.0" mnemonicParsing="false" onAction="#closeAccountFormWindow" text="Close" />
+      <Button id="btnAccountAddAccount" fx:id="btnAccountAddAccount" layoutX="92.0" layoutY="223.0" mnemonicParsing="false" onAction="#addNewAccountButton" text="Add account" />
+      <Button id="btnAccountClose" fx:id="btnAccountClose" layoutX="341.0" layoutY="223.0" mnemonicParsing="false" onAction="#closeAccountFormWindow" text="Close" />
       <RadioButton id="rdbtnAccountPaymentArrangmentFullPrice" fx:id="rdbtnAccountPaymentArrangmentFullPrice" layoutX="180.0" layoutY="187.0" mnemonicParsing="false" onAction="#FULLPRICEbtn" selected="true" text="Full-price" />
       <RadioButton id="rdbtnAccountPaymentArrangmentAnnual" fx:id="rdbtnAccountPaymentArrangmentAnnual" layoutX="282.0" layoutY="187.0" mnemonicParsing="false" onAction="#ANNUALbtn" text="Annual" />
       <RadioButton id="rdbtnAccountPaymentArrangmentMonthly" fx:id="rdbtnAccountPaymentArrangmentMonthly" layoutX="382.0" layoutY="187.0" mnemonicParsing="false" onAction="#MONTHLYbtn" text="Monthly" />
+      <TextField id="txtAccountCreditCardNum" fx:id="txtAccountCreditCardNum" layoutX="181.0" layoutY="130.0" />
    </children>
 </AnchorPane>

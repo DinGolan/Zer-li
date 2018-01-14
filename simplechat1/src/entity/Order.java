@@ -53,7 +53,7 @@ public class Order implements Serializable{
 
 	public Order(SupplyOption supply, double orderTotalPrice, HashMap<Product, Integer> productsInOrder,
 			LocalDate requiredSupplyDate, String customerID, String requiredSupplyTime, String recipientAddress,
-			String recipientName, String recipienPhoneNum, String postCard,  int storeID, Account.PaymentMethod paymentMethod) {
+			String recipientName, String recipienPhoneNum, String postCard,  int storeID) {
 		super();
 		this.supply = supply;
 		this.orderDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());

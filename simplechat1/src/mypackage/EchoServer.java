@@ -10,15 +10,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 import java.util.Vector;
-
 import com.mysql.jdbc.PreparedStatement;
 
+import controller.ComplaintHandleController;
 import entity.Account;
 import entity.Complaint;
-import entity.Complaint.ComplaintStatus;
 import entity.Message;
 import entity.Order;
 import entity.Product;
@@ -121,8 +119,13 @@ public void handleMessageFromClient
 	    if(((Message)msg).getOption().compareTo("Add new complaint") == 0) //check if we add new complaint
         {
     		((Message)msg).setMsg(addNewComplaintToDB(msg,conn));	
-    		System.out.println(msg);
     		this.sendToAllClients(msg);	
+		}
+	    
+	    if(((Message)msg).getOption().compareTo("Store manager want store number") ==0) //get the store number that connected to this store manager
+        {									
+	    	((Message)msg).setMsg(getStoreManagerStoreNum(msg,conn));    
+    		this.sendToAllClients(msg);
 		}
 	    
 	    if(((Message)msg).getOption().compareTo("Get all orders for this customer") == 0) //get all the orders that connected to specific customer
@@ -1860,16 +1863,22 @@ public void handleMessageFromClient
 	  return c;
   }
   
-  protected void UpdateComplaint(Object msg, Connection conn) //this method update the compplaint at DB
+  protected void UpdateComplaint(Object msg, Connection conn) //this method update the complaint at DB
   {
-	 // ArrayList<String> temp = new ArrayList<String>();
 	  Complaint co = (Complaint)(((Message)msg).getMsg());
 	  Statement stmt;
 	  try {
 			stmt = conn.createStatement();
-			String updateProductName = "UPDATE project.complaint SET ComplaintStatus =" + "'" + co.getComplaintStat() +"', ComplaintCompansation="+co.getComplaintCompansation()+", ComplaintCompanyServiceWorkerAnswer='"+ co.getComplaintCompanyServiceWorkerAnswer()+ "' WHERE ComplaintNum='" +co.getComplaintNum() + "';";
-			stmt.executeUpdate(updateProductName);
-			} catch (SQLException e) {	e.printStackTrace();}	  
+			String updateComplaint = "UPDATE project.complaint SET ComplaintStatus ='" + co.getComplaintStat() +"', ComplaintCompansation="+co.getComplaintCompansation()+", ComplaintCompanyServiceWorkerAnswer='"+ co.getComplaintCompanyServiceWorkerAnswer()+ "' WHERE ComplaintNum='" +co.getComplaintNum() + "';";
+			stmt.executeUpdate(updateComplaint); //update the complaint at DB
+			if(co.getComplaintStat().equals("CLOSE")) //if we finish to handle the complaint
+			{
+				stmt = conn.createStatement(); //update the account compensation
+				String updateAccountBalance = "UPDATE project.account SET AccountBalanceCard = AccountBalanceCard + " +co.getComplaintCompansation() +"WHERE AccountUserId='" +co.getComplaintUserId() + "';";
+				stmt.executeUpdate(updateAccountBalance);
+			}
+		} catch (SQLException e) {	e.printStackTrace();}	  
+	  //ComplaintHandleController.saveComplaintflag=true;
   }
   
   protected ArrayList<Integer> getAllComplaintsForWorker(Object msg, Connection conn) //this method get all the complaints that match to specific customer service worker
@@ -1897,45 +1906,69 @@ public void handleMessageFromClient
 	  return complaintsNums;
   }
   
-  protected Account addNewAccountToDB(Object msg, Connection conn) //this method add new account to DB
+  protected Integer getStoreManagerStoreNum(Object msg, Connection conn) //this method get the store number for this store manager
   {
-	  Account newAccount = (Account)(((Message)msg).getMsg());
-	  System.out.println(((Account)((Message)msg).getMsg()));
-	  Account account=new Account();
-	  Statement stmt;	  
+	  Statement stmt;
+	  String userName=(String)((Message)msg).getMsg();
+	  Integer storeNum = 0;
 	  try {
-		  stmt = conn.createStatement(); //this statement check if we didn't have account with this userID
-		  String getAccountToID = "SELECT * FROM project.account WHERE AccountUserId="+newAccount.getAccountUserId()+" AND AccountStoreId="+newAccount.getAccountStoreNum()+";"; // get the account that connected to new account id of exist
-		  ResultSet rs = stmt.executeQuery(getAccountToID);
-		  if(!rs.isBeforeFirst()) //this statement enter new account to the DB  
-		  {
-			  stmt = conn.createStatement(); 
-			  String InsertAccountToID = "INSERT INTO project.account(AccountUserId, AccountStoreId, AccountBalanceCard, AccountPaymentMethod, AccountPaymentArrangement,AccountCreditCardNum,AccountSubscriptionEndDate)" + 
-			  		"VALUES("+newAccount.getAccountUserId()+","+newAccount.getAccountStoreNum()+","+newAccount.getAccountBalanceCard()+ ",'"+newAccount.getAccountPaymentMethod()+"','"+newAccount.getAccountPaymentArrangement()+"',"+newAccount.getAccountCreditCardNum()+",'"+newAccount.getAccountSubscriptionEndDate()+"');";
-			  stmt.executeUpdate(InsertAccountToID);	 
-			 // success="Add user successfully"; 
-			  account.setAccountUserId(newAccount.getAccountUserId());
-			  account.setAccountStoreNum(newAccount.getAccountStoreNum());
-			  account.setAccountBalanceCard(newAccount.getAccountBalanceCard());
-			  account.setAccountPaymentMethod(newAccount.getAccountPaymentMethod());
-			  account.setAccountPaymentArrangement(newAccount.getAccountPaymentArrangement());
-			  account.setAccountCreditCardNum(newAccount.getAccountCreditCardNum());
-			  account.setAccountSubscriptionEndDate(newAccount.getAccountSubscriptionEndDate());
-		  }
-		  else //if this user already had an account
-			  account.setAccountUserId("Account already exist");
-
-	  } catch (SQLException e) {	e.printStackTrace();}	
-	  
-	  //finally{
-		  return account;
-	 // }
+		  stmt = conn.createStatement();
+		  String getUserStoreNum = "SELECT * FROM project.store WHERE StoreManagerUserId = " + "'" +  userName + "'" + ";" ; /* Get all the Table from the DB */
+		  ResultSet rs = stmt.executeQuery(getUserStoreNum);
+		  while(rs.next())
+			  storeNum=rs.getInt("StoreID");
+	  } 
+	  catch (SQLException e) {	e.printStackTrace();}	
+	  return storeNum;
   }
   
-  protected Complaint addNewComplaintToDB(Object msg, Connection conn) //this method add new complaint to DB
+  protected String addNewAccountToDB(Object msg, Connection conn) //this method add new account to DB
+  {	  
+	  Account newAccount = (Account)(((Message)msg).getMsg());
+	  System.out.println(((Account)((Message)msg).getMsg()));
+	  String success=null;
+	  Statement stmt;	  
+	  try {
+		  stmt = conn.createStatement(); //this statement check if we didn't have this userID for a customer
+		  String getCustomerExist = "SELECT * FROM project.user WHERE UserId="+newAccount.getAccountUserId()+" AND UserPermission='CUSTOMER';"; //check if its correct user name
+		  ResultSet rs = stmt.executeQuery(getCustomerExist);
+		  if(rs.isBeforeFirst()) //this statement enter new account to the DB  
+		  {
+			  stmt = conn.createStatement(); //this statement check if we didn't have account with this userID
+			  String getAccountToID = "SELECT * FROM project.account WHERE AccountUserId="+newAccount.getAccountUserId()+" AND AccountStoreId="+newAccount.getAccountStoreNum()+";"; // get the account that connected to new account id of exist
+			  ResultSet rs1 = stmt.executeQuery(getAccountToID);
+			  if(!rs1.isBeforeFirst()) //this statement enter new account to the DB  
+			  {
+				  stmt = conn.createStatement(); 
+				  String InsertAccountToID=null;
+				  if(newAccount.getAccountSubscriptionEndDate()!=null)
+				  {
+					  InsertAccountToID = "INSERT INTO project.account(AccountUserId, AccountStoreId, AccountBalanceCard, AccountPaymentArrangement,AccountCreditCardNum,AccountSubscriptionEndDate)" + 
+							  "VALUES("+newAccount.getAccountUserId()+","+newAccount.getAccountStoreNum()+","+newAccount.getAccountBalanceCard()+ ",'"+newAccount.getAccountPaymentArrangement()+"',"+newAccount.getAccountCreditCardNum()+",'"+newAccount.getAccountSubscriptionEndDate()+"');";
+				  }
+				  else
+				  {
+					  InsertAccountToID = "INSERT INTO project.account(AccountUserId, AccountStoreId, AccountBalanceCard, AccountPaymentArrangement,AccountCreditCardNum,AccountSubscriptionEndDate)" + 
+							  "VALUES("+newAccount.getAccountUserId()+","+newAccount.getAccountStoreNum()+","+newAccount.getAccountBalanceCard()+ ",'"+newAccount.getAccountPaymentArrangement()+"',"+newAccount.getAccountCreditCardNum()+","+newAccount.getAccountSubscriptionEndDate()+");";
+				  }
+				  stmt.executeUpdate(InsertAccountToID);	 
+				  success="good";
+			  }
+			  else //if this user already had an account
+			  success="Account already exist";
+		  }
+		  else //if this user doesn't exist
+			  success="User doesnt exist";
+
+	  } catch (SQLException e) {	e.printStackTrace();}	
+	  return success;
+  }
+  
+  protected String addNewComplaintToDB(Object msg, Connection conn) //this method add new complaint to DB
   {
 	  Complaint newComplaint = (Complaint)(((Message)msg).getMsg());
-	  Complaint complaint=new Complaint();
+	 // Complaint complaint=new Complaint();
+	  String success=null;
 	  Statement stmt;	  
 	  try {
 		  stmt = conn.createStatement(); //this statement check if we didn't have this complaint in the DB
@@ -1943,31 +1976,28 @@ public void handleMessageFromClient
 		  ResultSet rs = stmt.executeQuery(getComplaintexist);
 		  if(!rs.isBeforeFirst()) //this statement try to enter new complaint to the DB  
 		  {
-			  //stmt = conn.createStatement();
-			  //String getCustomerServiceWorkerExist = "SELECT * FROM project.user WHERE UserName='"+newComplaint.getComplaintServiceWorkerUserName()+"' AND UserPermission='CUSTOMER_SERVICE_WORKER'"+";"; // get if the customer service worker is at DB
-			  //ResultSet rs1 = stmt.executeQuery(getCustomerServiceWorkerExist);
-			  //if(rs1.isBeforeFirst()) //we have customer service worker connected to this name at DB
-			 // {
-				  stmt = conn.createStatement(); 
-				  String InsertComplaint = "INSERT INTO project.complaint(ComplaintUserId, ComplaintStatus, ComplaintDate, ComplaintDetails, ComplaintOrderId, ComplaintServiceWorkerUserName)" + 
-						"VALUES('"+newComplaint.getComplaintUserId()+"','"+newComplaint.getComplaintStat()+"','"+newComplaint.getComplaintDate()+"','"+newComplaint.getComplaintDetails()+"',"+newComplaint.getComplaintOrderId()+",'"+newComplaint.getComplaintServiceWorkerUserName()+"');";
-				  stmt.executeUpdate(InsertComplaint);	
-				  //complaint.setComplaintNum(newComplaint.getComplaintNum());
-				  complaint.setComplaintStat(newComplaint.getComplaintStat());
-				  complaint.setComplaintUserId(newComplaint.getComplaintUserId());
-				  complaint.setComplaintDate(newComplaint.getComplaintDate());
-				  complaint.setComplaintDetails(newComplaint.getComplaintDetails());
-				  complaint.setComplaintOrderId(newComplaint.getComplaintOrderId());
-				  complaint.setComplaintServiceWorkerUserName(newComplaint.getComplaintServiceWorkerUserName());		  	  
+			  stmt = conn.createStatement(); 
+			  String InsertComplaint = "INSERT INTO project.complaint(ComplaintUserId, ComplaintStatus, ComplaintDate, ComplaintDetails, ComplaintOrderId, ComplaintServiceWorkerUserName)" + 
+					"VALUES('"+newComplaint.getComplaintUserId()+"','"+newComplaint.getComplaintStat()+"','"+newComplaint.getComplaintDate()+"','"+newComplaint.getComplaintDetails()+"',"+newComplaint.getComplaintOrderId()+",'"+newComplaint.getComplaintServiceWorkerUserName()+"');";
+			  stmt.executeUpdate(InsertComplaint);	
+			  success="good";
+			  //complaint.setComplaintNum(newComplaint.getComplaintNum());
+			 /* complaint.setComplaintStat(newComplaint.getComplaintStat());
+			  complaint.setComplaintUserId(newComplaint.getComplaintUserId());
+			  complaint.setComplaintDate(newComplaint.getComplaintDate());
+			  complaint.setComplaintDetails(newComplaint.getComplaintDetails());
+			  complaint.setComplaintOrderId(newComplaint.getComplaintOrderId());
+			  complaint.setComplaintServiceWorkerUserName(newComplaint.getComplaintServiceWorkerUserName());*/		
+				    	  
 			 // }//אולי לבטל את כל הSET הזה
-			 // else
-				  complaint.setComplaintDetails("Customer service worker doesn't exist");  					    
+			 // else				    
 		  }
 		  else //if this complaint is already exist
-			  complaint.setComplaintDetails("Complaint already exist");
+			  //complaint.setComplaintDetails("Complaint already exist");
+			  success="Complaint already exist";
 
 	  } catch (SQLException e) {	e.printStackTrace();}	  
-	  return complaint;
+	  return success;
   }
   
   protected User getUserStatusFromDB(Object msg, Connection conn) /* This method get products table details from DB */
@@ -2077,19 +2107,20 @@ public void handleMessageFromClient
     EchoServer sv = new EchoServer(port);
     
 
-    //System.out.println("Please enter the mySQL scheme name:");
-	//Scanner scanner = new Scanner(System.in);
-	 //name= scanner.next();
-		name = "project";
-	 url = "jdbc:mysql://localhost/" + name;/* Enter jbdc mySQL */
+    System.out.println("Please enter the mySQL scheme name:");
+	Scanner scanner = new Scanner(System.in);
+	 name= scanner.next();
+	//name = "project";
+	url = "jdbc:mysql://localhost/" + name;/* Enter jbdc mySQL */
 	//String sql = "jdbc:mysql://localhost/project";
 
-//System.out.println("Please enter the mySQL user name:");
-	 //username =scanner.next(); /* Enter mySQL name */
-	  username = "root";
-//System.out.println("Please enter the mySQL password:");
-	 //password = scanner.next(); /* Enter mySQL password */
-     password = "Dingolan203247697";
+	System.out.println("Please enter the mySQL user name:");
+	 username =scanner.next(); /* Enter mySQL name */
+	 //username = "root";
+
+	 System.out.println("Please enter the mySQL password:");
+	 password = scanner.next(); /* Enter mySQL password */
+     //password = "Braude";
     
     try 
     {
