@@ -126,6 +126,7 @@ public class CustomerController implements Initializable{
 	public void openCustomerOptions(ActionEvent event) throws Exception {
 		if(cmbStores.getValue() != null) {
 		UserUI.store = StoreUI.stores.get(indexOfStore(cmbStores.getValue()));
+		System.out.println(UserUI.store.getStoreId());
 		flag = true;
 		StoreUI.stores.clear();
 		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */

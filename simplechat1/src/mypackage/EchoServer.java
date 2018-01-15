@@ -2178,20 +2178,19 @@ public void handleMessageFromClient
 	  Order newOrder = (Order)(((Message)msg).getMsg());
 	  int orderID=0;
 	  Statement stmt;
-	  Account.PaymentMethod method = null;
+	  Account.PaymentArrangement arrangement = null;
 	  try {
 			  stmt = conn.createStatement(); 
-			  String InsertAccountToID = "SELECT AccountPaymentMethod FROM project.account WHERE AccountUserId = '"+newOrder.getCustomerID()+"' AND AccountStoreId= "+newOrder.getStoreID()+";";
+			  String InsertAccountToID = "SELECT AccountPaymentArrangement FROM project.account WHERE AccountUserId = '"+newOrder.getCustomerID()+"' AND AccountStoreId= "+newOrder.getStoreID()+";";
 			  ResultSet rs = stmt.executeQuery(InsertAccountToID);
 			  while(rs.next())
 			 	{
-				  method=Account.PaymentMethod.valueOf(rs.getString("AccountPaymentMethod"));
+				  arrangement=Account.PaymentArrangement.valueOf(rs.getString("AccountPaymentArrangement"));
 			 	}
-			  if(method != null) 
-			  {
-				 
+			  if(arrangement != null) 
+			  {	 
 				  InsertAccountToID = "INSERT INTO project.order(customerID, orderSupplyOption, orderTotalPrice, orderRequiredSupplyDate, orderRequiredSupplyTime, orderRecipientAddress , orderRecipientName , orderRecipientPhoneNumber, orderPostcard ,orderDate, StoreID ,paymentMethod)" + 
-				  		"VALUES('"+newOrder.getCustomerID()+"','"+newOrder.getSupply()+ "',"+newOrder.getOrderTotalPrice()+",'"+newOrder.getRequiredSupplyDate()+"','"+newOrder.getRequiredSupplyTime()+"','"+newOrder.getRecipientAddress()+"','"+newOrder.getRecipientName()+"','"+newOrder.getRecipienPhoneNum()+"','"+newOrder.getPostCard()+"','"+newOrder.getOrderDate()+"' , "+newOrder.getStoreID()+",'"+method+"');";
+				  		"VALUES('"+newOrder.getCustomerID()+"','"+newOrder.getSupply()+ "',"+newOrder.getOrderTotalPrice()+",'"+newOrder.getRequiredSupplyDate()+"','"+newOrder.getRequiredSupplyTime()+"','"+newOrder.getRecipientAddress()+"','"+newOrder.getRecipientName()+"','"+newOrder.getRecipienPhoneNum()+"','"+newOrder.getPostCard()+"','"+newOrder.getOrderDate()+"' , "+newOrder.getStoreID()+",'"+Account.PaymentMethod.CASH+"');";
 				  stmt.executeUpdate(InsertAccountToID);
 				  InsertAccountToID = "SELECT orderID FROM project.`order` WHERE customerID = '"+newOrder.getCustomerID()+"' AND orderDate = '"+newOrder.getOrderDate()+"' AND orderTotalPrice = "+newOrder.getOrderTotalPrice()+" AND orderRequiredSupplyTime ='"+newOrder.getRequiredSupplyTime()+"';";
 				  rs = stmt.executeQuery(InsertAccountToID);
@@ -2252,9 +2251,9 @@ public void handleMessageFromClient
 		  if(arrangement.equals(Account.PaymentArrangement.FULLPRICE))
 			  prevBalance -= customerOrder.getOrderTotalPrice();
 		  else if(arrangement.equals(Account.PaymentArrangement.ANNUAL))
-			  prevBalance -= customerOrder.getOrderTotalPrice()*0.9;
+			  prevBalance -= customerOrder.getOrderTotalPrice()*0.875;
 		  else if(arrangement.equals(Account.PaymentArrangement.MONTHLY))
-			  prevBalance -= customerOrder.getOrderTotalPrice()*0.95;		  
+			  prevBalance -= customerOrder.getOrderTotalPrice()*0.9;		  
 		  String UpdateTableAccount = "UPDATE project.account SET AccountBalanceCard =" +  prevBalance  + "WHERE AccountUserId='"+customerOrder.getCustomerID()+"'; " ;
 		  stmt.executeUpdate(UpdateTableAccount);
 		  getCustomerAccount = "SELECT * FROM project.account WHERE AccountUserId='"+customerOrder.getCustomerID()+"'; " ;

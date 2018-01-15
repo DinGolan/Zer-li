@@ -22,6 +22,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -35,6 +36,8 @@ public class CatalogController implements Initializable {
 	private Message msg;
 	
 	public static Order order;
+	
+	public static int waitFlag=0;
 	
 	public static boolean basicFlowersFlag=false;
 	@FXML
@@ -61,10 +64,13 @@ public class CatalogController implements Initializable {
 	private Hyperlink LinkCart;
 	@FXML
 	private Hyperlink LinkLogout;
+
 	@FXML
-	private TextField txtPId; /* text field for the product Name */
+	private ComboBox<String> cmbPid = new ComboBox<>(); /* button close for close product form */
+	
 	@FXML
 	private TextField txtPAmmount; /* text field for the product Name */
+	
 	@FXML private TableView<CatalogItemRow> catalog_table;
 
 	@FXML private TableColumn<CatalogItemRow, String> tablecolumn_id;
@@ -78,7 +84,7 @@ public class CatalogController implements Initializable {
 	@FXML private TableColumn<CatalogItemRow, ImageView> tablecolumn_image;
 
 	ObservableList<CatalogItemRow> catalog = FXCollections.observableArrayList();
-	
+	ObservableList<String> productsId = FXCollections.observableArrayList();
 		
 	static String flag = null;
 	
@@ -86,7 +92,7 @@ public class CatalogController implements Initializable {
 
 	public void back(ActionEvent event) throws Exception /* With this Method we Exit from the Catalog */ 
 	{
-		OrderUI.order = null;
+		order = null;
 		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
 		Stage primaryStage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
@@ -113,15 +119,23 @@ public class CatalogController implements Initializable {
 		boolean flagSale = false;
 		InputStream targetStream;
 		UserUI.myClient.accept(msg);
-		while(CatalogUI.products.size()==0);
+		waitFlag=0;
+		while(waitFlag==0) {
+		System.out.print("");
+		}
 		msg.setOption("get all products in sale from DB");
 		msg.setMsg(UserUI.store);
 		UserUI.myClient.accept(msg);
-		while(CatalogUI.productsInSale.size()==0);
+		waitFlag=0;
+		while(waitFlag==0){
+			System.out.print("");
+			}
+		waitFlag=0;
 		for(j=0 ; j<CatalogUI.products.size() ; j++)
 		{
 			flagSale = false;
 			p = CatalogUI.products.get(j);
+			productsId.add(p.getpID());
 			for(k = 0 ; k<CatalogUI.productsInSale.size() ; k++)
 			{
 				if(p.getpID().compareTo(CatalogUI.productsInSale.get(k).getpID()) == 0)
@@ -147,10 +161,12 @@ public class CatalogController implements Initializable {
 		tablecolumn_price.setCellValueFactory(new PropertyValueFactory<CatalogItemRow, Double>("price"));
 		tablecolumn_image.setCellValueFactory(new PropertyValueFactory<CatalogItemRow, ImageView>("image"));
 		catalog_table.setItems(catalog);
+		cmbPid.setItems(productsId);
 	}
 	
 	public void productCategory(ActionEvent event) throws Exception //create and the catalog by categories
 	{
+		productsId.clear();
 		catalog.clear();
 		CatalogUI.products.clear();
 		CatalogUI.productsInSale.clear();
@@ -200,13 +216,18 @@ public class CatalogController implements Initializable {
 		msg.setOption("get all products in sale from DB");
 		msg.setMsg(UserUI.store);		
 		UserUI.myClient.accept(msg);
-		while(CatalogUI.productsInSale.size()==0);
+		waitFlag=0;
+		while(waitFlag==0){
+			System.out.print("");
+			}
+		waitFlag=0;
 		if(type.compareTo("SALE") !=0)
 			{
 			for(j=0 ; j<CatalogUI.products.size() ; j++) //create product in catalog
 			{
 				flagSale = false;
 				p = CatalogUI.products.get(j);
+				productsId.add(p.getpID());
 				for(k = 0 ; k<CatalogUI.productsInSale.size() ; k++)
 				{
 					if(p.getpID().compareTo(CatalogUI.productsInSale.get(k).getpID()) == 0)
@@ -234,6 +255,7 @@ public class CatalogController implements Initializable {
 			{
 				flagSale = false;
 				p = CatalogUI.products.get(j);
+				productsId.add(p.getpID());
 				for(k = 0 ; k<CatalogUI.productsInSale.size() ; k++)
 				{
 					if(p.getpID().compareTo(CatalogUI.productsInSale.get(k).getpID()) == 0)
@@ -257,6 +279,7 @@ public class CatalogController implements Initializable {
 		tablecolumn_price.setCellValueFactory(new PropertyValueFactory<CatalogItemRow, Double>("price"));
 		tablecolumn_image.setCellValueFactory(new PropertyValueFactory<CatalogItemRow, ImageView>("image"));
 		catalog_table.setItems(catalog);
+		cmbPid.setItems(productsId);
 	}
 
 	
@@ -279,6 +302,7 @@ public class CatalogController implements Initializable {
 	public void logout(ActionEvent event) throws Exception /* logout and open login window */
 	{
 		CustomerController.flag = false;
+		order= new Order();
 		Message msg = new Message(UserUI.user.getId(), "change User status to DISCONNECTED");
 		UserUI.myClient.accept(msg); // change User status to DISCONNECTED in DB
 		((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
@@ -293,20 +317,22 @@ public class CatalogController implements Initializable {
 	
 	public void addToCart(ActionEvent event) throws Exception // add product to cart
 	{
-		String pId = txtPId.getText();
+		String pId = cmbPid.getValue();
 		int pAmmount;
 		if(txtPAmmount.getText().compareTo("")!=0)
 		{
 			pAmmount = Integer.valueOf(txtPAmmount.getText());
-			Product p = getproductById(pId);
-			if(p != null)
+			if(pId != null)
 			{
-				if(order.getProductsInOrder().containsKey(p))
-					order.getProductsInOrder().put(p, (order.getProductsInOrder().get(p))+pAmmount);
-				else
-					order.getProductsInOrder().put(p, pAmmount);
-				txtPId.setText("");
-				txtPAmmount.setText("");
+				Product p = getproductById(pId);
+				if(p != null)
+				{
+					if(order.getProductsInOrder().containsKey(p))
+						order.getProductsInOrder().put(p, (order.getProductsInOrder().get(p))+pAmmount);
+					else
+						order.getProductsInOrder().put(p, pAmmount);
+					txtPAmmount.setText("");
+				}
 			}
 		}
 	}

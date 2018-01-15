@@ -56,6 +56,9 @@ public class SelfDefenitionProductController implements Initializable{
 	private TextArea txtPInfo = null; /* button update for update product */
 	
 	@FXML
+	private ComboBox<String> cmbPid = new ComboBox<>(); /* button close for close product form */
+	
+	@FXML
 	private ComboBox<String> cmbProductType = new ComboBox<>(); /* button close for close product form */
 	
 	@FXML
@@ -83,15 +86,14 @@ public class SelfDefenitionProductController implements Initializable{
 	
 	@FXML
 	private Button btnAddToCard = null;	
-	
-	@FXML
-	private TextField txtPId; /* text field for the product Name */
 	@FXML
 	private TextField txtPAmmount; /* text field for the product Name */
 
 	ObservableList<CatalogItemRow> catalog = FXCollections.observableArrayList();
 	
 	ObservableList<String> listForComboBox;
+	
+	ObservableList<String> productsId = FXCollections.observableArrayList();
 	
 	static double price = 0;
 	
@@ -153,6 +155,7 @@ public class SelfDefenitionProductController implements Initializable{
 			}
 				if((p.getpPrice()>=minPrice) && (p.getpPrice()<=maxPrice) && (String.valueOf(p.getpColor()).compareTo(pColor)==0) && (String.valueOf(p.getpType()).compareTo(pType)==0))
 				{
+					productsId.add(p.getpID());
 					targetStream= new ByteArrayInputStream(p.getByteArray());
 					CatalogItemRow itemRow = new CatalogItemRow(p.getpID(), p.getpName(),p.getpType().toString(), p.getpPrice(),  p.getpColor().toString(), targetStream );
 			catalog.add(itemRow);
@@ -164,6 +167,7 @@ public class SelfDefenitionProductController implements Initializable{
 		tablecolumn_price.setCellValueFactory(new PropertyValueFactory<CatalogItemRow, Double>("price"));
 		tablecolumn_image.setCellValueFactory(new PropertyValueFactory<CatalogItemRow, ImageView>("image"));
 		catalog_table.setItems(catalog);
+		cmbPid.setItems(productsId);
 	}
 	
 	public void showoptions(ActionEvent event) throws Exception
@@ -189,6 +193,7 @@ public class SelfDefenitionProductController implements Initializable{
 	
 	public void backToCustomerOption(ActionEvent event) throws Exception
 	{
+		CatalogController.order= new Order();
 		OrderUI.order = null;
 		modeFlag=1;
 		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
@@ -218,17 +223,23 @@ public class SelfDefenitionProductController implements Initializable{
 	
 	public void addToCart(ActionEvent event) throws Exception // add product to cart
 	{
-		String pId = txtPId.getText();
-		int pAmmount = Integer.valueOf(txtPAmmount.getText());
-		Product p = getproductById(pId);
-		if(p != null)
+		String pId = cmbPid.getValue();
+		int pAmmount;
+		if(txtPAmmount.getText().compareTo("")!=0)
 		{
-			if(CatalogController.order.getProductsInOrder().containsKey(p))
-				CatalogController.order.getProductsInOrder().put(p, (CatalogController.order.getProductsInOrder().get(p))+pAmmount);
-			else
-				CatalogController.order.getProductsInOrder().put(p, pAmmount);
-			txtPId.setText("");
-			txtPAmmount.setText("");
+			pAmmount = Integer.valueOf(txtPAmmount.getText());
+			if(pId != null)
+			{
+				Product p = getproductById(pId);
+				if(p != null)
+				{
+					if(CatalogController.order.getProductsInOrder().containsKey(p))
+						CatalogController.order.getProductsInOrder().put(p, (CatalogController.order.getProductsInOrder().get(p))+pAmmount);
+					else
+						CatalogController.order.getProductsInOrder().put(p, pAmmount);
+					txtPAmmount.setText("");
+				}
+			}
 		}
 	}
 

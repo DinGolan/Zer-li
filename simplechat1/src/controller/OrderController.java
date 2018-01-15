@@ -180,7 +180,10 @@ public class OrderController implements Initializable{
 		if(flag!=4)
 			root = loader.load(getClass().getResource("/controller/Catalog.fxml").openStream());
 		else
+		{
+			SelfDefenitionProductController.modeFlag = 1;
 			root = loader.load(getClass().getResource("/controller/SelfDefenitionProduct.fxml").openStream());
+		}
 		flag = 0;
 		Scene scene = new Scene(root);			
 		primaryStage.setScene(scene);	
@@ -299,11 +302,12 @@ public class OrderController implements Initializable{
 				UserUI.myClient.accept(msg);
 				accountFlag = false;
 				while(accountFlag == false) {
-					System.out.print("aa");
+					System.out.print("");
 				}
 				accountFlag = false;
 				if(accountExistFlag == false) // no account exist for this customer
 				{
+					accountExistFlag = true;
 					flag=2;
 					((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
 					Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
@@ -328,9 +332,9 @@ public class OrderController implements Initializable{
 				Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
 				FXMLLoader loader = new FXMLLoader(); 					 /* load object */
 				if(CustomerUI.account.getAccountPaymentArrangement().equals(Account.PaymentArrangement.ANNUAL))
-					totalPrice *= 0.9;
+					totalPrice *= 0.875;
 				else if(CustomerUI.account.getAccountPaymentArrangement().equals(Account.PaymentArrangement.MONTHLY))
-					totalPrice *= 0.95;
+					totalPrice *= 0.9;
 				Pane root = loader.load(getClass().getResource("/controller/ThankForOrder.fxml").openStream());
 				totalPrice=0;  /*for next order*/
 				Scene scene = new Scene(root);			
@@ -407,6 +411,7 @@ public class OrderController implements Initializable{
 	public void backToCustomerOption(ActionEvent event) throws Exception
 	{
 		flag=0;
+		CatalogController.order= new Order();
 		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
 		Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
 		FXMLLoader loader = new FXMLLoader(); 					 /* load object */
