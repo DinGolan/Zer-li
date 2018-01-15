@@ -89,7 +89,7 @@ public class CustomerServiceWorkerController implements Initializable{
 	
 	public void followComplaintBtn(ActionEvent event) throws Exception //To open follow complaint option
 	{
-		ComplaintHandleController.viewComplaintFlag=true;
+		//ComplaintHandleController.viewComplaintFlag=true;
 		((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
 		Stage primaryStage = new Stage();
 		FXMLLoader loader = new FXMLLoader();

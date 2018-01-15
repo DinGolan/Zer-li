@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Scanner;
@@ -159,6 +160,12 @@ public void handleMessageFromClient
     		((Message)msg).setMsg(getAllOrdersToCustomer(msg,conn));	
     		this.sendToAllClients(msg);	
 		}
+	    
+	  /*  if(((Message)msg).getOption().compareTo("Get all orders numbers for this customer can cancel") == 0) //get all the orders that connected to specific customer and can cancel
+        {
+    		((Message)msg).setMsg(getAllOrdersToCustomerCancel(msg,conn));	
+    		this.sendToAllClients(msg);	
+		}*/
 	    
 	    if(((Message)msg).getOption().compareTo("Get all complaints numbers for this customer service worker") == 0) //get all the complaints that connected to specific customer service worker
         {
@@ -1851,6 +1858,36 @@ public void handleMessageFromClient
 	  return users_After_Change;
   }
   
+  /*protected ArrayList<Integer> getAllOrdersToCustomerCancel(Object msg, Connection conn) //this method get all the orders that match to specific customer and can be cancel
+  {
+	  String requestedCustomerId=(String)(((Message)msg).getMsg());
+	  ArrayList<Integer> ordersNums = new ArrayList<Integer>();
+	  Statement stmt;
+	  Integer co;
+
+	  try {
+		  	stmt = conn.createStatement();
+	  		String getOrders = "SELECT * FROM project.order WHERE customerID='"+requestedCustomerId+"' AND orderRequiredSupplyDate ;"; //get all the orders numbers that connected to this customer and can be canceled
+	  		ResultSet rs = stmt.executeQuery(getOrders);
+	  		if(rs.isBeforeFirst()) //we have orders to this customer at DB
+	  		{
+	  			while(rs.next())
+	  			{
+	  				co = rs.getInt("orderID");
+	  				ordersNums.add(co);
+	  			}
+	  		}
+	  		else
+	  			ordersNums.add(-1); //to know that we didn't have orders to this customer at DB
+	
+		  		
+		  	}
+		  	else
+		  		ordersNums.add(-2); //to know that we didn't have this customer at DB
+		  } catch (SQLException e) {	e.printStackTrace();}			  
+	  return ordersNums;
+  }*/
+  
   protected ArrayList<Integer> getAllOrdersToCustomer(Object msg, Connection conn) //this method get all the orders that match to specific customer
   {
 	  String requestedCustomerId=(String)(((Message)msg).getMsg());
@@ -1892,6 +1929,7 @@ public void handleMessageFromClient
 	  Integer temp;
 	  String str;
 	  Date day;
+	  Double money;
 
 	  try {
 		  	stmt = conn.createStatement();
@@ -1914,6 +1952,11 @@ public void handleMessageFromClient
 		  		c.setComplaintOrderId(temp);
 		  		str = rs.getString("ComplaintServiceWorkerUserName");
 		  		c.setComplaintServiceWorkerUserName(str);
+		  		str = rs.getString("ComplaintCompanyServiceWorkerAnswer");
+		  		if(str!=null)
+		  			c.setComplaintCompanyServiceWorkerAnswer(str);
+		  		money=rs.getDouble("ComplaintCompansation");
+		  			c.setComplaintCompansation(money);
 		  	}
 		  } catch (SQLException e) {	e.printStackTrace();}	
 	  System.out.print(c);
@@ -2033,9 +2076,15 @@ public void handleMessageFromClient
 		  ResultSet rs = stmt.executeQuery(getComplaintexist);
 		  if(!rs.isBeforeFirst()) //this statement try to enter new complaint to the DB  
 		  {
+			  String[] monthName = {"January", "February",
+		                "March", "April", "May", "June", "July",
+		                "August", "September", "October", "November",
+		                "December"};
+			  Calendar cal = Calendar.getInstance();
+		      String month = monthName[cal.get(Calendar.MONTH)];
 			  stmt = conn.createStatement(); 
-			  String InsertComplaint = "INSERT INTO project.complaint(ComplaintUserId, ComplaintStatus, ComplaintDate, ComplaintDetails, ComplaintOrderId, ComplaintServiceWorkerUserName)" + 
-					"VALUES('"+newComplaint.getComplaintUserId()+"','"+newComplaint.getComplaintStat()+"','"+newComplaint.getComplaintDate()+"','"+newComplaint.getComplaintDetails()+"',"+newComplaint.getComplaintOrderId()+",'"+newComplaint.getComplaintServiceWorkerUserName()+"');";
+			  String InsertComplaint = "INSERT INTO project.complaint(ComplaintUserId, ComplaintStatus, ComplaintDate, ComplaintDetails, ComplaintOrderId, ComplaintServiceWorkerUserName,complaintMonth)" + 
+					"VALUES('"+newComplaint.getComplaintUserId()+"','"+newComplaint.getComplaintStat()+"','"+newComplaint.getComplaintDate()+"','"+newComplaint.getComplaintDetails()+"',"+newComplaint.getComplaintOrderId()+",'"+newComplaint.getComplaintServiceWorkerUserName()+"','"+month+"');";
 			  stmt.executeUpdate(InsertComplaint);	
 			  success="good";
 			  //complaint.setComplaintNum(newComplaint.getComplaintNum());
@@ -2251,18 +2300,18 @@ public void handleMessageFromClient
     
 
     System.out.println("Please enter the mySQL scheme name:");
-	Scanner scanner = new Scanner(System.in);
-	 name= scanner.next();
-	//name = "project";
+	//Scanner scanner = new Scanner(System.in);
+	 //name= scanner.next();
+	name = "project";
 	url = "jdbc:mysql://localhost/" + name;/* Enter jbdc mySQL */
 
 	System.out.println("Please enter the mySQL user name:");
-	 username =scanner.next(); /* Enter mySQL name */
-	 //username = "root";
+	 //username =scanner.next(); /* Enter mySQL name */
+	 username = "root";
 
 	 System.out.println("Please enter the mySQL password:");
-	 password = scanner.next(); /* Enter mySQL password */
-     //password = "Braude";
+	 //password = scanner.next(); /* Enter mySQL password */
+     password = "Braude";
     try 
     {
       sv.listen(); /* Start listening for connections */

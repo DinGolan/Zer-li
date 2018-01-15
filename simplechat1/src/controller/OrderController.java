@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -10,6 +11,7 @@ import java.util.Calendar;
 import java.util.Map.Entry;
 import java.util.ResourceBundle;
 
+import boundery.ComplaintUI;
 import boundery.CustomerUI;
 import boundery.OrderUI;
 import boundery.ProductUI;
@@ -40,8 +42,9 @@ public class OrderController implements Initializable{
 
 	public static int flag=0;
 	public static boolean accountFlag = false;
-	
+	public static boolean loadOrdersFlag = false;
 	public static boolean accountExistFlag = true;
+
 	@FXML
 	private Button btnRemove = null; /* button remove for remove product from cart */
 	@FXML
@@ -99,6 +102,9 @@ public class OrderController implements Initializable{
 	@FXML
 	private DatePicker dpRequiresSupplyDate=new DatePicker(LocalDate.now());  //DatePicker with the end date of the subscription
 	
+	@FXML
+	private ComboBox <Integer> cmbOrdersForCustomer=null; //combobox to view all the orders for the specific customer
+	ObservableList<Integer> listForOrderCustomerComboBox;
 	
 	public static double totalPrice;
 	
@@ -410,6 +416,46 @@ public class OrderController implements Initializable{
 		primaryStage.setScene(scene);	
 			
 		primaryStage.show();
+	}
+	
+	public void loadHisOrders() //load his orders he can cancel
+	{
+		Pane root = null;
+		Stage primaryStage = new Stage(); //Object present window with graphics elements
+		FXMLLoader loader = new FXMLLoader(); //load object
+		String cuurentCustomer=UserUI.user.getUserName();
+		System.out.println(cuurentCustomer);
+		ArrayList<Integer> ordersNum = new ArrayList<Integer>();
+		Message msg = new Message(cuurentCustomer , "Get all orders numbers for this customer can cancel");
+		UserUI.myClient.accept(msg); // get all complaints for this customer service worker from DB
+		while(loadOrdersFlag==false)
+		{
+			System.out.print(""); //DOES NOT RUN WITHOUT THIS LINE
+		}
+		loadOrdersFlag=false;
+		for(Integer num : OrderUI.ordersNumbers)
+			ordersNum.add(num);
+		System.out.println(ordersNum);
+		if(ordersNum.get(0)==-1) //we didn't have orders to cancel for this customer service worker at DB
+		{
+			try {
+				root = loader.load(getClass().getResource("/controller/OrderDontHaveMsg.fxml").openStream());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			Scene scene = new Scene(root);			
+			primaryStage.setScene(scene);	
+			primaryStage.setTitle("Error msg");
+			primaryStage.show();		
+		}
+		else 
+		{
+			//cmbOrdersForCustomer.setPromptText("Choose an order number");
+			listForOrderCustomerComboBox = FXCollections.observableArrayList(ordersNum); 
+			//cmbComplaintForWorker=null;
+			cmbOrdersForCustomer.setItems(FXCollections.observableArrayList(listForOrderCustomerComboBox)); //set the orders to this customer
+		}
 	}
 	
 

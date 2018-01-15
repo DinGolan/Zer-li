@@ -127,7 +127,7 @@ public class UserController implements Initializable {
 			root = FXMLLoader.load(o);
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
-			primaryStage.setTitle(permission);
+			primaryStage.setTitle("Menu");
 			primaryStage.show();
 		}
 
