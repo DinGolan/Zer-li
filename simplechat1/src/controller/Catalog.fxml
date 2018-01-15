@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="679.0" prefWidth="679.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CatalogController">
+   <children>
+      <Button id="btnBack" fx:id="btnBack" layoutX="322.0" layoutY="635.0" mnemonicParsing="false" onAction="#back" text="Back" />
+      <Hyperlink id="SweetBouquetLink" fx:id="SweetBouquetLink" layoutX="175.0" layoutY="14.0" onAction="#productCategory" text="Sweet Bouquet" textFill="#82059c">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Hyperlink>
+      <Hyperlink id="VaseLink" fx:id="VaseLink" layoutX="602.0" layoutY="14.0" onAction="#productCategory" text="Vase" textFill="#5b9407">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Hyperlink>
+      <Hyperlink id="BridalLink" fx:id="BridalLink" layoutX="387.0" layoutY="14.0" onAction="#productCategory" text="Bridal Bouquet" textFill="#f58300">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Hyperlink>
+      <Hyperlink id="FlowerCrownLink" fx:id="FlowerCrownLink" layoutX="287.0" layoutY="14.0" onAction="#productCategory" text="Flower Crown" textFill="#b0bc04">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Hyperlink>
+      <Hyperlink id="ArrangementsLink" fx:id="ArrangementsLink" layoutX="69.0" layoutY="14.0" onAction="#productCategory" text="Arrangements" textFill="#03138d">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Hyperlink>
+      <Hyperlink id="BouquetsLink" fx:id="BouquetsLink" layoutY="14.0" onAction="#productCategory" text="Bouquets" textFill="#049e51">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Hyperlink>
+      <Hyperlink id="WreathFlowerLink" fx:id="WreathFlowerLink" layoutX="491.0" layoutY="14.0" onAction="#productCategory" text=" Wreath Flowers" textFill="#9c0512">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Hyperlink>
+      <Hyperlink id="SalesLink" fx:id="SalesLink" layoutX="643.0" layoutY="14.0" onAction="#productCategory" text="Sales" textFill="#ff006a">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Hyperlink>
+      <Hyperlink id="LinkCart" fx:id="LinkCart" layoutX="613.0" layoutY="625.0" onAction="#showCart" text="cart" textFill="#00c8ff">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Hyperlink>
+      <Hyperlink id="LinkLogout" fx:id="LinkLogout" layoutX="13.0" layoutY="625.0" onAction="#logout" text="Logout" textFill="#00c8ff">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Hyperlink>
+
+<TableView fx:id="catalog_table" editable="true" layoutX="15.0" layoutY="52.0" prefHeight="506.0" prefWidth="657.0" AnchorPane.bottomAnchor="121.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="52.0">
+			<columns>
+				<TableColumn fx:id="tablecolumn_id" editable="false" minWidth="78.0" prefWidth="-1.0" text="ID" />
+				<TableColumn fx:id="tablecolumn_name" editable="false" minWidth="80.0" prefWidth="142.0" text="Name" />
+				<TableColumn fx:id="tablecolumn_type" editable="false" minWidth="18.0" prefWidth="107.0" text="Type" />
+				<TableColumn fx:id="tablecolumn_price" editable="false" minWidth="21.0" prefWidth="90.0" text="Price" />
+				<TableColumn fx:id="tablecolumn_image" editable="false" minWidth="204.0" prefWidth="238.0" sortable="false" text="Image" />
+			</columns>
+</TableView>
+      <Label layoutX="47.0" layoutY="576.0" prefHeight="17.0" prefWidth="79.0" text="Id product:">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <TextField id="txtPAmmount" fx:id="txtPAmmount" layoutX="379.0" layoutY="574.0" />
+      <Label layoutX="302.0" layoutY="577.0" prefHeight="17.0" prefWidth="79.0" text="Ammount:">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Button id="btnAddToCard" fx:id="btnAddToCard" layoutX="561.0" layoutY="575.0" mnemonicParsing="false" onAction="#addToCart" text="Add To Cart" />
+      <ComboBox id="cmbPid" fx:id="cmbPid" layoutX="126.0" layoutY="575.0" prefWidth="150.0" />
+      
+   </children>
+</AnchorPane>

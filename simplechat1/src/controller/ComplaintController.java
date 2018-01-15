@@ -190,18 +190,18 @@ public class ComplaintController implements Initializable{
 			else //choose order at the combobox
 			{
 				c.setComplaintOrderId(ComplaintUI.ordersNumbers.get(getItemIndex())); //take the order number
-				c.setComplaintServiceWorkerUserName(txtComplaintSreviceWorkerUserName.getText());
+				c.setComplaintServiceWorkerUserName(UserUI.user.getUserName()); //take the current connected user name
 				Message msg = new Message(c, "Add new complaint");	
 				//complaintIndex++; // for the next complaint number
 				UserUI.myClient.accept(msg);
 		
-				while(flag == false)
+				while(flag ==false)
 				{
 					System.out.print(""); //DOES NOT RUN WITHOUT THIS LINE
 				}
-				flag = false;
+				flag =false;
 		
-				if(ComplaintUI.complaint.getComplaintDetails().equals("Complaint already exist")) //this complaint already exist
+				if(ComplaintUI.success.equals("Complaint already exist")) //this complaint already exist
 				{
 					((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
 					root = loader.load(getClass().getResource("/controller/ComplaintExistMsg.fxml").openStream());
@@ -210,27 +210,15 @@ public class ComplaintController implements Initializable{
 					primaryStage.setTitle("Error msg");
 					primaryStage.show();	
 				}
-				else //start create complaint
+				else //start create complaint, all the details are good
 				{
-					if(ComplaintUI.complaint.getComplaintDetails().equals("Customer service worker doesn't exist"))
-					{
-						((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
-						root = loader.load(getClass().getResource("/controller/ComplaintCustomerServiceWorkerMsg.fxml").openStream());//עדיין לא קיים צריך להוסיף
-						Scene scene = new Scene(root);			
-						primaryStage.setScene(scene);	
-						primaryStage.setTitle("Error msg");
-						primaryStage.show();
-					}
-					else //all the details are good
-					{
-						((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
-						root = loader.load(getClass().getResource("/controller/AddNewComplaintMsg.fxml").openStream());
-						Scene scene = new Scene(root);			
-						primaryStage.setScene(scene);	
-						primaryStage.setTitle("New complaint msg");
-						primaryStage.show();						
-					}					
-				}
+					((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
+					root = loader.load(getClass().getResource("/controller/AddNewComplaintMsg.fxml").openStream());
+					Scene scene = new Scene(root);			
+					primaryStage.setScene(scene);	
+					primaryStage.setTitle("New complaint msg");
+					primaryStage.show();						
+				}					
 			}
 		} 
 	}

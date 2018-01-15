@@ -10,13 +10,13 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="215.0" prefWidth="348.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ComplaintController">
+<AnchorPane prefHeight="215.0" prefWidth="348.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AccountController">
    <children>
-      <Button id="btnComplaintTryAgain" fx:id="btnComplaintTryAgain" layoutX="142.0" layoutY="165.0" mnemonicParsing="false" onAction="#addNewOtherComplaint" text="Try again" />
+      <Button id="btnAccountTryAgain" fx:id="btnAccountTryAgain" layoutX="142.0" layoutY="165.0" mnemonicParsing="false" onAction="#addNewOtherAccount" text="Try again" />
       <Label layoutX="11.0" layoutY="28.0" text="Error!" textFill="#0022ff">
          <font>
             <Font name="Bodoni MT" size="29.0" />
          </font></Label>
-      <TextArea layoutX="34.0" layoutY="85.0" prefHeight="58.0" prefWidth="288.0" text="The customer service worker user name &#10;you enterd doesn't exist." />
+      <TextArea layoutX="34.0" layoutY="85.0" prefHeight="58.0" prefWidth="288.0" text="You need to enter 16 digits for the credit card &#10;number." />
    </children>
 </AnchorPane>

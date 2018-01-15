@@ -1,22 +1,18 @@
 package controller;
 import java.io.ByteArrayInputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import boundery.CatalogUI;
 import boundery.OrderUI;
 import boundery.UserUI;
 import entity.Message;
+import entity.Order;
 import entity.Product;
 import entity.Product.ProductType;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -26,9 +22,12 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Hyperlink;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -36,8 +35,15 @@ import javafx.stage.Stage;
 public class CatalogController implements Initializable {
 	private Message msg;
 	
+	public static Order order;
+	
+	public static int waitFlag=0;
+	
+	public static boolean basicFlowersFlag=false;
 	@FXML
 	private Button btnBack = null;	
+	@FXML
+	private Button btnAddToCard = null;	
 	@FXML
 	private Hyperlink BouquetsLink;	
 	@FXML
@@ -49,7 +55,7 @@ public class CatalogController implements Initializable {
 	@FXML
 	private Hyperlink BridalLink;	
 	@FXML
-	private Hyperlink FlowerWreathLink;	
+	private Hyperlink WreathFlowerLink;	
 	@FXML
 	private Hyperlink VaseLink;	
 	@FXML
@@ -59,99 +65,34 @@ public class CatalogController implements Initializable {
 	@FXML
 	private Hyperlink LinkLogout;
 
+	@FXML
+	private ComboBox<String> cmbPid = new ComboBox<>(); /* button close for close product form */
 	
 	@FXML
-	private Label label1 ;
-	@FXML
-	private Label label2 ;
-	@FXML
-	private Label label3 ;
-	@FXML
-	private Label label4 ;
-	@FXML
-	private Label label5 ;
-	@FXML
-	private Label label6 ;
-	@FXML
-	private Label label7 ;
-	@FXML
-	private Label label8 ;
-	@FXML
-	private Label label9 ;
-	@FXML
-	private Label label10 ;
-	@FXML
-	private Label label11 ;
-	@FXML
-	private Label label12 ;
+	private TextField txtPAmmount; /* text field for the product Name */
+	
+	@FXML private TableView<CatalogItemRow> catalog_table;
 
-	private List<Label> labels = new ArrayList<Label>();
-	
-	
-	@FXML
-	private ImageView Pic1;
-	@FXML
-	private ImageView Pic2;
-	@FXML
-	private ImageView Pic3;
-	@FXML
-	private ImageView Pic4;
-	@FXML
-	private ImageView Pic5;
-	@FXML
-	private ImageView Pic6;
-	@FXML
-	private ImageView Pic7;
-	@FXML
-	private ImageView Pic8;
-	@FXML
-	private ImageView Pic9;
-	@FXML
-	private ImageView Pic10;
-	@FXML
-	private ImageView Pic11;
-	@FXML
-	private ImageView Pic12;
+	@FXML private TableColumn<CatalogItemRow, String> tablecolumn_id;
 
-	private List<ImageView> Pics = new ArrayList<ImageView>();
+	@FXML private TableColumn<CatalogItemRow, String> tablecolumn_name;
 
-	
-	
-	@FXML
-	private Button info1;
-	@FXML
-	private Button info2;
-	@FXML
-	private Button info3;
-	@FXML
-	private Button info4;
-	@FXML
-	private Button info5;
-	@FXML
-	private Button info6;
-	@FXML
-	private Button info7;
-	@FXML
-	private Button info8;
-	@FXML
-	private Button info9;
-	@FXML
-	private Button info10;
-	@FXML
-	private Button info11;
-	@FXML
-	private Button info12;
-	
-	String flag = null;
-	
-	private List<Button> btnProductInfo = new ArrayList<Button>();
+	@FXML private TableColumn<CatalogItemRow, Product.ProductType> tablecolumn_type;
+
+	@FXML private TableColumn<CatalogItemRow, Double> tablecolumn_price;
+
+	@FXML private TableColumn<CatalogItemRow, ImageView> tablecolumn_image;
+
+	ObservableList<CatalogItemRow> catalog = FXCollections.observableArrayList();
+	ObservableList<String> productsId = FXCollections.observableArrayList();
+		
+	static String flag = null;
 	
 	ObservableList<String> plist;
-	
-	
 
 	public void back(ActionEvent event) throws Exception /* With this Method we Exit from the Catalog */ 
 	{
+		order = null;
 		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
 		Stage primaryStage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
@@ -162,51 +103,44 @@ public class CatalogController implements Initializable {
 		primaryStage.setScene(scene);		
 		primaryStage.show();	
 	}
-	
-	public void initall()
-	{
-		int i=0;
-		for( ; i<12 ; i++)
-		{
-			Pics.get(i).setImage(null);
-			labels.get(i).setText(null);
-			labels.get(i).setVisible(false);
-			btnProductInfo.get(i).setVisible(false);
-			btnProductInfo.get(i).setDisable(true);
-			
-		}
-	}
-	
+
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
+		if(order == null)
+			order= new Order();
 		flag = "BOUQUET";
-		Pics = Arrays.asList(Pic1 , Pic2 , Pic3 , Pic4 , Pic5 , Pic6 , Pic7 , Pic8 , Pic9 , Pic10 , Pic11 , Pic12);
-		btnProductInfo = Arrays.asList(info1, info2 , info3 ,info4 , info5 , info6 , info7 , info8 , info9 , info10 , info11 , info12);
-		labels = Arrays.asList(label1 , label2 , label3 , label4 , label5 , label6 , label7 , label8 , label9 , label10 , label11 , label12);
 		CatalogUI.products.clear();
 		CatalogUI.productsInSale.clear();
 		ArrayList<String> s = new ArrayList<String>();
-		Image image;
 		msg = new Message(s, "get all products in DB");
-		int i=0 , j ,k;
+		int j ,k;
 		Product p;
 		boolean flagSale = false;
 		InputStream targetStream;
 		UserUI.myClient.accept(msg);
-		while(CatalogUI.products.size()==0);
+		waitFlag=0;
+		while(waitFlag==0) {
+		System.out.print("");
+		}
 		msg.setOption("get all products in sale from DB");
 		msg.setMsg(UserUI.store);
 		UserUI.myClient.accept(msg);
-		while(CatalogUI.productsInSale.size()==0);
+		waitFlag=0;
+		while(waitFlag==0){
+			System.out.print("");
+			}
+		waitFlag=0;
 		for(j=0 ; j<CatalogUI.products.size() ; j++)
 		{
 			flagSale = false;
 			p = CatalogUI.products.get(j);
+			productsId.add(p.getpID());
 			for(k = 0 ; k<CatalogUI.productsInSale.size() ; k++)
 			{
 				if(p.getpID().compareTo(CatalogUI.productsInSale.get(k).getpID()) == 0)
 				{
+					p.setpPrice(CatalogUI.productsInSale.get(k).getpPrice());
 					flagSale = true;
 					break;
 				}
@@ -216,28 +150,29 @@ public class CatalogController implements Initializable {
 				if(p.getpType().equals(ProductType.valueOf("BOUQUET")))
 				{
 					targetStream= new ByteArrayInputStream(p.getByteArray());
-					image = new Image(targetStream);
-					Pics.get(i).setImage(image);
-					labels.get(i).setText(p.getpName());
-					labels.get(i).setVisible(true);
-					btnProductInfo.get(i).setVisible(true);
-					btnProductInfo.get(i).setDisable(false);
-					i++;
+					CatalogItemRow itemRow = new CatalogItemRow(p.getpID(), p.getpName(),p.getpType().toString(), p.getpPrice(),  p.getpColor().toString(), targetStream );
+			catalog.add(itemRow);
 				}
 			}
 		}
+		tablecolumn_id.setCellValueFactory(new PropertyValueFactory<CatalogItemRow, String>("id"));
+		tablecolumn_name.setCellValueFactory(new PropertyValueFactory<CatalogItemRow, String>("name"));
+		tablecolumn_type.setCellValueFactory(new PropertyValueFactory<CatalogItemRow, Product.ProductType>("type"));
+		tablecolumn_price.setCellValueFactory(new PropertyValueFactory<CatalogItemRow, Double>("price"));
+		tablecolumn_image.setCellValueFactory(new PropertyValueFactory<CatalogItemRow, ImageView>("image"));
+		catalog_table.setItems(catalog);
+		cmbPid.setItems(productsId);
 	}
 	
 	public void productCategory(ActionEvent event) throws Exception //create and the catalog by categories
 	{
-		initall();
+		productsId.clear();
+		catalog.clear();
 		CatalogUI.products.clear();
 		CatalogUI.productsInSale.clear();
 		ArrayList<String> s = new ArrayList<String>();
-		Image image;
 		msg = new Message(s, "get all products in DB");
-		Iterator<Product> iter = CatalogUI.products.iterator();
-		int i=0 , j, k;
+		int j, k;
 		Product p;
 		boolean flagSale = false;
 		String type = null;
@@ -263,9 +198,9 @@ public class CatalogController implements Initializable {
 			type = "BRIDAL_BOUQUET";
 			flag = "BRIDAL_BOUQUET";
 			break;
-		case "FlowerWreathLink":
-			type = "FLOWER_WREATH";
-			flag = "FLOWER_WREATH";
+		case "WreathFlowerLink":
+			type = "WREATH_FLOWERS";
+			flag = "WREATH_FLOWERS";
 			break;
 		case "VaseLink":
 			type = "VASE";
@@ -276,23 +211,28 @@ public class CatalogController implements Initializable {
 			flag = "SALE";
 			break;
 		}
-
 		UserUI.myClient.accept(msg);
 		while(CatalogUI.products.size()==0);
 		msg.setOption("get all products in sale from DB");
 		msg.setMsg(UserUI.store);		
 		UserUI.myClient.accept(msg);
-		while(CatalogUI.productsInSale.size()==0);
+		waitFlag=0;
+		while(waitFlag==0){
+			System.out.print("");
+			}
+		waitFlag=0;
 		if(type.compareTo("SALE") !=0)
 			{
 			for(j=0 ; j<CatalogUI.products.size() ; j++) //create product in catalog
 			{
 				flagSale = false;
 				p = CatalogUI.products.get(j);
+				productsId.add(p.getpID());
 				for(k = 0 ; k<CatalogUI.productsInSale.size() ; k++)
 				{
 					if(p.getpID().compareTo(CatalogUI.productsInSale.get(k).getpID()) == 0)
 					{
+						p.setpPrice(CatalogUI.productsInSale.get(k).getpPrice());
 						flagSale = true;
 						break;
 					}
@@ -302,13 +242,9 @@ public class CatalogController implements Initializable {
 					if(p.getpType().equals(Product.ProductType.valueOf(type)))
 					{
 						targetStream= new ByteArrayInputStream(p.getByteArray());
-						image = new Image(targetStream);
-						Pics.get(i).setImage(image);
-						labels.get(i).setText(p.getpName());
-						labels.get(i).setVisible(true);
-						btnProductInfo.get(i).setVisible(true);
-						btnProductInfo.get(i).setDisable(false);
-						i++;
+						CatalogItemRow itemRow = new CatalogItemRow(p.getpID(), p.getpName(),p.getpType().toString(), p.getpPrice(),  p.getpColor().toString(),
+								targetStream);
+						catalog.add(itemRow);
 					}
 				}
 			}
@@ -319,10 +255,12 @@ public class CatalogController implements Initializable {
 			{
 				flagSale = false;
 				p = CatalogUI.products.get(j);
+				productsId.add(p.getpID());
 				for(k = 0 ; k<CatalogUI.productsInSale.size() ; k++)
 				{
 					if(p.getpID().compareTo(CatalogUI.productsInSale.get(k).getpID()) == 0)
 					{
+						p.setpPrice(CatalogUI.productsInSale.get(k).getpPrice());
 						flagSale = true;
 						break;
 					}
@@ -330,54 +268,21 @@ public class CatalogController implements Initializable {
 				if(flagSale == true) 
 				{
 					targetStream= new ByteArrayInputStream(p.getByteArray());
-					image = new Image(targetStream);
-					Pics.get(i).setImage(image);
-					labels.get(i).setText(p.getpName());
-					labels.get(i).setVisible(true);
-					btnProductInfo.get(i).setVisible(true);
-					btnProductInfo.get(i).setDisable(false);
-					i++;
+					CatalogItemRow itemRow = new CatalogItemRow(p.getpID(), p.getpName(),p.getpType().toString(), p.getpPrice(),  p.getpColor().toString(), targetStream);
+					catalog.add(itemRow);
 				}
 			}
 		}
+		tablecolumn_id.setCellValueFactory(new PropertyValueFactory<CatalogItemRow, String>("id"));
+		tablecolumn_name.setCellValueFactory(new PropertyValueFactory<CatalogItemRow, String>("name"));
+		tablecolumn_type.setCellValueFactory(new PropertyValueFactory<CatalogItemRow, Product.ProductType>("type"));
+		tablecolumn_price.setCellValueFactory(new PropertyValueFactory<CatalogItemRow, Double>("price"));
+		tablecolumn_image.setCellValueFactory(new PropertyValueFactory<CatalogItemRow, ImageView>("image"));
+		catalog_table.setItems(catalog);
+		cmbPid.setItems(productsId);
 	}
 
 	
-	
-	public void openProductInfoWindow(ActionEvent event) throws Exception { // open info window of the product the user want info of.
-		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
-		Stage primaryStage = new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		Pane root = loader.load(getClass().getResource("/controller/ProductForm.fxml").openStream());
-		
-		ProductController productController = loader.getController();		
-		productController.loadProduct(CatalogUI.products.get(getProductIndext(event)));
-		
-		Scene scene = new Scene(root);			
-		//scene.getStylesheets().add(getClass().getResource("/gui/StudentForm.css").toExternalForm());
-		
-		primaryStage.setScene(scene);		
-		primaryStage.show();
-	}
-	
-	public int getProductIndext(ActionEvent event) // return the index of the product the user want info of. 
-	{
-		String infoId = ((Node)event.getSource()).getId();
-		int i , j;
-		for(i=0 ; i<btnProductInfo.size() ; i++) // find the index of the info button that pressed
-		{
-			if(btnProductInfo.get(i).getId().equals(infoId))
-				break;
-		}
-		for(j=0 ; j<CatalogUI.products.size() ; j++)
-		{
-			if ((i==0) && (String.valueOf(CatalogUI.products.get(j).getpType())).equals(flag)) //if we found the product in product's arrayList
-				return j;
-			else if ((i!=0) && (String.valueOf(CatalogUI.products.get(j).getpType())).equals(flag))
-				i--;	
-		}
-		return -1;
-	}
 	
 	public void showCart(ActionEvent event) throws Exception // show all products in cart. 
 	{
@@ -397,6 +302,7 @@ public class CatalogController implements Initializable {
 	public void logout(ActionEvent event) throws Exception /* logout and open login window */
 	{
 		CustomerController.flag = false;
+		order= new Order();
 		Message msg = new Message(UserUI.user.getId(), "change User status to DISCONNECTED");
 		UserUI.myClient.accept(msg); // change User status to DISCONNECTED in DB
 		((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
@@ -408,5 +314,37 @@ public class CatalogController implements Initializable {
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
+	
+	public void addToCart(ActionEvent event) throws Exception // add product to cart
+	{
+		String pId = cmbPid.getValue();
+		int pAmmount;
+		if(txtPAmmount.getText().compareTo("")!=0)
+		{
+			pAmmount = Integer.valueOf(txtPAmmount.getText());
+			if(pId != null)
+			{
+				Product p = getproductById(pId);
+				if(p != null)
+				{
+					if(order.getProductsInOrder().containsKey(p))
+						order.getProductsInOrder().put(p, (order.getProductsInOrder().get(p))+pAmmount);
+					else
+						order.getProductsInOrder().put(p, pAmmount);
+					txtPAmmount.setText("");
+				}
+			}
+		}
+	}
 
+	private Product getproductById(String pId)
+	{
+		int i;
+		for (i=0; i<CatalogUI.products.size() ; i++)
+		{
+			if(CatalogUI.products.get(i).getpID().compareTo(pId) == 0)
+				return CatalogUI.products.get(i);
+		}
+		return null;
+	}
 }

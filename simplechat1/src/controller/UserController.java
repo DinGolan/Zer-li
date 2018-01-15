@@ -84,10 +84,10 @@ public class UserController implements Initializable {
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("error msg");
 			primaryStage.show();
-		} else // user exist
-		if (!UserUI.user.getPassword().equals(u.getPassword())) // insert the wrong password
-		{
-			System.out.println("WrongPasswordMsg");
+	} 
+		
+		else if (!UserUI.user.getPassword().equals(u.getPassword())) // insert the wrong password
+		{			System.out.println("WrongPasswordMsg");
 			((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
 			root = FXMLLoader.load(getClass().getResource("/controller/WrongPasswordMsg.fxml"));
 			Scene scene = new Scene(root);

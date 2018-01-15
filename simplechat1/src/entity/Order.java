@@ -18,9 +18,11 @@ public class Order implements Serializable{
 	
 	private HashMap<Product , Integer> productsInOrder;
 	
+	private HashMap<Product.ProductType,Integer> ProductInOrderType; 
+
 	private LocalDate requiredSupplyDate;
 	
-	private static int orderID = 10;
+	private int orderID = 200;
 	
 	private String customerID;
 	
@@ -51,7 +53,7 @@ public class Order implements Serializable{
 
 	public Order(SupplyOption supply, double orderTotalPrice, HashMap<Product, Integer> productsInOrder,
 			LocalDate requiredSupplyDate, String customerID, String requiredSupplyTime, String recipientAddress,
-			String recipientName, String recipienPhoneNum, String postCard,  int storeID, Account.PaymentMethod paymentMethod) {
+			String recipientName, String recipienPhoneNum, String postCard,  int storeID) {
 		super();
 		this.supply = supply;
 		this.orderDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
@@ -111,7 +113,6 @@ public class Order implements Serializable{
 	}
 
 	public int getOrderID() {
-		orderID++;
 		return orderID;
 	}
 
@@ -179,6 +180,13 @@ public class Order implements Serializable{
 		this.storeID = storeID;
 	}
 
+	public HashMap<Product.ProductType, Integer> getProductInOrderType() {
+		return ProductInOrderType;
+	}
+
+	public void setProductInOrderType(HashMap<Product.ProductType, Integer> productInOrderType) {
+		ProductInOrderType = productInOrderType;
+	}
 
 
 	@Override

@@ -89,20 +89,20 @@ public class CustomerServiceWorkerController implements Initializable{
 	
 	public void followComplaintBtn(ActionEvent event) throws Exception //To open follow complaint option
 	{
+		ComplaintHandleController.viewComplaintFlag=true;
 		((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
 		Stage primaryStage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
 		Pane root = loader.load(getClass().getResource("/controller/ComplaintForWorker.fxml").openStream());
 		
-		//ComplaintHandleController complaintHandleController = loader.getController();		
-		//complaintHandleController.loadHisComplaints(); //we are loading all the requested complaints for this customer service worker
+		ComplaintHandleController complaintHandleController = loader.getController();		
+		complaintHandleController.loadHisComplaints(); //we are loading all the requested complaints for this customer service worker
 		
 		Scene scene = new Scene(root);			
 		//scene.getStylesheets().add(getClass().getResource("/controller/AccountForm.css").toExternalForm());
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Complaints to handle");
-		primaryStage.show();
-	
+		primaryStage.show();	
 	}
 	
 	/////אולי להוריד את קיום הכפתור יציאה

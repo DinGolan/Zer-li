@@ -14,7 +14,7 @@
             <Font name="System Bold" size="16.0" />
          </font></Label>
       <Button id="btnComplaintClose" fx:id="btnComplaintClose" layoutX="249.0" layoutY="140.0" mnemonicParsing="false" onAction="#closeComplaintHandleWindow" text="Close" />
-      <Button id="btnComplaintOpen" fx:id="btnComplaintOpen" layoutX="60.0" layoutY="140.0" mnemonicParsing="false" text="Open" />
-      <ComboBox layoutX="102.0" layoutY="68.0" prefWidth="150.0" />
+      <Button id="btnComplaintOpen" fx:id="btnComplaintOpen" layoutX="60.0" layoutY="140.0" mnemonicParsing="false" onAction="#viewComplaintDetails" text="Open" />
+      <ComboBox id="cmbComplaintForWorker" fx:id="cmbComplaintForWorker" layoutX="80.0" layoutY="81.0" prefHeight="25.0" prefWidth="193.0" promptText="Choose a complaint number" />
    </children>
 </AnchorPane>

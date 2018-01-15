@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="462.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CompanyManagerReportController">
+   <children>
+      <Label layoutX="25.0" layoutY="22.0" prefHeight="60.0" prefWidth="564.0" text="Company Manager Quarterly Report" textFill="#0022ff">
+         <font>
+            <Font name="Bodoni MT Bold" size="37.0" />
+         </font>
+      </Label>
+      <ComboBox id="cmbOptions" fx:id="cmbOptions" layoutX="130.0" layoutY="200.0" onAction="#setOptionsComboBox" prefHeight="39.0" prefWidth="317.0" promptText="How Much Store You Want To Watch ---&gt; { 1 , 2 }" />
+      <Label layoutX="36.0" layoutY="134.0" text="Please Select Your Amount Option :" textFill="#100f0f">
+         <font>
+            <Font name="System Italic" size="20.0" />
+         </font>
+      </Label>
+      <Button id="btnClick" fx:id="btnClick" layoutX="103.0" layoutY="289.0" mnemonicParsing="false" onAction="#Button_To_See_One_Store_Or_Two_Store" text="Click To See The Next Window Of ---&gt; { One Report , Two Report } " />
+      <Button id="btnClose" fx:id="btnClose" layoutX="271.0" layoutY="366.0" mnemonicParsing="false" onAction="#closeCompanyManagerReportWindow" text="Close" />
+   </children>
+</AnchorPane>

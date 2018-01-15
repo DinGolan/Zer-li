@@ -12,9 +12,9 @@
       <Label layoutX="16.0" layoutY="26.0" text="Complaint number:" />
       <Label layoutX="20.0" layoutY="150.0" text="Complaint status:" />
       <Label layoutX="23.0" layoutY="192.0" text="Complaint date:" />
-      <TextField id="txtComplaintNum" fx:id="txtComplaintNum" editable="false" layoutX="185.0" layoutY="22.0" />
-      <Button id="btnComplaintSave" fx:id="btnComplaintSave" layoutX="67.0" layoutY="474.0" mnemonicParsing="false" text="Save" />
-      <Button id="btnComplaintClose" fx:id="btnComplaintClose" layoutX="259.0" layoutY="474.0" mnemonicParsing="false" text="Close" />
+      <TextField id="txtComplaintNumber" fx:id="txtComplaintNumber" layoutX="185.0" layoutY="22.0" />
+      <Button id="btnComplaintSave" fx:id="btnComplaintSave" layoutX="67.0" layoutY="474.0" mnemonicParsing="false" onAction="#saveComplaintButton" text="Save" />
+      <Button id="btnComplaintClose" fx:id="btnComplaintClose" layoutX="259.0" layoutY="474.0" mnemonicParsing="false" onAction="#closeComplaintHandleWindow" text="Close" />
       <ComboBox id="cmbComplaintStatus" fx:id="cmbComplaintStatus" editable="true" layoutX="184.0" layoutY="146.0" prefWidth="150.0" />
       <TextField id="txtComplaintDate" fx:id="txtComplaintDate" editable="false" layoutX="185.0" layoutY="188.0" />
       <TabPane layoutY="229.0" prefHeight="189.0" prefWidth="369.0" tabClosingPolicy="UNAVAILABLE">
