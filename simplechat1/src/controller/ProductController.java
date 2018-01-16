@@ -105,7 +105,7 @@ public class ProductController implements Initializable{
 		
 		Scene scene = new Scene(root);			
 		primaryStage.setScene(scene);	
-				
+		primaryStage.setTitle("Update Product");		
 		primaryStage.show();									 /* show catalog frame window */
 	}
 	
@@ -166,7 +166,7 @@ public class ProductController implements Initializable{
 			
 			Scene scene = new Scene(root);			
 			primaryStage.setScene(scene);	
-					
+			primaryStage.setTitle("Error message");	
 			primaryStage.show();									 /* show catalog frame window */
 	}
 	}
@@ -190,7 +190,7 @@ public class ProductController implements Initializable{
 				
 				Scene scene = new Scene(root);			
 				primaryStage.setScene(scene);	
-						
+				primaryStage.setTitle("Error message");	
 				primaryStage.show();									 /* show catalog frame window */
 			}
 		}
@@ -210,7 +210,7 @@ public class ProductController implements Initializable{
 		
 		Scene scene = new Scene(root);			
 		primaryStage.setScene(scene);	
-				
+		primaryStage.setTitle("Product Form");			
 		primaryStage.show();									 /* show catalog frame window */
 	}
 	
@@ -244,7 +244,7 @@ public class ProductController implements Initializable{
 				
 				Scene scene = new Scene(root);			
 				primaryStage.setScene(scene);	
-						
+				primaryStage.setTitle("Error message");			
 				primaryStage.show();									 /* show catalog frame window */
 			}
 		}
@@ -258,7 +258,7 @@ public class ProductController implements Initializable{
 			
 			Scene scene = new Scene(root);			
 			primaryStage.setScene(scene);	
-					
+			primaryStage.setTitle("Error message");			
 			primaryStage.show();									 /* show catalog frame window */
 		}
 	}
@@ -275,7 +275,7 @@ public class ProductController implements Initializable{
 		
 		Scene scene = new Scene(root);			
 		primaryStage.setScene(scene);	
-				
+		primaryStage.setTitle("Add product");		
 		primaryStage.show();									 /* show catalog frame window */
 	}
 	

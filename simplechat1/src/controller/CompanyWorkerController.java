@@ -72,7 +72,7 @@ public class CompanyWorkerController implements Initializable {
 		
 		Scene scene = new Scene(root);			
 		//scene.getStylesheets().add(getClass().getResource("/gui/StudentForm.css").toExternalForm());
-		
+		primaryStage.setTitle("Update Product");
 		primaryStage.setScene(scene);		
 		primaryStage.show();
 	}
@@ -109,7 +109,7 @@ public class CompanyWorkerController implements Initializable {
 			
 			Scene scene = new Scene(root);			
 			//scene.getStylesheets().add(getClass().getResource("/gui/StudentForm.css").toExternalForm());
-			
+			primaryStage.setTitle("Product Form");
 			primaryStage.setScene(scene);		
 			primaryStage.show();
 		}
@@ -123,7 +123,7 @@ public class CompanyWorkerController implements Initializable {
 			
 			Scene scene = new Scene(root);			
 			//scene.getStylesheets().add(getClass().getResource("/gui/StudentForm.css").toExternalForm());
-			
+			primaryStage.setTitle("Add Product");
 			primaryStage.setScene(scene);		
 			primaryStage.show();
 		
@@ -138,7 +138,7 @@ public class CompanyWorkerController implements Initializable {
 		
 		Scene scene = new Scene(root);			
 		//scene.getStylesheets().add(getClass().getResource("/gui/StudentForm.css").toExternalForm());
-		
+		primaryStage.setTitle("Remove Product");
 		primaryStage.setScene(scene);		
 		primaryStage.show();
 	
@@ -197,7 +197,7 @@ public class CompanyWorkerController implements Initializable {
 			
 			Scene scene = new Scene(root);			
 			//scene.getStylesheets().add(getClass().getResource("/gui/StudentForm.css").toExternalForm());
-			
+			primaryStage.setTitle("Remove Product");
 			primaryStage.setScene(scene);		
 			primaryStage.show();
 		}

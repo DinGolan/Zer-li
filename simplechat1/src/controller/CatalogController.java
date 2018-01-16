@@ -100,6 +100,7 @@ public class CatalogController implements Initializable {
 				
 		Scene scene = new Scene(root);			
 		/* scene.getStylesheets().add(getClass().getResource("/boundery/ProductForm.css").toExternalForm()); */
+		primaryStage.setTitle("Customer Options");
 		primaryStage.setScene(scene);		
 		primaryStage.show();	
 	}
@@ -298,7 +299,7 @@ public class CatalogController implements Initializable {
 		
 		Scene scene = new Scene(root);			
 		//scene.getStylesheets().add(getClass().getResource("/gui/StudentForm.css").toExternalForm());
-		
+		primaryStage.setTitle("Cart Frame");
 		primaryStage.setScene(scene);		
 		primaryStage.show();
 	}
