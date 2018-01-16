@@ -1901,7 +1901,6 @@ public void handleMessageFromClient
   			stmt = conn.createStatement();
    		if(product.getByteArray() == null)
   			{
-   			System.out.println("sss");
   			UpdateTableUsersPremmision = "UPDATE project.product SET ProductName =" + "'"
   					+ product.getpName() + "',productType='"+product.getpType()+"',productPrice="+product.getpPrice()+",productColor='"+product.getpColor()+ "' WHERE ProductID=" + "'" + product.getpID() + "'" + ";";
   			stmt.executeUpdate(UpdateTableUsersPremmision);
@@ -2359,7 +2358,7 @@ public void handleMessageFromClient
     
 
     System.out.println("Please enter the mySQL scheme name:");
-	//Scanner scanner = new Scanner(System.in);
+	Scanner scanner = new Scanner(System.in);
 	 //name= scanner.next();
 	name = "project";
 	url = "jdbc:mysql://localhost/" + name;/* Enter jbdc mySQL */
@@ -2369,8 +2368,8 @@ public void handleMessageFromClient
 	 username = "root";
 
 	 System.out.println("Please enter the mySQL password:");
-	 //password = scanner.next(); /* Enter mySQL password */
-     password = "308155308";
+	 password = scanner.next(); /* Enter mySQL password */
+     //password = "308155308";
     try 
     {
       sv.listen(); /* Start listening for connections */
