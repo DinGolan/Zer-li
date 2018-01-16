@@ -85,7 +85,7 @@ public class StoreManagerController implements Initializable {
 		Pane root = loader.load(getClass().getResource("/controller/AccountForm.fxml").openStream());
 		
 		Scene scene = new Scene(root);			
-		scene.getStylesheets().add(getClass().getResource("/controller/AccountForm.css").toExternalForm());
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Account Card Form");
 		primaryStage.show();

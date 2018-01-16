@@ -58,7 +58,7 @@ public class AccountController {
 	{	
 		Parent root = FXMLLoader.load(getClass().getResource("/controller/AccountForm.fxml"));	
 		Scene scene = new Scene(root);
-		scene.getStylesheets().add(getClass().getResource("/controller/AccountForm.css").toExternalForm());
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setTitle("Account Card Form");
 		primaryStage.setScene(scene);		
 		primaryStage.show();
@@ -127,7 +127,8 @@ public class AccountController {
 		{
 			((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
 			root = loader.load(getClass().getResource("/controller/AccountCreditCardLengthMsg.fxml").openStream());
-			Scene scene = new Scene(root);			
+			Scene scene = new Scene(root);	
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 			primaryStage.setScene(scene);	
 			primaryStage.setTitle("Error msg");
 			primaryStage.show();
@@ -151,7 +152,8 @@ public class AccountController {
 			{
 				((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
 				root = loader.load(getClass().getResource("/controller/AccountUserNotExistMsg.fxml").openStream());
-				Scene scene = new Scene(root);			
+				Scene scene = new Scene(root);	
+				scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 				primaryStage.setScene(scene);	
 				primaryStage.setTitle("Error msg");
 				primaryStage.show();	
@@ -161,7 +163,8 @@ public class AccountController {
 			{
 				((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
 				root = loader.load(getClass().getResource("/controller/UserAccountExistMsg.fxml").openStream());
-				Scene scene = new Scene(root);			
+				Scene scene = new Scene(root);	
+				scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 				primaryStage.setScene(scene);	
 				primaryStage.setTitle("Error msg");
 				primaryStage.show();	
@@ -171,7 +174,8 @@ public class AccountController {
 			{
 				((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
 				root = loader.load(getClass().getResource("/controller/AddNewUserAccountMsg.fxml").openStream());
-				Scene scene = new Scene(root);			
+				Scene scene = new Scene(root);	
+				scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 				primaryStage.setScene(scene);	
 				primaryStage.setTitle("New account card msg");
 				primaryStage.show();
@@ -186,6 +190,7 @@ public class AccountController {
 		FXMLLoader loader = new FXMLLoader(); 					 //load object
 		Parent root = FXMLLoader.load(getClass().getResource("/controller/AccountForm.fxml"));
 		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setTitle("Account card form");
 		primaryStage.setScene(scene);
 		primaryStage.show();	
@@ -197,7 +202,8 @@ public class AccountController {
 		Stage primaryStage = new Stage();						 //Object present window with graphics elements
 		FXMLLoader loader = new FXMLLoader(); 					 //load object
 		Pane root = loader.load(getClass().getResource("/controller/StoreManagerOptions.fxml").openStream());	
-		Scene scene = new Scene(root);			
+		Scene scene = new Scene(root);	
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);	
 		primaryStage.setTitle("Menu");
 		primaryStage.show(); //show sore manager options window

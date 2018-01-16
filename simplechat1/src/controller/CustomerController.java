@@ -25,6 +25,7 @@ import javafx.stage.Stage;
 
 public class CustomerController implements Initializable{
 
+	public static int cflag =0;
 	
 	public static int storeID;
 	
@@ -69,6 +70,37 @@ public class CustomerController implements Initializable{
 		primaryStage.setScene(scene);		
 		primaryStage.show();
 	}
+	
+	public void openProfileWindow(ActionEvent event) throws Exception {
+		((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
+		Stage primaryStage = new Stage();
+		FXMLLoader loader = new FXMLLoader();
+		Pane root = loader.load(getClass().getResource("/controller/CustomerProfile.fxml").openStream());
+		
+		Scene scene = new Scene(root);			
+		//scene.getStylesheets().add(getClass().getResource("/gui/StudentForm.css").toExternalForm());
+		primaryStage.setTitle("Profile");
+		primaryStage.setScene(scene);		
+		primaryStage.show();
+	}
+	
+	public void cancelOrderWindow(ActionEvent event) throws Exception {
+		//OrderController.viewOrderFlag=true;
+		((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
+		Stage primaryStage = new Stage();
+		FXMLLoader loader = new FXMLLoader();
+		Pane root = loader.load(getClass().getResource("/controller/OrderForCustomer.fxml").openStream());
+		
+		OrderController orderController = loader.getController();		
+		orderController.loadHisOrders(); //we are loading all the requested orders for this customer
+		
+		Scene scene = new Scene(root);			
+		//scene.getStylesheets().add(getClass().getResource("/controller/AccountForm.css").toExternalForm());
+		primaryStage.setScene(scene);
+		primaryStage.setTitle("Orders to cancel");
+		primaryStage.show();	
+	}
+	
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) // Initialized The ComboBox of the Product 
@@ -129,7 +161,12 @@ public class CustomerController implements Initializable{
 		ArrayList<String> address = new ArrayList<String>();
 		Message msg = new Message(null , "get all stores from DB");
 		UserUI.myClient.accept(msg); // get all stores from DB
-		while(StoreUI.stores.size() == 0);
+		cflag =0;
+		while(cflag == 0)
+		{
+			System.out.print("");
+		}
+		cflag =0;
 		for(Store s : StoreUI.stores)
 			address.add(s.getStore_Address());
 		listForComboBox = FXCollections.observableArrayList(address); 

@@ -14,6 +14,7 @@ public class OrderUI extends Application /* With This Class We Show the Product 
 {
 	public static Vector<Order> orders = new Vector<Order>();
 	public static Order order;
+	public static Vector<Integer> ordersNumbers = new Vector<Integer>();
 	public static void main( String args[] ) throws Exception
 	{ 
 

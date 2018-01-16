@@ -12,7 +12,7 @@
       <Label layoutX="16.0" layoutY="26.0" text="Complaint number:" />
       <Label layoutX="20.0" layoutY="150.0" text="Complaint status:" />
       <Label layoutX="23.0" layoutY="192.0" text="Complaint date:" />
-      <TextField id="txtComplaintNumber" fx:id="txtComplaintNumber" layoutX="185.0" layoutY="22.0" />
+      <TextField id="txtComplaintNumber" fx:id="txtComplaintNumber" editable="false" layoutX="185.0" layoutY="22.0" />
       <Button id="btnComplaintSave" fx:id="btnComplaintSave" layoutX="67.0" layoutY="474.0" mnemonicParsing="false" onAction="#saveComplaintButton" text="Save" />
       <Button id="btnComplaintClose" fx:id="btnComplaintClose" layoutX="259.0" layoutY="474.0" mnemonicParsing="false" onAction="#closeComplaintHandleWindow" text="Close" />
       <ComboBox id="cmbComplaintStatus" fx:id="cmbComplaintStatus" editable="true" layoutX="184.0" layoutY="146.0" prefWidth="150.0" />

@@ -120,6 +120,12 @@ public class UserController implements Initializable {
 			case DATA_COMPANY_MANAGER:
 				permission = "DataCompanyManagerOptions";
 				break;
+			case COMPANY_WORKER:
+				permission = "CompanyWorkerOptions";
+				break;
+			case STORE_WORKER:
+				permission = "StoreWorkerOptions";
+				break;
 			}
 			permission = "/controller/" + permission + ".fxml";
 			URL o = getClass().getResource(permission);
@@ -127,7 +133,7 @@ public class UserController implements Initializable {
 			root = FXMLLoader.load(o);
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
-			primaryStage.setTitle(permission);
+			primaryStage.setTitle("Menu");
 			primaryStage.show();
 		}
 

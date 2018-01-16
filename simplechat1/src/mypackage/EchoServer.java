@@ -1,8 +1,10 @@
 package mypackage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 /* This file contains material supporting section 3.7 of the textbook: */
 /* "Object Oriented Software Engineering" and is issued under the open-source */
 /* license found at www.lloseng.com */
@@ -13,6 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Scanner;
@@ -124,6 +127,12 @@ public void handleMessageFromClient
 	    	UpdateUserAtDB(msg,conn);
 		}
 	    
+		if (((Message) msg).getOption().compareTo(
+				"Update Product in DB") == 0) /* Check that we get from DB Because We want to Initialized */
+		{
+			UpdateProductAtDB(msg, conn);
+		} 
+	    
 	    if(((Message)msg).getOption().compareTo("Update customer account") == 0) 	    /* Check that we get from DB Because We want to Initialized */
         {						
 	    	((Message)msg).setMsg(UpdateUserAccountAtDB(msg,conn));
@@ -159,6 +168,12 @@ public void handleMessageFromClient
     		((Message)msg).setMsg(getAllOrdersToCustomer(msg,conn));	
     		this.sendToAllClients(msg);	
 		}
+	    
+	  /*  if(((Message)msg).getOption().compareTo("Get all orders numbers for this customer can cancel") == 0) //get all the orders that connected to specific customer and can cancel
+        {
+    		((Message)msg).setMsg(getAllOrdersToCustomerCancel(msg,conn));	
+    		this.sendToAllClients(msg);	
+		}*/
 	    
 	    if(((Message)msg).getOption().compareTo("Get all complaints numbers for this customer service worker") == 0) //get all the complaints that connected to specific customer service worker
         {
@@ -1851,6 +1866,69 @@ public void handleMessageFromClient
 	  return users_After_Change;
   }
   
+  /*protected ArrayList<Integer> getAllOrdersToCustomerCancel(Object msg, Connection conn) //this method get all the orders that match to specific customer and can be cancel
+  {
+	  String requestedCustomerId=(String)(((Message)msg).getMsg());
+	  ArrayList<Integer> ordersNums = new ArrayList<Integer>();
+	  Statement stmt;
+	  Integer co;
+
+	  try {
+		  	stmt = conn.createStatement();
+	  		String getOrders = "SELECT * FROM project.order WHERE customerID='"+requestedCustomerId+"' AND orderRequiredSupplyDate ;"; //get all the orders numbers that connected to this customer and can be canceled
+	  		ResultSet rs = stmt.executeQuery(getOrders);
+	  		if(rs.isBeforeFirst()) //we have orders to this customer at DB
+	  		{
+	  			while(rs.next())
+	  			{
+	  				co = rs.getInt("orderID");
+	  				ordersNums.add(co);
+	  			}
+	  		}
+	  		else
+	  			ordersNums.add(-1); //to know that we didn't have orders to this customer at DB
+	
+		  		
+		  	}
+		  	else
+		  		ordersNums.add(-2); //to know that we didn't have this customer at DB
+		  } catch (SQLException e) {	e.printStackTrace();}			  
+	  return ordersNums;
+  }*/
+  
+  protected void UpdateProductAtDB(Object msg, Connection conn) /* This Method Update the DB */
+  	{
+  		Statement stmt;
+  		Product product = (Product) ((Message) msg).getMsg();
+  		try {
+  			String UpdateTableUsersPremmision;
+  			stmt = conn.createStatement();
+   		if(product.getByteArray() == null)
+  			{
+  			UpdateTableUsersPremmision = "UPDATE project.product SET ProductName =" + "'"
+  					+ product.getpName() + "',productType='"+product.getpType()+"',productPrice="+product.getpPrice()+",productColor='"+product.getpColor()+ "' WHERE ProductID=" + "'" + product.getpID() + "'" + ";";
+  			stmt.executeUpdate(UpdateTableUsersPremmision);
+  			}
+  			else
+  			{
+  				InputStream targetStream= new ByteArrayInputStream(product.getByteArray());
+  				 String query = "UPDATE project.product SET ProductName =?,productType=?,productPrice=?,productColor=?,ProductPicure=? WHERE ProductID=?;";
+  			      java.sql.PreparedStatement preparedStmt = conn.prepareStatement(query);
+  			      preparedStmt.setString   (1, product.getpName());
+  			      preparedStmt.setString(2, product.getpType().toString());
+  			      preparedStmt.setDouble(3, product.getpPrice());
+  			      preparedStmt.setString(4, product.getpColor().toString());
+  			      preparedStmt.setBlob(5, targetStream);
+  			      preparedStmt.setString(6, product.getpID());
+  
+  			      preparedStmt.executeUpdate();
+  
+  			}
+  			
+  		} catch (Exception e) {
+  			e.printStackTrace();}
+  	}
+  
   protected ArrayList<Integer> getAllOrdersToCustomer(Object msg, Connection conn) //this method get all the orders that match to specific customer
   {
 	  String requestedCustomerId=(String)(((Message)msg).getMsg());
@@ -1892,6 +1970,7 @@ public void handleMessageFromClient
 	  Integer temp;
 	  String str;
 	  Date day;
+	  Double money;
 
 	  try {
 		  	stmt = conn.createStatement();
@@ -1914,6 +1993,11 @@ public void handleMessageFromClient
 		  		c.setComplaintOrderId(temp);
 		  		str = rs.getString("ComplaintServiceWorkerUserName");
 		  		c.setComplaintServiceWorkerUserName(str);
+		  		str = rs.getString("ComplaintCompanyServiceWorkerAnswer");
+		  		if(str!=null)
+		  			c.setComplaintCompanyServiceWorkerAnswer(str);
+		  		money=rs.getDouble("ComplaintCompansation");
+		  			c.setComplaintCompansation(money);
 		  	}
 		  } catch (SQLException e) {	e.printStackTrace();}	
 	  System.out.print(c);
@@ -2033,9 +2117,15 @@ public void handleMessageFromClient
 		  ResultSet rs = stmt.executeQuery(getComplaintexist);
 		  if(!rs.isBeforeFirst()) //this statement try to enter new complaint to the DB  
 		  {
+			  String[] monthName = {"January", "February",
+		                "March", "April", "May", "June", "July",
+		                "August", "September", "October", "November",
+		                "December"};
+			  Calendar cal = Calendar.getInstance();
+		      String month = monthName[cal.get(Calendar.MONTH)];
 			  stmt = conn.createStatement(); 
-			  String InsertComplaint = "INSERT INTO project.complaint(ComplaintUserId, ComplaintStatus, ComplaintDate, ComplaintDetails, ComplaintOrderId, ComplaintServiceWorkerUserName)" + 
-					"VALUES('"+newComplaint.getComplaintUserId()+"','"+newComplaint.getComplaintStat()+"','"+newComplaint.getComplaintDate()+"','"+newComplaint.getComplaintDetails()+"',"+newComplaint.getComplaintOrderId()+",'"+newComplaint.getComplaintServiceWorkerUserName()+"');";
+			  String InsertComplaint = "INSERT INTO project.complaint(ComplaintUserId, ComplaintStatus, ComplaintDate, ComplaintDetails, ComplaintOrderId, ComplaintServiceWorkerUserName,complaintMonth)" + 
+					"VALUES('"+newComplaint.getComplaintUserId()+"','"+newComplaint.getComplaintStat()+"','"+newComplaint.getComplaintDate()+"','"+newComplaint.getComplaintDetails()+"',"+newComplaint.getComplaintOrderId()+",'"+newComplaint.getComplaintServiceWorkerUserName()+"','"+month+"');";
 			  stmt.executeUpdate(InsertComplaint);	
 			  success="good";
 			  //complaint.setComplaintNum(newComplaint.getComplaintNum());
@@ -2250,18 +2340,18 @@ public void handleMessageFromClient
     
 
     System.out.println("Please enter the mySQL scheme name:");
-	Scanner scanner = new Scanner(System.in);
-	 name= scanner.next();
-	//name = "project";
+	//Scanner scanner = new Scanner(System.in);
+	 //name= scanner.next();
+	name = "project";
 	url = "jdbc:mysql://localhost/" + name;/* Enter jbdc mySQL */
 
 	System.out.println("Please enter the mySQL user name:");
-	 username =scanner.next(); /* Enter mySQL name */
-	 //username = "root";
+	 //username =scanner.next(); /* Enter mySQL name */
+	 username = "root";
 
 	 System.out.println("Please enter the mySQL password:");
-	 password = scanner.next(); /* Enter mySQL password */
-     //password = "Braude";
+	 //password = scanner.next(); /* Enter mySQL password */
+     password = "308155308";
     try 
     {
       sv.listen(); /* Start listening for connections */
