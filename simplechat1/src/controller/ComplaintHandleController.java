@@ -1,14 +1,9 @@
 package controller;
 import java.io.IOException;
 import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.ResourceBundle;
-
-import boundery.CatalogUI;
 import boundery.ComplaintUI;
 import boundery.UserUI;
 import entity.Complaint;
@@ -20,7 +15,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -30,11 +24,9 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class ComplaintHandleController implements Initializable{
-	//private Complaint c;
-	//public static boolean saveComplaintflag = false;
 	public static boolean loadComplaintsFlag = false;
-	public static boolean viewComplaintFlag = false;
 	public static boolean complaintFlag = false;
+	public static boolean loadComplaintDetailsFlag=false;
 	private static int itemIndex = 1; //INPROGRESS- if we didn't choose a status at the combobox
 	
 	@FXML
@@ -88,7 +80,21 @@ public class ComplaintHandleController implements Initializable{
 	
 	public void initialize(URL arg0, ResourceBundle arg1) // Initialized The ComboBox of the complaint form
 	{
-
+		if(loadComplaintDetailsFlag==true) // ב CLOSE לשנות ל-0
+		{ //show complaint details	
+			System.out.print(ComplaintUI.complaint);
+			this.txtComplaintNumber.setText(String.valueOf(ComplaintUI.complaint.getComplaintNum()));
+			this.txtComplaintUserId.setText(String.valueOf(ComplaintUI.complaint.getComplaintUserId()));
+			this.txtComplaintDate.setText(String.valueOf(ComplaintUI.complaint.getComplaintDate()));
+			this.txtComplaintOrderId.setText(String.valueOf(ComplaintUI.complaint.getComplaintOrderId()));
+			this.txtComplaintAnswer.setText(ComplaintUI.complaint.getComplaintCompanyServiceWorkerAnswer());
+			if(ComplaintUI.complaint.getComplaintDetails()!=null) //לבדוק
+				this.txtComplaintReason.setText(ComplaintUI.complaint.getComplaintDetails());
+			this.txtComplaintCompansationAmount.setText(String.valueOf(ComplaintUI.complaint.getComplaintCompansation()));
+			listForStatusComboBox = FXCollections.observableArrayList(stat); 
+			this.cmbComplaintStatus.setItems(FXCollections.observableArrayList(listForStatusComboBox)); //set the status to this user
+			this.cmbComplaintStatus.setPromptText(String.valueOf(ComplaintUI.complaint.getComplaintStat()));
+		}
 	}
 	
 	public void loadHisComplaints() //load his complaints
@@ -115,7 +121,6 @@ public class ComplaintHandleController implements Initializable{
 			try {
 				root = loader.load(getClass().getResource("/controller/ComplaintDontHaveMsg.fxml").openStream());
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			Scene scene = new Scene(root);			
@@ -164,22 +169,9 @@ public class ComplaintHandleController implements Initializable{
 				System.out.print(""); //DOES NOT RUN WITHOUT THIS LINE
 			}
 			complaintFlag=false;
-			//loadStatusFlag=true;
 			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+			loadComplaintDetailsFlag=true; //show complaint details by initialized
 			root = loader.load(getClass().getResource("/controller/ComplaintAnswerForm.fxml").openStream());
-			
-			//show complaint details
-			//this.txtComplaintNumber.setText("may");// מכאן זה נופל
-			System.out.print(ComplaintUI.complaint);
-			/*this.txtComplaintNumber.setText(String.valueOf(ComplaintUI.complaint.getComplaintNum()));
-			this.txtComplaintUserId.setText(String.valueOf(ComplaintUI.complaint.getComplaintUserId()));
-			this.txtComplaintDate.setText(String.valueOf(ComplaintUI.complaint.getComplaintDate()));
-			this.txtComplaintOrderId.setText(String.valueOf(ComplaintUI.complaint.getComplaintOrderId()));*/
-			//listForStatusComboBox = FXCollections.observableArrayList(stat); 
-			//this.cmbComplaintStatus.setItems(FXCollections.observableArrayList(listForStatusComboBox)); //set the status to this user
-			//this.cmbComplaintStatus.setPromptText(String.valueOf(ComplaintUI.complaint.getComplaintStat()));
-			
-			//System.out.println(ComplaintUI.complaint);
 			Scene scene = new Scene(root);			
 			primaryStage.setScene(scene);	
 			primaryStage.setTitle("Complaint answer form");
@@ -214,16 +206,16 @@ public class ComplaintHandleController implements Initializable{
 		{ //enter 200 characters for the reason field
 			ComplaintUI.complaint.setComplaintCompanyServiceWorkerAnswer(txtComplaintAnswer.getText()); 
 			ComplaintUI.complaint.setComplaintCompansation(Double.parseDouble(txtComplaintCompansationAmount.getText()));
-			//ComplaintUI.complaint.setComplaintStat(Complaint.ComplaintStatus.valueOf(stat.get(getStatusIndex()))); //take the status
-			ComplaintUI.complaint.setComplaintStat(Complaint.ComplaintStatus.INPROGRESS); //take the status //just for check
+			ComplaintUI.complaint.setComplaintStat(Complaint.ComplaintStatus.valueOf(stat.get(getStatusIndex()))); //take the status
+			//לבדוק אם הוא לא בחר סטטוס אם שם בטיפול אוטומטית
 			Message msg = new Message(ComplaintUI.complaint, "Update complaint");	
 			UserUI.myClient.accept(msg);
-			System.out.println(ComplaintUI.complaint+"aftermsg");
 			//while(saveComplaintflag == false)
 		//	{
 			//	System.out.print(""); //DOES NOT RUN WITHOUT THIS LINE
 			//}
-		//	saveComplaintflag = false;
+			
+			loadComplaintDetailsFlag=false; //לבדוק אם כאן זה בסדר
 			((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
 			if(ComplaintUI.complaint.getComplaintStat().equals(Complaint.ComplaintStatus.CLOSE))
 				root = loader.load(getClass().getResource("/controller/UpdateComplaintCloseMsg.fxml").openStream()); //open other msg if you close this complaint
@@ -239,13 +231,14 @@ public class ComplaintHandleController implements Initializable{
 	
 	public void EditOtherComplaint(ActionEvent event) throws Exception //With this Method we show the GUI of the First Window
 	{	
-		ComplaintHandleController.viewComplaintFlag=true;
 		((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
 		Stage primaryStage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
 		Pane root = loader.load(getClass().getResource("/controller/ComplaintForWorker.fxml").openStream());
 		
-		loadHisComplaints(); //we are loading all the requested complaints for this customer service worker
+		//מכועררררררררררררררררררררררררררררר
+		ComplaintHandleController complaintHandleController = loader.getController();		
+		complaintHandleController.loadHisComplaints(); //we are loading all the requested complaints for this customer service worker
 		
 		Scene scene = new Scene(root);			
 		//scene.getStylesheets().add(getClass().getResource("/controller/AccountForm.css").toExternalForm());
@@ -261,6 +254,7 @@ public class ComplaintHandleController implements Initializable{
 
 	public void closeComplaintHandleWindow(ActionEvent event) throws Exception  //To close the The Window of the complaint form GUI
 	{ 
+		loadComplaintDetailsFlag=false; //לא בטוח שטוב פה
 		((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
 		Stage primaryStage = new Stage();						 //Object present window with graphics elements
 		FXMLLoader loader = new FXMLLoader(); 					 //load object

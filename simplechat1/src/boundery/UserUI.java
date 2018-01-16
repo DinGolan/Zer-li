@@ -21,17 +21,13 @@ public class UserUI extends Application /* With This Class We Show the Product G
 	public static User user = null;
 	public static Store store;
 	public static ArrayList<Integer> Id = new ArrayList<Integer>();
-
-	//public static Account account;
-	//public static Complaint complaint;
-
 	
 	public static void main( String args[] ) throws Exception 
 	{ 
 	System.out.println("Please enter the server IP");
 		Scanner scanner = new Scanner(System.in);
-		String IP = "localhost";//scanner.next(); /* Enter Server IP */
-		//String IP = "localhost"; /* Enter Server IP */
+		//String IP = scanner.next(); /* Enter Server IP */
+		String IP = "localhost"; /* Enter Server IP */
 		myClient = new ClientConsole(IP, 5555); //create connection with server        
 		launch(args);		 
 	} 
