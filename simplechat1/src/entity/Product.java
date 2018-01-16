@@ -160,4 +160,10 @@ public class Product implements Serializable,Comparable<Product>
 	public void setImage(Image image) {
 		this.image = image;
 	}
+
+	public void setBuffer(byte[] buffer) {
+		this.buffer = buffer;
+	}
+	
+	
 }
