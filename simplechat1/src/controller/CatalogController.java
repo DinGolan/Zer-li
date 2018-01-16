@@ -135,10 +135,10 @@ public class CatalogController implements Initializable {
 		{
 			flagSale = false;
 			p = CatalogUI.products.get(j);
-			productsId.add(p.getpID());
+			productsId.add(String.valueOf(p.getpID()));
 			for(k = 0 ; k<CatalogUI.productsInSale.size() ; k++)
 			{
-				if(p.getpID().compareTo(CatalogUI.productsInSale.get(k).getpID()) == 0)
+				if(p.getpID() == CatalogUI.productsInSale.get(k).getpID())
 				{
 					p.setpPrice(CatalogUI.productsInSale.get(k).getpPrice());
 					flagSale = true;
@@ -231,10 +231,10 @@ public class CatalogController implements Initializable {
 			{
 				flagSale = false;
 				p = CatalogUI.products.get(j);
-				productsId.add(p.getpID());
+				productsId.add(String.valueOf(p.getpID()));
 				for(k = 0 ; k<CatalogUI.productsInSale.size() ; k++)
 				{
-					if(p.getpID().compareTo(CatalogUI.productsInSale.get(k).getpID()) == 0)
+					if(p.getpID()== CatalogUI.productsInSale.get(k).getpID())
 					{
 						p.setpPrice(CatalogUI.productsInSale.get(k).getpPrice());
 						flagSale = true;
@@ -259,10 +259,10 @@ public class CatalogController implements Initializable {
 			{
 				flagSale = false;
 				p = CatalogUI.products.get(j);
-				productsId.add(p.getpID());
+				productsId.add(String.valueOf(p.getpID()));
 				for(k = 0 ; k<CatalogUI.productsInSale.size() ; k++)
 				{
-					if(p.getpID().compareTo(CatalogUI.productsInSale.get(k).getpID()) == 0)
+					if(p.getpID() == CatalogUI.productsInSale.get(k).getpID())
 					{
 						p.setpPrice(CatalogUI.productsInSale.get(k).getpPrice());
 						flagSale = true;
@@ -346,7 +346,7 @@ public class CatalogController implements Initializable {
 		int i;
 		for (i=0; i<CatalogUI.products.size() ; i++)
 		{
-			if(CatalogUI.products.get(i).getpID().compareTo(pId) == 0)
+			if(CatalogUI.products.get(i).getpID() == Integer.valueOf(pId))
 				return CatalogUI.products.get(i);
 		}
 		return null;

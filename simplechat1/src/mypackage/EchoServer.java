@@ -34,6 +34,7 @@ import entity.Report;
 import entity.Store;
 import entity.Survey;
 import entity.User;
+import javafx.scene.image.Image;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 
@@ -1741,17 +1742,14 @@ public void handleMessageFromClient
    	  Statement stmt;
    	  String p;
    	  Product pr;
-   	  File file = new File("newfile");
-   	  FileOutputStream output;
    	  try {
-   	      output = new FileOutputStream(file);
    		  stmt = conn.createStatement();
    		  String getProductsTable = "SELECT * FROM product;"; /* Get all the Table from the DB */
    		  ResultSet rs = stmt.executeQuery(getProductsTable);
    		  while(rs.next())
    	 	{
    		  pr = new Product();
-   		  pr.setpID(rs.getString("ProductID"));
+   		  pr.setpID(rs.getInt("ProductID"));
    		  pr.setpName(rs.getString("ProductName"));
    		  pr.setpType(ProductType.valueOf(rs.getString("productType")));
    		  pr.setpPrice(rs.getDouble("productPrice"));
@@ -1760,8 +1758,6 @@ public void handleMessageFromClient
    		  products.add(pr);
    	 	}
    	  } catch (SQLException e) {e.printStackTrace();} 
-   	  catch (FileNotFoundException e){e.printStackTrace(); } 
-   	  catch (IOException e) {e.printStackTrace();}	
    	  return products;
      }
   
@@ -1779,7 +1775,7 @@ public void handleMessageFromClient
 		  while(rs.next())
 	 	{
 		  pr = new Product();
-		  pr.setpID(rs.getString("ProductID"));
+		  pr.setpID(rs.getInt("ProductID"));
 		  pr.setpStore(rs.getInt("StoreID"));
 		  pr.setpPrice(rs.getDouble("productPrice"));
 	      pr.setpType(Product.ProductType.valueOf(rs.getString("productType")));
@@ -1905,21 +1901,22 @@ public void handleMessageFromClient
   			stmt = conn.createStatement();
    		if(product.getByteArray() == null)
   			{
+   			System.out.println("sss");
   			UpdateTableUsersPremmision = "UPDATE project.product SET ProductName =" + "'"
   					+ product.getpName() + "',productType='"+product.getpType()+"',productPrice="+product.getpPrice()+",productColor='"+product.getpColor()+ "' WHERE ProductID=" + "'" + product.getpID() + "'" + ";";
   			stmt.executeUpdate(UpdateTableUsersPremmision);
   			}
   			else
-  			{
+  			{       
   				InputStream targetStream= new ByteArrayInputStream(product.getByteArray());
-  				 String query = "UPDATE project.product SET ProductName =?,productType=?,productPrice=?,productColor=?,ProductPicure=? WHERE ProductID=?;";
+  				 String query = "UPDATE project.product SET ProductName =?,productType=?,productPrice=?,productColor=?,ProductPicure=? WHERE ProductID=?";
   			      java.sql.PreparedStatement preparedStmt = conn.prepareStatement(query);
   			      preparedStmt.setString   (1, product.getpName());
   			      preparedStmt.setString(2, product.getpType().toString());
   			      preparedStmt.setDouble(3, product.getpPrice());
   			      preparedStmt.setString(4, product.getpColor().toString());
   			      preparedStmt.setBlob(5, targetStream);
-  			      preparedStmt.setString(6, product.getpID());
+  			      preparedStmt.setInt(6, product.getpID());
   
   			      preparedStmt.executeUpdate();
   
@@ -1928,6 +1925,28 @@ public void handleMessageFromClient
   		} catch (Exception e) {
   			e.printStackTrace();}
   	}
+  
+  
+  protected void addProductToDB(Object msg, Connection conn) /* This Method Update the DB */
+	{
+		Statement stmt;
+		Product product = (Product) ((Message) msg).getMsg();
+		try {
+
+			stmt = conn.createStatement();                             
+			InputStream targetStream= new ByteArrayInputStream(product.getByteArray());
+			 String query = "INSERT INTO project.product SET ProductName =?,productType=?,productPrice=?,productColor=?,ProductPicure=?";
+		      java.sql.PreparedStatement preparedStmt = conn.prepareStatement(query);
+		      preparedStmt.setString   (1, product.getpName());
+		      preparedStmt.setString(2, product.getpType().toString());
+		      preparedStmt.setDouble(3, product.getpPrice());
+		      preparedStmt.setString(4, product.getpColor().toString());
+		      preparedStmt.setBlob(5, targetStream);
+		      preparedStmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();}
+	}
   
   protected ArrayList<Integer> getAllOrdersToCustomer(Object msg, Connection conn) //this method get all the orders that match to specific customer
   {

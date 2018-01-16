@@ -89,7 +89,7 @@ public class CompanyWorkerController implements Initializable {
 		CatalogController.waitFlag=0;
 		for(j=0 ; j<CatalogUI.products.size() ; j++)
 		{
-			productsId.add(CatalogUI.products.get(j).getpID());
+			productsId.add(String.valueOf(CatalogUI.products.get(j).getpID()));
 		}
 
 		cmbPid.setItems(productsId);
@@ -115,13 +115,27 @@ public class CompanyWorkerController implements Initializable {
 		}
 	}
 	
+	public void addNewProductWindow(ActionEvent event) throws Exception { // open info window of the product the user want info of.
+			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+			Stage primaryStage = new Stage();
+			FXMLLoader loader = new FXMLLoader();
+			Pane root = loader.load(getClass().getResource("/controller/AddProductForm.fxml").openStream());
+			
+			Scene scene = new Scene(root);			
+			//scene.getStylesheets().add(getClass().getResource("/gui/StudentForm.css").toExternalForm());
+			
+			primaryStage.setScene(scene);		
+			primaryStage.show();
+		
+	}
+	
 	public int getProductIndext() // return the index of the product the user want info of. 
 	{
 		String pid = cmbPid.getValue();
 		int i;
 		for (i = 0 ; i<CatalogUI.products.size() ; i++ )
 		{
-			if(CatalogUI.products.get(i).getpID().compareTo(pid)==0)
+			if(CatalogUI.products.get(i).getpID() == Integer.valueOf(pid))
 				break;
 		}
 		return i;

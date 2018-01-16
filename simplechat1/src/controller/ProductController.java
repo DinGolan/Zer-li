@@ -1,10 +1,12 @@
 package controller;
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import boundery.CatalogUI;
 import boundery.ProductUI;
 import boundery.UserUI;
 import entity.Message;
@@ -27,7 +29,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class ProductController implements Initializable{
-	private Product p;
+	private static Product p;
 	private Message msg;
 	public static Order order;
 	private static int flag =0 ;
@@ -54,33 +56,43 @@ public class ProductController implements Initializable{
 	private Button btnShow = null; /* button update for update product */
 	
 	@FXML
+	private Button btnExit = null; /* button update for update product */
+	
+	@FXML
+	private Button btnTryAgain = null; /* button update for update product */
+	
+	@FXML
+	private Button btnAddProduct = null; /* button update for update product */
+	
+	@FXML
 	private ImageView IVpPic; /* image of product */
 
 	@FXML
-	private ComboBox<Product.ProductColor> cmbpColor = new ComboBox<>(); /* list of product in cart */
+	private ComboBox<String> cmbpColor = new ComboBox<>(); /* list of product in cart */
 
 	@FXML
-	private ComboBox<Product.ProductType> cmbPtype = new ComboBox<>(); /* list of product in cart */
+	private ComboBox<String> cmbPtype = new ComboBox<>(); /* list of product in cart */
 	
-	ObservableList<Product.ProductColor> colorlistForComboBox = FXCollections.observableArrayList();
-	ObservableList<Product.ProductType> typelistForComboBox = FXCollections.observableArrayList();
+	ObservableList<String> colorlistForComboBox = FXCollections.observableArrayList();
+	ObservableList<String> typelistForComboBox = FXCollections.observableArrayList();
 	
 	public void loadProduct(Product p1) /* To load the product details to the text fields */
 	{ 
 		this.p=p1;
 		this.txtPName.setText(p.getpName());
-		this.txtPID.setText(p.getpID());	
-		this.cmbPtype.setValue(p.getpType());
+		this.txtPID.setText(String.valueOf(p.getpID()));	
+		this.cmbPtype.setValue(String.valueOf(p.getpType()));
 		this.txtPPrice.setText(String.valueOf(p.getpPrice()));
 		InputStream is = new ByteArrayInputStream(p.getByteArray());
 		Image image = new Image(is);
 		IVpPic.setImage(image);
-		this.cmbpColor.setValue(p.getpColor());
+		this.cmbpColor.setValue(String.valueOf(p.getpColor()));
 	}
 	
 	public void closeProductWindow(ActionEvent event) throws Exception  /* To close the The Window of the Product GUI and Show The Catalog GUI again */
 	{ 
 		CompanyWorkerController.cwflag = 1;
+		p = new Product();
 		ProductUI.products.clear();
 		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
 		Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
@@ -97,39 +109,61 @@ public class ProductController implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) // Initialized The ComboBox of the Product 
 	{
-		colorlistForComboBox.add(Product.ProductColor.ORANGE);
-		colorlistForComboBox.add(Product.ProductColor.PINK);
-		colorlistForComboBox.add(Product.ProductColor.RED);
-		colorlistForComboBox.add(Product.ProductColor.WHITE);
-		colorlistForComboBox.add(Product.ProductColor.YELLOW);
-		cmbpColor.setItems(colorlistForComboBox);
-		typelistForComboBox.add(Product.ProductType.ARRANGEMENT);
-		typelistForComboBox.add(Product.ProductType.BOUQUET);
-		typelistForComboBox.add(Product.ProductType.BRIDAL_BOUQUET);
-		typelistForComboBox.add(Product.ProductType.FLOWER_CROWN);
-		typelistForComboBox.add(Product.ProductType.SWEET_BOUQUET);
-		typelistForComboBox.add(Product.ProductType.VASE);
-		typelistForComboBox.add(Product.ProductType.WREATH_FLOWERS);
-		cmbPtype.setItems(typelistForComboBox);
+		if(flag == 0)
+		{
+			colorlistForComboBox.add("ORANGE");
+			colorlistForComboBox.add("PINK");
+			colorlistForComboBox.add("RED");
+			colorlistForComboBox.add("WHITE");
+			colorlistForComboBox.add("YELLOW");
+			cmbpColor.setItems(colorlistForComboBox);
+			typelistForComboBox.add("ARRANGEMENT");
+			typelistForComboBox.add("BOUQUET");
+			typelistForComboBox.add("BRIDAL_BOUQUET");
+			typelistForComboBox.add("FLOWER_CROWN");
+			typelistForComboBox.add("SWEET_BOUQUET");
+			typelistForComboBox.add("VASE");
+			typelistForComboBox.add("WREATH_FLOWERS");
+			cmbPtype.setItems(typelistForComboBox);
+		}
+		if(flag == 1)
+			flag =0;
 	}
 	
 	public void updateProduct(ActionEvent event) throws Exception // add product to cart
 	{
+		try {
 		Product toCompare = new  Product();
-		if(this.txtPPicPath.getText().compareTo("") !=0)
+		if(this.txtPPicPath.getText().compareTo("")!=0)
 		{
 			InputStream is = new FileInputStream(this.txtPPicPath.getText());
+			Image image = new Image(is);
+			IVpPic.setImage(image);
 			byte[] targetArray = new byte[is.available()];
+			is.read(targetArray);
 			toCompare.setInput(is);
 			toCompare.setBuffer(targetArray);
 		}
-		toCompare.setpID(this.txtPID.getText());
+		toCompare.setpID(Integer.valueOf(this.txtPID.getText()));
 		toCompare.setpName(this.txtPName.getText());
-		toCompare.setpType(this.cmbPtype.getValue());
+		toCompare.setpType(Product.ProductType.valueOf(this.cmbPtype.getValue()));
 		toCompare.setpPrice(Double.valueOf(this.txtPPrice.getText()));
-		toCompare.setpColor(this.cmbpColor.getValue());
+		toCompare.setpColor(Product.ProductColor.valueOf(this.cmbpColor.getValue()));
 		msg = new Message(toCompare , "Update Product in DB");
 		UserUI.myClient.accept(msg);
+		closeProductWindow(event);
+		} catch (FileNotFoundException e) {
+			flag =1;
+			((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+			Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
+			FXMLLoader loader = new FXMLLoader(); 					 /* load object */
+			Pane root = loader.load(getClass().getResource("/controller/DontExistPicErr.fxml").openStream());
+			
+			Scene scene = new Scene(root);			
+			primaryStage.setScene(scene);	
+					
+			primaryStage.show();									 /* show catalog frame window */
+	}
 	}
 	
 	public void showPicture(ActionEvent event) throws Exception // add product to cart
@@ -141,12 +175,85 @@ public class ProductController implements Initializable{
 			Image image = new Image(is);
 			IVpPic.setImage(image);
 			}
-			catch(Exception e)
+			catch(Exception e) // picture dont exist
 			{
-				System.out.println("File Did NOT found");
+				flag =1;
+				((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+				Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
+				FXMLLoader loader = new FXMLLoader(); 					 /* load object */
+				Pane root = loader.load(getClass().getResource("/controller/DontExistPicErr.fxml").openStream());
+				
+				Scene scene = new Scene(root);			
+				primaryStage.setScene(scene);	
+						
+				primaryStage.show();									 /* show catalog frame window */
 			}
 		}
 	}
 	
-
+	public void openProductWindow(ActionEvent event) throws Exception  /* To close the The Window of the Product GUI and Show The Catalog GUI again */
+	{ 
+		flag =0;
+		ProductUI.products.clear();
+		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+		Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
+		FXMLLoader loader = new FXMLLoader(); 					 /* load object */
+		Pane root = loader.load(getClass().getResource("/controller/ProductForm.fxml").openStream());
+		
+		ProductController productController = loader.getController();		
+		productController.loadProduct(p);
+		
+		Scene scene = new Scene(root);			
+		primaryStage.setScene(scene);	
+				
+		primaryStage.show();									 /* show catalog frame window */
+	}
+	
+	public void addProduct(ActionEvent event) throws Exception // add product to cart
+	{
+		if((this.txtPPicPath.getText().compareTo("")!=0) &&  (this.txtPName.getText().compareTo("")!=0)&& (this.txtPPrice.getText().compareTo("")!=0)&& (this.cmbPtype.getValue()!=null)&& (this.cmbpColor.getValue()!=null))
+		{
+			try {
+			Product toadd = new  Product();
+			InputStream is = new FileInputStream(this.txtPPicPath.getText());
+			Image image = new Image(is);
+			IVpPic.setImage(image);
+			byte[] targetArray = new byte[is.available()];
+			is.read(targetArray);
+			toadd.setInput(is);
+			toadd.setBuffer(targetArray);
+			toadd.setpName(this.txtPName.getText());
+			toadd.setpType(Product.ProductType.valueOf(this.cmbPtype.getValue()));
+			toadd.setpPrice(Double.valueOf(this.txtPPrice.getText()));
+			toadd.setpColor(Product.ProductColor.valueOf(this.cmbpColor.getValue()));
+			msg = new Message(toadd , "Add new Product in DB");
+			UserUI.myClient.accept(msg);
+			closeProductWindow(event);
+			} catch (FileNotFoundException e) {
+				flag =1;
+				((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+				Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
+				FXMLLoader loader = new FXMLLoader(); 					 /* load object */
+				Pane root = loader.load(getClass().getResource("/controller/DontExistPicErr.fxml").openStream());
+				
+				Scene scene = new Scene(root);			
+				primaryStage.setScene(scene);	
+						
+				primaryStage.show();									 /* show catalog frame window */
+			}
+		}
+		else
+		{
+			flag =1;
+			((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+			Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
+			FXMLLoader loader = new FXMLLoader(); 					 /* load object */
+			Pane root = loader.load(getClass().getResource("/controller/EmptyFieldsErr.fxml").openStream());
+			
+			Scene scene = new Scene(root);			
+			primaryStage.setScene(scene);	
+					
+			primaryStage.show();									 /* show catalog frame window */
+		}
+	}
 }
