@@ -129,6 +129,21 @@ public class CompanyWorkerController implements Initializable {
 		
 	}
 	
+	public void removeProductWindow(ActionEvent event) throws Exception { // open info window of the product the user want info of.
+		cwflag = 1;
+		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+		Stage primaryStage = new Stage();
+		FXMLLoader loader = new FXMLLoader();
+		Pane root = loader.load(getClass().getResource("/controller/RemoveProduct.fxml").openStream());
+		
+		Scene scene = new Scene(root);			
+		//scene.getStylesheets().add(getClass().getResource("/gui/StudentForm.css").toExternalForm());
+		
+		primaryStage.setScene(scene);		
+		primaryStage.show();
+	
+}
+	
 	public int getProductIndext() // return the index of the product the user want info of. 
 	{
 		String pid = cmbPid.getValue();
@@ -166,5 +181,25 @@ public class CompanyWorkerController implements Initializable {
 		primaryStage.setTitle("LOGIN");
 		primaryStage.setScene(scene);
 		primaryStage.show();
+	}
+	
+	public void openProductInfoToDeleteWindow(ActionEvent event) throws Exception { // open info window of the product the user want info of.
+		if(cmbPid.getValue() != null)
+		{
+			cwflag=0;
+			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+			Stage primaryStage = new Stage();
+			FXMLLoader loader = new FXMLLoader();
+			Pane root = loader.load(getClass().getResource("/controller/ProductDeleteForm.fxml").openStream());
+			
+			ProductController productController = loader.getController();		
+			productController.loadProduct(CatalogUI.products.get(getProductIndext()));
+			
+			Scene scene = new Scene(root);			
+			//scene.getStylesheets().add(getClass().getResource("/gui/StudentForm.css").toExternalForm());
+			
+			primaryStage.setScene(scene);		
+			primaryStage.show();
+		}
 	}
 }

@@ -13,7 +13,7 @@
             <Font name="Bodoni MT Bold" size="35.0" />
          </font></Label>
       <Button id="btnAddNewProduct" fx:id="btnAddNewProduct" layoutX="71.0" layoutY="136.0" mnemonicParsing="false" onAction="#addNewProductWindow" prefHeight="44.0" prefWidth="191.0" text="Add New Product" />
-      <Button id="btnDeleteProduct" fx:id="btnDeleteProduct" layoutX="72.0" layoutY="197.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="191.0" text="Delete Product" />
+      <Button id="btnDeleteProduct" fx:id="btnDeleteProduct" layoutX="72.0" layoutY="197.0" mnemonicParsing="false" onAction="#removeProductWindow" prefHeight="44.0" prefWidth="191.0" text="Delete Product" />
       <Button id="btnUpdateSaleInCatalog" fx:id="btnUpdateSaleInCatalog" layoutX="72.0" layoutY="259.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="191.0" text="Update Sales In Store" />
       <Button id="btnUpdateCatalog" fx:id="btnUpdateCatalog" layoutX="72.0" layoutY="74.0" mnemonicParsing="false" onAction="#openUpdateProduct" prefHeight="44.0" prefWidth="191.0" text="Update Product Price" />
    </children>

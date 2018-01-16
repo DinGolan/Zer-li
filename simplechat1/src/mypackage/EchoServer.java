@@ -152,6 +152,16 @@ public void handleMessageFromClient
     		this.sendToAllClients(msg);	
 		}
 	    
+	    if(((Message)msg).getOption().compareTo("Add new Product in DB") == 0) //check if we add new account
+        {
+	    	addProductToDB(msg, conn);
+		}
+	    
+	    if(((Message)msg).getOption().compareTo("Remove Product from DB") == 0) //check if we add new account
+        {
+	    	removeProductFromDB(msg, conn);
+		}
+	    	    
 	    if(((Message)msg).getOption().compareTo("Add new complaint") == 0) //check if we add new complaint
         {
     		((Message)msg).setMsg(addNewComplaintToDB(msg,conn));	
@@ -1947,6 +1957,20 @@ public void handleMessageFromClient
 			e.printStackTrace();}
 	}
   
+  protected void removeProductFromDB(Object msg, Connection conn) /* This Method Update the DB */
+	{
+		Statement stmt;
+		Product product = (Product) ((Message) msg).getMsg();
+		try {
+
+			stmt = conn.createStatement();                             
+			 String query = "DELETE FROM project.product WHERE ProductID="+product.getpID()+";";
+			 stmt.execute(query);
+			
+		} catch (Exception e) {
+			e.printStackTrace();}
+	}
+  
   protected ArrayList<Integer> getAllOrdersToCustomer(Object msg, Connection conn) //this method get all the orders that match to specific customer
   {
 	  String requestedCustomerId=(String)(((Message)msg).getMsg());
@@ -2368,8 +2392,8 @@ public void handleMessageFromClient
 	 username = "root";
 
 	 System.out.println("Please enter the mySQL password:");
-	 password = scanner.next(); /* Enter mySQL password */
-     //password = "308155308";
+	 //password = scanner.next(); /* Enter mySQL password */
+     password = "308155308";
     try 
     {
       sv.listen(); /* Start listening for connections */

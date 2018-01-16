@@ -1,5 +1,6 @@
 package controller;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -63,6 +64,9 @@ public class ProductController implements Initializable{
 	
 	@FXML
 	private Button btnAddProduct = null; /* button update for update product */
+	
+	@FXML
+	private Button btnDelteProduct = null; /* button update for update product */
 	
 	@FXML
 	private ImageView IVpPic; /* image of product */
@@ -136,13 +140,14 @@ public class ProductController implements Initializable{
 		Product toCompare = new  Product();
 		if(this.txtPPicPath.getText().compareTo("")!=0)
 		{
-			InputStream is = new FileInputStream(this.txtPPicPath.getText());
-			Image image = new Image(is);
-			IVpPic.setImage(image);
-			byte[] targetArray = new byte[is.available()];
-			is.read(targetArray);
-			toCompare.setInput(is);
-			toCompare.setBuffer(targetArray);
+			InputStream in = new FileInputStream(this.txtPPicPath.getText());
+			ByteArrayOutputStream os = new ByteArrayOutputStream();
+			byte[] buffer = new byte[1024];
+			int len;
+			while((len=in.read(buffer)) != -1) {
+				os.write(buffer ,0 , len);
+			}
+			toCompare.setBuffer(os.toByteArray());
 		}
 		toCompare.setpID(Integer.valueOf(this.txtPID.getText()));
 		toCompare.setpName(this.txtPName.getText());
@@ -215,20 +220,21 @@ public class ProductController implements Initializable{
 		{
 			try {
 			Product toadd = new  Product();
-			InputStream is = new FileInputStream(this.txtPPicPath.getText());
-			Image image = new Image(is);
-			IVpPic.setImage(image);
-			byte[] targetArray = new byte[is.available()];
-			is.read(targetArray);
-			toadd.setInput(is);
-			toadd.setBuffer(targetArray);
+			InputStream in = new FileInputStream(this.txtPPicPath.getText());
+			ByteArrayOutputStream os = new ByteArrayOutputStream();
+			byte[] buffer = new byte[1024];
+			int len;
+			while((len=in.read(buffer)) != -1) {
+				os.write(buffer ,0 , len);
+			}
+			toadd.setBuffer(os.toByteArray());
 			toadd.setpName(this.txtPName.getText());
 			toadd.setpType(Product.ProductType.valueOf(this.cmbPtype.getValue()));
 			toadd.setpPrice(Double.valueOf(this.txtPPrice.getText()));
 			toadd.setpColor(Product.ProductColor.valueOf(this.cmbpColor.getValue()));
 			msg = new Message(toadd , "Add new Product in DB");
 			UserUI.myClient.accept(msg);
-			closeProductWindow(event);
+			addProductWindow(event);
 			} catch (FileNotFoundException e) {
 				flag =1;
 				((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
@@ -255,5 +261,29 @@ public class ProductController implements Initializable{
 					
 			primaryStage.show();									 /* show catalog frame window */
 		}
+	}
+	
+	public void addProductWindow(ActionEvent event) throws Exception  /* To close the The Window of the Product GUI and Show The Catalog GUI again */
+	{ 
+		CompanyWorkerController.cwflag = 0;
+		p = new Product();
+		ProductUI.products.clear();
+		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+		Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
+		FXMLLoader loader = new FXMLLoader(); 					 /* load object */
+		Pane root = loader.load(getClass().getResource("/controller/AddProductForm.fxml").openStream());
+		
+		Scene scene = new Scene(root);			
+		primaryStage.setScene(scene);	
+				
+		primaryStage.show();									 /* show catalog frame window */
+	}
+	
+	
+	public void removeProduct(ActionEvent event) throws Exception // add product to cart
+	{
+		msg = new Message(p , "Remove Product from DB");
+		UserUI.myClient.accept(msg);
+		closeProductWindow(event);
 	}
 }
