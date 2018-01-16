@@ -1,8 +1,10 @@
 package mypackage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 /* This file contains material supporting section 3.7 of the textbook: */
 /* "Object Oriented Software Engineering" and is issued under the open-source */
 /* license found at www.lloseng.com */
@@ -124,6 +126,12 @@ public void handleMessageFromClient
         {										
 	    	UpdateUserAtDB(msg,conn);
 		}
+	    
+		if (((Message) msg).getOption().compareTo(
+				"Update Product in DB") == 0) /* Check that we get from DB Because We want to Initialized */
+		{
+			UpdateProductAtDB(msg, conn);
+		} 
 	    
 	    if(((Message)msg).getOption().compareTo("Update customer account") == 0) 	    /* Check that we get from DB Because We want to Initialized */
         {						
@@ -1888,6 +1896,39 @@ public void handleMessageFromClient
 	  return ordersNums;
   }*/
   
+  protected void UpdateProductAtDB(Object msg, Connection conn) /* This Method Update the DB */
+  	{
+  		Statement stmt;
+  		Product product = (Product) ((Message) msg).getMsg();
+  		try {
+  			String UpdateTableUsersPremmision;
+  			stmt = conn.createStatement();
+   		if(product.getByteArray() == null)
+  			{
+  			UpdateTableUsersPremmision = "UPDATE project.product SET ProductName =" + "'"
+  					+ product.getpName() + "',productType='"+product.getpType()+"',productPrice="+product.getpPrice()+",productColor='"+product.getpColor()+ "' WHERE ProductID=" + "'" + product.getpID() + "'" + ";";
+  			stmt.executeUpdate(UpdateTableUsersPremmision);
+  			}
+  			else
+  			{
+  				InputStream targetStream= new ByteArrayInputStream(product.getByteArray());
+  				 String query = "UPDATE project.product SET ProductName =?,productType=?,productPrice=?,productColor=?,ProductPicure=? WHERE ProductID=?;";
+  			      java.sql.PreparedStatement preparedStmt = conn.prepareStatement(query);
+  			      preparedStmt.setString   (1, product.getpName());
+  			      preparedStmt.setString(2, product.getpType().toString());
+  			      preparedStmt.setDouble(3, product.getpPrice());
+  			      preparedStmt.setString(4, product.getpColor().toString());
+  			      preparedStmt.setBlob(5, targetStream);
+  			      preparedStmt.setString(6, product.getpID());
+  
+  			      preparedStmt.executeUpdate();
+  
+  			}
+  			
+  		} catch (Exception e) {
+  			e.printStackTrace();}
+  	}
+  
   protected ArrayList<Integer> getAllOrdersToCustomer(Object msg, Connection conn) //this method get all the orders that match to specific customer
   {
 	  String requestedCustomerId=(String)(((Message)msg).getMsg());
@@ -2310,7 +2351,7 @@ public void handleMessageFromClient
 
 	 System.out.println("Please enter the mySQL password:");
 	 //password = scanner.next(); /* Enter mySQL password */
-     password = "Braude";
+     password = "308155308";
     try 
     {
       sv.listen(); /* Start listening for connections */

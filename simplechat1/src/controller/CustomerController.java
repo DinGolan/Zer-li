@@ -25,6 +25,7 @@ import javafx.stage.Stage;
 
 public class CustomerController implements Initializable{
 
+	public static int cflag =0;
 	
 	public static int storeID;
 	
@@ -160,7 +161,12 @@ public class CustomerController implements Initializable{
 		ArrayList<String> address = new ArrayList<String>();
 		Message msg = new Message(null , "get all stores from DB");
 		UserUI.myClient.accept(msg); // get all stores from DB
-		while(StoreUI.stores.size() == 0);
+		cflag =0;
+		while(cflag == 0)
+		{
+			System.out.print("");
+		}
+		cflag =0;
 		for(Store s : StoreUI.stores)
 			address.add(s.getStore_Address());
 		listForComboBox = FXCollections.observableArrayList(address); 

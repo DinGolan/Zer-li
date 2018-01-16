@@ -21,6 +21,7 @@ import controller.AccountController;
 import controller.CatalogController;
 import controller.ComplaintController;
 import controller.ComplaintHandleController;
+import controller.CustomerController;
 import controller.OrderController;import controller.StoreManagerController;import controller.SurveyResultController;
 import controller.UserController;
 import entity.Account;
@@ -195,6 +196,7 @@ public void displayUI(Object message)
 		  	  {
 				  StoreUI.stores.add(temp.get(i));
 		  	  }
+			  CustomerController.cflag = 1;
 	    }
 	    
 	    if(((Message)message).getOption().compareTo("get all the survey") == 0)

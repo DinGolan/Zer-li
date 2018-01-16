@@ -213,7 +213,9 @@ public class CatalogController implements Initializable {
 		}
 		UserUI.myClient.accept(msg);
 		waitFlag=0;
-		while(waitFlag==0);
+		while(waitFlag==0) {
+		System.out.print("");
+		}
 		msg.setOption("get all products in sale from DB");
 		waitFlag=0;
 		msg.setMsg(UserUI.store);		
