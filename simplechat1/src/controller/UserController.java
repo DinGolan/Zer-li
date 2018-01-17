@@ -17,9 +17,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import mypackage.ClientConsole;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextArea;
 
 public class UserController implements Initializable {
 
@@ -27,6 +30,27 @@ public class UserController implements Initializable {
 	public String user_id = null;
 	public static boolean flag = false;
 
+	@FXML
+	private Label txtHeadLine;
+	
+	@FXML
+    private Label Label_IP;
+	
+	@FXML
+	private Label Label_Port;
+
+	@FXML
+	private TextField txtPort;
+
+	@FXML
+	private TextField txtIP;
+	
+    @FXML
+	private Button btnIPAndPort;
+    
+    @FXML
+	private Button btnCloseWindow;
+	
 	@FXML
 	private Button btnLogin = null;
 
@@ -48,6 +72,82 @@ public class UserController implements Initializable {
 	@FXML
 	private Label lblSerialNum;
 
+	public void start(Stage primaryStage) throws Exception 
+	{
+		Parent root = FXMLLoader.load(getClass().getResource("/controller/Enter_The_IP_And_Port.fxml"));
+		Scene scene = new Scene(root);
+		primaryStage.setTitle("Client IP - Managment Tool");
+		primaryStage.setScene(scene);
+		primaryStage.show();
+	}
+	
+	public void After_You_Enter_Your_Port_And_IP_Go_To_User_Login(ActionEvent event) throws Exception
+	{
+		Parent  root = null;
+		Stage primaryStage = new Stage(); 			/* Object present window with graphics elements */
+		
+		if(this.txtIP.getText().compareTo(UserUI.IP) != 0)
+		{
+			System.out.println("The Detail Of The IP Is Wrong ---> Try Again");
+			((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+			root = FXMLLoader.load(getClass().getResource("/controller/Wrong_IP.fxml"));
+			Scene scene = new Scene(root);
+			primaryStage.setScene(scene);
+			primaryStage.setTitle("Error Massage");
+			primaryStage.show();
+		}
+		if(this.txtPort.getText().compareTo(String.valueOf(UserUI.DEFAULT_PORT_For_Client)) != 0)
+		{
+			System.out.println("The Detail Of The Number Of Port Is Wrong ---> Try Again");
+			((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+			root = FXMLLoader.load(getClass().getResource("/controller/Wrong_Port_Number.fxml"));
+			Scene scene = new Scene(root);
+			primaryStage.setScene(scene);
+			primaryStage.setTitle("Error Massage");
+			primaryStage.show();
+		}
+		else
+		{
+			txtHeadLine.setTextFill(Color.GREEN.brighter());
+			Label_IP.setTextFill(Color.GREEN.brighter());
+			Label_Port.setTextFill(Color.GREEN.brighter());
+			btnIPAndPort.setTextFill(Color.GREEN.brighter());
+			btnCloseWindow.setTextFill(Color.GREEN.brighter());
+			UserUI.myClient = new ClientConsole(this.txtIP.getText(), Integer.parseInt(this.txtPort.getText())); //create connection with server
+			User_Login();
+		}
+	}
+	
+	public void Close_The_Window(ActionEvent event)
+	{
+		((Node) event.getSource()).getScene().getWindow().hide(); 		/* Hiding primary window */
+	}
+	
+	public void User_Login() throws Exception
+	{
+		Stage primaryStage = new Stage(); 				/* Object present window with graphics elements */
+		Parent root = null;
+		root = FXMLLoader.load(getClass().getResource("/controller/UserLogin.fxml"));
+		Scene scene = new Scene(root);
+		
+		/* scene.getStylesheets().add(getClass().getResource("/boundery/CatalogFrame.css").toExternalForm()); */
+		
+		primaryStage.setTitle("LOGIN");
+		primaryStage.setScene(scene);
+		primaryStage.show();
+	}
+	
+	public void tryAgainToTypeIP_OR_Port(ActionEvent event) throws Exception /* With this Method we show the GUI of the First Window */
+	{
+		((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+		Stage primaryStage = new Stage(); 						  /* Object present window with graphics elements */
+		Parent root = FXMLLoader.load(getClass().getResource("/controller/Enter_The_IP_And_Port.fxml"));
+		Scene scene = new Scene(root);
+		primaryStage.setTitle("Client IP - Managment Tool");
+		primaryStage.setScene(scene);
+		primaryStage.show();
+	}
+	
 	public void tryLoginUser(ActionEvent event) throws Exception /* To load the product details to the text fields */
 	{
 		u = new User();
@@ -178,7 +278,7 @@ public class UserController implements Initializable {
 		System.out.println("Exit From - Login form");
 		System.exit(0);
 	}
-	
+
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) // Initialized The ComboBox of the Product
 	{

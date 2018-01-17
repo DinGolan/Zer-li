@@ -16,6 +16,7 @@ import java.util.Vector;
 
 import com.mysql.jdbc.PreparedStatement;
 
+import boundery.EchoServerUI;
 import entity.Account;
 import entity.Complaint;
 import entity.Message;
@@ -42,13 +43,13 @@ import ocsf.server.ConnectionToClient;
 public class EchoServer extends AbstractServer 
 {
   //Class variables *************************************************
-  static String url,username,password,name;
+   static String url,username,password,name;
   /**
    * The default port to listen on.
    */
   final public static int DEFAULT_PORT = 5555;
-  public static int counter=1;
-	public static ArrayList<Integer> resulrId = new ArrayList<Integer>();
+  public static int counter = 1;
+  public static ArrayList<Integer> resulrId = new ArrayList<Integer>();
 
   //Constructors ****************************************************
   
@@ -72,8 +73,7 @@ public class EchoServer extends AbstractServer
    * @param client - The connection from which the message originated.
    */
   @SuppressWarnings("unchecked")
-public void handleMessageFromClient
-    (Object msg, ConnectionToClient client)
+  public void handleMessageFromClient(Object msg, ConnectionToClient client)
   {
 	  	Connection conn = connectToDB();
 	    System.out.println("Message received: " + msg + " from " + client);
@@ -286,18 +286,18 @@ public void handleMessageFromClient
   {
 	  Connection conn = null;
 	  try 
-		{
-          Class.forName("com.mysql.jdbc.Driver").newInstance();
+	  {
+         Class.forName("com.mysql.jdbc.Driver").newInstance();
       } catch (Exception ex) {/* handle the error*/}
       
       try 
       {
-      	//String url = "jdbc:mysql://localhost/project";
+      	 url = "jdbc:mysql://localhost/";
       	//String username = "root";
      	//String password = "Braude";
      	
       	
-         conn = DriverManager.getConnection(url,username,password);
+         conn = DriverManager.getConnection(url + EchoServerUI.Project_Scheme,EchoServerUI.username,EchoServerUI.password);
          /* Option B - To connect to the DB ---> Connection conn = DriverManager.getConnection("jdbc:mysql://192.168.3.68/test","root","Root"); */
 
 
@@ -1991,53 +1991,53 @@ public void handleMessageFromClient
   
   
 
-  //Class methods ***************************************************
-  
-  /**
-   * This method is responsible for the creation of 
-   * the server instance (there is no UI in this phase).
-   *
-   * @param args[0] - The port number to listen on.  Defaults to 5555 
-   *          if no argument is entered.
-   */
-  public static void main(String[] args) 
-  {
-    int port = 0; /* Port to listen on */
-
-    try
-    {
-      port = Integer.parseInt(args[0]); /* Get port from command line */
-    }
-    catch(Throwable t)
-    {
-      port = DEFAULT_PORT; /* Set port to 5555 */
-    }
-	
-    EchoServer sv = new EchoServer(port);
-    
-
-    //System.out.println("Please enter the mySQL scheme name:");
-	//Scanner scanner = new Scanner(System.in);
-	 //name= scanner.next();
-		name = "project";
-	 url = "jdbc:mysql://localhost/" + name;/* Enter jbdc mySQL */
-	//String sql = "jdbc:mysql://localhost/project";
-
-//System.out.println("Please enter the mySQL user name:");
-	 //username =scanner.next(); /* Enter mySQL name */
-	  username = "root";
-//System.out.println("Please enter the mySQL password:");
-	 //password = scanner.next(); /* Enter mySQL password */
-     password = "Dingolan203247697";
-    
-    try 
-    {
-      sv.listen(); /* Start listening for connections */
-    } 
-    catch (Exception ex) 
-    {
-      System.out.println("ERROR - Could not listen for clients!");
-    }
-  }
+//  //Class methods ***************************************************
+//  
+//  /**
+//   * This method is responsible for the creation of 
+//   * the server instance (there is no UI in this phase).
+//   *
+//   * @param args[0] - The port number to listen on.  Defaults to 5555 
+//   *          if no argument is entered.
+//   */
+//  public static void main(String[] args) 
+//  {
+//    int port = 0; /* Port to listen on */
+//
+//    try
+//    {
+//      port = Integer.parseInt(args[0]); /* Get port from command line */
+//    }
+//    catch(Throwable t)
+//    {
+//      port = DEFAULT_PORT; /* Set port to 5555 */
+//    }
+//	
+//    EchoServer sv = new EchoServer(port);
+//    
+//
+//    //System.out.println("Please enter the mySQL scheme name:");
+//	//Scanner scanner = new Scanner(System.in);
+//	 //name= scanner.next();
+//		name = "project";
+//	 url = "jdbc:mysql://localhost/" + name;/* Enter jbdc mySQL */
+//	//String sql = "jdbc:mysql://localhost/project";
+//
+////System.out.println("Please enter the mySQL user name:");
+//	 //username =scanner.next(); /* Enter mySQL name */
+//	  username = "root";
+////System.out.println("Please enter the mySQL password:");
+//	 //password = scanner.next(); /* Enter mySQL password */
+//     password = "Dingolan203247697";
+//    
+//    try 
+//    {
+//      sv.listen(); /* Start listening for connections */
+//    } 
+//    catch (Exception ex) 
+//    {
+//      System.out.println("ERROR - Could not listen for clients!");
+//    }
+//  }
 }
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Vector;
 
+import controller.UserController;
 import entity.Message;
 import entity.Store;
 import entity.User;
@@ -21,7 +22,8 @@ public class UserUI extends Application /* With This Class We Show the Product G
 	public static User user = null;
 	public static Store store;
 	public static ArrayList<Integer> Id = new ArrayList<Integer>();
-
+	public static String IP = "localhost";
+	final public static int DEFAULT_PORT_For_Client = 5555;
 
 	//public static Account account;
 	//public static Complaint complaint;
@@ -32,21 +34,15 @@ public class UserUI extends Application /* With This Class We Show the Product G
 //		System.out.println("Please enter the server IP");
 //		Scanner scanner = new Scanner(System.in);
 //		String IP = scanner.next(); /* Enter Server IP */
-		myClient = new ClientConsole("localhost", 5555); //create connection with server
+//		myClient = new ClientConsole("localhost", 5555); //create connection with server
         launch(args);		 
 	} 
 	
 	@Override
-	public void start(Stage primaryStage) throws Exception 
-	{		
-		Parent root = FXMLLoader.load(getClass().getResource("/controller/UserLogin.fxml"));
-		
-		Scene scene = new Scene(root);
-		/* scene.getStylesheets().add(getClass().getResource("/boundery/CatalogFrame.css").toExternalForm()); */
-		primaryStage.setTitle("LOGIN");
-		primaryStage.setScene(scene);
-		
-		primaryStage.show();	
+	public void start(Stage arg0) throws Exception 
+	{	
+		UserController aFrame = new UserController();
+		aFrame.start(arg0);	
 	}
 	
 	@Override
