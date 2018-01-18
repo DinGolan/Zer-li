@@ -29,7 +29,7 @@
             </Label>
             <TextField id="txtPName" fx:id="txtPName" layoutX="182.0" layoutY="119.0" />
             <Button id="btnAddProduct" fx:id="btnAddCart" layoutX="92.0" layoutY="545.0" mnemonicParsing="false" onAction="#addProduct" text="Add" />
-            <Button id="btnBackToChooseProduct" fx:id="btnClose" layoutX="267.0" layoutY="545.0" mnemonicParsing="false" onAction="#closeProductWindow" text="Close" />
+            <Button id="btnBackToChooseProduct" fx:id="btnClose" layoutX="267.0" layoutY="545.0" mnemonicParsing="false" onAction="#closeAddtWindow" text="Close" />
             <Label layoutX="32.0" layoutY="224.0" text="Product Price:">
                <font>
                   <Font name="System Italic" size="16.0" />

@@ -105,6 +105,14 @@ public void handleMessageFromClient
 	    		this.sendToAllClients(msg);
   		}
 	    
+	    if(((Message)msg).getOption().compareTo("get products in sale from DB") ==0) 	    /* Check that we get from DB Because We want to Initialized */
+	    {										
+				/* ArrayList<Product> aa = new ArrayList<Product>(); */
+	    		((Message)msg).setMsg(getAllProductsInSaleFromDB(msg, conn));	
+	    		((Message)msg).setOption("get all products in sale from DB");
+	    		this.sendToAllClients(msg);
+  		}
+	    
 	    if(((Message)msg).getOption().compareTo("get all stores from DB") ==0) 	    /* Check that we get from DB Because We want to Initialized */
 	    {										
 	    		((Message)msg).setMsg(getStoresFromDB(conn));	    
@@ -128,10 +136,14 @@ public void handleMessageFromClient
 	    	UpdateUserAtDB(msg,conn);
 		}
 	    
-		if (((Message) msg).getOption().compareTo(
-				"Update Product in DB") == 0) /* Check that we get from DB Because We want to Initialized */
+		if (((Message) msg).getOption().compareTo("Update Product in DB") == 0) /* Check that we get from DB Because We want to Initialized */
 		{
 			UpdateProductAtDB(msg, conn);
+		} 
+		
+		if (((Message) msg).getOption().compareTo("Update Product In Sale In DB") == 0) /* Check that we get from DB Because We want to Initialized */
+		{
+			UpdateProductInSaleAtDB(msg, conn);
 		} 
 	    
 	    if(((Message)msg).getOption().compareTo("Update customer account") == 0) 	    /* Check that we get from DB Because We want to Initialized */
@@ -157,9 +169,19 @@ public void handleMessageFromClient
 	    	addProductToDB(msg, conn);
 		}
 	    
+	    if(((Message)msg).getOption().compareTo("add new sale to DB") == 0) //check if we add new account
+        {
+	    	addSaleToDB(msg, conn);
+		}
+	    
 	    if(((Message)msg).getOption().compareTo("Remove Product from DB") == 0) //check if we add new account
         {
 	    	removeProductFromDB(msg, conn);
+		}
+	    
+	    if(((Message)msg).getOption().compareTo("Remove Product In Sale from DB") == 0) //check if we add new account
+        {
+	    	removeProductInSaleFromDB(msg, conn);
 		}
 	    	    
 	    if(((Message)msg).getOption().compareTo("Add new complaint") == 0) //check if we add new complaint
@@ -1780,7 +1802,30 @@ public void handleMessageFromClient
 	  Product pr;
 	  try {
 		  stmt = conn.createStatement();
-		  String getProductsTable = "SELECT * FROM productinsale WHERE StoreID = "+storeId+";"; /* Get all the Table from the DB */
+		  String getProductsTable = "SELECT * FROM project.productinsale WHERE StoreID = "+storeId+";"; /* Get all the Table from the DB */
+		  ResultSet rs = stmt.executeQuery(getProductsTable);
+		  while(rs.next())
+	 	{
+		  pr = new Product();
+		  pr.setpID(rs.getInt("ProductID"));
+		  pr.setpStore(rs.getInt("StoreID"));
+		  pr.setpPrice(rs.getDouble("productPrice"));
+	      pr.setpType(Product.ProductType.valueOf(rs.getString("productType")));
+		  products.add(pr);
+	 	}
+	  } catch (SQLException e) {e.printStackTrace();}	
+	  return products;
+  }
+  
+  protected ArrayList<Product> getAllProductsInSaleFromDB(Object msg, Connection conn) /* This method get products table details from DB */
+  {
+	  ArrayList<Product> products = new ArrayList<Product>();
+	  Statement stmt;
+	  String p;
+	  Product pr;
+	  try {
+		  stmt = conn.createStatement();
+		  String getProductsTable = "SELECT * FROM project.productinsale;"; /* Get all the Table from the DB */
 		  ResultSet rs = stmt.executeQuery(getProductsTable);
 		  while(rs.next())
 	 	{
@@ -1935,6 +1980,24 @@ public void handleMessageFromClient
   			e.printStackTrace();}
   	}
   
+  protected void UpdateProductInSaleAtDB(Object msg, Connection conn) /* This Method Update the DB */
+	{
+		Statement stmt;
+		Product product = (Product) ((Message) msg).getMsg();
+		try {
+			stmt = conn.createStatement();
+				 String query = "UPDATE project.productinsale SET productPrice =? WHERE ProductID=?";
+			      java.sql.PreparedStatement preparedStmt = conn.prepareStatement(query);
+			      preparedStmt.setString   (1, String.valueOf(product.getpPrice()));
+			      preparedStmt.setString(2, String.valueOf(product.getpID()));
+
+			      preparedStmt.executeUpdate();
+
+			}
+			
+		 catch (Exception e) {
+			e.printStackTrace();}
+	}
   
   protected void addProductToDB(Object msg, Connection conn) /* This Method Update the DB */
 	{
@@ -1957,6 +2020,25 @@ public void handleMessageFromClient
 			e.printStackTrace();}
 	}
   
+  protected void addSaleToDB(Object msg, Connection conn) /* This Method Update the DB */
+	{
+		Statement stmt;
+		Product product = (Product) ((Message) msg).getMsg();
+		try {
+
+			stmt = conn.createStatement();                             
+			 String query = "INSERT INTO project.productinsale SET ProductID =?,StoreID=?,productPrice=?,productType=?";
+		      java.sql.PreparedStatement preparedStmt = conn.prepareStatement(query);
+		      preparedStmt.setInt(1, product.getpID());
+		      preparedStmt.setInt(2, product.getpStore());
+		      preparedStmt.setDouble(3, product.getpPrice());
+		      preparedStmt.setString(4, product.getpType().toString());
+		      preparedStmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();}
+	}
+  
   protected void removeProductFromDB(Object msg, Connection conn) /* This Method Update the DB */
 	{
 		Statement stmt;
@@ -1971,6 +2053,19 @@ public void handleMessageFromClient
 			e.printStackTrace();}
 	}
   
+  protected void removeProductInSaleFromDB(Object msg, Connection conn) /* This Method Update the DB */
+	{
+		Statement stmt;
+		Product product =  (Product) ((Message) msg).getMsg();
+		try {
+
+			stmt = conn.createStatement();                             
+			 String query = "DELETE FROM project.productinsale WHERE ProductID="+product.getpID()+";";
+			 stmt.execute(query);
+			
+		} catch (Exception e) {
+			e.printStackTrace();}
+	}
   protected ArrayList<Integer> getAllOrdersToCustomer(Object msg, Connection conn) //this method get all the orders that match to specific customer
   {
 	  String requestedCustomerId=(String)(((Message)msg).getMsg());
@@ -2383,17 +2478,17 @@ public void handleMessageFromClient
 
     System.out.println("Please enter the mySQL scheme name:");
 	Scanner scanner = new Scanner(System.in);
-	 //name= scanner.next();
+	//name= scanner.next();
 	name = "project";
 	url = "jdbc:mysql://localhost/" + name;/* Enter jbdc mySQL */
 
 	System.out.println("Please enter the mySQL user name:");
-	 //username =scanner.next(); /* Enter mySQL name */
+	// username =scanner.next(); /* Enter mySQL name */
 	 username = "root";
 
 	 System.out.println("Please enter the mySQL password:");
-	 //password = scanner.next(); /* Enter mySQL password */
-     password = "308155308";
+	// password = scanner.next(); /* Enter mySQL password */
+    password = "308155308";
     try 
     {
       sv.listen(); /* Start listening for connections */

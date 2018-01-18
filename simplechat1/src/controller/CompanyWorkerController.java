@@ -49,6 +49,18 @@ public class CompanyWorkerController implements Initializable {
     @FXML
     private Button btnLogout; /* Button For loading product */
     
+    @FXML
+    private Button btnBacKToCWO; /* Button For loading product */
+    
+    @FXML
+    private Button btnUpdateSaleInStore; /* Button For loading product */
+    
+    @FXML
+    private Button btnAddNewSale; /* Button For loading product */
+    
+    @FXML
+    private Button btnRemoveSale; /* Button For loading product */
+    
 	@FXML
 	private ComboBox<String> cmbPid = new ComboBox<>(); /* comboBox of products id */
 	
@@ -62,9 +74,10 @@ public class CompanyWorkerController implements Initializable {
 		if(cwflag == 1)
 			setProductComboBox();
 	}
-	
+
 	public void openUpdateProduct(ActionEvent event) throws Exception {
 		cwflag = 1;
+		ProductController.flag = 0;
 		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
 		Stage primaryStage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
@@ -116,6 +129,7 @@ public class CompanyWorkerController implements Initializable {
 	}
 	
 	public void addNewProductWindow(ActionEvent event) throws Exception { // open info window of the product the user want info of.
+		ProductController.flag = 1;
 			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 			Stage primaryStage = new Stage();
 			FXMLLoader loader = new FXMLLoader();
@@ -201,5 +215,43 @@ public class CompanyWorkerController implements Initializable {
 			primaryStage.setScene(scene);		
 			primaryStage.show();
 		}
+	}
+	
+	public void updateSales(ActionEvent event) throws Exception /* With this Method we show the GUI of the First Window */
+	{
+		((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+		Stage primaryStage = new Stage(); /* Object present window with graphics elements */
+		FXMLLoader loader = new FXMLLoader(); /* load object */
+		Parent root = FXMLLoader.load(getClass().getResource("/controller/SalesOptions.fxml"));
+		Scene scene = new Scene(root);
+		primaryStage.setTitle("Sales Options");
+		primaryStage.setScene(scene);
+		primaryStage.show();
+	}
+	
+	public void updateSalesInStore(ActionEvent event) throws Exception /* With this Method we show the GUI of the First Window */
+	{
+		ProductInSaleController.flag = 1;
+		((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+		Stage primaryStage = new Stage(); /* Object present window with graphics elements */
+		FXMLLoader loader = new FXMLLoader(); /* load object */
+		Parent root = FXMLLoader.load(getClass().getResource("/controller/UpdateSalesInStore.fxml"));
+		Scene scene = new Scene(root);
+		primaryStage.setTitle("Sales Options");
+		primaryStage.setScene(scene);
+		primaryStage.show();
+	}
+	
+	public void addSalesInStore(ActionEvent event) throws Exception /* With this Method we show the GUI of the First Window */
+	{
+		ProductInSaleController.flag = 3;
+		((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+		Stage primaryStage = new Stage(); /* Object present window with graphics elements */
+		FXMLLoader loader = new FXMLLoader(); /* load object */
+		Parent root = FXMLLoader.load(getClass().getResource("/controller/AddSale.fxml"));
+		Scene scene = new Scene(root);
+		primaryStage.setTitle("Add Sale");
+		primaryStage.setScene(scene);
+		primaryStage.show();
 	}
 }

@@ -33,7 +33,7 @@ public class ProductController implements Initializable{
 	private static Product p;
 	private Message msg;
 	public static Order order;
-	private static int flag =0 ;
+	public static int flag =0 ;
 	
 	@FXML
 	private TextField txtPID; /* text field for the product Id */
@@ -82,6 +82,8 @@ public class ProductController implements Initializable{
 	
 	public void loadProduct(Product p1) /* To load the product details to the text fields */
 	{ 
+		if(p!=null)
+		{
 		this.p=p1;
 		this.txtPName.setText(p.getpName());
 		this.txtPID.setText(String.valueOf(p.getpID()));	
@@ -91,6 +93,7 @@ public class ProductController implements Initializable{
 		Image image = new Image(is);
 		IVpPic.setImage(image);
 		this.cmbpColor.setValue(String.valueOf(p.getpColor()));
+		}
 	}
 	
 	public void closeProductWindow(ActionEvent event) throws Exception  /* To close the The Window of the Product GUI and Show The Catalog GUI again */
@@ -136,39 +139,71 @@ public class ProductController implements Initializable{
 	
 	public void updateProduct(ActionEvent event) throws Exception // add product to cart
 	{
-		try {
-		Product toCompare = new  Product();
-		if(this.txtPPicPath.getText().compareTo("")!=0)
+		try 
 		{
-			InputStream in = new FileInputStream(this.txtPPicPath.getText());
-			ByteArrayOutputStream os = new ByteArrayOutputStream();
-			byte[] buffer = new byte[1024];
-			int len;
-			while((len=in.read(buffer)) != -1) {
-				os.write(buffer ,0 , len);
+			if((this.txtPName.getText().compareTo("") !=0) && (this.txtPPrice.getText().compareTo("") !=0) && (Double.valueOf(this.txtPPrice.getText()) > 0)) 
+			{
+				try {
+				Product toCompare = new  Product();
+				if(this.txtPPicPath.getText().compareTo("")!=0)
+				{
+					InputStream in = new FileInputStream(this.txtPPicPath.getText());
+					ByteArrayOutputStream os = new ByteArrayOutputStream();
+					byte[] buffer = new byte[1024];
+					int len;
+					while((len=in.read(buffer)) != -1) {
+						os.write(buffer ,0 , len);
+					}
+					toCompare.setBuffer(os.toByteArray());
+				}
+				toCompare.setpID(Integer.valueOf(this.txtPID.getText()));
+				toCompare.setpName(this.txtPName.getText());
+				toCompare.setpType(Product.ProductType.valueOf(this.cmbPtype.getValue()));
+				toCompare.setpPrice(Double.valueOf(this.txtPPrice.getText()));
+				toCompare.setpColor(Product.ProductColor.valueOf(this.cmbpColor.getValue()));
+				msg = new Message(toCompare , "Update Product in DB");
+				UserUI.myClient.accept(msg);
+				closeProductWindow(event);
+				} catch (FileNotFoundException e) {
+					flag =1;
+					((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+					Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
+					FXMLLoader loader = new FXMLLoader(); 					 /* load object */
+					Pane root = loader.load(getClass().getResource("/controller/DontExistPicErr.fxml").openStream());
+					
+					Scene scene = new Scene(root);			
+					primaryStage.setScene(scene);	
+					primaryStage.setTitle("Error message");	
+					primaryStage.show();									 /* show catalog frame window */
+				}
 			}
-			toCompare.setBuffer(os.toByteArray());
+			else
+			{
+				flag =1;
+				((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+				Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
+				FXMLLoader loader = new FXMLLoader(); 					 /* load object */
+				Pane root = loader.load(getClass().getResource("/controller/ErrInFields.fxml").openStream());
+				
+				Scene scene = new Scene(root);			
+				primaryStage.setScene(scene);	
+				primaryStage.setTitle("Error message");	
+				primaryStage.show();									 /* show catalog frame window */
+			}	
 		}
-		toCompare.setpID(Integer.valueOf(this.txtPID.getText()));
-		toCompare.setpName(this.txtPName.getText());
-		toCompare.setpType(Product.ProductType.valueOf(this.cmbPtype.getValue()));
-		toCompare.setpPrice(Double.valueOf(this.txtPPrice.getText()));
-		toCompare.setpColor(Product.ProductColor.valueOf(this.cmbpColor.getValue()));
-		msg = new Message(toCompare , "Update Product in DB");
-		UserUI.myClient.accept(msg);
-		closeProductWindow(event);
-		} catch (FileNotFoundException e) {
+		catch (NumberFormatException e)
+		{
 			flag =1;
 			((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
 			Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
 			FXMLLoader loader = new FXMLLoader(); 					 /* load object */
-			Pane root = loader.load(getClass().getResource("/controller/DontExistPicErr.fxml").openStream());
+			Pane root = loader.load(getClass().getResource("/controller/ErrInFields.fxml").openStream());
 			
 			Scene scene = new Scene(root);			
 			primaryStage.setScene(scene);	
 			primaryStage.setTitle("Error message");	
 			primaryStage.show();									 /* show catalog frame window */
-	}
+		}
 	}
 	
 	public void showPicture(ActionEvent event) throws Exception // add product to cart
@@ -216,31 +251,47 @@ public class ProductController implements Initializable{
 	
 	public void addProduct(ActionEvent event) throws Exception // add product to cart
 	{
-		if((this.txtPPicPath.getText().compareTo("")!=0) &&  (this.txtPName.getText().compareTo("")!=0)&& (this.txtPPrice.getText().compareTo("")!=0)&& (this.cmbPtype.getValue()!=null)&& (this.cmbpColor.getValue()!=null))
+		try
 		{
-			try {
-			Product toadd = new  Product();
-			InputStream in = new FileInputStream(this.txtPPicPath.getText());
-			ByteArrayOutputStream os = new ByteArrayOutputStream();
-			byte[] buffer = new byte[1024];
-			int len;
-			while((len=in.read(buffer)) != -1) {
-				os.write(buffer ,0 , len);
+			if((this.txtPPicPath.getText().compareTo("")!=0) &&  (this.txtPName.getText().compareTo("")!=0)&& (this.txtPPrice.getText().compareTo("")!=0)&& (this.cmbPtype.getValue()!=null)&& (this.cmbpColor.getValue()!=null)&& (Double.valueOf(this.txtPPrice.getText()) > 0))
+			{
+				try {
+				Product toadd = new  Product();
+				InputStream in = new FileInputStream(this.txtPPicPath.getText());
+				ByteArrayOutputStream os = new ByteArrayOutputStream();
+				byte[] buffer = new byte[1024];
+				int len;
+				while((len=in.read(buffer)) != -1) {
+					os.write(buffer ,0 , len);
+				}
+				toadd.setBuffer(os.toByteArray());
+				toadd.setpName(this.txtPName.getText());
+				toadd.setpType(Product.ProductType.valueOf(this.cmbPtype.getValue()));
+				toadd.setpPrice(Double.valueOf(this.txtPPrice.getText()));
+				toadd.setpColor(Product.ProductColor.valueOf(this.cmbpColor.getValue()));
+				msg = new Message(toadd , "Add new Product in DB");
+				UserUI.myClient.accept(msg);
+				addProductWindow(event);
+				} catch (FileNotFoundException e) {
+					flag =1;
+					((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+					Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
+					FXMLLoader loader = new FXMLLoader(); 					 /* load object */
+					Pane root = loader.load(getClass().getResource("/controller/DontExistPicErr.fxml").openStream());
+					
+					Scene scene = new Scene(root);			
+					primaryStage.setScene(scene);	
+					primaryStage.setTitle("Error message");			
+					primaryStage.show();									 /* show catalog frame window */
+				}
 			}
-			toadd.setBuffer(os.toByteArray());
-			toadd.setpName(this.txtPName.getText());
-			toadd.setpType(Product.ProductType.valueOf(this.cmbPtype.getValue()));
-			toadd.setpPrice(Double.valueOf(this.txtPPrice.getText()));
-			toadd.setpColor(Product.ProductColor.valueOf(this.cmbpColor.getValue()));
-			msg = new Message(toadd , "Add new Product in DB");
-			UserUI.myClient.accept(msg);
-			addProductWindow(event);
-			} catch (FileNotFoundException e) {
+			else
+			{
 				flag =1;
 				((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
 				Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
 				FXMLLoader loader = new FXMLLoader(); 					 /* load object */
-				Pane root = loader.load(getClass().getResource("/controller/DontExistPicErr.fxml").openStream());
+				Pane root = loader.load(getClass().getResource("/controller/EmptyFieldsErr.fxml").openStream());
 				
 				Scene scene = new Scene(root);			
 				primaryStage.setScene(scene);	
@@ -248,7 +299,7 @@ public class ProductController implements Initializable{
 				primaryStage.show();									 /* show catalog frame window */
 			}
 		}
-		else
+		catch (NumberFormatException e)
 		{
 			flag =1;
 			((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
@@ -258,7 +309,7 @@ public class ProductController implements Initializable{
 			
 			Scene scene = new Scene(root);			
 			primaryStage.setScene(scene);	
-			primaryStage.setTitle("Error message");			
+			primaryStage.setTitle("Error message");	
 			primaryStage.show();									 /* show catalog frame window */
 		}
 	}
@@ -285,5 +336,21 @@ public class ProductController implements Initializable{
 		msg = new Message(p , "Remove Product from DB");
 		UserUI.myClient.accept(msg);
 		closeProductWindow(event);
+	}
+	
+	public void closeAddtWindow(ActionEvent event) throws Exception  /* To close the The Window of the Product GUI and Show The Catalog GUI again */
+	{ 
+		CompanyWorkerController.cwflag = 0;
+		p = new Product();
+		ProductUI.products.clear();
+		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+		Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
+		FXMLLoader loader = new FXMLLoader(); 					 /* load object */
+		Pane root = loader.load(getClass().getResource("/controller/CompanyWorkerOptions.fxml").openStream());
+		
+		Scene scene = new Scene(root);			
+		primaryStage.setScene(scene);	
+		primaryStage.setTitle("Update Product");		
+		primaryStage.show();									 /* show catalog frame window */
 	}
 }
