@@ -21,6 +21,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -32,11 +33,10 @@ public class CompanyManagerReportController_Compare_Between_Two_Diffrent_Quarter
 	private int Store_ID_2;
 	private Date Date_Quarter_Report_1;
 	private Date Date_Quarter_Report_2;
-	ObservableList<Product.ProductType> ProductTypeList_Store_1;
-	ObservableList<Product.ProductType> ProductTypeList_Store_2;
+	ObservableList<String> ProductTypeList_Store_1;
+	ObservableList<String> ProductTypeList_Store_2;
 	ObservableList<String> Product_Of_Store_1;
 	ObservableList<String> Product_Of_Store_2;
-	
 	
 	@FXML
     private TextField txtNumOfQuarter_1;
@@ -59,11 +59,8 @@ public class CompanyManagerReportController_Compare_Between_Two_Diffrent_Quarter
     @FXML
     private TextField txtTotalAverageInSurvey_1;
     
-    @FXML
-    private ChoiceBox<Product.ProductType> CheckBox_Product_Type_1;
-
-    @FXML
-    private ChoiceBox<String> CheckBox_Quantity_Of_Product_Type_1;
+	@FXML
+    private ListView<String> ListViewQuantity_Store_1;
     
     @FXML
     private TextField txtTotalAverageInSurvey_2;
@@ -87,10 +84,7 @@ public class CompanyManagerReportController_Compare_Between_Two_Diffrent_Quarter
     private TextField txtNumberOfClientInSurvey_2;
     
     @FXML
-    private ChoiceBox<Product.ProductType> CheckBox_Product_Type_2;
-
-    @FXML
-    private ChoiceBox<String> CheckBox_Quantity_Of_Product_Type_2;
+    private ListView<String> ListViewQuantity_Store_2;
     
     
     @FXML
@@ -127,8 +121,7 @@ public class CompanyManagerReportController_Compare_Between_Two_Diffrent_Quarter
 		this.txtStoreID_1.setText(String.valueOf(CompanyManagerUI.Object_From_Comparing_For_Store_1.get(0)));
 		this.txtNumOfQuarter_1.setText(String.valueOf(CompanyManagerUI.Object_From_Comparing_For_Store_1.get(1)));
 		this.txtQuantityOfOrder_1.setText(String.valueOf(CompanyManagerUI.Object_From_Comparing_For_Store_1.get(2)));
-		set_Check_Box_Product_Type_Of_Store_One();
-		set_Check_Box_Quantity_Of_Product_Type_Of_Store_One();
+		set_List_Of_Product_Type_Of_Store_One();
 		this.txtRevenuOfStore_1.setText(String.valueOf(CompanyManagerUI.Object_From_Comparing_For_Store_1.get(5)));
 		this.txtNumberOfComplaint_1.setText(String.valueOf(CompanyManagerUI.Object_From_Comparing_For_Store_1.get(6)));
 		this.txtNumberOfClientInSurvey_1.setText(String.valueOf(CompanyManagerUI.Object_From_Comparing_For_Store_1.get(7)));
@@ -136,22 +129,7 @@ public class CompanyManagerReportController_Compare_Between_Two_Diffrent_Quarter
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void set_Check_Box_Product_Type_Of_Store_One()
-	{
-		ArrayList<Product.ProductType> Product_Type_Of_Store_One = new ArrayList<Product.ProductType>();
-		ArrayList<Product.ProductType> temp_Product_Type_Of_Store_One = (ArrayList<Product.ProductType>)CompanyManagerUI.Object_From_Comparing_For_Store_1.get(3);	
-		
-		for(int i = 0 ; i < temp_Product_Type_Of_Store_One.size() ; i++)
-		{
-			Product_Type_Of_Store_One.add(temp_Product_Type_Of_Store_One.get(i));
-		}
-		
-		ProductTypeList_Store_1 = FXCollections.observableArrayList(Product_Type_Of_Store_One);
-		CheckBox_Product_Type_1.setItems(ProductTypeList_Store_1);
-	}
-	
-	@SuppressWarnings("unchecked")
-	public void set_Check_Box_Quantity_Of_Product_Type_Of_Store_One()
+	public void set_List_Of_Product_Type_Of_Store_One()
 	{
 		ArrayList<Product> Product_Of_Store_One = new ArrayList<Product>();
 		ArrayList<String> String_Product_Of_Store_One = new ArrayList<String>();
@@ -168,7 +146,7 @@ public class CompanyManagerReportController_Compare_Between_Two_Diffrent_Quarter
 		}
 		
 		Product_Of_Store_1 = FXCollections.observableArrayList(String_Product_Of_Store_One);
-		CheckBox_Quantity_Of_Product_Type_1.setItems(Product_Of_Store_1);
+		ListViewQuantity_Store_1.setItems(Product_Of_Store_1);
 	}
 	
 	public void put_The_Details_Of_Store_Two_On_GUI()
@@ -187,8 +165,7 @@ public class CompanyManagerReportController_Compare_Between_Two_Diffrent_Quarter
 		this.txtStoreID_2.setText(String.valueOf(CompanyManagerUI.Object_From_Comparing_For_Store_2.get(0)));
 		this.txtNumOfQuarter_2.setText(String.valueOf(CompanyManagerUI.Object_From_Comparing_For_Store_2.get(1)));
 		this.txtQuantityOfOrder_2.setText(String.valueOf(CompanyManagerUI.Object_From_Comparing_For_Store_2.get(2)));
-		set_Check_Box_Product_Type_Of_Store_Two();
-		set_Check_Box_Quantity_Of_Product_Type_Of_Store_Two();
+		set_List_Of_Product_Type_Of_Store_Two();
 		this.txtRevenuOfStore_2.setText(String.valueOf(CompanyManagerUI.Object_From_Comparing_For_Store_2.get(5)));
 		this.txtNumberOfComplaint_2.setText(String.valueOf(CompanyManagerUI.Object_From_Comparing_For_Store_2.get(6)));
 		this.txtNumberOfClientInSurvey_2.setText(String.valueOf(CompanyManagerUI.Object_From_Comparing_For_Store_2.get(7)));
@@ -196,25 +173,10 @@ public class CompanyManagerReportController_Compare_Between_Two_Diffrent_Quarter
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void set_Check_Box_Product_Type_Of_Store_Two()
+	public void set_List_Of_Product_Type_Of_Store_Two()
 	{
-		ArrayList<Product.ProductType> Product_Type_Of_Store_Two = new ArrayList<Product.ProductType>();
-		ArrayList<Product.ProductType> temp_Product_Type_Of_Store_Two = (ArrayList<Product.ProductType>)CompanyManagerUI.Object_From_Comparing_For_Store_2.get(3);	
-		
-		for(int i = 0 ; i < temp_Product_Type_Of_Store_Two.size() ; i++)
-		{
-			Product_Type_Of_Store_Two.add(temp_Product_Type_Of_Store_Two.get(i));
-		}
-		
-		ProductTypeList_Store_2 = FXCollections.observableArrayList(Product_Type_Of_Store_Two);
-		CheckBox_Product_Type_2.setItems(ProductTypeList_Store_2);
-	}
-	
-	@SuppressWarnings("unchecked")
-	public void set_Check_Box_Quantity_Of_Product_Type_Of_Store_Two()
-	{
-		ArrayList<Product> Product_Of_Store_Two = new ArrayList<Product>();
-		ArrayList<String> String_Product_Of_Store_Two = new ArrayList<String>();
+		ArrayList<Product> Product_Of_Store_Two = new ArrayList<Product>();        /* ArrayList Of Product */
+		ArrayList<String> String_Product_Of_Store_Two = new ArrayList<String>();   /* ArrayList Of The String Of The Product */
 		ArrayList<Product> temp_Product_Of_Store_Two = (ArrayList<Product>)CompanyManagerUI.Object_From_Comparing_For_Store_2.get(4);	
 		
 		for(int i = 0 ; i < temp_Product_Of_Store_Two.size() ; i++)
@@ -228,7 +190,7 @@ public class CompanyManagerReportController_Compare_Between_Two_Diffrent_Quarter
 		}
 		
 		Product_Of_Store_2 = FXCollections.observableArrayList(String_Product_Of_Store_Two);
-		CheckBox_Quantity_Of_Product_Type_2.setItems(Product_Of_Store_2);
+		ListViewQuantity_Store_2.setItems(Product_Of_Store_2);
 	}
 	
 	@Override

@@ -1,6 +1,5 @@
 package controller;
 
-import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -16,7 +15,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import mypackage.ClientConsole;
@@ -29,6 +27,7 @@ public class UserController implements Initializable {
 	private User u;
 	public String user_id = null;
 	public static boolean flag = false;
+	
 
 	@FXML
 	private Label txtHeadLine;
@@ -71,6 +70,9 @@ public class UserController implements Initializable {
 	
 	@FXML
 	private Label lblSerialNum;
+	
+    @FXML
+    private TextArea txtErrorMassage_Wrong_Details;
 
 	public void start(Stage primaryStage) throws Exception 
 	{
@@ -82,45 +84,21 @@ public class UserController implements Initializable {
 	}
 	
 	public void After_You_Enter_Your_Port_And_IP_Go_To_User_Login(ActionEvent event) throws Exception
-	{
-		Parent  root = null;
-		Stage primaryStage = new Stage(); 			/* Object present window with graphics elements */
-		
-		if(this.txtIP.getText().compareTo(UserUI.IP) != 0)
-		{
-			System.out.println("The Detail Of The IP Is Wrong ---> Try Again");
-			((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
-			root = FXMLLoader.load(getClass().getResource("/controller/Wrong_IP.fxml"));
-			Scene scene = new Scene(root);
-			primaryStage.setScene(scene);
-			primaryStage.setTitle("Error Massage");
-			primaryStage.show();
-		}
-		if(this.txtPort.getText().compareTo(String.valueOf(UserUI.DEFAULT_PORT_For_Client)) != 0)
-		{
-			System.out.println("The Detail Of The Number Of Port Is Wrong ---> Try Again");
-			((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
-			root = FXMLLoader.load(getClass().getResource("/controller/Wrong_Port_Number.fxml"));
-			Scene scene = new Scene(root);
-			primaryStage.setScene(scene);
-			primaryStage.setTitle("Error Massage");
-			primaryStage.show();
-		}
-		else
-		{
-			txtHeadLine.setTextFill(Color.GREEN.brighter());
-			Label_IP.setTextFill(Color.GREEN.brighter());
-			Label_Port.setTextFill(Color.GREEN.brighter());
-			btnIPAndPort.setTextFill(Color.GREEN.brighter());
-			btnCloseWindow.setTextFill(Color.GREEN.brighter());
-			UserUI.myClient = new ClientConsole(this.txtIP.getText(), Integer.parseInt(this.txtPort.getText())); //create connection with server
-			User_Login();
-		}
+	{	
+		UserUI.IP = this.txtIP.getText();
+		UserUI.Port = Integer.parseInt(this.txtPort.getText());
+		UserUI.myClient = new ClientConsole(event,this.txtIP.getText(), Integer.parseInt(this.txtPort.getText())); 
+		txtHeadLine.setTextFill(Color.GREEN.brighter());
+		Label_IP.setTextFill(Color.GREEN.brighter());
+		Label_Port.setTextFill(Color.GREEN.brighter());
+		btnIPAndPort.setTextFill(Color.GREEN.brighter());
+		btnCloseWindow.setTextFill(Color.GREEN.brighter());
 	}
 	
-	public void Close_The_Window(ActionEvent event)
+	public void Close_The_Window(ActionEvent event) throws Exception
 	{
 		((Node) event.getSource()).getScene().getWindow().hide(); 		/* Hiding primary window */
+		User_Login();
 	}
 	
 	public void User_Login() throws Exception

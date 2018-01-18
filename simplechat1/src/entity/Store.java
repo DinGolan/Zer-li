@@ -7,16 +7,14 @@ public class Store implements Serializable {
 	private int StoreId;
 	private String Store_Address;
 	private int QuantityOfOrders;
-	private int TotalRevenue;
 	
 	public Store() {}
 	
-	public Store(int storeId, String store_Address, int quantityOfOrders, int totalRevenue) {
+	public Store(int storeId, String store_Address, int quantityOfOrders) {
 		super();
 		StoreId = storeId;
 		Store_Address = store_Address;
 		QuantityOfOrders = quantityOfOrders;
-		TotalRevenue = totalRevenue;
 	}
 	
 	public int getStoreId() {
@@ -39,19 +37,10 @@ public class Store implements Serializable {
 	public void setQuantityOfOrders(int quantityOfOrders) {
 		QuantityOfOrders = quantityOfOrders;
 	}
-
-	public int getTotalRevenue() {
-		return TotalRevenue;
-	}
-
-	public void setTotalRevenue(int totalRevenue) {
-		TotalRevenue = totalRevenue;
-	}
-
 	@Override
 	public String toString() {
 		return "Store [StoreId=" + StoreId + ", Store_Address=" + Store_Address + ", QuantityOfOrders="
-				+ QuantityOfOrders + ", TotalRevenue=" + TotalRevenue + "]";
+				+ QuantityOfOrders + "]";
 	}
 
 }

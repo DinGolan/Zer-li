@@ -1,19 +1,22 @@
 package boundery;
 
 import controller.EchoServerController;
+import controller.ThreadController;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
 public class EchoServerUI extends Application 
-{
-	public static String Project_Scheme = "project";
-	public static String username = "root";
-	public static String password = "Dingolan203247697";
+{		
+	final public static int DEFAULT_PORT_For_Server = 5555;                /* The Number Of Port */
 	
-	public static void main(String[] args)  
+	public static void main(String[] args) throws InterruptedException  
 	{
-		
 		launch(args);
+		
+		/* Create New Thread And Wait Until He Finish His Job */
+		Thread thread = new Thread(new ThreadController());   
+		thread.start();
+		thread.join();
 	}
 	
 	@Override
@@ -21,9 +24,5 @@ public class EchoServerUI extends Application
 	{
 		EchoServerController aFrame = new EchoServerController(); /* Create Data Company Manager frame */				  
 		aFrame.start(arg0);
-		
 	}
-	
-	
-
 }

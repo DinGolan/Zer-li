@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
@@ -7,7 +12,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="289.0" prefWidth="431.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.UserController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="289.0" prefWidth="431.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.UserController">
    <children>
       <Label id="txtHeadLine" fx:id="txtHeadLine" layoutX="99.0" layoutY="33.0" prefHeight="39.0" prefWidth="234.0" text="The Client - IP" textFill="RED">
          <font>
@@ -23,7 +28,7 @@
          </effect>
       </Label>
       <TextField id="txtIP" fx:id="txtIP" layoutX="142.0" layoutY="96.0" prefHeight="25.0" prefWidth="149.0" />
-      <Button id="btnIPAndPort" fx:id="btnIPAndPort" layoutX="176.0" layoutY="202.0" mnemonicParsing="false" onAction="#After_You_Enter_Your_Port_And_IP_Go_To_User_Login" text="Please Enter" textFill="RED">
+      <Button id="btnIPAndPort" fx:id="btnIPAndPort" layoutX="176.0" layoutY="202.0" mnemonicParsing="false" onAction="#After_You_Enter_Your_Port_And_IP_Go_To_User_Login" text="Enter To Login" textFill="RED">
          <effect>
             <Glow />
          </effect>

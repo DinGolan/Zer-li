@@ -3,8 +3,6 @@ package controller;
 import java.net.URL;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.ResourceBundle;
 
@@ -191,6 +189,7 @@ public class OrderReportController implements Initializable{
 				}
 			}
 		}
+		
 		ChartOrderReport.getData().addAll(setChart);
 	}
 	

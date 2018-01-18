@@ -1,14 +1,10 @@
 package controller;
 
-import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ResourceBundle;
-
-import javax.swing.Timer;
 
 import boundery.EchoServerUI;
 import mypackage.EchoServer;
@@ -19,7 +15,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -30,6 +25,24 @@ import javafx.stage.Stage;
 
 public class EchoServerController implements Initializable {
 
+	public static Connection con;								/* A variable that Make The Connection with SQL DB */
+	private EchoServer server;                                  /* A variable That Help Me To Listen For Client After I Connect to DB */
+	
+	public  static boolean server_Is_Up = false;                /* Flag = If the Server Already Up */
+	public static int Flag_Bad_Choise = 0;                      /* Parameter That Tell Me If The Connection Was Good Or Not */
+	
+	
+	/* Parameter That I Type ---> To Connect The DB */
+	public static String Scheme;
+	public static String User_Name;
+	public static String Password;
+	
+	/* Parameter To ---> Show The GUI */
+	private Parent  root = null;
+	private Stage primaryStage;
+	
+	/* ---------------------------------- Variable Of The GUI -------------------------------------------- */
+	
     @FXML
 	private Label txtHeadLine;
 	
@@ -46,13 +59,13 @@ public class EchoServerController implements Initializable {
     private Label Label_Password;
 
     @FXML
-    private TextField txtScheme;
+    public TextField txtScheme;
 
     @FXML
-    private TextField txtUser;
+    public TextField txtUser;
 
     @FXML
-    private TextField txtPassword;
+    public TextField txtPassword;
     
     @FXML
     private Button btnConnect;
@@ -64,27 +77,14 @@ public class EchoServerController implements Initializable {
     private Button btnCloseWindow;
     
     @FXML
-    private Button btnTryAgain = null;
-
+    private TextArea txtErrMsg_For_Details;
+    
+    @FXML
+    private TextArea txtErrMsg_For_Cant_Listen_For_Client;
+    
     @FXML
     private TextArea txtErrMsg_For_Already_Get_In;
     
-    @FXML
-    private TextArea txtErrMsg_For_Password;
-    
-    @FXML
-    private TextArea txtErrMsg_For_Scheme_Name;
-    
-    @FXML
-    private TextArea txtErrMsg_For_User_Name;
-    
-	
-	final public static int DEFAULT_PORT = 5555;
-	private Connection con;								 /* A variable that Make The Connection with SQL DB */
-	private boolean server_Is_Up = false;                /* Flag = If the Server Already Up */
-	private EchoServer server;
-	
-	
 	public void start(Stage primaryStage) throws Exception 
 	{
 		Parent root = FXMLLoader.load(getClass().getResource("/controller/EchoServerForm.fxml"));
@@ -98,58 +98,29 @@ public class EchoServerController implements Initializable {
 	public void TryToConnectToServer(ActionEvent event) throws Exception 
 	{	
 		
-		Parent  root = null;
-		Stage primaryStage = new Stage(); 			/* Object present window with graphics elements */
+		primaryStage = new Stage(); 			      /* Object present window with graphics elements */
 		
 		if(server_Is_Up == false)                     /* We Not Up the Server Already */
 		{
-			if((this.txtScheme.getText().compareTo(EchoServerUI.Project_Scheme) != 0))
-			{
-				System.out.println("The Detail Of The Scheme Name Is Wrong ---> Try Again");
-				((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
-				root = FXMLLoader.load(getClass().getResource("/controller/Wrong_Scheme_Name.fxml"));
-				Scene scene = new Scene(root);
-				primaryStage.setScene(scene);
-				primaryStage.setTitle("Error Massage");
-				primaryStage.show();
-			}
-			if(this.txtUser.getText().compareTo(EchoServerUI.username) != 0) 
-			{
-				System.out.println("The Detail Of The User Name Of The DB Is Wrong ---> Try Again");
-				((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
-				root = FXMLLoader.load(getClass().getResource("/controller/Wrong_User_Name_Of_DB.fxml"));
-				Scene scene = new Scene(root);
-				primaryStage.setScene(scene);
-				primaryStage.setTitle("Error Massage");
-				primaryStage.show();
-			}
-			if(this.txtPassword.getText().compareTo(EchoServerUI.password) != 0)
-			{
-				System.out.println("The Detail Of The Password To The DB Is Wrong ---> Try Again");
-				((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
-				root = FXMLLoader.load(getClass().getResource("/controller/Wrong_Password_To_Connect_To_DB.fxml"));
-				Scene scene = new Scene(root);
-				primaryStage.setScene(scene);
-				primaryStage.setTitle("Error Massage");
-				primaryStage.show();
-			}
-			else
-			{
-			    txtHeadLine.setTextFill(Color.GREEN.brighter());
-				Label_Connected.setText("Connected");
-				Label_Connected.setTextFill(Color.GREEN.brighter());
-				Label_Name_Of_Scheme.setTextFill(Color.GREEN.brighter());
-				Label_User.setTextFill(Color.GREEN.brighter());
-				Label_Password.setTextFill(Color.GREEN.brighter());
-				btnConnect.setTextFill(Color.GREEN.brighter());
-				btnExit.setTextFill(Color.GREEN.brighter());
-				btnCloseWindow.setTextFill(Color.GREEN.brighter());
-				server_Is_Up = true;
-				ConnectToServer(DEFAULT_PORT);
-			}
+			Scheme = this.txtScheme.getText();
+			User_Name = this.txtUser.getText();
+			Password = this.txtPassword.getText();
+			txtHeadLine.setTextFill(Color.GREEN.brighter());
+			Label_Connected.setText("Connected");
+			Label_Connected.setTextFill(Color.GREEN.brighter());
+			Label_Name_Of_Scheme.setTextFill(Color.GREEN.brighter());
+			Label_User.setTextFill(Color.GREEN.brighter());
+			Label_Password.setTextFill(Color.GREEN.brighter());
+			btnConnect.setTextFill(Color.GREEN.brighter());
+			btnExit.setTextFill(Color.GREEN.brighter());
+			btnCloseWindow.setTextFill(Color.GREEN.brighter());
+			server_Is_Up = true;
+			ConnectToServer(event,EchoServerUI.DEFAULT_PORT_For_Server);
+			ThreadController.Flag_For_Thread = 1;   			/* We Change The Flag Of The Thread To = 1 */
 		}
 		else
 		{
+			Flag_Bad_Choise = 1;
 			System.out.println("You Already_Get_In_Into_The_Server ---> Try Again");
 			((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
 			root = FXMLLoader.load(getClass().getResource("/controller/Allready_Get_In_Into_The_Server.fxml"));
@@ -165,7 +136,7 @@ public class EchoServerController implements Initializable {
 		((Node) event.getSource()).getScene().getWindow().hide(); 		/* Hiding primary window */
 	}
 	
-	public void ConnectToServer(int Number_Of_Port) 
+	public void ConnectToServer(ActionEvent event,int Number_Of_Port) throws Exception 
 	{
 		int port = 0;
 
@@ -181,9 +152,15 @@ public class EchoServerController implements Initializable {
 		} 
 		catch (SQLException e)
 		{
-			System.out.println("SQLException: " + e.getMessage());
-			System.out.println("SQLState: " + e.getSQLState());
-			System.out.println("VendorError: " + e.getErrorCode());
+			Flag_Bad_Choise = 1;
+			/* Show GUI Error */
+			((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+			Stage primaryStage = new Stage();
+			root = FXMLLoader.load(getClass().getResource("/controller/Wrong_Details_To_Connect_The_DB.fxml"));
+			Scene scene = new Scene(root);
+			primaryStage.setScene(scene);
+			primaryStage.setTitle("Error Massage");
+			primaryStage.show();
 		}
 		if (Number_Of_Port != 0) 
 		{
@@ -191,18 +168,24 @@ public class EchoServerController implements Initializable {
 		} 
 		else 
 		{
-			port = DEFAULT_PORT;
+			port = EchoServerUI.DEFAULT_PORT_For_Server;
 		}
 		
 		server = new EchoServer(port);
 		
 		try 
 		{
-			server.listen(); // Start listening for connections
+			server.listen(); /* Start listening for connections */
 		} 
 		catch (Exception e) 
 		{
-			System.out.println("ERROR - Could not listen for clients!");
+			((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+			Stage primaryStage = new Stage();
+			root = FXMLLoader.load(getClass().getResource("/controller/Could_Not_Listen_To_Client_AnyMore.fxml"));
+			Scene scene = new Scene(root);
+			primaryStage.setScene(scene);
+			primaryStage.setTitle("Error Massage");
+			primaryStage.show();
 		}
 	}
 

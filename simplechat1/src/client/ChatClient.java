@@ -84,7 +84,7 @@ public class ChatClient extends AbstractClient
 		  clientUI.displayUI(msg);
 	  else if(((Message)msg).getOption().compareTo("Get all complaints numbers for this customer service worker") ==0)
 		  clientUI.displayUI(msg); 
-	  else if(((Message)msg).getOption().compareTo("Store Manager - Add Store To Combo Box From DB") == 0) 
+	  else if(((Message)msg).getOption().compareTo("Store Manager - Want To Store Number And Address Of The Store") == 0) 
 		  clientUI.displayUI(msg);
 	  else if(((Message)msg).getOption().compareTo("Store Manager - Take The Orders Of Specific Store") == 0) 
 		  clientUI.displayUI(msg);

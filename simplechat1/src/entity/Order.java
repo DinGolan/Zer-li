@@ -3,10 +3,8 @@ package entity;
 import java.io.Serializable;
 import java.sql.Date;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.time.LocalDate;
 
 public class Order implements Serializable{
 
@@ -48,12 +46,11 @@ public class Order implements Serializable{
 	{
 		productsInOrder = new HashMap<Product, Integer>();
 	}
-
-
-
+	
 	public Order(SupplyOption supply, double orderTotalPrice, HashMap<Product, Integer> productsInOrder,
 			LocalDate requiredSupplyDate, String customerID, String requiredSupplyTime, String recipientAddress,
-			String recipientName, String recipienPhoneNum, String postCard,  int storeID, Account.PaymentMethod paymentMethod) {
+			String recipientName, String recipienPhoneNum, String postCard,  int storeID, Account.PaymentMethod paymentMethod) 
+	{
 		super();
 		this.supply = supply;
 		this.orderDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
@@ -69,8 +66,6 @@ public class Order implements Serializable{
 		this.storeID = storeID;
 		this.paymentMethod = paymentMethod;
 	}
-
-
 
 	public Date getOrderDate() {
 		return orderDate;
@@ -206,8 +201,5 @@ public class Order implements Serializable{
 
 	public void setPaymentMethod(Account.PaymentMethod paymentMethod) {
 		this.paymentMethod = paymentMethod;
-	}
-	
-	
-	
+	}	
 }

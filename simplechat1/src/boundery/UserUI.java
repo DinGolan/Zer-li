@@ -22,19 +22,14 @@ public class UserUI extends Application /* With This Class We Show the Product G
 	public static User user = null;
 	public static Store store;
 	public static ArrayList<Integer> Id = new ArrayList<Integer>();
-	public static String IP = "localhost";
+	
+	public static String IP;
+	public static int Port;
 	final public static int DEFAULT_PORT_For_Client = 5555;
-
-	//public static Account account;
-	//public static Complaint complaint;
 
 	
 	public static void main( String args[] ) throws Exception 
 	{ 
-//		System.out.println("Please enter the server IP");
-//		Scanner scanner = new Scanner(System.in);
-//		String IP = scanner.next(); /* Enter Server IP */
-//		myClient = new ClientConsole("localhost", 5555); //create connection with server
         launch(args);		 
 	} 
 	
@@ -48,6 +43,6 @@ public class UserUI extends Application /* With This Class We Show the Product G
 	@Override
 	public void stop(){
 		Message msg = new Message(UserUI.user.getId(), "change User status to DISCONNECTED");
-		UserUI.myClient.accept(msg); // change User status to DISCONNECTED in DB
+		UserUI.myClient.accept(msg); 						/* Change User status to DISCONNECTED in DB */
 	}
 }

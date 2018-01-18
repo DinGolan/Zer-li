@@ -27,7 +27,12 @@ import entity.Order;
 import entity.Product;
 import entity.Store;
 import entity.User;
-import boundery.SurveyResultUI;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 /**
  * This class constructs the UI for a chat client.  It implements the
@@ -78,6 +83,31 @@ public class ClientConsole implements ChatIF
     }
   }
 
+  public ClientConsole(ActionEvent event , String host, int port)  /* This Constructor Help Me In The First Connection To The Client Console After I Connect to The Server */
+  {
+    try 
+    {
+      client= new ChatClient(host, port, this);
+    } 
+    catch(Exception exception) 
+    {
+    	Stage primaryStage = new Stage();
+		((Node) event.getSource()).getScene().getWindow().hide(); 
+		Parent root = null;
+		try 
+		{
+			root = FXMLLoader.load(getClass().getResource("/controller/Wrong_Details_To_Connect_The_Client.fxml"));
+		} 
+		catch (IOException e) 
+		{
+			e.printStackTrace();
+		}
+		Scene scene = new Scene(root);
+		primaryStage.setScene(scene);
+		primaryStage.setTitle("Error Massage");
+		primaryStage.show();
+    }
+  }
   
   //Instance methods ************************************************
   
@@ -179,16 +209,16 @@ public void displayUI(Object message)
 	  	  	
 	  	  	ComplaintHandleController.loadComplaintsFlag=true; //finish to get all the complaints to this customer service worker
 	    }
-	    else if(((Message)message).getOption().compareTo("Store Manager - Add Store To Combo Box From DB") == 0)
+	    else if(((Message)message).getOption().compareTo("Store Manager - Want To Store Number And Address Of The Store") == 0)
 	    {
-		  	  int i=0;
-			  ArrayList<Store> temp = new ArrayList<Store>();
-			  temp = (ArrayList<Store>)((Message)message).getMsg();
+		  	  int i = 0;
+			  ArrayList<String> temp_Store = new ArrayList<String>();
+			  temp_Store = (ArrayList<String>)((Message)message).getMsg();
 			  StoreManagerUI.stores.clear();
 
-			  for(i=0;i<temp.size();i++)
+			  for(i = 0 ; i < temp_Store.size() ; i++)
 		  	  {
-				  StoreManagerUI.stores.add(temp.get(i));
+				  StoreManagerUI.stores.add(temp_Store.get(i));
 		  	  }
 	    }
 	    else if(((Message)message).getOption().compareTo("Store Manager - Take The Orders Of Specific Store") == 0)

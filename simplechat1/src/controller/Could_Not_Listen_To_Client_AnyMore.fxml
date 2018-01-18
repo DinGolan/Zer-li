@@ -12,13 +12,12 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="242.0" prefWidth="534.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EchoServerController">
    <children>
-      <Label layoutX="31.0" layoutY="32.0" text="Login To Server  - Scheme Name failed" textFill="#0022ff">
+      <Label layoutX="31.0" layoutY="32.0" text="Error - Could Not Listen To Client" textFill="#0022ff">
          <font>
             <Font name="Bodoni MT Italic" size="30.0" />
          </font>
       </Label>
-      <TextArea id="txtErrMsg_For_Scheme_Name" fx:id="txtErrMsg_For_Scheme_Name" editable="false" layoutX="66.0" layoutY="99.0" prefHeight="62.0" prefWidth="391.0" text="The Scheme Name In The Data Base That You Type Is Wrong !&#10;Please Try Again !" />
-      <Button id="btnTryAgain" fx:id="btnTryAgain" layoutX="120.0" layoutY="189.0" mnemonicParsing="false" onAction="#tryAgainLogin" text="Try Again" />
-      <Button id="btnExit" fx:id="btnExit" layoutX="358.0" layoutY="189.0" mnemonicParsing="false" onAction="#getExitBtn" text="Exit" />
+      <TextArea id="txtErrMsg_For_Cant_Listen_For_Client" fx:id="txtErrMsg_For_Cant_Listen_For_Client" editable="false" layoutX="66.0" layoutY="99.0" prefHeight="62.0" prefWidth="391.0" text="The Server Cant Listen For Client AnyMore !" />
+      <Button id="btnExit" fx:id="btnExit" layoutX="225.0" layoutY="180.0" mnemonicParsing="false" onAction="#getExitBtn" prefHeight="39.0" prefWidth="73.0" text="Exit" />
    </children>
 </AnchorPane>
