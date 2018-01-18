@@ -1,9 +1,5 @@
 package mypackage;
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 /* This file contains material supporting section 3.7 of the textbook: */
 /* "Object Oriented Software Engineering" and is issued under the open-source */
@@ -22,7 +18,7 @@ import java.util.Scanner;
 import java.util.Vector;
 import com.mysql.jdbc.PreparedStatement;
 
-import controller.ComplaintHandleController;
+import controller.EchoServerController;
 import entity.Account;
 import entity.Complaint;
 import entity.Message;
@@ -34,7 +30,6 @@ import entity.Report;
 import entity.Store;
 import entity.Survey;
 import entity.User;
-import javafx.scene.image.Image;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 
@@ -52,12 +47,13 @@ public class EchoServer extends AbstractServer
 {
   //Class variables *************************************************
   static String url,username,password,name;
+  
   /**
    * The default port to listen on.
    */
   final public static int DEFAULT_PORT = 5555;
-  public static int counter=1;
-	public static ArrayList<Integer> resulrId = new ArrayList<Integer>();
+  public static int counter = 1;
+  public static ArrayList<Integer> resulrId = new ArrayList<Integer>();
 
   //Constructors ****************************************************
   
@@ -81,8 +77,7 @@ public class EchoServer extends AbstractServer
    * @param client - The connection from which the message originated.
    */
   @SuppressWarnings("unchecked")
-public void handleMessageFromClient
-    (Object msg, ConnectionToClient client)
+  public void handleMessageFromClient(Object msg, ConnectionToClient client)
   {
 	  	Connection conn = connectToDB();
 	    System.out.println("Message received: " + msg + " from " + client);
@@ -102,14 +97,6 @@ public void handleMessageFromClient
 	    {										
 				/* ArrayList<Product> aa = new ArrayList<Product>(); */
 	    		((Message)msg).setMsg(getProductsInSaleFromDB(msg, conn));	    
-	    		this.sendToAllClients(msg);
-  		}
-	    
-	    if(((Message)msg).getOption().compareTo("get products in sale from DB") ==0) 	    /* Check that we get from DB Because We want to Initialized */
-	    {										
-				/* ArrayList<Product> aa = new ArrayList<Product>(); */
-	    		((Message)msg).setMsg(getAllProductsInSaleFromDB(msg, conn));	
-	    		((Message)msg).setOption("get all products in sale from DB");
 	    		this.sendToAllClients(msg);
   		}
 	    
@@ -136,14 +123,10 @@ public void handleMessageFromClient
 	    	UpdateUserAtDB(msg,conn);
 		}
 	    
-		if (((Message) msg).getOption().compareTo("Update Product in DB") == 0) /* Check that we get from DB Because We want to Initialized */
+		if (((Message) msg).getOption().compareTo(
+				"Update Product in DB") == 0) /* Check that we get from DB Because We want to Initialized */
 		{
 			UpdateProductAtDB(msg, conn);
-		} 
-		
-		if (((Message) msg).getOption().compareTo("Update Product In Sale In DB") == 0) /* Check that we get from DB Because We want to Initialized */
-		{
-			UpdateProductInSaleAtDB(msg, conn);
 		} 
 	    
 	    if(((Message)msg).getOption().compareTo("Update customer account") == 0) 	    /* Check that we get from DB Because We want to Initialized */
@@ -169,19 +152,9 @@ public void handleMessageFromClient
 	    	addProductToDB(msg, conn);
 		}
 	    
-	    if(((Message)msg).getOption().compareTo("add new sale to DB") == 0) //check if we add new account
-        {
-	    	addSaleToDB(msg, conn);
-		}
-	    
 	    if(((Message)msg).getOption().compareTo("Remove Product from DB") == 0) //check if we add new account
         {
 	    	removeProductFromDB(msg, conn);
-		}
-	    
-	    if(((Message)msg).getOption().compareTo("Remove Product In Sale from DB") == 0) //check if we add new account
-        {
-	    	removeProductInSaleFromDB(msg, conn);
 		}
 	    	    
 	    if(((Message)msg).getOption().compareTo("Add new complaint") == 0) //check if we add new complaint
@@ -260,13 +233,7 @@ public void handleMessageFromClient
 			    	addSurveyResult(msg,conn);
 
 	    	}
-	    }
-	    if(((Message)msg).getOption().compareTo("Store Manager - Add Store To Combo Box From DB") == 0) 	    /* Taking All the Stores From the DB */							
-	    {
-	    	((Message)msg).setMsg(GetStoresFromDB(conn));  
-	    	this.sendToAllClients(msg);
-	    }
-	    
+	    } 
 	    if(((Message)msg).getOption().compareTo("Store Manager - Take the Revenue Of Specific Quarter Of Specific Store") == 0) /* Taking All the Revenue Of Specific Store */							
 	    {
 	    	((Message)msg).setMsg(Get_The_Revenue_Of_Specific_Store_From_DB(msg,conn));  
@@ -347,6 +314,11 @@ public void handleMessageFromClient
 	    	((Message)msg).setMsg(Get_All_The_Compare_Details_Between_Two_Diffrent_Quarter_From_DB(msg,conn));  
 	    	this.sendToAllClients(msg);
 	    }
+	    if(((Message)msg).getOption().compareTo("Store Manager - Want To Store Number And Address Of The Store") == 0) 	    	
+	    {
+	    	((Message)msg).setMsg(getStore_Manager_Store_Num(msg,conn));  
+	    	this.sendToAllClients(msg);
+	    }
   }
 
     
@@ -356,8 +328,10 @@ public void handleMessageFromClient
    */
   protected void serverStarted()
   {
-    System.out.println
-      ("Server listening for connections on port " + getPort());
+	  if(EchoServerController.Flag_Bad_Choise == 0)
+	  {
+		  System.out.println("Server listening for connections on port " + getPort());
+	  }
   }
   
   
@@ -376,30 +350,118 @@ public void handleMessageFromClient
   {
 	  Connection conn = null;
 	  try 
-		{
-          Class.forName("com.mysql.jdbc.Driver").newInstance();
+	  {
+         Class.forName("com.mysql.jdbc.Driver").newInstance();
       } catch (Exception ex) {/* handle the error*/}
       
       try 
       {
-      	//String url = "jdbc:mysql://localhost/project";
-      	//String username = "root";
-     	//String password = "Braude";
-     	
-      	
-         conn = DriverManager.getConnection(url,username,password);
-         /* Option B - To connect to the DB ---> Connection conn = DriverManager.getConnection("jdbc:mysql://192.168.3.68/test","root","Root"); */
+      	 url = "jdbc:mysql://localhost/";
+      
+      	 /* Option A - To Connect The DB */
+      	 conn = DriverManager.getConnection(url + EchoServerController.Scheme , EchoServerController.User_Name ,  EchoServerController.Password);
+         
+      	 /* Option B - To Connect The DB */
+      	 /* Connect to the DB ---> Connection conn = DriverManager.getConnection("jdbc:mysql://192.168.3.68/test","root","Root"); */
 
-
-   	} catch (SQLException ex)  /* handle any errors*/
-   	    {
+   	} 
+    catch (SQLException ex)  /* handle any errors*/
+   	{
           System.out.println("SQLException: " + ex.getMessage());
           System.out.println("SQLState: " + ex.getSQLState());
           System.out.println("VendorError: " + ex.getErrorCode());
-          }
+    }
     
-      return conn;
-     
+    return conn;  
+  }
+  
+  protected ArrayList<String> getStore_Manager_Store_Num(Object msg , Connection conn)
+  {
+	  Statement stmt;
+	  String User_ID = (String)((Message)msg).getMsg();    /* The ID Of The User */
+	  ArrayList<String> Store_Details = new ArrayList<String>();
+	  String Store_Num;
+	  String Store_Address;
+	  try 
+	  {
+		  stmt = conn.createStatement();
+		  String Get_Store_Num = "SELECT * FROM project.storeworkers WHERE StoreEmployeeUserId = " + "'" + User_ID  + "'" + ";" ;
+		  ResultSet rs = stmt.executeQuery(Get_Store_Num);
+		  while(rs.next())
+		  {
+			  Store_Num = rs.getString("StoreID"); 
+			  Store_Details.add(Store_Num);
+		  } 
+		  
+		  String Get_Store_Address = "SELECT * FROM project.store WHERE StoreID = " + "'" + Store_Details.get(0)  + "'" + ";" ;  /* Store_Details.get(0) = Store ID Of Specific Store */
+		  ResultSet rs_2 = stmt.executeQuery(Get_Store_Address);
+		  while(rs_2.next())
+		  {
+			  Store_Address = rs_2.getString("StoreAddress");
+			  Store_Details.add(Store_Address);
+		  }
+	  } 
+	  catch (SQLException e)
+	  {	
+		  e.printStackTrace();
+	  } 
+	  return Store_Details;
+  }
+  
+  @SuppressWarnings("unchecked")
+  public static void Insert_Report_To_DB_For_All_The_Store(Vector<Object> Vector_From_Thread , Connection conn)
+  {
+	  /* ------------------------------ Variables ------------------------------------- */
+	  ArrayList<Store> All_Stores = new ArrayList<Store>();
+	  int Number_Of_Quarter;
+	  String localDate;
+	  Statement stmt;
+	  
+	  /* ------------ Get The Value From The ArrayList ------------ */
+	  All_Stores = (ArrayList<Store>)Vector_From_Thread.get(0);
+	  Number_Of_Quarter = (int)Vector_From_Thread.get(1);
+	  localDate = (String)Vector_From_Thread.get(2);
+	  
+	  try 
+	  {
+		  stmt = conn.createStatement();
+		  for(int i = 0 ; i < All_Stores.size() ; i++)      /* In this For We Insert For Each Store The 'Big Report' That Include All The 'Small Report' */
+		  {
+			  String Report_Query = "INSERT INTO project.report " + " (storeID, QuarterNumber, DateOfCreateReport)" + " VALUES (" + "'" + All_Stores.get(i).getStoreId() + "'"
+					  + ", " + "'" + Number_Of_Quarter + "'" + ", " + "'" + localDate + "'" +")";
+			  stmt.executeUpdate(Report_Query);
+		  } 
+	  } 
+	  catch (SQLException e)
+	  {	
+		  e.printStackTrace();
+	  } 
+  }
+  
+  public static ArrayList<Store> Get_All_Stores_For_Thread_Controller(Connection conn)
+  {
+	  ArrayList<Store> stores = new ArrayList<Store>();
+	  Statement stmt;
+	  String s;
+	  Store sr;
+	  try 
+	  {
+		  stmt = conn.createStatement();
+		  String getStoresTable = "SELECT * FROM store;"; 				/* Get all the Table Of Store from the DB */
+		  ResultSet rs = stmt.executeQuery(getStoresTable);
+		  while(rs.next())
+	 	  {
+			  	  sr = new Store();
+				  s = rs.getString("StoreID");
+				  sr.setStoreId(Integer.parseInt(s));
+				  s = rs.getString("StoreAddress");
+				  sr.setStore_Address(s);
+				  s = rs.getString("QuantityOfOrder");
+				  sr.setQuantityOfOrders(Integer.parseInt(s));
+				  stores.add(sr);
+	 	  }
+	  } catch (SQLException e) {	e.printStackTrace();}	
+	  return stores;  
   }
   
   @SuppressWarnings("unchecked")
@@ -869,25 +931,25 @@ public void handleMessageFromClient
   @SuppressWarnings("unchecked")
   protected ArrayList<Double> Get_All_The_Survey_Of_Specific_Quarter_Of_Specific_Store_From_DB(Object msg , Connection conn)
   {
-	  Vector<double []> All_The_Survey_To_Return = new Vector<double []>();
-	  ArrayList<Object> StoreID_And_Date_Of_Report = (ArrayList<Object>)(((Message)msg).getMsg());
-	  ArrayList<Survey> Surveys_Of_Specific_Store = new ArrayList<Survey>();
-	  ArrayList<Survey> Final_Survey_ArrayList_To_Return = new ArrayList<Survey>();
-	  ArrayList<Double> Final_Average_Of_Each_Question = new ArrayList<Double>();
-	  int Store_ID = (int)StoreID_And_Date_Of_Report.get(0);
-	  Date date_Of_Report = (Date)StoreID_And_Date_Of_Report.get(1);
+	  Vector<double []> All_The_Survey_That_I_Need_From_DB = new Vector<double []>();    					/* After I Make My SQL ---> I Take Only The Survey Of Specific Report */
+	  ArrayList<Object> StoreID_And_Date_Of_Report = (ArrayList<Object>)(((Message)msg).getMsg());          /* The Store ID And The Report That I Take From the Client */
+	  ArrayList<Survey> Surveys_Of_Specific_Store = new ArrayList<Survey>();								/* ArrayList Of Survey Of ---> Specific Store */
+	  ArrayList<Survey> Final_Survey_ArrayList_To_Return = new ArrayList<Survey>();							/* The Final Average Each From The Question's In the Survey */
+	  ArrayList<Double> Final_Average_Of_Each_Question = new ArrayList<Double>();                           /* The Average Of Each Store In the Survey */
+	  int Store_ID = (int)StoreID_And_Date_Of_Report.get(0);                                                /* The Store ID That I Take From The Client */
+	  Date date_Of_Report = (Date)StoreID_And_Date_Of_Report.get(1);                                        /* The Date Report That I Take From the Client */
 	  Statement stmt;
-	  double Total_Average_Rank = 0;
-	  String survey_field;
-	  String Report_Field;
-	  Report temp_Report = null;
-	  Survey temp_Survey;
+	  double Total_Average_Rank = 0;                														/* The Total Average Of All the Survey */
+	  String survey_field;                          														/* This Field Help Me To Take Details From the DB */
+	  String Report_Field;																					/* This Field Help Me To Take Details From the DB */
+	  Report temp_Report = null;																			/* This Field Help Me To Take Details From the DB */
+	  Survey temp_Survey;																					/* This Field Help Me To Take Details From the DB */
 	  
 	  try {
 		  
 			  stmt = conn.createStatement();
 			  
-			  /* -------------------------------- Take The Quarter Of Specific Report ------------------------- */
+			  /* -------------------------------- Take The Quarter Of Specific Report -------------------------------------------------------------------------------- */
 			  
 			  String getSpecificQuarterReportTable = "SELECT * FROM project.report WHERE StoreID = " + "'" + Store_ID + "'" + "AND DateOfCreateReport = " + "'" + date_Of_Report + "'" + ";"; 
 			  ResultSet rs = stmt.executeQuery(getSpecificQuarterReportTable);
@@ -895,43 +957,43 @@ public void handleMessageFromClient
 			  while(rs.next())
 		 	  {
 				  temp_Report = new Report();
-				  Report_Field = rs.getString("reportNumber");
+				  Report_Field = rs.getString("reportNumber");                             				    				/* Take The Report Number */
 				  temp_Report.setSerialNumberReport(Integer.parseInt(Report_Field));
-				  Report_Field = rs.getString("storeID");
+				  Report_Field = rs.getString("storeID");                                  									/* Take The Store ID that The Report Belong To Him */
 				  temp_Report.setStoreId(Integer.parseInt(Report_Field));
-				  Report_Field = rs.getString("QuarterNumber");
+				  Report_Field = rs.getString("QuarterNumber");                            									/* Take The Quarter Number */
 				  temp_Report.setQaurterReportNumber(Report_Field);
 		 	  }
 			  
-			  /* -------------------------------- Take All The Survey Of Specific Store In Specific Quarter ------------------------- */
+			  /* -------------------------------- Take All The Survey Of Specific Store In Specific Quarter ---------------------------------------------------------- */
 			  
-			  String getSurveysOfSpecificStoreTable = "SELECT * FROM project.survey ;" ;  
+			  String getSurveysOfSpecificStoreTable = "SELECT * FROM project.survey WHERE StoreID = " + "'" + Store_ID + "'" + ";";   
 			  ResultSet rs_2 = stmt.executeQuery(getSurveysOfSpecificStoreTable);
-			  int Integer_Help_Month_In_Survey_Table;
-			  int Real_Quarter_Number = Integer.parseInt(temp_Report.getQaurterReportNumber());
-			  String String_Help_Date_In_Survey_Table;
+			  int Integer_Help_Month_In_Survey_Table;                                       								/* Variable That Keep The Month In Integer */
+			  int Real_Quarter_Number = Integer.parseInt(temp_Report.getQaurterReportNumber());    						    /* Variable That Keep The Quarter Number In Integer */
+			  String String_Help_Date_In_Survey_Table;                                              						/* Variable That Keep The Date In String */
 			  
 			  while(rs_2.next())
 		 	  {
-				  String_Help_Date_In_Survey_Table = rs_2.getString("SurveyDate");
-				  Integer_Help_Month_In_Survey_Table = Integer.parseInt(String_Help_Date_In_Survey_Table.substring(5, 7));
-				  if(((Integer_Help_Month_In_Survey_Table + 2) / 3) == Real_Quarter_Number)
+				  String_Help_Date_In_Survey_Table = rs_2.getString("SurveyDate");                  					    /* Take From the DB the Survey Date And Check The Month */
+				  Integer_Help_Month_In_Survey_Table = Integer.parseInt(String_Help_Date_In_Survey_Table.substring(5, 7));  /* In this Line We Save the Month From The Date That We take from The Client */     
+				  if(((Integer_Help_Month_In_Survey_Table + 2) / 3) == Real_Quarter_Number)         					    /* With This If Statement We Can See the Number Of Quarter */
 				  {
 					   temp_Survey = new Survey();
-					   survey_field = rs_2.getString("Surveyid");
-					   temp_Survey.setSurvey_Id(Integer.parseInt(survey_field));     		/* Save The Survey ID of Specific Survey */
-					   survey_field = rs_2.getString("SurveyDate");
-					   temp_Survey.setSurvey_Date(Date.valueOf(survey_field));     		    /* Save The Survey ID of Specific Survey */
-					   temp_Survey.setQuarterNumber(temp_Report.getQaurterReportNumber());  /* Save The Quarter Number That We Make The Survey */
-					   temp_Survey.setStore_ID(Store_ID);								    /* Save The Store ID that We Make The Survey */			
-					   Surveys_Of_Specific_Store.add(temp_Survey);
+					   survey_field = rs_2.getString("Surveyid");															/* Take From the DB the Survey ID And */
+					   temp_Survey.setSurvey_Id(Integer.parseInt(survey_field));     									    /* Save The Survey ID of Specific Survey */
+					   survey_field = rs_2.getString("SurveyDate");															/* Take From the DB the Survey Date */
+					   temp_Survey.setSurvey_Date(Date.valueOf(survey_field));     		    								/* Save The Survey ID of Specific Survey */
+					   temp_Survey.setQuarterNumber(temp_Report.getQaurterReportNumber());  								/* Save The Quarter Number That We Make The Survey */
+					   temp_Survey.setStore_ID(Store_ID);								    								/* Save The Store ID that We Make The Survey */			
+					   Surveys_Of_Specific_Store.add(temp_Survey);														    /* Add to The ArrayList Of Specific Order */
 				  }   
 		 	  }
 			  
 			  
-			  /* -------------------------------- Take All The Survey Of Specific Store In Specific Quarter ------------------------- */
+			  /* -------------------------------- Take All The Survey Of Specific Store In Specific Quarter And Check If The Year is The Correct Year -------------------------------------------------------------- */
 			  
-			  /* Variable That Represent The DB In Table Order */
+			  /* Variable That Represent The DB In Table Survey */
 			  String Month_From_DB;
 			  String Year_From_DB;
 			  String Date_From_DB;
@@ -949,21 +1011,21 @@ public void handleMessageFromClient
 			  for(int i = 0 ; i < Surveys_Of_Specific_Store.size() ; i++)
 			  {
 				  /* Take The Date From The DB */
-				  temp_Date = Surveys_Of_Specific_Store.get(i).getSurvey_Date();   		/* Take The Date */
+				  temp_Date = Surveys_Of_Specific_Store.get(i).getSurvey_Date();   		/* Take The Date Of DB */
 				  Date_From_DB = String.valueOf(temp_Date); 							/* Casting To String */
-				  Month_From_DB = Date_From_DB.substring(5, 7);                 		/* Take The Month */
-				  Year_From_DB = Date_From_DB.substring(0,4);                  			/* Take The Year */
-				  Integer_Month_From_DB = Integer.parseInt(Month_From_DB);      		/* Casting The Month To Integer */
-				  Integer_Year_From_DB = Integer.parseInt(Year_From_DB);        		/* Casting The Year To Integer */
+				  Month_From_DB = Date_From_DB.substring(5, 7);                 		/* Take The Month Of DB */
+				  Year_From_DB = Date_From_DB.substring(0,4);                  			/* Take The Year Of DB */
+				  Integer_Month_From_DB = Integer.parseInt(Month_From_DB);      		/* Casting The Month Of DB To Integer */
+				  Integer_Year_From_DB = Integer.parseInt(Year_From_DB);        		/* Casting The Year Of DB To Integer */
 				  
 				  /* Take The Date From The Client */
 				  Date_From_Client = String.valueOf(date_Of_Report); 					/* Casting To String */
-				  Month_From_Client = Date_From_Client.substring(5, 7);                 /* Take The Month */
-				  Year_From_Client = Date_From_Client.substring(0,4);                   /* Take The Year */
-				  Integer_Month_From_Client = Integer.parseInt(Month_From_Client);      /* Casting The Month To Integer */
-				  Integer_Year_From_Client = Integer.parseInt(Year_From_Client);        /* Casting The Year To Integer */
+				  Month_From_Client = Date_From_Client.substring(5, 7);                 /* Take The Month Of Client */
+				  Year_From_Client = Date_From_Client.substring(0,4);                   /* Take The Year Of Client */
+				  Integer_Month_From_Client = Integer.parseInt(Month_From_Client);      /* Casting The Month Of Client To Integer */
+				  Integer_Year_From_Client = Integer.parseInt(Year_From_Client);        /* Casting The Year Of Client To Integer */
 				  
-				  if(Integer_Year_From_DB == Integer_Year_From_Client)
+				  if(Integer_Year_From_DB == Integer_Year_From_Client)                  /* If We Are In the Correct Year We Add To the ArrayList Of - Final_Survey_ArrayList_To_Return */
 				  {
 					  Final_Survey_ArrayList_To_Return.add(Surveys_Of_Specific_Store.get(i));
 				  }
@@ -971,13 +1033,15 @@ public void handleMessageFromClient
 			  
 			  /* -------------------------------- Take All The Answer Of The Survey's Of ---> Specific Store In Specific Quarter ------------------------- */
 			  
-			  int Sum_Of_Clients = 0;
-			  int Sum_Of_Clients_Per_Survey = 0;
-			  double [] Sum_Result_Per_Question_Per_Survey = new double[6];
-			  double [] All_Sum_Per_Qustiones_Of_All_Survey = new double[6];
+			  int Sum_Of_Clients = 0;                                            		/* The Sum Of the Client In Specific Store In Specific Quarter */
+			  int Sum_Of_Clients_Per_Survey = 0;                                	    /* The Sum Of Clients Per Survey */
+			  double [] Sum_Result_Per_Question_Per_Survey = new double[6];      		/* In Each Cell I Put The Result Of The Question Of Specific Survey */
+			  double [] All_Sum_Per_Qustiones_Of_All_Survey = new double[6];     		/* In Each Cell I Put The Result Of All Question's Of Specific Store In Specific Quarter */
 			  double [] Temp_Array;
 			  
-			  for(int i = 0 ; i < Final_Survey_ArrayList_To_Return.size() ; i++)
+			  /* -------------------------------------------------- Take From The Data Base In Each Iteration Specific Survey ---------------------------------------------------------- */
+			  
+			  for(int i = 0 ; i < Final_Survey_ArrayList_To_Return.size() ; i++) 		/* In Each Iteration I Take The Specific Survey According The The Survey ID Number */
 			  {
 				  Sum_Of_Clients_Per_Survey = 0;
 				  Sum_Result_Per_Question_Per_Survey = new double[6];
@@ -986,58 +1050,66 @@ public void handleMessageFromClient
 			  
 				  while(rs_3.next())
 			 	  {
-					  for(int Index_Of_Question = 1 ; Index_Of_Question < 7 ; Index_Of_Question++)                 /* The Iteration is ---> 1 To 7 Because We Have 6 Question's */
+					  for(int Index_Of_Question = 1 ; Index_Of_Question < 7 ; Index_Of_Question++)                 			/* The Iteration is ---> 1 To 7 Because We Have 6 Question's */
 					  {														
 						  survey_field = rs_3.getString("sumQ" + Index_Of_Question);
-						  Sum_Result_Per_Question_Per_Survey[Index_Of_Question - 1] += Integer.parseInt(survey_field);
+						  Sum_Result_Per_Question_Per_Survey[Index_Of_Question - 1] += Integer.parseInt(survey_field);		/* Each Cell Get The Result Of Specific Question */
 					  }
 					  
-					  survey_field = rs_3.getString("numOfClients");
+					  survey_field = rs_3.getString("numOfClients");                                                        /* I Take The Number Of Client Of Specific Survey */
 					  Sum_Of_Clients_Per_Survey += Integer.parseInt(survey_field);
 			 	  }
 				  
-				  for(int j = 0 ; j < Sum_Result_Per_Question_Per_Survey.length ; j++)
+				  /* ------------------------------- Sum_Result_Per_Question_Per_Survey = Array that keep the Average Of Each Question In Specific Survey --------------------------------------------------------- */
+				  
+				  for(int j = 0 ; j < Sum_Result_Per_Question_Per_Survey.length ; j++)                                      /* Sum_Result_Per_Question_Per_Survey[i] = Average Of Question[i] Of Specific Survey */
 				  {
 					  Sum_Result_Per_Question_Per_Survey[j] = Sum_Result_Per_Question_Per_Survey[j] / Sum_Of_Clients_Per_Survey;
 				  }
 				  
-				  Sum_Of_Clients += Sum_Of_Clients_Per_Survey;
-				  All_The_Survey_To_Return.add(Sum_Result_Per_Question_Per_Survey);
-			  }
+				  Sum_Of_Clients += Sum_Of_Clients_Per_Survey;                                                              /* Sum The Number Of Client's */
+				  All_The_Survey_That_I_Need_From_DB.add(Sum_Result_Per_Question_Per_Survey);                               /* Add To The Vector The Array Of The Result Of Each Question Of Specific Survey */
+			   }
 			  
-			  for(int i = 0 ; i < All_The_Survey_To_Return.size() ; i++)
-			  {
-				  	 Temp_Array = new double[6];
-				  	 for(int j = 0 ; j < All_The_Survey_To_Return.get(i).length ; j++)
+			   /* ------------------------------------- In This For We Take all The Result Of All Question[i] And Put Them In All_Sum_Per_Qustiones_Of_All_Survey[i] --------------------------------------------------------- */
+			  
+			   for(int i = 0 ; i < All_The_Survey_That_I_Need_From_DB.size() ; i++)                                         /* We Run On the Vector<double[]> */  
+			   {
+				  	 Temp_Array = new double[6];                                                                            /* This Array Help Me To Calculate The Average Of Each Question Of All The Survey Of Specific Order In Specific Quarter */
+				  	 for(int j = 0 ; j < All_The_Survey_That_I_Need_From_DB.get(i).length ; j++)
 				  	 {
-				  		Temp_Array[j] = All_The_Survey_To_Return.get(i)[j];
+				  		Temp_Array[j] = All_The_Survey_That_I_Need_From_DB.get(i)[j];
 				  	 }
 				  	 
-					 for(int k = 0 ; k < All_The_Survey_To_Return.get(i).length ; k++)
+					 for(int k = 0 ; k < All_The_Survey_That_I_Need_From_DB.get(i).length ; k++)                            /* Sum The Result of the Specific Question From All The Survey */
 					 {
 						 All_Sum_Per_Qustiones_Of_All_Survey[k] += Temp_Array[k];
 					 }
-			  }
+			   }
 			  
-			  for(int i = 0 ; i < All_Sum_Per_Qustiones_Of_All_Survey.length ; i++)
-			  {
-				  All_Sum_Per_Qustiones_Of_All_Survey[i] = All_Sum_Per_Qustiones_Of_All_Survey[i] / All_The_Survey_To_Return.size();
-				  Final_Average_Of_Each_Question.add(All_Sum_Per_Qustiones_Of_All_Survey[i] );
-			  }
+			   /* ------------------------------------------- In This 'For' We Calculate The Average Of Each Question Of All the Survey --------------------------------------------------------------------------*/
+			   
+			   for(int i = 0 ; i < All_Sum_Per_Qustiones_Of_All_Survey.length ; i++)                                        /* In This Loop In Each Cell We Make Divide With The Number Of Survey That I Have In Specific Store In SPecific Quarter */
+			   {
+				  All_Sum_Per_Qustiones_Of_All_Survey[i] = All_Sum_Per_Qustiones_Of_All_Survey[i] / All_The_Survey_That_I_Need_From_DB.size();
+				  Final_Average_Of_Each_Question.add(All_Sum_Per_Qustiones_Of_All_Survey[i] );                              /* Final_Average_Of_Each_Question = Is The ArrayList That I will Return From The Function */
+			   }
 			  
-			  for(int i = 0 ; i < Final_Average_Of_Each_Question.size() ; i++)
-			  {
-				  Total_Average_Rank += Final_Average_Of_Each_Question.get(i); 
-			  }
+			   /* ------------------------------------------- In This 'For' We Calculate The Total Average --------------------------------------------------------------------------*/
+			   
+			   for(int i = 0 ; i < Final_Average_Of_Each_Question.size() ; i++)                                             /* In this Loop - Sum The Total Average */
+			   {
+				  Total_Average_Rank += Final_Average_Of_Each_Question.get(i);                                              /* Sum The Total Average */
+			   }
 			  
-			  Final_Average_Of_Each_Question.add(Total_Average_Rank); /* At Index 7 Will Be The Total Average Of All The Survey */
-			  Final_Average_Of_Each_Question.add((double)(Sum_Of_Clients));     /* At Index 8 Will Be The Number Of Client */
+			   Final_Average_Of_Each_Question.add(Total_Average_Rank); 														/* At Index 6 Will Be The Total Average Of All The Survey */
+			   Final_Average_Of_Each_Question.add((double)(Sum_Of_Clients));     											/* At Index 7 Will Be The Number Of Client */
 	  }
 	  catch (SQLException e) 
 	  {	
 		  e.printStackTrace();
 	  }
-	  return Final_Average_Of_Each_Question;
+	  return Final_Average_Of_Each_Question;                                                                                /* Return ArrayList With The Average Of Each Question And The Total Average And The Number Of the Survey */
   }
    
   @SuppressWarnings("unchecked")
@@ -1802,30 +1874,7 @@ public void handleMessageFromClient
 	  Product pr;
 	  try {
 		  stmt = conn.createStatement();
-		  String getProductsTable = "SELECT * FROM project.productinsale WHERE StoreID = "+storeId+";"; /* Get all the Table from the DB */
-		  ResultSet rs = stmt.executeQuery(getProductsTable);
-		  while(rs.next())
-	 	{
-		  pr = new Product();
-		  pr.setpID(rs.getInt("ProductID"));
-		  pr.setpStore(rs.getInt("StoreID"));
-		  pr.setpPrice(rs.getDouble("productPrice"));
-	      pr.setpType(Product.ProductType.valueOf(rs.getString("productType")));
-		  products.add(pr);
-	 	}
-	  } catch (SQLException e) {e.printStackTrace();}	
-	  return products;
-  }
-  
-  protected ArrayList<Product> getAllProductsInSaleFromDB(Object msg, Connection conn) /* This method get products table details from DB */
-  {
-	  ArrayList<Product> products = new ArrayList<Product>();
-	  Statement stmt;
-	  String p;
-	  Product pr;
-	  try {
-		  stmt = conn.createStatement();
-		  String getProductsTable = "SELECT * FROM project.productinsale;"; /* Get all the Table from the DB */
+		  String getProductsTable = "SELECT * FROM productinsale WHERE StoreID = "+storeId+";"; /* Get all the Table from the DB */
 		  ResultSet rs = stmt.executeQuery(getProductsTable);
 		  while(rs.next())
 	 	{
@@ -1980,24 +2029,6 @@ public void handleMessageFromClient
   			e.printStackTrace();}
   	}
   
-  protected void UpdateProductInSaleAtDB(Object msg, Connection conn) /* This Method Update the DB */
-	{
-		Statement stmt;
-		Product product = (Product) ((Message) msg).getMsg();
-		try {
-			stmt = conn.createStatement();
-				 String query = "UPDATE project.productinsale SET productPrice =? WHERE ProductID=?";
-			      java.sql.PreparedStatement preparedStmt = conn.prepareStatement(query);
-			      preparedStmt.setString   (1, String.valueOf(product.getpPrice()));
-			      preparedStmt.setString(2, String.valueOf(product.getpID()));
-
-			      preparedStmt.executeUpdate();
-
-			}
-			
-		 catch (Exception e) {
-			e.printStackTrace();}
-	}
   
   protected void addProductToDB(Object msg, Connection conn) /* This Method Update the DB */
 	{
@@ -2020,25 +2051,6 @@ public void handleMessageFromClient
 			e.printStackTrace();}
 	}
   
-  protected void addSaleToDB(Object msg, Connection conn) /* This Method Update the DB */
-	{
-		Statement stmt;
-		Product product = (Product) ((Message) msg).getMsg();
-		try {
-
-			stmt = conn.createStatement();                             
-			 String query = "INSERT INTO project.productinsale SET ProductID =?,StoreID=?,productPrice=?,productType=?";
-		      java.sql.PreparedStatement preparedStmt = conn.prepareStatement(query);
-		      preparedStmt.setInt(1, product.getpID());
-		      preparedStmt.setInt(2, product.getpStore());
-		      preparedStmt.setDouble(3, product.getpPrice());
-		      preparedStmt.setString(4, product.getpType().toString());
-		      preparedStmt.executeUpdate();
-			
-		} catch (Exception e) {
-			e.printStackTrace();}
-	}
-  
   protected void removeProductFromDB(Object msg, Connection conn) /* This Method Update the DB */
 	{
 		Statement stmt;
@@ -2053,19 +2065,6 @@ public void handleMessageFromClient
 			e.printStackTrace();}
 	}
   
-  protected void removeProductInSaleFromDB(Object msg, Connection conn) /* This Method Update the DB */
-	{
-		Statement stmt;
-		Product product =  (Product) ((Message) msg).getMsg();
-		try {
-
-			stmt = conn.createStatement();                             
-			 String query = "DELETE FROM project.productinsale WHERE ProductID="+product.getpID()+";";
-			 stmt.execute(query);
-			
-		} catch (Exception e) {
-			e.printStackTrace();}
-	}
   protected ArrayList<Integer> getAllOrdersToCustomer(Object msg, Connection conn) //this method get all the orders that match to specific customer
   {
 	  String requestedCustomerId=(String)(((Message)msg).getMsg());
@@ -2447,56 +2446,6 @@ public void handleMessageFromClient
 	  } 
 	  catch (SQLException e) {	e.printStackTrace();}	  
 	  return account;
-  }
-  
-  
-
-  //Class methods ***************************************************
-  
-  /**
-   * This method is responsible for the creation of 
-   * the server instance (there is no UI in this phase).
-   *
-   * @param args[0] - The port number to listen on.  Defaults to 5555 
-   *          if no argument is entered.
-   */
-  public static void main(String[] args) 
-  {
-    int port = 0; /* Port to listen on */
-
-    try
-    {
-      port = Integer.parseInt(args[0]); /* Get port from command line */
-    }
-    catch(Throwable t)
-    {
-      port = DEFAULT_PORT; /* Set port to 5555 */
-    }
-	
-    EchoServer sv = new EchoServer(port);
-    
-
-    System.out.println("Please enter the mySQL scheme name:");
-	Scanner scanner = new Scanner(System.in);
-	//name= scanner.next();
-	name = "project";
-	url = "jdbc:mysql://localhost/" + name;/* Enter jbdc mySQL */
-
-	System.out.println("Please enter the mySQL user name:");
-	// username =scanner.next(); /* Enter mySQL name */
-	 username = "root";
-
-	 System.out.println("Please enter the mySQL password:");
-	// password = scanner.next(); /* Enter mySQL password */
-    password = "308155308";
-    try 
-    {
-      sv.listen(); /* Start listening for connections */
-    } 
-    catch (Exception ex) 
-    {
-      System.out.println("ERROR - Could not listen for clients!");
-    }
   }
 }
 

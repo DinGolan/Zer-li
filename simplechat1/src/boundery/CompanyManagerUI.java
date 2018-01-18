@@ -1,7 +1,6 @@
 package boundery;
 
 import java.sql.Date;
-import java.util.Scanner;
 import java.util.Vector;
 
 import controller.CompanyManagerController;
@@ -57,9 +56,6 @@ public class CompanyManagerUI extends Application { 					/* With This Class We S
 	
 	public static void main( String args[] ) throws Exception
 	{ 
-		//System.out.println("Please enter the server IP");
-		//Scanner scanner = new Scanner(System.in);
-		//String IP = scanner.next(); 			/* Enter Server IP */
 		myClient = new ClientConsole("localhost", 5555);
         launch(args);		
 	} 

@@ -18,6 +18,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -33,13 +34,9 @@ public class StoreManagerReportController implements Initializable {
 	private int temp_Store_Id;
 	private Date temp_Date_Quarter_Report;
 	
-	ObservableList<String> storeList;
 	ObservableList<Date> DateList;
 	
 /* -------------------------  For The First Window Of Report ----------------------------------- */	
-	
-	@FXML
-	private ComboBox<String> cmbStores;  				    /* ComboBox With List Of Stores */
 	
 	@FXML
     private ComboBox<Date> cmbReports;
@@ -59,6 +56,9 @@ public class StoreManagerReportController implements Initializable {
 	@FXML
 	private Button btnClose = null;
 	
+	@FXML
+    private TextField txtStoreDetails;
+	
 /* --------------------------------  The Report About Quarterly Revenue ----------------------------------- */	
 	
 	public void QuarterlyRevenueReport(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Report' and Show the GUI of the Quarterly Revenue Report that we Choose */
@@ -69,7 +69,7 @@ public class StoreManagerReportController implements Initializable {
 		Pane root = loader.load(getClass().getResource("/controller/QuarterlyRevenueReportForm.fxml").openStream());
 		
 		QuarterlyRevenueReportController quarterlyRevenueReportController = loader.getController();
-		quarterlyRevenueReportController.loadStore(StoreManagerUI.stores.get(getItemIndex())); 
+		quarterlyRevenueReportController.loadStore(UserUI.store); 
 		
 		Scene scene = new Scene(root);			
 		primaryStage.setScene(scene);		
@@ -86,7 +86,7 @@ public class StoreManagerReportController implements Initializable {
 		Pane root = loader.load(getClass().getResource("/controller/OrderReportForm.fxml").openStream());
 		
 		OrderReportController orderReportController = loader.getController();
-		orderReportController.loadStore(StoreManagerUI.stores.get(getItemIndex()));
+		orderReportController.loadStore(UserUI.store);
 		
 		Scene scene = new Scene(root);			
 		primaryStage.setScene(scene);		
@@ -103,7 +103,7 @@ public class StoreManagerReportController implements Initializable {
 		Pane root = loader.load(getClass().getResource("/controller/CustomerComplaintStatusReportForm.fxml").openStream());
 		
 		CustomerComplaintStatusReportController customerComplaintStatusReportController = loader.getController();
-		customerComplaintStatusReportController.loadStore(StoreManagerUI.stores.get(getItemIndex()));
+		customerComplaintStatusReportController.loadStore(UserUI.store);
 		
 		Scene scene = new Scene(root);			
 		primaryStage.setScene(scene);		
@@ -120,23 +120,13 @@ public class StoreManagerReportController implements Initializable {
 		Pane root = loader.load(getClass().getResource("/controller/SatisfactionReportForm.fxml").openStream());
 		
 		SatisfactionReportController satisfactionReportController = loader.getController();
-		satisfactionReportController.loadStore(StoreManagerUI.stores.get(getItemIndex()));
+		satisfactionReportController.loadStore(UserUI.store);
 		
 		Scene scene = new Scene(root);			
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
-	
-/* -------------------------- Taking Store From The Combo Box of Store ------------------------------------ */	
-	
-	public int getItemIndex()                                   	/* With this Method we Take User from the List of the Users at the ComboBox */
-	{
-		if(cmbStores.getSelectionModel().getSelectedIndex() == -1)
-			return itemIndex;
-	
-		return cmbStores.getSelectionModel().getSelectedIndex();
-	}
-	
+		
 /* -------------------------- Taking Date From The Combo Box of Store ------------------------------------ */	
 	
 	public int getItemIndexFromDateComboBox()                                   	/* With this Method we Take User from the List of the Users at the ComboBox */
@@ -184,19 +174,11 @@ public class StoreManagerReportController implements Initializable {
 		primaryStage.show();										   /* show catalog frame window */
 	}
 
-/* ----------------------------------------- Set The Combo Box Of Stores ----------------------------------- */	
+/* ----------------------------------------- Set The Text Of Store ----------------------------------- */	
 	
-	public void setStoresComboBox()    								/* In this Method we Set the Stores at the ComboBox */
+	public void set_Store_At_Text()    								/* In this Method we Set the Stores at the ComboBox */
 	{ 				
-		ArrayList<String> temp_Stores_ID_And_Address_List = new ArrayList<String>();	
-		
-		for(Store s: StoreManagerUI.stores)
-		{
-			temp_Stores_ID_And_Address_List.add(String.valueOf(s.getStoreId()) + " ---> " + s.getStore_Address());
-		}
-		
-		storeList = FXCollections.observableArrayList(temp_Stores_ID_And_Address_List);
-		cmbStores.setItems(storeList);
+		this.txtStoreDetails.setText(UserUI.store.getStoreId() + " ---> " + UserUI.store.getStore_Address());
 	}
 
 /* ----------------------------------------- Set The Combo Box Of All the Date Of the Report Of Specific Store ----------------------------------- */		
@@ -213,18 +195,6 @@ public class StoreManagerReportController implements Initializable {
 		DateList = FXCollections.observableArrayList(Date_Of_Report);
 		cmbReports.setItems(DateList);
 	}	
-	
-/* -------------------------------- The Button Of The Store That You Choose ------------------------------- */		
-	
-	public void Click_On_Your_Store_Choise(ActionEvent event) throws Exception
-	{
-		temp_Store_Id = StoreManagerUI.stores.get(getItemIndex()).getStoreId();
-		msg = new Message(temp_Store_Id, "Store Manager - Take The Date Of All the Report Of Specific Store");
-		UserUI.myClient.accept(msg);
-		while(StoreManagerUI.Dates.size() == 0);
-		Thread.sleep(200);
-		set_Dates_Of_Report_At_ComboBox();
-	}
 	
 /* -------------------------------- The Button Of The Report That We Choose ------------------------------- */			
 	
@@ -269,31 +239,20 @@ public class StoreManagerReportController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
-		ArrayList<Store> stores = new ArrayList<Store>();           /* For the First Connection With The DB the ArrayList Of stores Is Empty */
-		msg = new Message(stores, "Store Manager - Add Store To Combo Box From DB");
+		set_Store_At_Text();
+		temp_Store_Id = UserUI.store.getStoreId();
+		msg = new Message(temp_Store_Id, "Store Manager - Take The Date Of All the Report Of Specific Store");
 		UserUI.myClient.accept(msg);
-		while(StoreManagerUI.stores.size() == 0);
+		while(StoreManagerUI.Dates.size() == 0);
 		try 
 		{
 			Thread.sleep(200);
 		} 
-		catch (InterruptedException e) 
+		catch (InterruptedException e)
 		{
 			e.printStackTrace();
 		}
-		setStoresComboBox();
-		
-/**		/* ----------------- Update All the Revenue Of All The Store At The DB ------------------*/
-/**		
-/**		for(int i = 0 ; i < StoreManagerUI.stores.size() ; i++)
-/**		{
-/**			stores.add(StoreManagerUI.stores.get(i));
-/**		}
-/**		
-/**		msg = new Message(stores,"Store Manager - Update The Total Revenue Of All the Store");
-/**		StoreManagerUI.myClient.accept(msg);	
-/**	}  
-**/	
+		set_Dates_Of_Report_At_ComboBox();
 	 }
 /* ------------------------------------------------------------------------------------------------------------------- */
 	
