@@ -115,16 +115,16 @@ public class ProductInSaleController implements Initializable{
 	public void setStoresCmb(){
 		int j;
 		CatalogUI.productsInSale.clear();
-		msg = new Message(null,"get products in sale from DB");
+		msg = new Message(null,"get all stores from DB");
 		UserUI.myClient.accept(msg);
-		CatalogController.waitFlag=0;
-		while(CatalogController.waitFlag==0) {
+		CustomerController.cflag=0;
+		while(CustomerController.cflag==0) {
 		System.out.print("");
 		}
-		CatalogController.waitFlag=0;
-		for(j=0 ; j<CatalogUI.productsInSale.size() ; j++)
+		CustomerController.cflag=0;
+		for(j=0 ; j<StoreUI.stores.size() ; j++)
 		{
-			storesId.add(String.valueOf(CatalogUI.productsInSale.get(j).getpStore()));
+			storesId.add(String.valueOf(StoreUI.stores.get(j).getStoreId()));
 		}
 
 		cmbSid.setItems(storesId);

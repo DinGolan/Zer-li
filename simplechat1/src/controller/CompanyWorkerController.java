@@ -7,6 +7,7 @@ import boundery.CatalogUI;
 import boundery.StoreUI;
 import boundery.UserUI;
 import entity.Message;
+import entity.Product;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -111,14 +112,17 @@ public class CompanyWorkerController implements Initializable {
 	public void openProductInfoWindow(ActionEvent event) throws Exception { // open info window of the product the user want info of.
 		if(cmbPid.getValue() != null)
 		{
+			String pid = cmbPid.getValue();
 			cwflag=0;
+			int index = getProductIndext(pid);
+			Product p = CatalogUI.products.get(index);
 			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 			Stage primaryStage = new Stage();
 			FXMLLoader loader = new FXMLLoader();
 			Pane root = loader.load(getClass().getResource("/controller/ProductForm.fxml").openStream());
-			
+
 			ProductController productController = loader.getController();		
-			productController.loadProduct(CatalogUI.products.get(getProductIndext()));
+			productController.loadProduct(p);
 			
 			Scene scene = new Scene(root);			
 			//scene.getStylesheets().add(getClass().getResource("/gui/StudentForm.css").toExternalForm());
@@ -158,9 +162,8 @@ public class CompanyWorkerController implements Initializable {
 	
 }
 	
-	public int getProductIndext() // return the index of the product the user want info of. 
+	public int getProductIndext(String pid) // return the index of the product the user want info of. 
 	{
-		String pid = cmbPid.getValue();
 		int i;
 		for (i = 0 ; i<CatalogUI.products.size() ; i++ )
 		{
@@ -201,13 +204,16 @@ public class CompanyWorkerController implements Initializable {
 		if(cmbPid.getValue() != null)
 		{
 			cwflag=0;
+			String pid = cmbPid.getValue();
+			int index = getProductIndext(pid);
+			Product p = CatalogUI.products.get(index);
 			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 			Stage primaryStage = new Stage();
 			FXMLLoader loader = new FXMLLoader();
 			Pane root = loader.load(getClass().getResource("/controller/ProductDeleteForm.fxml").openStream());
 			
 			ProductController productController = loader.getController();		
-			productController.loadProduct(CatalogUI.products.get(getProductIndext()));
+			productController.loadProduct(p);
 			
 			Scene scene = new Scene(root);			
 			//scene.getStylesheets().add(getClass().getResource("/gui/StudentForm.css").toExternalForm());

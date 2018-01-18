@@ -100,6 +100,14 @@ public class EchoServer extends AbstractServer
 	    		this.sendToAllClients(msg);
   		}
 	    
+	    if(((Message)msg).getOption().compareTo("get products in sale from DB") ==0) 	    /* Check that we get from DB Because We want to Initialized */
+	    {										
+				/* ArrayList<Product> aa = new ArrayList<Product>(); */
+	    		((Message)msg).setMsg(getAllProductsInSaleFromDB(msg, conn));	
+	    		((Message)msg).setOption("get all products in sale from DB");
+	    		this.sendToAllClients(msg);
+  		}
+	    
 	    if(((Message)msg).getOption().compareTo("get all stores from DB") ==0) 	    /* Check that we get from DB Because We want to Initialized */
 	    {										
 	    		((Message)msg).setMsg(getStoresFromDB(conn));	    
@@ -128,6 +136,11 @@ public class EchoServer extends AbstractServer
 		{
 			UpdateProductAtDB(msg, conn);
 		} 
+		
+		if (((Message) msg).getOption().compareTo("Update Product In Sale In DB") == 0) /* Check that we get from DB Because We want to Initialized */
+		{
+			UpdateProductInSaleAtDB(msg, conn);
+		} 
 	    
 	    if(((Message)msg).getOption().compareTo("Update customer account") == 0) 	    /* Check that we get from DB Because We want to Initialized */
         {						
@@ -152,9 +165,19 @@ public class EchoServer extends AbstractServer
 	    	addProductToDB(msg, conn);
 		}
 	    
+	    if(((Message)msg).getOption().compareTo("add new sale to DB") == 0) //check if we add new account
+        {
+	    	addSaleToDB(msg, conn);
+		}
+	    
 	    if(((Message)msg).getOption().compareTo("Remove Product from DB") == 0) //check if we add new account
         {
 	    	removeProductFromDB(msg, conn);
+		}
+	    
+	    if(((Message)msg).getOption().compareTo("Remove Product In Sale from DB") == 0) //check if we add new account
+        {
+	    	removeProductInSaleFromDB(msg, conn);
 		}
 	    	    
 	    if(((Message)msg).getOption().compareTo("Add new complaint") == 0) //check if we add new complaint
@@ -1889,6 +1912,29 @@ public class EchoServer extends AbstractServer
 	  return products;
   }
   
+  protected ArrayList<Product> getAllProductsInSaleFromDB(Object msg, Connection conn) /* This method get products table details from DB */
+  {
+	  ArrayList<Product> products = new ArrayList<Product>();
+	  Statement stmt;
+	  String p;
+	  Product pr;
+	  try {
+		  stmt = conn.createStatement();
+		  String getProductsTable = "SELECT * FROM project.productinsale;"; /* Get all the Table from the DB */
+		  ResultSet rs = stmt.executeQuery(getProductsTable);
+		  while(rs.next())
+	 	{
+		  pr = new Product();
+		  pr.setpID(rs.getInt("ProductID"));
+		  pr.setpStore(rs.getInt("StoreID"));
+		  pr.setpPrice(rs.getDouble("productPrice"));
+	      pr.setpType(Product.ProductType.valueOf(rs.getString("productType")));
+		  products.add(pr);
+	 	}
+	  } catch (SQLException e) {e.printStackTrace();}	
+	  return products;
+  }
+  
   protected ArrayList<User> getUsersFromDB(Connection conn) /* This method get Users table details from DB */
   {
 	  ArrayList<User> users_Before_Change = new ArrayList<User>();
@@ -2029,6 +2075,26 @@ public class EchoServer extends AbstractServer
   			e.printStackTrace();}
   	}
   
+  protected void UpdateProductInSaleAtDB(Object msg, Connection conn) /* This Method Update the DB */
+	{
+		Statement stmt;
+		Product product = (Product) ((Message) msg).getMsg();
+		try {
+			stmt = conn.createStatement();
+				 String query = "UPDATE project.productinsale SET productPrice =? WHERE ProductID=?";
+			      java.sql.PreparedStatement preparedStmt = conn.prepareStatement(query);
+			      preparedStmt.setString   (1, String.valueOf(product.getpPrice()));
+			      preparedStmt.setString(2, String.valueOf(product.getpID()));
+
+			      preparedStmt.executeUpdate();
+
+			}
+			
+		 catch (Exception e) {
+			e.printStackTrace();}
+	}
+  
+  
   
   protected void addProductToDB(Object msg, Connection conn) /* This Method Update the DB */
 	{
@@ -2051,6 +2117,25 @@ public class EchoServer extends AbstractServer
 			e.printStackTrace();}
 	}
   
+  protected void addSaleToDB(Object msg, Connection conn) /* This Method Update the DB */
+	{
+		Statement stmt;
+		Product product = (Product) ((Message) msg).getMsg();
+		try {
+
+			stmt = conn.createStatement();                             
+			 String query = "INSERT INTO project.productinsale SET ProductID =?,StoreID=?,productPrice=?,productType=?";
+		      java.sql.PreparedStatement preparedStmt = conn.prepareStatement(query);
+		      preparedStmt.setInt(1, product.getpID());
+		      preparedStmt.setInt(2, product.getpStore());
+		      preparedStmt.setDouble(3, product.getpPrice());
+		      preparedStmt.setString(4, product.getpType().toString());
+		      preparedStmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();}
+	}
+  
   protected void removeProductFromDB(Object msg, Connection conn) /* This Method Update the DB */
 	{
 		Statement stmt;
@@ -2059,6 +2144,20 @@ public class EchoServer extends AbstractServer
 
 			stmt = conn.createStatement();                             
 			 String query = "DELETE FROM project.product WHERE ProductID="+product.getpID()+";";
+			 stmt.execute(query);
+			
+		} catch (Exception e) {
+			e.printStackTrace();}
+	}
+  
+  protected void removeProductInSaleFromDB(Object msg, Connection conn) /* This Method Update the DB */
+	{
+		Statement stmt;
+		Product product =  (Product) ((Message) msg).getMsg();
+		try {
+
+			stmt = conn.createStatement();                             
+			 String query = "DELETE FROM project.productinsale WHERE ProductID="+product.getpID()+";";
 			 stmt.execute(query);
 			
 		} catch (Exception e) {

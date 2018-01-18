@@ -85,14 +85,14 @@ public class ProductController implements Initializable{
 		if(p!=null)
 		{
 		this.p=p1;
-		this.txtPName.setText(p.getpName());
-		this.txtPID.setText(String.valueOf(p.getpID()));	
-		this.cmbPtype.setValue(String.valueOf(p.getpType()));
-		this.txtPPrice.setText(String.valueOf(p.getpPrice()));
-		InputStream is = new ByteArrayInputStream(p.getByteArray());
+		this.txtPName.setText(p1.getpName());
+		this.txtPID.setText(String.valueOf(p1.getpID()));	
+		this.cmbPtype.setValue(String.valueOf(p1.getpType()));
+		this.txtPPrice.setText(String.valueOf(p1.getpPrice()));
+		InputStream is = new ByteArrayInputStream(p1.getByteArray());
 		Image image = new Image(is);
 		IVpPic.setImage(image);
-		this.cmbpColor.setValue(String.valueOf(p.getpColor()));
+		this.cmbpColor.setValue(String.valueOf(p1.getpColor()));
 		}
 	}
 	
