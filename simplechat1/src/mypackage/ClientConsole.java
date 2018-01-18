@@ -10,15 +10,19 @@ import boundery.AccountUI;
 import boundery.CatalogUI;
 import boundery.CompanyManagerUI;
 import boundery.ComplaintUI;
+import boundery.CustomerUI;
 import boundery.DataCompanyManagerUI;
 import boundery.StoreManagerUI;
+import boundery.StoreUI;
 import boundery.UserUI;
 import client.ChatClient;
 import common.ChatIF;
 import controller.AccountController;
+import controller.CatalogController;
 import controller.ComplaintController;
 import controller.ComplaintHandleController;
-import controller.SurveyResultController;
+import controller.CustomerController;
+import controller.OrderController;import controller.StoreManagerController;import controller.SurveyResultController;
 import controller.UserController;
 import entity.Account;
 import entity.Complaint;
@@ -27,12 +31,7 @@ import entity.Order;
 import entity.Product;
 import entity.Store;
 import entity.User;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+import boundery.SurveyResultUI;
 
 /**
  * This class constructs the UI for a chat client.  It implements the
@@ -83,31 +82,6 @@ public class ClientConsole implements ChatIF
     }
   }
 
-  public ClientConsole(ActionEvent event , String host, int port)  /* This Constructor Help Me In The First Connection To The Client Console After I Connect to The Server */
-  {
-    try 
-    {
-      client= new ChatClient(host, port, this);
-    } 
-    catch(Exception exception) 
-    {
-    	Stage primaryStage = new Stage();
-		((Node) event.getSource()).getScene().getWindow().hide(); 
-		Parent root = null;
-		try 
-		{
-			root = FXMLLoader.load(getClass().getResource("/controller/Wrong_Details_To_Connect_The_Client.fxml"));
-		} 
-		catch (IOException e) 
-		{
-			e.printStackTrace();
-		}
-		Scene scene = new Scene(root);
-		primaryStage.setScene(scene);
-		primaryStage.setTitle("Error Massage");
-		primaryStage.show();
-    }
-  }
   
   //Instance methods ************************************************
   
@@ -157,12 +131,34 @@ public void displayUI(Object message)
 	  	  	int i=0;
 	  	  	ArrayList<Product> temp = new ArrayList<Product>();
 	  	  	temp = (ArrayList<Product>)((Message)message).getMsg();
+	  	  	
 	  	  	CatalogUI.products.clear();
-
 	  	  	for(i=0;i<temp.size();i++)
 	  	  	{
 	  	  	CatalogUI.products.add(temp.get(i));
 	  	  	}
+	  	  	CatalogController.waitFlag=1;
+	    }
+	    
+	    if(((Message)message).getOption().compareTo("get all products in sale from DB") ==0)
+	    {
+	  	  	int i=0,j;
+	  	  	ArrayList<Product> temp = new ArrayList<Product>();
+	  	  	temp = (ArrayList<Product>)((Message)message).getMsg();
+	  	  	CatalogUI.productsInSale.clear();
+
+	  	  	for(i=0;i<temp.size();i++)
+	  	  	{
+	  	  	CatalogUI.productsInSale.add(temp.get(i));
+	  	  	}
+	  	  CatalogController.waitFlag=1;
+	    }
+	    
+	    if(((Message)message).getOption().compareTo("insert order to DB") == 0)
+	    {
+	    	if(((String)((Message)message).getMsg()).compareTo("No account") == 0)
+	    		OrderController.accountExistFlag = false;
+	    	OrderController.accountFlag = true;
 	    }
 	    
 	    if(((Message)message).getOption().compareTo("Add User To Combo Box From DB") == 0)
@@ -176,6 +172,31 @@ public void displayUI(Object message)
 		  	  {
 				  DataCompanyManagerUI.users.add(temp.get(i));
 		  	  }
+	    }
+	    
+	    if(((Message)message).getOption().compareTo("Update customer account") == 0)
+	    {
+	    	CustomerUI.account = new Account();
+	    	CustomerUI.account.setAccountBalanceCard(((Account)(((Message)message).getMsg())).getAccountBalanceCard());
+	    	CustomerUI.account.setAccountCreditCardNum(((Account)(((Message)message).getMsg())).getAccountCreditCardNum());
+	    	CustomerUI.account.setAccountPaymentArrangement(((Account)(((Message)message).getMsg())).getAccountPaymentArrangement());
+	    	CustomerUI.account.setAccountSubscriptionEndDate(((Account)(((Message)message).getMsg())).getAccountSubscriptionEndDate());
+	    	CustomerUI.account.setAccountUserId(((Account)(((Message)message).getMsg())).getAccountUserId());
+	    	OrderController.accountFlag = true;
+	    }
+	    
+	    if(((Message)message).getOption().compareTo("get all stores from DB") == 0)
+	    {
+		  	  int i=0;
+			  ArrayList<Store> temp = new ArrayList<Store>();
+			  temp = (ArrayList<Store>)((Message)message).getMsg();
+			  StoreUI.stores.clear();
+
+			  for(i=0;i<temp.size();i++)
+		  	  {
+				  StoreUI.stores.add(temp.get(i));
+		  	  }
+			  CustomerController.cflag = 1;
 	    }
 	    
 	    if(((Message)message).getOption().compareTo("get all the survey") == 0)
@@ -209,16 +230,38 @@ public void displayUI(Object message)
 	  	  	
 	  	  	ComplaintHandleController.loadComplaintsFlag=true; //finish to get all the complaints to this customer service worker
 	    }
-	    else if(((Message)message).getOption().compareTo("Store Manager - Want To Store Number And Address Of The Store") == 0)
+    else if(((Message)message).getOption().compareTo("Get complaint details") == 0) //get all the details for this complaint
 	    {
-		  	  int i = 0;
-			  ArrayList<String> temp_Store = new ArrayList<String>();
-			  temp_Store = (ArrayList<String>)((Message)message).getMsg();
+	    	System.out.println(ComplaintUI.complaint+"clientcon");
+	  	  	ComplaintUI.complaint=new Complaint();
+	  	  System.out.println(ComplaintUI.complaint+"clientcon2");
+	  	  	ComplaintUI.complaint=(Complaint)((Message)message).getMsg(); //save the complaint from the DB with all the details at the ComplaintUI
+	  	  	ComplaintHandleController.complaintFlag=true; //finish to get all the details for this complaint
+	  	  System.out.println(ComplaintUI.complaint+"clientcon3");
+	    }
+	    
+    else if(((Message)message).getOption().compareTo("Store manager want store number") == 0) //get the store number for this store manager
+    {
+  	  	StoreManagerController.storeID=((Integer)((Message)message).getMsg()); //save the store number
+  	  	StoreManagerController.flag=true; //finish to get the store number
+    }
+	    
+	    /*else if(((Message)message).getOption().compareTo("Update complaint") == 0) //update complaint
+	    {
+	    	System.out.println("clientcons");
+	  	  	//ComplaintUI.complaint=new Complaint();
+	  	  	ComplaintUI.complaint=(Complaint)((Message)message).getMsg(); //save the complaint from the DB with all the details at the ComplaintUI
+	  	  	ComplaintHandleController.complaintFlag=true; //finish to get all the details for this complaint
+	  	  	System.out.println(ComplaintUI.complaint);
+	    }*/ else if(((Message)message).getOption().compareTo("Store Manager - Add Store To Combo Box From DB") == 0){
+		  	  int i=0;
+			  ArrayList<Store> temp = new ArrayList<Store>();
+			  temp = (ArrayList<Store>)((Message)message).getMsg();
 			  StoreManagerUI.stores.clear();
 
-			  for(i = 0 ; i < temp_Store.size() ; i++)
+			  for(i=0;i<temp.size();i++)
 		  	  {
-				  StoreManagerUI.stores.add(temp_Store.get(i));
+				  StoreManagerUI.stores.add(temp.get(i));
 		  	  }
 	    }
 	    else if(((Message)message).getOption().compareTo("Store Manager - Take The Orders Of Specific Store") == 0)
@@ -384,7 +427,7 @@ public void displayUI(Object message)
 				  }
 		  	  }
 	    }
-   }
+	 }
   
   
   public void sendUser(Object message) 
@@ -407,44 +450,32 @@ public void displayUI(Object message)
   
   public void addAccount(Object message)
   {
-	  if(((Account)((Message)message).getMsg()).getAccountUserId().equals("Account already exist")) //account is already exist
-	  {
-		  AccountUI.account.setAccountUserId("Account already exist");
-	  }
-	  else
-	  {
-		  AccountUI.account.setAccountUserId(((Account)((Message)message).getMsg()).getAccountUserId());
-		  AccountUI.account.setAccountPaymentArrangement(((Account)((Message)message).getMsg()).getAccountPaymentArrangement());
-		  AccountUI.account.setAccountPaymentMethod(((Account)((Message)message).getMsg()).getAccountPaymentMethod());
-		  AccountUI.account.setAccountBalanceCard(((Account)((Message)message).getMsg()).getAccountBalanceCard());
-		  AccountUI.account.setAccountCreditCardNum(((Account)((Message)message).getMsg()).getAccountCreditCardNum());
-		  AccountUI.account.setAccountSubscriptionEndDate(((Account)((Message)message).getMsg()).getAccountSubscriptionEndDate());
-	  }
-	  
-	  System.out.println(AccountUI.account);
+	  AccountUI.success=(String)((Message)message).getMsg();
+	  AccountUI.account=null;
 	  AccountController.flag = true;  
   }
   
   public void addComplaint(Object message)
   {
-	  if(((Complaint)((Message)message).getMsg()).getComplaintDetails().equals("Complaint already exist")) //complaint is already exist
-		  ComplaintUI.complaint.setComplaintDetails("Complaint already exist");
-	  	  
-	  //else if (((Complaint)((Message)message).getMsg()).getComplaintDetails().equals("Customer service worker doesn't exist"))
-		//  ComplaintUI.complaint.setComplaintDetails("Customer service worker doesn't exist");
-		  
-	  else //אולי לבטל בכלל
-	  {
-		  ComplaintUI.complaint.setComplaintNum(((Complaint)((Message)message).getMsg()).getComplaintNum());
+	 // if(((Complaint)((Message)message).getMsg()).getComplaintDetails().equals("Complaint already exist")) //complaint is already exist
+		//  ComplaintUI.complaint.setComplaintDetails("Complaint already exist");
+	//  if(((String)((Message)message).getMsg()).equals("Complaint already exist")) //complaint is already exist
+		//  ComplaintUI.success="Complaint already exist";
+
+	//  else //אולי לבטל בכלל
+	 // {
+		  /*ComplaintUI.complaint.setComplaintNum(((Complaint)((Message)message).getMsg()).getComplaintNum());
 		  ComplaintUI.complaint.setComplaintStat(((Complaint)((Message)message).getMsg()).getComplaintStat());
 		  ComplaintUI.complaint.setComplaintDate(((Complaint)((Message)message).getMsg()).getComplaintDate());
 		  ComplaintUI.complaint.setComplaintDetails(((Complaint)((Message)message).getMsg()).getComplaintDetails());
 		  ComplaintUI.complaint.setComplaintOrderId(((Complaint)((Message)message).getMsg()).getComplaintOrderId());
 		  ComplaintUI.complaint.setComplaintServiceWorkerUserName(((Complaint)((Message)message).getMsg()).getComplaintServiceWorkerUserName());
-		  ComplaintUI.complaint.setComplaintUserId(((Complaint)((Message)message).getMsg()).getComplaintUserId());
-	  }
+		  ComplaintUI.complaint.setComplaintUserId(((Complaint)((Message)message).getMsg()).getComplaintUserId());*/
+		  ComplaintUI.success=(String)((Message)message).getMsg();
+	 // }
 	  
 	  //System.out.println(UserUI.complaint);
+		  ComplaintUI.complaint=null;	  
 	  ComplaintController.flag = true;  
   }
 

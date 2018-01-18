@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -15,41 +16,17 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import mypackage.ClientConsole;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextArea;
 
 public class UserController implements Initializable {
 
 	private User u;
 	public String user_id = null;
 	public static boolean flag = false;
-	
 
-	@FXML
-	private Label txtHeadLine;
-	
-	@FXML
-    private Label Label_IP;
-	
-	@FXML
-	private Label Label_Port;
-
-	@FXML
-	private TextField txtPort;
-
-	@FXML
-	private TextField txtIP;
-	
-    @FXML
-	private Button btnIPAndPort;
-    
-    @FXML
-	private Button btnCloseWindow;
-	
 	@FXML
 	private Button btnLogin = null;
 
@@ -67,65 +44,21 @@ public class UserController implements Initializable {
 	
 	@FXML
 	private Label lblName;
-	
 	@FXML
 	private Label lblSerialNum;
-	
-    @FXML
-    private TextArea txtErrorMassage_Wrong_Details;
 
-	public void start(Stage primaryStage) throws Exception 
+
+	public void getExitBtn(ActionEvent event) throws Exception /* With this Method we Exit from the Catalog */
 	{
-		Parent root = FXMLLoader.load(getClass().getResource("/controller/Enter_The_IP_And_Port.fxml"));
-		Scene scene = new Scene(root);
-		primaryStage.setTitle("Client IP - Managment Tool");
-		primaryStage.setScene(scene);
-		primaryStage.show();
+		System.out.println("Exit From - Login form");
+		System.exit(0);
 	}
-	
-	public void After_You_Enter_Your_Port_And_IP_Go_To_User_Login(ActionEvent event) throws Exception
-	{	
-		UserUI.IP = this.txtIP.getText();
-		UserUI.Port = Integer.parseInt(this.txtPort.getText());
-		UserUI.myClient = new ClientConsole(event,this.txtIP.getText(), Integer.parseInt(this.txtPort.getText())); 
-		txtHeadLine.setTextFill(Color.GREEN.brighter());
-		Label_IP.setTextFill(Color.GREEN.brighter());
-		Label_Port.setTextFill(Color.GREEN.brighter());
-		btnIPAndPort.setTextFill(Color.GREEN.brighter());
-		btnCloseWindow.setTextFill(Color.GREEN.brighter());
-	}
-	
-	public void Close_The_Window(ActionEvent event) throws Exception
+
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) // Initialized The ComboBox of the Product
 	{
-		((Node) event.getSource()).getScene().getWindow().hide(); 		/* Hiding primary window */
-		User_Login();
 	}
-	
-	public void User_Login() throws Exception
-	{
-		Stage primaryStage = new Stage(); 				/* Object present window with graphics elements */
-		Parent root = null;
-		root = FXMLLoader.load(getClass().getResource("/controller/UserLogin.fxml"));
-		Scene scene = new Scene(root);
-		
-		/* scene.getStylesheets().add(getClass().getResource("/boundery/CatalogFrame.css").toExternalForm()); */
-		
-		primaryStage.setTitle("LOGIN");
-		primaryStage.setScene(scene);
-		primaryStage.show();
-	}
-	
-	public void tryAgainToTypeIP_OR_Port(ActionEvent event) throws Exception /* With this Method we show the GUI of the First Window */
-	{
-		((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
-		Stage primaryStage = new Stage(); 						  /* Object present window with graphics elements */
-		Parent root = FXMLLoader.load(getClass().getResource("/controller/Enter_The_IP_And_Port.fxml"));
-		Scene scene = new Scene(root);
-		primaryStage.setTitle("Client IP - Managment Tool");
-		primaryStage.setScene(scene);
-		primaryStage.show();
-	}
-	
+
 	public void tryLoginUser(ActionEvent event) throws Exception /* To load the product details to the text fields */
 	{
 		u = new User();
@@ -151,13 +84,10 @@ public class UserController implements Initializable {
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("error msg");
 			primaryStage.show();
-		} 
+	} 
 		
-		/* לבצע בדיקה ב - תנאי הזה , כי משהו לא תקין */
-		/* The Change That I Made its Instead Of Making The If Statement With '!= 0' , Its With '== 0' */
-		else if (UserUI.user.getPassword().compareTo(u.getPassword()) != 0) // If The User Exist And He insert the wrong password
-		{ 
-			System.out.println("WrongPasswordMsg");
+		else if (!UserUI.user.getPassword().equals(u.getPassword())) // insert the wrong password
+		{			System.out.println("WrongPasswordMsg");
 			((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
 			root = FXMLLoader.load(getClass().getResource("/controller/WrongPasswordMsg.fxml"));
 			Scene scene = new Scene(root);
@@ -190,6 +120,12 @@ public class UserController implements Initializable {
 			case DATA_COMPANY_MANAGER:
 				permission = "DataCompanyManagerOptions";
 				break;
+			case COMPANY_WORKER:
+				permission = "CompanyWorkerOptions";
+				break;
+			case STORE_WORKER:
+				permission = "StoreWorkerOptions";
+				break;
 			}
 			permission = "/controller/" + permission + ".fxml";
 			URL o = getClass().getResource(permission);
@@ -197,7 +133,7 @@ public class UserController implements Initializable {
 			root = FXMLLoader.load(o);
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
-			primaryStage.setTitle(permission);
+			primaryStage.setTitle("Menu");
 			primaryStage.show();
 		}
 
@@ -248,18 +184,5 @@ public class UserController implements Initializable {
 		primaryStage.setTitle("LOGIN");
 		primaryStage.setScene(scene);
 		primaryStage.show();
-	}
-	
-
-	public void getExitBtn(ActionEvent event) throws Exception /* With this Method we Exit from the Catalog */
-	{
-		System.out.println("Exit From - Login form");
-		System.exit(0);
-	}
-
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) // Initialized The ComboBox of the Product
-	{
-		
 	}
 }

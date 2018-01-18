@@ -1,4 +1,10 @@
 package mypackage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 /* This file contains material supporting section 3.7 of the textbook: */
 /* "Object Oriented Software Engineering" and is issued under the open-source */
 /* license found at www.lloseng.com */
@@ -8,29 +14,27 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Scanner;
 import java.util.Vector;
-
 import com.mysql.jdbc.PreparedStatement;
 
-import boundery.EchoServerUI;
-import boundery.UserUI;
-import controller.EchoServerController;
+import controller.ComplaintHandleController;
 import entity.Account;
 import entity.Complaint;
 import entity.Message;
 import entity.Order;
 import entity.Product;
+import entity.Product.ProductColor;
 import entity.Product.ProductType;
 import entity.Report;
 import entity.Store;
 import entity.Survey;
 import entity.User;
+import javafx.scene.image.Image;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 
@@ -47,13 +51,13 @@ import ocsf.server.ConnectionToClient;
 public class EchoServer extends AbstractServer 
 {
   //Class variables *************************************************
-   static String url,username,password,name;
+  static String url,username,password,name;
   /**
    * The default port to listen on.
    */
   final public static int DEFAULT_PORT = 5555;
-  public static int counter = 1;
-  public static ArrayList<Integer> resulrId = new ArrayList<Integer>();
+  public static int counter=1;
+	public static ArrayList<Integer> resulrId = new ArrayList<Integer>();
 
   //Constructors ****************************************************
   
@@ -76,9 +80,9 @@ public class EchoServer extends AbstractServer
    * @param msg - The message received from the client.
    * @param client - The connection from which the message originated.
    */
-  
   @SuppressWarnings("unchecked")
-  public void handleMessageFromClient(Object msg, ConnectionToClient client)
+public void handleMessageFromClient
+    (Object msg, ConnectionToClient client)
   {
 	  	Connection conn = connectToDB();
 	    System.out.println("Message received: " + msg + " from " + client);
@@ -91,6 +95,19 @@ public class EchoServer extends AbstractServer
 	    {										
 				/* ArrayList<Product> aa = new ArrayList<Product>(); */
 	    		((Message)msg).setMsg(getProductsFromDB(conn));	    
+	    		this.sendToAllClients(msg);
+  		}
+	    
+	    if(((Message)msg).getOption().compareTo("get all products in sale from DB") ==0) 	    /* Check that we get from DB Because We want to Initialized */
+	    {										
+				/* ArrayList<Product> aa = new ArrayList<Product>(); */
+	    		((Message)msg).setMsg(getProductsInSaleFromDB(msg, conn));	    
+	    		this.sendToAllClients(msg);
+  		}
+	    
+	    if(((Message)msg).getOption().compareTo("get all stores from DB") ==0) 	    /* Check that we get from DB Because We want to Initialized */
+	    {										
+	    		((Message)msg).setMsg(getStoresFromDB(conn));	    
 	    		this.sendToAllClients(msg);
   		}
 	    
@@ -111,9 +128,22 @@ public class EchoServer extends AbstractServer
 	    	UpdateUserAtDB(msg,conn);
 		}
 	    
+		if (((Message) msg).getOption().compareTo(
+				"Update Product in DB") == 0) /* Check that we get from DB Because We want to Initialized */
+		{
+			UpdateProductAtDB(msg, conn);
+		} 
+	    
+	    if(((Message)msg).getOption().compareTo("Update customer account") == 0) 	    /* Check that we get from DB Because We want to Initialized */
+        {						
+	    	((Message)msg).setMsg(UpdateUserAccountAtDB(msg,conn));
+	    	this.sendToAllClients(msg);	
+		}
+	    
 	    if(((Message)msg).getOption().compareTo("insert order to DB") == 0) //add new Order
 	    {
-	    	AddNewOrderToDB(msg,conn);	
+	    	((Message)msg).setMsg(AddNewOrderToDB(msg,conn));	
+	    	this.sendToAllClients(msg);	
 	    }
 		    
 	    if(((Message)msg).getOption().compareTo("Add new account") == 0) //check if we add new account
@@ -122,10 +152,26 @@ public class EchoServer extends AbstractServer
     		this.sendToAllClients(msg);	
 		}
 	    
+	    if(((Message)msg).getOption().compareTo("Add new Product in DB") == 0) //check if we add new account
+        {
+	    	addProductToDB(msg, conn);
+		}
+	    
+	    if(((Message)msg).getOption().compareTo("Remove Product from DB") == 0) //check if we add new account
+        {
+	    	removeProductFromDB(msg, conn);
+		}
+	    	    
 	    if(((Message)msg).getOption().compareTo("Add new complaint") == 0) //check if we add new complaint
         {
     		((Message)msg).setMsg(addNewComplaintToDB(msg,conn));	
     		this.sendToAllClients(msg);	
+		}
+	    
+	    if(((Message)msg).getOption().compareTo("Store manager want store number") ==0) //get the store number that connected to this store manager
+        {									
+	    	((Message)msg).setMsg(getStoreManagerStoreNum(msg,conn));    
+    		this.sendToAllClients(msg);
 		}
 	    
 	    if(((Message)msg).getOption().compareTo("Get all orders for this customer") == 0) //get all the orders that connected to specific customer
@@ -134,10 +180,27 @@ public class EchoServer extends AbstractServer
     		this.sendToAllClients(msg);	
 		}
 	    
+	  /*  if(((Message)msg).getOption().compareTo("Get all orders numbers for this customer can cancel") == 0) //get all the orders that connected to specific customer and can cancel
+        {
+    		((Message)msg).setMsg(getAllOrdersToCustomerCancel(msg,conn));	
+    		this.sendToAllClients(msg);	
+		}*/
+	    
 	    if(((Message)msg).getOption().compareTo("Get all complaints numbers for this customer service worker") == 0) //get all the complaints that connected to specific customer service worker
         {
     		((Message)msg).setMsg(getAllComplaintsForWorker(msg,conn));	
     		this.sendToAllClients(msg);	
+		}
+	    
+	    if(((Message)msg).getOption().compareTo("Get complaint details") == 0) //get all the details for the complaint that he choose
+        {
+    		((Message)msg).setMsg(getSelectedComplaintDetails(msg,conn));	
+    		this.sendToAllClients(msg);	
+		}
+	    
+	    if(((Message)msg).getOption().compareTo("Update complaint") ==0) //update compalint at DB
+        {									
+	    	UpdateComplaint(msg,conn);    
 		}
 	    
 	    if(((Message)msg).getOption().compareTo("UserStatus") ==0) 	    /* return user with specific UserName */
@@ -176,37 +239,37 @@ public class EchoServer extends AbstractServer
 
 	    	}
 	    }
-	    if(((Message)msg).getOption().compareTo("Store Manager - Add Store To Combo Box From DB") == 0) 	    						/* Taking All the Stores From the DB */							
+	    if(((Message)msg).getOption().compareTo("Store Manager - Add Store To Combo Box From DB") == 0) 	    /* Taking All the Stores From the DB */							
 	    {
 	    	((Message)msg).setMsg(GetStoresFromDB(conn));  
 	    	this.sendToAllClients(msg);
 	    }
 	    
-	    if(((Message)msg).getOption().compareTo("Store Manager - Take the Revenue Of Specific Quarter Of Specific Store") == 0) 		/* Taking All the Revenue Of Specific Store */							
+	    if(((Message)msg).getOption().compareTo("Store Manager - Take the Revenue Of Specific Quarter Of Specific Store") == 0) /* Taking All the Revenue Of Specific Store */							
 	    {
 	    	((Message)msg).setMsg(Get_The_Revenue_Of_Specific_Store_From_DB(msg,conn));  
 	    	this.sendToAllClients(msg);
 	    }
 	    
-	    if(((Message)msg).getOption().compareTo("Store Manager - Take The Orders Of Specific Store") == 0) 	    						/* Taking All the Orders Of Specific Store */							
+	    if(((Message)msg).getOption().compareTo("Store Manager - Take The Orders Of Specific Store") == 0) 	    /* Taking All the Orders Of Specific Store */							
 	    {
 	    	((Message)msg).setMsg(Get_Orders_Of_Specific_Store_From_DB(msg,conn));  
 	    	this.sendToAllClients(msg);
 	    }
 	    
-	    if(((Message)msg).getOption().compareTo("Store Manager - Take The Complaints Of Specific Store") == 0) 	    					/* Taking All the Complaints Of Specific Store */							
+	    if(((Message)msg).getOption().compareTo("Store Manager - Take The Complaints Of Specific Store") == 0) 	    /* Taking All the Complaints Of Specific Store */							
 	    {
 	    	((Message)msg).setMsg(Get_Complaints_Of_Specific_Store_From_DB(msg,conn));  
 	    	this.sendToAllClients(msg);
 	    }
 	    
-	    if(((Message)msg).getOption().compareTo("Store Manager - Take The Date Of All the Report Of Specific Store") == 0) 	    		/* Taking All the Complaints Of Specific Store */							
+	    if(((Message)msg).getOption().compareTo("Store Manager - Take The Date Of All the Report Of Specific Store") == 0) 	    /* Taking All the Complaints Of Specific Store */							
 	    {
 	    	((Message)msg).setMsg(Get_All_The_Date_Of_Report_Of_Specific_Store_FromDB(msg,conn));  
 	    	this.sendToAllClients(msg);
 	    }
 	    
-	    if(((Message)msg).getOption().compareTo("Store Manager - Update The Total Revenue Of All the Store") == 0) 	    				/* Taking All the Complaints Of Specific Store */							
+	    if(((Message)msg).getOption().compareTo("Store Manager - Update The Total Revenue Of All the Store") == 0) 	    /* Taking All the Complaints Of Specific Store */							
 	    {
 	    	Update_The_Revenue_Of_All_The_Store(msg,conn);  
 	    } 
@@ -217,37 +280,37 @@ public class EchoServer extends AbstractServer
 	    	this.sendToAllClients(msg);
 	    }
 	    
-	    if(((Message)msg).getOption().compareTo("Company Manager - Add Store To Combo Box From DB") == 0) 	    						/* Taking All the Stores From the DB */							
+	    if(((Message)msg).getOption().compareTo("Company Manager - Add Store To Combo Box From DB") == 0) 	    /* Taking All the Stores From the DB */							
 	    {
 	    	((Message)msg).setMsg(GetStoresFromDB(conn));  
 	    	this.sendToAllClients(msg);
 	    }
 	    
-	    if(((Message)msg).getOption().compareTo("Company Manager - Take the Revenue Of Specific Quarter Of Specific Store") == 0) 		/* Taking All the Revenue Of Specific Store */							
+	    if(((Message)msg).getOption().compareTo("Company Manager - Take the Revenue Of Specific Quarter Of Specific Store") == 0) /* Taking All the Revenue Of Specific Store */							
 	    {
 	    	((Message)msg).setMsg(Get_The_Revenue_Of_Specific_Store_From_DB(msg,conn));  
 	    	this.sendToAllClients(msg);
 	    }
 	    
-	    if(((Message)msg).getOption().compareTo("Company Manager - Take The Orders Of Specific Store") == 0) 	    					/* Taking All the Orders Of Specific Store */							
+	    if(((Message)msg).getOption().compareTo("Company Manager - Take The Orders Of Specific Store") == 0) 	    /* Taking All the Orders Of Specific Store */							
 	    {
 	    	((Message)msg).setMsg(Get_Orders_Of_Specific_Store_From_DB(msg,conn));  
 	    	this.sendToAllClients(msg);
 	    }
 	    
-	    if(((Message)msg).getOption().compareTo("Company Manager - Take The Complaints Of Specific Store") == 0) 	    				/* Taking All the Complaints Of Specific Store */							
+	    if(((Message)msg).getOption().compareTo("Company Manager - Take The Complaints Of Specific Store") == 0) 	    /* Taking All the Complaints Of Specific Store */							
 	    {
 	    	((Message)msg).setMsg(Get_Complaints_Of_Specific_Store_From_DB(msg,conn));  
 	    	this.sendToAllClients(msg);
 	    }
 	    
-	    if(((Message)msg).getOption().compareTo("Comapny Manager - Take The Date Of All the Report Of Specific Store") == 0) 	    	/* Taking All the Complaints Of Specific Store */							
+	    if(((Message)msg).getOption().compareTo("Comapny Manager - Take The Date Of All the Report Of Specific Store") == 0) 	    /* Taking All the Complaints Of Specific Store */							
 	    {
 	    	((Message)msg).setMsg(Get_All_The_Date_Of_Report_Of_Specific_Store_FromDB(msg,conn));  
 	    	this.sendToAllClients(msg);
 	    }
 	    
-	    if(((Message)msg).getOption().compareTo("Comapny Manager - Update The Total Revenue Of All the Store") == 0) 	    			/* Taking All the Complaints Of Specific Store */							
+	    if(((Message)msg).getOption().compareTo("Comapny Manager - Update The Total Revenue Of All the Store") == 0) 	    /* Taking All the Complaints Of Specific Store */							
 	    {
 	    	Update_The_Revenue_Of_All_The_Store(msg,conn);  
 	    } 
@@ -257,29 +320,24 @@ public class EchoServer extends AbstractServer
 	    	((Message)msg).setMsg(Get_All_The_Survey_Of_Specific_Quarter_Of_Specific_Store_From_DB(msg,conn));  
 	    	this.sendToAllClients(msg);
 	    }
-	    if(((Message)msg).getOption().compareTo("Company Manager - Compare Between Two Different Quarter") == 0) 	    				/* Taking All the Complaints Of Specific Store */							
+	    if(((Message)msg).getOption().compareTo("Company Manager - Compare Between Two Different Quarter") == 0) 	    /* Taking All the Complaints Of Specific Store */							
 	    {
 	    	((Message)msg).setMsg(Get_All_The_Compare_Details_Between_Two_Diffrent_Quarter_From_DB(msg,conn));  
 	    	this.sendToAllClients(msg);
 	    }
-	    if(((Message)msg).getOption().compareTo("Store Manager - Want To Store Number And Address Of The Store") == 0) 	    	
-	    {
-	    	((Message)msg).setMsg(getStore_Manager_Store_Num(msg,conn));  
-	    	this.sendToAllClients(msg);
-	    }
   }
- 
+
+    
   /**
    * This method overrides the one in the superclass.  
    * Called when the server starts listening for connections.
    */
   protected void serverStarted()
   {
-	  if(EchoServerController.Flag_Bad_Choise == 0)
-	  {
-		  System.out.println("Server listening for connections on port " + getPort());
-	  }
+    System.out.println
+      ("Server listening for connections on port " + getPort());
   }
+  
   
   /**
    * This method overrides the one in the superclass.  
@@ -291,123 +349,35 @@ public class EchoServer extends AbstractServer
       ("Server has stopped listening for connections.");
   }
   
+  
   protected Connection connectToDB()
   {
 	  Connection conn = null;
 	  try 
-	  {
-         Class.forName("com.mysql.jdbc.Driver").newInstance();
+		{
+          Class.forName("com.mysql.jdbc.Driver").newInstance();
       } catch (Exception ex) {/* handle the error*/}
       
       try 
       {
-      	 url = "jdbc:mysql://localhost/";
-      
-      	 /* Option A - To Connect The DB */
-      	 conn = DriverManager.getConnection(url + EchoServerController.Scheme , EchoServerController.User_Name ,  EchoServerController.Password);
-         
-      	 /* Option B - To Connect The DB */
-      	 /* Connect to the DB ---> Connection conn = DriverManager.getConnection("jdbc:mysql://192.168.3.68/test","root","Root"); */
+      	//String url = "jdbc:mysql://localhost/project";
+      	//String username = "root";
+     	//String password = "Braude";
+     	
+      	
+         conn = DriverManager.getConnection(url,username,password);
+         /* Option B - To connect to the DB ---> Connection conn = DriverManager.getConnection("jdbc:mysql://192.168.3.68/test","root","Root"); */
 
-   	} 
-    catch (SQLException ex)  /* handle any errors*/
-   	{
+
+   	} catch (SQLException ex)  /* handle any errors*/
+   	    {
           System.out.println("SQLException: " + ex.getMessage());
           System.out.println("SQLState: " + ex.getSQLState());
           System.out.println("VendorError: " + ex.getErrorCode());
-    }
+          }
     
-    return conn;
+      return conn;
      
-  }
-  
-  protected ArrayList<String> getStore_Manager_Store_Num(Object msg , Connection conn)
-  {
-	  Statement stmt;
-	  String User_ID = (String)((Message)msg).getMsg();    /* The ID Of The User */
-	  ArrayList<String> Store_Details = new ArrayList<String>();
-	  String Store_Num;
-	  String Store_Address;
-	  try 
-	  {
-		  stmt = conn.createStatement();
-		  String Get_Store_Num = "SELECT * FROM project.storeworkers WHERE StoreEmployeeUserId = " + "'" + User_ID  + "'" + ";" ;
-		  ResultSet rs = stmt.executeQuery(Get_Store_Num);
-		  while(rs.next())
-		  {
-			  Store_Num = rs.getString("StoreID"); 
-			  Store_Details.add(Store_Num);
-		  } 
-		  
-		  String Get_Store_Address = "SELECT * FROM project.store WHERE StoreID = " + "'" + Store_Details.get(0)  + "'" + ";" ;  /* Store_Details.get(0) = Store ID Of Specific Store */
-		  ResultSet rs_2 = stmt.executeQuery(Get_Store_Address);
-		  while(rs_2.next())
-		  {
-			  Store_Address = rs_2.getString("StoreAddress");
-			  Store_Details.add(Store_Address);
-		  }
-	  } 
-	  catch (SQLException e)
-	  {	
-		  e.printStackTrace();
-	  } 
-	  return Store_Details;
-  }
-  
-  @SuppressWarnings("unchecked")
-  public static void Insert_Report_To_DB_For_All_The_Store(Vector<Object> Vector_From_Thread , Connection conn)
-  {
-	  /* ------------------------------ Variables ------------------------------------- */
-	  ArrayList<Store> All_Stores = new ArrayList<Store>();
-	  int Number_Of_Quarter;
-	  String localDate;
-	  Statement stmt;
-	  
-	  /* ------------ Get The Value From The ArrayList ------------ */
-	  All_Stores = (ArrayList<Store>)Vector_From_Thread.get(0);
-	  Number_Of_Quarter = (int)Vector_From_Thread.get(1);
-	  localDate = (String)Vector_From_Thread.get(2);
-	  
-	  try 
-	  {
-		  stmt = conn.createStatement();
-		  for(int i = 0 ; i < All_Stores.size() ; i++)      /* In this For We Insert For Each Store The 'Big Report' That Include All The 'Small Report' */
-		  {
-			  String Report_Query = "INSERT INTO project.report " + " (storeID, QuarterNumber, DateOfCreateReport)" + " VALUES (" + "'" + All_Stores.get(i).getStoreId() + "'"
-					  + ", " + "'" + Number_Of_Quarter + "'" + ", " + "'" + localDate + "'" +")";
-			  stmt.executeUpdate(Report_Query);
-		  } 
-	  } 
-	  catch (SQLException e)
-	  {	
-		  e.printStackTrace();
-	  } 
-  }
-  
-  public static ArrayList<Store> Get_All_Stores_For_Thread_Controller(Connection conn)
-  {
-	  ArrayList<Store> stores = new ArrayList<Store>();
-	  Statement stmt;
-	  String s;
-	  Store sr;
-	  try 
-	  {
-		  stmt = conn.createStatement();
-		  String getStoresTable = "SELECT * FROM store;"; 				/* Get all the Table Of Store from the DB */
-		  ResultSet rs = stmt.executeQuery(getStoresTable);
-		  while(rs.next())
-	 	  {
-			  	  sr = new Store();
-				  s = rs.getString("StoreID");
-				  sr.setStoreId(Integer.parseInt(s));
-				  s = rs.getString("StoreAddress");
-				  sr.setStore_Address(s);
-				  s = rs.getString("QuantityOfOrder");
-				  sr.setQuantityOfOrders(Integer.parseInt(s));
-				  stores.add(sr);
-	 	  }
-	  } catch (SQLException e) {	e.printStackTrace();}	
-	  return stores;  
   }
   
   @SuppressWarnings("unchecked")
@@ -877,25 +847,25 @@ public class EchoServer extends AbstractServer
   @SuppressWarnings("unchecked")
   protected ArrayList<Double> Get_All_The_Survey_Of_Specific_Quarter_Of_Specific_Store_From_DB(Object msg , Connection conn)
   {
-	  Vector<double []> All_The_Survey_That_I_Need_From_DB = new Vector<double []>();    					/* After I Make My SQL ---> I Take Only The Survey Of Specific Report */
-	  ArrayList<Object> StoreID_And_Date_Of_Report = (ArrayList<Object>)(((Message)msg).getMsg());          /* The Store ID And The Report That I Take From the Client */
-	  ArrayList<Survey> Surveys_Of_Specific_Store = new ArrayList<Survey>();								/* ArrayList Of Survey Of ---> Specific Store */
-	  ArrayList<Survey> Final_Survey_ArrayList_To_Return = new ArrayList<Survey>();							/* The Final Average Each From The Question's In the Survey */
-	  ArrayList<Double> Final_Average_Of_Each_Question = new ArrayList<Double>();                           /* The Average Of Each Store In the Survey */
-	  int Store_ID = (int)StoreID_And_Date_Of_Report.get(0);                                                /* The Store ID That I Take From The Client */
-	  Date date_Of_Report = (Date)StoreID_And_Date_Of_Report.get(1);                                        /* The Date Report That I Take From the Client */
+	  Vector<double []> All_The_Survey_To_Return = new Vector<double []>();
+	  ArrayList<Object> StoreID_And_Date_Of_Report = (ArrayList<Object>)(((Message)msg).getMsg());
+	  ArrayList<Survey> Surveys_Of_Specific_Store = new ArrayList<Survey>();
+	  ArrayList<Survey> Final_Survey_ArrayList_To_Return = new ArrayList<Survey>();
+	  ArrayList<Double> Final_Average_Of_Each_Question = new ArrayList<Double>();
+	  int Store_ID = (int)StoreID_And_Date_Of_Report.get(0);
+	  Date date_Of_Report = (Date)StoreID_And_Date_Of_Report.get(1);
 	  Statement stmt;
-	  double Total_Average_Rank = 0;                														/* The Total Average Of All the Survey */
-	  String survey_field;                          														/* This Field Help Me To Take Details From the DB */
-	  String Report_Field;																					/* This Field Help Me To Take Details From the DB */
-	  Report temp_Report = null;																			/* This Field Help Me To Take Details From the DB */
-	  Survey temp_Survey;																					/* This Field Help Me To Take Details From the DB */
+	  double Total_Average_Rank = 0;
+	  String survey_field;
+	  String Report_Field;
+	  Report temp_Report = null;
+	  Survey temp_Survey;
 	  
 	  try {
 		  
 			  stmt = conn.createStatement();
 			  
-			  /* -------------------------------- Take The Quarter Of Specific Report -------------------------------------------------------------------------------- */
+			  /* -------------------------------- Take The Quarter Of Specific Report ------------------------- */
 			  
 			  String getSpecificQuarterReportTable = "SELECT * FROM project.report WHERE StoreID = " + "'" + Store_ID + "'" + "AND DateOfCreateReport = " + "'" + date_Of_Report + "'" + ";"; 
 			  ResultSet rs = stmt.executeQuery(getSpecificQuarterReportTable);
@@ -903,43 +873,43 @@ public class EchoServer extends AbstractServer
 			  while(rs.next())
 		 	  {
 				  temp_Report = new Report();
-				  Report_Field = rs.getString("reportNumber");                             				    				/* Take The Report Number */
+				  Report_Field = rs.getString("reportNumber");
 				  temp_Report.setSerialNumberReport(Integer.parseInt(Report_Field));
-				  Report_Field = rs.getString("storeID");                                  									/* Take The Store ID that The Report Belong To Him */
+				  Report_Field = rs.getString("storeID");
 				  temp_Report.setStoreId(Integer.parseInt(Report_Field));
-				  Report_Field = rs.getString("QuarterNumber");                            									/* Take The Quarter Number */
+				  Report_Field = rs.getString("QuarterNumber");
 				  temp_Report.setQaurterReportNumber(Report_Field);
 		 	  }
 			  
-			  /* -------------------------------- Take All The Survey Of Specific Store In Specific Quarter ---------------------------------------------------------- */
+			  /* -------------------------------- Take All The Survey Of Specific Store In Specific Quarter ------------------------- */
 			  
-			  String getSurveysOfSpecificStoreTable = "SELECT * FROM project.survey WHERE StoreID = " + "'" + Store_ID + "'" + ";";   
+			  String getSurveysOfSpecificStoreTable = "SELECT * FROM project.survey ;" ;  
 			  ResultSet rs_2 = stmt.executeQuery(getSurveysOfSpecificStoreTable);
-			  int Integer_Help_Month_In_Survey_Table;                                       								/* Variable That Keep The Month In Integer */
-			  int Real_Quarter_Number = Integer.parseInt(temp_Report.getQaurterReportNumber());    						    /* Variable That Keep The Quarter Number In Integer */
-			  String String_Help_Date_In_Survey_Table;                                              						/* Variable That Keep The Date In String */
+			  int Integer_Help_Month_In_Survey_Table;
+			  int Real_Quarter_Number = Integer.parseInt(temp_Report.getQaurterReportNumber());
+			  String String_Help_Date_In_Survey_Table;
 			  
 			  while(rs_2.next())
 		 	  {
-				  String_Help_Date_In_Survey_Table = rs_2.getString("SurveyDate");                  					    /* Take From the DB the Survey Date And Check The Month */
-				  Integer_Help_Month_In_Survey_Table = Integer.parseInt(String_Help_Date_In_Survey_Table.substring(5, 7));  /* In this Line We Save the Month From The Date That We take from The Client */     
-				  if(((Integer_Help_Month_In_Survey_Table + 2) / 3) == Real_Quarter_Number)         					    /* With This If Statement We Can See the Number Of Quarter */
+				  String_Help_Date_In_Survey_Table = rs_2.getString("SurveyDate");
+				  Integer_Help_Month_In_Survey_Table = Integer.parseInt(String_Help_Date_In_Survey_Table.substring(5, 7));
+				  if(((Integer_Help_Month_In_Survey_Table + 2) / 3) == Real_Quarter_Number)
 				  {
 					   temp_Survey = new Survey();
-					   survey_field = rs_2.getString("Surveyid");															/* Take From the DB the Survey ID And */
-					   temp_Survey.setSurvey_Id(Integer.parseInt(survey_field));     									    /* Save The Survey ID of Specific Survey */
-					   survey_field = rs_2.getString("SurveyDate");															/* Take From the DB the Survey Date */
-					   temp_Survey.setSurvey_Date(Date.valueOf(survey_field));     		    								/* Save The Survey ID of Specific Survey */
-					   temp_Survey.setQuarterNumber(temp_Report.getQaurterReportNumber());  								/* Save The Quarter Number That We Make The Survey */
-					   temp_Survey.setStore_ID(Store_ID);								    								/* Save The Store ID that We Make The Survey */			
-					   Surveys_Of_Specific_Store.add(temp_Survey);														    /* Add to The ArrayList Of Specific Order */
+					   survey_field = rs_2.getString("Surveyid");
+					   temp_Survey.setSurvey_Id(Integer.parseInt(survey_field));     		/* Save The Survey ID of Specific Survey */
+					   survey_field = rs_2.getString("SurveyDate");
+					   temp_Survey.setSurvey_Date(Date.valueOf(survey_field));     		    /* Save The Survey ID of Specific Survey */
+					   temp_Survey.setQuarterNumber(temp_Report.getQaurterReportNumber());  /* Save The Quarter Number That We Make The Survey */
+					   temp_Survey.setStore_ID(Store_ID);								    /* Save The Store ID that We Make The Survey */			
+					   Surveys_Of_Specific_Store.add(temp_Survey);
 				  }   
 		 	  }
 			  
 			  
-			  /* -------------------------------- Take All The Survey Of Specific Store In Specific Quarter And Check If The Year is The Correct Year -------------------------------------------------------------- */
+			  /* -------------------------------- Take All The Survey Of Specific Store In Specific Quarter ------------------------- */
 			  
-			  /* Variable That Represent The DB In Table Survey */
+			  /* Variable That Represent The DB In Table Order */
 			  String Month_From_DB;
 			  String Year_From_DB;
 			  String Date_From_DB;
@@ -957,21 +927,21 @@ public class EchoServer extends AbstractServer
 			  for(int i = 0 ; i < Surveys_Of_Specific_Store.size() ; i++)
 			  {
 				  /* Take The Date From The DB */
-				  temp_Date = Surveys_Of_Specific_Store.get(i).getSurvey_Date();   		/* Take The Date Of DB */
+				  temp_Date = Surveys_Of_Specific_Store.get(i).getSurvey_Date();   		/* Take The Date */
 				  Date_From_DB = String.valueOf(temp_Date); 							/* Casting To String */
-				  Month_From_DB = Date_From_DB.substring(5, 7);                 		/* Take The Month Of DB */
-				  Year_From_DB = Date_From_DB.substring(0,4);                  			/* Take The Year Of DB */
-				  Integer_Month_From_DB = Integer.parseInt(Month_From_DB);      		/* Casting The Month Of DB To Integer */
-				  Integer_Year_From_DB = Integer.parseInt(Year_From_DB);        		/* Casting The Year Of DB To Integer */
+				  Month_From_DB = Date_From_DB.substring(5, 7);                 		/* Take The Month */
+				  Year_From_DB = Date_From_DB.substring(0,4);                  			/* Take The Year */
+				  Integer_Month_From_DB = Integer.parseInt(Month_From_DB);      		/* Casting The Month To Integer */
+				  Integer_Year_From_DB = Integer.parseInt(Year_From_DB);        		/* Casting The Year To Integer */
 				  
 				  /* Take The Date From The Client */
 				  Date_From_Client = String.valueOf(date_Of_Report); 					/* Casting To String */
-				  Month_From_Client = Date_From_Client.substring(5, 7);                 /* Take The Month Of Client */
-				  Year_From_Client = Date_From_Client.substring(0,4);                   /* Take The Year Of Client */
-				  Integer_Month_From_Client = Integer.parseInt(Month_From_Client);      /* Casting The Month Of Client To Integer */
-				  Integer_Year_From_Client = Integer.parseInt(Year_From_Client);        /* Casting The Year Of Client To Integer */
+				  Month_From_Client = Date_From_Client.substring(5, 7);                 /* Take The Month */
+				  Year_From_Client = Date_From_Client.substring(0,4);                   /* Take The Year */
+				  Integer_Month_From_Client = Integer.parseInt(Month_From_Client);      /* Casting The Month To Integer */
+				  Integer_Year_From_Client = Integer.parseInt(Year_From_Client);        /* Casting The Year To Integer */
 				  
-				  if(Integer_Year_From_DB == Integer_Year_From_Client)                  /* If We Are In the Correct Year We Add To the ArrayList Of - Final_Survey_ArrayList_To_Return */
+				  if(Integer_Year_From_DB == Integer_Year_From_Client)
 				  {
 					  Final_Survey_ArrayList_To_Return.add(Surveys_Of_Specific_Store.get(i));
 				  }
@@ -979,15 +949,13 @@ public class EchoServer extends AbstractServer
 			  
 			  /* -------------------------------- Take All The Answer Of The Survey's Of ---> Specific Store In Specific Quarter ------------------------- */
 			  
-			  int Sum_Of_Clients = 0;                                            		/* The Sum Of the Client In Specific Store In Specific Quarter */
-			  int Sum_Of_Clients_Per_Survey = 0;                                	    /* The Sum Of Clients Per Survey */
-			  double [] Sum_Result_Per_Question_Per_Survey = new double[6];      		/* In Each Cell I Put The Result Of The Question Of Specific Survey */
-			  double [] All_Sum_Per_Qustiones_Of_All_Survey = new double[6];     		/* In Each Cell I Put The Result Of All Question's Of Specific Store In Specific Quarter */
+			  int Sum_Of_Clients = 0;
+			  int Sum_Of_Clients_Per_Survey = 0;
+			  double [] Sum_Result_Per_Question_Per_Survey = new double[6];
+			  double [] All_Sum_Per_Qustiones_Of_All_Survey = new double[6];
 			  double [] Temp_Array;
 			  
-			  /* -------------------------------------------------- Take From The Data Base In Each Iteration Specific Survey ---------------------------------------------------------- */
-			  
-			  for(int i = 0 ; i < Final_Survey_ArrayList_To_Return.size() ; i++) 		/* In Each Iteration I Take The Specific Survey According The The Survey ID Number */
+			  for(int i = 0 ; i < Final_Survey_ArrayList_To_Return.size() ; i++)
 			  {
 				  Sum_Of_Clients_Per_Survey = 0;
 				  Sum_Result_Per_Question_Per_Survey = new double[6];
@@ -996,69 +964,62 @@ public class EchoServer extends AbstractServer
 			  
 				  while(rs_3.next())
 			 	  {
-					  for(int Index_Of_Question = 1 ; Index_Of_Question < 7 ; Index_Of_Question++)                 			/* The Iteration is ---> 1 To 7 Because We Have 6 Question's */
+					  for(int Index_Of_Question = 1 ; Index_Of_Question < 7 ; Index_Of_Question++)                 /* The Iteration is ---> 1 To 7 Because We Have 6 Question's */
 					  {														
 						  survey_field = rs_3.getString("sumQ" + Index_Of_Question);
-						  Sum_Result_Per_Question_Per_Survey[Index_Of_Question - 1] += Integer.parseInt(survey_field);		/* Each Cell Get The Result Of Specific Question */
+						  Sum_Result_Per_Question_Per_Survey[Index_Of_Question - 1] += Integer.parseInt(survey_field);
 					  }
 					  
-					  survey_field = rs_3.getString("numOfClients");                                                        /* I Take The Number Of Client Of Specific Survey */
+					  survey_field = rs_3.getString("numOfClients");
 					  Sum_Of_Clients_Per_Survey += Integer.parseInt(survey_field);
 			 	  }
 				  
-				  /* ------------------------------- Sum_Result_Per_Question_Per_Survey = Array that keep the Average Of Each Question In Specific Survey --------------------------------------------------------- */
-				  
-				  for(int j = 0 ; j < Sum_Result_Per_Question_Per_Survey.length ; j++)                                      /* Sum_Result_Per_Question_Per_Survey[i] = Average Of Question[i] Of Specific Survey */
+				  for(int j = 0 ; j < Sum_Result_Per_Question_Per_Survey.length ; j++)
 				  {
 					  Sum_Result_Per_Question_Per_Survey[j] = Sum_Result_Per_Question_Per_Survey[j] / Sum_Of_Clients_Per_Survey;
 				  }
 				  
-				  Sum_Of_Clients += Sum_Of_Clients_Per_Survey;                                                              /* Sum The Number Of Client's */
-				  All_The_Survey_That_I_Need_From_DB.add(Sum_Result_Per_Question_Per_Survey);                               /* Add To The Vector The Array Of The Result Of Each Question Of Specific Survey */
-			   }
+				  Sum_Of_Clients += Sum_Of_Clients_Per_Survey;
+				  All_The_Survey_To_Return.add(Sum_Result_Per_Question_Per_Survey);
+			  }
 			  
-			   /* ------------------------------------- In This For We Take all The Result Of All Question[i] And Put Them In All_Sum_Per_Qustiones_Of_All_Survey[i] --------------------------------------------------------- */
-			  
-			   for(int i = 0 ; i < All_The_Survey_That_I_Need_From_DB.size() ; i++)                                         /* We Run On the Vector<double[]> */  
-			   {
-				  	 Temp_Array = new double[6];                                                                            /* This Array Help Me To Calculate The Average Of Each Question Of All The Survey Of Specific Order In Specific Quarter */
-				  	 for(int j = 0 ; j < All_The_Survey_That_I_Need_From_DB.get(i).length ; j++)
+			  for(int i = 0 ; i < All_The_Survey_To_Return.size() ; i++)
+			  {
+				  	 Temp_Array = new double[6];
+				  	 for(int j = 0 ; j < All_The_Survey_To_Return.get(i).length ; j++)
 				  	 {
-				  		Temp_Array[j] = All_The_Survey_That_I_Need_From_DB.get(i)[j];
+				  		Temp_Array[j] = All_The_Survey_To_Return.get(i)[j];
 				  	 }
 				  	 
-					 for(int k = 0 ; k < All_The_Survey_That_I_Need_From_DB.get(i).length ; k++)                            /* Sum The Result of the Specific Question From All The Survey */
+					 for(int k = 0 ; k < All_The_Survey_To_Return.get(i).length ; k++)
 					 {
 						 All_Sum_Per_Qustiones_Of_All_Survey[k] += Temp_Array[k];
 					 }
-			   }
+			  }
 			  
-			   /* ------------------------------------------- In This 'For' We Calculate The Average Of Each Question Of All the Survey --------------------------------------------------------------------------*/
-			   
-			   for(int i = 0 ; i < All_Sum_Per_Qustiones_Of_All_Survey.length ; i++)                                        /* In This Loop In Each Cell We Make Divide With The Number Of Survey That I Have In Specific Store In SPecific Quarter */
-			   {
-				  All_Sum_Per_Qustiones_Of_All_Survey[i] = All_Sum_Per_Qustiones_Of_All_Survey[i] / All_The_Survey_That_I_Need_From_DB.size();
-				  Final_Average_Of_Each_Question.add(All_Sum_Per_Qustiones_Of_All_Survey[i] );                              /* Final_Average_Of_Each_Question = Is The ArrayList That I will Return From The Function */
-			   }
+			  for(int i = 0 ; i < All_Sum_Per_Qustiones_Of_All_Survey.length ; i++)
+			  {
+				  All_Sum_Per_Qustiones_Of_All_Survey[i] = All_Sum_Per_Qustiones_Of_All_Survey[i] / All_The_Survey_To_Return.size();
+				  Final_Average_Of_Each_Question.add(All_Sum_Per_Qustiones_Of_All_Survey[i] );
+			  }
 			  
-			   /* ------------------------------------------- In This 'For' We Calculate The Total Average --------------------------------------------------------------------------*/
-			   
-			   for(int i = 0 ; i < Final_Average_Of_Each_Question.size() ; i++)                                             /* In this Loop - Sum The Total Average */
-			   {
-				  Total_Average_Rank += Final_Average_Of_Each_Question.get(i);                                              /* Sum The Total Average */
-			   }
+			  for(int i = 0 ; i < Final_Average_Of_Each_Question.size() ; i++)
+			  {
+				  Total_Average_Rank += Final_Average_Of_Each_Question.get(i); 
+			  }
 			  
-			   Final_Average_Of_Each_Question.add(Total_Average_Rank); 														/* At Index 6 Will Be The Total Average Of All The Survey */
-			   Final_Average_Of_Each_Question.add((double)(Sum_Of_Clients));     											/* At Index 7 Will Be The Number Of Client */
+			  Final_Average_Of_Each_Question.add(Total_Average_Rank); /* At Index 7 Will Be The Total Average Of All The Survey */
+			  Final_Average_Of_Each_Question.add((double)(Sum_Of_Clients));     /* At Index 8 Will Be The Number Of Client */
 	  }
 	  catch (SQLException e) 
 	  {	
 		  e.printStackTrace();
 	  }
-	  return Final_Average_Of_Each_Question;                                                                                /* Return ArrayList With The Average Of Each Question And The Total Average And The Number Of the Survey */
+	  return Final_Average_Of_Each_Question;
   }
    
   @SuppressWarnings("unchecked")
+  
   protected void Update_The_Revenue_Of_All_The_Store(Object msg , Connection conn) /* This method get Orders Of Specific Store from DB */
   {
 	  ArrayList<Store> All_Stores = (ArrayList<Store>)(((Message)msg).getMsg());
@@ -1785,26 +1746,52 @@ public class EchoServer extends AbstractServer
     	 
      }
   
-  protected ArrayList<Product> getProductsFromDB(Connection conn) /* This method get products table details from DB */
+     protected ArrayList<Product> getProductsFromDB(Connection conn) /* This method get products table details from DB */
+     {
+   	  ArrayList<Product> products = new ArrayList<Product>();
+   	  Statement stmt;
+   	  String p;
+   	  Product pr;
+   	  try {
+   		  stmt = conn.createStatement();
+   		  String getProductsTable = "SELECT * FROM product;"; /* Get all the Table from the DB */
+   		  ResultSet rs = stmt.executeQuery(getProductsTable);
+   		  while(rs.next())
+   	 	{
+   		  pr = new Product();
+   		  pr.setpID(rs.getInt("ProductID"));
+   		  pr.setpName(rs.getString("ProductName"));
+   		  pr.setpType(ProductType.valueOf(rs.getString("productType")));
+   		  pr.setpPrice(rs.getDouble("productPrice"));
+   		  pr.setImage(rs.getBinaryStream("ProductPicure"));
+   		  pr.setpColor(ProductColor.valueOf(rs.getString("productColor")));
+   		  products.add(pr);
+   	 	}
+   	  } catch (SQLException e) {e.printStackTrace();} 
+   	  return products;
+     }
+  
+  protected ArrayList<Product> getProductsInSaleFromDB(Object msg, Connection conn) /* This method get products table details from DB */
   {
 	  ArrayList<Product> products = new ArrayList<Product>();
+	  int storeId = ((Store)(((Message)msg).getMsg())).getStoreId();
 	  Statement stmt;
 	  String p;
 	  Product pr;
 	  try {
 		  stmt = conn.createStatement();
-		  String getProductsTable = "SELECT * FROM product;"; /* Get all the Table from the DB */
+		  String getProductsTable = "SELECT * FROM productinsale WHERE StoreID = "+storeId+";"; /* Get all the Table from the DB */
 		  ResultSet rs = stmt.executeQuery(getProductsTable);
 		  while(rs.next())
 	 	{
 		  pr = new Product();
-		  pr.setpID(rs.getString("ProductID"));
-		  pr.setpName(rs.getString("ProductName"));
-		  pr.setpType(ProductType.valueOf(rs.getString("productType")));
+		  pr.setpID(rs.getInt("ProductID"));
+		  pr.setpStore(rs.getInt("StoreID"));
 		  pr.setpPrice(rs.getDouble("productPrice"));
+	      pr.setpType(Product.ProductType.valueOf(rs.getString("productType")));
 		  products.add(pr);
 	 	}
-	  } catch (SQLException e) {	e.printStackTrace();}	
+	  } catch (SQLException e) {e.printStackTrace();}	
 	  return products;
   }
   
@@ -1885,6 +1872,105 @@ public class EchoServer extends AbstractServer
 	  return users_After_Change;
   }
   
+  /*protected ArrayList<Integer> getAllOrdersToCustomerCancel(Object msg, Connection conn) //this method get all the orders that match to specific customer and can be cancel
+  {
+	  String requestedCustomerId=(String)(((Message)msg).getMsg());
+	  ArrayList<Integer> ordersNums = new ArrayList<Integer>();
+	  Statement stmt;
+	  Integer co;
+
+	  try {
+		  	stmt = conn.createStatement();
+	  		String getOrders = "SELECT * FROM project.order WHERE customerID='"+requestedCustomerId+"' AND orderRequiredSupplyDate ;"; //get all the orders numbers that connected to this customer and can be canceled
+	  		ResultSet rs = stmt.executeQuery(getOrders);
+	  		if(rs.isBeforeFirst()) //we have orders to this customer at DB
+	  		{
+	  			while(rs.next())
+	  			{
+	  				co = rs.getInt("orderID");
+	  				ordersNums.add(co);
+	  			}
+	  		}
+	  		else
+	  			ordersNums.add(-1); //to know that we didn't have orders to this customer at DB
+	
+		  		
+		  	}
+		  	else
+		  		ordersNums.add(-2); //to know that we didn't have this customer at DB
+		  } catch (SQLException e) {	e.printStackTrace();}			  
+	  return ordersNums;
+  }*/
+  
+  protected void UpdateProductAtDB(Object msg, Connection conn) /* This Method Update the DB */
+  	{
+  		Statement stmt;
+  		Product product = (Product) ((Message) msg).getMsg();
+  		try {
+  			String UpdateTableUsersPremmision;
+  			stmt = conn.createStatement();
+   		if(product.getByteArray() == null)
+  			{
+  			UpdateTableUsersPremmision = "UPDATE project.product SET ProductName =" + "'"
+  					+ product.getpName() + "',productType='"+product.getpType()+"',productPrice="+product.getpPrice()+",productColor='"+product.getpColor()+ "' WHERE ProductID=" + "'" + product.getpID() + "'" + ";";
+  			stmt.executeUpdate(UpdateTableUsersPremmision);
+  			}
+  			else
+  			{       
+  				InputStream targetStream= new ByteArrayInputStream(product.getByteArray());
+  				 String query = "UPDATE project.product SET ProductName =?,productType=?,productPrice=?,productColor=?,ProductPicure=? WHERE ProductID=?";
+  			      java.sql.PreparedStatement preparedStmt = conn.prepareStatement(query);
+  			      preparedStmt.setString   (1, product.getpName());
+  			      preparedStmt.setString(2, product.getpType().toString());
+  			      preparedStmt.setDouble(3, product.getpPrice());
+  			      preparedStmt.setString(4, product.getpColor().toString());
+  			      preparedStmt.setBlob(5, targetStream);
+  			      preparedStmt.setInt(6, product.getpID());
+  
+  			      preparedStmt.executeUpdate();
+  
+  			}
+  			
+  		} catch (Exception e) {
+  			e.printStackTrace();}
+  	}
+  
+  
+  protected void addProductToDB(Object msg, Connection conn) /* This Method Update the DB */
+	{
+		Statement stmt;
+		Product product = (Product) ((Message) msg).getMsg();
+		try {
+
+			stmt = conn.createStatement();                             
+			InputStream targetStream= new ByteArrayInputStream(product.getByteArray());
+			 String query = "INSERT INTO project.product SET ProductName =?,productType=?,productPrice=?,productColor=?,ProductPicure=?";
+		      java.sql.PreparedStatement preparedStmt = conn.prepareStatement(query);
+		      preparedStmt.setString   (1, product.getpName());
+		      preparedStmt.setString(2, product.getpType().toString());
+		      preparedStmt.setDouble(3, product.getpPrice());
+		      preparedStmt.setString(4, product.getpColor().toString());
+		      preparedStmt.setBlob(5, targetStream);
+		      preparedStmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();}
+	}
+  
+  protected void removeProductFromDB(Object msg, Connection conn) /* This Method Update the DB */
+	{
+		Statement stmt;
+		Product product = (Product) ((Message) msg).getMsg();
+		try {
+
+			stmt = conn.createStatement();                             
+			 String query = "DELETE FROM project.product WHERE ProductID="+product.getpID()+";";
+			 stmt.execute(query);
+			
+		} catch (Exception e) {
+			e.printStackTrace();}
+	}
+  
   protected ArrayList<Integer> getAllOrdersToCustomer(Object msg, Connection conn) //this method get all the orders that match to specific customer
   {
 	  String requestedCustomerId=(String)(((Message)msg).getMsg());
@@ -1918,6 +2004,66 @@ public class EchoServer extends AbstractServer
 	  return ordersNums;
   }
   
+  protected Complaint getSelectedComplaintDetails(Object msg, Connection conn) //this method return a complaint from the DB
+  {
+	  int requestedComplaintNum=(int)(((Message)msg).getMsg());
+	  Complaint c = null;
+	  Statement stmt;
+	  Integer temp;
+	  String str;
+	  Date day;
+	  Double money;
+
+	  try {
+		  	stmt = conn.createStatement();
+		  	String getComplaint = "SELECT * FROM project.complaint WHERE ComplaintNum="+requestedComplaintNum+";"; //get the complaint details
+		  	ResultSet rs = stmt.executeQuery(getComplaint);
+		  	while(rs.next())
+		  	{
+		  		c=new Complaint();
+		  		temp = rs.getInt("ComplaintNum");
+		  		c.setComplaintNum(temp);
+		  		str = rs.getString("ComplaintUserId");
+		  		c.setComplaintUserId(str);
+		  		str = rs.getString("ComplaintStatus");
+		  		c.setComplaintStat(Complaint.ComplaintStatus.valueOf(str));
+		  		day = rs.getDate("ComplaintDate");
+		  		c.setComplaintDate(day);
+		  		str = rs.getString("ComplaintDetails");
+		  		c.setComplaintDetails(str);
+		  		temp = rs.getInt("ComplaintOrderId");
+		  		c.setComplaintOrderId(temp);
+		  		str = rs.getString("ComplaintServiceWorkerUserName");
+		  		c.setComplaintServiceWorkerUserName(str);
+		  		str = rs.getString("ComplaintCompanyServiceWorkerAnswer");
+		  		if(str!=null)
+		  			c.setComplaintCompanyServiceWorkerAnswer(str);
+		  		money=rs.getDouble("ComplaintCompansation");
+		  			c.setComplaintCompansation(money);
+		  	}
+		  } catch (SQLException e) {	e.printStackTrace();}	
+	  System.out.print(c);
+	  return c;
+  }
+  
+  protected void UpdateComplaint(Object msg, Connection conn) //this method update the complaint at DB
+  {
+	  Complaint co = (Complaint)(((Message)msg).getMsg());
+	  Statement stmt;
+	  try {
+			stmt = conn.createStatement();
+			String updateComplaint = "UPDATE project.complaint SET ComplaintStatus ='" + co.getComplaintStat() +"', ComplaintCompansation="+co.getComplaintCompansation()+", ComplaintCompanyServiceWorkerAnswer='"+ co.getComplaintCompanyServiceWorkerAnswer()+ "' WHERE ComplaintNum='" +co.getComplaintNum() + "';";
+			stmt.executeUpdate(updateComplaint); //update the complaint at DB
+			if(co.getComplaintStat().equals("CLOSE")) //if we finish to handle the complaint
+			{
+				stmt = conn.createStatement(); //update the account compensation
+				String updateAccountBalance = "UPDATE project.account SET AccountBalanceCard = AccountBalanceCard + " +co.getComplaintCompansation() +"WHERE AccountUserId='" +co.getComplaintUserId() + "';";
+				stmt.executeUpdate(updateAccountBalance);
+			}
+		} catch (SQLException e) {	e.printStackTrace();}	  
+	  //ComplaintHandleController.saveComplaintflag=true;
+  }
+  
   protected ArrayList<Integer> getAllComplaintsForWorker(Object msg, Connection conn) //this method get all the complaints that match to specific customer service worker
   {
 	  String requestedCustomerServiceWorkerName=(String)(((Message)msg).getMsg());
@@ -1943,45 +2089,69 @@ public class EchoServer extends AbstractServer
 	  return complaintsNums;
   }
   
-  protected Account addNewAccountToDB(Object msg, Connection conn) //this method add new account to DB
+  protected Integer getStoreManagerStoreNum(Object msg, Connection conn) //this method get the store number for this store manager
   {
-	  Account newAccount = (Account)(((Message)msg).getMsg());
-	  System.out.println(((Account)((Message)msg).getMsg()));
-	  Account account=new Account();
-	  Statement stmt;	  
+	  Statement stmt;
+	  String userName=(String)((Message)msg).getMsg();
+	  Integer storeNum = 0;
 	  try {
-		  stmt = conn.createStatement(); //this statement check if we didn't have account with this userID
-		  String getAccountToID = "SELECT * FROM project.account WHERE AccountUserId="+newAccount.getAccountUserId()+";"; // get the account that connected to new account id of exist
-		  ResultSet rs = stmt.executeQuery(getAccountToID);
-		  if(!rs.isBeforeFirst()) //this statement enter new account to the DB  
-		  {
-			  stmt = conn.createStatement(); 
-			  String InsertAccountToID = "INSERT INTO project.account(AccountUserId, AccountBalanceCard, AccountPaymentMethod, AccountPaymentArrangement,AccountCreditCardNum,AccountSubscriptionEndDate)" + 
-			  		"VALUES("+newAccount.getAccountUserId()+","+newAccount.getAccountBalanceCard()+ ",'"+newAccount.getAccountPaymentMethod()+"','"+newAccount.getAccountPaymentArrangement()+"',"+newAccount.getAccountCreditCardNum()+",'"+newAccount.getAccountSubscriptionEndDate()+"');";
-			  stmt.executeUpdate(InsertAccountToID);	 
-			 // success="Add user successfully"; 
-			  account.setAccountUserId(newAccount.getAccountUserId());
-			  account.setAccountUserId(newAccount.getAccountUserId());
-			  account.setAccountPaymentArrangement(newAccount.getAccountPaymentArrangement());
-			  account.setAccountPaymentMethod(newAccount.getAccountPaymentMethod());
-			  account.setAccountBalanceCard(newAccount.getAccountBalanceCard());
-			  account.setAccountCreditCardNum(newAccount.getAccountCreditCardNum());
-			  account.setAccountSubscriptionEndDate(newAccount.getAccountSubscriptionEndDate());
-		  }
-		  else //if this user already had an account
-			  account.setAccountUserId("Account already exist");
-
-	  } catch (SQLException e) {	e.printStackTrace();}	
-	  
-	  //finally{
-		  return account;
-	 // }
+		  stmt = conn.createStatement();
+		  String getUserStoreNum = "SELECT * FROM project.store WHERE StoreManagerUserId = " + "'" +  userName + "'" + ";" ; /* Get all the Table from the DB */
+		  ResultSet rs = stmt.executeQuery(getUserStoreNum);
+		  while(rs.next())
+			  storeNum=rs.getInt("StoreID");
+	  } 
+	  catch (SQLException e) {	e.printStackTrace();}	
+	  return storeNum;
   }
   
-  protected Complaint addNewComplaintToDB(Object msg, Connection conn) //this method add new complaint to DB
+  protected String addNewAccountToDB(Object msg, Connection conn) //this method add new account to DB
+  {	  
+	  Account newAccount = (Account)(((Message)msg).getMsg());
+	  System.out.println(((Account)((Message)msg).getMsg()));
+	  String success=null;
+	  Statement stmt;	  
+	  try {
+		  stmt = conn.createStatement(); //this statement check if we didn't have this userID for a customer
+		  String getCustomerExist = "SELECT * FROM project.user WHERE UserId="+newAccount.getAccountUserId()+" AND UserPermission='CUSTOMER';"; //check if its correct user name
+		  ResultSet rs = stmt.executeQuery(getCustomerExist);
+		  if(rs.isBeforeFirst()) //this statement enter new account to the DB  
+		  {
+			  stmt = conn.createStatement(); //this statement check if we didn't have account with this userID
+			  String getAccountToID = "SELECT * FROM project.account WHERE AccountUserId="+newAccount.getAccountUserId()+" AND AccountStoreId="+newAccount.getAccountStoreNum()+";"; // get the account that connected to new account id of exist
+			  ResultSet rs1 = stmt.executeQuery(getAccountToID);
+			  if(!rs1.isBeforeFirst()) //this statement enter new account to the DB  
+			  {
+				  stmt = conn.createStatement(); 
+				  String InsertAccountToID=null;
+				  if(newAccount.getAccountSubscriptionEndDate()!=null)
+				  {
+					  InsertAccountToID = "INSERT INTO project.account(AccountUserId, AccountStoreId, AccountBalanceCard, AccountPaymentArrangement,AccountCreditCardNum,AccountSubscriptionEndDate)" + 
+							  "VALUES("+newAccount.getAccountUserId()+","+newAccount.getAccountStoreNum()+","+newAccount.getAccountBalanceCard()+ ",'"+newAccount.getAccountPaymentArrangement()+"',"+newAccount.getAccountCreditCardNum()+",'"+newAccount.getAccountSubscriptionEndDate()+"');";
+				  }
+				  else
+				  {
+					  InsertAccountToID = "INSERT INTO project.account(AccountUserId, AccountStoreId, AccountBalanceCard, AccountPaymentArrangement,AccountCreditCardNum,AccountSubscriptionEndDate)" + 
+							  "VALUES("+newAccount.getAccountUserId()+","+newAccount.getAccountStoreNum()+","+newAccount.getAccountBalanceCard()+ ",'"+newAccount.getAccountPaymentArrangement()+"',"+newAccount.getAccountCreditCardNum()+","+newAccount.getAccountSubscriptionEndDate()+");";
+				  }
+				  stmt.executeUpdate(InsertAccountToID);	 
+				  success="good";
+			  }
+			  else //if this user already had an account
+			  success="Account already exist";
+		  }
+		  else //if this user doesn't exist
+			  success="User doesnt exist";
+
+	  } catch (SQLException e) {	e.printStackTrace();}	
+	  return success;
+  }
+  
+  protected String addNewComplaintToDB(Object msg, Connection conn) //this method add new complaint to DB
   {
 	  Complaint newComplaint = (Complaint)(((Message)msg).getMsg());
-	  Complaint complaint=new Complaint();
+	 // Complaint complaint=new Complaint();
+	  String success=null;
 	  Statement stmt;	  
 	  try {
 		  stmt = conn.createStatement(); //this statement check if we didn't have this complaint in the DB
@@ -1989,31 +2159,34 @@ public class EchoServer extends AbstractServer
 		  ResultSet rs = stmt.executeQuery(getComplaintexist);
 		  if(!rs.isBeforeFirst()) //this statement try to enter new complaint to the DB  
 		  {
-			  //stmt = conn.createStatement();
-			  //String getCustomerServiceWorkerExist = "SELECT * FROM project.user WHERE UserName='"+newComplaint.getComplaintServiceWorkerUserName()+"' AND UserPermission='CUSTOMER_SERVICE_WORKER'"+";"; // get if the customer service worker is at DB
-			  //ResultSet rs1 = stmt.executeQuery(getCustomerServiceWorkerExist);
-			  //if(rs1.isBeforeFirst()) //we have customer service worker connected to this name at DB
-			 // {
-				  stmt = conn.createStatement(); 
-				  String InsertComplaint = "INSERT INTO project.complaint(ComplaintUserId, ComplaintStatus, ComplaintDate, ComplaintDetails, ComplaintOrderId, ComplaintServiceWorkerUserName)" + 
-						"VALUES('"+newComplaint.getComplaintUserId()+"','"+newComplaint.getComplaintStat()+"','"+newComplaint.getComplaintDate()+"','"+newComplaint.getComplaintDetails()+"',"+newComplaint.getComplaintOrderId()+",'"+newComplaint.getComplaintServiceWorkerUserName()+"');";
-				  stmt.executeUpdate(InsertComplaint);	
-				  //complaint.setComplaintNum(newComplaint.getComplaintNum());
-				  complaint.setComplaintStat(newComplaint.getComplaintStat());
-				  complaint.setComplaintUserId(newComplaint.getComplaintUserId());
-				  complaint.setComplaintDate(newComplaint.getComplaintDate());
-				  complaint.setComplaintDetails(newComplaint.getComplaintDetails());
-				  complaint.setComplaintOrderId(newComplaint.getComplaintOrderId());
-				  complaint.setComplaintServiceWorkerUserName(newComplaint.getComplaintServiceWorkerUserName());		  	  
+			  String[] monthName = {"January", "February",
+		                "March", "April", "May", "June", "July",
+		                "August", "September", "October", "November",
+		                "December"};
+			  Calendar cal = Calendar.getInstance();
+		      String month = monthName[cal.get(Calendar.MONTH)];
+			  stmt = conn.createStatement(); 
+			  String InsertComplaint = "INSERT INTO project.complaint(ComplaintUserId, ComplaintStatus, ComplaintDate, ComplaintDetails, ComplaintOrderId, ComplaintServiceWorkerUserName,complaintMonth)" + 
+					"VALUES('"+newComplaint.getComplaintUserId()+"','"+newComplaint.getComplaintStat()+"','"+newComplaint.getComplaintDate()+"','"+newComplaint.getComplaintDetails()+"',"+newComplaint.getComplaintOrderId()+",'"+newComplaint.getComplaintServiceWorkerUserName()+"','"+month+"');";
+			  stmt.executeUpdate(InsertComplaint);	
+			  success="good";
+			  //complaint.setComplaintNum(newComplaint.getComplaintNum());
+			 /* complaint.setComplaintStat(newComplaint.getComplaintStat());
+			  complaint.setComplaintUserId(newComplaint.getComplaintUserId());
+			  complaint.setComplaintDate(newComplaint.getComplaintDate());
+			  complaint.setComplaintDetails(newComplaint.getComplaintDetails());
+			  complaint.setComplaintOrderId(newComplaint.getComplaintOrderId());
+			  complaint.setComplaintServiceWorkerUserName(newComplaint.getComplaintServiceWorkerUserName());*/		
+				    	  
 			 // }//אולי לבטל את כל הSET הזה
-			 // else
-				  complaint.setComplaintDetails("Customer service worker doesn't exist");  					    
+			 // else				    
 		  }
 		  else //if this complaint is already exist
-			  complaint.setComplaintDetails("Complaint already exist");
+			  //complaint.setComplaintDetails("Complaint already exist");
+			  success="Complaint already exist";
 
 	  } catch (SQLException e) {	e.printStackTrace();}	  
-	  return complaint;
+	  return success;
   }
   
   protected User getUserStatusFromDB(Object msg, Connection conn) /* This method get products table details from DB */
@@ -2083,17 +2256,152 @@ public class EchoServer extends AbstractServer
 	  return Id;
   }
   
-  protected void AddNewOrderToDB(Object msg, Connection conn) //this method add new account to DB
+  protected String AddNewOrderToDB(Object msg, Connection conn) //this method add new account to DB
   {
 	  Order newOrder = (Order)(((Message)msg).getMsg());
-	  Statement stmt;	  
+	  int orderID=0;
+	  Statement stmt;
+	  Account.PaymentArrangement arrangement = null;
 	  try {
 			  stmt = conn.createStatement(); 
-			  String InsertAccountToID = "INSERT INTO project.order(customerID, orderSupplyOption, orderTotalPrice, orderRequiredSupplyDate, orderRequiredSupplyTime, orderRecipientAddress , orderRecipientName , orderRecipientPhoneNumber, orderPostcard ,orderDate)" + 
-			  		"VALUES('"+newOrder.getCustomerID()+"','"+newOrder.getSupply()+ "',"+newOrder.getOrderTotalPrice()+",'"+newOrder.getRequiredSupplyDate()+"','"+newOrder.getRequiredSupplyTime()+"','"+newOrder.getRecipientAddress()+"','"+newOrder.getRecipientName()+"','"+newOrder.getRecipienPhoneNum()+"','"+newOrder.getPostCard()+"','"+newOrder.getOrderDate()+"');";
-			  stmt.executeUpdate(InsertAccountToID);	 
-		 
+			  String InsertAccountToID = "SELECT AccountPaymentArrangement FROM project.account WHERE AccountUserId = '"+newOrder.getCustomerID()+"' AND AccountStoreId= "+newOrder.getStoreID()+";";
+			  ResultSet rs = stmt.executeQuery(InsertAccountToID);
+			  while(rs.next())
+			 	{
+				  arrangement=Account.PaymentArrangement.valueOf(rs.getString("AccountPaymentArrangement"));
+			 	}
+			  if(arrangement != null) 
+			  {	 
+				  InsertAccountToID = "INSERT INTO project.order(customerID, orderSupplyOption, orderTotalPrice, orderRequiredSupplyDate, orderRequiredSupplyTime, orderRecipientAddress , orderRecipientName , orderRecipientPhoneNumber, orderPostcard ,orderDate, StoreID ,paymentMethod)" + 
+				  		"VALUES('"+newOrder.getCustomerID()+"','"+newOrder.getSupply()+ "',"+newOrder.getOrderTotalPrice()+",'"+newOrder.getRequiredSupplyDate()+"','"+newOrder.getRequiredSupplyTime()+"','"+newOrder.getRecipientAddress()+"','"+newOrder.getRecipientName()+"','"+newOrder.getRecipienPhoneNum()+"','"+newOrder.getPostCard()+"','"+newOrder.getOrderDate()+"' , "+newOrder.getStoreID()+",'"+Account.PaymentMethod.CASH+"');";
+				  stmt.executeUpdate(InsertAccountToID);
+				  InsertAccountToID = "SELECT orderID FROM project.`order` WHERE customerID = '"+newOrder.getCustomerID()+"' AND orderDate = '"+newOrder.getOrderDate()+"' AND orderTotalPrice = "+newOrder.getOrderTotalPrice()+" AND orderRequiredSupplyTime ='"+newOrder.getRequiredSupplyTime()+"';";
+				  rs = stmt.executeQuery(InsertAccountToID);
+				  while(rs.next())
+				 	{
+					  orderID=rs.getInt("orderID");
+				 	}
+				  for(Entry<Product, Integer> e : ((Order)(((Message)msg).getMsg())).getProductsInOrder().entrySet())
+				  {
+					  InsertAccountToID = "INSERT INTO project.productinorder(ProductID, OrderID, QuantityOfProduct, ProductType, ProductName, productPrice)"+ 
+						  		"VALUES('"+e.getKey().getpID()+"',"+orderID+ ","+e.getValue()+",'"+e.getKey().getpType()+"','"+e.getKey().getpName()+"',"+e.getKey().getpPrice()+");";
+						  stmt.executeUpdate(InsertAccountToID);
+				  }
+				  return "";
+			  }
 	  } catch (SQLException e) {	e.printStackTrace();}	
+	  return "No account";
+  }
+  
+  protected ArrayList<Store> getStoresFromDB(Connection conn) /* This method get products table details from DB */
+  {
+	  ArrayList<Store> stores = new ArrayList<Store>();
+	  Statement stmt;
+	  String p;
+	  Store pr;
+	  try {
+		  stmt = conn.createStatement();
+		  String getProductsTable = "SELECT * FROM store;"; /* Get all the Table from the DB */
+		  ResultSet rs = stmt.executeQuery(getProductsTable);
+		  while(rs.next())
+	 	{
+		  pr = new Store();
+		  pr.setStoreId(rs.getInt("StoreID"));
+		  pr.setStore_Address(rs.getString("StoreAddress"));
+		  stores.add(pr);
+	 	}
+	  } catch (SQLException e) {	e.printStackTrace();}	
+	  return stores;
+  }
+  
+  
+  protected Account UpdateUserAccountAtDB(Object msg, Connection conn) /* This Method Update the DB */
+  {
+	  Account account = new Account();
+	  Statement stmt;
+	  double prevBalance=0;
+	  Account.PaymentArrangement arrangement = null;
+	  Order customerOrder = (Order)((Message)msg).getMsg();
+	  try {
+		  stmt = conn.createStatement();
+		  String getCustomerAccount = "SELECT * FROM project.account WHERE AccountUserId='"+customerOrder.getCustomerID()+"'; " ;
+		  ResultSet rs = stmt.executeQuery(getCustomerAccount);
+		  while(rs.next())
+		 	{
+		  prevBalance = rs.getDouble("AccountBalanceCard");
+		  arrangement = Account.PaymentArrangement.valueOf(rs.getString("AccountPaymentArrangement"));
+		 	}
+		  if(arrangement.equals(Account.PaymentArrangement.FULLPRICE))
+			  prevBalance -= customerOrder.getOrderTotalPrice();
+		  else if(arrangement.equals(Account.PaymentArrangement.ANNUAL))
+			  prevBalance -= customerOrder.getOrderTotalPrice()*0.875;
+		  else if(arrangement.equals(Account.PaymentArrangement.MONTHLY))
+			  prevBalance -= customerOrder.getOrderTotalPrice()*0.9;		  
+		  String UpdateTableAccount = "UPDATE project.account SET AccountBalanceCard =" +  prevBalance  + "WHERE AccountUserId='"+customerOrder.getCustomerID()+"'; " ;
+		  stmt.executeUpdate(UpdateTableAccount);
+		  getCustomerAccount = "SELECT * FROM project.account WHERE AccountUserId='"+customerOrder.getCustomerID()+"'; " ;
+		  rs = stmt.executeQuery(getCustomerAccount);
+		  while(rs.next())
+		 	{
+			  account.setAccountUserId(rs.getString("AccountUserId"));
+			  account.setAccountBalanceCard(rs.getDouble("AccountBalanceCard"));
+			  account.setAccountCreditCardNum(rs.getString("AccountCreditCardNum"));
+			  account.setAccountSubscriptionEndDate(rs.getDate("AccountSubscriptionEndDate"));
+			  account.setAccountPaymentArrangement(Account.PaymentArrangement.valueOf(rs.getString("AccountPaymentArrangement")));
+		 	}
+	  } 
+	  catch (SQLException e) {	e.printStackTrace();}	  
+	  return account;
+  }
+  
+  
+
+  //Class methods ***************************************************
+  
+  /**
+   * This method is responsible for the creation of 
+   * the server instance (there is no UI in this phase).
+   *
+   * @param args[0] - The port number to listen on.  Defaults to 5555 
+   *          if no argument is entered.
+   */
+  public static void main(String[] args) 
+  {
+    int port = 0; /* Port to listen on */
+
+    try
+    {
+      port = Integer.parseInt(args[0]); /* Get port from command line */
+    }
+    catch(Throwable t)
+    {
+      port = DEFAULT_PORT; /* Set port to 5555 */
+    }
+	
+    EchoServer sv = new EchoServer(port);
+    
+
+    System.out.println("Please enter the mySQL scheme name:");
+	Scanner scanner = new Scanner(System.in);
+	 //name= scanner.next();
+	name = "project";
+	url = "jdbc:mysql://localhost/" + name;/* Enter jbdc mySQL */
+
+	System.out.println("Please enter the mySQL user name:");
+	 //username =scanner.next(); /* Enter mySQL name */
+	 username = "root";
+
+	 System.out.println("Please enter the mySQL password:");
+	 //password = scanner.next(); /* Enter mySQL password */
+     password = "308155308";
+    try 
+    {
+      sv.listen(); /* Start listening for connections */
+    } 
+    catch (Exception ex) 
+    {
+      System.out.println("ERROR - Could not listen for clients!");
+    }
   }
 }
 

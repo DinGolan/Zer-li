@@ -83,9 +83,17 @@ public class ChatClient extends AbstractClient
 	  else if(((Message)msg).getOption().compareTo("Get all orders for this customer") ==0)
 		  clientUI.displayUI(msg);
 	  else if(((Message)msg).getOption().compareTo("Get all complaints numbers for this customer service worker") ==0)
-		  clientUI.displayUI(msg); 
-	  else if(((Message)msg).getOption().compareTo("Store Manager - Want To Store Number And Address Of The Store") == 0) 
 		  clientUI.displayUI(msg);
+	  else if(((Message)msg).getOption().compareTo("Get complaint details") ==0)
+	  {
+		  System.out.println("maymay");
+		  clientUI.displayUI(msg);
+	  }
+	  else if(((Message)msg).getOption().compareTo("Store manager want store number") ==0)
+		  clientUI.displayUI(msg);
+	  //else if(((Message)msg).getOption().compareTo("Update complaint") ==0)
+	//	  clientUI.displayUI(msg);	   else if(((Message)msg).getOption().compareTo("Store Manager - Add Store To Combo Box From DB") == 0) 
+
 	  else if(((Message)msg).getOption().compareTo("Store Manager - Take The Orders Of Specific Store") == 0) 
 		  clientUI.displayUI(msg);
 	  else if(((Message)msg).getOption().compareTo("Store Manager - Take The Complaints Of Specific Store") == 0) 
@@ -110,7 +118,7 @@ public class ChatClient extends AbstractClient
 		  clientUI.displayUI(msg);
 	  else if(((Message)msg).getOption().compareTo("Company Manager - Compare Between Two Different Quarter") == 0) 
 		  clientUI.displayUI(msg);
-	  }
+  }
 
   /**
    * This method handles all data coming from the UI            

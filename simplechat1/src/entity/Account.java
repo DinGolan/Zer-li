@@ -7,10 +7,11 @@ public class Account implements Serializable{
 
 	private String accountUserId; //save the userId for this account
 	public PaymentArrangement accountPaymentArrangement;
-	public PaymentMethod accountPaymentMethod;
+	//public PaymentMethod accountPaymentMethod;
 	private double accountBalanceCard;
 	private String accountCreditCardNum;
 	private Date accountSubscriptionEndDate;
+	private int accountStoreNum;
 	
 	public enum PaymentArrangement{ //enum for the payment arrangement
 		FULLPRICE,MONTHLY,ANNUAL
@@ -57,13 +58,13 @@ public class Account implements Serializable{
 		this.accountPaymentArrangement = accountPaymentArrangement;
 	}
 
-	public PaymentMethod getAccountPaymentMethod() { //accountPaymentMethod getter
-		return accountPaymentMethod;
-	}
+	//public PaymentMethod getAccountPaymentMethod() { //accountPaymentMethod getter
+	//	return accountPaymentMethod;
+	//}
 
-	public void setAccountPaymentMethod(PaymentMethod accountPaymentMethod) { //accountPaymentMethod setter
-		this.accountPaymentMethod = accountPaymentMethod;
-	}
+	//public void setAccountPaymentMethod(PaymentMethod accountPaymentMethod) { //accountPaymentMethod setter
+	//	this.accountPaymentMethod = accountPaymentMethod;
+	//}
 
 	public double getAccountBalanceCard() { //accountBalanceCard getter
 		return accountBalanceCard;
@@ -90,12 +91,20 @@ public class Account implements Serializable{
 		this.accountSubscriptionEndDate = date;
 	}
 
+	public int getAccountStoreNum() {
+		return accountStoreNum;
+	}
+
+	public void setAccountStoreNum(int accountStoreNum) {
+		this.accountStoreNum = accountStoreNum;
+	}
+
 	@Override
 	public String toString() {
 		return "Account [accountUserId=" + accountUserId + ", accountPaymentArrangement=" + accountPaymentArrangement
-				+ ", accountPaymentMethod=" + accountPaymentMethod + ", accountBalanceCard=" + accountBalanceCard
-				+ ", accountCreditCardNum=" + accountCreditCardNum + ", accountSubscriptionEndDate="
-				+ accountSubscriptionEndDate + "]";
-	}	
+				+ ", accountBalanceCard=" + accountBalanceCard + ", accountCreditCardNum=" + accountCreditCardNum
+				+ ", accountSubscriptionEndDate=" + accountSubscriptionEndDate + ", accountStoreNum=" + accountStoreNum
+				+ "]";
+	}
 	
 }

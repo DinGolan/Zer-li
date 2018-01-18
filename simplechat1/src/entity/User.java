@@ -21,7 +21,7 @@ public class User implements Serializable {
 	public enum UserStatus {BLOCKED , CONNECTED , DISCONNECTED}
 	
 	public enum UserPermission {COMPANY_MANAGER , STORE_MANAGER , EXPERT ,
-		CUSTOMER_SERVICE_WORKER , CUSTOMER , DATA_COMPANY_MANAGER}
+		CUSTOMER_SERVICE_WORKER , CUSTOMER , DATA_COMPANY_MANAGER, COMPANY_WORKER , STORE_WORKER}
 	
 	public User(String id , String UserName , String phone, String password , UserStatus status , UserPermission permission) 
 	{
