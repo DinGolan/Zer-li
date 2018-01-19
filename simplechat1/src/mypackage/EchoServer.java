@@ -10,6 +10,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -2457,7 +2459,7 @@ public class EchoServer extends AbstractServer
 	  Account.PaymentArrangement arrangement = null;
 	  try {
 			  stmt = conn.createStatement(); 
-			  String InsertAccountToID = "SELECT AccountPaymentArrangement FROM project.account WHERE AccountUserId = '"+newOrder.getCustomerID()+"' AND AccountStoreId= "+newOrder.getStoreID()+";";
+			  String InsertAccountToID = "SELECT * FROM project.account WHERE AccountUserId = '"+newOrder.getCustomerID()+"' AND AccountStoreId= "+newOrder.getStoreID()+";";
 			  ResultSet rs = stmt.executeQuery(InsertAccountToID);
 			  while(rs.next())
 			 	{
@@ -2465,8 +2467,8 @@ public class EchoServer extends AbstractServer
 			 	}
 			  if(arrangement != null) 
 			  {	 
-				  InsertAccountToID = "INSERT INTO project.order(customerID, orderSupplyOption, orderTotalPrice, orderRequiredSupplyDate, orderRequiredSupplyTime, orderRecipientAddress , orderRecipientName , orderRecipientPhoneNumber, orderPostcard ,orderDate, StoreID ,paymentMethod)" + 
-				  		"VALUES('"+newOrder.getCustomerID()+"','"+newOrder.getSupply()+ "',"+newOrder.getOrderTotalPrice()+",'"+newOrder.getRequiredSupplyDate()+"','"+newOrder.getRequiredSupplyTime()+"','"+newOrder.getRecipientAddress()+"','"+newOrder.getRecipientName()+"','"+newOrder.getRecipienPhoneNum()+"','"+newOrder.getPostCard()+"','"+newOrder.getOrderDate()+"' , "+newOrder.getStoreID()+",'"+Account.PaymentMethod.CASH+"');";
+				  InsertAccountToID = "INSERT INTO project.order(customerID, orderSupplyOption, orderTotalPrice, orderRequiredSupplyDate, orderRequiredSupplyTime, orderRecipientAddress , orderRecipientName , orderRecipientPhoneNumber, orderPostcard ,orderDate, StoreID ,paymentMethod,orderStatus)" + 
+				  		"VALUES('"+newOrder.getCustomerID()+"','"+newOrder.getSupply()+ "',"+newOrder.getOrderTotalPrice()+",'"+newOrder.getRequiredSupplyDate()+"','"+newOrder.getRequiredSupplyTime()+"','"+newOrder.getRecipientAddress()+"','"+newOrder.getRecipientName()+"','"+newOrder.getRecipienPhoneNum()+"','"+newOrder.getPostCard()+"','"+newOrder.getOrderDate()+"' , "+newOrder.getStoreID()+",'"+newOrder.getPaymentMethod()+"','"+Order.orderStatus.APPROVED+"');";
 				  stmt.executeUpdate(InsertAccountToID);
 				  InsertAccountToID = "SELECT orderID FROM project.`order` WHERE customerID = '"+newOrder.getCustomerID()+"' AND orderDate = '"+newOrder.getOrderDate()+"' AND orderTotalPrice = "+newOrder.getOrderTotalPrice()+" AND orderRequiredSupplyTime ='"+newOrder.getRequiredSupplyTime()+"';";
 				  rs = stmt.executeQuery(InsertAccountToID);
@@ -2512,39 +2514,44 @@ public class EchoServer extends AbstractServer
   {
 	  Account account = new Account();
 	  Statement stmt;
-	  double prevBalance=0;
+	  LocalDate today = LocalDate.now();
+	  Date date = null;
 	  Account.PaymentArrangement arrangement = null;
-	  Order customerOrder = (Order)((Message)msg).getMsg();
+	  String userId = (String)((Message)msg).getMsg();
 	  try {
 		  stmt = conn.createStatement();
-		  String getCustomerAccount = "SELECT * FROM project.account WHERE AccountUserId='"+customerOrder.getCustomerID()+"'; " ;
+		  String getCustomerAccount = "SELECT * FROM project.account WHERE AccountUserId='"+userId+"'; " ;
 		  ResultSet rs = stmt.executeQuery(getCustomerAccount);
 		  while(rs.next())
 		 	{
-		  prevBalance = rs.getDouble("AccountBalanceCard");
-		  arrangement = Account.PaymentArrangement.valueOf(rs.getString("AccountPaymentArrangement"));
+			  date = rs.getDate("AccountSubscriptionEndDate");
+			  arrangement = Account.PaymentArrangement.valueOf(rs.getString("AccountPaymentArrangement"));
 		 	}
-		  if(arrangement.equals(Account.PaymentArrangement.FULLPRICE))
-			  prevBalance -= customerOrder.getOrderTotalPrice();
-		  else if(arrangement.equals(Account.PaymentArrangement.ANNUAL))
-			  prevBalance -= customerOrder.getOrderTotalPrice()*0.875;
-		  else if(arrangement.equals(Account.PaymentArrangement.MONTHLY))
-			  prevBalance -= customerOrder.getOrderTotalPrice()*0.9;		  
-		  String UpdateTableAccount = "UPDATE project.account SET AccountBalanceCard =" +  prevBalance  + "WHERE AccountUserId='"+customerOrder.getCustomerID()+"'; " ;
-		  stmt.executeUpdate(UpdateTableAccount);
-		  getCustomerAccount = "SELECT * FROM project.account WHERE AccountUserId='"+customerOrder.getCustomerID()+"'; " ;
-		  rs = stmt.executeQuery(getCustomerAccount);
-		  while(rs.next())
-		 	{
-			  account.setAccountUserId(rs.getString("AccountUserId"));
-			  account.setAccountBalanceCard(rs.getDouble("AccountBalanceCard"));
-			  account.setAccountCreditCardNum(rs.getString("AccountCreditCardNum"));
-			  account.setAccountSubscriptionEndDate(rs.getDate("AccountSubscriptionEndDate"));
-			  account.setAccountPaymentArrangement(Account.PaymentArrangement.valueOf(rs.getString("AccountPaymentArrangement")));
-		 	}
+		  if(arrangement != null)
+		  {
+			  if(arrangement.equals(Account.PaymentArrangement.ANNUAL) || arrangement.equals(Account.PaymentArrangement.MONTHLY))
+			  {
+				  if(today.getYear()>date.getYear() ||  (today.getYear() == date.getYear() && today.getMonthValue()>date.getMonth()) || (today.getYear() == date.getYear() && today.getMonthValue() == date.getMonth() && today.getDayOfMonth() > date.getDate())) // check end date of PaymentArrangement
+				  {
+					  getCustomerAccount="UPDATE project.account SET AccountPaymentArrangement='FULLPRICE' WHERE AccountUserId='"+userId+"';";
+					  stmt.executeUpdate(getCustomerAccount);
+				  }
+			  }
+			  getCustomerAccount = "SELECT * FROM project.account WHERE AccountUserId='"+userId+"'; " ;
+			  rs = stmt.executeQuery(getCustomerAccount);
+			  while(rs.next())
+			 	{
+				  account.setAccountUserId(rs.getString("AccountUserId"));
+				  account.setAccountBalanceCard(rs.getDouble("AccountBalanceCard"));
+				  account.setAccountCreditCardNum(rs.getString("AccountCreditCardNum"));
+				  account.setAccountSubscriptionEndDate(rs.getDate("AccountSubscriptionEndDate"));
+				  account.setAccountPaymentArrangement(Account.PaymentArrangement.valueOf(rs.getString("AccountPaymentArrangement")));
+			 	}
+			  return account;
+		  }
 	  } 
 	  catch (SQLException e) {	e.printStackTrace();}	  
-	  return account;
+	  return null;
   }
 }
 

@@ -38,11 +38,19 @@ public class Order implements Serializable{
 	
 	private String postCard;
 	
+	private double refund;
+	
+	private orderStatus oStatus;
+	
 	private Account.PaymentMethod paymentMethod;
+	
+	private Account.PaymentArrangement paymentArrangement;
 
 	private static final double deliveryPrice = 20;
 	
 	public enum SupplyOption { DELIVERY , PICKUP }
+	
+	public enum orderStatus { APPROVED , CANCEL }
 	
 	public Order()
 	{
@@ -53,7 +61,7 @@ public class Order implements Serializable{
 
 	public Order(SupplyOption supply, double orderTotalPrice, HashMap<Product, Integer> productsInOrder,
 			LocalDate requiredSupplyDate, String customerID, String requiredSupplyTime, String recipientAddress,
-			String recipientName, String recipienPhoneNum, String postCard,  int storeID) {
+			String recipientName, String recipienPhoneNum, String postCard,  int storeID, Account.PaymentMethod paymentMethod) {
 		super();
 		this.supply = supply;
 		this.orderDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
@@ -206,6 +214,30 @@ public class Order implements Serializable{
 
 	public void setPaymentMethod(Account.PaymentMethod paymentMethod) {
 		this.paymentMethod = paymentMethod;
+	}
+
+
+
+	public double getRefund() {
+		return refund;
+	}
+
+
+
+	public void setRefund(double refund) {
+		this.refund = refund;
+	}
+
+
+
+	public orderStatus getoStatus() {
+		return oStatus;
+	}
+
+
+
+	public void setoStatus(orderStatus oStatus) {
+		this.oStatus = oStatus;
 	}
 	
 	
