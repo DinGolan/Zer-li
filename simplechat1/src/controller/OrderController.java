@@ -99,8 +99,9 @@ public class OrderController implements Initializable{
 	private Label lbltotalprice= null; /* text field for Total price of cart */
 	@FXML
 	private Label lblArrangement= null; /* text field for Total price of cart */
-	
-	
+	@FXML
+	private Label lblImidiateOrder= null; /* text field for Total price of cart */
+
 	@FXML
 	private DatePicker dpRequiresSupplyDate=new DatePicker(LocalDate.now());  //DatePicker with the end date of the subscription
 	
@@ -111,6 +112,8 @@ public class OrderController implements Initializable{
 	public static double totalPrice;
 	
 	ObservableList<String> listForComboBox;
+	
+	private static boolean imidiateOrderFlag = false;
 	
 
 	@Override
@@ -124,6 +127,13 @@ public class OrderController implements Initializable{
 		{
 			lbltotalprice.setText(String.valueOf(totalPrice) + " NS");
 			lblArrangement.setText(String.valueOf(CustomerUI.account.getAccountPaymentArrangement()));
+			if(imidiateOrderFlag == false)
+				lblImidiateOrder.setText("Your order will be delivered at the requested time");
+			else
+			{
+				lblImidiateOrder.setText("Your order will be delivered within 3 hours");
+				imidiateOrderFlag = false;
+			}
 		}
 	}
 	
@@ -342,6 +352,10 @@ public class OrderController implements Initializable{
 						}
 						accountFlag = false;
 						OrderUI.order = null;
+						if(localDate.equals(today) && (Integer.valueOf(hours) < (hour+3)) || ((Integer.valueOf(hours) == (hour+3)) && (Integer.valueOf(minutes) <= minute)))
+						{
+							imidiateOrderFlag= true;
+						}
 						flag=3;
 						((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
 						Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
