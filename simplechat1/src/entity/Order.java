@@ -3,10 +3,8 @@ package entity;
 import java.io.Serializable;
 import java.sql.Date;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.time.LocalDate;
 
 public class Order implements Serializable{
 
