@@ -126,7 +126,6 @@ public class ClientConsole implements ChatIF
     try
     {
     	client.handleMessageFromClientUI(msg);
-    	//msg.getMsg().
     } 
     catch (Exception ex) 
     {
