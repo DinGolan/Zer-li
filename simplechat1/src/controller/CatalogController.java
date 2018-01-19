@@ -43,6 +43,8 @@ public class CatalogController implements Initializable {
 	@FXML
 	private Button btnBack = null;	
 	@FXML
+	private Button btnTryAgain = null;	
+	@FXML
 	private Button btnAddToCard = null;	
 	@FXML
 	private Hyperlink BouquetsLink;	
@@ -71,17 +73,17 @@ public class CatalogController implements Initializable {
 	@FXML
 	private TextField txtPAmmount; /* text field for the product Name */
 	
-	@FXML private TableView<CatalogItemRow> catalog_table;
+	@FXML private TableView<CatalogItemRow> catalog_table = new TableView<>();
 
-	@FXML private TableColumn<CatalogItemRow, String> tablecolumn_id;
+	@FXML private TableColumn<CatalogItemRow, String> tablecolumn_id = new TableColumn<>();
 
-	@FXML private TableColumn<CatalogItemRow, String> tablecolumn_name;
+	@FXML private TableColumn<CatalogItemRow, String> tablecolumn_name = new TableColumn<>();
 
-	@FXML private TableColumn<CatalogItemRow, Product.ProductType> tablecolumn_type;
+	@FXML private TableColumn<CatalogItemRow, Product.ProductType> tablecolumn_type = new TableColumn<>();
 
-	@FXML private TableColumn<CatalogItemRow, Double> tablecolumn_price;
+	@FXML private TableColumn<CatalogItemRow, Double> tablecolumn_price = new TableColumn<>();
 
-	@FXML private TableColumn<CatalogItemRow, ImageView> tablecolumn_image;
+	@FXML private TableColumn<CatalogItemRow, ImageView> tablecolumn_image = new TableColumn<>();
 
 	ObservableList<CatalogItemRow> catalog = FXCollections.observableArrayList();
 	ObservableList<String> productsId = FXCollections.observableArrayList();
@@ -324,21 +326,30 @@ public class CatalogController implements Initializable {
 	{
 		String pId = cmbPid.getValue();
 		int pAmmount;
-		if(txtPAmmount.getText().compareTo("")!=0)
+		try
 		{
-			pAmmount = Integer.valueOf(txtPAmmount.getText());
-			if(pId != null)
+			if((txtPAmmount.getText().compareTo("")!=0) && (Integer.valueOf(txtPAmmount.getText())) > 0)
 			{
-				Product p = getproductById(pId);
-				if(p != null)
+				pAmmount = Integer.valueOf(txtPAmmount.getText());
+				if(pId != null)
 				{
-					if(order.getProductsInOrder().containsKey(p))
-						order.getProductsInOrder().put(p, (order.getProductsInOrder().get(p))+pAmmount);
-					else
-						order.getProductsInOrder().put(p, pAmmount);
-					txtPAmmount.setText("");
+					Product p = getproductById(pId);
+					if(p != null)
+					{
+						if(order.getProductsInOrder().containsKey(p))
+							order.getProductsInOrder().put(p, (order.getProductsInOrder().get(p))+pAmmount);
+						else
+							order.getProductsInOrder().put(p, pAmmount);
+						txtPAmmount.setText("");
+					}
 				}
 			}
+			else
+				showErrMsg(event);
+		}
+		catch (NumberFormatException e)
+		{
+			showErrMsg(event);
 		}
 	}
 
@@ -351,5 +362,35 @@ public class CatalogController implements Initializable {
 				return CatalogUI.products.get(i);
 		}
 		return null;
+	}
+	
+	public void showErrMsg(ActionEvent event) throws Exception // add product to cart
+	{
+		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+		Stage primaryStage = new Stage();
+		FXMLLoader loader = new FXMLLoader();
+		Pane root = loader.load(getClass().getResource("/controller/ErrMsgInCatalog.fxml").openStream());
+		
+		
+		Scene scene = new Scene(root);			
+		//scene.getStylesheets().add(getClass().getResource("/gui/StudentForm.css").toExternalForm());
+		primaryStage.setTitle("Error Msg");
+		primaryStage.setScene(scene);		
+		primaryStage.show();
+	}
+	
+	public void tryAgainMakeOrder(ActionEvent event) throws Exception // add product to cart
+	{
+		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+		Stage primaryStage = new Stage();
+		FXMLLoader loader = new FXMLLoader();
+		Pane root = loader.load(getClass().getResource("/controller/Catalog.fxml").openStream());
+		
+		
+		Scene scene = new Scene(root);			
+		//scene.getStylesheets().add(getClass().getResource("/gui/StudentForm.css").toExternalForm());
+		primaryStage.setTitle("Catalog");
+		primaryStage.setScene(scene);		
+		primaryStage.show();
 	}
 }

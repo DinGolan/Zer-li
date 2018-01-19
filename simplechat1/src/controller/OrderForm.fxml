@@ -9,32 +9,35 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="569.0" prefWidth="491.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.OrderController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="659.0" prefWidth="556.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.OrderController">
    <children>
-      <Label layoutX="178.0" layoutY="22.0" prefHeight="35.0" prefWidth="149.0" text="Order - Form" textAlignment="CENTER" textFill="#000dff">
+      <Label layoutX="196.0" layoutY="22.0" prefHeight="35.0" prefWidth="149.0" text="Order - Form" textAlignment="CENTER" textFill="#000dff">
          <font>
             <Font name="System Bold" size="24.0" />
          </font></Label>
-      <Label layoutX="31.0" layoutY="481.0" text="Total Order Price : " />
-      <Label layoutX="29.0" layoutY="204.0" text="supply option : " />
-      <RadioButton id="rdbtnDelivery" fx:id="rdbtnDelivery" layoutX="171.0" layoutY="204.0" mnemonicParsing="false" onAction="#supplyByDelivery" text="Delivery" />
-      <RadioButton id="rdbtnPickup" fx:id="rdbtnPickup" layoutX="293.0" layoutY="204.0" mnemonicParsing="false" onAction="#supplyByPickup" selected="true" text="Pickup" />
-      <DatePicker id="dpRequiresSupplyDate" fx:id="dpRequiresSupplyDate" layoutX="209.0" layoutY="384.0" promptText="None" />
-      <Label layoutX="30.0" layoutY="386.0" text="required supply Date : " />
-      <TextField id="txtTotalOrderPrice" fx:id="txtTotalOrderPrice" editable="false" layoutX="209.0" layoutY="477.0" promptText="0.0" />
-      <Button id="btnOrderNow" fx:id="btnOrderNow" layoutX="68.0" layoutY="520.0" mnemonicParsing="false" onAction="#checkAndSaveOrderDetails" text="Order Now" />
-      <Button id="btnBackToCart" fx:id="btnBack" layoutX="383.0" layoutY="520.0" mnemonicParsing="false" onAction="#closeCarttWindow" text="Back" />
-      <Label layoutX="27.0" layoutY="76.0" text="add postCard:" />
-      <RadioButton id="rdbtnAddPostCard" fx:id="rdbtnAddPostCard" layoutX="169.0" layoutY="76.0" mnemonicParsing="false" onAction="#AddPostCard" text="Yes" />
-      <RadioButton id="rdbtnNoAddPostCard" fx:id="rdbtnNoAddPostCard" layoutX="291.0" layoutY="76.0" mnemonicParsing="false" onAction="#NotAddPostCard" selected="true" text="No" />
-      <TextArea id="txtPostCard" fx:id="txtPostCard" editable="false" layoutX="26.0" layoutY="108.0" prefHeight="77.0" prefWidth="406.0" promptText="postCard text" />
-      <Label layoutX="32.0" layoutY="239.0" text="recipient's address : " />
-      <TextField id="txtAddress" fx:id="txtAddress" editable="false" layoutX="209.0" layoutY="239.0" />
-      <Label layoutX="32.0" layoutY="287.0" text="recipient's name : " />
-      <TextField id="txtRecipientsName" fx:id="txtRecipientsName" editable="false" layoutX="209.0" layoutY="287.0" />
-      <Label layoutX="32.0" layoutY="338.0" text="recipient's phone number : " />
-      <TextField id="txtRecipientsPhoneNumber" fx:id="txtRecipientsPhoneNumber" editable="false" layoutX="209.0" layoutY="338.0" />
-      <Label layoutX="29.0" layoutY="437.0" text="required supply time (hh:mm) : " />
-      <TextField id="txtRequiredTime" fx:id="txtRequiredTime" layoutX="209.0" layoutY="433.0" />
+      <Label layoutX="79.0" layoutY="481.0" text="Total Order Price : " />
+      <Label layoutX="77.0" layoutY="204.0" text="supply option : " />
+      <RadioButton id="rdbtnDelivery" fx:id="rdbtnDelivery" layoutX="219.0" layoutY="204.0" mnemonicParsing="false" onAction="#supplyByDelivery" text="Delivery" />
+      <RadioButton id="rdbtnPickup" fx:id="rdbtnPickup" layoutX="341.0" layoutY="204.0" mnemonicParsing="false" onAction="#supplyByPickup" selected="true" text="Pickup" />
+      <DatePicker id="dpRequiresSupplyDate" fx:id="dpRequiresSupplyDate" layoutX="257.0" layoutY="384.0" promptText="None" />
+      <Label layoutX="78.0" layoutY="386.0" text="required supply Date : " />
+      <TextField id="txtTotalOrderPrice" fx:id="txtTotalOrderPrice" editable="false" layoutX="257.0" layoutY="477.0" promptText="0.0" />
+      <Button id="btnOrderNow" fx:id="btnOrderNow" layoutX="106.0" layoutY="583.0" mnemonicParsing="false" onAction="#checkAndSaveOrderDetails" text="Order Now" />
+      <Button id="btnBackToCart" fx:id="btnBack" layoutX="421.0" layoutY="583.0" mnemonicParsing="false" onAction="#closeCarttWindow" text="Back" />
+      <Label layoutX="75.0" layoutY="76.0" text="add postCard:" />
+      <RadioButton id="rdbtnAddPostCard" fx:id="rdbtnAddPostCard" layoutX="217.0" layoutY="76.0" mnemonicParsing="false" onAction="#AddPostCard" text="Yes" />
+      <RadioButton id="rdbtnNoAddPostCard" fx:id="rdbtnNoAddPostCard" layoutX="339.0" layoutY="76.0" mnemonicParsing="false" onAction="#NotAddPostCard" selected="true" text="No" />
+      <TextArea id="txtPostCard" fx:id="txtPostCard" editable="false" layoutX="74.0" layoutY="108.0" prefHeight="77.0" prefWidth="406.0" promptText="postCard text" />
+      <Label layoutX="80.0" layoutY="239.0" text="recipient's address : " />
+      <TextField id="txtAddress" fx:id="txtAddress" editable="false" layoutX="257.0" layoutY="239.0" />
+      <Label layoutX="80.0" layoutY="287.0" text="recipient's name : " />
+      <TextField id="txtRecipientsName" fx:id="txtRecipientsName" editable="false" layoutX="257.0" layoutY="287.0" />
+      <Label layoutX="80.0" layoutY="338.0" text="recipient's phone number : " />
+      <TextField id="txtRecipientsPhoneNumber" fx:id="txtRecipientsPhoneNumber" editable="false" layoutX="257.0" layoutY="338.0" />
+      <Label layoutX="77.0" layoutY="437.0" text="required supply time (hh:mm) : " />
+      <TextField id="txtRequiredTime" fx:id="txtRequiredTime" layoutX="257.0" layoutY="433.0" />
+      <Label layoutX="77.0" layoutY="524.0" text="payment method : " />
+      <RadioButton id="rdbtnCredirCard" fx:id="rdbtnCredirCard" layoutX="219.0" layoutY="524.0" mnemonicParsing="false" onAction="#PayByCreditcard" text="Credit Card" />
+      <RadioButton id="rdbtnCash" fx:id="rdbtnCash" layoutX="341.0" layoutY="524.0" mnemonicParsing="false" onAction="#payCash" selected="true" text="Cash" />
    </children>
 </AnchorPane>

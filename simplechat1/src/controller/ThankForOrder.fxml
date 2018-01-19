@@ -12,13 +12,10 @@
          <font>
             <Font name="Bodoni MT" size="29.0" />
          </font></Label>
-      <Label layoutX="27.0" layoutY="57.0" text="Thank you for your order. Your account has been" />
-      <Label layoutX="27.0" layoutY="87.0" text="charged at" />
-      <Label id="lbltotalprice" fx:id="lbltotalprice" layoutX="97.0" layoutY="87.0" text="ammount" />
-      <Label layoutX="157.0" layoutY="87.0" text="because your Payment" />
-      <Label layoutX="27.0" layoutY="120.0" text=" Arrangement is" />
-      <Label id="lblArrangement" fx:id="lblArrangement" layoutX="123.0" layoutY="120.0" text="Arrang" />
-      <Label layoutX="27.0" layoutY="151.0" text="Your account balance is :" />
-      <Label id="lblAccountBalance" fx:id="lblAccountBalance" layoutX="166.0" layoutY="151.0" text="balance" />
+      <Label layoutX="27.0" layoutY="73.0" text="Thank you for your order." />
+      <Label layoutX="24.0" layoutY="103.0" text=" You have to pay" />
+      <Label id="lbltotalprice" fx:id="lbltotalprice" layoutX="127.0" layoutY="103.0" text="ammount" />
+      <Label layoutX="24.0" layoutY="136.0" text=" because your Payment Arrangement is" />
+      <Label id="lblArrangement" fx:id="lblArrangement" layoutX="241.0" layoutY="136.0" text="Arrang" />
    </children>
 </AnchorPane>

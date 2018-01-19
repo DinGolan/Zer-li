@@ -206,12 +206,18 @@ public void displayUI(Object message)
 	    
 	    if(((Message)message).getOption().compareTo("Update customer account") == 0)
 	    {
-	    	CustomerUI.account = new Account();
-	    	CustomerUI.account.setAccountBalanceCard(((Account)(((Message)message).getMsg())).getAccountBalanceCard());
-	    	CustomerUI.account.setAccountCreditCardNum(((Account)(((Message)message).getMsg())).getAccountCreditCardNum());
-	    	CustomerUI.account.setAccountPaymentArrangement(((Account)(((Message)message).getMsg())).getAccountPaymentArrangement());
-	    	CustomerUI.account.setAccountSubscriptionEndDate(((Account)(((Message)message).getMsg())).getAccountSubscriptionEndDate());
-	    	CustomerUI.account.setAccountUserId(((Account)(((Message)message).getMsg())).getAccountUserId());
+	    	if(((Message)message).getMsg() != null)
+	    			{
+	    		Account a = (Account)(((Message)message).getMsg());
+			    	CustomerUI.account = new Account();
+			    	CustomerUI.account.setAccountBalanceCard(a.getAccountBalanceCard());
+			    	CustomerUI.account.setAccountCreditCardNum(a.getAccountCreditCardNum());
+			    	CustomerUI.account.setAccountPaymentArrangement(a.getAccountPaymentArrangement());
+			    	CustomerUI.account.setAccountSubscriptionEndDate(a.getAccountSubscriptionEndDate());
+			    	CustomerUI.account.setAccountUserId(a.getAccountUserId());
+	    			}
+	    	else
+	    		OrderController.accountExistFlag = false;
 	    	OrderController.accountFlag = true;
 	    }
 	    
