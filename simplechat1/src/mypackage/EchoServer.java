@@ -566,10 +566,10 @@ public class EchoServer extends AbstractServer
 		  int Real_Year = Integer.parseInt(String.valueOf(Date_Report_Store_One).substring(0,4)); /* The Real Year */
 		  String String_Help_Date_In_Order_Table_1;
 		  
-		  /** String Exist = "Exist"; **/
-		  /** String Not_Exist = "Not_Exist"; **/
-		  /** Should Be - String getOrdersOfSpecificStoreTable = "SELECT * FROM project.order WHERE StoreID = " + "'" + Store_One_ID + "'" + "AND Order_Status = " + "'" +  Exist  + "'" + ";";  **/
-		  String getOrderNumber_Of_Store_One = "SELECT * FROM project.order WHERE StoreID = " + "'" + Store_One_ID + "'" + ";"; 
+		  String Approved = "APPROVED"; 
+		  String Cancel = "CANCEL"; 
+		  
+		  String getOrderNumber_Of_Store_One = "SELECT * FROM project.order WHERE StoreID = " + "'" + Store_One_ID + "'" + "AND orderStatus = " + "'" +  Approved  + "'" + ";";  
 		  ResultSet rs_3 = stmt.executeQuery(getOrderNumber_Of_Store_One);
 		  while(rs_3.next())
 	 	  {
@@ -603,10 +603,8 @@ public class EchoServer extends AbstractServer
 		  Real_Quarter_Number = Integer.parseInt((String.valueOf(All_The_Object_To_Return.get(3)))); 
 		  Real_Year = Integer.parseInt(String.valueOf(Date_Report_Store_Two).substring(0,4)); /* The Real Year */
 		  
-		  /** String Exist = "Exist"; **/
-		  /** String Not_Exist = "Not_Exist"; **/
-		  /** Should Be - String getOrdersOfSpecificStoreTable = "SELECT * FROM project.order WHERE StoreID = " + "'" + Store_Two_ID + "'" + "AND Order_Status = " + "'" +  Exist  + "'" + ";";  **/
-		  String getOrderNumber_Of_Store_Two = "SELECT * FROM project.order WHERE StoreID = " + "'" + Store_Two_ID + "'" + ";"; 
+		   
+		  String getOrderNumber_Of_Store_Two = "SELECT * FROM project.order WHERE StoreID = " + "'" + Store_Two_ID + "'" + "AND orderStatus = " + "'" +  Approved  + "'" + ";"; 
 		  ResultSet rs_4 = stmt.executeQuery(getOrderNumber_Of_Store_Two);
 		  while(rs_4.next())
 	 	  {
@@ -765,38 +763,57 @@ public class EchoServer extends AbstractServer
 			  Sum_The_Revenue_Of_Store_One += Order_From_DB_Store_1.get(i).getOrderTotalPrice();;
 		  }
 		  
-		  /**  ---------------- Need To Add After Ariel Make His Changes ------------------- 
-		   *   double Sum_Of_Refund_From_Cancel_Order_Of_Store_One = 0;
-		   *   int Integer_Help_Year_In_Order_Table_Of_Store_One;
-		   *   String String_Help_Date_In_Order_Table_Of_Store_One;
-		   *   int Integer_Help_Month_In_Order_Table_Of_Store_One;
-		   *   
-		   *   String String_Year_Date_Of_Report_Of_Store_One = String.valuOf(Date_Report_Store_One).substring(0, 4);   
-		   *   int Integer_Year_Date_Of_Report_Of_Store_One  = Integer.parseInt(String_Year_Date_Of_Report_Of_Store_One);
-		   *   
-		   *   String getOrders_That_Canceled_OfSpecificStoreTable = "SELECT * FROM project.order WHERE StoreID = " + "'" + Store_One_ID + "'" + "AND Order_Status = " + "'" +  Not_Exist  + "'" + ";";  
-		   *   ResultSet rs_13 = stmt.executeQuery(getOrders_That_Canceled_OfSpecificStoreTable);
-		   *   
-		   *   while(rs_13.next())
-	 	  	   {
+		  /* ---------------------------------- Take All The Money From The Canceled Order Of Store One ----------------------------------- */
+		  
+		  double Sum_Of_Refund_From_Cancel_Order_Of_Store_One = 0;
+		  int Integer_Help_Year_In_Order_Table_Of_Store_One;
+		  String String_Help_Date_In_Order_Table_Of_Store_One;
+		  int Integer_Help_Month_In_Order_Table_Of_Store_One;
+		  double Variable_Of_Money_1;
+		  ArrayList<Order> Canceled_Order_Of_Store_One = new ArrayList<Order>();
+		     
+		  String String_Year_Date_Of_Report_Of_Store_One = String.valueOf(Date_Report_Store_One).substring(0, 4);   
+		  int Integer_Year_Date_Of_Report_Of_Store_One  = Integer.parseInt(String_Year_Date_Of_Report_Of_Store_One);
+		     
+		  String getOrders_That_Canceled_OfSpecificStore_One_Table = "SELECT * FROM project.order WHERE StoreID = " + "'" + Store_One_ID + "'" + "AND orderStatus = " + "'" +  Cancel  + "'" + ";";  
+		  ResultSet rs_13 = stmt.executeQuery(getOrders_That_Canceled_OfSpecificStore_One_Table);
+		    
+		  while(rs_13.next())
+	 	  {
 
-				  String_Help_Date_In_Order_Table_Of_Store_One = rs_13.getString("orderDate");
-				  Integer_Help_Month_In_Order_Table_Of_Store_One = Integer.parseInt(String_Help_Date_In_Order_Table_Of_Store_One.substring(5, 7));
-				  if(((Integer_Help_Month_In_Order_Table_Of_Store_One + 2) / 3) == Real_Quarter_Number)
+			  String_Help_Date_In_Order_Table_Of_Store_One = rs_13.getString("orderDate");
+			  Integer_Help_Month_In_Order_Table_Of_Store_One = Integer.parseInt(String_Help_Date_In_Order_Table_Of_Store_One.substring(5, 7));
+			  if(((Integer_Help_Month_In_Order_Table_Of_Store_One + 2) / 3) == Real_Quarter_Number)
+			  {
+				  Integer_Help_Year_In_Order_Table_Of_Store_One = Integer.parseInt(String_Help_Date_In_Order_Table_Of_Store_One.substring(0, 4));
+				  if(Integer_Help_Year_In_Order_Table_Of_Store_One == Integer_Year_Date_Of_Report_Of_Store_One)
 				  {
-				  	   Integer_Help_Year_In_Order_Table_Of_Store_One = Integer.parseInt(String_Help_Date_In_Order_Table_Of_Store_One.substring(0, 4));
-				  	   if(Integer_Help_Year_In_Order_Table_Of_Store_One == Integer_Year_Date_Of_Report_Of_Store_One)
-				  	   {
-						   Sum_Of_Refund_From_Cancel_Order_Of_Store_One += rs_13.getInt("Order_Refund_From_Cancle");
-					   }
-			  	   }
-	 	  	   }
+					 Order Cancel_Order = new Order();
+					 Order_Field = rs_13.getString("orderID");
+					 Cancel_Order.setOrderID(Integer.parseInt(Order_Field));
+					 Variable_Of_Money_1 = rs_13.getDouble("orderTotalPrice");
+					 Cancel_Order.setOrderTotalPrice(Variable_Of_Money_1);
+					 Variable_Of_Money_1 = rs_13.getDouble("orderRefund");
+					 Cancel_Order.setRefund(Variable_Of_Money_1);
+					 Sum_Of_Refund_From_Cancel_Order_Of_Store_One += Cancel_Order.getOrderTotalPrice() - Cancel_Order.getRefund();
+					 Canceled_Order_Of_Store_One.add(Cancel_Order);
+				  }
+			  }
+	 	  }
 	 	  	   
-	 	  	   Sum_The_Revenue_Of_Store_One = Sum_The_Revenue_Of_Store_One - Sum_Of_Refund_From_Cancel_Order_Of_Store_One;	
-	 	  **/
+	 	  Sum_The_Revenue_Of_Store_One = Sum_The_Revenue_Of_Store_One + Sum_Of_Refund_From_Cancel_Order_Of_Store_One;	
 		  
-		  
-		  All_The_Object_To_Return.add(Sum_The_Revenue_Of_Store_One); /* Index Number ---> 10 */
+	 	 for(int i = 0 ; i < Canceled_Order_Of_Store_One.size() ; i++ ) 
+	 	 {
+	 		 String getOrders_That_Canceled_OfSpecificStore_From_Complaint_One_Table = "SELECT * FROM project.complaint WHERE ComplaintOrderId = " + "'" + Canceled_Order_Of_Store_One.get(i).getOrderID() + "'" + ";";  
+	 		 ResultSet rs_15 = stmt.executeQuery(getOrders_That_Canceled_OfSpecificStore_From_Complaint_One_Table);
+	 		 while(rs_15.next())
+		 	 {
+	 			Sum_The_Revenue_Of_Store_One -= rs_15.getDouble("ComplaintCompansation");
+		 	 }
+	 	 }
+	 			
+		 All_The_Object_To_Return.add(Sum_The_Revenue_Of_Store_One); /* Index Number ---> 10 */
 		  
 		  /* ------------------------------------------------- Store 2 ------------------------------------------------------------------------ */
 		  
@@ -834,35 +851,55 @@ public class EchoServer extends AbstractServer
 			  Sum_The_Revenue_Of_Store_Two += Order_From_DB_Store_2.get(i).getOrderTotalPrice();;
 		  }
 		  
-		  /**  ---------------- Need To Add After Ariel Make His Changes ------------------- 
-		   *   double Sum_Of_Refund_From_Cancel_Order_Of_Store_2 = 0;
-		   *   int Integer_Help_Year_In_Order_Table_Of_Store_2;
-		   *   String String_Help_Date_In_Order_Table_Of_Store_2;
-		   *   int Integer_Help_Month_In_Order_Table_Of_Store_Two;
-		   *   
-		   *   String String_Year_Date_Of_Report_Of_Store_2 = String.valuOf(Date_Report_Store_Two).substring(0, 4);   
-		   *   int Integer_Year_Date_Of_Report_Of_Store_2  = Integer.parseInt(String_Year_Date_Of_Report_Of_Store_2);
-		   *   
-		   *   String getOrders_That_Canceled_OfSpecificStoreTable_2 = "SELECT * FROM project.order WHERE StoreID = " + "'" + Store_Two_ID + "'" + "AND Order_Status = " + "'" +  Not_Exist  + "'" + ";";  
-		   *   ResultSet rs_14 = stmt.executeQuery(getOrders_That_Canceled_OfSpecificStoreTable_2);
-		   *   
-		   *   while(rs_14.next())
-	 	  	   {
+		  /* ---------------------------------- Take All The Money From The Canceled Order Of Store Two ----------------------------------- */
+		  
+		  double Sum_Of_Refund_From_Cancel_Order_Of_Store_2 = 0;
+		  int Integer_Help_Year_In_Order_Table_Of_Store_2;
+		  String String_Help_Date_In_Order_Table_Of_Store_2;
+		  int Integer_Help_Month_In_Order_Table_Of_Store_Two;
+		  double Variable_Of_Money_2;
+		  ArrayList<Order> Canceled_Order_Of_Store_Two = new ArrayList<Order>();
+		      
+		  String String_Year_Date_Of_Report_Of_Store_2 = String.valueOf(Date_Report_Store_Two).substring(0, 4);   
+		  int Integer_Year_Date_Of_Report_Of_Store_2  = Integer.parseInt(String_Year_Date_Of_Report_Of_Store_2);
+		     
+		  String getOrders_That_Canceled_OfSpecificStoreTable_2 = "SELECT * FROM project.order WHERE StoreID = " + "'" + Store_Two_ID + "'" + "AND orderStatus = " + "'" +  Cancel  + "'" + ";";  
+		  ResultSet rs_14 = stmt.executeQuery(getOrders_That_Canceled_OfSpecificStoreTable_2);
+		      
+		  while(rs_14.next())
+	 	  {
 
-				  String_Help_Date_In_Order_Table_Of_Store_2 = rs_14.getString("orderDate");
-				  Integer_Help_Month_In_Order_Table_Of_Store_Two = Integer.parseInt(String_Help_Date_In_Order_Table_Of_Store_2.substring(5, 7));
-				  if(((Integer_Help_Month_In_Order_Table_Of_Store_Two + 2) / 3) == Real_Quarter_Number)
+			 String_Help_Date_In_Order_Table_Of_Store_2 = rs_14.getString("orderDate");
+			 Integer_Help_Month_In_Order_Table_Of_Store_Two = Integer.parseInt(String_Help_Date_In_Order_Table_Of_Store_2.substring(5, 7));
+			 if(((Integer_Help_Month_In_Order_Table_Of_Store_Two + 2) / 3) == Real_Quarter_Number)
+			 {
+				  Integer_Help_Year_In_Order_Table_Of_Store_2 = Integer.parseInt(String_Help_Date_In_Order_Table_Of_Store_2.substring(0, 4));
+				  if(Integer_Help_Year_In_Order_Table_Of_Store_2 == Integer_Year_Date_Of_Report_Of_Store_2)
 				  {
-				  	   Integer_Help_Year_In_Order_Table_Of_Store_2 = Integer.parseInt(String_Help_Date_In_Order_Table_Of_Store_2.substring(0, 4));
-				  	   if(Integer_Help_Year_In_Order_Table_Of_Store_2 == Integer_Year_Date_Of_Report_Of_Store_2)
-				  	   {
-						   Sum_Of_Refund_From_Cancel_Order_Of_Store_2 += rs_14.getInt("Order_Refund_From_Cancle");
-					   }
-			  	   }
-	 	  	   }
+						 Order Cancel_Order = new Order();
+						 Order_Field = rs_14.getString("orderID");
+						 Cancel_Order.setOrderID(Integer.parseInt(Order_Field));
+						 Variable_Of_Money_2 = rs_14.getDouble("orderTotalPrice");
+						 Cancel_Order.setOrderTotalPrice(Variable_Of_Money_2);
+						 Variable_Of_Money_2 = rs_14.getDouble("orderRefund");
+						 Cancel_Order.setRefund(Variable_Of_Money_2);
+						 Sum_Of_Refund_From_Cancel_Order_Of_Store_2 += Cancel_Order.getOrderTotalPrice() - Cancel_Order.getRefund();
+						 Canceled_Order_Of_Store_Two.add(Cancel_Order);
+				  }
+			 }
+	 	  }
 	 	  	   
-	 	  	   Sum_The_Revenue_Of_Store_Two = Sum_The_Revenue_Of_Store_Two - Sum_Of_Refund_From_Cancel_Order_Of_Store_2;	
-	 	  **/
+	 	  Sum_The_Revenue_Of_Store_Two = Sum_The_Revenue_Of_Store_Two + Sum_Of_Refund_From_Cancel_Order_Of_Store_2;	
+	 	  
+	 	 for(int i = 0 ; i < Canceled_Order_Of_Store_Two.size() ; i++ ) 
+	 	 {
+	 		 String getOrders_That_Canceled_OfSpecificStore_From_Complaint_Two_Table = "SELECT * FROM project.complaint WHERE ComplaintOrderId = " + "'" + Canceled_Order_Of_Store_Two.get(i).getOrderID() + "'" + ";";  
+	 		 ResultSet rs_16 = stmt.executeQuery(getOrders_That_Canceled_OfSpecificStore_From_Complaint_Two_Table);
+	 		 while(rs_16.next())
+		 	 {
+	 			Sum_The_Revenue_Of_Store_Two -= rs_16.getDouble("ComplaintCompansation");
+		 	 }
+	 	 }
 		  
 		  All_The_Object_To_Return.add(Sum_The_Revenue_Of_Store_Two); /* Index Number ---> 11 */
 		  
@@ -1244,6 +1281,7 @@ public class EchoServer extends AbstractServer
 	  String order_field;
 	  String product_In_OrderField;
 	  String Report_Field;
+	  String Approved = "APPROVED";  
 	  Order temp_Order;
 	  Product temp_Product;
 	  Report temp_Report = null;
@@ -1270,10 +1308,9 @@ public class EchoServer extends AbstractServer
 		  
 		  /* -------------------------------- Take All The Order Of Specific Store In Specific Quarter ------------------------- */
 		  
-		  /** String Exist = "Exist"; **/
-		  /** String Not_Exist = "Not_Exist"; **/
-		  /** Should Be - String getOrdersOfSpecificStoreTable = "SELECT * FROM project.order WHERE StoreID = " + "'" + Store_ID + "'" + "AND Order_Status = " + "'" +  Exist  + "'" + ";" ;  **/
-		  String getOrdersOfSpecificStoreTable = "SELECT * FROM project.order WHERE StoreID = " + "'" + Store_ID + "'" + ";"; 
+		  
+		  
+		  String getOrdersOfSpecificStoreTable = "SELECT * FROM project.order WHERE StoreID = " + "'" + Store_ID + "'" + "AND orderStatus = " + "'" +  Approved  + "'" + ";" ; 
 		  ResultSet rs_2 = stmt.executeQuery(getOrdersOfSpecificStoreTable);
 		  int Integer_Help_Month_In_Order_Table;
 		  int Real_Quarter_Number = Integer.parseInt(temp_Report.getQaurterReportNumber());
@@ -1383,6 +1420,7 @@ public class EchoServer extends AbstractServer
 	  } catch (SQLException e) {	e.printStackTrace();}	
 	  return stores;
   }
+  
   
   @SuppressWarnings("unchecked")
   protected ArrayList<Complaint> Get_Complaints_Of_Specific_Store_From_DB(Object msg , Connection conn)
@@ -1502,6 +1540,7 @@ public class EchoServer extends AbstractServer
 	  return complaints;
   }
  
+  
   @SuppressWarnings("unchecked")
   protected ArrayList<Object> Get_The_Revenue_Of_Specific_Store_From_DB(Object msg , Connection conn)
   {
@@ -1515,6 +1554,8 @@ public class EchoServer extends AbstractServer
 	  String order_field;
 	  String Complaint_Field;
 	  String Report_Field;
+	  String Approved = "APPROVED"; 
+	  String Cancle = "CANCEL";
 	  Order temp_Order;
 	  Complaint temp_Complaint;
 	  Report temp_Report = null;
@@ -1537,9 +1578,6 @@ public class EchoServer extends AbstractServer
 		    
 		  /* -------------------------------- Take All The Order Of Specific Store In Specific Quarter ------------------------- */
 		  
-		  /** String Exist = "Exist"; **/
-		  /** String Not_Exist = "Not_Exist"; **/
-		  /** Should Be - String getOrdersOfSpecificStoreTable = "SELECT * FROM project.order WHERE StoreID = " + "'" + temp_Store_Id + "'" + "AND Order_Status = " + "'" +  Exist  + "'" + ";";  **/
 		  String getOrdersOfSpecificStoreTable = "SELECT * FROM project.order WHERE StoreID = " + "'" + temp_Store_Id + "'" + ";"; 
 		  ResultSet rs_2 = stmt.executeQuery(getOrdersOfSpecificStoreTable);
 		  int Integer_Help_Month_In_Order_Table;
@@ -1580,31 +1618,31 @@ public class EchoServer extends AbstractServer
 		 	  }  
 		  }
 		  
-		  /**  ---------------- Need To Add After Ariel Make His Changes ------------------- 
-		   *   double Sum_Of_Refund_From_Cancel_Order = 0;
-		   *   int Integer_Help_Year_In_Order_Table;
-		   *   String String_Year_Date_Of_Report = String.valuOf(date_Of_Report).substring(0, 4);   
-		   *   int Integer_Year_Date_Of_Report  = Integer.parseInt(String_Year_Date_Of_Report);
-		   *   
-		   *   String getOrders_That_Canceled_OfSpecificStoreTable = "SELECT * FROM project.order WHERE StoreID = " + "'" + temp_Store_Id + "'" + "AND Order_Status = " + "'" +  Not_Exist  + "'" + ";";  
-		   *   ResultSet rs_4 = stmt.executeQuery(getOrders_That_Canceled_OfSpecificStoreTable);
-		   *   
-		   *   while(rs_4.next())
-	 	  	   {
+		  /* -------------------------------- Take All The Refund From Cancel Order Of Specific Store ------------------------- */ 
+		  
+		  double Sum_Of_Refund_From_Cancel_Order = 0;
+		  int Integer_Help_Year_In_Order_Table;
+		  String String_Year_Date_Of_Report = String.valueOf(date_Of_Report).substring(0, 4);   
+		  int Integer_Year_Date_Of_Report  = Integer.parseInt(String_Year_Date_Of_Report);
+		      
+		  String getOrders_That_Canceled_OfSpecificStoreTable = "SELECT * FROM project.order WHERE StoreID = " + "'" + temp_Store_Id + "'" + "AND orderStatus = " + "'" +  Cancle  + "'" + ";";  
+		  ResultSet rs_4 = stmt.executeQuery(getOrders_That_Canceled_OfSpecificStoreTable);
+		      
+		  while(rs_4.next())
+	 	  {
 
-				  String_Help_Date_In_Order_Table = rs_4.getString("orderDate");
-				  Integer_Help_Month_In_Order_Table = Integer.parseInt(String_Help_Date_In_Order_Table.substring(5, 7));
-				  if(((Integer_Help_Month_In_Order_Table + 2) / 3) == Real_Quarter_Number)
+			  String_Help_Date_In_Order_Table = rs_4.getString("orderDate");
+			  Integer_Help_Month_In_Order_Table = Integer.parseInt(String_Help_Date_In_Order_Table.substring(5, 7));
+			  if(((Integer_Help_Month_In_Order_Table + 2) / 3) == Real_Quarter_Number)
+			  {
+				  Integer_Help_Year_In_Order_Table = Integer.parseInt(String_Help_Date_In_Order_Table.substring(0, 4));
+				  if(Integer_Help_Year_In_Order_Table == Integer_Year_Date_Of_Report)
 				  {
-				  	   Integer_Help_Year_In_Order_Table = Integer.parseInt(String_Help_Date_In_Order_Table.substring(0, 4));
-				  	   if(Integer_Help_Year_In_Order_Table == Integer_Year_Date_Of_Report)
-				  	   {
-						   Sum_Of_Refund_From_Cancel_Order += rs_2.getInt("Order_Refund_From_Cancle");
-					   }
-			  	   }
-	 	  	   }
+				  		   Sum_Of_Refund_From_Cancel_Order = Sum_Of_Refund_From_Cancel_Order + rs_4.getInt("orderRefund");
+				  }
+			  }
+	 	  }
 	 	  	   	
-	 	  **/
 		 
 		  /* -------------------------------- Calculate The Revenue According To Quarter ------------------------- */
 		  
@@ -1728,7 +1766,7 @@ public class EchoServer extends AbstractServer
 			  }
 		  }
 		  
-		  /** Need To Add - Revenue_Of_Specific_Quarter = Revenue_Of_Specific_Quarter - Sum_Of_Refund_From_Cancel_Order **/
+		  Revenue_Of_Specific_Quarter = Revenue_Of_Specific_Quarter - Sum_Of_Refund_From_Cancel_Order;
 		  Revenue_Of_Specific_Quarter = Revenue_Of_Specific_Quarter - Compensation_Of_Specific_Quarter;
 		  Revenue_To_Return_And_Number_Of_Order.add(Revenue_Of_Specific_Quarter);
 		  Revenue_To_Return_And_Number_Of_Order.add(Count_Of_Order_Of_Specific_Quarter);
@@ -1740,6 +1778,7 @@ public class EchoServer extends AbstractServer
 	  return Revenue_To_Return_And_Number_Of_Order;
   } 
   
+ 
   @SuppressWarnings("unchecked")
   protected void UpdateProductName(Object msg, Connection conn) /* This Method Update the DB */
   {
@@ -1777,9 +1816,10 @@ public class EchoServer extends AbstractServer
 	  catch (SQLException e) {	e.printStackTrace();}	  
   }
   
-     @SuppressWarnings("unchecked")
+    
+  @SuppressWarnings("unchecked")
   protected void AddSurveyToDB(Object msg, Connection conn)
-    {
+  {
   	  ArrayList<String> temp = (ArrayList<String>)(((Message)msg).getMsg());
   	  
   		Statement stmt;
@@ -1809,7 +1849,8 @@ public class EchoServer extends AbstractServer
   
     }
      
-     @SuppressWarnings("unchecked")
+    
+  @SuppressWarnings("unchecked")
   protected void addSurveyResult(Object msg, Connection conn) {
     	 int id = ((ArrayList<Integer>)(((Message)msg).getMsg())).get(0);
     	 resulrId.add(id);
@@ -1831,7 +1872,8 @@ public class EchoServer extends AbstractServer
     	 //}
      }
      
-     @SuppressWarnings("unchecked")
+    
+  @SuppressWarnings("unchecked")
   protected void updateSurveyResult(Object msg, Connection conn) {
 	  		Statement stmt;
 	  		ArrayList<Integer> temp = new ArrayList<Integer>();
@@ -2034,6 +2076,8 @@ public class EchoServer extends AbstractServer
 	  return users_After_Change;
   }
   
+  
+  
   /*protected ArrayList<Integer> getAllOrdersToCustomerCancel(Object msg, Connection conn) //this method get all the orders that match to specific customer and can be cancel
   {
 	  String requestedCustomerId=(String)(((Message)msg).getMsg());
@@ -2064,8 +2108,9 @@ public class EchoServer extends AbstractServer
 	  return ordersNums;
   }*/
   
+  
   protected void UpdateProductAtDB(Object msg, Connection conn) /* This Method Update the DB */
-  	{
+  {
   		Statement stmt;
   		Product product = (Product) ((Message) msg).getMsg();
   		try {
@@ -2526,6 +2571,7 @@ public class EchoServer extends AbstractServer
 	  } catch (SQLException e) {	e.printStackTrace();}	
 	  return stores;
   }
+  
   
   protected Account UpdateUserAccountAtDB(Object msg, Connection conn) /* This Method Update the DB */
   {
