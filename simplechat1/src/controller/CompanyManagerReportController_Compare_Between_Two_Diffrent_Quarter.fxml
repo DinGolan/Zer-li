@@ -17,15 +17,15 @@
       <TextField id="txtNumOfQuarter_1" fx:id="txtNumOfQuarter_1" editable="false" layoutX="182.0" layoutY="144.0" prefHeight="25.0" prefWidth="86.0" />
       <TextField id="txtStoreID_1" fx:id="txtStoreID_1" editable="false" layoutX="119.0" layoutY="96.0" prefHeight="25.0" prefWidth="149.0" />
       <TextField id="txtQuantityOfOrder_1" fx:id="txtQuantityOfOrder_1" editable="false" layoutX="182.0" layoutY="191.0" prefHeight="25.0" prefWidth="86.0" />
-      <TextField id="txtRevenuOfStore_1" fx:id="txtRevenuOfStore_1" editable="false" layoutX="184.0" layoutY="445.0" prefHeight="25.0" prefWidth="86.0" />
-      <TextField id="txtNumberOfComplaint_1" fx:id="txtNumberOfComplaint_1" editable="false" layoutX="216.0" layoutY="485.0" prefHeight="25.0" prefWidth="54.0" />
-      <TextField id="txtNumberOfClientInSurvey_1" fx:id="txtNumberOfClientInSurvey_1" editable="false" layoutX="240.0" layoutY="530.0" prefHeight="25.0" prefWidth="28.0" />
+      <TextField id="txtRevenuOfStore_1" fx:id="txtRevenuOfStore_1" editable="false" layoutX="184.0" layoutY="445.0" prefHeight="25.0" prefWidth="108.0" />
+      <TextField id="txtNumberOfComplaint_1" fx:id="txtNumberOfComplaint_1" editable="false" layoutX="216.0" layoutY="485.0" prefHeight="25.0" prefWidth="76.0" />
+      <TextField id="txtNumberOfClientInSurvey_1" fx:id="txtNumberOfClientInSurvey_1" editable="false" layoutX="240.0" layoutY="530.0" prefHeight="25.0" prefWidth="53.0" />
       <TextField id="txtStoreID_2" fx:id="txtStoreID_2" editable="false" layoutX="371.0" layoutY="96.0" />
       <TextField id="txtNumOfQuarter_2" fx:id="txtNumOfQuarter_2" editable="false" layoutX="371.0" layoutY="144.0" prefHeight="25.0" prefWidth="86.0" />
       <TextField id="txtQuantityOfOrder_2" fx:id="txtQuantityOfOrder_2" editable="false" layoutX="371.0" layoutY="191.0" prefHeight="25.0" prefWidth="86.0" />
-      <TextField id="txtRevenuOfStore_2" fx:id="txtRevenuOfStore_2" editable="false" layoutX="375.0" layoutY="445.0" prefHeight="25.0" prefWidth="86.0" />
-      <TextField id="txtNumberOfComplaint_2" fx:id="txtNumberOfComplaint_2" editable="false" layoutX="374.0" layoutY="485.0" prefHeight="25.0" prefWidth="54.0" />
-      <TextField id="txtNumberOfClientInSurvey_2" fx:id="txtNumberOfClientInSurvey_2" editable="false" layoutX="375.0" layoutY="530.0" prefHeight="25.0" prefWidth="28.0" />
+      <TextField id="txtRevenuOfStore_2" fx:id="txtRevenuOfStore_2" editable="false" layoutX="353.0" layoutY="445.0" prefHeight="25.0" prefWidth="108.0" />
+      <TextField id="txtNumberOfComplaint_2" fx:id="txtNumberOfComplaint_2" editable="false" layoutX="352.0" layoutY="485.0" prefHeight="25.0" prefWidth="76.0" />
+      <TextField id="txtNumberOfClientInSurvey_2" fx:id="txtNumberOfClientInSurvey_2" editable="false" layoutX="350.0" layoutY="530.0" prefHeight="25.0" prefWidth="53.0" />
       <Label layoutX="39.0" layoutY="100.0" text="Store ---&gt;">
          <font>
             <Font name="System Italic" size="12.0" />
@@ -95,8 +95,8 @@
             <Font name="System Italic" size="12.0" />
          </font>
       </Label>
-      <TextField id="txtTotalAverageInSurvey_1" fx:id="txtTotalAverageInSurvey_1" editable="false" layoutX="240.0" layoutY="570.0" prefHeight="25.0" prefWidth="28.0" />
-      <TextField id="txtTotalAverageInSurvey_2" fx:id="txtTotalAverageInSurvey_2" editable="false" layoutX="375.0" layoutY="570.0" prefHeight="25.0" prefWidth="28.0" />
+      <TextField id="txtTotalAverageInSurvey_1" fx:id="txtTotalAverageInSurvey_1" editable="false" layoutX="240.0" layoutY="570.0" prefHeight="25.0" prefWidth="53.0" />
+      <TextField id="txtTotalAverageInSurvey_2" fx:id="txtTotalAverageInSurvey_2" editable="false" layoutX="350.0" layoutY="570.0" prefHeight="25.0" prefWidth="53.0" />
       <Label layoutX="41.0" layoutY="574.0" text="Total Average Of Survey Answer ---&gt; ">
          <font>
             <Font name="System Italic" size="12.0" />

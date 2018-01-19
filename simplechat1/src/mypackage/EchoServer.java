@@ -69,7 +69,6 @@ public class EchoServer extends AbstractServer
     super(port);
   }
 
-  
   //Instance methods ************************************************
   
   /**
@@ -245,7 +244,6 @@ public class EchoServer extends AbstractServer
     		this.sendToAllClients(msg);
 
 	    }
-	    
 	    if(((Message)msg).getOption().compareTo("add surveyResult") ==0) 	    /* add new answar ro a survey */							
 	    {
 	    	int id = ((ArrayList<Integer>)(((Message)msg).getMsg())).get(0);
@@ -282,12 +280,6 @@ public class EchoServer extends AbstractServer
 	    	((Message)msg).setMsg(Get_All_The_Date_Of_Report_Of_Specific_Store_FromDB(msg,conn));  
 	    	this.sendToAllClients(msg);
 	    }
-	    
-	    if(((Message)msg).getOption().compareTo("Store Manager - Update The Total Revenue Of All the Store") == 0) 	    /* Taking All the Complaints Of Specific Store */							
-	    {
-	    	Update_The_Revenue_Of_All_The_Store(msg,conn);  
-	    } 
-	    
 	    if(((Message)msg).getOption().compareTo("Store Manager - Take The Surveys Of Specific Store In Specific Quarter") == 0) 	    /* Taking All the Complaints Of Specific Store */							
 	    {
 	    	((Message)msg).setMsg(Get_All_The_Survey_Of_Specific_Quarter_Of_Specific_Store_From_DB(msg,conn));  
@@ -322,13 +314,7 @@ public class EchoServer extends AbstractServer
 	    {
 	    	((Message)msg).setMsg(Get_All_The_Date_Of_Report_Of_Specific_Store_FromDB(msg,conn));  
 	    	this.sendToAllClients(msg);
-	    }
-	    
-	    if(((Message)msg).getOption().compareTo("Comapny Manager - Update The Total Revenue Of All the Store") == 0) 	    /* Taking All the Complaints Of Specific Store */							
-	    {
-	    	Update_The_Revenue_Of_All_The_Store(msg,conn);  
-	    } 
-	    
+	    }	    
 	    if(((Message)msg).getOption().compareTo("Company Manager - Take The Surveys Of Specific Store In Specific Quarter") == 0) 	    /* Taking All the Complaints Of Specific Store */							
 	    {
 	    	((Message)msg).setMsg(Get_All_The_Survey_Of_Specific_Quarter_Of_Specific_Store_From_DB(msg,conn));  
@@ -345,8 +331,7 @@ public class EchoServer extends AbstractServer
 	    	this.sendToAllClients(msg);
 	    }
   }
-
-    
+  
   /**
    * This method overrides the one in the superclass.  
    * Called when the server starts listening for connections.
@@ -359,7 +344,6 @@ public class EchoServer extends AbstractServer
 	  }
   }
   
-  
   /**
    * This method overrides the one in the superclass.  
    * Called when the server stops listening for connections.
@@ -369,7 +353,6 @@ public class EchoServer extends AbstractServer
     System.out.println
       ("Server has stopped listening for connections.");
   }
-  
   
   protected Connection connectToDB()
   {
@@ -549,6 +532,8 @@ public class EchoServer extends AbstractServer
 		  
 		  /* Add To The 'All_The_Object_To_Return' ---> Number Of Quarter Of Store One & Number Of Quarter Of Store Two */
 		  
+		  /* ------------------------------------------------- Store 1 ------------------------------------------------------------------------ */
+		  
 		  stmt = conn.createStatement();
 		  String getQuarterNumber_Store_One_Table = "SELECT * FROM project.report WHERE storeID = " + "'" + Store_One_ID + "'" + "AND DateOfCreateReport = " + "'" + Date_Report_Store_One + "'" + ";"; 
 		  ResultSet rs = stmt.executeQuery(getQuarterNumber_Store_One_Table);
@@ -557,6 +542,8 @@ public class EchoServer extends AbstractServer
 			  Report_Field = rs.getString("QuarterNumber");
 			  All_The_Object_To_Return.add(Report_Field);   /* Index Number ---> 2  */
 	 	  }
+		  
+		  /* ------------------------------------------------- Store 2 ------------------------------------------------------------------------ */
 		  
 		  String getQuarterNumberStore_Two_Table = "SELECT * FROM project.report WHERE storeID = " + "'" + Store_Two_ID + "'" + "AND DateOfCreateReport = " + "'" + Date_Report_Store_Two + "'" + ";"; 
 		  ResultSet rs_2 = stmt.executeQuery(getQuarterNumberStore_Two_Table);
@@ -568,6 +555,8 @@ public class EchoServer extends AbstractServer
 		  
 	  /* ---------------------------------------------------------------------------------------------------------------------- */
 		  
+		  /* ------------------------------------------------- Store 1 ------------------------------------------------------------------------ */
+		  
 		  /* Add To The 'All_The_Object_To_Return' ---> The Number Of Quantity Order At Store One & Store Two */
 		  int Count_The_Number_Of_Order_In_Store_One = 0;
 		  int Count_The_Number_Of_Order_In_Store_Two = 0;
@@ -576,6 +565,10 @@ public class EchoServer extends AbstractServer
 		  int Real_Quarter_Number = Integer.parseInt((String.valueOf(All_The_Object_To_Return.get(2))));
 		  int Real_Year = Integer.parseInt(String.valueOf(Date_Report_Store_One).substring(0,4)); /* The Real Year */
 		  String String_Help_Date_In_Order_Table_1;
+		  
+		  /** String Exist = "Exist"; **/
+		  /** String Not_Exist = "Not_Exist"; **/
+		  /** Should Be - String getOrdersOfSpecificStoreTable = "SELECT * FROM project.order WHERE StoreID = " + "'" + Store_One_ID + "'" + "AND Order_Status = " + "'" +  Exist  + "'" + ";";  **/
 		  String getOrderNumber_Of_Store_One = "SELECT * FROM project.order WHERE StoreID = " + "'" + Store_One_ID + "'" + ";"; 
 		  ResultSet rs_3 = stmt.executeQuery(getOrderNumber_Of_Store_One);
 		  while(rs_3.next())
@@ -602,12 +595,17 @@ public class EchoServer extends AbstractServer
 		  
 		  All_The_Object_To_Return.add(Count_The_Number_Of_Order_In_Store_One);      /* Index Number ---> 4  */
 		  
+		  /* ------------------------------------------------- Store 2 ------------------------------------------------------------------------ */
+		  
 		  int Integer_Help_Month_In_Order_Table_2;
 		  int Integer_Help_Year_In_Order_Table_2;
 		  String String_Help_Date_In_Order_Table_2;
 		  Real_Quarter_Number = Integer.parseInt((String.valueOf(All_The_Object_To_Return.get(3)))); 
 		  Real_Year = Integer.parseInt(String.valueOf(Date_Report_Store_Two).substring(0,4)); /* The Real Year */
 		  
+		  /** String Exist = "Exist"; **/
+		  /** String Not_Exist = "Not_Exist"; **/
+		  /** Should Be - String getOrdersOfSpecificStoreTable = "SELECT * FROM project.order WHERE StoreID = " + "'" + Store_Two_ID + "'" + "AND Order_Status = " + "'" +  Exist  + "'" + ";";  **/
 		  String getOrderNumber_Of_Store_Two = "SELECT * FROM project.order WHERE StoreID = " + "'" + Store_Two_ID + "'" + ";"; 
 		  ResultSet rs_4 = stmt.executeQuery(getOrderNumber_Of_Store_Two);
 		  while(rs_4.next())
@@ -637,6 +635,8 @@ public class EchoServer extends AbstractServer
      /* ---------------------------------------------------------------------------------------------------------------------- */
 		  
 		  /* Add To The 'All_The_Object_To_Return' ---> The Product Type Of Order At Store One & Store Two */
+		  
+		  /* ------------------------------------------------- Store 1 ------------------------------------------------------------------------ */
 		  
 		  String temp_Product_In_Order_Field;
 		  
@@ -675,6 +675,8 @@ public class EchoServer extends AbstractServer
 		  }
 		  
 		  All_The_Object_To_Return.add(Product_Type_Of_Store_One);   /* Index Number ---> 6 */
+		  
+		  /* ------------------------------------------------- Store 2 ------------------------------------------------------------------------ */
 		  
 		  for(int i = 0 ; i < Order_From_DB_Store_2.size() ; i++)
 		  {
@@ -723,6 +725,8 @@ public class EchoServer extends AbstractServer
 		  
 		  /* Add To The 'All_The_Object_To_Return' ---> The Revenue Of - Store One & Store Two */
 		  
+		  /* ------------------------------------------------- Store 1 ------------------------------------------------------------------------ */
+		  
 		  int Integer_Help_Year_In_Complaint_Table_1;
 		  int Integer_Help_Month_In_Complaint_Table_1;
 		  String String_Help_Date_In_Complaint_Table_1;
@@ -761,7 +765,40 @@ public class EchoServer extends AbstractServer
 			  Sum_The_Revenue_Of_Store_One += Order_From_DB_Store_1.get(i).getOrderTotalPrice();;
 		  }
 		  
+		  /**  ---------------- Need To Add After Ariel Make His Changes ------------------- 
+		   *   double Sum_Of_Refund_From_Cancel_Order_Of_Store_One = 0;
+		   *   int Integer_Help_Year_In_Order_Table_Of_Store_One;
+		   *   String String_Help_Date_In_Order_Table_Of_Store_One;
+		   *   int Integer_Help_Month_In_Order_Table_Of_Store_One;
+		   *   
+		   *   String String_Year_Date_Of_Report_Of_Store_One = String.valuOf(Date_Report_Store_One).substring(0, 4);   
+		   *   int Integer_Year_Date_Of_Report_Of_Store_One  = Integer.parseInt(String_Year_Date_Of_Report_Of_Store_One);
+		   *   
+		   *   String getOrders_That_Canceled_OfSpecificStoreTable = "SELECT * FROM project.order WHERE StoreID = " + "'" + Store_One_ID + "'" + "AND Order_Status = " + "'" +  Not_Exist  + "'" + ";";  
+		   *   ResultSet rs_13 = stmt.executeQuery(getOrders_That_Canceled_OfSpecificStoreTable);
+		   *   
+		   *   while(rs_13.next())
+	 	  	   {
+
+				  String_Help_Date_In_Order_Table_Of_Store_One = rs_13.getString("orderDate");
+				  Integer_Help_Month_In_Order_Table_Of_Store_One = Integer.parseInt(String_Help_Date_In_Order_Table_Of_Store_One.substring(5, 7));
+				  if(((Integer_Help_Month_In_Order_Table_Of_Store_One + 2) / 3) == Real_Quarter_Number)
+				  {
+				  	   Integer_Help_Year_In_Order_Table_Of_Store_One = Integer.parseInt(String_Help_Date_In_Order_Table_Of_Store_One.substring(0, 4));
+				  	   if(Integer_Help_Year_In_Order_Table_Of_Store_One == Integer_Year_Date_Of_Report_Of_Store_One)
+				  	   {
+						   Sum_Of_Refund_From_Cancel_Order_Of_Store_One += rs_13.getInt("Order_Refund_From_Cancle");
+					   }
+			  	   }
+	 	  	   }
+	 	  	   
+	 	  	   Sum_The_Revenue_Of_Store_One = Sum_The_Revenue_Of_Store_One - Sum_Of_Refund_From_Cancel_Order_Of_Store_One;	
+	 	  **/
+		  
+		  
 		  All_The_Object_To_Return.add(Sum_The_Revenue_Of_Store_One); /* Index Number ---> 10 */
+		  
+		  /* ------------------------------------------------- Store 2 ------------------------------------------------------------------------ */
 		  
 		  Revenue_Of_Specific_Order = 0;
 		  int Integer_Help_Year_In_Complaint_Table_2;
@@ -797,6 +834,36 @@ public class EchoServer extends AbstractServer
 			  Sum_The_Revenue_Of_Store_Two += Order_From_DB_Store_2.get(i).getOrderTotalPrice();;
 		  }
 		  
+		  /**  ---------------- Need To Add After Ariel Make His Changes ------------------- 
+		   *   double Sum_Of_Refund_From_Cancel_Order_Of_Store_2 = 0;
+		   *   int Integer_Help_Year_In_Order_Table_Of_Store_2;
+		   *   String String_Help_Date_In_Order_Table_Of_Store_2;
+		   *   int Integer_Help_Month_In_Order_Table_Of_Store_Two;
+		   *   
+		   *   String String_Year_Date_Of_Report_Of_Store_2 = String.valuOf(Date_Report_Store_Two).substring(0, 4);   
+		   *   int Integer_Year_Date_Of_Report_Of_Store_2  = Integer.parseInt(String_Year_Date_Of_Report_Of_Store_2);
+		   *   
+		   *   String getOrders_That_Canceled_OfSpecificStoreTable_2 = "SELECT * FROM project.order WHERE StoreID = " + "'" + Store_Two_ID + "'" + "AND Order_Status = " + "'" +  Not_Exist  + "'" + ";";  
+		   *   ResultSet rs_14 = stmt.executeQuery(getOrders_That_Canceled_OfSpecificStoreTable_2);
+		   *   
+		   *   while(rs_14.next())
+	 	  	   {
+
+				  String_Help_Date_In_Order_Table_Of_Store_2 = rs_14.getString("orderDate");
+				  Integer_Help_Month_In_Order_Table_Of_Store_Two = Integer.parseInt(String_Help_Date_In_Order_Table_Of_Store_2.substring(5, 7));
+				  if(((Integer_Help_Month_In_Order_Table_Of_Store_Two + 2) / 3) == Real_Quarter_Number)
+				  {
+				  	   Integer_Help_Year_In_Order_Table_Of_Store_2 = Integer.parseInt(String_Help_Date_In_Order_Table_Of_Store_2.substring(0, 4));
+				  	   if(Integer_Help_Year_In_Order_Table_Of_Store_2 == Integer_Year_Date_Of_Report_Of_Store_2)
+				  	   {
+						   Sum_Of_Refund_From_Cancel_Order_Of_Store_2 += rs_14.getInt("Order_Refund_From_Cancle");
+					   }
+			  	   }
+	 	  	   }
+	 	  	   
+	 	  	   Sum_The_Revenue_Of_Store_Two = Sum_The_Revenue_Of_Store_Two - Sum_Of_Refund_From_Cancel_Order_Of_Store_2;	
+	 	  **/
+		  
 		  All_The_Object_To_Return.add(Sum_The_Revenue_Of_Store_Two); /* Index Number ---> 11 */
 		  
      /* ---------------------------------------------------------------------------------------------------------------------- */  
@@ -810,31 +877,40 @@ public class EchoServer extends AbstractServer
 		  
 		  /* Add To The 'All_The_Object_To_Return' ---> The Number Of Client That Fill The Survey At - Store One & Store Two */
 		  
-		  /* -------------------------------------- For Store - 1 ------------------------------------------- */
+		  /* -------------------------------------- For Store - 1 ------------------------------------------------------------------------ */
 		  
-		  int Integer_Help_Year_In_Survey_Table_1;
-		  int Integer_Help_Month_In_Survey_Table_1;
-		  String String_Help_Date_In_Survey_Table_1;
+		  int Integer_Help_Year_Start_Date_In_Survey_Table_1;
+		  int Integer_Help_Year_End_Date_In_Survey_Table_1;
+		  int Integer_Help_Month_Start_Date_In_Survey_Table_1;
+		  int Integer_Help_Month_End_Date_In_Survey_Table_1;
+		  String String_Help_Start_Date_In_Survey_Table_1;
+		  String String_Help_End_Date_In_Survey_Table_1;
 		  double [] Sum_Of_Specific_Question_At_Store_One = new double[6];
 		  double Sum_Number_Of_Client_Store_One = 0;
 		  double Total_Avg_At_Store_One = 0;
 		  Real_Quarter_Number = Integer.parseInt((String.valueOf(All_The_Object_To_Return.get(2))));
 		  Real_Year = Integer.parseInt(String.valueOf(Date_Report_Store_One).substring(0,4));      /* The Real Year */
 		  
-		  String getSurvey_Of_Store_One = "SELECT * FROM project.survey ;" ; 
+		  String getSurvey_Of_Store_One = "SELECT * FROM project.survey WHERE StoreID = " + "'" + Store_One_ID + "'" + ";" ; 
 		  ResultSet rs_9 = stmt.executeQuery(getSurvey_Of_Store_One);
 		  while(rs_9.next())
 		  {
-			  String_Help_Date_In_Survey_Table_1 = rs_9.getString("SurveyDate");
-			  Integer_Help_Month_In_Survey_Table_1 = Integer.parseInt(String_Help_Date_In_Survey_Table_1.substring(5,7));
-			  if(((Integer_Help_Month_In_Survey_Table_1 + 2) / 3) == Real_Quarter_Number)
+			  String_Help_Start_Date_In_Survey_Table_1 = rs_9.getString("SurveyStartDate");
+			  String_Help_End_Date_In_Survey_Table_1 = rs_9.getString("SurveyEndDate");
+			  
+			  Integer_Help_Month_Start_Date_In_Survey_Table_1 = Integer.parseInt(String_Help_Start_Date_In_Survey_Table_1.substring(5,7));
+			  Integer_Help_Month_End_Date_In_Survey_Table_1 = Integer.parseInt(String_Help_End_Date_In_Survey_Table_1.substring(5,7));
+			  if((((Integer_Help_Month_Start_Date_In_Survey_Table_1 + 2) / 3) == Real_Quarter_Number) || (((Integer_Help_Month_End_Date_In_Survey_Table_1 + 2) / 3) == Real_Quarter_Number))
 			  {
-				  Integer_Help_Year_In_Survey_Table_1 = Integer.parseInt(String_Help_Date_In_Survey_Table_1.substring(0,4));
-				  if(Real_Year == Integer_Help_Year_In_Survey_Table_1)
+				  Integer_Help_Year_Start_Date_In_Survey_Table_1 = Integer.parseInt(String_Help_Start_Date_In_Survey_Table_1.substring(0,4));
+				  Integer_Help_Year_End_Date_In_Survey_Table_1 = Integer.parseInt(String_Help_End_Date_In_Survey_Table_1.substring(0,4));
+				  
+				  if((Real_Year == Integer_Help_Year_Start_Date_In_Survey_Table_1) || (Real_Year == Integer_Help_Year_End_Date_In_Survey_Table_1))
 				  {
 					  temp_Survey = new Survey();
 					  Survey_Field  = rs_9.getString("Surveyid");
 					  temp_Survey.setSurvey_Id(Integer.parseInt(Survey_Field));
+					  temp_Survey.setStore_ID(Store_One_ID);
 					  Survey_Of_Store_One.add(temp_Survey);
 				  }
 			  } 
@@ -842,30 +918,25 @@ public class EchoServer extends AbstractServer
 		  
 		  for(int i = 0 ; i < Survey_Of_Store_One.size() ; i++)
 		  {
-			  String getAnswer_Of_Specific_Survey_At_Store_One = "SELECT * FROM project.survey_result WHERE Surveyid = " + "'" + Survey_Of_Store_One.get(i).getSurvey_Id() + "'" + ";"; 
+			  String getAnswer_Of_Specific_Survey_At_Store_One = "SELECT * FROM project.survey_result WHERE Surveyid = " + "'" + Survey_Of_Store_One.get(i).getSurvey_Id() + "'" + "AND storeId = " + "'" + Survey_Of_Store_One.get(i).getStore_ID() + "'" + ";"; 
 			  ResultSet rs_10 = stmt.executeQuery(getAnswer_Of_Specific_Survey_At_Store_One);
 			  while(rs_10.next())
 			  {
-				  Survey_Field = rs_10.getString("numOfClients");
-				  Survey_Of_Store_One.get(i).setNum_Of_Clients(Integer.parseInt(Survey_Field));
-				  Survey_Field = rs_10.getString("sumQ1");
+				  Survey_Field = rs_10.getString("ansQ1");
 				  Sum_Of_Specific_Question_At_Store_One[0] += Integer.parseInt(Survey_Field);
-				  Survey_Field = rs_10.getString("sumQ2");
+				  Survey_Field = rs_10.getString("ansQ2");
 				  Sum_Of_Specific_Question_At_Store_One[1] += Integer.parseInt(Survey_Field);
-				  Survey_Field = rs_10.getString("sumQ3");
+				  Survey_Field = rs_10.getString("ansQ3");
 				  Sum_Of_Specific_Question_At_Store_One[2] += Integer.parseInt(Survey_Field);
-				  Survey_Field = rs_10.getString("sumQ4");
+				  Survey_Field = rs_10.getString("ansQ4");
 				  Sum_Of_Specific_Question_At_Store_One[3] += Integer.parseInt(Survey_Field);
-				  Survey_Field = rs_10.getString("sumQ5");
+				  Survey_Field = rs_10.getString("ansQ5");
 				  Sum_Of_Specific_Question_At_Store_One[4] += Integer.parseInt(Survey_Field);
-				  Survey_Field = rs_10.getString("sumQ6");
+				  Survey_Field = rs_10.getString("ansQ6");
 				  Sum_Of_Specific_Question_At_Store_One[5] += Integer.parseInt(Survey_Field);
-			  }
-		  }
-		  
-		  for(int i = 0 ; i < Survey_Of_Store_One.size() ; i++)
-		  {
-			  Sum_Number_Of_Client_Store_One += Survey_Of_Store_One.get(i).getNum_Of_Clients();
+				  
+				  Sum_Number_Of_Client_Store_One += 1;
+			  } 
 		  }
 		  
 		  for(int i = 0 ; i < Sum_Of_Specific_Question_At_Store_One.length ; i++)
@@ -876,31 +947,38 @@ public class EchoServer extends AbstractServer
 		  
 		  All_The_Object_To_Return.add(Sum_Number_Of_Client_Store_One); /* Index Number ---> 14 */
 		  
-		  /* -------------------------------------- For Store - 2 ------------------------------------------- */
+		  /* -------------------------------------- For Store - 2 -------------------------------------------------------------- */
 		  
 		  double [] Sum_Of_Specific_Question_At_Store_Two = new double[6];
 		  double Sum_Number_Of_Client_Store_Two = 0;
 		  double Total_Avg_At_Store_Two = 0;
-		  int Integer_Help_Year_In_Survey_Table_2;
-		  int Integer_Help_Month_In_Survey_Table_2;
-		  String String_Help_Date_In_Survey_Table_2;
+		  int Integer_Help_Year_Start_Date_In_Survey_Table_2;
+		  int Integer_Help_Year_End_Date_In_Survey_Table_2;
+		  int Integer_Help_Month_Start_Date_In_Survey_Table_2;
+		  int Integer_Help_Month_End_Date_In_Survey_Table_2;
+		  String String_Help_Start_Date_In_Survey_Table_2;
+		  String String_Help_End_Date_In_Survey_Table_2;
 		  Real_Quarter_Number = Integer.parseInt((String.valueOf(All_The_Object_To_Return.get(3))));
 		  Real_Year = Integer.parseInt(String.valueOf(Date_Report_Store_Two).substring(0,4)); /* The Real Year */
 		 
-		  String getSurvey_Of_Store_Two = "SELECT * FROM project.survey ;" ; 
+		  String getSurvey_Of_Store_Two = "SELECT * FROM project.survey WHERE StoreID = " + "'" + Store_Two_ID + "'" + ";" ; 
 		  ResultSet rs_11 = stmt.executeQuery(getSurvey_Of_Store_Two);
 		  while(rs_11.next())
 		  {
-			  String_Help_Date_In_Survey_Table_2 = rs_11.getString("SurveyDate");
-			  Integer_Help_Month_In_Survey_Table_2 = Integer.parseInt(String_Help_Date_In_Survey_Table_2.substring(5,7));
-			  if(((Integer_Help_Month_In_Survey_Table_2 + 2) / 3) == Real_Quarter_Number)
+			  String_Help_Start_Date_In_Survey_Table_2 = rs_11.getString("SurveyStartDate");
+			  String_Help_End_Date_In_Survey_Table_2 = rs_11.getString("SurveyEndDate");
+			  Integer_Help_Month_Start_Date_In_Survey_Table_2 = Integer.parseInt(String_Help_Start_Date_In_Survey_Table_2.substring(5,7));
+			  Integer_Help_Month_End_Date_In_Survey_Table_2 = Integer.parseInt(String_Help_End_Date_In_Survey_Table_2.substring(5,7));
+			  if((((Integer_Help_Month_Start_Date_In_Survey_Table_2 + 2) / 3) == Real_Quarter_Number) || (((Integer_Help_Month_End_Date_In_Survey_Table_2 + 2) / 3) == Real_Quarter_Number))
 			  {
-				  Integer_Help_Year_In_Survey_Table_2 = Integer.parseInt(String_Help_Date_In_Survey_Table_2.substring(0,4));
-				  if(Real_Year == Integer_Help_Year_In_Survey_Table_2)
+				  Integer_Help_Year_Start_Date_In_Survey_Table_2 = Integer.parseInt(String_Help_Start_Date_In_Survey_Table_2.substring(0,4));
+				  Integer_Help_Year_End_Date_In_Survey_Table_2 = Integer.parseInt(String_Help_End_Date_In_Survey_Table_2.substring(0,4));
+				  if((Real_Year == Integer_Help_Year_Start_Date_In_Survey_Table_2) || (Real_Year == Integer_Help_Year_End_Date_In_Survey_Table_2))
 				  {
 					  temp_Survey = new Survey();
 					  Survey_Field  = rs_11.getString("Surveyid");
 					  temp_Survey.setSurvey_Id(Integer.parseInt(Survey_Field));
+					  temp_Survey.setStore_ID(Store_Two_ID);
 					  Survey_Of_Store_Two.add(temp_Survey);
 				  }
 			  } 
@@ -908,30 +986,25 @@ public class EchoServer extends AbstractServer
 		  
 		  for(int i = 0 ; i < Survey_Of_Store_Two.size() ; i++)
 		  {
-			  String getAnswer_Of_Specific_Survey_At_Store_Two = "SELECT * FROM project.survey_result WHERE Surveyid = " + "'" + Survey_Of_Store_Two.get(i).getSurvey_Id() + "'" + ";"; 
+			  String getAnswer_Of_Specific_Survey_At_Store_Two = "SELECT * FROM project.survey_result WHERE Surveyid = " + "'" + Survey_Of_Store_Two.get(i).getSurvey_Id() + "'" +  "AND storeId = " + "'" + Survey_Of_Store_Two.get(i).getStore_ID() + "'" + ";"; 
 			  ResultSet rs_12 = stmt.executeQuery(getAnswer_Of_Specific_Survey_At_Store_Two);
 			  while(rs_12.next())
 			  {
-				  Survey_Field = rs_12.getString("numOfClients");
-				  Survey_Of_Store_Two.get(i).setNum_Of_Clients(Integer.parseInt(Survey_Field));
-				  Survey_Field = rs_12.getString("sumQ1");
+				  Survey_Field = rs_12.getString("ansQ1");
 				  Sum_Of_Specific_Question_At_Store_Two[0] += Integer.parseInt(Survey_Field);
-				  Survey_Field = rs_12.getString("sumQ2");
+				  Survey_Field = rs_12.getString("ansQ2");
 				  Sum_Of_Specific_Question_At_Store_Two[1] += Integer.parseInt(Survey_Field);
-				  Survey_Field = rs_12.getString("sumQ3");
+				  Survey_Field = rs_12.getString("ansQ3");
 				  Sum_Of_Specific_Question_At_Store_Two[2] += Integer.parseInt(Survey_Field);
-				  Survey_Field = rs_12.getString("sumQ4");
+				  Survey_Field = rs_12.getString("ansQ4");
 				  Sum_Of_Specific_Question_At_Store_Two[3] += Integer.parseInt(Survey_Field);
-				  Survey_Field = rs_12.getString("sumQ5");
+				  Survey_Field = rs_12.getString("ansQ5");
 				  Sum_Of_Specific_Question_At_Store_Two[4] += Integer.parseInt(Survey_Field);
-				  Survey_Field = rs_12.getString("sumQ6");
+				  Survey_Field = rs_12.getString("ansQ6");
 				  Sum_Of_Specific_Question_At_Store_Two[5] += Integer.parseInt(Survey_Field);
+				  
+				  Sum_Number_Of_Client_Store_Two += 1;
 			  }
-		  }
-		  
-		  for(int i = 0 ; i < Survey_Of_Store_Two.size() ; i++)
-		  {
-			  Sum_Number_Of_Client_Store_Two += Survey_Of_Store_Two.get(i).getNum_Of_Clients();
 		  }
 		  
 		  for(int i = 0 ; i < Sum_Of_Specific_Question_At_Store_Two.length ; i++)
@@ -994,21 +1067,27 @@ public class EchoServer extends AbstractServer
 			  
 			  String getSurveysOfSpecificStoreTable = "SELECT * FROM project.survey WHERE StoreID = " + "'" + Store_ID + "'" + ";";   
 			  ResultSet rs_2 = stmt.executeQuery(getSurveysOfSpecificStoreTable);
-			  int Integer_Help_Month_In_Survey_Table;                                       								/* Variable That Keep The Month In Integer */
+			  int Integer_Help_Start_Month_In_Survey_Table;                                       							/* Variable That Keep The Month In Integer */
+			  int Integer_Help_End_Month_In_Survey_Table;
 			  int Real_Quarter_Number = Integer.parseInt(temp_Report.getQaurterReportNumber());    						    /* Variable That Keep The Quarter Number In Integer */
-			  String String_Help_Date_In_Survey_Table;                                              						/* Variable That Keep The Date In String */
+			  String String_Help_Start_Date_In_Survey_Table;                                              					/* Variable That Keep The Date In String */
+			  String String_Help_End_Date_In_Survey_Table;
 			  
 			  while(rs_2.next())
 		 	  {
-				  String_Help_Date_In_Survey_Table = rs_2.getString("SurveyDate");                  					    /* Take From the DB the Survey Date And Check The Month */
-				  Integer_Help_Month_In_Survey_Table = Integer.parseInt(String_Help_Date_In_Survey_Table.substring(5, 7));  /* In this Line We Save the Month From The Date That We take from The Client */     
-				  if(((Integer_Help_Month_In_Survey_Table + 2) / 3) == Real_Quarter_Number)         					    /* With This If Statement We Can See the Number Of Quarter */
+				  String_Help_Start_Date_In_Survey_Table = rs_2.getString("SurveyStartDate");                  					          /* Take From the DB the Survey Date And Check The Month */
+				  String_Help_End_Date_In_Survey_Table = rs_2.getString("SurveyEndDate");
+				  Integer_Help_Start_Month_In_Survey_Table = Integer.parseInt(String_Help_Start_Date_In_Survey_Table.substring(5, 7));    /* In this Line We Save the Month From The Date That We take from The Client */
+				  Integer_Help_End_Month_In_Survey_Table = Integer.parseInt(String_Help_End_Date_In_Survey_Table.substring(5, 7));
+				  if((((Integer_Help_Start_Month_In_Survey_Table + 2) / 3) == Real_Quarter_Number) || (((Integer_Help_End_Month_In_Survey_Table + 2) / 3) == Real_Quarter_Number))         					          /* With This If Statement We Can See the Number Of Quarter */
 				  {
 					   temp_Survey = new Survey();
 					   survey_field = rs_2.getString("Surveyid");															/* Take From the DB the Survey ID And */
 					   temp_Survey.setSurvey_Id(Integer.parseInt(survey_field));     									    /* Save The Survey ID of Specific Survey */
-					   survey_field = rs_2.getString("SurveyDate");															/* Take From the DB the Survey Date */
-					   temp_Survey.setSurvey_Date(Date.valueOf(survey_field));     		    								/* Save The Survey ID of Specific Survey */
+					   survey_field = rs_2.getString("SurveyStartDate");												    /* Take From the DB the Survey Date */
+					   temp_Survey.setSurvey_Start_Date(Date.valueOf(survey_field));     		    								/* Save The Survey ID of Specific Survey */
+					   survey_field = rs_2.getString("SurveyEndDate");												    /* Take From the DB the Survey Date */
+					   temp_Survey.setSurvey_End_Date(Date.valueOf(survey_field)); 
 					   temp_Survey.setQuarterNumber(temp_Report.getQaurterReportNumber());  								/* Save The Quarter Number That We Make The Survey */
 					   temp_Survey.setStore_ID(Store_ID);								    								/* Save The Store ID that We Make The Survey */			
 					   Surveys_Of_Specific_Store.add(temp_Survey);														    /* Add to The ArrayList Of Specific Order */
@@ -1019,38 +1098,42 @@ public class EchoServer extends AbstractServer
 			  /* -------------------------------- Take All The Survey Of Specific Store In Specific Quarter And Check If The Year is The Correct Year -------------------------------------------------------------- */
 			  
 			  /* Variable That Represent The DB In Table Survey */
-			  String Month_From_DB;
-			  String Year_From_DB;
-			  String Date_From_DB;
-			  Date temp_Date;
-			  int Integer_Month_From_DB = 0;
-			  int Integer_Year_From_DB = 0;
+			  
+			  /* Start Date */
+			  int Integer_Year_Start_Date_From_DB = 0;
+			  Date temp_Start_Date;
+			  String Year_Start_Date_From_DB;
+			  String Start_Date_From_DB;
+			  
+			  /* End Date */
+			  String End_Date_From_DB;
+			  String Year_End_Date_From_DB;
+			  Date temp_End_Date;
+			  int Integer_Year_End_Date_From_DB = 0;
 			  
 			  /* Variable That Represent The Client */
-			  String Month_From_Client;
 			  String Year_From_Client;
 			  String Date_From_Client;
-			  int Integer_Month_From_Client = 0;
 			  int Integer_Year_From_Client = 0;
 			  
 			  for(int i = 0 ; i < Surveys_Of_Specific_Store.size() ; i++)
 			  {
 				  /* Take The Date From The DB */
-				  temp_Date = Surveys_Of_Specific_Store.get(i).getSurvey_Date();   		/* Take The Date Of DB */
-				  Date_From_DB = String.valueOf(temp_Date); 							/* Casting To String */
-				  Month_From_DB = Date_From_DB.substring(5, 7);                 		/* Take The Month Of DB */
-				  Year_From_DB = Date_From_DB.substring(0,4);                  			/* Take The Year Of DB */
-				  Integer_Month_From_DB = Integer.parseInt(Month_From_DB);      		/* Casting The Month Of DB To Integer */
-				  Integer_Year_From_DB = Integer.parseInt(Year_From_DB);        		/* Casting The Year Of DB To Integer */
+				  temp_Start_Date = Surveys_Of_Specific_Store.get(i).getSurvey_Start_Date();     /* Take The Date Of DB */
+				  temp_End_Date = Surveys_Of_Specific_Store.get(i).getSurvey_End_Date();
+				  Start_Date_From_DB = String.valueOf(temp_Start_Date); 					     /* Casting To String */
+				  End_Date_From_DB = String.valueOf(temp_End_Date); 
+				  Year_Start_Date_From_DB = Start_Date_From_DB.substring(0,4);                   /* Take The Year Of DB */
+				  Year_End_Date_From_DB = End_Date_From_DB.substring(0,4);
+				  Integer_Year_Start_Date_From_DB = Integer.parseInt(Year_Start_Date_From_DB);   /* Casting The Year Of DB To Integer */
+				  Integer_Year_End_Date_From_DB = Integer.parseInt(Year_End_Date_From_DB);
 				  
 				  /* Take The Date From The Client */
-				  Date_From_Client = String.valueOf(date_Of_Report); 					/* Casting To String */
-				  Month_From_Client = Date_From_Client.substring(5, 7);                 /* Take The Month Of Client */
-				  Year_From_Client = Date_From_Client.substring(0,4);                   /* Take The Year Of Client */
-				  Integer_Month_From_Client = Integer.parseInt(Month_From_Client);      /* Casting The Month Of Client To Integer */
+				  Date_From_Client = String.valueOf(date_Of_Report); 					/* Casting To String */        
+				  Year_From_Client = Date_From_Client.substring(0,4);                   /* Take The Year Of Client */  
 				  Integer_Year_From_Client = Integer.parseInt(Year_From_Client);        /* Casting The Year Of Client To Integer */
 				  
-				  if(Integer_Year_From_DB == Integer_Year_From_Client)                  /* If We Are In the Correct Year We Add To the ArrayList Of - Final_Survey_ArrayList_To_Return */
+				  if(Integer_Year_Start_Date_From_DB == Integer_Year_From_Client || Integer_Year_End_Date_From_DB == Integer_Year_From_Client)                  /* If We Are In the Correct Year We Add To the ArrayList Of - Final_Survey_ArrayList_To_Return */
 				  {
 					  Final_Survey_ArrayList_To_Return.add(Surveys_Of_Specific_Store.get(i));
 				  }
@@ -1058,42 +1141,30 @@ public class EchoServer extends AbstractServer
 			  
 			  /* -------------------------------- Take All The Answer Of The Survey's Of ---> Specific Store In Specific Quarter ------------------------- */
 			  
-			  int Sum_Of_Clients = 0;                                            		/* The Sum Of the Client In Specific Store In Specific Quarter */
-			  int Sum_Of_Clients_Per_Survey = 0;                                	    /* The Sum Of Clients Per Survey */
+			  int Sum_Of_Clients = 0;                                            		/* The Sum Of the Client In Specific Store In Specific Quarter */                     	    
 			  double [] Sum_Result_Per_Question_Per_Survey = new double[6];      		/* In Each Cell I Put The Result Of The Question Of Specific Survey */
 			  double [] All_Sum_Per_Qustiones_Of_All_Survey = new double[6];     		/* In Each Cell I Put The Result Of All Question's Of Specific Store In Specific Quarter */
 			  double [] Temp_Array;
 			  
 			  /* -------------------------------------------------- Take From The Data Base In Each Iteration Specific Survey ---------------------------------------------------------- */
 			  
-			  for(int i = 0 ; i < Final_Survey_ArrayList_To_Return.size() ; i++) 		/* In Each Iteration I Take The Specific Survey According The The Survey ID Number */
+			  for(int i = 0 ; i < Final_Survey_ArrayList_To_Return.size() ; i++) 											/* In Each Iteration I Take The Specific Survey According The The Survey ID Number */
 			  {
-				  Sum_Of_Clients_Per_Survey = 0;
-				  Sum_Result_Per_Question_Per_Survey = new double[6];
-				  String getAnswerSurveyOfSpecificStoreTable = "SELECT * FROM project.survey_result WHERE Surveyid =" + "'" + Final_Survey_ArrayList_To_Return.get(i).getSurvey_Id() + "'" + ";"; 
+				  String getAnswerSurveyOfSpecificStoreTable = "SELECT * FROM project.survey_result WHERE Surveyid =" + "'" + Final_Survey_ArrayList_To_Return.get(i).getSurvey_Id() + "'" + "AND storeId = " + "'" + Final_Survey_ArrayList_To_Return.get(i).getStore_ID() + "'" + ";"; 
 				  ResultSet rs_3 = stmt.executeQuery(getAnswerSurveyOfSpecificStoreTable);
 			  
 				  while(rs_3.next())
 			 	  {
+					  Sum_Result_Per_Question_Per_Survey = new double[6];
 					  for(int Index_Of_Question = 1 ; Index_Of_Question < 7 ; Index_Of_Question++)                 			/* The Iteration is ---> 1 To 7 Because We Have 6 Question's */
 					  {														
-						  survey_field = rs_3.getString("sumQ" + Index_Of_Question);
+						  survey_field = rs_3.getString("ansQ" + Index_Of_Question);
 						  Sum_Result_Per_Question_Per_Survey[Index_Of_Question - 1] += Integer.parseInt(survey_field);		/* Each Cell Get The Result Of Specific Question */
-					  }
+					  }                                                    
 					  
-					  survey_field = rs_3.getString("numOfClients");                                                        /* I Take The Number Of Client Of Specific Survey */
-					  Sum_Of_Clients_Per_Survey += Integer.parseInt(survey_field);
-			 	  }
-				  
-				  /* ------------------------------- Sum_Result_Per_Question_Per_Survey = Array that keep the Average Of Each Question In Specific Survey --------------------------------------------------------- */
-				  
-				  for(int j = 0 ; j < Sum_Result_Per_Question_Per_Survey.length ; j++)                                      /* Sum_Result_Per_Question_Per_Survey[i] = Average Of Question[i] Of Specific Survey */
-				  {
-					  Sum_Result_Per_Question_Per_Survey[j] = Sum_Result_Per_Question_Per_Survey[j] / Sum_Of_Clients_Per_Survey;
-				  }
-				  
-				  Sum_Of_Clients += Sum_Of_Clients_Per_Survey;                                                              /* Sum The Number Of Client's */
-				  All_The_Survey_That_I_Need_From_DB.add(Sum_Result_Per_Question_Per_Survey);                               /* Add To The Vector The Array Of The Result Of Each Question Of Specific Survey */
+					  Sum_Of_Clients += 1;                                                                                  /* Sum All The Client That Fill The Survey */                         
+					  All_The_Survey_That_I_Need_From_DB.add(Sum_Result_Per_Question_Per_Survey);                           /* Add To The Vector The Array Of The Result Of Each Question Of Specific Survey */
+			 	  }                             
 			   }
 			  
 			   /* ------------------------------------- In This For We Take all The Result Of All Question[i] And Put Them In All_Sum_Per_Qustiones_Of_All_Survey[i] --------------------------------------------------------- */
@@ -1117,7 +1188,7 @@ public class EchoServer extends AbstractServer
 			   for(int i = 0 ; i < All_Sum_Per_Qustiones_Of_All_Survey.length ; i++)                                        /* In This Loop In Each Cell We Make Divide With The Number Of Survey That I Have In Specific Store In SPecific Quarter */
 			   {
 				  All_Sum_Per_Qustiones_Of_All_Survey[i] = All_Sum_Per_Qustiones_Of_All_Survey[i] / All_The_Survey_That_I_Need_From_DB.size();
-				  Final_Average_Of_Each_Question.add(All_Sum_Per_Qustiones_Of_All_Survey[i] );                              /* Final_Average_Of_Each_Question = Is The ArrayList That I will Return From The Function */
+				  Final_Average_Of_Each_Question.add(All_Sum_Per_Qustiones_Of_All_Survey[i]);                              /* Final_Average_Of_Each_Question = Is The ArrayList That I will Return From The Function */
 			   }
 			  
 			   /* ------------------------------------------- In This 'For' We Calculate The Total Average --------------------------------------------------------------------------*/
@@ -1137,91 +1208,6 @@ public class EchoServer extends AbstractServer
 	  return Final_Average_Of_Each_Question;                                                                                /* Return ArrayList With The Average Of Each Question And The Total Average And The Number Of the Survey */
   }
    
-  @SuppressWarnings("unchecked")
-  
-  protected void Update_The_Revenue_Of_All_The_Store(Object msg , Connection conn) /* This method get Orders Of Specific Store from DB */
-  {
-	  ArrayList<Store> All_Stores = (ArrayList<Store>)(((Message)msg).getMsg());
-	  ArrayList<Order> Order_Of_Spicific_Store = new ArrayList<Order>();
-	  ArrayList<Complaint> Complaint_Of_Spicific_Store = new ArrayList<Complaint>();
-	  Statement stmt;
-	  double Sum_Of_Revenue = 0;
-	  double Sum_Of_Compansation = 0;
-	  int Zero_The_Field_Of_Total_Revenue = 0;
-	  String order_field;
-	  String Complaint_Field;
-	  Order temp_Order;
-	  Complaint temp_Complaint;
-	  try {
-		  stmt = conn.createStatement();
-		  
-		  for(int index = 0 ; index < All_Stores.size() ; index++)
-		  {
-			      String Update_Table_Before_Store_Revenue = "UPDATE project.store SET TotalRevenue =" + "'" + Zero_The_Field_Of_Total_Revenue + "'" + "WHERE StoreID=" + "'" + All_Stores.get(index).getStoreId() + "'" + ";" ;
-			      stmt.executeUpdate(Update_Table_Before_Store_Revenue);
-			  
-				  String getOrdersOfSpecificStoreTable = "SELECT * FROM project.order WHERE StoreID = " + "'" + All_Stores.get(index).getStoreId() + "'" + ";"; 
-				  ResultSet rs = stmt.executeQuery(getOrdersOfSpecificStoreTable);
-				  Order_Of_Spicific_Store = new ArrayList<Order>();
-				  Complaint_Of_Spicific_Store = new ArrayList<Complaint>();
-				  Sum_Of_Revenue = 0;
-				  Sum_Of_Compansation = 0;
-				  
-				  while(rs.next())
-			 	  {
-					   temp_Order = new Order();
-					   order_field = rs.getString("orderID");
-					   temp_Order.setOrderID(Integer.parseInt(order_field));
-					   order_field = rs.getString("orderTotalPrice");
-					   temp_Order.setOrderTotalPrice(Double.parseDouble(order_field));
-					   Order_Of_Spicific_Store.add(temp_Order);
-			 	  }
-				  
-				  /* -------------------------------- We Take The Compensation of Each Complaint About The Order's Of Specific Store ------------------------- */
-				  
-				  for(int i = 0 ; i < Order_Of_Spicific_Store.size() ; i++)
-				  {
-					  String getComplaintOfSpecificStoreTable = "SELECT * FROM project.complaint WHERE ComplaintOrderId = " + "'" + Order_Of_Spicific_Store.get(i).getOrderID() + "'" + ";";
-					  ResultSet rs_2 = stmt.executeQuery(getComplaintOfSpecificStoreTable);
-					  while(rs_2.next())
-				 	  {
-						   temp_Complaint = new Complaint();
-						   Complaint_Field = rs_2.getString("ComplaintCompansation");
-						   temp_Complaint.setComplaintCompansation(Double.parseDouble(Complaint_Field));
-						   Complaint_Of_Spicific_Store.add(temp_Complaint);
-				 	  }  
-				  }
-				  
-				  /* -------------------------------- Calculate The Sum of Compensation Of Specific Store ------------------------- */
-				  
-				  for(int i = 0 ; i < Complaint_Of_Spicific_Store.size() ; i++)
-				  {
-					  Sum_Of_Compansation += Complaint_Of_Spicific_Store.get(i).getComplaintCompansation();
-				  }
-				  
-				  /* -------------------------------- Calculate The Sum of Revenue Of Specific Store ------------------------- */
-				  
-				  for(int i = 0 ; i < Order_Of_Spicific_Store.size() ; i++)
-				  {
-					  Sum_Of_Revenue += Order_Of_Spicific_Store.get(i).getOrderTotalPrice();
-				  }
-				  
-				  /* -------------------------------- The Final Sum ------------------------- */
-				  
-				  Sum_Of_Revenue = Sum_Of_Revenue - Sum_Of_Compansation;
-				  
-				  /* -------------------------------- Update The DB ------------------------- */
-				  
-				  String Update_Table_Store_Revenue = "UPDATE project.store SET TotalRevenue =" + "'" + Sum_Of_Revenue + "'" + "WHERE StoreID=" + "'" + All_Stores.get(index).getStoreId() + "'" + ";" ;
-				  stmt.executeUpdate(Update_Table_Store_Revenue);
-		  }
-	  } 
-	  catch (SQLException e) 
-	  {	
-		  e.printStackTrace();
-	  }	
-  }
-  
   protected ArrayList<Date> Get_All_The_Date_Of_Report_Of_Specific_Store_FromDB(Object msg , Connection conn) /* This method get Orders Of Specific Store from DB */
   {
 	  int temp_Store_Id = (Integer)(((Message)msg).getMsg());
@@ -1284,6 +1270,9 @@ public class EchoServer extends AbstractServer
 		  
 		  /* -------------------------------- Take All The Order Of Specific Store In Specific Quarter ------------------------- */
 		  
+		  /** String Exist = "Exist"; **/
+		  /** String Not_Exist = "Not_Exist"; **/
+		  /** Should Be - String getOrdersOfSpecificStoreTable = "SELECT * FROM project.order WHERE StoreID = " + "'" + Store_ID + "'" + "AND Order_Status = " + "'" +  Exist  + "'" + ";" ;  **/
 		  String getOrdersOfSpecificStoreTable = "SELECT * FROM project.order WHERE StoreID = " + "'" + Store_ID + "'" + ";"; 
 		  ResultSet rs_2 = stmt.executeQuery(getOrdersOfSpecificStoreTable);
 		  int Integer_Help_Month_In_Order_Table;
@@ -1370,7 +1359,7 @@ public class EchoServer extends AbstractServer
 	  return Final_Order_Of_Specific_Quarter;
   }
   
-  protected ArrayList<Store> GetStoresFromDB(Connection conn) /* This method get Stores table details from DB */
+  protected ArrayList<Store> GetStoresFromDB(Connection conn) 		/* This method get Stores table details from DB */
   {
 	  ArrayList<Store> stores = new ArrayList<Store>();
 	  Statement stmt;
@@ -1530,7 +1519,8 @@ public class EchoServer extends AbstractServer
 	  Complaint temp_Complaint;
 	  Report temp_Report = null;
 	  
-	  try {
+	  try 
+	  {
 		  stmt = conn.createStatement();
 		  
 		  /* -------------------------------- Take The Quarter Of Specific Report ------------------------- */
@@ -1547,6 +1537,9 @@ public class EchoServer extends AbstractServer
 		    
 		  /* -------------------------------- Take All The Order Of Specific Store In Specific Quarter ------------------------- */
 		  
+		  /** String Exist = "Exist"; **/
+		  /** String Not_Exist = "Not_Exist"; **/
+		  /** Should Be - String getOrdersOfSpecificStoreTable = "SELECT * FROM project.order WHERE StoreID = " + "'" + temp_Store_Id + "'" + "AND Order_Status = " + "'" +  Exist  + "'" + ";";  **/
 		  String getOrdersOfSpecificStoreTable = "SELECT * FROM project.order WHERE StoreID = " + "'" + temp_Store_Id + "'" + ";"; 
 		  ResultSet rs_2 = stmt.executeQuery(getOrdersOfSpecificStoreTable);
 		  int Integer_Help_Month_In_Order_Table;
@@ -1587,6 +1580,32 @@ public class EchoServer extends AbstractServer
 		 	  }  
 		  }
 		  
+		  /**  ---------------- Need To Add After Ariel Make His Changes ------------------- 
+		   *   double Sum_Of_Refund_From_Cancel_Order = 0;
+		   *   int Integer_Help_Year_In_Order_Table;
+		   *   String String_Year_Date_Of_Report = String.valuOf(date_Of_Report).substring(0, 4);   
+		   *   int Integer_Year_Date_Of_Report  = Integer.parseInt(String_Year_Date_Of_Report);
+		   *   
+		   *   String getOrders_That_Canceled_OfSpecificStoreTable = "SELECT * FROM project.order WHERE StoreID = " + "'" + temp_Store_Id + "'" + "AND Order_Status = " + "'" +  Not_Exist  + "'" + ";";  
+		   *   ResultSet rs_4 = stmt.executeQuery(getOrders_That_Canceled_OfSpecificStoreTable);
+		   *   
+		   *   while(rs_4.next())
+	 	  	   {
+
+				  String_Help_Date_In_Order_Table = rs_4.getString("orderDate");
+				  Integer_Help_Month_In_Order_Table = Integer.parseInt(String_Help_Date_In_Order_Table.substring(5, 7));
+				  if(((Integer_Help_Month_In_Order_Table + 2) / 3) == Real_Quarter_Number)
+				  {
+				  	   Integer_Help_Year_In_Order_Table = Integer.parseInt(String_Help_Date_In_Order_Table.substring(0, 4));
+				  	   if(Integer_Help_Year_In_Order_Table == Integer_Year_Date_Of_Report)
+				  	   {
+						   Sum_Of_Refund_From_Cancel_Order += rs_2.getInt("Order_Refund_From_Cancle");
+					   }
+			  	   }
+	 	  	   }
+	 	  	   	
+	 	  **/
+		 
 		  /* -------------------------------- Calculate The Revenue According To Quarter ------------------------- */
 		  
 		  int Count_Of_Order_Of_Specific_Quarter = 0;
@@ -1709,6 +1728,7 @@ public class EchoServer extends AbstractServer
 			  }
 		  }
 		  
+		  /** Need To Add - Revenue_Of_Specific_Quarter = Revenue_Of_Specific_Quarter - Sum_Of_Refund_From_Cancel_Order **/
 		  Revenue_Of_Specific_Quarter = Revenue_Of_Specific_Quarter - Compensation_Of_Specific_Quarter;
 		  Revenue_To_Return_And_Number_Of_Order.add(Revenue_Of_Specific_Quarter);
 		  Revenue_To_Return_And_Number_Of_Order.add(Count_Of_Order_Of_Specific_Quarter);
@@ -1865,8 +1885,8 @@ public class EchoServer extends AbstractServer
     	 
      }
   
-     protected ArrayList<Product> getProductsFromDB(Connection conn) /* This method get products table details from DB */
-     {
+  protected ArrayList<Product> getProductsFromDB(Connection conn) /* This method get products table details from DB */
+  {
    	  ArrayList<Product> products = new ArrayList<Product>();
    	  Statement stmt;
    	  String p;
@@ -2095,8 +2115,6 @@ public class EchoServer extends AbstractServer
 		 catch (Exception e) {
 			e.printStackTrace();}
 	}
-  
-  
   
   protected void addProductToDB(Object msg, Connection conn) /* This Method Update the DB */
 	{
@@ -2508,7 +2526,6 @@ public class EchoServer extends AbstractServer
 	  } catch (SQLException e) {	e.printStackTrace();}	
 	  return stores;
   }
-  
   
   protected Account UpdateUserAccountAtDB(Object msg, Connection conn) /* This Method Update the DB */
   {
