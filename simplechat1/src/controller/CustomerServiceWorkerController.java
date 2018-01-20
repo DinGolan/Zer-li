@@ -45,7 +45,8 @@ public class CustomerServiceWorkerController implements Initializable{
 		Stage primaryStage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
 		Pane root = loader.load(getClass().getResource("/controller/SurveyFrame.fxml").openStream());
-		Scene scene = new Scene(root);			
+		Scene scene = new Scene(root);	
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);		
 		primaryStage.show();
 		flag=true;
@@ -80,7 +81,7 @@ public class CustomerServiceWorkerController implements Initializable{
 		//complaintController.loadComplaint(); //In this Line We take the Product that we Choose and Show his Details On the GUI */
 		
 		Scene scene = new Scene(root);			
-		//scene.getStylesheets().add(getClass().getResource("/controller/AccountForm.css").toExternalForm());
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Complaint Form");
 		primaryStage.show();
@@ -99,7 +100,7 @@ public class CustomerServiceWorkerController implements Initializable{
 		complaintHandleController.loadHisComplaints(); //we are loading all the requested complaints for this customer service worker
 		
 		Scene scene = new Scene(root);			
-		//scene.getStylesheets().add(getClass().getResource("/controller/AccountForm.css").toExternalForm());
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Complaints to handle");
 		primaryStage.show();	
@@ -122,6 +123,7 @@ public class CustomerServiceWorkerController implements Initializable{
 		FXMLLoader loader = new FXMLLoader(); /* load object */
 		Parent root = FXMLLoader.load(getClass().getResource("/controller/UserLogin.fxml"));
 		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setTitle("LOGIN");
 		primaryStage.setScene(scene);
 		primaryStage.show();

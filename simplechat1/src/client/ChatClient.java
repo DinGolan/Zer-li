@@ -85,15 +85,17 @@ public class ChatClient extends AbstractClient
 	  else if(((Message)msg).getOption().compareTo("Get all complaints numbers for this customer service worker") ==0)
 		  clientUI.displayUI(msg);
 	  else if(((Message)msg).getOption().compareTo("Get complaint details") ==0)
-	  {
-		  System.out.println("maymay");
 		  clientUI.displayUI(msg);
-	  }
+	  else if(((Message)msg).getOption().compareTo("Get order details") ==0)
+		  clientUI.displayUI(msg);
 	  else if(((Message)msg).getOption().compareTo("Store manager want store number") ==0)
 		  clientUI.displayUI(msg);
+	  else if(((Message)msg).getOption().compareTo("Get all orders numbers for this customer can cancel") ==0)
+		  clientUI.displayUI(msg);
 	  //else if(((Message)msg).getOption().compareTo("Update complaint") ==0)
-	//	  clientUI.displayUI(msg);	   else if(((Message)msg).getOption().compareTo("Store Manager - Add Store To Combo Box From DB") == 0) 
-
+	//	  clientUI.displayUI(msg);	  
+	  else if(((Message)msg).getOption().compareTo("Store Manager - Add Store To Combo Box From DB") == 0) 
+		  clientUI.displayUI(msg);
 	  else if(((Message)msg).getOption().compareTo("Store Manager - Take The Orders Of Specific Store") == 0) 
 		  clientUI.displayUI(msg);
 	  else if(((Message)msg).getOption().compareTo("Store Manager - Take The Complaints Of Specific Store") == 0) 

@@ -101,7 +101,8 @@ public class ComplaintController implements Initializable{
 			cmbComplaintOrderId.setPromptText("Doesn't have orders");
 			cmbComplaintOrderId.setDisable(true); //view the option to open combobox
 			root = loader.load(getClass().getResource("/controller/ComplaintOrderMsg.fxml").openStream());
-			Scene scene = new Scene(root);			
+			Scene scene = new Scene(root);	
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 			primaryStage.setScene(scene);	
 			primaryStage.setTitle("Error msg");
 			primaryStage.show();		
@@ -113,7 +114,8 @@ public class ComplaintController implements Initializable{
 			cmbComplaintOrderId.setDisable(true); //view the option to open combobox
 			txtComplaintUserId.setPromptText("User doesn't exist");
 			root = loader.load(getClass().getResource("/controller/ComplaintCustomerMsg.fxml").openStream());
-			Scene scene = new Scene(root);			
+			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 			primaryStage.setScene(scene);	
 			primaryStage.setTitle("Error msg");
 			primaryStage.show();	
@@ -168,7 +170,8 @@ public class ComplaintController implements Initializable{
 		{
 			((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
 			root = loader.load(getClass().getResource("/controller/ComplaintReasonLengthMsg.fxml").openStream());
-			Scene scene = new Scene(root);			
+			Scene scene = new Scene(root);	
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 			primaryStage.setScene(scene);	
 			primaryStage.setTitle("Error msg");
 			primaryStage.show();
@@ -182,7 +185,8 @@ public class ComplaintController implements Initializable{
 			{ 
 				((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
 				root = loader.load(getClass().getResource("/controller/ComplaintComboboxMsg.fxml").openStream());
-				Scene scene = new Scene(root);			
+				Scene scene = new Scene(root);	
+				scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 				primaryStage.setScene(scene);	
 				primaryStage.setTitle("Error msg");
 				primaryStage.show();	
@@ -205,7 +209,8 @@ public class ComplaintController implements Initializable{
 				{
 					((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
 					root = loader.load(getClass().getResource("/controller/ComplaintExistMsg.fxml").openStream());
-					Scene scene = new Scene(root);			
+					Scene scene = new Scene(root);
+					scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 					primaryStage.setScene(scene);	
 					primaryStage.setTitle("Error msg");
 					primaryStage.show();	
@@ -214,8 +219,9 @@ public class ComplaintController implements Initializable{
 				{
 					((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
 					root = loader.load(getClass().getResource("/controller/AddNewComplaintMsg.fxml").openStream());
-					Scene scene = new Scene(root);			
-					primaryStage.setScene(scene);	
+					Scene scene = new Scene(root);	
+					scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+					primaryStage.setScene(scene);
 					primaryStage.setTitle("New complaint msg");
 					primaryStage.show();						
 				}					
@@ -230,6 +236,7 @@ public class ComplaintController implements Initializable{
 		FXMLLoader loader = new FXMLLoader(); 					 //load object
 		Parent root = FXMLLoader.load(getClass().getResource("/controller/ComplaintForm.fxml"));
 		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setTitle("Complaint Form");
 		primaryStage.setScene(scene);
 		primaryStage.show();	
@@ -246,7 +253,8 @@ public class ComplaintController implements Initializable{
 		Stage primaryStage = new Stage();						 //Object present window with graphics elements
 		FXMLLoader loader = new FXMLLoader(); 					 //load object
 		Pane root = loader.load(getClass().getResource("/controller/CustomerServiceWorkerOptions.fxml").openStream());	
-		Scene scene = new Scene(root);			
+		Scene scene = new Scene(root);	
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);			
 		primaryStage.setTitle("Menu");
 		primaryStage.show(); //show customer service worker options window

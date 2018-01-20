@@ -12,15 +12,18 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map.Entry;
-import java.util.Scanner;
 import java.util.Vector;
+
 import com.mysql.jdbc.PreparedStatement;
 
-import controller.ComplaintHandleController;
 import entity.Account;
 import entity.Complaint;
 import entity.Message;
@@ -161,11 +164,11 @@ public void handleMessageFromClient
     		this.sendToAllClients(msg);	
 		}
 	    
-	  /*  if(((Message)msg).getOption().compareTo("Get all orders numbers for this customer can cancel") == 0) //get all the orders that connected to specific customer and can cancel
+	   if(((Message)msg).getOption().compareTo("Get all orders numbers for this customer can cancel") == 0) //get all the orders that connected to specific customer and can cancel
         {
     		((Message)msg).setMsg(getAllOrdersToCustomerCancel(msg,conn));	
     		this.sendToAllClients(msg);	
-		}*/
+		}
 	    
 	    if(((Message)msg).getOption().compareTo("Get all complaints numbers for this customer service worker") == 0) //get all the complaints that connected to specific customer service worker
         {
@@ -176,6 +179,12 @@ public void handleMessageFromClient
 	    if(((Message)msg).getOption().compareTo("Get complaint details") == 0) //get all the details for the complaint that he choose
         {
     		((Message)msg).setMsg(getSelectedComplaintDetails(msg,conn));	
+    		this.sendToAllClients(msg);	
+		}
+        
+	    if(((Message)msg).getOption().compareTo("Get order details") == 0) //get all the details for the order that he choose
+        {
+    		((Message)msg).setMsg(getSelectedOrderDetails(msg,conn));	
     		this.sendToAllClients(msg);	
 		}
 	    
@@ -1858,35 +1867,87 @@ public void handleMessageFromClient
 	  return users_After_Change;
   }
   
-  /*protected ArrayList<Integer> getAllOrdersToCustomerCancel(Object msg, Connection conn) //this method get all the orders that match to specific customer and can be cancel
+ protected ArrayList<Integer> getAllOrdersToCustomerCancel(Object msg, Connection conn) //this method get all the orders that match to specific customer and can be cancel
   {
-	  String requestedCustomerId=(String)(((Message)msg).getMsg());
-	  ArrayList<Integer> ordersNums = new ArrayList<Integer>();
+	 int StoreNum = Integer.parseInt(((ArrayList<String>)(((Message)msg).getMsg())).get(1));
+	 System.out.println(StoreNum);
+	 String requestedCustomerId=((ArrayList<String>)(((Message)msg).getMsg())).get(0);
+	 System.out.println(requestedCustomerId);
+	 ArrayList<Integer> ordersNums = new ArrayList<Integer>();
+	 Statement stmt;
+	 Integer co;
+	 String time;
+	 Date day;
+	 //casting and for the date
+	 LocalDate localDate = LocalDate.now(); //get the current date
+	 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+	 String dateStr=localDate.toString();
+	 java.util.Date parsed = null;
+	 try {
+		 parsed = format.parse(dateStr);
+		 } catch (ParseException e1) {
+		// TODO Auto-generated catch block
+			 e1.printStackTrace();}
+	 java.sql.Date today = new java.sql.Date(parsed.getTime());
+	 //end casting and for the date
+	 LocalTime t; 
+	 LocalTime nowTime=LocalTime.parse(new SimpleDateFormat("HH:mm").format(Calendar.getInstance().getTime())); //get the current time
+
+	 try {
+		 stmt = conn.createStatement();
+		 String getOrders = "SELECT * FROM project.order WHERE customerID='"+requestedCustomerId+"' AND StoreID="+StoreNum+" AND orderStatus='APPROVED';";//get all the orders numbers that connected to this customer and made from this store and can be canceld
+		 ResultSet rs = stmt.executeQuery(getOrders);
+		 if(rs.isBeforeFirst()) //we have orders to this customer at DB
+		 {
+			 while(rs.next())
+	  			{
+	  				co = rs.getInt("orderID");
+	  				day= rs.getDate("orderRequiredSupplyDate");
+	  				time=rs.getString("orderRequiredSupplyTime");
+	  				t = LocalTime.parse(time); //the time from DB at localtime
+	  				if(day.after(today)||(day.equals(today)&&nowTime.isBefore(t))) //if the date of the order is in the future or its today but later
+	  					ordersNums.add(co); //we can try to cancel this order
+	  			}	
+		 }
+		 else
+			 ordersNums.add(-1); //to know that we didn't have orders to this customer at DB that we can to cancel
+		  } catch (SQLException e) {	e.printStackTrace();}			  
+	  return ordersNums;
+ }	
+ 
+ protected Order getSelectedOrderDetails(Object msg, Connection conn) //this method return an order from the DB
+ {
+	  int requestedOrderNum=(int)(((Message)msg).getMsg());
+	  Order o = null;
 	  Statement stmt;
-	  Integer co;
+	  Integer temp;
+	  String str;
+	  Date day;
+	  Date dayReq;
+	  Double money;
 
 	  try {
 		  	stmt = conn.createStatement();
-	  		String getOrders = "SELECT * FROM project.order WHERE customerID='"+requestedCustomerId+"' AND orderRequiredSupplyDate ;"; //get all the orders numbers that connected to this customer and can be canceled
-	  		ResultSet rs = stmt.executeQuery(getOrders);
-	  		if(rs.isBeforeFirst()) //we have orders to this customer at DB
-	  		{
-	  			while(rs.next())
-	  			{
-	  				co = rs.getInt("orderID");
-	  				ordersNums.add(co);
-	  			}
-	  		}
-	  		else
-	  			ordersNums.add(-1); //to know that we didn't have orders to this customer at DB
-	
-		  		
+		  	String getComplaint = "SELECT * FROM project.order WHERE orderID="+requestedOrderNum+";"; //get the order details
+		  	ResultSet rs = stmt.executeQuery(getComplaint);
+		  	while(rs.next())
+		  	{
+		  		o=new Order();
+		  		temp = rs.getInt("orderID");
+		  		o.setOrderID(temp);
+		  		day = rs.getDate("orderDate");
+		  		o.setOrderDate(day);
+		  		dayReq = rs.getDate("orderRequiredSupplyDate");
+		  		o.setRequiredSupplyDate(dayReq.toLocalDate());
+		  		str = rs.getString("orderRequiredSupplyTime");
+		  		o.setRequiredSupplyTime(str);
+		  		money=rs.getDouble("orderTotalPrice");
+		  		o.setOrderTotalPrice(money);
 		  	}
-		  	else
-		  		ordersNums.add(-2); //to know that we didn't have this customer at DB
-		  } catch (SQLException e) {	e.printStackTrace();}			  
-	  return ordersNums;
-  }*/
+		  } catch (SQLException e) {	e.printStackTrace();}	
+	  System.out.print(o);
+	  return o;
+ }
   
   protected ArrayList<Integer> getAllOrdersToCustomer(Object msg, Connection conn) //this method get all the orders that match to specific customer
   {
@@ -2013,7 +2074,7 @@ public void handleMessageFromClient
 	  Integer storeNum = 0;
 	  try {
 		  stmt = conn.createStatement();
-		  String getUserStoreNum = "SELECT * FROM project.store WHERE StoreManagerUserId = " + "'" +  userName + "'" + ";" ; /* Get all the Table from the DB */
+		  String getUserStoreNum = "SELECT * FROM project.storeworkers WHERE StoreEmployeeUserId = " + "'" +  userName + "'" + ";" ; /* Get all the Table from the DB */
 		  ResultSet rs = stmt.executeQuery(getUserStoreNum);
 		  while(rs.next())
 			  storeNum=rs.getInt("StoreID");

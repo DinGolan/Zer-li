@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Hyperlink?>
@@ -10,7 +14,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="679.0" prefWidth="679.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CatalogController">
+<AnchorPane prefHeight="679.0" prefWidth="679.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CatalogController">
    <children>
       <Button id="btnBack" fx:id="btnBack" layoutX="322.0" layoutY="635.0" mnemonicParsing="false" onAction="#back" text="Back" />
       <Hyperlink id="SweetBouquetLink" fx:id="SweetBouquetLink" layoutX="175.0" layoutY="14.0" onAction="#productCategory" text="Sweet Bouquet" textFill="#82059c">
@@ -28,7 +32,7 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Hyperlink>
-      <Hyperlink id="FlowerCrownLink" fx:id="FlowerCrownLink" layoutX="287.0" layoutY="14.0" onAction="#productCategory" text="Flower Crown" textFill="#b0bc04">
+      <Hyperlink id="FlowerCrownLink" fx:id="FlowerCrownLink" layoutX="287.0" layoutY="14.0" onAction="#productCategory" text="Flower Crown" textFill="#e342b2">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
@@ -53,12 +57,12 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Hyperlink>
-      <Hyperlink id="LinkCart" fx:id="LinkCart" layoutX="613.0" layoutY="625.0" onAction="#showCart" text="cart" textFill="#00c8ff">
+      <Hyperlink id="LinkCart" fx:id="LinkCart" layoutX="613.0" layoutY="625.0" onAction="#showCart" text="cart" textFill="#e3eaf1">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Hyperlink>
-      <Hyperlink id="LinkLogout" fx:id="LinkLogout" layoutX="13.0" layoutY="625.0" onAction="#logout" text="Logout" textFill="#00c8ff">
+      <Hyperlink id="LinkLogout" fx:id="LinkLogout" layoutX="13.0" layoutY="625.0" onAction="#logout" text="Logout" textFill="#e3eaf1">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>

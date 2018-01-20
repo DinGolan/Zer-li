@@ -1,4 +1,4 @@
-package controller;
+/*package controller;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.net.URL;
@@ -62,16 +62,16 @@ public class ProfileController implements Initializable {
 	
 	ObservableList<String> plist;
 
-	public void back(ActionEvent event) throws Exception /* With this Method we Exit from the Catalog */ 
+	public void back(ActionEvent event) throws Exception //With this Method we Exit from the Catalog 
 	{
 		OrderUI.order = null;
-		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+		((Node)event.getSource()).getScene().getWindow().hide(); Hiding primary window 
 		Stage primaryStage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
 		Pane root = loader.load(getClass().getResource("/controller/CustomerOptions.fxml").openStream());
 				
 		Scene scene = new Scene(root);			
-		/* scene.getStylesheets().add(getClass().getResource("/boundery/ProductForm.css").toExternalForm()); */
+		scene.getStylesheets().add(getClass().getResource("/boundery/ProductForm.css").toExternalForm()); 
 		primaryStage.setScene(scene);		
 		primaryStage.show();	
 	}
@@ -254,14 +254,14 @@ public class ProfileController implements Initializable {
 		primaryStage.show();
 	}
 	
-	public void logout(ActionEvent event) throws Exception /* logout and open login window */
+	public void logout(ActionEvent event) throws Exception /* logout and open login window 
 	{
 		CustomerController.flag = false;
 		Message msg = new Message(UserUI.user.getId(), "change User status to DISCONNECTED");
 		UserUI.myClient.accept(msg); // change User status to DISCONNECTED in DB
-		((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
-		Stage primaryStage = new Stage(); /* Object present window with graphics elements */
-		FXMLLoader loader = new FXMLLoader(); /* load object */
+		((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window 
+		Stage primaryStage = new Stage(); /* Object present window with graphics elements 
+		FXMLLoader loader = new FXMLLoader(); /* load object 
 		Parent root = FXMLLoader.load(getClass().getResource("/controller/UserLogin.fxml"));
 		Scene scene = new Scene(root);
 		primaryStage.setTitle("LOGIN");
@@ -299,4 +299,4 @@ public class ProfileController implements Initializable {
 		}
 		return null;
 	}
-}
+}*/

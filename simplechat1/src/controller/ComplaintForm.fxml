@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="489.0" prefWidth="443.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ComplaintController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="489.0" prefWidth="457.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ComplaintController">
    <children>
       <TextField id="txtComplaintUserId" fx:id="txtComplaintUserId" layoutX="187.0" layoutY="75.0" />
       <TextArea id="txtComplaintReason" fx:id="txtComplaintReason" layoutX="22.0" layoutY="180.0" prefHeight="200.0" prefWidth="397.0" promptText="Enter customer reason of complaint (until 200 characters)">
@@ -21,7 +21,7 @@
       <Button id="btnComplaintSave" fx:id="btnComplaintSave" layoutX="69.0" layoutY="446.0" mnemonicParsing="false" onAction="#saveComplaintButton" text="Save" />
       <Button id="btnComplaintClose" fx:id="btnComplaintClose" layoutX="320.0" layoutY="446.0" mnemonicParsing="false" onAction="#closeComplaintFormWindow" text="Close" />
       <Label layoutX="19.0" layoutY="132.0" text="Order number to complain:" />
-      <ComboBox id="cmbComplaintOrderId" fx:id="cmbComplaintOrderId" disable="true" layoutX="186.0" layoutY="128.0" prefWidth="150.0" promptText="Press Load orders" />
-      <Button id="btnComplaintLoadOrders" fx:id="btnComplaintLoadOrders" layoutX="349.0" layoutY="75.0" mnemonicParsing="false" onAction="#loadOrdersComboBox" text="Load orders" />
+      <ComboBox id="cmbComplaintOrderId" fx:id="cmbComplaintOrderId" disable="true" layoutX="186.0" layoutY="128.0" prefHeight="25.0" prefWidth="185.0" promptText="Press Load orders" />
+      <Button id="btnComplaintLoadOrders" fx:id="btnComplaintLoadOrders" layoutX="349.0" layoutY="75.0" mnemonicParsing="false" onAction="#loadOrdersComboBox" prefHeight="25.0" prefWidth="99.0" text="Load orders" />
    </children>
 </Pane>

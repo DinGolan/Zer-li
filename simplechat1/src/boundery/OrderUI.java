@@ -13,8 +13,8 @@ import entity.User;
 public class OrderUI extends Application /* With This Class We Show the Product GUI */
 {
 	public static Vector<Order> orders = new Vector<Order>();
-	public static Order order;
-	public static Vector<Integer> ordersNumbers = new Vector<Integer>();
+	public static Order order=null;
+	public static Vector<Integer> ordersNumbers = new Vector<Integer>(); //all the orders numbers he can to cancel
 	public static void main( String args[] ) throws Exception
 	{ 
 

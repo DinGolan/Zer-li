@@ -12,15 +12,18 @@ import boundery.CompanyManagerUI;
 import boundery.ComplaintUI;
 import boundery.CustomerUI;
 import boundery.DataCompanyManagerUI;
+import boundery.OrderUI;
 import boundery.StoreManagerUI;
 import boundery.StoreUI;
 import boundery.UserUI;
 import client.ChatClient;
 import common.ChatIF;
 import controller.AccountController;
+import controller.CancelOrderController;
 import controller.CatalogController;
 import controller.ComplaintController;
 import controller.ComplaintHandleController;
+import controller.CustomerController;
 import controller.OrderController;import controller.StoreManagerController;import controller.SurveyResultController;
 import controller.UserController;
 import entity.Account;
@@ -216,6 +219,19 @@ public void displayUI(Object message)
 	  	  	ComplaintController.loadOrdersFlag=true; //finish to get all the orders to this customer
 	    }
 	    
+	    else if(((Message)message).getOption().compareTo("Get all orders numbers for this customer can cancel") == 0) //get all the orders to specific customer that he can to cancel
+	    {
+	  	  	int i=0;
+	  	  	ArrayList<Integer> temp = new ArrayList<Integer>();
+	  	  	temp = (ArrayList<Integer>)((Message)message).getMsg();
+	  	  	OrderUI.ordersNumbers.clear();
+
+	  	  	for(i=0;i<temp.size();i++)	  	  	
+	  	  		OrderUI.ordersNumbers.add(temp.get(i));
+	  	  	
+	  	  	CancelOrderController.getCancelOrdersFlag=true; //finish to get all the orders to this customer that he can to cancel
+	    }
+	    
 	    else if(((Message)message).getOption().compareTo("Get all complaints numbers for this customer service worker") == 0) //get all the complaints to specific customer service worker
 	    {
 	  	  	int i=0;
@@ -228,7 +244,7 @@ public void displayUI(Object message)
 	  	  	
 	  	  	ComplaintHandleController.loadComplaintsFlag=true; //finish to get all the complaints to this customer service worker
 	    }
-    else if(((Message)message).getOption().compareTo("Get complaint details") == 0) //get all the details for this complaint
+	    else if(((Message)message).getOption().compareTo("Get complaint details") == 0) //get all the details for this complaint
 	    {
 	    	System.out.println(ComplaintUI.complaint+"clientcon");
 	  	  	ComplaintUI.complaint=new Complaint();
@@ -238,11 +254,18 @@ public void displayUI(Object message)
 	  	  System.out.println(ComplaintUI.complaint+"clientcon3");
 	    }
 	    
-    else if(((Message)message).getOption().compareTo("Store manager want store number") == 0) //get the store number for this store manager
-    {
+	    else if(((Message)message).getOption().compareTo("Get order details") == 0) //get all the details for this order
+	    {
+	    	OrderUI.order=new Order();
+	    	OrderUI.order=(Order)((Message)message).getMsg(); //save the order from the DB with all the details at the OrderUI
+	    	CancelOrderController.orderFlag=true; //finish to get all the details for this order
+	    }
+	    
+	    else if(((Message)message).getOption().compareTo("Store manager want store number") == 0) //get the store number for this store manager
+	    {
   	  	StoreManagerController.storeID=((Integer)((Message)message).getMsg()); //save the store number
   	  	StoreManagerController.flag=true; //finish to get the store number
-    }
+	    }
 	    
 	    /*else if(((Message)message).getOption().compareTo("Update complaint") == 0) //update complaint
 	    {
@@ -251,7 +274,9 @@ public void displayUI(Object message)
 	  	  	ComplaintUI.complaint=(Complaint)((Message)message).getMsg(); //save the complaint from the DB with all the details at the ComplaintUI
 	  	  	ComplaintHandleController.complaintFlag=true; //finish to get all the details for this complaint
 	  	  	System.out.println(ComplaintUI.complaint);
-	    }*/ else if(((Message)message).getOption().compareTo("Store Manager - Add Store To Combo Box From DB") == 0){
+	    }*/ 
+	    else if(((Message)message).getOption().compareTo("Store Manager - Add Store To Combo Box From DB") == 0)
+	    {
 		  	  int i=0;
 			  ArrayList<Store> temp = new ArrayList<Store>();
 			  temp = (ArrayList<Store>)((Message)message).getMsg();

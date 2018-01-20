@@ -1,6 +1,10 @@
 package boundery;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Scanner;
 import java.util.Vector;
 
@@ -24,7 +28,7 @@ public class UserUI extends Application /* With This Class We Show the Product G
 	
 	public static void main( String args[] ) throws Exception 
 	{ 
-	System.out.println("Please enter the server IP");
+		System.out.println("Please enter the server IP");
 		Scanner scanner = new Scanner(System.in);
 		//String IP = scanner.next(); /* Enter Server IP */
 		String IP = "localhost"; /* Enter Server IP */
@@ -38,7 +42,7 @@ public class UserUI extends Application /* With This Class We Show the Product G
 		Parent root = FXMLLoader.load(getClass().getResource("/controller/UserLogin.fxml"));
 		
 		Scene scene = new Scene(root);
-		/* scene.getStylesheets().add(getClass().getResource("/boundery/CatalogFrame.css").toExternalForm()); */
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setTitle("LOGIN");
 		primaryStage.setScene(scene);
 		

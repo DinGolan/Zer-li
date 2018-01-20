@@ -1,14 +1,17 @@
 package controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import boundery.OrderUI;
 import boundery.StoreUI;
 import boundery.UserUI;
 import entity.Message;
 import entity.Order;
 import entity.Store;
+import entity.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -64,7 +67,7 @@ public class CustomerController implements Initializable{
 		Pane root = loader.load(getClass().getResource("/controller/Catalog.fxml").openStream());
 		
 		Scene scene = new Scene(root);			
-		//scene.getStylesheets().add(getClass().getResource("/gui/StudentForm.css").toExternalForm());
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		
 		primaryStage.setScene(scene);		
 		primaryStage.show();
@@ -83,20 +86,14 @@ public class CustomerController implements Initializable{
 		primaryStage.show();
 	}
 	
-	public void cancelOrderWindow(ActionEvent event) throws Exception {
-		//OrderController.viewOrderFlag=true;
+	public void cancelOrderWindow(ActionEvent event) throws Exception { //this method for the option to cancel order- open the instruction
 		((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
 		Stage primaryStage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
-		Pane root = loader.load(getClass().getResource("/controller/OrderForCustomer.fxml").openStream());
-		
-		OrderController orderController = loader.getController();		
-		orderController.loadHisOrders(); //we are loading all the requested orders for this customer
-		
+		Pane root = loader.load(getClass().getResource("/controller/CancelRules.fxml").openStream());
 		Scene scene = new Scene(root);			
-		//scene.getStylesheets().add(getClass().getResource("/controller/AccountForm.css").toExternalForm());
-		primaryStage.setScene(scene);
-		primaryStage.setTitle("Orders to cancel");
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());	
+		primaryStage.setScene(scene);		
 		primaryStage.show();	
 	}
 	

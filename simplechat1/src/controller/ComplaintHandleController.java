@@ -94,6 +94,7 @@ public class ComplaintHandleController implements Initializable{
 			listForStatusComboBox = FXCollections.observableArrayList(stat); 
 			this.cmbComplaintStatus.setItems(FXCollections.observableArrayList(listForStatusComboBox)); //set the status to this user
 			this.cmbComplaintStatus.setPromptText(String.valueOf(ComplaintUI.complaint.getComplaintStat()));
+			loadComplaintDetailsFlag=false;
 		}
 	}
 	
@@ -114,7 +115,7 @@ public class ComplaintHandleController implements Initializable{
 		loadComplaintsFlag=false;
 		for(Integer num : ComplaintUI.complaintsNumbers)
 			complaintsNum.add(num);//לבדוק מקרה שאין לו תלונות בכלל
-		System.out.println(complaintsNum);
+		System.out.println(complaintsNum); //יש בעיה עם המקרה שאין לו תלונות
 		if(complaintsNum.get(0)==-1) //we didn't have complaint to handle for this customer service worker at DB
 		{
 			//((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
@@ -123,7 +124,8 @@ public class ComplaintHandleController implements Initializable{
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			Scene scene = new Scene(root);			
+			Scene scene = new Scene(root);		
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 			primaryStage.setScene(scene);	
 			primaryStage.setTitle("Error msg");
 			primaryStage.show();		
@@ -154,7 +156,8 @@ public class ComplaintHandleController implements Initializable{
 		{ 
 			//((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
 			root = loader.load(getClass().getResource("/controller/ComplaintToHandleComboboxMsg.fxml").openStream());
-			Scene scene = new Scene(root);			
+			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 			primaryStage.setScene(scene);	
 			primaryStage.setTitle("Error msg");
 			primaryStage.show();	
@@ -172,7 +175,8 @@ public class ComplaintHandleController implements Initializable{
 			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 			loadComplaintDetailsFlag=true; //show complaint details by initialized
 			root = loader.load(getClass().getResource("/controller/ComplaintAnswerForm.fxml").openStream());
-			Scene scene = new Scene(root);			
+			Scene scene = new Scene(root);	
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 			primaryStage.setScene(scene);	
 			primaryStage.setTitle("Complaint answer form");
 			primaryStage.show();					
@@ -196,7 +200,8 @@ public class ComplaintHandleController implements Initializable{
 		{
 			((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
 			root = loader.load(getClass().getResource("/controller/ComplaintAnswerLengthMsg.fxml").openStream());
-			Scene scene = new Scene(root);			
+			Scene scene = new Scene(root);	
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 			primaryStage.setScene(scene);	
 			primaryStage.setTitle("Error msg");
 			primaryStage.show();
@@ -215,14 +220,15 @@ public class ComplaintHandleController implements Initializable{
 			//	System.out.print(""); //DOES NOT RUN WITHOUT THIS LINE
 			//}
 			
-			loadComplaintDetailsFlag=false; //לבדוק אם כאן זה בסדר
+			//loadComplaintDetailsFlag=false; //לבדוק אם כאן זה בסדר
 			((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
 			if(ComplaintUI.complaint.getComplaintStat().equals(Complaint.ComplaintStatus.CLOSE))
 				root = loader.load(getClass().getResource("/controller/UpdateComplaintCloseMsg.fxml").openStream()); //open other msg if you close this complaint
 			else
 				root = loader.load(getClass().getResource("/controller/UpdateComplaintMsg.fxml").openStream()); //open msg if you still handle this complaint
 			ComplaintUI.complaint=null;
-			Scene scene = new Scene(root);			
+			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 			primaryStage.setScene(scene);	
 			primaryStage.setTitle("Update complaint msg");
 			primaryStage.show();						
@@ -241,7 +247,7 @@ public class ComplaintHandleController implements Initializable{
 		complaintHandleController.loadHisComplaints(); //we are loading all the requested complaints for this customer service worker
 		
 		Scene scene = new Scene(root);			
-		//scene.getStylesheets().add(getClass().getResource("/controller/AccountForm.css").toExternalForm());
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Complaints to handle");
 		primaryStage.show();			
@@ -254,12 +260,13 @@ public class ComplaintHandleController implements Initializable{
 
 	public void closeComplaintHandleWindow(ActionEvent event) throws Exception  //To close the The Window of the complaint form GUI
 	{ 
-		loadComplaintDetailsFlag=false; //לא בטוח שטוב פה
+		//loadComplaintDetailsFlag=false; //לא בטוח שטוב פה
 		((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
 		Stage primaryStage = new Stage();						 //Object present window with graphics elements
 		FXMLLoader loader = new FXMLLoader(); 					 //load object
 		Pane root = loader.load(getClass().getResource("/controller/CustomerServiceWorkerOptions.fxml").openStream());	
-		Scene scene = new Scene(root);			
+		Scene scene = new Scene(root);	
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);	
 		primaryStage.setTitle("Menu");
 		primaryStage.show(); //show customer service worker options window

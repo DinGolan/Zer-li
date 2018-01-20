@@ -41,6 +41,7 @@ public class StoreManagerController implements Initializable {
 	{	
 		Parent root = FXMLLoader.load(getClass().getResource("/controller/StoreManagerOptions.fxml"));
 		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 	    primaryStage.setTitle("Menu");
         primaryStage.setScene(scene);
 		primaryStage.show();		
@@ -54,8 +55,8 @@ public class StoreManagerController implements Initializable {
 		Stage primaryStage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
 		Pane root = loader.load(getClass().getResource("/controller/StoreManagerReportForm.fxml").openStream()); 
-		
-		Scene scene = new Scene(root);			
+		Scene scene = new Scene(root);	
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);		
 		primaryStage.show();
 	}
@@ -83,7 +84,6 @@ public class StoreManagerController implements Initializable {
 		Stage primaryStage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
 		Pane root = loader.load(getClass().getResource("/controller/AccountForm.fxml").openStream());
-		
 		Scene scene = new Scene(root);			
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);
@@ -102,6 +102,7 @@ public class StoreManagerController implements Initializable {
 		FXMLLoader loader = new FXMLLoader(); 		/* load object */
 		Parent root = FXMLLoader.load(getClass().getResource("/controller/UserLogin.fxml"));
 		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setTitle("LOGIN");
 		primaryStage.setScene(scene);
 		primaryStage.show();		
