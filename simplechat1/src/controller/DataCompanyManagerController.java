@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import boundery.DataCompanyManagerUI;
+import boundery.UserUI;
 import entity.Message;
 import entity.User;
 import javafx.collections.FXCollections;
@@ -33,6 +34,9 @@ public class DataCompanyManagerController implements Initializable{
 	
 /* -------------------------  For The First Window ----------------------------------- */	
 	
+    @FXML
+    private Button btnLogin = null;
+	
 	@FXML
 	private Button btnExit = null;
 	
@@ -46,7 +50,7 @@ public class DataCompanyManagerController implements Initializable{
 	
 	public void start(Stage primaryStage) throws Exception          /* With this Method we show the GUI of the First Window */
 	{	
-		Parent root = FXMLLoader.load(getClass().getResource("/controller/UserToChooseFrame_For_DataCompanyManager.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("/controller/DataCompanyManagerOptions.fxml"));
 		Scene scene = new Scene(root);
 		primaryStage.setTitle("Data Company Manager - Managment Tool");
 		primaryStage.setScene(scene);
@@ -88,6 +92,22 @@ public class DataCompanyManagerController implements Initializable{
 		System.exit(0);			
 	}
 	
+	/* ----------------------------------- Logout From Data Company Manager Option ---------------------------------- */
+	
+	public void logoutBtn(ActionEvent event) throws Exception //logout by the store manager
+	{
+		Message msg = new Message(UserUI.user.getId(), "change User status to DISCONNECTED");
+		UserUI.myClient.accept(msg); 				/* change User status to DISCONNECTED in DB */
+		((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+		Stage primaryStage = new Stage(); 			/* Object present window with graphics elements */
+		FXMLLoader loader = new FXMLLoader(); 		/* load object */
+		Parent root = FXMLLoader.load(getClass().getResource("/controller/UserLogin.fxml"));
+		Scene scene = new Scene(root);
+		primaryStage.setTitle("LOGIN");
+		primaryStage.setScene(scene);
+		primaryStage.show();		
+	}
+	
 /* --------------------------------- Loading User To the Text Fields ------------------------------------------------- */
 	
 	public void loadUser(User user) 	/* Loading User */
@@ -118,7 +138,7 @@ public class DataCompanyManagerController implements Initializable{
 		ArrayList<User> users = new ArrayList<User>();
 		
 		msg = new Message(users, "Add User To Combo Box From DB");
-		DataCompanyManagerUI.myClient.accept(msg);
+		UserUI.myClient.accept(msg);
 		while(DataCompanyManagerUI.users.size() == 0);
 		try 
 		{

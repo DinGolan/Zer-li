@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="215.0" prefWidth="312.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProductInSaleController">
+   <children>
+      <Button id="btnTryAgain" fx:id="btnTryAgain" layoutX="125.0" layoutY="178.0" mnemonicParsing="false" onAction="#loadProductAgain" text="Try again" />
+      <Label layoutX="122.0" layoutY="37.0" text="Error" textFill="#0022ff">
+         <font>
+            <Font name="Bodoni MT" size="29.0" />
+         </font></Label>
+      <TextArea editable="false" layoutX="56.0" layoutY="88.0" prefHeight="68.0" prefWidth="200.0" text="You have to fill the price field.&#10;The price you entered can NOT&#10;be more than the original price." />
+   </children>
+</AnchorPane>

@@ -8,7 +8,8 @@ public class Survey {
 	private String Answer;
 	private int Num_Of_Clients;
 	private int Rank;
-	private Date Survey_Date;
+	private Date Survey_Start_Date;
+	private Date Survey_End_Date;
 	private int Store_ID;
 	private String QuarterNumber;
 	
@@ -16,16 +17,22 @@ public class Survey {
 	{
 		
 	}
-	
-	public Survey(int survey_Id, String question, String answer, int num_Of_Clients, int rank, Date survey_Date) {
+
+	public Survey(int survey_Id, String question, String answer, int num_Of_Clients, int rank, Date survey_Start_Date,
+			Date survey_End_Date, int store_ID, String quarterNumber) {
 		super();
 		Survey_Id = survey_Id;
 		Question = question;
 		Answer = answer;
 		Num_Of_Clients = num_Of_Clients;
 		Rank = rank;
-		Survey_Date = survey_Date;
+		Survey_Start_Date = survey_Start_Date;
+		Survey_End_Date = survey_End_Date;
+		Store_ID = store_ID;
+		QuarterNumber = quarterNumber;
 	}
+
+
 
 	public int getSurvey_Id() {
 		return Survey_Id;
@@ -67,14 +74,6 @@ public class Survey {
 		Rank = rank;
 	}
 
-	public Date getSurvey_Date() {
-		return Survey_Date;
-	}
-
-	public void setSurvey_Date(Date survey_Date) {
-		Survey_Date = survey_Date;
-	}
-
 	public int getStore_ID() {
 		return Store_ID;
 	}
@@ -91,9 +90,26 @@ public class Survey {
 		QuarterNumber = quarterNumber;
 	}
 
+	public Date getSurvey_Start_Date() {
+		return Survey_Start_Date;
+	}
+
+	public void setSurvey_Start_Date(Date survey_Start_Date) {
+		Survey_Start_Date = survey_Start_Date;
+	}
+
+	public Date getSurvey_End_Date() {
+		return Survey_End_Date;
+	}
+
+	public void setSurvey_End_Date(Date survey_End_Date) {
+		Survey_End_Date = survey_End_Date;
+	}
+
 	@Override
 	public String toString() {
 		return "Survey [Survey_Id=" + Survey_Id + ", Question=" + Question + ", Answer=" + Answer + ", Num_Of_Clients="
-				+ Num_Of_Clients + ", Rank=" + Rank + ", Survey_Date=" + Survey_Date + "]";
+				+ Num_Of_Clients + ", Rank=" + Rank + ", Survey_Start_Date=" + Survey_Start_Date + ", Survey_End_Date="
+				+ Survey_End_Date + ", Store_ID=" + Store_ID + ", QuarterNumber=" + QuarterNumber + "]";
 	}
 }

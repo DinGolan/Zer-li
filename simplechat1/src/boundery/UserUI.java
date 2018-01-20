@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.Calendar;
 import java.util.Scanner;
 import java.util.Vector;
@@ -28,6 +29,12 @@ public class UserUI extends Application /* With This Class We Show the Product G
 	
 	public static void main( String args[] ) throws Exception 
 	{ 
+	System.out.println("Please enter the server IP");
+		Scanner scanner = new Scanner(System.in);
+		//String IP = scanner.next(); /* Enter Server IP */
+		String IP = "localhost"; /* Enter Server IP */
+		myClient = new ClientConsole(IP, 5555); //create connection with server        
+		launch(args);		 
 		System.out.println("Please enter the server IP");
 		Scanner scanner = new Scanner(System.in);
 		//String IP = scanner.next(); /* Enter Server IP */
@@ -37,6 +44,16 @@ public class UserUI extends Application /* With This Class We Show the Product G
 	} 
 	
 	@Override
+	public void start(Stage primaryStage) throws Exception 
+	{		
+		Parent root = FXMLLoader.load(getClass().getResource("/controller/UserLogin.fxml"));
+		
+		Scene scene = new Scene(root);
+		/* scene.getStylesheets().add(getClass().getResource("/boundery/CatalogFrame.css").toExternalForm()); */
+		primaryStage.setTitle("LOGIN");
+		primaryStage.setScene(scene);
+		
+		primaryStage.show();	
 	public void start(Stage primaryStage) throws Exception 
 	{		
 		Parent root = FXMLLoader.load(getClass().getResource("/controller/UserLogin.fxml"));

@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import boundery.DataCompanyManagerUI;
+import boundery.UserUI;
 import entity.Message;
 import entity.User;
 import entity.User.UserPermission;
@@ -78,7 +79,7 @@ public class UserInfoController_For_DataCompanyManagerController implements Init
 		((Node)event.getSource()).getScene().getWindow().hide(); 	 /* Hiding primary window */
 		Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
 		FXMLLoader loader = new FXMLLoader(); 					 	 /* load object */
-		Pane root = loader.load(getClass().getResource("/controller/UserToChooseFrame_For_DataCompanyManager.fxml").openStream());
+		Pane root = loader.load(getClass().getResource("/controller/DataCompanyManagerOptions.fxml").openStream());
 		
 		Scene scene = new Scene(root);			
 		primaryStage.setScene(scene);	
@@ -134,7 +135,7 @@ public class UserInfoController_For_DataCompanyManagerController implements Init
 		temp_User.setPermission((UserPermission) cmbPremmission.getValue());
 		temp_User.setStatus((UserStatus) cmbStatus.getValue());
 		msg = new Message(temp_User, "Update User At Data Base");
-		DataCompanyManagerUI.myClient.accept(msg);
+		UserUI.myClient.accept(msg);
 	}
 	
 /* ------------------------------------------------------------------------------------------------------------------- */

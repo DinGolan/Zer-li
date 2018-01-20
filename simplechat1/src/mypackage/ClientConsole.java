@@ -34,6 +34,12 @@ import entity.Product;
 import entity.Store;
 import entity.User;
 import boundery.SurveyResultUI;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 /**
  * This class constructs the UI for a chat client.  It implements the
@@ -84,6 +90,31 @@ public class ClientConsole implements ChatIF
     }
   }
 
+  public ClientConsole(ActionEvent event , String host, int port)  /* This Constructor Help Me In The First Connection To The Client Console After I Connect to The Server */
+  {
+    try 
+    {
+      client= new ChatClient(host, port, this);
+    } 
+    catch(Exception exception) 
+    {
+    	Stage primaryStage = new Stage();
+		((Node) event.getSource()).getScene().getWindow().hide(); 
+		Parent root = null;
+		try 
+		{
+			root = FXMLLoader.load(getClass().getResource("/controller/Wrong_Details_To_Connect_The_Client.fxml"));
+		} 
+		catch (IOException e) 
+		{
+			e.printStackTrace();
+		}
+		Scene scene = new Scene(root);
+		primaryStage.setScene(scene);
+		primaryStage.setTitle("Error Massage");
+		primaryStage.show();
+    }
+  }
   
   //Instance methods ************************************************
   
@@ -97,7 +128,6 @@ public class ClientConsole implements ChatIF
     try
     {
     	client.handleMessageFromClientUI(msg);
-    	//msg.getMsg().
     } 
     catch (Exception ex) 
     {
@@ -178,12 +208,18 @@ public void displayUI(Object message)
 	    
 	    if(((Message)message).getOption().compareTo("Update customer account") == 0)
 	    {
-	    	CustomerUI.account = new Account();
-	    	CustomerUI.account.setAccountBalanceCard(((Account)(((Message)message).getMsg())).getAccountBalanceCard());
-	    	CustomerUI.account.setAccountCreditCardNum(((Account)(((Message)message).getMsg())).getAccountCreditCardNum());
-	    	CustomerUI.account.setAccountPaymentArrangement(((Account)(((Message)message).getMsg())).getAccountPaymentArrangement());
-	    	CustomerUI.account.setAccountSubscriptionEndDate(((Account)(((Message)message).getMsg())).getAccountSubscriptionEndDate());
-	    	CustomerUI.account.setAccountUserId(((Account)(((Message)message).getMsg())).getAccountUserId());
+	    	if(((Message)message).getMsg() != null)
+	    			{
+	    		Account a = (Account)(((Message)message).getMsg());
+			    	CustomerUI.account = new Account();
+			    	CustomerUI.account.setAccountBalanceCard(a.getAccountBalanceCard());
+			    	CustomerUI.account.setAccountCreditCardNum(a.getAccountCreditCardNum());
+			    	CustomerUI.account.setAccountPaymentArrangement(a.getAccountPaymentArrangement());
+			    	CustomerUI.account.setAccountSubscriptionEndDate(a.getAccountSubscriptionEndDate());
+			    	CustomerUI.account.setAccountUserId(a.getAccountUserId());
+	    			}
+	    	else
+	    		OrderController.accountExistFlag = false;
 	    	OrderController.accountFlag = true;
 	    }
 	    
@@ -198,6 +234,7 @@ public void displayUI(Object message)
 		  	  {
 				  StoreUI.stores.add(temp.get(i));
 		  	  }
+			  CustomerController.cflag = 1;
 	    }
 	    
 	    if(((Message)message).getOption().compareTo("get all the survey") == 0)
@@ -267,9 +304,8 @@ public void displayUI(Object message)
   	  	StoreManagerController.flag=true; //finish to get the store number
 	    }
 	    
-	    /*else if(((Message)message).getOption().compareTo("Update complaint") == 0) //update complaint
-	    {
-	    	System.out.println("clientcons");
+	    /*else if(((Message)message).getOption().compareTo("Update complaint") == 0) //update complaint	    {
+    	System.out.println("clientcons");
 	  	  	//ComplaintUI.complaint=new Complaint();
 	  	  	ComplaintUI.complaint=(Complaint)((Message)message).getMsg(); //save the complaint from the DB with all the details at the ComplaintUI
 	  	  	ComplaintHandleController.complaintFlag=true; //finish to get all the details for this complaint
@@ -285,8 +321,7 @@ public void displayUI(Object message)
 			  for(i=0;i<temp.size();i++)
 		  	  {
 				  StoreManagerUI.stores.add(temp.get(i));
-		  	  }
-	    }
+		  	  }	    }
 	    else if(((Message)message).getOption().compareTo("Store Manager - Take The Orders Of Specific Store") == 0)
 	    {
 		  	  int i=0;
@@ -345,6 +380,18 @@ public void displayUI(Object message)
 			  for(i=0;i<temp_Survey_Result.size();i++)
 		  	  {
 				  StoreManagerUI.Average_Result_Of_Each_Qustions_In_surveys.add(temp_Survey_Result.get(i));
+		  	  }
+	    }
+	    else if(((Message)message).getOption().compareTo("Store Manager - Want To Store Number And Address Of The Store") == 0)
+	    {
+		  	  int i = 0;
+			  ArrayList<String> temp_Store = new ArrayList<String>();
+			  temp_Store = (ArrayList<String>)((Message)message).getMsg();
+			  StoreManagerUI.stores.clear();
+
+			  for(i = 0 ; i < temp_Store.size() ; i++)
+		  	  {
+				  StoreManagerUI.stores.add(temp_Store.get(i));
 		  	  }
 	    }
 	    else if(((Message)message).getOption().compareTo("Company Manager - Add Store To Combo Box From DB") == 0)
@@ -501,33 +548,5 @@ public void displayUI(Object message)
 		  ComplaintUI.complaint=null;	  
 	  ComplaintController.flag = true;  
   }
-
-  
-  //Class methods ***************************************************
-  
-  /**
-   * This method is responsible for the creation of the Client UI.
-   *
-   * @param args[0] - The host to connect to.
-   */
- /* public static void main(String[] args) 
-  {
-	ArrayList<String> s = new ArrayList<String>();	  	  
-    String host = "";
-    int port = 0;  				
-
-    try
-    {
-      host = args[0];
-    }
-    catch(ArrayIndexOutOfBoundsException e)
-    {
-      host = "localhost";
-    }
-    
-    
-    ClientConsole chat = new ClientConsole(host, DEFAULT_PORT);
-    chat.accept(s);  // Wait for console data 
-  }*/
 }
 

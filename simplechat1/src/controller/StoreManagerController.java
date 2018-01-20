@@ -3,6 +3,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import boundery.ComplaintUI;
+import boundery.StoreManagerUI;
 import boundery.UserUI;
 import entity.Message;
 import entity.Store;
@@ -51,7 +52,16 @@ public class StoreManagerController implements Initializable {
 	
 	public void viewReportBtn(ActionEvent event) throws Exception //To open the view report option
 	{
-		((Node)event.getSource()).getScene().getWindow().hide();    			  /* Hiding primary window */
+		Message msg = new Message(UserUI.user.getId(),"Store Manager - Want To Store Number And Address Of The Store");
+		UserUI.myClient.accept(msg);
+		while(StoreManagerUI.stores.size() == 0);
+		Thread.sleep(200);
+		
+		UserUI.store = new Store();                             					/* Create New Object Of Store */
+		UserUI.store.setStoreId(Integer.parseInt(StoreManagerUI.stores.get(0)));	/* Put In the New Object The Store_Id */
+		UserUI.store.setStore_Address(StoreManagerUI.stores.get(1));                /* Put In the New Object The Store_Address */
+		 
+		((Node)event.getSource()).getScene().getWindow().hide();    			    /* Hiding primary window */
 		Stage primaryStage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
 		Pane root = loader.load(getClass().getResource("/controller/StoreManagerReportForm.fxml").openStream()); 

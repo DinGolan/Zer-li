@@ -95,8 +95,7 @@ public class ChatClient extends AbstractClient
 	  //else if(((Message)msg).getOption().compareTo("Update complaint") ==0)
 	//	  clientUI.displayUI(msg);	  
 	  else if(((Message)msg).getOption().compareTo("Store Manager - Add Store To Combo Box From DB") == 0) 
-		  clientUI.displayUI(msg);
-	  else if(((Message)msg).getOption().compareTo("Store Manager - Take The Orders Of Specific Store") == 0) 
+		  clientUI.displayUI(msg);	  else if(((Message)msg).getOption().compareTo("Store Manager - Take The Orders Of Specific Store") == 0) 
 		  clientUI.displayUI(msg);
 	  else if(((Message)msg).getOption().compareTo("Store Manager - Take The Complaints Of Specific Store") == 0) 
 		  clientUI.displayUI(msg);
@@ -105,6 +104,8 @@ public class ChatClient extends AbstractClient
 	  else if(((Message)msg).getOption().compareTo("Store Manager - Take The Date Of All the Report Of Specific Store") == 0) 
 		  clientUI.displayUI(msg);
 	  else if(((Message)msg).getOption().compareTo("Store Manager - Take The Surveys Of Specific Store In Specific Quarter") == 0) 
+		  clientUI.displayUI(msg);
+	  else if(((Message)msg).getOption().compareTo("Store Manager - Want To Store Number And Address Of The Store") == 0) 
 		  clientUI.displayUI(msg);
 	  else if(((Message)msg).getOption().compareTo("Company Manager - Add Store To Combo Box From DB") == 0) 
 		  clientUI.displayUI(msg);
