@@ -6,6 +6,8 @@ package mypackage;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Vector;
+
 import boundery.AccountUI;
 import boundery.CatalogUI;
 import boundery.CompanyManagerUI;
@@ -24,7 +26,9 @@ import controller.CatalogController;
 import controller.ComplaintController;
 import controller.ComplaintHandleController;
 import controller.CustomerController;
-import controller.OrderController;import controller.StoreManagerController;import controller.SurveyResultController;
+import controller.OrderController;
+import controller.ProfileController;
+import controller.StoreManagerController;import controller.SurveyResultController;
 import controller.UserController;
 import entity.Account;
 import entity.Complaint;
@@ -300,28 +304,18 @@ public void displayUI(Object message)
 	    
 	    else if(((Message)message).getOption().compareTo("Store manager want store number") == 0) //get the store number for this store manager
 	    {
-  	  	StoreManagerController.storeID=((Integer)((Message)message).getMsg()); //save the store number
-  	  	StoreManagerController.flag=true; //finish to get the store number
+  	  		StoreManagerController.storeID=((Integer)((Message)message).getMsg()); //save the store number
+  	  		StoreManagerController.flag=true; //finish to get the store number
 	    }
 	    
-	    /*else if(((Message)message).getOption().compareTo("Update complaint") == 0) //update complaint	    {
-    	System.out.println("clientcons");
-	  	  	//ComplaintUI.complaint=new Complaint();
+	 /* else if(((Message)message).getOption().compareTo("Update complaint") == 0) //update complaint	   
+	    {
+    		System.out.println("clientcons");
+	  	  	ComplaintUI.complaint=new Complaint();
 	  	  	ComplaintUI.complaint=(Complaint)((Message)message).getMsg(); //save the complaint from the DB with all the details at the ComplaintUI
 	  	  	ComplaintHandleController.complaintFlag=true; //finish to get all the details for this complaint
 	  	  	System.out.println(ComplaintUI.complaint);
-	    }*/ 
-	    else if(((Message)message).getOption().compareTo("Store Manager - Add Store To Combo Box From DB") == 0)
-	    {
-		  	  int i=0;
-			  ArrayList<Store> temp = new ArrayList<Store>();
-			  temp = (ArrayList<Store>)((Message)message).getMsg();
-			  StoreManagerUI.stores.clear();
-
-			  for(i=0;i<temp.size();i++)
-		  	  {
-				  StoreManagerUI.stores.add(temp.get(i));
-		  	  }	    }
+	    } */ 
 	    else if(((Message)message).getOption().compareTo("Store Manager - Take The Orders Of Specific Store") == 0)
 	    {
 		  	  int i=0;
@@ -497,6 +491,30 @@ public void displayUI(Object message)
 				  }
 		  	  }
 	    }
+	    else if(((Message)message).getOption().compareTo("Customer - Want To Take His Order") == 0)
+	    {
+		  	  int i = 0;
+		  	  Vector<Order> temp_Order_Of_Specific_Customer = new Vector<Order>();
+			  temp_Order_Of_Specific_Customer = (Vector<Order>)((Message)message).getMsg();
+			  CustomerUI.Order_Of_Specific_Customer.clear();
+			  
+			  for(i=0 ; i <temp_Order_Of_Specific_Customer.size() ; i++)
+		  	  {
+				  CustomerUI.Order_Of_Specific_Customer.add(temp_Order_Of_Specific_Customer.get(i));
+		  	  }
+	    } 
+	    else if(((Message)message).getOption().compareTo("Customer - Want To Take His Complaints") == 0)
+	    {
+		  	  int i = 0;
+			  ArrayList<Complaint> temp_Complaint_Of_Specific_Customer = new ArrayList<Complaint>();
+			  temp_Complaint_Of_Specific_Customer = (ArrayList<Complaint>)((Message)message).getMsg();
+			  CustomerUI.Complaint_Of_Specific_Customer.clear();
+			  
+			  for(i=0 ; i <temp_Complaint_Of_Specific_Customer.size() ; i++)
+		  	  {
+				  CustomerUI.Complaint_Of_Specific_Customer.add(temp_Complaint_Of_Specific_Customer.get(i));
+		  	  }
+	    } 
 	 }
   
   

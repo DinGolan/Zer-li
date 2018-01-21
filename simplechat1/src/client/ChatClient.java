@@ -92,10 +92,9 @@ public class ChatClient extends AbstractClient
 		  clientUI.displayUI(msg);
 	  else if(((Message)msg).getOption().compareTo("Get all orders numbers for this customer can cancel") ==0)
 		  clientUI.displayUI(msg);
-	  //else if(((Message)msg).getOption().compareTo("Update complaint") ==0)
-	//	  clientUI.displayUI(msg);	  
-	  else if(((Message)msg).getOption().compareTo("Store Manager - Add Store To Combo Box From DB") == 0) 
-		  clientUI.displayUI(msg);	  else if(((Message)msg).getOption().compareTo("Store Manager - Take The Orders Of Specific Store") == 0) 
+	 /** else if(((Message)msg).getOption().compareTo("Update complaint") ==0)
+	  	  	clientUI.displayUI(msg); **/	  	 
+	  else if(((Message)msg).getOption().compareTo("Store Manager - Take The Orders Of Specific Store") == 0) 
 		  clientUI.displayUI(msg);
 	  else if(((Message)msg).getOption().compareTo("Store Manager - Take The Complaints Of Specific Store") == 0) 
 		  clientUI.displayUI(msg);
@@ -121,6 +120,12 @@ public class ChatClient extends AbstractClient
 		  clientUI.displayUI(msg);
 	  else if(((Message)msg).getOption().compareTo("Company Manager - Compare Between Two Different Quarter") == 0) 
 		  clientUI.displayUI(msg);
+	  else if(((Message)msg).getOption().compareTo("Customer - Want To Take His Order") == 0) 
+		  clientUI.displayUI(msg);
+	  else if(((Message)msg).getOption().compareTo("Customer - Want To Take His Complaints") == 0) 
+		  clientUI.displayUI(msg);
+	  
+	 
   }
 
   /**

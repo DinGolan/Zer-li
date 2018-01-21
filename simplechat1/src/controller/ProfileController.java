@@ -1,17 +1,15 @@
-/*package controller;
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
+package controller;
+
 import java.net.URL;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-
-import boundery.CatalogUI;
-import boundery.OrderUI;
+import boundery.CustomerUI;
 import boundery.UserUI;
+import entity.Account;
+import entity.Complaint;
 import entity.Message;
 import entity.Order;
-import entity.Product;
-import entity.Product.ProductType;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,284 +17,189 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class ProfileController implements Initializable {
-	private Message msg;
+public class ProfileController implements Initializable
+{	
 	
-	public static Order order;
-	
-	public static boolean basicFlowersFlag=false;
 	@FXML
-	private Button btnBack = null;	
+	private TextField txtCustomerName;
 
 	@FXML
-	private TextField txtUserID; 
+    private TextField txtCustomerID;
 
-	@FXML private TableView<ComplaintItemRow> complaintTable;
-
-	@FXML private TableColumn<ComplaintItemRow, String> tablecolumnDate;
-
-	@FXML private TableColumn<ComplaintItemRow, String> tablecolumnOrderNum;
-
-	@FXML private TableColumn<ComplaintItemRow, Product.ProductType> tablecolumnStatus;
-
-	@FXML private TableColumn<ComplaintItemRow, Double> tablecolumnDetails;
-
-	@FXML private TableColumn<ComplaintItemRow, ImageView> tablecolumnAnswer;
-
-	ObservableList<ComplaintItemRow> compalint = FXCollections.observableArrayList();
+    @FXML
+    private TextField txtCustomerPhone;
 	
-		
-	static String flag = null;
-	
-	ObservableList<String> plist;
+    /* ------------------------- Table Of Order -------------------------------------------- */
+    
+	@FXML
+    private TableView<Order> Table_Order_Details;
 
-	public void back(ActionEvent event) throws Exception //With this Method we Exit from the Catalog 
-	{
-		OrderUI.order = null;
-		((Node)event.getSource()).getScene().getWindow().hide(); Hiding primary window 
-		Stage primaryStage = new Stage();
-		FXMLLoader loader = new FXMLLoader();
+	/* ------------------------- Table Of Complaint -------------------------------------------- */
+	
+	@FXML
+	private TableView<Complaint> Table_Complaint_Details;
+
+	/* ------------------------- Table Column Of Order ----------------------------------------- */
+	
+	@FXML 
+	private TableColumn<Order, Integer> Table_Column_Order_ID = new TableColumn<>();
+
+	@FXML 
+	private TableColumn<Order, Order.SupplyOption> Table_Column_Supply_Option = new TableColumn<>();
+	
+	@FXML 
+	private TableColumn<Order, Double> Table_Column_Total_Price = new TableColumn<>();
+	
+	@FXML 
+	private TableColumn<Order, String> Table_Column_Address = new TableColumn<>();
+	
+	@FXML 
+	private TableColumn<Order, Date> Table_Column_Order_Date = new TableColumn<>();
+	
+	@FXML 
+	private TableColumn<Order, Account.PaymentMethod> Table_Column_Payment_Method = new TableColumn<>();
+	
+	@FXML 
+	private TableColumn<Order, Order.orderStatus> Table_Column_Order_Status = new TableColumn<>();
+	
+	@FXML 
+	private TableColumn<Order, Integer> Table_Column_Store_ID = new TableColumn<>();
+	
+	@FXML 
+	private TableColumn<Order, Double> Table_Column_Refund = new TableColumn<>();
+	
+	/* ------------------------- Table Column Of Complaint ----------------------------------------- */
+	
+	@FXML 
+	private TableColumn<Complaint, String> Table_Column_Month = new TableColumn<>();
+	
+	@FXML 
+	private TableColumn<Complaint, Double> Table_Column_Complaint_Compansation = new TableColumn<>();
+	
+	@FXML 
+	private TableColumn<Complaint, Date> Table_Column_Complaint_Date = new TableColumn<>();
+	
+	@FXML 
+	private TableColumn<Complaint, Integer> Table_Column_Complaint_ID = new TableColumn<>();
+	
+	@FXML 
+	private TableColumn<Complaint, Complaint.ComplaintStatus> Table_Column_Complaint_Status = new TableColumn<>();
+	
+	@FXML 
+	private TableColumn<Complaint, Integer> Table_Column_Complaint_Order_ID = new TableColumn<>();
+	
+	/* ----- Button - Back ----- */
+	
+	@FXML
+	private Button btnBack;
+	
+	/* ----- ObservableList ----- */
+	
+	ObservableList<Order> Profile_Customer_Order;
+	ObservableList<Complaint> Profile_Customer_Complaint = FXCollections.observableArrayList();
+
+	
+	public void BackToCatalogOption(ActionEvent event) throws Exception   
+	{ 
+		CustomerUI.Order_Of_Specific_Customer.clear();
+		((Node)event.getSource()).getScene().getWindow().hide(); 	 /* Hiding primary window */
+		Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
+		FXMLLoader loader = new FXMLLoader(); 					 	 /* Load object */
 		Pane root = loader.load(getClass().getResource("/controller/CustomerOptions.fxml").openStream());
-				
 		Scene scene = new Scene(root);			
-		scene.getStylesheets().add(getClass().getResource("/boundery/ProductForm.css").toExternalForm()); 
 		primaryStage.setScene(scene);		
-		primaryStage.show();	
+		primaryStage.show();										   /* show catalog frame window */
 	}
+	
+	public void Put_The_Order_Of_Specific_Customer_In_Table()
+	{
+		ArrayList<Order> Temp_Orders = new ArrayList<Order>();
+		
+		for(int i = 0 ; i < CustomerUI.Order_Of_Specific_Customer.size() ; i++)
+		{ 
+			Temp_Orders.add(CustomerUI.Order_Of_Specific_Customer.get(i));
+		}
+			
+		Table_Column_Order_ID.setCellValueFactory(new PropertyValueFactory<Order, Integer>("Order ID"));
+		Table_Column_Store_ID.setCellValueFactory(new PropertyValueFactory<Order, Integer>("Store ID"));
+		Table_Column_Order_Date.setCellValueFactory(new PropertyValueFactory<Order, Date>("Order Date"));
+		Table_Column_Total_Price.setCellValueFactory(new PropertyValueFactory<Order, Double>("Order Total Price"));
+		Table_Column_Address.setCellValueFactory(new PropertyValueFactory<Order, String>("Address"));
+		Table_Column_Order_Status.setCellValueFactory(new PropertyValueFactory<Order, Order.orderStatus>("Order Status"));
+		Table_Column_Supply_Option.setCellValueFactory(new PropertyValueFactory<Order, Order.SupplyOption>("Order Supply"));
+		Table_Column_Payment_Method.setCellValueFactory(new PropertyValueFactory<Order, Account.PaymentMethod>("Payment Method"));
+		Table_Column_Refund.setCellValueFactory(new PropertyValueFactory<Order, Double>("Order Refund"));
 
+		Profile_Customer_Order = FXCollections.observableArrayList(Temp_Orders);	
+	
+		Table_Order_Details.setItems(Profile_Customer_Order);
+		
+	}
+	
+	public void Put_The_Complaint_Of_Specific_Customer_In_Table()
+	{
+		ArrayList<Complaint> Temp_Complaint = new ArrayList<Complaint>();
+		
+		for(int i = 0 ; i < CustomerUI.Complaint_Of_Specific_Customer.size() ; i++)
+		{ 
+			Temp_Complaint.add(CustomerUI.Complaint_Of_Specific_Customer.get(i));
+		}
+
+		Table_Column_Complaint_ID.setCellValueFactory(new PropertyValueFactory<Complaint, Integer>("Complaint ID"));
+		Table_Column_Complaint_Date.setCellValueFactory(new PropertyValueFactory<Complaint, Date>("Complaint Date"));
+		Table_Column_Complaint_Status.setCellValueFactory(new PropertyValueFactory<Complaint, Complaint.ComplaintStatus>("Complaint Status"));
+		Table_Column_Month.setCellValueFactory(new PropertyValueFactory<Complaint, String>("Complaint Month"));
+		Table_Column_Complaint_Compansation.setCellValueFactory(new PropertyValueFactory<Complaint, Double>("Complaint Compensation"));
+		Table_Column_Complaint_Order_ID.setCellValueFactory(new PropertyValueFactory<Complaint, Integer>("Complaint Of - Order ID"));
+			
+		Profile_Customer_Complaint = FXCollections.observableArrayList(Temp_Complaint);
+		
+		Table_Complaint_Details.setItems(Profile_Customer_Complaint);
+	}
+	
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
-		if(order == null)
-			order= new Order();
-		flag = "BOUQUET";
-		CatalogUI.products.clear();
-		CatalogUI.productsInSale.clear();
-		ArrayList<String> s = new ArrayList<String>();
-		msg = new Message(s, "get all products in DB");
-		int j ,k;
-		Product p;
-		boolean flagSale = false;
-		InputStream targetStream;
-		UserUI.myClient.accept(msg);
-		while(CatalogUI.products.size()==0);
-		msg.setOption("get all products in sale from DB");
-		msg.setMsg(UserUI.store);
-		UserUI.myClient.accept(msg);
-		while(CatalogUI.productsInSale.size()==0);
-		for(j=0 ; j<CatalogUI.products.size() ; j++)
+		this.txtCustomerName.setText(UserUI.user.getUserName());
+		this.txtCustomerID.setText(UserUI.user.getId());
+		Message Message_One = new Message(UserUI.user,"Customer - Want To Take His Order");
+		UserUI.myClient.accept(Message_One);
+		while(CustomerUI.Order_Of_Specific_Customer.size() == 0);
+		try 
 		{
-			flagSale = false;
-			p = CatalogUI.products.get(j);
-			for(k = 0 ; k<CatalogUI.productsInSale.size() ; k++)
-			{
-				if(p.getpID().compareTo(CatalogUI.productsInSale.get(k).getpID()) == 0)
-				{
-					p.setpPrice(CatalogUI.productsInSale.get(k).getpPrice());
-					flagSale = true;
-					break;
-				}
-			}
-			if(flagSale == false) 
-			{
-				if(p.getpType().equals(ProductType.valueOf("BOUQUET")))
-				{
-					targetStream= new ByteArrayInputStream(p.getByteArray());
-					ComplaintItemRow itemRow = new ComplaintItemRow(p.getpID(), p.getpName(),p.getpType().toString(), p.getpPrice(),  p.getpColor().toString(), targetStream );
-			catalog.add(itemRow);
-				}
-			}
-		}
-		tablecolumn_id.setCellValueFactory(new PropertyValueFactory<ComplaintItemRow, String>("id"));
-		tablecolumn_name.setCellValueFactory(new PropertyValueFactory<ComplaintItemRow, String>("name"));
-		tablecolumn_type.setCellValueFactory(new PropertyValueFactory<ComplaintItemRow, Product.ProductType>("type"));
-		tablecolumn_price.setCellValueFactory(new PropertyValueFactory<ComplaintItemRow, Double>("price"));
-		tablecolumn_image.setCellValueFactory(new PropertyValueFactory<ComplaintItemRow, ImageView>("image"));
-		catalog_table.setItems(catalog);
-	}
-	
-	public void productCategory(ActionEvent event) throws Exception //create and the catalog by categories
-	{
-		catalog.clear();
-		CatalogUI.products.clear();
-		CatalogUI.productsInSale.clear();
-		ArrayList<String> s = new ArrayList<String>();
-		msg = new Message(s, "get all products in DB");
-		int j, k;
-		Product p;
-		boolean flagSale = false;
-		String type = null;
-		InputStream targetStream;
-		switch(((Node)event.getSource()).getId()) { //category that pressed
-		case "BouquetsLink":
-			type = "BOUQUET";
-			flag = "BOUQUET";
-			break;
-		case "ArrangementsLink":
-			type = "ARRANGEMENT";
-			flag = "ARRANGEMENT";
-			break;
-		case "SweetBouquetLink":
-			type = "SWEET_BOUQUET";
-			flag = "SWEET_BOUQUET";
-			break;
-		case "FlowerCrownLink":
-			type = "FLOWER_CROWN";
-			flag = "FLOWER_CROWN";
-			break;
-		case "BridalLink":
-			type = "BRIDAL_BOUQUET";
-			flag = "BRIDAL_BOUQUET";
-			break;
-		case "WreathFlowerLink":
-			type = "WREATH_FLOWERS";
-			flag = "WREATH_FLOWERS";
-			break;
-		case "VaseLink":
-			type = "VASE";
-			flag = "VASE";
-			break;
-		case "SalesLink":
-			type = "SALE";
-			flag = "SALE";
-			break;
-		}
-		UserUI.myClient.accept(msg);
-		while(CatalogUI.products.size()==0);
-		msg.setOption("get all products in sale from DB");
-		msg.setMsg(UserUI.store);		
-		UserUI.myClient.accept(msg);
-		while(CatalogUI.productsInSale.size()==0);
-		if(type.compareTo("SALE") !=0)
-			{
-			for(j=0 ; j<CatalogUI.products.size() ; j++) //create product in catalog
-			{
-				flagSale = false;
-				p = CatalogUI.products.get(j);
-				for(k = 0 ; k<CatalogUI.productsInSale.size() ; k++)
-				{
-					if(p.getpID().compareTo(CatalogUI.productsInSale.get(k).getpID()) == 0)
-					{
-						p.setpPrice(CatalogUI.productsInSale.get(k).getpPrice());
-						flagSale = true;
-						break;
-					}
-				}
-				if(flagSale == false) 
-				{
-					if(p.getpType().equals(Product.ProductType.valueOf(type)))
-					{
-						targetStream= new ByteArrayInputStream(p.getByteArray());
-						ComplaintItemRow itemRow = new ComplaintItemRow(p.getpID(), p.getpName(),p.getpType().toString(), p.getpPrice(),  p.getpColor().toString(),
-								targetStream);
-						catalog.add(itemRow);
-					}
-				}
-			}
-		}
-		else
+			Thread.sleep(200);
+		} 
+		catch (InterruptedException e) 
 		{
-			for(j=0 ; j<CatalogUI.products.size() ; j++) //create product in catalog
-			{
-				flagSale = false;
-				p = CatalogUI.products.get(j);
-				for(k = 0 ; k<CatalogUI.productsInSale.size() ; k++)
-				{
-					if(p.getpID().compareTo(CatalogUI.productsInSale.get(k).getpID()) == 0)
-					{
-						p.setpPrice(CatalogUI.productsInSale.get(k).getpPrice());
-						flagSale = true;
-						break;
-					}
-				}
-				if(flagSale == true) 
-				{
-					targetStream= new ByteArrayInputStream(p.getByteArray());
-					ComplaintItemRow itemRow = new ComplaintItemRow(p.getpID(), p.getpName(),p.getpType().toString(), p.getpPrice(),  p.getpColor().toString(), targetStream);
-					catalog.add(itemRow);
-				}
-			}
+			e.printStackTrace();
 		}
-		tablecolumn_id.setCellValueFactory(new PropertyValueFactory<ComplaintItemRow, String>("id"));
-		tablecolumn_name.setCellValueFactory(new PropertyValueFactory<ComplaintItemRow, String>("name"));
-		tablecolumn_type.setCellValueFactory(new PropertyValueFactory<ComplaintItemRow, Product.ProductType>("type"));
-		tablecolumn_price.setCellValueFactory(new PropertyValueFactory<ComplaintItemRow, Double>("price"));
-		tablecolumn_image.setCellValueFactory(new PropertyValueFactory<ComplaintItemRow, ImageView>("image"));
-		catalog_table.setItems(catalog);
-	}
-
-	
-	
-	public void showCart(ActionEvent event) throws Exception // show all products in cart. 
-	{
-		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
-		Stage primaryStage = new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		Pane root = loader.load(getClass().getResource("/controller/CartFrame.fxml").openStream());
 		
+		this.txtCustomerPhone.setText(CustomerUI.Order_Of_Specific_Customer.get(0).getRecipienPhoneNum()); 		 /* The Phone Will Be The Same In All The Cell's Of the Vector<Order> Of the Specific Customer */
 		
-		Scene scene = new Scene(root);			
-		//scene.getStylesheets().add(getClass().getResource("/gui/StudentForm.css").toExternalForm());
+		Put_The_Order_Of_Specific_Customer_In_Table();
 		
-		primaryStage.setScene(scene);		
-		primaryStage.show();
-	}
-	
-	public void logout(ActionEvent event) throws Exception /* logout and open login window 
-	{
-		CustomerController.flag = false;
-		Message msg = new Message(UserUI.user.getId(), "change User status to DISCONNECTED");
-		UserUI.myClient.accept(msg); // change User status to DISCONNECTED in DB
-		((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window 
-		Stage primaryStage = new Stage(); /* Object present window with graphics elements 
-		FXMLLoader loader = new FXMLLoader(); /* load object 
-		Parent root = FXMLLoader.load(getClass().getResource("/controller/UserLogin.fxml"));
-		Scene scene = new Scene(root);
-		primaryStage.setTitle("LOGIN");
-		primaryStage.setScene(scene);
-		primaryStage.show();
-	}
-	
-	public void addToCart(ActionEvent event) throws Exception // add product to cart
-	{
-		String pId = txtPId.getText();
-		int pAmmount;
-		if(txtPAmmount.getText().compareTo("")!=0)
+		Message Message_Two = new Message(UserUI.user,"Customer - Want To Take His Complaints");
+		UserUI.myClient.accept(Message_Two);	
+		while(CustomerUI.Complaint_Of_Specific_Customer.size() == 0);
+		try 
 		{
-			pAmmount = Integer.valueOf(txtPAmmount.getText());
-			Product p = getproductById(pId);
-			if(p != null)
-			{
-				if(order.getProductsInOrder().containsKey(p))
-					order.getProductsInOrder().put(p, (order.getProductsInOrder().get(p))+pAmmount);
-				else
-					order.getProductsInOrder().put(p, pAmmount);
-				txtPId.setText("");
-				txtPAmmount.setText("");
-			}
-		}
-	}
-
-	private Product getproductById(String pId)
-	{
-		int i;
-		for (i=0; i<CatalogUI.products.size() ; i++)
+			Thread.sleep(200);
+		} 
+		catch (InterruptedException e) 
 		{
-			if(CatalogUI.products.get(i).getpID().compareTo(pId) == 0)
-				return CatalogUI.products.get(i);
+			e.printStackTrace();
 		}
-		return null;
+		
+		Put_The_Complaint_Of_Specific_Customer_In_Table();
 	}
-}*/
+}

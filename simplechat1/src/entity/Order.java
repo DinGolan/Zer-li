@@ -75,9 +75,7 @@ public class Order implements Serializable{
 		this.storeID = storeID;
 		this.paymentMethod = paymentMethod;
 	}
-
-
-
+	
 	public Date getOrderDate() {
 		return orderDate;
 	}
@@ -204,8 +202,6 @@ public class Order implements Serializable{
 				+ recipienPhoneNum + ", postCard=" + postCard + "]";
 	}
 
-
-
 	public Account.PaymentMethod getPaymentMethod() {
 		return paymentMethod;
 	}
@@ -214,30 +210,27 @@ public class Order implements Serializable{
 		this.paymentMethod = paymentMethod;
 	}
 
-
-
 	public double getRefund() {
 		return refund;
 	}
-
-
 
 	public void setRefund(double refund) {
 		this.refund = refund;
 	}
 
-
-
 	public orderStatus getoStatus() {
 		return oStatus;
 	}
 
-
-
 	public void setoStatus(orderStatus oStatus) {
 		this.oStatus = oStatus;
 	}
-	
-	
-	
+
+	public Account.PaymentArrangement getPaymentArrangement() {
+		return paymentArrangement;
+	}
+
+	public void setPaymentArrangement(Account.PaymentArrangement paymentArrangement) {
+		this.paymentArrangement = paymentArrangement;
+	}
 }
