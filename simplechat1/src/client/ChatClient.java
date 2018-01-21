@@ -118,6 +118,8 @@ public class ChatClient extends AbstractClient
 		  clientUI.displayUI(msg);
 	  else if(((Message)msg).getOption().compareTo("Company Manager - Compare Between Two Different Quarter") == 0) 
 		  clientUI.displayUI(msg);
+	  else if(((Message)msg).getOption().compareTo("get all the customerId") == 0) 
+		  clientUI.displayUI(msg);
   }
 
   /**

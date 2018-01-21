@@ -41,11 +41,16 @@ public class SurveyResultController implements Initializable{
 	private Button btnAdd = null; /* button close for close product form */
 	@FXML
 	private ComboBox cmbSurveyId= null;  /* ComboBox With List Of Product */
+	@FXML
+	private ComboBox cmbSurveyStore= null;  
+	@FXML
+	private ComboBox cmbSurveyCustomerId= null;  
+
 	
 	private ArrayList<Integer> temp;
-	private Message msg;
+	private Message msg,msg2;
 	private ObservableList<Integer> slist;
-	public static boolean flag = false;
+	public static boolean flag = false,flag2=false;
 	
 	private static int itemIndex = 1; /* This Variable Need for the the Case - that we not choose any Product from the ComboBox , so we take the product that in Index 2 By Defualt */
 
@@ -81,6 +86,8 @@ public class SurveyResultController implements Initializable{
 		i.add(getItemIndex(cmbAnswer4) +1);
 		i.add(getItemIndex(cmbAnswer5) +1);
 		i.add(getItemIndex(cmbAnswer6) +1);
+		UserUI.store.setStoreId(4); // to delete
+		i.add(UserUI.store.getStoreId());
 
 		//if(resulrId.contains(i.get(0))==true)
 		//{
@@ -97,7 +104,7 @@ public class SurveyResultController implements Initializable{
 		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
 		Stage primaryStage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
-		Pane root = loader.load(getClass().getResource("/controller/CustomerServiceWorkerOptions.fxml").openStream());
+		Pane root = loader.load(getClass().getResource("/controller/StoreWorkerOptions.fxml").openStream());
 		
 		Scene scene = new Scene(root);			
 		
@@ -109,9 +116,8 @@ public class SurveyResultController implements Initializable{
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-
 		temp = new ArrayList<Integer>();
-		msg = new Message(temp, "get all the survey");
+		/*msg = new Message(temp, "get all the survey");
 		//UserUI.Id.clear();
 		UserUI.myClient.accept(msg);
 		while(SurveyResultController.flag == false)
@@ -122,8 +128,9 @@ public class SurveyResultController implements Initializable{
 		flag = false;
 		//CustomerServiceWorkerButton.flag =false;
 		slist = FXCollections.observableArrayList(UserUI.Id);
-		cmbSurveyId.setItems(slist); // initelize id combo box
-		Integer[] answar = new Integer[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+		cmbSurveyId.setItems(slist); // initelize id combo box*/
+		Integer[] answar = new Integer[] {1, 2, 3, 4, 5};
+		Integer[] storeId = new Integer[] {1, 2, 3, 4};
 		slist = FXCollections.observableArrayList(answar);
 		cmbAnswer1.setItems(slist);
 		cmbAnswer2.setItems(slist);
@@ -131,6 +138,23 @@ public class SurveyResultController implements Initializable{
 		cmbAnswer4.setItems(slist);
 		cmbAnswer5.setItems(slist);	
 		cmbAnswer6.setItems(slist);
+		slist = FXCollections.observableArrayList(storeId);
+		cmbSurveyStore.setItems(slist);
+		
+		// get customer id--------------------------------------
+		msg2 = new Message(temp, "get all the customerId");
+		UserUI.myClient.accept(msg2);
+		while(SurveyResultController.flag2 == false)
+		{
+			System.out.print("SACA");
+		}
 
+		flag2 = false;
+		//CustomerServiceWorkerButton.flag =false;
+		slist = FXCollections.observableArrayList(UserUI.CId);
+		cmbSurveyCustomerId.setItems(slist); // initelize id combo box
+
+		
 	}
+
 }

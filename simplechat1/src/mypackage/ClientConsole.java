@@ -205,6 +205,12 @@ public void displayUI(Object message)
 	    	SurveyResultController.flag = true;
 	    }
 	    
+	    if(((Message)message).getOption().compareTo("get all the customerId") == 0)
+	    {
+	    	UserUI.CId = (ArrayList<Integer>)(((Message)message).getMsg());
+	    	SurveyResultController.flag2 = true;
+	    }
+	    
 	    else if(((Message)message).getOption().compareTo("Get all orders for this customer") == 0) //get all the orders to specific customer
 	    {
 	  	  	int i=0;
