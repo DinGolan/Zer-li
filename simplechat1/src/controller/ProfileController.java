@@ -128,7 +128,7 @@ public class ProfileController implements Initializable
 		{ 
 			Temp_Orders.add(CustomerUI.Order_Of_Specific_Customer.get(i));
 		}
-			
+		
 		Table_Column_Order_ID.setCellValueFactory(new PropertyValueFactory<Order, Integer>("Order ID"));
 		Table_Column_Store_ID.setCellValueFactory(new PropertyValueFactory<Order, Integer>("Store ID"));
 		Table_Column_Order_Date.setCellValueFactory(new PropertyValueFactory<Order, Date>("Order Date"));
@@ -138,7 +138,7 @@ public class ProfileController implements Initializable
 		Table_Column_Supply_Option.setCellValueFactory(new PropertyValueFactory<Order, Order.SupplyOption>("Order Supply"));
 		Table_Column_Payment_Method.setCellValueFactory(new PropertyValueFactory<Order, Account.PaymentMethod>("Payment Method"));
 		Table_Column_Refund.setCellValueFactory(new PropertyValueFactory<Order, Double>("Order Refund"));
-
+		
 		Profile_Customer_Order = FXCollections.observableArrayList(Temp_Orders);	
 	
 		Table_Order_Details.setItems(Profile_Customer_Order);
