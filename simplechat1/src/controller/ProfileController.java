@@ -41,7 +41,7 @@ public class ProfileController implements Initializable
     /* ------------------------- Table Of Order -------------------------------------------- */
     
 	@FXML
-    private TableView<Order> Table_Order_Details;
+    private TableView<CustomerOrderDetailsRow> Table_Order_Details;
 
 	/* ------------------------- Table Of Complaint -------------------------------------------- */
 	
@@ -51,31 +51,31 @@ public class ProfileController implements Initializable
 	/* ------------------------- Table Column Of Order ----------------------------------------- */
 	
 	@FXML 
-	private TableColumn<Order, Integer> Table_Column_Order_ID = new TableColumn<>();
+	private TableColumn<CustomerOrderDetailsRow, Integer> Table_Column_Order_ID = new TableColumn<>();
 
 	@FXML 
-	private TableColumn<Order, Order.SupplyOption> Table_Column_Supply_Option = new TableColumn<>();
+	private TableColumn<CustomerOrderDetailsRow, Order.SupplyOption> Table_Column_Supply_Option = new TableColumn<>();
 	
 	@FXML 
-	private TableColumn<Order, Double> Table_Column_Total_Price = new TableColumn<>();
+	private TableColumn<CustomerOrderDetailsRow, Double> Table_Column_Total_Price = new TableColumn<>();
 	
 	@FXML 
-	private TableColumn<Order, String> Table_Column_Address = new TableColumn<>();
+	private TableColumn<CustomerOrderDetailsRow, String> Table_Column_Address = new TableColumn<>();
 	
 	@FXML 
-	private TableColumn<Order, Date> Table_Column_Order_Date = new TableColumn<>();
+	private TableColumn<CustomerOrderDetailsRow, Date> Table_Column_Order_Date = new TableColumn<>();
 	
 	@FXML 
-	private TableColumn<Order, Account.PaymentMethod> Table_Column_Payment_Method = new TableColumn<>();
+	private TableColumn<CustomerOrderDetailsRow, Account.PaymentMethod> Table_Column_Payment_Method = new TableColumn<>();
 	
 	@FXML 
-	private TableColumn<Order, Order.orderStatus> Table_Column_Order_Status = new TableColumn<>();
+	private TableColumn<CustomerOrderDetailsRow, Order.orderStatus> Table_Column_Order_Status = new TableColumn<>();
 	
 	@FXML 
-	private TableColumn<Order, Integer> Table_Column_Store_ID = new TableColumn<>();
+	private TableColumn<CustomerOrderDetailsRow, Integer> Table_Column_Store_ID = new TableColumn<>();
 	
 	@FXML 
-	private TableColumn<Order, Double> Table_Column_Refund = new TableColumn<>();
+	private TableColumn<CustomerOrderDetailsRow, Double> Table_Column_Refund = new TableColumn<>();
 	
 	/* ------------------------- Table Column Of Complaint ----------------------------------------- */
 	
@@ -104,7 +104,7 @@ public class ProfileController implements Initializable
 	
 	/* ----- ObservableList ----- */
 	
-	ObservableList<Order> Profile_Customer_Order;
+	ObservableList<CustomerOrderDetailsRow> Profile_Customer_Order ;
 	ObservableList<Complaint> Profile_Customer_Complaint = FXCollections.observableArrayList();
 
 	
@@ -122,22 +122,32 @@ public class ProfileController implements Initializable
 	
 	public void Put_The_Order_Of_Specific_Customer_In_Table()
 	{
-		ArrayList<Order> Temp_Orders = new ArrayList<Order>();
+		ArrayList<CustomerOrderDetailsRow> Temp_Orders = new ArrayList<CustomerOrderDetailsRow>();
 		
 		for(int i = 0 ; i < CustomerUI.Order_Of_Specific_Customer.size() ; i++)
 		{ 
-			Temp_Orders.add(CustomerUI.Order_Of_Specific_Customer.get(i));
+			CustomerOrderDetailsRow Specific_Order = new CustomerOrderDetailsRow();
+			Specific_Order.setOrder_Address(CustomerUI.Order_Of_Specific_Customer.get(i).getRecipientAddress());
+			Specific_Order.setOrder_Date(CustomerUI.Order_Of_Specific_Customer.get(i).getOrderDate());
+			Specific_Order.setOrder_ID(CustomerUI.Order_Of_Specific_Customer.get(i).getOrderID());
+			Specific_Order.setOrder_PayMent(CustomerUI.Order_Of_Specific_Customer.get(i).getPaymentMethod());
+			Specific_Order.setOrder_Status(CustomerUI.Order_Of_Specific_Customer.get(i).getoStatus());
+			Specific_Order.setRefund(CustomerUI.Order_Of_Specific_Customer.get(i).getRefund());
+			Specific_Order.setStore_ID(CustomerUI.Order_Of_Specific_Customer.get(i).getStoreID());
+			Specific_Order.setSupply(CustomerUI.Order_Of_Specific_Customer.get(i).getSupply());
+			Specific_Order.setTotal_Price(CustomerUI.Order_Of_Specific_Customer.get(i).getOrderTotalPrice());
+			Temp_Orders.add(Specific_Order);
 		}
 		
-		Table_Column_Order_ID.setCellValueFactory(new PropertyValueFactory<Order, Integer>("Order ID"));
-		Table_Column_Store_ID.setCellValueFactory(new PropertyValueFactory<Order, Integer>("Store ID"));
-		Table_Column_Order_Date.setCellValueFactory(new PropertyValueFactory<Order, Date>("Order Date"));
-		Table_Column_Total_Price.setCellValueFactory(new PropertyValueFactory<Order, Double>("Order Total Price"));
-		Table_Column_Address.setCellValueFactory(new PropertyValueFactory<Order, String>("Address"));
-		Table_Column_Order_Status.setCellValueFactory(new PropertyValueFactory<Order, Order.orderStatus>("Order Status"));
-		Table_Column_Supply_Option.setCellValueFactory(new PropertyValueFactory<Order, Order.SupplyOption>("Order Supply"));
-		Table_Column_Payment_Method.setCellValueFactory(new PropertyValueFactory<Order, Account.PaymentMethod>("Payment Method"));
-		Table_Column_Refund.setCellValueFactory(new PropertyValueFactory<Order, Double>("Order Refund"));
+		Table_Column_Order_ID.setCellValueFactory(new PropertyValueFactory<CustomerOrderDetailsRow, Integer>("Order ID"));
+		Table_Column_Store_ID.setCellValueFactory(new PropertyValueFactory<CustomerOrderDetailsRow, Integer>("Store ID"));
+		Table_Column_Order_Date.setCellValueFactory(new PropertyValueFactory<CustomerOrderDetailsRow, Date>("Order Date"));
+		Table_Column_Total_Price.setCellValueFactory(new PropertyValueFactory<CustomerOrderDetailsRow, Double>("Order Total Price"));
+		Table_Column_Address.setCellValueFactory(new PropertyValueFactory<CustomerOrderDetailsRow, String>("Address"));
+		Table_Column_Order_Status.setCellValueFactory(new PropertyValueFactory<CustomerOrderDetailsRow, Order.orderStatus>("Order Status"));
+		Table_Column_Supply_Option.setCellValueFactory(new PropertyValueFactory<CustomerOrderDetailsRow, Order.SupplyOption>("Order Supply"));
+		Table_Column_Payment_Method.setCellValueFactory(new PropertyValueFactory<CustomerOrderDetailsRow, Account.PaymentMethod>("Payment Method"));
+		Table_Column_Refund.setCellValueFactory(new PropertyValueFactory<CustomerOrderDetailsRow, Double>("Order Refund"));
 		
 		Profile_Customer_Order = FXCollections.observableArrayList(Temp_Orders);	
 	
