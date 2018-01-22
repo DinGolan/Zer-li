@@ -27,7 +27,7 @@
             <Font name="System Italic" size="16.0" />
          </font>
       </Label>
-      <TextField id="txtTotalAvgRank" fx:id="txtTotalAvgRank" editable="false" layoutX="262.0" layoutY="160.0" prefHeight="25.0" prefWidth="39.0" />
+      <TextField id="txtTotalAvgRank" fx:id="txtTotalAvgRank" editable="false" layoutX="262.0" layoutY="160.0" prefHeight="25.0" prefWidth="53.0" />
       <Button id="btnClose" fx:id="btnClose" layoutX="338.0" layoutY="635.0" mnemonicParsing="false" onAction="#closeSatisfactionReportWindow" text="Close" />
       <BarChart id="Chart_SatisfactionReport" fx:id="Chart_SatisfactionReport" categoryGap="0.0" layoutX="46.0" layoutY="199.0" prefHeight="423.0" prefWidth="584.0" title="Satisfaction Of The User's">
         <xAxis>

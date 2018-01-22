@@ -72,6 +72,12 @@ public class UserController implements Initializable {
 	
 	@FXML
 	private Label lblSerialNum;
+	
+	@FXML
+    private Button Exit_From_Client;
+
+	@FXML
+	private Label Lablel_Not_Enter_The_Server_Allready;
 
 
 	public void start(Stage primaryStage) throws Exception 
@@ -93,6 +99,8 @@ public class UserController implements Initializable {
 		Label_Port.setTextFill(Color.GREEN.brighter());
 		btnIPAndPort.setTextFill(Color.GREEN.brighter());
 		btnCloseWindow.setTextFill(Color.GREEN.brighter());
+		Lablel_Not_Enter_The_Server_Allready.setTextFill(Color.GREEN.brighter());
+		Exit_From_Client.setTextFill(Color.GREEN.brighter());
 	}
 	
 	public void Close_The_Window(ActionEvent event) throws Exception

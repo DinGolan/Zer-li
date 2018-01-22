@@ -2,10 +2,6 @@ package controller;
 
 import java.io.InputStream;
 
-import entity.Product;
-import entity.Product.ProductColor;
-import javafx.fxml.FXML;
-import javafx.scene.control.Hyperlink;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 

@@ -121,10 +121,12 @@ public class CustomerController implements Initializable{
 		primaryStage.show();
 	}
 	
-	public void openCustomerOptions(ActionEvent event) throws Exception {
-		if(cmbStores.getValue() != null) {
+	public void openCustomerOptions(ActionEvent event) throws Exception 
+	{
+		if(cmbStores.getValue() != null) 
+		{
 		UserUI.store = StoreUI.stores.get(indexOfStore(cmbStores.getValue()));
-		System.out.println(UserUI.store.getStoreId());
+		/* System.out.println(UserUI.store.getStoreId()); */
 		flag = true;
 		StoreUI.stores.clear();
 		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
@@ -136,7 +138,8 @@ public class CustomerController implements Initializable{
 		//scene.getStylesheets().add(getClass().getResource("/gui/StudentForm.css").toExternalForm());
 		
 		primaryStage.setScene(scene);		
-		primaryStage.show();}
+		primaryStage.show();
+		}
 	}
 	
 	public void openSelfDef(ActionEvent event) throws Exception {

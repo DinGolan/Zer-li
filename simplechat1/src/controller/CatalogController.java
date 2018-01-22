@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import boundery.CatalogUI;
-import boundery.OrderUI;
 import boundery.UserUI;
 import entity.Message;
 import entity.Order;

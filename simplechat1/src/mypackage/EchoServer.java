@@ -13,8 +13,15 @@ import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+<<<<<<< .mine
 import java.time.LocalTime;
 import java.util.ArrayList;
+
+=======
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.util.ArrayList;
+>>>>>>> .theirs
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map.Entry;
@@ -139,7 +146,25 @@ public class EchoServer extends AbstractServer
         {										
 	    	UpdateUserAtDB(msg,conn);
 		}
+<<<<<<< .mine
 	    		
+=======
+	    
+>>>>>>> .theirs
+		if (((Message) msg).getOption().compareTo("Update Product in DB") == 0) /* Check that we get from DB Because We want to Initialized */
+		{
+			UpdateProductAtDB(msg, conn);
+		} <<<<<<< .mine
+
+
+
+
+=======
+		{
+			UpdateProductAtDB(msg, conn);
+		} 
+		
+>>>>>>> .theirs
 		if (((Message) msg).getOption().compareTo("Update Product In Sale In DB") == 0) /* Check that we get from DB Because We want to Initialized */
 		{
 			UpdateProductInSaleAtDB(msg, conn);
@@ -343,6 +368,21 @@ public class EchoServer extends AbstractServer
 	    	((Message)msg).setMsg(getStore_Manager_Store_Num(msg,conn));  
 	    	this.sendToAllClients(msg);
 	    }
+	    if(((Message)msg).getOption().compareTo("Customer - Want To Take His Order") == 0) 	    	
+	    {
+	    	((Message)msg).setMsg(Customer_Want_To_Take_His_Order(msg,conn));  
+	    	this.sendToAllClients(msg);
+	    } 
+	    if(((Message)msg).getOption().compareTo("Customer - Want To Take His Complaints") == 0) 	    	
+	    {
+	    	((Message)msg).setMsg(Customer_Want_To_Take_His_Complaint(msg,conn));  
+	    	this.sendToAllClients(msg);
+	    }
+	    if(((Message)msg).getOption().compareTo(  "Customer - Want To Take His Account Details") == 0) 	    	
+	    {
+	    	((Message)msg).setMsg(Customer_Want_To_Take_His_Account(msg,conn));  
+	    	this.sendToAllClients(msg);
+	    }
   }
   
   /**
@@ -394,6 +434,125 @@ public class EchoServer extends AbstractServer
     }
     
     return conn;  
+  }
+  
+  protected ArrayList<Account> Customer_Want_To_Take_His_Account(Object msg , Connection conn)
+  {
+	  Statement stmt;
+	  User Customer_User = (User)(((Message)msg).getMsg());
+	  String Customer_User_ID = Customer_User.getId();
+	  Account temp_Account;
+	  ArrayList<Account> Account_Of_Specific_Customer = new ArrayList<Account>();
+	  
+	  try 
+	  {	
+		  stmt = conn.createStatement();
+		  String getAccount_Of_Customer_Account_Table = "SELECT * FROM project.account WHERE AccountUserId = " + "'" + Customer_User_ID + "'" + ";"; 
+		  ResultSet rs = stmt.executeQuery(getAccount_Of_Customer_Account_Table);
+		  while(rs.next())
+	 	  {
+			  temp_Account = new Account();
+			  temp_Account.setAccountStoreNum(rs.getInt("AccountStoreId"));
+			  temp_Account.setAccountBalanceCard(rs.getDouble("AccountBalanceCard"));
+			  temp_Account.setAccountPaymentArrangement(Account.PaymentArrangement.valueOf(rs.getString("AccountPaymentArrangement")));
+			  temp_Account.setAccountCreditCardNum(rs.getString("AccountCreditCardNum"));
+			  temp_Account.setAccountSubscriptionEndDate(rs.getDate("AccountSubscriptionEndDate"));
+			  Account_Of_Specific_Customer.add(temp_Account);
+	 	  }  
+	  }
+	  catch (SQLException e) 
+	  {
+			e.printStackTrace();
+	  } 
+	  
+	  return Account_Of_Specific_Customer;
+  }
+  
+  protected ArrayList<Complaint> Customer_Want_To_Take_His_Complaint(Object msg , Connection conn)
+  {
+	  Statement stmt;
+	  User Customer_User = (User)(((Message)msg).getMsg());
+	  String Customer_User_ID = Customer_User.getId();
+	  Complaint temp_Complaint;
+	  ArrayList<Complaint> Complaint_Of_Specific_Customer = new ArrayList<Complaint>();
+	  
+	  try 
+	  {	
+		  stmt = conn.createStatement();
+		  String getComplaint_Of_Customer_Complaint_Table = "SELECT * FROM project.complaint WHERE ComplaintUserId = " + "'" + Customer_User_ID + "'" + ";"; 
+		  ResultSet rs = stmt.executeQuery(getComplaint_Of_Customer_Complaint_Table);
+		  while(rs.next())
+	 	  {
+			  temp_Complaint = new Complaint();
+			  temp_Complaint.setComplaintDate(rs.getDate("ComplaintDate"));
+			  temp_Complaint.setComplaintCompansation(rs.getDouble("ComplaintCompansation"));
+			  temp_Complaint.setComplaintNum(rs.getInt("ComplaintNum"));
+			  temp_Complaint.setComplaintOrderId(rs.getInt("ComplaintOrderId"));
+			  temp_Complaint.setComplaintStat(Complaint.ComplaintStatus.valueOf(rs.getString("ComplaintStatus")));
+			  temp_Complaint.setComplaintMonth(rs.getString("complaintMonth"));
+			  Complaint_Of_Specific_Customer.add(temp_Complaint);
+	 	  }  
+	  }
+	  catch (SQLException e) 
+	  {
+			e.printStackTrace();
+	  } 
+	  
+	  return Complaint_Of_Specific_Customer;
+  }
+  
+  protected Vector<Order> Customer_Want_To_Take_His_Order(Object msg , Connection conn)
+  {
+	  Statement stmt;
+	  User Customer_User = (User)(((Message)msg).getMsg());
+	  String Customer_User_ID = Customer_User.getId();
+	  Order temp_Order;
+	  Vector<Order> Orders_Of_Specific_Customer = new Vector<Order>();
+	  HashMap<Product.ProductType,Integer> Product_Of_Specific_Order; 
+	  
+	  
+	  try 
+	  {  
+			  stmt = conn.createStatement();
+			  String getOrder_Of_Customer_Order_Table = "SELECT * FROM project.order WHERE customerID = " + "'" + Customer_User_ID + "'" + ";"; 
+			  ResultSet rs = stmt.executeQuery(getOrder_Of_Customer_Order_Table);
+			  while(rs.next())
+		 	  {
+				  temp_Order = new Order();
+				  temp_Order.setOrderDate(rs.getDate("orderDate"));
+				  temp_Order.setOrderID(rs.getInt("orderID"));
+				  temp_Order.setOrderTotalPrice(rs.getDouble("orderTotalPrice"));
+				  temp_Order.setoStatus(Order.orderStatus.valueOf(rs.getString("orderStatus")));
+				  
+				  temp_Order.setPaymentMethod(Account.PaymentMethod.valueOf(rs.getString("paymentMethod")));
+				  temp_Order.setSupply(Order.SupplyOption.valueOf(rs.getString("orderSupplyOption")));
+				  temp_Order.setRecipientAddress(rs.getString("orderRecipientAddress"));
+				  temp_Order.setRecipienPhoneNum(rs.getString("orderRecipientPhoneNumber"));
+				  temp_Order.setStoreID(rs.getInt("StoreID"));
+				  temp_Order.setRefund(rs.getDouble("orderRefund"));
+				  Orders_Of_Specific_Customer.add(temp_Order);   /* Index Number ---> 2  */
+		 	  }
+			  
+			  for(int i = 0 ; i < Orders_Of_Specific_Customer.size() ; i++)
+			  {
+				  String get_Product_From_Specific_Order = "SELECT * FROM project.productinorder WHERE OrderID = " + "'" + Orders_Of_Specific_Customer.get(i).getOrderID() + "'" + ";"; 
+				  ResultSet rs_2 = stmt.executeQuery(get_Product_From_Specific_Order);
+				  Product_Of_Specific_Order = new HashMap<Product.ProductType,Integer>();
+				  while(rs_2.next())
+			 	  {
+					  Product_Of_Specific_Order.put(Product.ProductType.valueOf(rs_2.getString("ProductType")), rs_2.getInt("QuantityOfProduct"));
+			 	  }
+				  
+				  Orders_Of_Specific_Customer.get(i).setProductInOrderType(Product_Of_Specific_Order);
+			  }
+			  
+ 	 } 
+	 catch (SQLException e) 
+	 {
+		e.printStackTrace();
+	 } 
+	  
+	 return Orders_Of_Specific_Customer;
   }
   
   protected ArrayList<String> getStore_Manager_Store_Num(Object msg , Connection conn)
@@ -1434,7 +1593,6 @@ public class EchoServer extends AbstractServer
 	  return stores;
   }
   
-  
   @SuppressWarnings("unchecked")
   protected ArrayList<Complaint> Get_Complaints_Of_Specific_Store_From_DB(Object msg , Connection conn)
   {
@@ -1553,7 +1711,6 @@ public class EchoServer extends AbstractServer
 	  return complaints;
   }
  
-  
   @SuppressWarnings("unchecked")
   protected ArrayList<Object> Get_The_Revenue_Of_Specific_Store_From_DB(Object msg , Connection conn)
   {
@@ -1791,7 +1948,6 @@ public class EchoServer extends AbstractServer
 	  return Revenue_To_Return_And_Number_Of_Order;
   } 
   
- 
   @SuppressWarnings("unchecked")
   protected void UpdateProductName(Object msg, Connection conn) /* This Method Update the DB */
   {
@@ -1828,7 +1984,6 @@ public class EchoServer extends AbstractServer
 	  } 
 	  catch (SQLException e) {	e.printStackTrace();}	  
   }
-  
     
   @SuppressWarnings("unchecked")
   protected void AddSurveyToDB(Object msg, Connection conn)
@@ -1862,7 +2017,6 @@ public class EchoServer extends AbstractServer
   
     }
      
-    
   @SuppressWarnings("unchecked")
   protected void addSurveyResult(Object msg, Connection conn) {
     	 int id = ((ArrayList<Integer>)(((Message)msg).getMsg())).get(0);
@@ -1884,8 +2038,7 @@ public class EchoServer extends AbstractServer
 
     	 //}
      }
-     
-    
+      
   @SuppressWarnings("unchecked")
   protected void updateSurveyResult(Object msg, Connection conn) {
 	  		Statement stmt;
@@ -2115,8 +2268,11 @@ public class EchoServer extends AbstractServer
 	  return users_After_Change;
   }
   
-
+ protected ArrayList<Integer> getAllOrdersToCustomerCancel(Object msg, Connection conn) //this method get all the orders that match to specific customer and can be cancel<<<<<<< .mine
  protected ArrayList<Integer> getAllOrdersToCustomerCancel(Object msg, Connection conn) //this method get all the orders that match to specific customer and can be cancel
+=======
+
+>>>>>>> .theirs
   {
 	 int StoreNum = Integer.parseInt(((ArrayList<String>)(((Message)msg).getMsg())).get(1));
 	 System.out.println(StoreNum);
@@ -2165,8 +2321,8 @@ public class EchoServer extends AbstractServer
 	  return ordersNums;
  }	
  
- protected Order getSelectedOrderDetails(Object msg, Connection conn) //this method return an order from the DB
- {
+  protected Order getSelectedOrderDetails(Object msg, Connection conn) //this method return an order from the DB
+  {
 	  int requestedOrderNum=(int)(((Message)msg).getMsg());
 	  Order o = null;
 	  Statement stmt;
@@ -2201,8 +2357,7 @@ public class EchoServer extends AbstractServer
 		  } catch (SQLException e) {	e.printStackTrace();}	
 	  System.out.print(o);
 	  return o;
- }
-  
+ } 
   
   protected void UpdateProductAtDB(Object msg, Connection conn) /* This Method Update the DB */
   {
@@ -2692,7 +2847,6 @@ public class EchoServer extends AbstractServer
 	  } catch (SQLException e) {	e.printStackTrace();}	
 	  return stores;
   }
-  
   
   protected Account UpdateUserAccountAtDB(Object msg, Connection conn) /* This Method Update the DB */
   {

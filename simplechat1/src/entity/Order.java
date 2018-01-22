@@ -77,9 +77,7 @@ public class Order implements Serializable{
 		this.oStatus=oStatus;
 		this.refund=refund;
 	}
-
-
-
+	
 	public Date getOrderDate() {
 		return orderDate;
 	}
@@ -207,8 +205,6 @@ public class Order implements Serializable{
 				+ paymentMethod + ", paymentArrangement=" + paymentArrangement + "]";
 	}
 
-
-
 	public Account.PaymentMethod getPaymentMethod() {
 		return paymentMethod;
 	}
@@ -217,30 +213,27 @@ public class Order implements Serializable{
 		this.paymentMethod = paymentMethod;
 	}
 
-
-
 	public double getRefund() {
 		return refund;
 	}
-
-
 
 	public void setRefund(double refund) {
 		this.refund = refund;
 	}
 
-
-
 	public orderStatus getoStatus() {
 		return oStatus;
 	}
 
-
-
 	public void setoStatus(orderStatus oStatus) {
 		this.oStatus = oStatus;
 	}
-	
-	
-	
+
+	public Account.PaymentArrangement getPaymentArrangement() {
+		return paymentArrangement;
+	}
+
+	public void setPaymentArrangement(Account.PaymentArrangement paymentArrangement) {
+		this.paymentArrangement = paymentArrangement;
+	}
 }
