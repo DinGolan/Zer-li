@@ -119,4 +119,11 @@ public class CustomerOrderDetailsRow
 	public void setTotal_Price(double total_Price) {
 		Total_Price = total_Price;
 	}
+
+	@Override
+	public String toString() {
+		return "CustomerOrderDetailsRow [Order_ID=" + Order_ID + ", Store_ID=" + Store_ID + ", Order_Address="
+				+ Order_Address + ", Order_Date=" + Order_Date + ", Order_PayMent=" + Order_PayMent + ", Order_Status="
+				+ Order_Status + ", Supply=" + Supply + ", Refund=" + Refund + ", Total_Price=" + Total_Price + "]";
+	}
 }

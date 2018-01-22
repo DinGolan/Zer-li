@@ -46,8 +46,13 @@ public class ProfileController implements Initializable
 	/* ------------------------- Table Of Complaint -------------------------------------------- */
 	
 	@FXML
-	private TableView<Complaint> Table_Complaint_Details;
+	private TableView<CustomerComplaintDetailsRow> Table_Complaint_Details;
 
+	/* ------------------------- Table Of Account -------------------------------------------- */
+	
+    @FXML
+    private TableView<CustomerAccountDetailsRow> table_Account;
+	
 	/* ------------------------- Table Column Of Order ----------------------------------------- */
 	
 	@FXML 
@@ -80,22 +85,39 @@ public class ProfileController implements Initializable
 	/* ------------------------- Table Column Of Complaint ----------------------------------------- */
 	
 	@FXML 
-	private TableColumn<Complaint, String> Table_Column_Month = new TableColumn<>();
+	private TableColumn<CustomerComplaintDetailsRow, String> Table_Column_Month = new TableColumn<>();
 	
 	@FXML 
-	private TableColumn<Complaint, Double> Table_Column_Complaint_Compansation = new TableColumn<>();
+	private TableColumn<CustomerComplaintDetailsRow, Double> Table_Column_Complaint_Compansation = new TableColumn<>();
 	
 	@FXML 
-	private TableColumn<Complaint, Date> Table_Column_Complaint_Date = new TableColumn<>();
+	private TableColumn<CustomerComplaintDetailsRow, Date> Table_Column_Complaint_Date = new TableColumn<>();
 	
 	@FXML 
-	private TableColumn<Complaint, Integer> Table_Column_Complaint_ID = new TableColumn<>();
+	private TableColumn<CustomerComplaintDetailsRow, Integer> Table_Column_Complaint_ID = new TableColumn<>();
 	
 	@FXML 
-	private TableColumn<Complaint, Complaint.ComplaintStatus> Table_Column_Complaint_Status = new TableColumn<>();
+	private TableColumn<CustomerComplaintDetailsRow, Complaint.ComplaintStatus> Table_Column_Complaint_Status = new TableColumn<>();
 	
 	@FXML 
-	private TableColumn<Complaint, Integer> Table_Column_Complaint_Order_ID = new TableColumn<>();
+	private TableColumn<CustomerComplaintDetailsRow, Integer> Table_Column_Complaint_Order_ID = new TableColumn<>();
+	
+	/* ------------------------- Table Column Of Account ----------------------------------------- */
+	
+	 @FXML
+	 private TableColumn<CustomerAccountDetailsRow , Integer> table_Column_Account_Store_ID;
+
+	 @FXML
+	 private TableColumn<CustomerAccountDetailsRow , Account.PaymentArrangement> table_Column_Account_Payment_Arrangment;
+
+	 @FXML
+	 private TableColumn<CustomerAccountDetailsRow , String> table_Column_Account_Card_Number;
+
+	 @FXML
+	 private TableColumn<CustomerAccountDetailsRow , Double> table_Column_Account_Balance_Card;
+
+	 @FXML
+	 private TableColumn<CustomerAccountDetailsRow , Date > table_Column_End_Date;
 	
 	/* ----- Button - Back ----- */
 	
@@ -105,7 +127,8 @@ public class ProfileController implements Initializable
 	/* ----- ObservableList ----- */
 	
 	ObservableList<CustomerOrderDetailsRow> Profile_Customer_Order ;
-	ObservableList<Complaint> Profile_Customer_Complaint = FXCollections.observableArrayList();
+	ObservableList<CustomerComplaintDetailsRow> Profile_Customer_Complaint ;
+	ObservableList<CustomerAccountDetailsRow> Profile_Customer_Account ;
 
 	
 	public void BackToCatalogOption(ActionEvent event) throws Exception   
@@ -139,15 +162,15 @@ public class ProfileController implements Initializable
 			Temp_Orders.add(Specific_Order);
 		}
 		
-		Table_Column_Order_ID.setCellValueFactory(new PropertyValueFactory<CustomerOrderDetailsRow, Integer>("Order ID"));
-		Table_Column_Store_ID.setCellValueFactory(new PropertyValueFactory<CustomerOrderDetailsRow, Integer>("Store ID"));
-		Table_Column_Order_Date.setCellValueFactory(new PropertyValueFactory<CustomerOrderDetailsRow, Date>("Order Date"));
-		Table_Column_Total_Price.setCellValueFactory(new PropertyValueFactory<CustomerOrderDetailsRow, Double>("Order Total Price"));
-		Table_Column_Address.setCellValueFactory(new PropertyValueFactory<CustomerOrderDetailsRow, String>("Address"));
-		Table_Column_Order_Status.setCellValueFactory(new PropertyValueFactory<CustomerOrderDetailsRow, Order.orderStatus>("Order Status"));
-		Table_Column_Supply_Option.setCellValueFactory(new PropertyValueFactory<CustomerOrderDetailsRow, Order.SupplyOption>("Order Supply"));
-		Table_Column_Payment_Method.setCellValueFactory(new PropertyValueFactory<CustomerOrderDetailsRow, Account.PaymentMethod>("Payment Method"));
-		Table_Column_Refund.setCellValueFactory(new PropertyValueFactory<CustomerOrderDetailsRow, Double>("Order Refund"));
+		Table_Column_Order_ID.setCellValueFactory(new PropertyValueFactory<CustomerOrderDetailsRow, Integer>("Order_ID"));
+		Table_Column_Store_ID.setCellValueFactory(new PropertyValueFactory<CustomerOrderDetailsRow, Integer>("Store_ID"));
+		Table_Column_Order_Date.setCellValueFactory(new PropertyValueFactory<CustomerOrderDetailsRow, Date>("Order_Date"));
+		Table_Column_Total_Price.setCellValueFactory(new PropertyValueFactory<CustomerOrderDetailsRow, Double>("Total_Price"));
+		Table_Column_Address.setCellValueFactory(new PropertyValueFactory<CustomerOrderDetailsRow, String>("Order_Address"));
+		Table_Column_Order_Status.setCellValueFactory(new PropertyValueFactory<CustomerOrderDetailsRow, Order.orderStatus>("Order_Status"));
+		Table_Column_Supply_Option.setCellValueFactory(new PropertyValueFactory<CustomerOrderDetailsRow, Order.SupplyOption>("Supply"));
+		Table_Column_Payment_Method.setCellValueFactory(new PropertyValueFactory<CustomerOrderDetailsRow, Account.PaymentMethod>("Order_PayMent"));
+		Table_Column_Refund.setCellValueFactory(new PropertyValueFactory<CustomerOrderDetailsRow, Double>("Refund"));
 		
 		Profile_Customer_Order = FXCollections.observableArrayList(Temp_Orders);	
 	
@@ -157,25 +180,58 @@ public class ProfileController implements Initializable
 	
 	public void Put_The_Complaint_Of_Specific_Customer_In_Table()
 	{
-		ArrayList<Complaint> Temp_Complaint = new ArrayList<Complaint>();
+		ArrayList<CustomerComplaintDetailsRow> Temp_Complaint = new ArrayList<CustomerComplaintDetailsRow>();
 		
 		for(int i = 0 ; i < CustomerUI.Complaint_Of_Specific_Customer.size() ; i++)
 		{ 
-			Temp_Complaint.add(CustomerUI.Complaint_Of_Specific_Customer.get(i));
+			CustomerComplaintDetailsRow Specific_Complaint = new CustomerComplaintDetailsRow();
+			Specific_Complaint.setComplaint_ID(CustomerUI.Complaint_Of_Specific_Customer.get(i).getComplaintNum());
+			Specific_Complaint.setComplaint_Date(CustomerUI.Complaint_Of_Specific_Customer.get(i).getComplaintDate());
+			Specific_Complaint.setComplaint_Status(CustomerUI.Complaint_Of_Specific_Customer.get(i).getComplaintStat());
+			Specific_Complaint.setComplaint_Month(CustomerUI.Complaint_Of_Specific_Customer.get(i).getComplaintMonth());
+			Specific_Complaint.setComplaint_Compansation(CustomerUI.Complaint_Of_Specific_Customer.get(i).getComplaintCompansation());
+			Specific_Complaint.setComplaint_Order_ID(CustomerUI.Complaint_Of_Specific_Customer.get(i).getComplaintOrderId());
+			Temp_Complaint.add(Specific_Complaint);
 		}
 
-		Table_Column_Complaint_ID.setCellValueFactory(new PropertyValueFactory<Complaint, Integer>("Complaint ID"));
-		Table_Column_Complaint_Date.setCellValueFactory(new PropertyValueFactory<Complaint, Date>("Complaint Date"));
-		Table_Column_Complaint_Status.setCellValueFactory(new PropertyValueFactory<Complaint, Complaint.ComplaintStatus>("Complaint Status"));
-		Table_Column_Month.setCellValueFactory(new PropertyValueFactory<Complaint, String>("Complaint Month"));
-		Table_Column_Complaint_Compansation.setCellValueFactory(new PropertyValueFactory<Complaint, Double>("Complaint Compensation"));
-		Table_Column_Complaint_Order_ID.setCellValueFactory(new PropertyValueFactory<Complaint, Integer>("Complaint Of - Order ID"));
+		Table_Column_Complaint_ID.setCellValueFactory(new PropertyValueFactory<CustomerComplaintDetailsRow, Integer>("Complaint_ID"));
+		Table_Column_Complaint_Date.setCellValueFactory(new PropertyValueFactory<CustomerComplaintDetailsRow, Date>("Complaint_Date"));
+		Table_Column_Complaint_Status.setCellValueFactory(new PropertyValueFactory<CustomerComplaintDetailsRow, Complaint.ComplaintStatus>("Complaint_Status"));
+		Table_Column_Month.setCellValueFactory(new PropertyValueFactory<CustomerComplaintDetailsRow, String>("Complaint_Month"));
+		Table_Column_Complaint_Compansation.setCellValueFactory(new PropertyValueFactory<CustomerComplaintDetailsRow, Double>("Complaint_Compansation"));
+		Table_Column_Complaint_Order_ID.setCellValueFactory(new PropertyValueFactory<CustomerComplaintDetailsRow, Integer>("Complaint_Order_ID"));
 			
 		Profile_Customer_Complaint = FXCollections.observableArrayList(Temp_Complaint);
 		
 		Table_Complaint_Details.setItems(Profile_Customer_Complaint);
 	}
 	
+	public void Put_The_Account_Of_Specific_Customer_In_Table()
+	{
+		ArrayList<CustomerAccountDetailsRow> Temp_Account = new ArrayList<CustomerAccountDetailsRow>();
+		
+		for(int i = 0 ; i < CustomerUI.Account_Of_Specific_Customer.size() ; i++)
+		{ 
+			CustomerAccountDetailsRow Specific_Account = new CustomerAccountDetailsRow();
+			Specific_Account.setAccount_Store_ID(CustomerUI.Account_Of_Specific_Customer.get(i).getAccountStoreNum());
+			Specific_Account.setBalance_Card(CustomerUI.Account_Of_Specific_Customer.get(i).getAccountBalanceCard());
+			Specific_Account.setCredit_Card_Number(CustomerUI.Account_Of_Specific_Customer.get(i).getAccountCreditCardNum());
+			Specific_Account.setEnd_Date(CustomerUI.Account_Of_Specific_Customer.get(i).getAccountSubscriptionEndDate());
+			Specific_Account.setPayment_Arrangment(CustomerUI.Account_Of_Specific_Customer.get(i).getAccountPaymentArrangement());
+			Temp_Account.add(Specific_Account);
+		}
+
+		table_Column_Account_Store_ID.setCellValueFactory(new PropertyValueFactory<CustomerAccountDetailsRow , Integer>("Account_Store_ID"));
+		table_Column_Account_Payment_Arrangment.setCellValueFactory(new PropertyValueFactory<CustomerAccountDetailsRow , Account.PaymentArrangement>("Payment_Arrangment"));
+		table_Column_Account_Card_Number.setCellValueFactory(new PropertyValueFactory<CustomerAccountDetailsRow , String>("Credit_Card_Number"));
+		table_Column_Account_Balance_Card.setCellValueFactory(new PropertyValueFactory<CustomerAccountDetailsRow , Double>("Balance_Card"));
+		table_Column_End_Date.setCellValueFactory(new PropertyValueFactory<CustomerAccountDetailsRow , Date>("End_Date"));
+			
+		Profile_Customer_Account = FXCollections.observableArrayList(Temp_Account);
+		
+		table_Account.setItems(Profile_Customer_Account);
+		
+	}
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
@@ -211,5 +267,19 @@ public class ProfileController implements Initializable
 		}
 		
 		Put_The_Complaint_Of_Specific_Customer_In_Table();
+		
+		Message Message_Three = new Message(UserUI.user,"Customer - Want To Take His Account Details");
+		UserUI.myClient.accept(Message_Three);
+		while(CustomerUI.Account_Of_Specific_Customer.size() == 0);
+		try 
+		{
+			Thread.sleep(200);
+		} 
+		catch (InterruptedException e) 
+		{
+			e.printStackTrace();
+		}
+		
+		Put_The_Account_Of_Specific_Customer_In_Table();
 	}
 }

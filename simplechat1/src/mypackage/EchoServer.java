@@ -346,7 +346,12 @@ public class EchoServer extends AbstractServer
 	    {
 	    	((Message)msg).setMsg(Customer_Want_To_Take_His_Complaint(msg,conn));  
 	    	this.sendToAllClients(msg);
-	    }  
+	    }
+	    if(((Message)msg).getOption().compareTo(  "Customer - Want To Take His Account Details") == 0) 	    	
+	    {
+	    	((Message)msg).setMsg(Customer_Want_To_Take_His_Account(msg,conn));  
+	    	this.sendToAllClients(msg);
+	    }
   }
   
   /**
@@ -398,6 +403,38 @@ public class EchoServer extends AbstractServer
     }
     
     return conn;  
+  }
+  
+  protected ArrayList<Account> Customer_Want_To_Take_His_Account(Object msg , Connection conn)
+  {
+	  Statement stmt;
+	  User Customer_User = (User)(((Message)msg).getMsg());
+	  String Customer_User_ID = Customer_User.getId();
+	  Account temp_Account;
+	  ArrayList<Account> Account_Of_Specific_Customer = new ArrayList<Account>();
+	  
+	  try 
+	  {	
+		  stmt = conn.createStatement();
+		  String getAccount_Of_Customer_Account_Table = "SELECT * FROM project.account WHERE AccountUserId = " + "'" + Customer_User_ID + "'" + ";"; 
+		  ResultSet rs = stmt.executeQuery(getAccount_Of_Customer_Account_Table);
+		  while(rs.next())
+	 	  {
+			  temp_Account = new Account();
+			  temp_Account.setAccountStoreNum(rs.getInt("AccountStoreId"));
+			  temp_Account.setAccountBalanceCard(rs.getDouble("AccountBalanceCard"));
+			  temp_Account.setAccountPaymentArrangement(Account.PaymentArrangement.valueOf(rs.getString("AccountPaymentArrangement")));
+			  temp_Account.setAccountCreditCardNum(rs.getString("AccountCreditCardNum"));
+			  temp_Account.setAccountSubscriptionEndDate(rs.getDate("AccountSubscriptionEndDate"));
+			  Account_Of_Specific_Customer.add(temp_Account);
+	 	  }  
+	  }
+	  catch (SQLException e) 
+	  {
+			e.printStackTrace();
+	  } 
+	  
+	  return Account_Of_Specific_Customer;
   }
   
   protected ArrayList<Complaint> Customer_Want_To_Take_His_Complaint(Object msg , Connection conn)

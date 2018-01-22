@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="594.0" prefWidth="844.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProfileController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="649.0" prefWidth="844.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProfileController">
    <children>
       <Label layoutX="251.0" layoutY="14.0" prefHeight="60.0" prefWidth="369.0" text="Customer - Profile" textFill="#0022ff">
          <font>
@@ -25,19 +25,19 @@
             <Font name="System Italic" size="13.0" />
          </font>
       </Label>
-      <Label layoutX="344.0" layoutY="158.0" text="- Customer Order Details -">
+      <Label layoutX="356.0" layoutY="254.0" text="- Customer Order Details -" textFill="#001eff">
          <font>
             <Font name="System Italic" size="13.0" />
          </font>
       </Label>
-      <Label layoutX="344.0" layoutY="347.0" text="- Customer Complaint Details -  ">
+      <Label layoutX="344.0" layoutY="431.0" text="- Customer Complaint Details -  " textFill="#002eff">
          <font>
             <Font name="System Italic" size="13.0" />
          </font>
       </Label>
       <TextField id="txtCustomerName" fx:id="txtCustomerName" layoutX="381.0" layoutY="82.0" prefHeight="25.0" prefWidth="114.0" />
       <TextField id="txtCustomerID" fx:id="txtCustomerID" layoutX="127.0" layoutY="82.0" prefHeight="25.0" prefWidth="105.0" />
-      <TableView id="Table_Order_Details" fx:id="Table_Order_Details" layoutX="32.0" layoutY="185.0" prefHeight="149.0" prefWidth="782.0">
+      <TableView id="Table_Order_Details" fx:id="Table_Order_Details" layoutX="31.0" layoutY="273.0" prefHeight="149.0" prefWidth="782.0">
         <columns>
           <TableColumn fx:id="Table_Column_Order_ID" prefWidth="56.99999237060547" text="Order ID" />
           <TableColumn fx:id="Table_Column_Store_ID" minWidth="0.0" prefWidth="81.0" text="Store ID" />
@@ -50,7 +50,7 @@
             <TableColumn fx:id="Table_Column_Refund" minWidth="6.33331298828125" prefWidth="87.00006103515625" text="Order Refund" />
         </columns>
       </TableView>
-      <TableView id="Table_Complaint_Details" fx:id="Table_Complaint_Details" layoutX="29.0" layoutY="375.0" prefHeight="149.0" prefWidth="782.0">
+      <TableView id="Table_Complaint_Details" fx:id="Table_Complaint_Details" layoutX="31.0" layoutY="450.0" prefHeight="149.0" prefWidth="782.0">
         <columns>
           <TableColumn fx:id="Table_Column_Complaint_ID" prefWidth="91.66665649414062" text="Complaint ID" />
           <TableColumn fx:id="Table_Column_Complaint_Date" prefWidth="121.33334350585938" text="Complaint Date" />
@@ -60,7 +60,7 @@
             <TableColumn fx:id="Table_Column_Complaint_Order_ID" prefWidth="175.0" text="Complaint Of - Order ID" />
         </columns>
       </TableView>
-      <Button id="btnBack" fx:id="btnBack" layoutX="407.0" layoutY="541.0" mnemonicParsing="false" onAction="#BackToCatalogOption" text="Back">
+      <Button id="btnBack" fx:id="btnBack" layoutX="408.0" layoutY="606.0" mnemonicParsing="false" onAction="#BackToCatalogOption" text="Back">
          <font>
             <Font name="System Italic" size="13.0" />
          </font>
@@ -71,5 +71,19 @@
          </font>
       </Label>
       <TextField id="txtCustomerPhone" fx:id="txtCustomerPhone" layoutX="663.0" layoutY="82.0" prefHeight="25.0" prefWidth="114.0" />
+      <TableView id="table_Account" fx:id="table_Account" layoutX="31.0" layoutY="173.0" prefHeight="71.0" prefWidth="782.0">
+        <columns>
+          <TableColumn id="table_Column_Account_Store_ID" fx:id="table_Column_Account_Store_ID" prefWidth="118.33334350585938" text="Account Store ID" />
+          <TableColumn id="table_Column_Account_Payment_Arrangment" fx:id="table_Column_Account_Payment_Arrangment" prefWidth="153.33331298828125" text="Payment Arrangement" />
+            <TableColumn id="table_Column_Account_Card_Number" fx:id="table_Column_Account_Card_Number" prefWidth="186.66668701171875" text="Credit Card Number" />
+            <TableColumn id="table_Column_Account_Balance_Card" fx:id="table_Column_Account_Balance_Card" minWidth="0.0" prefWidth="124.66668701171875" text="Balance Card" />
+            <TableColumn id="table_Column_End_Date" fx:id="table_Column_End_Date" prefWidth="199.33331298828125" text="Subscription End Date" />
+        </columns>
+      </TableView>
+      <Label layoutX="350.0" layoutY="154.0" text="- Customer Account Details -" textFill="#0b00ff">
+         <font>
+            <Font name="System Italic" size="13.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
