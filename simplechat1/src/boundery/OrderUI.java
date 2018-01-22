@@ -1,13 +1,9 @@
 package boundery;
-import java.util.Scanner;
 import java.util.Vector;
-import controller.CatalogController;
-import javafx.application.Application;
-import javafx.stage.Stage;
-import mypackage.ClientConsole;
 import entity.Order;
 import entity.Product;
-import entity.User;
+import javafx.application.Application;
+import javafx.stage.Stage;
 
 
 public class OrderUI extends Application /* With This Class We Show the Product GUI */
@@ -15,10 +11,7 @@ public class OrderUI extends Application /* With This Class We Show the Product 
 	public static Vector<Order> orders = new Vector<Order>();
 	public static Order order=null;
 	public static Vector<Integer> ordersNumbers = new Vector<Integer>(); //all the orders numbers he can to cancel
-	public static void main( String args[] ) throws Exception
-	{ 
-
-	} 
+	public static Vector<Product> productInOrder = new Vector<Product>(); //all the product for specific order
 	
 	@Override
 	public void start(Stage arg0) throws Exception 

@@ -70,8 +70,6 @@ public class ChatClient extends AbstractClient
 		  clientUI.addComplaint(msg);	  
 	  else if(((Message)msg).getOption().compareTo("get all the survey") ==0)
 		  clientUI.displayUI(msg);
-	  else if(((Message)msg).getOption().compareTo("get all the survey") ==0)
-		  clientUI.displayUI(msg);
 	  else if(((Message)msg).getOption().compareTo("get all stores from DB") ==0)
 		  clientUI.displayUI(msg);
 	  else if(((Message)msg).getOption().compareTo("Update customer account") ==0)
@@ -82,6 +80,8 @@ public class ChatClient extends AbstractClient
 		  clientUI.displayUI(msg);	
 	  else if(((Message)msg).getOption().compareTo("Get all orders for this customer") ==0)
 		  clientUI.displayUI(msg);
+	  else if(((Message)msg).getOption().compareTo("get all products in order") ==0)
+		  clientUI.displayUI(msg);
 	  else if(((Message)msg).getOption().compareTo("Get all complaints numbers for this customer service worker") ==0)
 		  clientUI.displayUI(msg);
 	  else if(((Message)msg).getOption().compareTo("Get complaint details") ==0)
@@ -91,11 +91,10 @@ public class ChatClient extends AbstractClient
 	  else if(((Message)msg).getOption().compareTo("Store manager want store number") ==0)
 		  clientUI.displayUI(msg);
 	  else if(((Message)msg).getOption().compareTo("Get all orders numbers for this customer can cancel") ==0)
-		  clientUI.displayUI(msg);
-	  //else if(((Message)msg).getOption().compareTo("Update complaint") ==0)
-	//	  clientUI.displayUI(msg);	  
+		  clientUI.displayUI(msg); 
 	  else if(((Message)msg).getOption().compareTo("Store Manager - Add Store To Combo Box From DB") == 0) 
-		  clientUI.displayUI(msg);	  else if(((Message)msg).getOption().compareTo("Store Manager - Take The Orders Of Specific Store") == 0) 
+		  clientUI.displayUI(msg);	  
+	  else if(((Message)msg).getOption().compareTo("Store Manager - Take The Orders Of Specific Store") == 0) 
 		  clientUI.displayUI(msg);
 	  else if(((Message)msg).getOption().compareTo("Store Manager - Take The Complaints Of Specific Store") == 0) 
 		  clientUI.displayUI(msg);

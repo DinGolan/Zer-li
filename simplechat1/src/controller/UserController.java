@@ -182,6 +182,7 @@ public class UserController implements Initializable {
 				break;
 			case CUSTOMER_SERVICE_WORKER:
 				permission = "CustomerServiceWorkerOptions";
+				//CustomerServiceWorkerController.checkComplaintsFlag=true;
 				break;
 			case CUSTOMER:
 				permission = "CustomerChooseStore";
@@ -196,6 +197,12 @@ public class UserController implements Initializable {
 				permission = "StoreWorkerOptions";
 				break;
 			}
+			
+			/*if (permission.equals("CustomerServiceWorkerOptions")) //customerServiceWorker
+				permission="24HoursComplaints";
+			else
+				permission = "/controller/" + permission + ".fxml";*/
+			
 			permission = "/controller/" + permission + ".fxml";
 			URL o = getClass().getResource(permission);
 			((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */

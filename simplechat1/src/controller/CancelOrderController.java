@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.InputStream;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -7,9 +8,13 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.ResourceBundle;
+
+import boundery.CatalogUI;
 import boundery.OrderUI;
 import boundery.UserUI;
 import entity.Message;
+import entity.Order;
+import entity.Product;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -20,8 +25,12 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -33,6 +42,7 @@ public class CancelOrderController implements Initializable{
 	public static boolean orderFlag=false;
 	public static boolean getCancelOrdersFlag=false;
 	public static boolean refundMsgflag=false;
+	public static boolean getProducstFlag=false;
 	
 	@FXML
 	private TextField txtOrderNum=null; //text field for the order number
@@ -52,7 +62,7 @@ public class CancelOrderController implements Initializable{
 	@FXML
 	private TextArea txtOrderCancelRefund=null; //text Area for the cancel order customer msg with the refund
 	
-	private String textRefundMsg=null; //string for the refund msg
+	private static String textRefundMsg=null; //string for the refund msg
 	
 	@FXML
 	private Button btnCancelOrderOpen=null; //button to open the order details
@@ -74,6 +84,24 @@ public class CancelOrderController implements Initializable{
 	private ComboBox <Integer> cmbOrdersForCustomer=null; //combobox to view all the orders for the specific customer
 	ObservableList<Integer> listForOrderCustomerComboBox;	
 
+	@FXML 
+	private TableView<CancelOrderItemRow> cancelOrder_table = new TableView<>();
+
+	@FXML 
+	private TableColumn<CancelOrderItemRow, Integer> tablecolumn_id = new TableColumn<>();
+	
+	@FXML 
+	private TableColumn<CancelOrderItemRow, String> tablecolumn_name = new TableColumn<>();
+	
+	@FXML 
+	private TableColumn<CancelOrderItemRow, Double> tablecolumn_price = new TableColumn<>();
+	
+	@FXML 
+	private TableColumn<CancelOrderItemRow, Integer> tablecolumn_quantity = new TableColumn<>();
+	
+	ObservableList<CancelOrderItemRow> cancelOrder = FXCollections.observableArrayList();
+	//ObservableList<String> productsId = FXCollections.observableArrayList();
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
@@ -94,9 +122,35 @@ public class CancelOrderController implements Initializable{
 			this.txtOrderReqDate.setText(String.valueOf(OrderUI.order.getRequiredSupplyDate())); //text field for the order required date
 			this.txtOrderReqTime.setText(String.valueOf(OrderUI.order.getRequiredSupplyTime())); //text field for the order required time
 			this.txtOrderTotalPrice.setText(String.valueOf(OrderUI.order.getOrderTotalPrice())); //text field for the order total price
+			
+			//to load the products in order table
+			Message msg=new Message(OrderUI.order.getOrderID(),"get all products in order"); ///לבנות שאילתאאאאאאאאאאאאאאאאאאאאאאאאא
+			System.out.println(OrderUI.productInOrder+"mayyyyyyyy");
+			UserUI.myClient.accept(msg);
+			while(getProducstFlag==false) 
+			{
+				System.out.print("");
+			}
+			getProducstFlag=false;
+			System.out.println(OrderUI.productInOrder+"mayyyyyyyy");
+			for(int i=0; i<OrderUI.productInOrder.size();i++)
+			{
+				Product p = OrderUI.productInOrder.get(i);
+				CancelOrderItemRow itemRow = new CancelOrderItemRow(p.getpID(), p.getpName(),p.getQuantity() ,p.getpPrice()); //add 1 product
+				cancelOrder.add(itemRow);
+			}
+			//CancelOrderItemRow itemRow = new CancelOrderItemRow(1234, "may",5 ,10.2); //add 1 product
+			//cancelOrder.add(itemRow);
+			
+			tablecolumn_id.setCellValueFactory(new PropertyValueFactory<CancelOrderItemRow, Integer>("m_id"));
+			tablecolumn_name.setCellValueFactory(new PropertyValueFactory<CancelOrderItemRow, String>("m_name"));
+			tablecolumn_quantity.setCellValueFactory(new PropertyValueFactory<CancelOrderItemRow, Integer>("m_quantity"));
+			tablecolumn_price.setCellValueFactory(new PropertyValueFactory<CancelOrderItemRow, Double>("m_price"));	
+			cancelOrder_table.setItems(cancelOrder);
+			//			
 			LoadOrderDetails=false;
 		}
-		//notttttttttttttttttttttt working!!!!!!!!!
+		
 		else if(refundMsgflag==true) //Initialized the order refund msg
 		{
 			System.out.println(textRefundMsg);
@@ -189,7 +243,6 @@ public class CancelOrderController implements Initializable{
 		}
 	}
 	
-	//עוד לא בניתי את הפונקציהההההה
 	public void cancelThisOrder(ActionEvent event) throws Exception  //To cancel this specific order
 	{ 
 		((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
@@ -202,26 +255,32 @@ public class CancelOrderController implements Initializable{
 		if((OrderUI.order.getRequiredSupplyDate().equals(today)) && (LocalTime.parse(OrderUI.order.getRequiredSupplyTime()).minusHours(1).isBefore(nowTime))) //if we are at the last hour before the supply time
 		{
 			textRefundMsg="The order has been canceled successfully. but you didn't get a refund!";
-			//OrderUI.order.set-->> to do set refund לעשות עדכון החזר
-			//OrderUI.order.set-->> to do set status
+			OrderUI.order.setRefund(0);
 		}
 		else if(((OrderUI.order.getRequiredSupplyDate().equals(today))&&(LocalTime.parse(OrderUI.order.getRequiredSupplyTime()).minusHours(3).isAfter(nowTime)))||(OrderUI.order.getRequiredSupplyDate().isAfter(today))) //if we are before 3 hours before the supply time
 		{
 			textRefundMsg="The order has been canceled successfully. You get "+OrderUI.order.getOrderTotalPrice()+" ILS credit to shop at Zer-li "+ UserUI.store.getStore_Address() +" branch";
-			//OrderUI.order.set-->> to do set refund לעשות עדכון החזר
-			//OrderUI.order.set-->> to do set status
+			OrderUI.order.setRefund(OrderUI.order.getOrderTotalPrice());
 		}
 		else //if we are between 1-3 hours before the supply time
 		{
 			textRefundMsg="The order has been canceled successfully. You get "+0.5*(OrderUI.order.getOrderTotalPrice())+" ILS credit to shop at Zer-li "+ UserUI.store.getStore_Address() +" branch";
-			//OrderUI.order.set-->> to do set refund לעשות עדכון החזר
-			//OrderUI.order.set-->> to do set status
+			OrderUI.order.setRefund(0.5*(OrderUI.order.getOrderTotalPrice()));
 		}
 		
 		refundMsgflag=true;
 		
-		//hereeeeeeeee to do update to the order status and the refund by quary
 		System.out.println(textRefundMsg);
+		OrderUI.order.setoStatus(Order.orderStatus.CANCEL); 
+		
+		Message msg = new Message(OrderUI.order , "update cancel order");
+		UserUI.myClient.accept(msg); // get order details from DB
+		
+		/*while(orderFlag==false)
+		{
+			System.out.print(""); //DOES NOT RUN WITHOUT THIS LINE
+		}
+		orderFlag=false;*/
 		
 		Pane root = loader.load(getClass().getResource("/controller/UpdateOrderCancelMsg.fxml").openStream());
 		Scene scene = new Scene(root);	

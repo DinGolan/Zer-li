@@ -342,7 +342,7 @@ public class OrderController implements Initializable{
 							pm = Account.PaymentMethod.CASH;
 						else
 							pm = Account.PaymentMethod.CREDITCARD;
-						Order saveOrder = new Order(s, totalPrice, CatalogController.order.getProductsInOrder(), localDate, UserUI.user.getId(), txtRequiredTime.getText(), txtAddress.getText(), txtRecipientsName.getText(), txtRecipientsPhoneNumber.getText(), txtPostCard.getText() , UserUI.store.getStoreId(), pm);
+						Order saveOrder = new Order(s, totalPrice, CatalogController.order.getProductsInOrder(), localDate, UserUI.user.getId(), txtRequiredTime.getText(), txtAddress.getText(), txtRecipientsName.getText(), txtRecipientsPhoneNumber.getText(), txtPostCard.getText() , UserUI.store.getStoreId(), pm,Order.orderStatus.APPROVED,0);
 						msg = new Message(saveOrder, "insert order to DB");
 						UserUI.myClient.accept(msg);
 						accountFlag = false;
