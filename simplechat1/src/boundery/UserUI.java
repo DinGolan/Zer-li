@@ -38,7 +38,10 @@ public class UserUI extends Application /* With This Class We Show the Product G
 	
 	@Override
 	public void stop(){
+		if(UserUI.user != null)
+		{
 		Message msg = new Message(UserUI.user.getId(), "change User status to DISCONNECTED");
 		UserUI.myClient.accept(msg); 						/* Change User status to DISCONNECTED in DB */
+		}
 	}
 }

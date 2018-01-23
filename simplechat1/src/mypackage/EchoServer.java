@@ -2763,10 +2763,10 @@ public class EchoServer extends AbstractServer
 	  LocalDate today = LocalDate.now();
 	  Date date = null;
 	  Account.PaymentArrangement arrangement = null;
-	  String userId = (String)((Message)msg).getMsg();
+	  ArrayList<Object> user = (ArrayList<Object>)((Message)msg).getMsg();
 	  try {
 		  stmt = conn.createStatement();
-		  String getCustomerAccount = "SELECT * FROM project.account WHERE AccountUserId='"+userId+"'; " ;
+		  String getCustomerAccount = "SELECT * FROM project.account WHERE AccountUserId='"+user.get(0)+"' AND AccountStoreId="+user.get(1)+";";
 		  ResultSet rs = stmt.executeQuery(getCustomerAccount);
 		  while(rs.next())
 		 	{
@@ -2779,11 +2779,11 @@ public class EchoServer extends AbstractServer
 			  {
 				  if(today.getYear()>date.getYear() ||  (today.getYear() == date.getYear() && today.getMonthValue()>date.getMonth()) || (today.getYear() == date.getYear() && today.getMonthValue() == date.getMonth() && today.getDayOfMonth() > date.getDate())) // check end date of PaymentArrangement
 				  {
-					  getCustomerAccount="UPDATE project.account SET AccountPaymentArrangement='FULLPRICE' WHERE AccountUserId='"+userId+"';";
+					  getCustomerAccount="UPDATE project.account SET AccountPaymentArrangement='FULLPRICE' WHERE AccountUserId='"+user.get(0)+"';";
 					  stmt.executeUpdate(getCustomerAccount);
 				  }
 			  }
-			  getCustomerAccount = "SELECT * FROM project.account WHERE AccountUserId='"+userId+"'; " ;
+			  getCustomerAccount = "SELECT * FROM project.account WHERE AccountUserId='"+user.get(0)+"'; " ;
 			  rs = stmt.executeQuery(getCustomerAccount);
 			  while(rs.next())
 			 	{
