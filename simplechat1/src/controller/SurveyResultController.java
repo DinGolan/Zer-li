@@ -40,6 +40,13 @@ public class SurveyResultController implements Initializable{
 	@FXML
 	private Button btnAdd = null; /* button close for close product form */
 	@FXML
+	private Button btnCloseStore = null; /* button close for close product form */
+	@FXML
+	private Button btnCloseDate = null; /* button close for close product form */
+	@FXML
+	private Button btnCloseCustomer = null; /* button close for close product form */
+	
+	@FXML
 	private ComboBox cmbSurveyId= null;  /* ComboBox With List Of Product */
 	@FXML
 	private ComboBox cmbSurveyStore= null;  
@@ -50,7 +57,8 @@ public class SurveyResultController implements Initializable{
 	private ArrayList<Integer> temp;
 	private Message msg,msg2;
 	private ObservableList<Integer> slist;
-	public static boolean flag = false,flag2=false;
+	public static boolean flag = false,flag2=false,flagError=false;
+	public static String errorMsg= null;
 	
 	private static int itemIndex = 1; /* This Variable Need for the the Case - that we not choose any Product from the ComboBox , so we take the product that in Index 2 By Defualt */
 
@@ -77,7 +85,7 @@ public class SurveyResultController implements Initializable{
 		return cmb.getSelectionModel().getSelectedIndex();
 	}
 	
-	public void addSurveyResult() {
+	public void addSurveyResult(ActionEvent event) throws IOException {
 		ArrayList<Integer> i = new ArrayList<Integer>();
 		i.add(UserUI.Id.get(getItemIndex(cmbSurveyId)));
 		i.add(getItemIndex(cmbAnswer1) +1);
@@ -86,9 +94,11 @@ public class SurveyResultController implements Initializable{
 		i.add(getItemIndex(cmbAnswer4) +1);
 		i.add(getItemIndex(cmbAnswer5) +1);
 		i.add(getItemIndex(cmbAnswer6) +1);
-		UserUI.store.setStoreId(4); // to delete
-		i.add(UserUI.store.getStoreId());
+		i.add(getItemIndex(cmbSurveyStore) +1);
+		i.add(UserUI.CId.get(getItemIndex(cmbSurveyCustomerId)));
 
+		// add customer id----------------------------------
+		
 		//if(resulrId.contains(i.get(0))==true)
 		//{
 			//msg = new Message(i, "update surveyResult");
@@ -96,8 +106,61 @@ public class SurveyResultController implements Initializable{
 		//else {
 			msg = new Message(i, "add surveyResult");
 		//}
-		
 			UserUI.myClient.accept(msg);
+			
+			while(errorMsg == null)
+			{
+				System.out.print("");
+			}
+			
+			if(errorMsg.compareTo("The storeId is not correct") ==0)
+			{
+				 errorMsg = null;
+				flagError =true;
+				Pane root = null;
+				Stage primaryStage = new Stage(); //Object present window with graphics elements
+				FXMLLoader loader = new FXMLLoader(); //load object
+				((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
+				root = loader.load(getClass().getResource("/controller/errorMsgStore.fxml").openStream());
+				Scene scene = new Scene(root);			
+				primaryStage.setScene(scene);	
+				primaryStage.setTitle("Error msg");
+				primaryStage.show();
+			}
+			else if(errorMsg.compareTo("Error your date not between start and end date of the survey")==0) {
+				flagError =true;
+				 errorMsg = null;
+				Pane root = null;
+				Stage primaryStage = new Stage(); //Object present window with graphics elements
+				FXMLLoader loader = new FXMLLoader(); //load object
+				((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
+				root = loader.load(getClass().getResource("/controller/errorMsgDate.fxml").openStream());
+				Scene scene = new Scene(root);			
+				primaryStage.setScene(scene);	
+				primaryStage.setTitle("Error msg");
+				primaryStage.show();
+			}
+			
+			else if(errorMsg.compareTo("customer twice")==0) {
+				flagError =true;
+				 errorMsg = null;
+				Pane root = null;
+				Stage primaryStage = new Stage(); //Object present window with graphics elements
+				FXMLLoader loader = new FXMLLoader(); //load object
+				((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
+				root = loader.load(getClass().getResource("/controller/errorMsgCustomer.fxml").openStream());
+				Scene scene = new Scene(root);			
+				primaryStage.setScene(scene);	
+				primaryStage.setTitle("Error msg");
+				primaryStage.show();
+			}
+			
+			else if(errorMsg.compareTo("succed!")==0) {
+			     flagError =false;
+				 errorMsg = null;
+				 Close(event);
+			}
+			
 	}
 	
 	public void Close(ActionEvent event) throws IOException {
@@ -116,8 +179,10 @@ public class SurveyResultController implements Initializable{
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		if(flagError ==false)
+		{
 		temp = new ArrayList<Integer>();
-		/*msg = new Message(temp, "get all the survey");
+		msg = new Message(temp, "get all the survey");
 		//UserUI.Id.clear();
 		UserUI.myClient.accept(msg);
 		while(SurveyResultController.flag == false)
@@ -128,7 +193,7 @@ public class SurveyResultController implements Initializable{
 		flag = false;
 		//CustomerServiceWorkerButton.flag =false;
 		slist = FXCollections.observableArrayList(UserUI.Id);
-		cmbSurveyId.setItems(slist); // initelize id combo box*/
+		cmbSurveyId.setItems(slist); // initelize id combo box
 		Integer[] answar = new Integer[] {1, 2, 3, 4, 5};
 		Integer[] storeId = new Integer[] {1, 2, 3, 4};
 		slist = FXCollections.observableArrayList(answar);
@@ -141,9 +206,16 @@ public class SurveyResultController implements Initializable{
 		slist = FXCollections.observableArrayList(storeId);
 		cmbSurveyStore.setItems(slist);
 		
+		
+		//Integer[] tempCustoemr = new Integer[] {308155123, 308155147, 308155308, 308155555, 308155125};
+		//slist = FXCollections.observableArrayList(tempCustoemr);
+		//cmbSurveyCustomerId.setItems(slist);
+		
 		// get customer id--------------------------------------
-		msg2 = new Message(temp, "get all the customerId");
-		UserUI.myClient.accept(msg2);
+		msg.setOption("get all the customerId");
+		UserUI.myClient.accept(msg);
+		//msg2 = new Message(temp, "get all the customerId");
+		//UserUI.myClient.accept(msg2);
 		while(SurveyResultController.flag2 == false)
 		{
 			System.out.print("SACA");
@@ -153,8 +225,25 @@ public class SurveyResultController implements Initializable{
 		//CustomerServiceWorkerButton.flag =false;
 		slist = FXCollections.observableArrayList(UserUI.CId);
 		cmbSurveyCustomerId.setItems(slist); // initelize id combo box
-
+		}
+		
 		
 	}
+	
+	public void CloseError(ActionEvent event) throws IOException {
+		flagError = false;
+		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+		Stage primaryStage = new Stage();
+		FXMLLoader loader = new FXMLLoader();
+		Pane root = loader.load(getClass().getResource("/controller/SurveyResultFrame.fxml").openStream());
+		
+		Scene scene = new Scene(root);			
+		
+		primaryStage.setScene(scene);		
+		primaryStage.show();		
+
+	}
+	
+	
 
 }

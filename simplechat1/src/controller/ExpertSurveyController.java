@@ -29,6 +29,9 @@ public class ExpertSurveyController implements Initializable {
 	@FXML
 	private Button btnAddConclusion = null; /* button close for close product form */
 	@FXML
+	private Button btnInfo = null; /* button close for close product form */
+
+	@FXML
 	private ComboBox cmbSurveyId;  /* ComboBox With List Of Product */
 	
 	private ArrayList<Integer> temp;
@@ -66,11 +69,23 @@ public class ExpertSurveyController implements Initializable {
 	
 	public void addConclusion() {
 		ArrayList<String> i = new ArrayList<String>();
-		i.add(Integer.toString(UserUI.Id.get(getItemIndex(cmbSurveyId))));
-		i.add(txt1.getText());
+		i.add(Integer.toString(UserUI.Id.get(getItemIndex(cmbSurveyId))));//id
+		i.add(txt1.getText());//conclusion
 		msg2 = new Message(i, "add surveyConclusion");	
 		UserUI.myClient.accept(msg2);
 
+	}
+	
+	public void openInfo(ActionEvent event)throws IOException  {
+		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+		Stage primaryStage = new Stage();
+		FXMLLoader loader = new FXMLLoader();
+		Pane root = loader.load(getClass().getResource("/controller/ExpertOptions.fxml").openStream());
+		
+		Scene scene = new Scene(root);			
+		
+		primaryStage.setScene(scene);		
+		primaryStage.show();	
 	}
 	
 	public void close(ActionEvent event)throws IOException  {

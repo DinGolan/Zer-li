@@ -16,7 +16,7 @@
                   <Font name="System Bold" size="35.0" />
                </font>
             </Label>
-            <TextArea id="txt1" fx:id="txt1" layoutX="109.0" layoutY="191.0" prefHeight="200.0" prefWidth="339.0" />
+            <TextArea id="txt1" fx:id="txt1" layoutX="109.0" layoutY="203.0" prefHeight="188.0" prefWidth="339.0" />
             <Button id="btnAddConclusion" fx:id="btnAddConclusion" layoutX="158.0" layoutY="425.0" mnemonicParsing="false" onAction="#addConclusion" text="Add">
                <font>
                   <Font size="18.0" />
@@ -27,7 +27,12 @@
                   <Font size="18.0" />
                </font>
             </Button>
-            <ComboBox id="cmbSurveyId" fx:id="cmbSurveyId" layoutX="204.0" layoutY="103.0" prefWidth="150.0" />
+            <ComboBox id="cmbSurveyId" fx:id="cmbSurveyId" layoutX="186.0" layoutY="90.0" prefWidth="150.0" />
+            <Button layoutX="229.0" layoutY="136.0" mnemonicParsing="false" text="Info">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
          </children>
       </AnchorPane>
    </children>

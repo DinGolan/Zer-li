@@ -22,7 +22,9 @@ import controller.CatalogController;
 import controller.ComplaintController;
 import controller.ComplaintHandleController;
 import controller.CustomerController;
-import controller.OrderController;import controller.StoreManagerController;import controller.SurveyResultController;
+import controller.OrderController;import controller.StoreManagerController;
+import controller.SurveyController;
+import controller.SurveyResultController;
 import controller.UserController;
 import entity.Account;
 import entity.Complaint;
@@ -126,6 +128,47 @@ public class ClientConsole implements ChatIF
   @SuppressWarnings("unchecked")
 public void displayUI(Object message) 
   {
+	  if(((Message)message).getOption().compareTo("succed!") ==0) 
+	  {
+		  SurveyResultController.errorMsg = "succed!";
+	  }
+	  
+	  if(((Message)message).getOption().compareTo("Error your date not between start and end date of the survey") ==0) 
+	  {
+		  SurveyResultController.errorMsg = "Error your date not between start and end date of the survey";
+	  }
+	  
+	  if(((Message)message).getOption().compareTo("The storeId is not correct") ==0) 
+	  {
+
+		  SurveyResultController.errorMsg = "The storeId is not correct";
+	  }
+	  
+	  if(((Message)message).getOption().compareTo("customer twice") ==0) 
+	  {
+
+		  SurveyResultController.errorMsg = "customer twice";
+	  }
+	  if(((Message)message).getOption().compareTo("succed!") ==0) 
+	  {
+		  System.out.println("CCCC");
+		  SurveyResultController.errorMsg = "succed!";
+	  }
+	  
+	  if(((Message)message).getOption().compareTo("date between error") ==0) 
+	  {
+		  SurveyController.errorMsg = "date between error";
+	  }
+	  
+	  if(((Message)message).getOption().compareTo("error store have survey") ==0) 
+	  {
+		  SurveyController.errorMsg = "error store have survey";
+	  }
+	  
+	  if(((Message)message).getOption().compareTo("succes survey") ==0) 
+	  {
+		  SurveyController.errorMsg = "succes survey";
+	  }
 	    if(((Message)message).getOption().compareTo("get all products in DB") ==0) 		/* Check that its update */
 	    {
 	  	  	int i=0;
