@@ -13,23 +13,13 @@ import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-
 import java.time.LocalTime;
 import java.util.ArrayList;
-
-
-import java.time.LocalTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Vector;
 import com.mysql.jdbc.PreparedStatement;
-
-import boundery.OrderUI;
 import controller.EchoServerController;
 import entity.Account;
 import entity.Complaint;
@@ -42,7 +32,6 @@ import entity.Report;
 import entity.Store;
 import entity.Survey;
 import entity.User;
-import entity.Order.orderStatus;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 
@@ -60,6 +49,7 @@ public class EchoServer extends AbstractServer
 {
   //Class variables *************************************************
   static String url,username,password,name;
+  
   /**
    * The default port to listen on.
    */
@@ -92,7 +82,7 @@ public class EchoServer extends AbstractServer
   {
 	  	Connection conn = connectToDB();
 	    System.out.println("Message received: " + msg + " from " + client);
-	    changeOrderStatusToRecived(conn);
+	    
 	    if(((Message)msg).getOption().compareTo("0") == 0) 		/* Check that its update */
 	    		UpdateProductName(msg,conn); 
 	    
@@ -431,11 +421,12 @@ public class EchoServer extends AbstractServer
 	  String Customer_User_ID = Customer_User.getId();
 	  Account temp_Account;
 	  ArrayList<Account> Account_Of_Specific_Customer = new ArrayList<Account>();
+	  String Scheme_Name = EchoServerController.Scheme;
 	  
 	  try 
 	  {	
 		  stmt = conn.createStatement();
-		  String getAccount_Of_Customer_Account_Table = "SELECT * FROM project.account WHERE AccountUserId = " + "'" + Customer_User_ID + "'" + ";"; 
+		  String getAccount_Of_Customer_Account_Table = "SELECT * FROM" + Scheme_Name + ".account WHERE AccountUserId = " + "'" + Customer_User_ID + "'" + ";"; 
 		  ResultSet rs = stmt.executeQuery(getAccount_Of_Customer_Account_Table);
 		  while(rs.next())
 	 	  {
@@ -463,11 +454,12 @@ public class EchoServer extends AbstractServer
 	  String Customer_User_ID = Customer_User.getId();
 	  Complaint temp_Complaint;
 	  ArrayList<Complaint> Complaint_Of_Specific_Customer = new ArrayList<Complaint>();
+	  String Scheme_Name = EchoServerController.Scheme;
 	  
 	  try 
 	  {	
 		  stmt = conn.createStatement();
-		  String getComplaint_Of_Customer_Complaint_Table = "SELECT * FROM project.complaint WHERE ComplaintUserId = " + "'" + Customer_User_ID + "'" + ";"; 
+		  String getComplaint_Of_Customer_Complaint_Table = "SELECT * FROM" + Scheme_Name + ".complaint WHERE ComplaintUserId = " + "'" + Customer_User_ID + "'" + ";"; 
 		  ResultSet rs = stmt.executeQuery(getComplaint_Of_Customer_Complaint_Table);
 		  while(rs.next())
 	 	  {
@@ -496,13 +488,14 @@ public class EchoServer extends AbstractServer
 	  String Customer_User_ID = Customer_User.getId();
 	  Order temp_Order;
 	  Vector<Order> Orders_Of_Specific_Customer = new Vector<Order>();
-	  HashMap<Product.ProductType,Integer> Product_Of_Specific_Order; 
+	  HashMap<Product.ProductType,Integer> Product_Of_Specific_Order;
+	  String Scheme_Name = EchoServerController.Scheme;
 	  
 	  
 	  try 
 	  {  
 			  stmt = conn.createStatement();
-			  String getOrder_Of_Customer_Order_Table = "SELECT * FROM project.order WHERE customerID = " + "'" + Customer_User_ID + "'" + ";"; 
+			  String getOrder_Of_Customer_Order_Table = "SELECT * FROM" + Scheme_Name + ".order WHERE customerID = " + "'" + Customer_User_ID + "'" + ";"; 
 			  ResultSet rs = stmt.executeQuery(getOrder_Of_Customer_Order_Table);
 			  while(rs.next())
 		 	  {
@@ -523,7 +516,7 @@ public class EchoServer extends AbstractServer
 			  
 			  for(int i = 0 ; i < Orders_Of_Specific_Customer.size() ; i++)
 			  {
-				  String get_Product_From_Specific_Order = "SELECT * FROM project.productinorder WHERE OrderID = " + "'" + Orders_Of_Specific_Customer.get(i).getOrderID() + "'" + ";"; 
+				  String get_Product_From_Specific_Order = "SELECT * FROM" + Scheme_Name + ".productinorder WHERE OrderID = " + "'" + Orders_Of_Specific_Customer.get(i).getOrderID() + "'" + ";"; 
 				  ResultSet rs_2 = stmt.executeQuery(get_Product_From_Specific_Order);
 				  Product_Of_Specific_Order = new HashMap<Product.ProductType,Integer>();
 				  while(rs_2.next())
@@ -550,10 +543,12 @@ public class EchoServer extends AbstractServer
 	  ArrayList<String> Store_Details = new ArrayList<String>();
 	  String Store_Num;
 	  String Store_Address;
+	  String Scheme_Name = EchoServerController.Scheme;
+	  
 	  try 
 	  {
 		  stmt = conn.createStatement();
-		  String Get_Store_Num = "SELECT * FROM project.storeworkers WHERE StoreEmployeeUserId = " + "'" + User_ID  + "'" + ";" ;
+		  String Get_Store_Num = "SELECT * FROM " + Scheme_Name + ".storeworkers WHERE StoreEmployeeUserId = " + "'" + User_ID  + "'" + ";" ;
 		  ResultSet rs = stmt.executeQuery(Get_Store_Num);
 		  while(rs.next())
 		  {
@@ -561,7 +556,7 @@ public class EchoServer extends AbstractServer
 			  Store_Details.add(Store_Num);
 		  } 
 		  
-		  String Get_Store_Address = "SELECT * FROM project.store WHERE StoreID = " + "'" + Store_Details.get(0)  + "'" + ";" ;  /* Store_Details.get(0) = Store ID Of Specific Store */
+		  String Get_Store_Address = "SELECT * FROM " + Scheme_Name + ".store WHERE StoreID = " + "'" + Store_Details.get(0)  + "'" + ";" ;  /* Store_Details.get(0) = Store ID Of Specific Store */
 		  ResultSet rs_2 = stmt.executeQuery(Get_Store_Address);
 		  while(rs_2.next())
 		  {
@@ -584,6 +579,7 @@ public class EchoServer extends AbstractServer
 	  int Number_Of_Quarter;
 	  String localDate;
 	  Statement stmt;
+	  String Scheme_Name = EchoServerController.Scheme;
 	  
 	  /* ------------ Get The Value From The ArrayList ------------ */
 	  All_Stores = (ArrayList<Store>)Vector_From_Thread.get(0);
@@ -595,7 +591,7 @@ public class EchoServer extends AbstractServer
 		  stmt = conn.createStatement();
 		  for(int i = 0 ; i < All_Stores.size() ; i++)      /* In this For We Insert For Each Store The 'Big Report' That Include All The 'Small Report' */
 		  {
-			  String Report_Query = "INSERT INTO project.report " + " (storeID, QuarterNumber, DateOfCreateReport)" + " VALUES (" + "'" + All_Stores.get(i).getStoreId() + "'"
+			  String Report_Query = "INSERT INTO " + Scheme_Name + ".report " + " (storeID, QuarterNumber, DateOfCreateReport)" + " VALUES (" + "'" + All_Stores.get(i).getStoreId() + "'"
 					  + ", " + "'" + Number_Of_Quarter + "'" + ", " + "'" + localDate + "'" +")";
 			  stmt.executeUpdate(Report_Query);
 		  } 
@@ -612,10 +608,12 @@ public class EchoServer extends AbstractServer
 	  Statement stmt;
 	  String s;
 	  Store sr;
+	  String Scheme_Name = EchoServerController.Scheme;
+	  
 	  try 
 	  {
 		  stmt = conn.createStatement();
-		  String getStoresTable = "SELECT * FROM store;"; 				/* Get all the Table Of Store from the DB */
+		  String getStoresTable = "SELECT * FROM " + Scheme_Name + ".store;"; 				/* Get all the Table Of Store from the DB */
 		  ResultSet rs = stmt.executeQuery(getStoresTable);
 		  while(rs.next())
 	 	  {
@@ -658,6 +656,7 @@ public class EchoServer extends AbstractServer
 	  Order temp_Order = null;
 	  Product temp_Product = null;
 	  Survey temp_Survey = null;
+	  String Scheme_Name = EchoServerController.Scheme;
 	  
 	  /* The Expected ArrayList<Object> --->
 	   * Index 0 = First Store ID 
@@ -695,7 +694,7 @@ public class EchoServer extends AbstractServer
 		  /* ------------------------------------------------- Store 1 ------------------------------------------------------------------------ */
 		  
 		  stmt = conn.createStatement();
-		  String getQuarterNumber_Store_One_Table = "SELECT * FROM project.report WHERE storeID = " + "'" + Store_One_ID + "'" + "AND DateOfCreateReport = " + "'" + Date_Report_Store_One + "'" + ";"; 
+		  String getQuarterNumber_Store_One_Table = "SELECT * FROM " + Scheme_Name + ".report WHERE storeID = " + "'" + Store_One_ID + "'" + "AND DateOfCreateReport = " + "'" + Date_Report_Store_One + "'" + ";"; 
 		  ResultSet rs = stmt.executeQuery(getQuarterNumber_Store_One_Table);
 		  while(rs.next())
 	 	  {
@@ -705,7 +704,7 @@ public class EchoServer extends AbstractServer
 		  
 		  /* ------------------------------------------------- Store 2 ------------------------------------------------------------------------ */
 		  
-		  String getQuarterNumberStore_Two_Table = "SELECT * FROM project.report WHERE storeID = " + "'" + Store_Two_ID + "'" + "AND DateOfCreateReport = " + "'" + Date_Report_Store_Two + "'" + ";"; 
+		  String getQuarterNumberStore_Two_Table = "SELECT * FROM " + Scheme_Name + ".report WHERE storeID = " + "'" + Store_Two_ID + "'" + "AND DateOfCreateReport = " + "'" + Date_Report_Store_Two + "'" + ";"; 
 		  ResultSet rs_2 = stmt.executeQuery(getQuarterNumberStore_Two_Table);
 		  while(rs_2.next())
 	 	  {
@@ -728,8 +727,9 @@ public class EchoServer extends AbstractServer
 		  
 		  String Approved = "APPROVED"; 
 		  String Cancel = "CANCEL"; 
+		  String Recieved = "RECIVED";
 		  
-		  String getOrderNumber_Of_Store_One = "SELECT * FROM project.order WHERE StoreID = " + "'" + Store_One_ID + "'" + "AND orderStatus = " + "'" +  Approved  + "'" + ";";  
+		  String getOrderNumber_Of_Store_One = "SELECT * FROM " + Scheme_Name + ".order WHERE StoreID = " + "'" + Store_One_ID + "'" + "AND (orderStatus = " + "'" +  Approved  + "'" + "OR orderStatus = " + "'" + Recieved + "'" + ")" + ";";  
 		  ResultSet rs_3 = stmt.executeQuery(getOrderNumber_Of_Store_One);
 		  while(rs_3.next())
 	 	  {
@@ -764,7 +764,7 @@ public class EchoServer extends AbstractServer
 		  Real_Year = Integer.parseInt(String.valueOf(Date_Report_Store_Two).substring(0,4)); /* The Real Year */
 		  
 		   
-		  String getOrderNumber_Of_Store_Two = "SELECT * FROM project.order WHERE StoreID = " + "'" + Store_Two_ID + "'" + "AND orderStatus = " + "'" +  Approved  + "'" + ";"; 
+		  String getOrderNumber_Of_Store_Two = "SELECT * FROM " + Scheme_Name + ".order WHERE StoreID = " + "'" + Store_Two_ID + "'" + "AND (orderStatus = " + "'" +  Approved  + "'" + "OR orderStatus = " + "'" + Recieved + "'" + ")" + ";";   
 		  ResultSet rs_4 = stmt.executeQuery(getOrderNumber_Of_Store_Two);
 		  while(rs_4.next())
 	 	  {
@@ -800,7 +800,7 @@ public class EchoServer extends AbstractServer
 		  
 		  for(int i = 0 ; i < Order_From_DB_Store_1.size() ; i++)
 		  {
-			  String getProduct_Type_Of_Store_One = "SELECT * FROM project.productinorder WHERE OrderID = " + "'" + Order_From_DB_Store_1.get(i).getOrderID() + "'" + ";"; 
+			  String getProduct_Type_Of_Store_One = "SELECT * FROM " + Scheme_Name + ".productinorder WHERE OrderID = " + "'" + Order_From_DB_Store_1.get(i).getOrderID() + "'" + ";"; 
 			  ResultSet rs_5 = stmt.executeQuery(getProduct_Type_Of_Store_One);
 			  while(rs_5.next())
 		 	  {
@@ -838,7 +838,7 @@ public class EchoServer extends AbstractServer
 		  
 		  for(int i = 0 ; i < Order_From_DB_Store_2.size() ; i++)
 		  {
-			  String getProduct_Type_Of_Store_Two = "SELECT * FROM project.productinorder WHERE OrderID = " + "'" + Order_From_DB_Store_2.get(i).getOrderID() + "'" + ";"; 
+			  String getProduct_Type_Of_Store_Two = "SELECT * FROM " + Scheme_Name + ".productinorder WHERE OrderID = " + "'" + Order_From_DB_Store_2.get(i).getOrderID() + "'" + ";"; 
 			  ResultSet rs_6 = stmt.executeQuery(getProduct_Type_Of_Store_Two);
 			  while(rs_6.next())
 		 	  {
@@ -899,7 +899,7 @@ public class EchoServer extends AbstractServer
 		  for(int i = 0 ; i < Order_From_DB_Store_1.size() ; i++)
 		  {
 			  Revenue_Of_Specific_Order = Order_From_DB_Store_1.get(i).getOrderTotalPrice();
-			  String getComlaint_Of_Store_One = "SELECT * FROM project.complaint WHERE ComplaintOrderId = " + "'" + Order_From_DB_Store_1.get(i).getOrderID() + "'" + ";"; 
+			  String getComlaint_Of_Store_One = "SELECT * FROM " + Scheme_Name + ".complaint WHERE ComplaintOrderId = " + "'" + Order_From_DB_Store_1.get(i).getOrderID() + "'" + ";"; 
 			  ResultSet rs_7 = stmt.executeQuery(getComlaint_Of_Store_One);
 			  
 			  while(rs_7.next())
@@ -935,7 +935,7 @@ public class EchoServer extends AbstractServer
 		  String String_Year_Date_Of_Report_Of_Store_One = String.valueOf(Date_Report_Store_One).substring(0, 4);   
 		  int Integer_Year_Date_Of_Report_Of_Store_One  = Integer.parseInt(String_Year_Date_Of_Report_Of_Store_One);
 		     
-		  String getOrders_That_Canceled_OfSpecificStore_One_Table = "SELECT * FROM project.order WHERE StoreID = " + "'" + Store_One_ID + "'" + "AND orderStatus = " + "'" +  Cancel  + "'" + ";";  
+		  String getOrders_That_Canceled_OfSpecificStore_One_Table = "SELECT * FROM " + Scheme_Name + ".order WHERE StoreID = " + "'" + Store_One_ID + "'" + "AND orderStatus = " + "'" +  Cancel  + "'" + ";";  
 		  ResultSet rs_13 = stmt.executeQuery(getOrders_That_Canceled_OfSpecificStore_One_Table);
 		    
 		  while(rs_13.next())
@@ -965,7 +965,7 @@ public class EchoServer extends AbstractServer
 		  
 	 	 for(int i = 0 ; i < Canceled_Order_Of_Store_One.size() ; i++ ) 
 	 	 {
-	 		 String getOrders_That_Canceled_OfSpecificStore_From_Complaint_One_Table = "SELECT * FROM project.complaint WHERE ComplaintOrderId = " + "'" + Canceled_Order_Of_Store_One.get(i).getOrderID() + "'" + ";";  
+	 		 String getOrders_That_Canceled_OfSpecificStore_From_Complaint_One_Table = "SELECT * FROM " + Scheme_Name + ".complaint WHERE ComplaintOrderId = " + "'" + Canceled_Order_Of_Store_One.get(i).getOrderID() + "'" + ";";  
 	 		 ResultSet rs_15 = stmt.executeQuery(getOrders_That_Canceled_OfSpecificStore_From_Complaint_One_Table);
 	 		 while(rs_15.next())
 		 	 {
@@ -987,7 +987,7 @@ public class EchoServer extends AbstractServer
 		  for(int i = 0 ; i < Order_From_DB_Store_2.size() ; i++)
 		  {
 			  Revenue_Of_Specific_Order = Order_From_DB_Store_2.get(i).getOrderTotalPrice();
-			  String getComlaint_Of_Store_Two = "SELECT * FROM project.complaint WHERE ComplaintOrderId = " + "'" + Order_From_DB_Store_2.get(i).getOrderID() + "'" + ";"; 
+			  String getComlaint_Of_Store_Two = "SELECT * FROM " + Scheme_Name + ".complaint WHERE ComplaintOrderId = " + "'" + Order_From_DB_Store_2.get(i).getOrderID() + "'" + ";"; 
 			  ResultSet rs_8 = stmt.executeQuery(getComlaint_Of_Store_Two);
 			  
 			  while(rs_8.next())
@@ -1023,7 +1023,7 @@ public class EchoServer extends AbstractServer
 		  String String_Year_Date_Of_Report_Of_Store_2 = String.valueOf(Date_Report_Store_Two).substring(0, 4);   
 		  int Integer_Year_Date_Of_Report_Of_Store_2  = Integer.parseInt(String_Year_Date_Of_Report_Of_Store_2);
 		     
-		  String getOrders_That_Canceled_OfSpecificStoreTable_2 = "SELECT * FROM project.order WHERE StoreID = " + "'" + Store_Two_ID + "'" + "AND orderStatus = " + "'" +  Cancel  + "'" + ";";  
+		  String getOrders_That_Canceled_OfSpecificStoreTable_2 = "SELECT * FROM " + Scheme_Name + ".order WHERE StoreID = " + "'" + Store_Two_ID + "'" + "AND orderStatus = " + "'" +  Cancel  + "'" + ";";  
 		  ResultSet rs_14 = stmt.executeQuery(getOrders_That_Canceled_OfSpecificStoreTable_2);
 		      
 		  while(rs_14.next())
@@ -1053,7 +1053,7 @@ public class EchoServer extends AbstractServer
 	 	  
 	 	 for(int i = 0 ; i < Canceled_Order_Of_Store_Two.size() ; i++ ) 
 	 	 {
-	 		 String getOrders_That_Canceled_OfSpecificStore_From_Complaint_Two_Table = "SELECT * FROM project.complaint WHERE ComplaintOrderId = " + "'" + Canceled_Order_Of_Store_Two.get(i).getOrderID() + "'" + ";";  
+	 		 String getOrders_That_Canceled_OfSpecificStore_From_Complaint_Two_Table = "SELECT * FROM " + Scheme_Name + ".complaint WHERE ComplaintOrderId = " + "'" + Canceled_Order_Of_Store_Two.get(i).getOrderID() + "'" + ";";  
 	 		 ResultSet rs_16 = stmt.executeQuery(getOrders_That_Canceled_OfSpecificStore_From_Complaint_Two_Table);
 	 		 while(rs_16.next())
 		 	 {
@@ -1088,7 +1088,7 @@ public class EchoServer extends AbstractServer
 		  Real_Quarter_Number = Integer.parseInt((String.valueOf(All_The_Object_To_Return.get(2))));
 		  Real_Year = Integer.parseInt(String.valueOf(Date_Report_Store_One).substring(0,4));      /* The Real Year */
 		  
-		  String getSurvey_Of_Store_One = "SELECT * FROM project.survey WHERE StoreID = " + "'" + Store_One_ID + "'" + ";" ; 
+		  String getSurvey_Of_Store_One = "SELECT * FROM " + Scheme_Name + ".survey WHERE StoreID = " + "'" + Store_One_ID + "'" + ";" ; 
 		  ResultSet rs_9 = stmt.executeQuery(getSurvey_Of_Store_One);
 		  while(rs_9.next())
 		  {
@@ -1115,7 +1115,7 @@ public class EchoServer extends AbstractServer
 		  
 		  for(int i = 0 ; i < Survey_Of_Store_One.size() ; i++)
 		  {
-			  String getAnswer_Of_Specific_Survey_At_Store_One = "SELECT * FROM project.survey_result WHERE Surveyid = " + "'" + Survey_Of_Store_One.get(i).getSurvey_Id() + "'" + "AND storeId = " + "'" + Survey_Of_Store_One.get(i).getStore_ID() + "'" + ";"; 
+			  String getAnswer_Of_Specific_Survey_At_Store_One = "SELECT * FROM " + Scheme_Name + ".survey_result WHERE Surveyid = " + "'" + Survey_Of_Store_One.get(i).getSurvey_Id() + "'" + "AND storeId = " + "'" + Survey_Of_Store_One.get(i).getStore_ID() + "'" + ";"; 
 			  ResultSet rs_10 = stmt.executeQuery(getAnswer_Of_Specific_Survey_At_Store_One);
 			  while(rs_10.next())
 			  {
@@ -1158,7 +1158,7 @@ public class EchoServer extends AbstractServer
 		  Real_Quarter_Number = Integer.parseInt((String.valueOf(All_The_Object_To_Return.get(3))));
 		  Real_Year = Integer.parseInt(String.valueOf(Date_Report_Store_Two).substring(0,4)); /* The Real Year */
 		 
-		  String getSurvey_Of_Store_Two = "SELECT * FROM project.survey WHERE StoreID = " + "'" + Store_Two_ID + "'" + ";" ; 
+		  String getSurvey_Of_Store_Two = "SELECT * FROM " + Scheme_Name + ".survey WHERE StoreID = " + "'" + Store_Two_ID + "'" + ";" ; 
 		  ResultSet rs_11 = stmt.executeQuery(getSurvey_Of_Store_Two);
 		  while(rs_11.next())
 		  {
@@ -1183,7 +1183,7 @@ public class EchoServer extends AbstractServer
 		  
 		  for(int i = 0 ; i < Survey_Of_Store_Two.size() ; i++)
 		  {
-			  String getAnswer_Of_Specific_Survey_At_Store_Two = "SELECT * FROM project.survey_result WHERE Surveyid = " + "'" + Survey_Of_Store_Two.get(i).getSurvey_Id() + "'" +  "AND storeId = " + "'" + Survey_Of_Store_Two.get(i).getStore_ID() + "'" + ";"; 
+			  String getAnswer_Of_Specific_Survey_At_Store_Two = "SELECT * FROM " + Scheme_Name + ".survey_result WHERE Surveyid = " + "'" + Survey_Of_Store_Two.get(i).getSurvey_Id() + "'" +  "AND storeId = " + "'" + Survey_Of_Store_Two.get(i).getStore_ID() + "'" + ";"; 
 			  ResultSet rs_12 = stmt.executeQuery(getAnswer_Of_Specific_Survey_At_Store_Two);
 			  while(rs_12.next())
 			  {
@@ -1239,6 +1239,7 @@ public class EchoServer extends AbstractServer
 	  String Report_Field;																					/* This Field Help Me To Take Details From the DB */
 	  Report temp_Report = null;																			/* This Field Help Me To Take Details From the DB */
 	  Survey temp_Survey;																					/* This Field Help Me To Take Details From the DB */
+	  String Scheme_Name = EchoServerController.Scheme;
 	  
 	  try {
 		  
@@ -1246,7 +1247,7 @@ public class EchoServer extends AbstractServer
 			  
 			  /* -------------------------------- Take The Quarter Of Specific Report -------------------------------------------------------------------------------- */
 			  
-			  String getSpecificQuarterReportTable = "SELECT * FROM project.report WHERE StoreID = " + "'" + Store_ID + "'" + "AND DateOfCreateReport = " + "'" + date_Of_Report + "'" + ";"; 
+			  String getSpecificQuarterReportTable = "SELECT * FROM " + Scheme_Name + ".report WHERE StoreID = " + "'" + Store_ID + "'" + "AND DateOfCreateReport = " + "'" + date_Of_Report + "'" + ";"; 
 			  ResultSet rs = stmt.executeQuery(getSpecificQuarterReportTable);
 			  
 			  while(rs.next())
@@ -1262,7 +1263,7 @@ public class EchoServer extends AbstractServer
 			  
 			  /* -------------------------------- Take All The Survey Of Specific Store In Specific Quarter ---------------------------------------------------------- */
 			  
-			  String getSurveysOfSpecificStoreTable = "SELECT * FROM project.survey WHERE StoreID = " + "'" + Store_ID + "'" + ";";   
+			  String getSurveysOfSpecificStoreTable = "SELECT * FROM " + Scheme_Name + ".survey WHERE StoreID = " + "'" + Store_ID + "'" + ";";   
 			  ResultSet rs_2 = stmt.executeQuery(getSurveysOfSpecificStoreTable);
 			  int Integer_Help_Start_Month_In_Survey_Table;                                       							/* Variable That Keep The Month In Integer */
 			  int Integer_Help_End_Month_In_Survey_Table;
@@ -1347,7 +1348,7 @@ public class EchoServer extends AbstractServer
 			  
 			  for(int i = 0 ; i < Final_Survey_ArrayList_To_Return.size() ; i++) 											/* In Each Iteration I Take The Specific Survey According The The Survey ID Number */
 			  {
-				  String getAnswerSurveyOfSpecificStoreTable = "SELECT * FROM project.survey_result WHERE Surveyid =" + "'" + Final_Survey_ArrayList_To_Return.get(i).getSurvey_Id() + "'" + "AND storeId = " + "'" + Final_Survey_ArrayList_To_Return.get(i).getStore_ID() + "'" + ";"; 
+				  String getAnswerSurveyOfSpecificStoreTable = "SELECT * FROM " + Scheme_Name + ".survey_result WHERE Surveyid =" + "'" + Final_Survey_ArrayList_To_Return.get(i).getSurvey_Id() + "'" + "AND storeId = " + "'" + Final_Survey_ArrayList_To_Return.get(i).getStore_ID() + "'" + ";"; 
 				  ResultSet rs_3 = stmt.executeQuery(getAnswerSurveyOfSpecificStoreTable);
 			  
 				  while(rs_3.next())
@@ -1411,12 +1412,13 @@ public class EchoServer extends AbstractServer
 	  ArrayList<Date> Date_Of_Report = new ArrayList<Date>();
 	  Statement stmt;
 	  String order_field;
+	  String Scheme_Name = EchoServerController.Scheme;
 	  
 	  /* -------------------------------- We Take The Order Of Specific Store ------------------------- */
 	  
 	  try {
 		  stmt = conn.createStatement();
-		  String getDatesNumbersTable = "SELECT * FROM project.report WHERE StoreID = " + "'" + temp_Store_Id + "'" + ";"; 
+		  String getDatesNumbersTable = "SELECT * FROM " + Scheme_Name + ".report WHERE StoreID = " + "'" + temp_Store_Id + "'" + ";"; 
 		  ResultSet rs = stmt.executeQuery(getDatesNumbersTable);
 		  
 		  while(rs.next())
@@ -1441,10 +1443,12 @@ public class EchoServer extends AbstractServer
 	  String order_field;
 	  String product_In_OrderField;
 	  String Report_Field;
-	  String Approved = "APPROVED";  
+	  String Approved = "APPROVED";
+	  String Received = "Recieved";
 	  Order temp_Order;
 	  Product temp_Product;
 	  Report temp_Report = null;
+	  String Scheme_Name = EchoServerController.Scheme;
 	  
 	  try {
 		  
@@ -1452,7 +1456,7 @@ public class EchoServer extends AbstractServer
 		  
 		  /* -------------------------------- Take The Quarter Of Specific Report ------------------------- */
 		  
-		  String getSpecificQuarterReportTable = "SELECT * FROM project.report WHERE StoreID = " + "'" + Store_ID + "'" + "AND DateOfCreateReport = " + "'" + date_Of_Report + "'" + ";"; 
+		  String getSpecificQuarterReportTable = "SELECT * FROM " + Scheme_Name + ".report WHERE StoreID = " + "'" + Store_ID + "'" + "AND DateOfCreateReport = " + "'" + date_Of_Report + "'" + ";"; 
 		  ResultSet rs = stmt.executeQuery(getSpecificQuarterReportTable);
 		  
 		  while(rs.next())
@@ -1470,7 +1474,7 @@ public class EchoServer extends AbstractServer
 		  
 		  
 		  
-		  String getOrdersOfSpecificStoreTable = "SELECT * FROM project.order WHERE StoreID = " + "'" + Store_ID + "'" + "AND orderStatus = " + "'" +  Approved  + "'" + ";" ; 
+		  String getOrdersOfSpecificStoreTable = "SELECT * FROM " + Scheme_Name + ".order WHERE StoreID = " + "'" + Store_ID + "'" + "AND (orderStatus = " + "'" +  Approved  + "'" + "OR orderStatus = " + "'" + Received + "'" + ")" + ";";    
 		  ResultSet rs_2 = stmt.executeQuery(getOrdersOfSpecificStoreTable);
 		  int Integer_Help_Month_In_Order_Table;
 		  int Real_Quarter_Number = Integer.parseInt(temp_Report.getQaurterReportNumber());
@@ -1537,7 +1541,7 @@ public class EchoServer extends AbstractServer
 		  for(int i = 0 ; i < Final_Order_Of_Specific_Quarter.size() ; i++)
 		  {
 			  HashMap<Product.ProductType, Integer> productsInOrderType = new HashMap<ProductType, Integer>();
-			  String getOrdersProductTable = "SELECT * FROM project.productinorder WHERE OrderID = " + "'" + Final_Order_Of_Specific_Quarter.get(i).getOrderID() + "'" + ";";
+			  String getOrdersProductTable = "SELECT * FROM " + Scheme_Name + ".productinorder WHERE OrderID = " + "'" + Final_Order_Of_Specific_Quarter.get(i).getOrderID() + "'" + ";";
 			  ResultSet rs_3 = stmt.executeQuery(getOrdersProductTable);
 			  while(rs_3.next())
 		 	  {
@@ -1562,9 +1566,11 @@ public class EchoServer extends AbstractServer
 	  Statement stmt;
 	  String s;
 	  Store sr;
+	  String Scheme_Name = EchoServerController.Scheme;
+	  
 	  try {
 		  stmt = conn.createStatement();
-		  String getStoresTable = "SELECT * FROM store;"; /* Get all the Table from the DB */
+		  String getStoresTable = "SELECT * FROM " + Scheme_Name + ".store;"; /* Get all the Table from the DB */
 		  ResultSet rs = stmt.executeQuery(getStoresTable);
 		  while(rs.next())
 	 	  {
@@ -1597,6 +1603,7 @@ public class EchoServer extends AbstractServer
 	  Order temp_Order;
 	  Complaint temp_Complaint;
 	  Report temp_Report = null;
+	  String Scheme_Name = EchoServerController.Scheme;
 	  
 	  try {
 		  
@@ -1604,7 +1611,7 @@ public class EchoServer extends AbstractServer
 		  
 		  /* -------------------------------- Take The Quarter Of Specific Report ------------------------- */
 		  
-		  String getSpecificQuarterReportTable = "SELECT * FROM project.report WHERE StoreID = " + "'" + Store_ID + "'" + "AND DateOfCreateReport = " + "'" + date_Of_Report + "'" + ";"; 
+		  String getSpecificQuarterReportTable = "SELECT * FROM " + Scheme_Name + ".report WHERE StoreID = " + "'" + Store_ID + "'" + "AND DateOfCreateReport = " + "'" + date_Of_Report + "'" + ";"; 
 		  ResultSet rs = stmt.executeQuery(getSpecificQuarterReportTable);           
 		  
 		  while(rs.next())
@@ -1620,7 +1627,7 @@ public class EchoServer extends AbstractServer
 		  
 		  /* -------------------------------- Take All The Order Of Specific Store In Specific Quarter ------------------------- */
 		  
-		  String getOrdersOfSpecificStoreTable = "SELECT * FROM project.order WHERE StoreID = " + "'" + Store_ID + "'" + ";"; 
+		  String getOrdersOfSpecificStoreTable = "SELECT * FROM " + Scheme_Name + ".order WHERE StoreID = " + "'" + Store_ID + "'" + ";"; 
 		  ResultSet rs_2 = stmt.executeQuery(getOrdersOfSpecificStoreTable);
 		  int Integer_Help_Month_In_Order_Table;
 		  int Real_Quarter_Number = Integer.parseInt(temp_Report.getQaurterReportNumber());
@@ -1685,7 +1692,7 @@ public class EchoServer extends AbstractServer
 		  
 		  for(int i = 0 ; i < Final_Order_Of_Specific_Quarter.size() ; i++)
 		  {
-			  String getComplaintTable = "SELECT * FROM project.complaint WHERE ComplaintOrderId = " + "'" + Final_Order_Of_Specific_Quarter.get(i).getOrderID() + "'" + ";";
+			  String getComplaintTable = "SELECT * FROM " + Scheme_Name + ".complaint WHERE ComplaintOrderId = " + "'" + Final_Order_Of_Specific_Quarter.get(i).getOrderID() + "'" + ";";
 			  ResultSet rs_3 = stmt.executeQuery(getComplaintTable);
 			  while(rs_3.next())
 		 	  {
@@ -1712,8 +1719,8 @@ public class EchoServer extends AbstractServer
 	  String order_field;
 	  String Complaint_Field;
 	  String Report_Field;
-	  String Approved = "APPROVED"; 
 	  String Cancle = "CANCEL";
+	  String Scheme_Name = EchoServerController.Scheme;
 	  Order temp_Order;
 	  Complaint temp_Complaint;
 	  Report temp_Report = null;
@@ -1724,7 +1731,7 @@ public class EchoServer extends AbstractServer
 		  
 		  /* -------------------------------- Take The Quarter Of Specific Report ------------------------- */
 		  
-		  String getSpecificQuarterReportTable = "SELECT * FROM project.report WHERE StoreID = " + "'" + temp_Store_Id + "'" + "AND DateOfCreateReport = " + "'" + date_Of_Report + "'" + ";"; 
+		  String getSpecificQuarterReportTable = "SELECT * FROM " + Scheme_Name + ".report WHERE StoreID = " + "'" + temp_Store_Id + "'" + "AND DateOfCreateReport = " + "'" + date_Of_Report + "'" + ";"; 
 		  ResultSet rs = stmt.executeQuery(getSpecificQuarterReportTable);
 		  
 		  while(rs.next())
@@ -1736,7 +1743,7 @@ public class EchoServer extends AbstractServer
 		    
 		  /* -------------------------------- Take All The Order Of Specific Store In Specific Quarter ------------------------- */
 		  
-		  String getOrdersOfSpecificStoreTable = "SELECT * FROM project.order WHERE StoreID = " + "'" + temp_Store_Id + "'" + ";"; 
+		  String getOrdersOfSpecificStoreTable = "SELECT * FROM " + Scheme_Name + ".order WHERE StoreID = " + "'" + temp_Store_Id + "'" + ";"; 
 		  ResultSet rs_2 = stmt.executeQuery(getOrdersOfSpecificStoreTable);
 		  int Integer_Help_Month_In_Order_Table;
 		  int Real_Quarter_Number = Integer.parseInt(temp_Report.getQaurterReportNumber());
@@ -1763,7 +1770,7 @@ public class EchoServer extends AbstractServer
 		  
 		  for(int i = 0 ; i < orders_Of_Specific_Store.size() ; i++)
 		  {
-			  String getComplaintOfSpecificStoreTable = "SELECT * FROM project.complaint WHERE ComplaintOrderId = " + "'" + orders_Of_Specific_Store.get(i).getOrderID() + "'" + ";";
+			  String getComplaintOfSpecificStoreTable = "SELECT * FROM " + Scheme_Name + ".complaint WHERE ComplaintOrderId = " + "'" + orders_Of_Specific_Store.get(i).getOrderID() + "'" + ";";
 			  ResultSet rs_3 = stmt.executeQuery(getComplaintOfSpecificStoreTable);
 			  while(rs_3.next())
 		 	  {
@@ -1783,7 +1790,7 @@ public class EchoServer extends AbstractServer
 		  String String_Year_Date_Of_Report = String.valueOf(date_Of_Report).substring(0, 4);   
 		  int Integer_Year_Date_Of_Report  = Integer.parseInt(String_Year_Date_Of_Report);
 		      
-		  String getOrders_That_Canceled_OfSpecificStoreTable = "SELECT * FROM project.order WHERE StoreID = " + "'" + temp_Store_Id + "'" + "AND orderStatus = " + "'" +  Cancle  + "'" + ";";  
+		  String getOrders_That_Canceled_OfSpecificStoreTable = "SELECT * FROM " + Scheme_Name + ".order WHERE StoreID = " + "'" + temp_Store_Id + "'" + "AND orderStatus = " + "'" +  Cancle  + "'" + ";";  
 		  ResultSet rs_4 = stmt.executeQuery(getOrders_That_Canceled_OfSpecificStoreTable);
 		      
 		  while(rs_4.next())
@@ -1949,7 +1956,7 @@ public class EchoServer extends AbstractServer
 			try {
 			stmt = conn.createStatement();
 
-			String updateProductName = "UPDATE project.product SET ProductName =" + "'" + temp.get(1) +"'" + "WHERE ProductID=" +"'" +temp.get(0) + "'" +";";
+			String updateProductName = "UPDATE product SET ProductName =" + "'" + temp.get(1) +"'" + "WHERE ProductID=" +"'" +temp.get(0) + "'" +";";
 			stmt.executeUpdate(updateProductName);
 			} catch (SQLException e) {	e.printStackTrace();}	  
   }
@@ -1958,14 +1965,16 @@ public class EchoServer extends AbstractServer
   {
 	  Statement stmt;
 	  User temp_User = (User)((Message)msg).getMsg();
+	  String Scheme_Name = EchoServerController.Scheme;
+	  
 	  try {
 		  stmt = conn.createStatement();
 		  
 		  /* UPDATE `project`.`user` SET `UserPermission`='BLOCKED' WHERE `UserName`='DinGolan'; */
-		  String UpdateTableUsersPremmision = "UPDATE project.user SET UserPermission =" + "'" + temp_User.getPermission() + "'" + "WHERE UserName=" + "'" + temp_User.getUserName() + "'" + ";" ;
+		  String UpdateTableUsersPremmision = "UPDATE " + Scheme_Name + ".user SET UserPermission =" + "'" + temp_User.getPermission() + "'" + "WHERE UserName=" + "'" + temp_User.getUserName() + "'" + ";" ;
 		  
 		  /* UPDATE `project`.`user` SET `UserStatus`='STORE_MANAGER' WHERE `UserName`='DinGolan'; */
-		  String UpdateTableUsersStatus = "UPDATE project.user SET UserStatus =" + "'" + temp_User.getStatus() + "'" + "WHERE UserName=" + "'" + temp_User.getUserName() + "'" + ";" ;
+		  String UpdateTableUsersStatus = "UPDATE " + Scheme_Name + ".user SET UserStatus =" + "'" + temp_User.getStatus() + "'" + "WHERE UserName=" + "'" + temp_User.getUserName() + "'" + ";" ;
 		  
 		  stmt.executeUpdate(UpdateTableUsersPremmision);
 		  stmt.executeUpdate(UpdateTableUsersStatus);
@@ -2187,10 +2196,11 @@ public class EchoServer extends AbstractServer
 	  Statement stmt;
 	  String user_Field;
 	  String user_Account_Field;
+	  String Scheme_Name = EchoServerController.Scheme;
 	  User temp_User = null;
 	  try {
 		  stmt = conn.createStatement();
-		  String getUsersTable = "SELECT * FROM project.user ;"; /* Get all the Table from the DB */
+		  String getUsersTable = "SELECT * FROM " + Scheme_Name + ".user ;"; /* Get all the Table from the DB */
 		  ResultSet rs = stmt.executeQuery(getUsersTable);
 		  while(rs.next())
 	 	  {
@@ -2211,7 +2221,7 @@ public class EchoServer extends AbstractServer
 	 	  }
 		  
 		  temp_User = new User();
-		  String getAccountUser_With_Negetive_Balance = "SELECT * FROM project.account WHERE AccountBalanceCard < 0 ;"; 
+		  String getAccountUser_With_Negetive_Balance = "SELECT * FROM " + Scheme_Name + ".account WHERE AccountBalanceCard < 0 ;"; 
 		  ResultSet rs_4 = stmt.executeQuery(getAccountUser_With_Negetive_Balance);
 		  while(rs_4.next())
 		  {
@@ -2223,12 +2233,12 @@ public class EchoServer extends AbstractServer
 		  
 		  for(int i = 0 ; i < Users_With_Negetive_Account.size() ; i++)
 		  {
-			  String Update_The_User_Table_With_User_With_Negetive_Balanced = "UPDATE project.user SET UserStatus =" + "'" + "BLOCKED" + "'" + "WHERE UserId=" + "'" + Users_With_Negetive_Account.get(i).getId() + "'" + ";" ;
+			  String Update_The_User_Table_With_User_With_Negetive_Balanced = "UPDATE " + Scheme_Name + ".user SET UserStatus =" + "'" + "BLOCKED" + "'" + "WHERE UserId=" + "'" + Users_With_Negetive_Account.get(i).getId() + "'" + ";" ;
 			  stmt.executeUpdate(Update_The_User_Table_With_User_With_Negetive_Balanced);
 		  }
 		  
 		  temp_User = new User();
-		  String getUsersTable_After_Change = "SELECT * FROM project.user;"; /* Get all the Table from the DB */
+		  String getUsersTable_After_Change = "SELECT * FROM " + Scheme_Name + ".user;"; /* Get all the Table from the DB */
 		  ResultSet rs_5 = stmt.executeQuery(getUsersTable_After_Change);
 		  while(rs_5.next())
 	 	  {
@@ -2256,7 +2266,7 @@ public class EchoServer extends AbstractServer
 	  return users_After_Change;
   }
   
- protected ArrayList<Integer> getAllOrdersToCustomerCancel(Object msg, Connection conn) //this method get all the orders that match to specific customer and can be cancel<<<<<<< .mine
+  protected ArrayList<Integer> getAllOrdersToCustomerCancel(Object msg, Connection conn) //this method get all the orders that match to specific customer and can be cancel<<<<<<< .mine
   {
 	 int StoreNum = Integer.parseInt(((ArrayList<String>)(((Message)msg).getMsg())).get(1));
 	 System.out.println(StoreNum);
@@ -2874,56 +2884,6 @@ public class EchoServer extends AbstractServer
 	  } 
 	  catch (SQLException e) {	e.printStackTrace();}	  
 	  return null;
-  }
-  
-  protected void changeOrderStatusToRecived(Connection conn) /* This method get products table details from DB */
-  {
-	  ArrayList<Order> orders = new ArrayList<>();
-	  Order o;
-	  Statement stmt;
-	  String updateOrders;
-	  String requestedTime,hours,minutes;
-	  int userid;
-	  Date toCompare;
-	  LocalDate dateToCompare;
-	  LocalDate localDate = LocalDate.now();//For reference
-      Calendar cal = Calendar.getInstance();
-      int minute = cal.get(Calendar.MINUTE); /*get now time */
-      int hour = cal.get(Calendar.HOUR);
-      if(cal.get(Calendar.AM_PM) != 0)
-        	hour += 12;
-	  try {
-		  stmt = conn.createStatement();
-		  String getOrders = "SELECT * FROM project.order WHERE orderStatus='APPROVED';"; /* Get all the Table from the DB */
-		  ResultSet rs = stmt.executeQuery(getOrders);
-		  while(rs.next())
-	 	{
-			  o = new Order();
-			  o.setRequiredSupplyDate((rs.getDate("orderRequiredSupplyDate")).toLocalDate());
-			  o.setOrderID(rs.getInt("orderID"));
-			  o.setRequiredSupplyTime(rs.getString("orderRequiredSupplyTime"));
-			  orders.add(o);
-	 	}
-		  for(int i =0 ; i< orders.size() ; i++)
-		  {
-			  hours = orders.get(i).getRequiredSupplyTime().substring(0, 2);
-			  minutes = orders.get(i).getRequiredSupplyTime().substring(3, 5);
-			  dateToCompare= orders.get(i).getRequiredSupplyDate();
-			  if(localDate.isAfter(dateToCompare)) //This date after order supply requested date
-			  {
-				  updateOrders="UPDATE project.order SET orderStatus='"+Order.orderStatus.RECIVED+"' WHERE orderID="+orders.get(i).getOrderID()+";";
-				  stmt.executeUpdate(updateOrders);
-			  }
-			  else if(localDate.isEqual(dateToCompare))//This date equals order supply requested date
-			  {
-				  if(hour> Integer.valueOf(hours) || (hour == Integer.valueOf(hours) && Integer.valueOf(minutes) <= minute))
-				  {
-					  updateOrders="UPDATE project.order SET orderStatus='"+Order.orderStatus.RECIVED+"' WHERE orderID="+orders.get(i).getOrderID()+";";
-					  stmt.executeUpdate(updateOrders);
-				  }
-			  }
-	 	}
-	  } catch (SQLException e) {	e.printStackTrace();}	
   }
 }
 
