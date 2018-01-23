@@ -13,22 +13,13 @@ import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-
 import java.time.LocalTime;
 import java.util.ArrayList;
-
-
-import java.time.LocalTime;
-import java.time.ZoneId;
-import java.util.ArrayList;
-
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Vector;
 import com.mysql.jdbc.PreparedStatement;
-
-import boundery.OrderUI;
 import controller.EchoServerController;
 import entity.Account;
 import entity.Complaint;
@@ -622,7 +613,7 @@ public class EchoServer extends AbstractServer
 	  try 
 	  {
 		  stmt = conn.createStatement();
-		  String getStoresTable = "SELECT * FROM" + Scheme_Name + ".store;"; 				/* Get all the Table Of Store from the DB */
+		  String getStoresTable = "SELECT * FROM " + Scheme_Name + ".store;"; 				/* Get all the Table Of Store from the DB */
 		  ResultSet rs = stmt.executeQuery(getStoresTable);
 		  while(rs.next())
 	 	  {
@@ -2275,7 +2266,7 @@ public class EchoServer extends AbstractServer
 	  return users_After_Change;
   }
   
- protected ArrayList<Integer> getAllOrdersToCustomerCancel(Object msg, Connection conn) //this method get all the orders that match to specific customer and can be cancel<<<<<<< .mine
+  protected ArrayList<Integer> getAllOrdersToCustomerCancel(Object msg, Connection conn) //this method get all the orders that match to specific customer and can be cancel<<<<<<< .mine
   {
 	 int StoreNum = Integer.parseInt(((ArrayList<String>)(((Message)msg).getMsg())).get(1));
 	 System.out.println(StoreNum);
