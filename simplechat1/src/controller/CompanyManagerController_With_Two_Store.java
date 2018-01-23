@@ -19,6 +19,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -26,11 +27,15 @@ import javafx.stage.Stage;
 public class CompanyManagerController_With_Two_Store implements Initializable{
 
 	private Message msg;
-	private static int itemIndex = 0; /* This Variable Need for the the Case - that we not choose any Store from the ComboBox , so we take the Store that in Index 0 By Default - Store 1 */
+	private static int itemIndex_For_Store_2 = 0;
+	private static int itemIndex_For_Store_1 = 0; /* This Variable Need for the the Case - that we not choose any Store from the ComboBox , so we take the Store that in Index 0 By Default - Store 1 */
+	private static int itemIndex_For_Report_Store_1 = 0;
+	private static int itemIndex_For_Report_Store_2 = 0;
 	private int temp_Store_Id_1;
 	private int temp_Store_Id_2;
 	private Date temp_Date_Quarter_Report_1;
 	private Date temp_Date_Quarter_Report_2;
+	public static boolean Flag_Enter_Two_Store = false;
 	
 	ObservableList<String> storeList_One;
 	ObservableList<String> storeList_Two;
@@ -68,6 +73,12 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 	 
 	 @FXML
 	 private Button btnClose;
+	 
+	 @FXML
+	 private Button btnTryAgain;
+
+	 @FXML
+	 private TextArea txtArea_Error_Message;
 	
 /* --------------------------------- Close the Order Report Window ------------------------------------------------- */	 	
 	
@@ -209,7 +220,7 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 	public int getItemIndex_First_Store()                                   	/* With this Method we Take User from the List of the Users at the ComboBox */
 	{
 		if(cmbFirstStores.getSelectionModel().getSelectedIndex() == -1)
-			return itemIndex;
+			return itemIndex_For_Store_1;
 	
 		return cmbFirstStores.getSelectionModel().getSelectedIndex();
 	}
@@ -219,7 +230,7 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 	public int getItemIndex_Second_Store()                                   	/* With this Method we Take User from the List of the Users at the ComboBox */
 	{
 		if(cmbSecondStores.getSelectionModel().getSelectedIndex() == -1)
-			return itemIndex;
+			return itemIndex_For_Store_2;
 	
 		return cmbSecondStores.getSelectionModel().getSelectedIndex();
 		
@@ -232,7 +243,7 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 	public int getItemIndexFromDateComboBox_For_CompanyManager_FirstStore()                                   	/* With this Method we Take User from the List of the Users at the ComboBox */
 	{
 		if(cmbReportsFirstStore.getSelectionModel().getSelectedIndex() == -1)
-			return itemIndex;
+			return itemIndex_For_Report_Store_1;
 	
 		return cmbReportsFirstStore.getSelectionModel().getSelectedIndex();
 	}
@@ -244,7 +255,7 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 	public int getItemIndexFromDateComboBox_For_CompanyManager_SecondStore()                                   	/* With this Method we Take User from the List of the Users at the ComboBox */
 	{
 		if(cmbReportsSecondStore.getSelectionModel().getSelectedIndex() == -1)
-			return itemIndex;
+			return itemIndex_For_Report_Store_2;
 	
 		return cmbReportsSecondStore.getSelectionModel().getSelectedIndex();
 	}
@@ -347,6 +358,7 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 		}
 		Thread.sleep(200);
 		set_Dates_Of_Report_Of_Store_Two_At_ComboBox();
+		
 	}
 	
 /* -------------------------------- The Button Of The Report That We Choose ------------------------------- */				
@@ -445,6 +457,8 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 		CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_2.clear();
 		CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_2.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
 		CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_2.add(Store_Id_And_Date_Of_Report.get(1));  /* The Date Of the Report */
+	
+		Flag_Enter_Two_Store = true; /* Very Important Variable */
 	}
 	
 	public void Compare(ActionEvent event) throws Exception
@@ -453,17 +467,33 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 		Stage primaryStage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
 		Pane root = loader.load(getClass().getResource("/controller/CompanyManagerReportController_Compare_Between_Two_Diffrent_Quarter.fxml").openStream());
-		
+				
 		Scene scene = new Scene(root);			
 		primaryStage.setScene(scene);
-		primaryStage.show();
+		primaryStage.show(); 
 	}
 	
 /* -------------------------------- Initialized The ComboBox In the First Window - Report GUI ------------------------------- */		
 	
+	public void Not_Press_On_Any_Store_For_Compare(ActionEvent event) throws Exception
+	{
+		CompanyManagerUI.Object_From_Comparing_For_Store_1.clear();
+		CompanyManagerUI.Object_From_Comparing_For_Store_2.clear();
+		((Node)event.getSource()).getScene().getWindow().hide(); 	 /* Hiding primary window */
+		Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
+		FXMLLoader loader = new FXMLLoader(); 					 	 /* Load object */
+		Pane root = loader.load(getClass().getResource("/controller/CompanyManagerReportForm_Window_With_Two_Store.fxml").openStream());
+		
+		Scene scene = new Scene(root);			
+		primaryStage.setScene(scene);		
+		primaryStage.show();
+	}
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
+		Flag_Enter_Two_Store = false;
+		
 		ArrayList<Store> stores = new ArrayList<Store>();           /* For the First Connection With The DB the ArrayList Of stores Is Empty */
 		msg = new Message(stores,"Company Manager - Add Store To Combo Box From DB");
 		UserUI.myClient.accept(msg);
@@ -489,6 +519,7 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 		{
 			e.printStackTrace();
 		}
+		
 		setStores_One_ComboBox();
 		setStores_Two_ComboBox();
 	}

@@ -426,7 +426,7 @@ public class EchoServer extends AbstractServer
 	  try 
 	  {	
 		  stmt = conn.createStatement();
-		  String getAccount_Of_Customer_Account_Table = "SELECT * FROM" + Scheme_Name + ".account WHERE AccountUserId = " + "'" + Customer_User_ID + "'" + ";"; 
+		  String getAccount_Of_Customer_Account_Table = "SELECT * FROM " + Scheme_Name + ".account WHERE AccountUserId = " + "'" + Customer_User_ID + "'" + ";"; 
 		  ResultSet rs = stmt.executeQuery(getAccount_Of_Customer_Account_Table);
 		  while(rs.next())
 	 	  {
@@ -459,7 +459,7 @@ public class EchoServer extends AbstractServer
 	  try 
 	  {	
 		  stmt = conn.createStatement();
-		  String getComplaint_Of_Customer_Complaint_Table = "SELECT * FROM" + Scheme_Name + ".complaint WHERE ComplaintUserId = " + "'" + Customer_User_ID + "'" + ";"; 
+		  String getComplaint_Of_Customer_Complaint_Table = "SELECT * FROM " + Scheme_Name + ".complaint WHERE ComplaintUserId = " + "'" + Customer_User_ID + "'" + ";"; 
 		  ResultSet rs = stmt.executeQuery(getComplaint_Of_Customer_Complaint_Table);
 		  while(rs.next())
 	 	  {
@@ -495,7 +495,7 @@ public class EchoServer extends AbstractServer
 	  try 
 	  {  
 			  stmt = conn.createStatement();
-			  String getOrder_Of_Customer_Order_Table = "SELECT * FROM" + Scheme_Name + ".order WHERE customerID = " + "'" + Customer_User_ID + "'" + ";"; 
+			  String getOrder_Of_Customer_Order_Table = "SELECT * FROM " + Scheme_Name + ".order WHERE customerID = " + "'" + Customer_User_ID + "'" + ";"; 
 			  ResultSet rs = stmt.executeQuery(getOrder_Of_Customer_Order_Table);
 			  while(rs.next())
 		 	  {
@@ -516,7 +516,7 @@ public class EchoServer extends AbstractServer
 			  
 			  for(int i = 0 ; i < Orders_Of_Specific_Customer.size() ; i++)
 			  {
-				  String get_Product_From_Specific_Order = "SELECT * FROM" + Scheme_Name + ".productinorder WHERE OrderID = " + "'" + Orders_Of_Specific_Customer.get(i).getOrderID() + "'" + ";"; 
+				  String get_Product_From_Specific_Order = "SELECT * FROM " + Scheme_Name + ".productinorder WHERE OrderID = " + "'" + Orders_Of_Specific_Customer.get(i).getOrderID() + "'" + ";"; 
 				  ResultSet rs_2 = stmt.executeQuery(get_Product_From_Specific_Order);
 				  Product_Of_Specific_Order = new HashMap<Product.ProductType,Integer>();
 				  while(rs_2.next())
