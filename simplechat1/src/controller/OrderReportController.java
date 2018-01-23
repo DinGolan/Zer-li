@@ -125,7 +125,13 @@ public class OrderReportController implements Initializable{
 		StoreID_And_Date_Of_Report.add(StoreManagerUI.Help_To_Transfer_Object_At_Order_Report.get(1)); /* The Date Of the Report */
 		msg = new Message(StoreID_And_Date_Of_Report, "Store Manager - Take The Orders Of Specific Store");
 		UserUI.myClient.accept(msg);
-		while(StoreManagerUI.orders.size() == 0);
+		while(StoreManagerUI.orders.size() == 0)
+		{
+			if(StoreManagerUI.orders.size() == 0)
+			{
+				break;
+			}
+		}
 		try 
 		{
 			Thread.sleep(200);

@@ -208,7 +208,13 @@ public class StoreManagerReportController implements Initializable {
 		Store_Id_And_Date_Of_Report.add(temp_Date_Quarter_Report);
 		msg = new Message(Store_Id_And_Date_Of_Report,"Store Manager - Take the Revenue Of Specific Quarter Of Specific Store");
 		UserUI.myClient.accept(msg);
-		while(StoreManagerUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter.size() == 0);
+		while(StoreManagerUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter.size() == 0)
+		{
+			if(StoreManagerUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter.size() == 0)
+			{
+				break;
+			}
+		}
 		Thread.sleep(200);
 		StoreManagerUI.Help_To_Transfer_Object_At_Revenue_Report.clear();
 		StoreManagerUI.Help_To_Transfer_Object_At_Revenue_Report.add(StoreManagerUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter.get(0));
@@ -243,7 +249,11 @@ public class StoreManagerReportController implements Initializable {
 		temp_Store_Id = UserUI.store.getStoreId();
 		msg = new Message(temp_Store_Id, "Store Manager - Take The Date Of All the Report Of Specific Store");
 		UserUI.myClient.accept(msg);
-		while(StoreManagerUI.Dates.size() == 0);
+		while(StoreManagerUI.Dates.size() == 0)
+		{
+			if(StoreManagerUI.Dates.size() == 0)
+				break;
+		}
 		try 
 		{
 			Thread.sleep(200);

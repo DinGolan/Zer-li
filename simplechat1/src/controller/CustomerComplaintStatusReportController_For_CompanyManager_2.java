@@ -102,7 +102,13 @@ public class CustomerComplaintStatusReportController_For_CompanyManager_2 implem
 		StoreID_And_Date_Of_Report.add(CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager_2.get(1));    /* The Date Of the Report */
 		msg = new Message(StoreID_And_Date_Of_Report,"Company Manager - Take The Complaints Of Specific Store"); 		/* I take All the Orders Of Specific Store , And After That I Take All the Complaint Of All The Order Of the Specific Store */
 		UserUI.myClient.accept(msg);
-		while(CompanyManagerUI.complaints_For_Company_Manager_2.size() == 0);
+		while(CompanyManagerUI.complaints_For_Company_Manager_2.size() == 0)
+		{
+			if(CompanyManagerUI.complaints_For_Company_Manager_2.size() == 0)
+			{
+				break;
+			}
+		}
 		try 
 		{
 			Thread.sleep(200);

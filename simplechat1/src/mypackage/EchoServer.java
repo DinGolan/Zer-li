@@ -828,8 +828,6 @@ public class EchoServer extends AbstractServer
 					  }
 				  }
 		 	  }
-			  
-			
 		  }
 		  
 		  All_The_Object_To_Return.add(Product_Type_Of_Store_One);   /* Index Number ---> 6 */
@@ -920,7 +918,7 @@ public class EchoServer extends AbstractServer
 				  } 
 		 	  } 
 			  
-			  Sum_The_Revenue_Of_Store_One += Order_From_DB_Store_1.get(i).getOrderTotalPrice();;
+			  Sum_The_Revenue_Of_Store_One += Order_From_DB_Store_1.get(i).getOrderTotalPrice();
 		  }
 		  
 		  /* ---------------------------------- Take All The Money From The Canceled Order Of Store One ----------------------------------- */
@@ -1444,7 +1442,7 @@ public class EchoServer extends AbstractServer
 	  String product_In_OrderField;
 	  String Report_Field;
 	  String Approved = "APPROVED";
-	  String Received = "Recieved";
+	  String Received = "RECIVED";
 	  Order temp_Order;
 	  Product temp_Product;
 	  Report temp_Report = null;
@@ -1473,7 +1471,7 @@ public class EchoServer extends AbstractServer
 		  /* -------------------------------- Take All The Order Of Specific Store In Specific Quarter ------------------------- */
 		  
 		  
-		  
+		
 		  String getOrdersOfSpecificStoreTable = "SELECT * FROM " + Scheme_Name + ".order WHERE StoreID = " + "'" + Store_ID + "'" + "AND (orderStatus = " + "'" +  Approved  + "'" + "OR orderStatus = " + "'" + Received + "'" + ")" + ";";    
 		  ResultSet rs_2 = stmt.executeQuery(getOrdersOfSpecificStoreTable);
 		  int Integer_Help_Month_In_Order_Table;
@@ -1789,6 +1787,7 @@ public class EchoServer extends AbstractServer
 		  int Integer_Help_Year_In_Order_Table;
 		  String String_Year_Date_Of_Report = String.valueOf(date_Of_Report).substring(0, 4);   
 		  int Integer_Year_Date_Of_Report  = Integer.parseInt(String_Year_Date_Of_Report);
+		  int Count_Order_Canceled = 0;
 		      
 		  String getOrders_That_Canceled_OfSpecificStoreTable = "SELECT * FROM " + Scheme_Name + ".order WHERE StoreID = " + "'" + temp_Store_Id + "'" + "AND orderStatus = " + "'" +  Cancle  + "'" + ";";  
 		  ResultSet rs_4 = stmt.executeQuery(getOrders_That_Canceled_OfSpecificStoreTable);
@@ -1803,12 +1802,12 @@ public class EchoServer extends AbstractServer
 				  Integer_Help_Year_In_Order_Table = Integer.parseInt(String_Help_Date_In_Order_Table.substring(0, 4));
 				  if(Integer_Help_Year_In_Order_Table == Integer_Year_Date_Of_Report)
 				  {
-				  		   Sum_Of_Refund_From_Cancel_Order = Sum_Of_Refund_From_Cancel_Order + rs_4.getInt("orderRefund");
+				  		Sum_Of_Refund_From_Cancel_Order = Sum_Of_Refund_From_Cancel_Order + rs_4.getInt("orderRefund");
+				  		Count_Order_Canceled++;
 				  }
-			  }
+			  } 
 	 	  }
 	 	  	   	
-		 
 		  /* -------------------------------- Calculate The Revenue According To Quarter ------------------------- */
 		  
 		  int Count_Of_Order_Of_Specific_Quarter = 0;
@@ -1934,7 +1933,7 @@ public class EchoServer extends AbstractServer
 		  Revenue_Of_Specific_Quarter = Revenue_Of_Specific_Quarter - Sum_Of_Refund_From_Cancel_Order;
 		  Revenue_Of_Specific_Quarter = Revenue_Of_Specific_Quarter - Compensation_Of_Specific_Quarter;
 		  Revenue_To_Return_And_Number_Of_Order.add(Revenue_Of_Specific_Quarter);
-		  Revenue_To_Return_And_Number_Of_Order.add(Count_Of_Order_Of_Specific_Quarter);
+		  Revenue_To_Return_And_Number_Of_Order.add(Count_Of_Order_Of_Specific_Quarter - Count_Order_Canceled);
 	  }
 	  catch (SQLException e) 
 	  {	

@@ -207,8 +207,20 @@ public class CompanyManagerReportController_Compare_Between_Two_Diffrent_Quarter
 		ArrayList_Of_Field_To_Compare.add(Date_Quarter_Report_2);
 		msg = new Message(ArrayList_Of_Field_To_Compare,"Company Manager - Compare Between Two Different Quarter");
 		UserUI.myClient.accept(msg);
-		while(CompanyManagerUI.Object_From_Comparing_For_Store_1.size() == 0);
-		while(CompanyManagerUI.Object_From_Comparing_For_Store_2.size() == 0);
+		while(CompanyManagerUI.Object_From_Comparing_For_Store_1.size() == 0)
+		{
+			if(CompanyManagerUI.Object_From_Comparing_For_Store_1.size() == 0)
+			{
+				break;
+			}
+		}
+		while(CompanyManagerUI.Object_From_Comparing_For_Store_2.size() == 0)
+		{
+			if(CompanyManagerUI.Object_From_Comparing_For_Store_2.size() == 0)
+			{
+				break;
+			}
+		}
 		try 
 		{
 			Thread.sleep(200);

@@ -124,7 +124,13 @@ public class SatisfactionReportController implements Initializable {
 		StoreID_And_Date_Of_Report.add(StoreManagerUI.Help_To_Transfer_Object_At_Complaint_Report.get(1)); /* The Date Of the Report */
 		msg = new Message(StoreID_And_Date_Of_Report , "Store Manager - Take The Surveys Of Specific Store In Specific Quarter"); 		/* I take All the Orders Of Specific Store , And After That I Take All the Complaint Of All The Order Of the Specific Store */
 		UserUI.myClient.accept(msg);
-		while(StoreManagerUI.Average_Result_Of_Each_Qustions_In_surveys.size() == 0);
+		while(StoreManagerUI.Average_Result_Of_Each_Qustions_In_surveys.size() == 0)
+		{
+			if(StoreManagerUI.Average_Result_Of_Each_Qustions_In_surveys.size() == 0)
+			{
+				break;
+			}
+		}
 		try 
 		{
 			Thread.sleep(200);

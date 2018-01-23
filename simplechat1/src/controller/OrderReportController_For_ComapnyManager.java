@@ -135,7 +135,13 @@ public class OrderReportController_For_ComapnyManager implements Initializable {
 		StoreID_And_Date_Of_Report.add(CompanyManagerUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager.get(1)); /* The Date Of the Report */
 		msg = new Message(StoreID_And_Date_Of_Report,"Company Manager - Take The Orders Of Specific Store");
 		UserUI.myClient.accept(msg);
-		while(CompanyManagerUI.orders_For_Company_Manager.size() == 0);
+		while(CompanyManagerUI.orders_For_Company_Manager.size() == 0)
+		{
+			if(CompanyManagerUI.orders_For_Company_Manager.size() == 0)
+			{
+				break;
+			}
+		}
 		try 
 		{
 			Thread.sleep(200);

@@ -55,6 +55,8 @@ public class CustomerComplaintStatusReportController implements Initializable {
 	 
 	 @FXML
 	 private Button btnClose;
+	 
+	 
 	
 	public void loadStore(Store s) 					/* To load the User details to the text fields */
 	{ 
@@ -115,16 +117,20 @@ public class CustomerComplaintStatusReportController implements Initializable {
 		StoreID_And_Date_Of_Report.add(StoreManagerUI.Help_To_Transfer_Object_At_Complaint_Report.get(1));    /* The Date Of the Report */
 		msg = new Message(StoreID_And_Date_Of_Report, "Store Manager - Take The Complaints Of Specific Store"); 		/* I take All the Orders Of Specific Store , And After That I Take All the Complaint Of All The Order Of the Specific Store */
 		UserUI.myClient.accept(msg);
-		while(StoreManagerUI.complaints.size() == 0);
+		while(StoreManagerUI.complaints.size() == 0)
+		{
+			if(StoreManagerUI.complaints.size() == 0)
+				break;
+		}
 		try 
 		{
 			Thread.sleep(200);
 		} 
 		catch (InterruptedException e) 
 		{
-		
 			e.printStackTrace();
 		}
+		
 		Put_At_The_Chart_All_The_Complaints();
 	}
 

@@ -25,6 +25,7 @@ import controller.CancelOrderController;
 import controller.CatalogController;
 import controller.ComplaintController;
 import controller.ComplaintHandleController;
+import controller.CustomerComplaintStatusReportController;
 import controller.CustomerController;
 import controller.OrderController;
 import controller.ProfileController;
@@ -336,20 +337,6 @@ public void displayUI(Object message)
 	  	  		ComplaintHandleController.complaintFlag=true; //finish to get all the details for this complaint
 	  	  		System.out.println(ComplaintUI.complaint);
 	    }  */ 
-
-    else if(((Message)message).getOption().compareTo("Store Manager - Add Store To Combo Box From DB") == 0)
-	    {
-		  	  int i=0;
-			  ArrayList<Store> temp = new ArrayList<Store>();
-			  temp = (ArrayList<Store>)((Message)message).getMsg();
-			  StoreManagerUI.stores.clear();
-
-			  for(i=0;i<temp.size();i++)
-		  	  {
-	//			  StoreManagerUI.stores.add(temp.get(i));
-		  	  }	    
-		}
-	    
 	    else if(((Message)message).getOption().compareTo("Store Manager - Take The Orders Of Specific Store") == 0)
 	    {
 		  	  int i=0;
@@ -361,6 +348,7 @@ public void displayUI(Object message)
 		  	  {
 				  StoreManagerUI.orders.add(temp_Order.get(i));
 		  	  }
+			  
 	    } 
 	    else if(((Message)message).getOption().compareTo("Store Manager - Take The Complaints Of Specific Store") == 0)
 	    {

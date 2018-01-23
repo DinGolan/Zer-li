@@ -51,13 +51,6 @@ public class CompanyManagerController implements Initializable {
 		primaryStage.show();
 	}
 	
-/* ----------------------------------- Open For Us The GUI Of the Company Manager - Update Catalog And Make Sales -------------------------------------- */	
-	
-	public void updateCatalogAndSalesBtn(ActionEvent event) throws Exception //To open the update catalog and sales option
-	{
-	
-	}
-	
 /* ----------------------------------- Logout From the User Of - Company Manager -------------------------------------- */
 	
 	public void logoutBtn(ActionEvent event) throws Exception //logout by the store manager
