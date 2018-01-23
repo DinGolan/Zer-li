@@ -1,14 +1,17 @@
 package controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import boundery.OrderUI;
 import boundery.StoreUI;
 import boundery.UserUI;
 import entity.Message;
 import entity.Order;
 import entity.Store;
+import entity.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -65,9 +68,10 @@ public class CustomerController implements Initializable{
 		Pane root = loader.load(getClass().getResource("/controller/Catalog.fxml").openStream());
 		
 		Scene scene = new Scene(root);			
-		//scene.getStylesheets().add(getClass().getResource("/gui/StudentForm.css").toExternalForm());
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		
-		primaryStage.setScene(scene);		
+		primaryStage.setScene(scene);	
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.show();
 	}
 	
@@ -78,26 +82,20 @@ public class CustomerController implements Initializable{
 		Pane root = loader.load(getClass().getResource("/controller/CustomerProfile.fxml").openStream());
 		
 		Scene scene = new Scene(root);			
-		//scene.getStylesheets().add(getClass().getResource("/gui/StudentForm.css").toExternalForm());
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setTitle("Profile");
 		primaryStage.setScene(scene);		
 		primaryStage.show();
 	}
 	
-	public void cancelOrderWindow(ActionEvent event) throws Exception {
-		//OrderController.viewOrderFlag=true;
+	public void cancelOrderWindow(ActionEvent event) throws Exception { //this method for the option to cancel order- open the instruction
 		((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
 		Stage primaryStage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
-		Pane root = loader.load(getClass().getResource("/controller/OrderForCustomer.fxml").openStream());
-		
-		OrderController orderController = loader.getController();		
-		orderController.loadHisOrders(); //we are loading all the requested orders for this customer
-		
+		Pane root = loader.load(getClass().getResource("/controller/CancelRules.fxml").openStream());
 		Scene scene = new Scene(root);			
-		//scene.getStylesheets().add(getClass().getResource("/controller/AccountForm.css").toExternalForm());
-		primaryStage.setScene(scene);
-		primaryStage.setTitle("Orders to cancel");
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());	
+		primaryStage.setScene(scene);		
 		primaryStage.show();	
 	}
 	
@@ -119,15 +117,18 @@ public class CustomerController implements Initializable{
 		FXMLLoader loader = new FXMLLoader(); /* load object */
 		Parent root = FXMLLoader.load(getClass().getResource("/controller/UserLogin.fxml"));
 		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setTitle("LOGIN");
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
 	
-	public void openCustomerOptions(ActionEvent event) throws Exception {
-		if(cmbStores.getValue() != null) {
+	public void openCustomerOptions(ActionEvent event) throws Exception 
+	{
+		if(cmbStores.getValue() != null) 
+		{
 		UserUI.store = StoreUI.stores.get(indexOfStore(cmbStores.getValue()));
-		System.out.println(UserUI.store.getStoreId());
+		/* System.out.println(UserUI.store.getStoreId()); */
 		flag = true;
 		StoreUI.stores.clear();
 		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
@@ -136,10 +137,11 @@ public class CustomerController implements Initializable{
 		Pane root = loader.load(getClass().getResource("/controller/CustomerOptions.fxml").openStream());
 		
 		Scene scene = new Scene(root);			
-		//scene.getStylesheets().add(getClass().getResource("/gui/StudentForm.css").toExternalForm());
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		
 		primaryStage.setScene(scene);		
-		primaryStage.show();}
+		primaryStage.show();
+		}
 	}
 	
 	public void openSelfDef(ActionEvent event) throws Exception {
@@ -149,7 +151,7 @@ public class CustomerController implements Initializable{
 		Pane root = loader.load(getClass().getResource("/controller/SelfDefenitionProduct.fxml").openStream());
 		
 		Scene scene = new Scene(root);			
-		//scene.getStylesheets().add(getClass().getResource("/gui/StudentForm.css").toExternalForm());
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		
 		primaryStage.setScene(scene);		
 		primaryStage.show();

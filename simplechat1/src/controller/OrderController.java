@@ -42,9 +42,8 @@ public class OrderController implements Initializable{
 
 	public static int flag=0;
 	public static boolean accountFlag = false;
-	public static boolean loadOrdersFlag = false;
 	public static boolean accountExistFlag = true;
-
+	
 	@FXML
 	private Button btnRemove = null; /* button remove for remove product from cart */
 	@FXML
@@ -72,6 +71,10 @@ public class OrderController implements Initializable{
 	private RadioButton rdbtnDelivery = null; /* button order for continue to create order */
 	@FXML
 	private RadioButton rdbtnPickup = null; /* button order for continue to create order */
+	@FXML
+	private RadioButton rdbtnCash = null; /* button order for continue to create order */
+	@FXML
+	private RadioButton rdbtnCredirCard = null; /* button order for continue to create order */
 	
 	@FXML
 	private ComboBox<String> cmbProducts = null; /* list of product in cart */
@@ -96,9 +99,8 @@ public class OrderController implements Initializable{
 	@FXML
 	private Label lblArrangement= null; /* text field for Total price of cart */
 	@FXML
-	private Label lblAccountBalance= null; /* text field for Total price of cart */
-	
-	
+	private Label lblImidiateOrder= null; /* text field for Total price of cart */
+
 	@FXML
 	private DatePicker dpRequiresSupplyDate=new DatePicker(LocalDate.now());  //DatePicker with the end date of the subscription
 	
@@ -109,6 +111,8 @@ public class OrderController implements Initializable{
 	public static double totalPrice;
 	
 	ObservableList<String> listForComboBox;
+	
+	private static boolean imidiateOrderFlag = false;
 	
 
 	@Override
@@ -121,8 +125,14 @@ public class OrderController implements Initializable{
 		if(flag==3)
 		{
 			lbltotalprice.setText(String.valueOf(totalPrice) + " NS");
-			lblAccountBalance.setText(String.valueOf(CustomerUI.account.getAccountBalanceCard()));
 			lblArrangement.setText(String.valueOf(CustomerUI.account.getAccountPaymentArrangement()));
+			if(imidiateOrderFlag == false)
+				lblImidiateOrder.setText("Your order will be delivered at the requested time");
+			else
+			{
+				lblImidiateOrder.setText("Your order will be delivered within 3 hours");
+				imidiateOrderFlag = false;
+			}
 		}
 	}
 	
@@ -186,6 +196,7 @@ public class OrderController implements Initializable{
 		}
 		flag = 0;
 		Scene scene = new Scene(root);			
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);	
 				
 		primaryStage.show();									 /* show catalog frame window */
@@ -201,7 +212,8 @@ public class OrderController implements Initializable{
 			FXMLLoader loader = new FXMLLoader(); 					 /* load object */
 			Pane root = loader.load(getClass().getResource("/controller/OrderForm.fxml").openStream());
 		
-			Scene scene = new Scene(root);			
+			Scene scene = new Scene(root);	
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 			primaryStage.setScene(scene);	
 				
 			primaryStage.show();									 /* show catalog frame window */
@@ -213,7 +225,8 @@ public class OrderController implements Initializable{
 			FXMLLoader loader = new FXMLLoader(); 					 /* load object */
 			Pane root = loader.load(getClass().getResource("/controller/NoProductsInOrderMsg.fxml").openStream());
 		
-			Scene scene = new Scene(root);			
+			Scene scene = new Scene(root);	
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 			primaryStage.setScene(scene);	
 				
 			primaryStage.show();									 /* show catalog frame window */
@@ -237,25 +250,28 @@ public class OrderController implements Initializable{
 			FXMLLoader loader = new FXMLLoader(); 					 /* load object */
 			Pane root = loader.load(getClass().getResource("/controller/ErrDateMsg.fxml").openStream());
 		
-			Scene scene = new Scene(root);			
+			Scene scene = new Scene(root);		
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 			primaryStage.setScene(scene);	
 				
 			primaryStage.show();
 		}
 		else {
-			if((rdbtnDelivery.isSelected() == true) &&(txtAddress.getText().equals(null) || txtRecipientsName.getText().equals(null) ||  localDate == null))
+			if((rdbtnDelivery.isSelected() == true) &&	((txtAddress.getText().compareTo("") == 0) || (txtRecipientsName.getText().compareTo("") == 0) ||  localDate == null || (txtRecipientsPhoneNumber.getText().compareTo("") == 0)))
 			{
+				flag = 2;
 					((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
 					Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
 					FXMLLoader loader = new FXMLLoader(); 					 /* load object */
 					Pane root = loader.load(getClass().getResource("/controller/ErrEmptyFieldMsg.fxml").openStream());
 					
-					Scene scene = new Scene(root);			
+					Scene scene = new Scene(root);		
+					scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 					primaryStage.setScene(scene);	
 					
 					primaryStage.show();
 			}
-			else if (txtRequiredTime.getText().equals(null) || localDate == null)
+			else if ((txtRequiredTime.getText().compareTo("") == 0) || localDate == null)
 			{
 				flag = 2;
 				((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
@@ -263,17 +279,18 @@ public class OrderController implements Initializable{
 				FXMLLoader loader = new FXMLLoader(); 					 /* load object */
 				Pane root = loader.load(getClass().getResource("/controller/ErrEmptyFieldMsg.fxml").openStream());
 				
-				Scene scene = new Scene(root);			
+				Scene scene = new Scene(root);
+				scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 				primaryStage.setScene(scene);	
 				
 				primaryStage.show();
 			}
-			else if(localDate.isEqual(today)) /* requested supply date is today , check time is more than hour from now*/
+			else /* requested supply date is today , check time is more than hour from now*/
 			{
 				String time = txtRequiredTime.getText();
 				String hours = time.substring(0, 2);
 				String minutes = time.substring(3, 5);
-				if ((Integer.valueOf(hours) <= hour) || ((Integer.valueOf(hours) == (hour+1)) && (Integer.valueOf(minutes) <= minute)))
+				if ((localDate.isEqual(today)) && ((Integer.valueOf(hours) < hour) || ((Integer.valueOf(hours) == (hour)) && (Integer.valueOf(minutes) <= minute))))
 				{
 					flag = 2;
 					((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
@@ -281,67 +298,85 @@ public class OrderController implements Initializable{
 					FXMLLoader loader = new FXMLLoader(); 					 /* load object */
 					Pane root = loader.load(getClass().getResource("/controller/ErrDateMsg.fxml").openStream());
 				
-					Scene scene = new Scene(root);			
-					primaryStage.setScene(scene);	
-						
-					primaryStage.show();
-				}
-			}
-			else {
-				 try {
-				LocalTime.parse(txtRequiredTime.getText()); /*if supply time is NOT valid throw exception*/
-				flag=3;  /*for next order*/	
-
-				Order.SupplyOption s; 
-				if(rdbtnDelivery.isSelected() == true)
-					s = Order.SupplyOption.DELIVERY;
-				else 
-					s = Order.SupplyOption.PICKUP;
-				Order saveOrder = new Order(s, totalPrice, CatalogController.order.getProductsInOrder(), localDate, UserUI.user.getId(), txtRequiredTime.getText(), txtAddress.getText(), txtRecipientsName.getText(), txtRecipientsPhoneNumber.getText(), txtPostCard.getText() , UserUI.store.getStoreId());
-				Message msg = new Message(saveOrder, "insert order to DB");
-				UserUI.myClient.accept(msg);
-				accountFlag = false;
-				while(accountFlag == false) {
-					System.out.print("");
-				}
-				accountFlag = false;
-				if(accountExistFlag == false) // no account exist for this customer
-				{
-					accountExistFlag = true;
-					flag=2;
-					((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
-					Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
-					FXMLLoader loader = new FXMLLoader(); 					 /* load object */
-					Pane root = loader.load(getClass().getResource("/controller/NoAccountMsg.fxml").openStream());
-				
-					Scene scene = new Scene(root);			
+					Scene scene = new Scene(root);	
+					scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 					primaryStage.setScene(scene);	
 						
 					primaryStage.show();
 				}
 				else {
-				msg.setOption("Update customer account");
-				UserUI.myClient.accept(msg);
-				accountFlag = false;
-				while(accountFlag == false) {
-					System.out.print("");
-				}
-				accountFlag = false;
-				OrderUI.order = null;
-				((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
-				Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
-				FXMLLoader loader = new FXMLLoader(); 					 /* load object */
-				if(CustomerUI.account.getAccountPaymentArrangement().equals(Account.PaymentArrangement.ANNUAL))
-					totalPrice *= 0.875;
-				else if(CustomerUI.account.getAccountPaymentArrangement().equals(Account.PaymentArrangement.MONTHLY))
-					totalPrice *= 0.9;
-				Pane root = loader.load(getClass().getResource("/controller/ThankForOrder.fxml").openStream());
-				totalPrice=0;  /*for next order*/
-				Scene scene = new Scene(root);			
-				primaryStage.setScene(scene);	
-						
-				primaryStage.show();
-				} 
+				 try 
+				 {
+					LocalTime.parse(txtRequiredTime.getText()); /*if supply time is NOT valid throw exception*/
+					flag=3;  /*for next order*/	
+	
+					Order.SupplyOption s; 
+					if(rdbtnDelivery.isSelected() == true)
+						s = Order.SupplyOption.DELIVERY;
+					else 
+						s = Order.SupplyOption.PICKUP;
+					ArrayList<Object> user = new ArrayList<>();
+					user.add(0, UserUI.user.getId());
+					user.add(1, UserUI.store.getStoreId());
+					Message msg = new Message(user, "Update customer account");
+					UserUI.myClient.accept(msg);
+					accountFlag = false;
+					accountExistFlag = true;
+					while(accountFlag == false) {
+						System.out.print("");
+					}
+					accountFlag = false;
+					if(accountExistFlag == false) // no account exist for this customer
+					{
+						accountExistFlag = true;
+						flag=2;
+						((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+						Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
+						FXMLLoader loader = new FXMLLoader(); 					 /* load object */
+						Pane root = loader.load(getClass().getResource("/controller/NoAccountMsg.fxml").openStream());
+					
+						Scene scene = new Scene(root);	
+						scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+						primaryStage.setScene(scene);	
+							
+						primaryStage.show();
+					}
+					else
+					{
+						if(CustomerUI.account.getAccountPaymentArrangement().equals(Account.PaymentArrangement.ANNUAL))
+							totalPrice *= 0.875;
+						else if(CustomerUI.account.getAccountPaymentArrangement().equals(Account.PaymentArrangement.MONTHLY))
+							totalPrice *= 0.9;
+						Account.PaymentMethod pm = null;
+						if(rdbtnCash.isSelected())
+							pm = Account.PaymentMethod.CASH;
+						else
+							pm = Account.PaymentMethod.CREDITCARD;
+						Order saveOrder = new Order(s, totalPrice, CatalogController.order.getProductsInOrder(), localDate, UserUI.user.getId(), txtRequiredTime.getText(), txtAddress.getText(), txtRecipientsName.getText(), txtRecipientsPhoneNumber.getText(), txtPostCard.getText() , UserUI.store.getStoreId(), pm,Order.orderStatus.APPROVED,0);
+						msg = new Message(saveOrder, "insert order to DB");
+						UserUI.myClient.accept(msg);
+						accountFlag = false;
+						while(accountFlag == false) {
+							System.out.print("");
+						}
+						accountFlag = false;
+						OrderUI.order = null;
+						if(localDate.equals(today) && (Integer.valueOf(hours) < (hour+3)) || ((Integer.valueOf(hours) == (hour+3)) && (Integer.valueOf(minutes) <= minute)))
+						{
+							imidiateOrderFlag= true;
+						}
+						flag=3;
+						((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+						Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
+						FXMLLoader loader = new FXMLLoader(); 					 /* load object */
+						Pane root = loader.load(getClass().getResource("/controller/ThankForOrder.fxml").openStream());
+						totalPrice=0;  /*for next order*/
+						Scene scene = new Scene(root);	
+						scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+						primaryStage.setScene(scene);	
+								
+						primaryStage.show();
+					}
 				 }
 				 catch (DateTimeParseException e) /*if supply time is NOT valid*/
 				 {
@@ -351,12 +386,14 @@ public class OrderController implements Initializable{
 						FXMLLoader loader = new FXMLLoader(); 					 /* load object */
 						Pane root = loader.load(getClass().getResource("/controller/ErrTimmeMsg.fxml").openStream());
 					
-						Scene scene = new Scene(root);			
+						Scene scene = new Scene(root);		
+						scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 						primaryStage.setScene(scene);	
 							
 						primaryStage.show();
 				 }
 			}
+		}
 		}
 	}
 	
@@ -370,6 +407,16 @@ public class OrderController implements Initializable{
 	{
 		rdbtnAddPostCard.setSelected(false);
 		txtPostCard.setEditable(false);
+	}
+	
+	public void payCash(ActionEvent event) throws Exception  /*  */
+	{
+		rdbtnCredirCard.setSelected(false);
+	}
+	
+	public void PayByCreditcard(ActionEvent event) throws Exception  /*  */
+	{
+		rdbtnCash.setSelected(false);
 	}
 	
 	public void supplyByPickup(ActionEvent event) throws Exception  /*  */
@@ -402,7 +449,8 @@ public class OrderController implements Initializable{
 		FXMLLoader loader = new FXMLLoader(); 					 /* load object */
 		Pane root = loader.load(getClass().getResource("/controller/OrderForm.fxml").openStream());
 	
-		Scene scene = new Scene(root);			
+		Scene scene = new Scene(root);		
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);	
 			
 		primaryStage.show();									 /* show catalog frame window */
@@ -418,51 +466,10 @@ public class OrderController implements Initializable{
 		Pane root = loader.load(getClass().getResource("/controller/CustomerOptions.fxml").openStream());
 	
 		Scene scene = new Scene(root);			
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);	
 			
 		primaryStage.show();
 	}
-	
-	public void loadHisOrders() //load his orders he can cancel
-	{
-		Pane root = null;
-		Stage primaryStage = new Stage(); //Object present window with graphics elements
-		FXMLLoader loader = new FXMLLoader(); //load object
-		String cuurentCustomer=UserUI.user.getUserName();
-		System.out.println(cuurentCustomer);
-		ArrayList<Integer> ordersNum = new ArrayList<Integer>();
-		Message msg = new Message(cuurentCustomer , "Get all orders numbers for this customer can cancel");
-		UserUI.myClient.accept(msg); // get all complaints for this customer service worker from DB
-		while(loadOrdersFlag==false)
-		{
-			System.out.print(""); //DOES NOT RUN WITHOUT THIS LINE
-		}
-		loadOrdersFlag=false;
-		for(Integer num : OrderUI.ordersNumbers)
-			ordersNum.add(num);
-		System.out.println(ordersNum);
-		if(ordersNum.get(0)==-1) //we didn't have orders to cancel for this customer service worker at DB
-		{
-			try {
-				root = loader.load(getClass().getResource("/controller/OrderDontHaveMsg.fxml").openStream());
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			Scene scene = new Scene(root);			
-			primaryStage.setScene(scene);	
-			primaryStage.setTitle("Error msg");
-			primaryStage.show();		
-		}
-		else 
-		{
-			//cmbOrdersForCustomer.setPromptText("Choose an order number");
-			listForOrderCustomerComboBox = FXCollections.observableArrayList(ordersNum); 
-			//cmbComplaintForWorker=null;
-			cmbOrdersForCustomer.setItems(FXCollections.observableArrayList(listForOrderCustomerComboBox)); //set the orders to this customer
-		}
-	}
-	
-
 }
 	

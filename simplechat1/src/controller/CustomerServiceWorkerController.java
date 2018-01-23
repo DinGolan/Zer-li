@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import boundery.ComplaintUI;
 import boundery.UserUI;
 import entity.Message;
 import javafx.event.ActionEvent;
@@ -17,6 +18,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class CustomerServiceWorkerController implements Initializable{
+	public static boolean checkComplaintsFlag = false;
 	
 	@FXML
 	private Button btnCServiceWInsertSurveyQ = null; //button to insert survey questions
@@ -39,13 +41,47 @@ public class CustomerServiceWorkerController implements Initializable{
 	String[] primaryStage;
 	public static boolean flag = false;
 	
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		/*if(checkComplaintsFlag==true)
+		{
+			Pane root = null;
+			Stage primaryStage = new Stage(); //Object present window with graphics elements
+			FXMLLoader loader = new FXMLLoader(); //load object
+			String cuurentCustomerServiceWorkerUserName=UserUI.user.getUserName();
+			System.out.println(cuurentCustomerServiceWorkerUserName);
+			
+			Message msg = new Message(cuurentCustomerServiceWorkerUserName , "Get all complaints numbers for this customer service worker 24");
+			UserUI.myClient.accept(msg); // get all complaints for this customer service worker from DB
+			while(ComplaintHandleController.loadComplaintsFlag==false)
+			{
+				System.out.print(""); //DOES NOT RUN WITHOUT THIS LINE
+			}
+			ComplaintHandleController.loadComplaintsFlag=false;
+			
+			if(ComplaintUI.complaintsNumbers.get(0)!=-1) //we have complaints to handle for this customer service worker at DB
+			{
+				//((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+				root = loader.load(getClass().getResource("/controller/ComplaintForWorker.fxml").openStream());
+				Scene scene = new Scene(root);		
+				scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+				primaryStage.setScene(scene);	
+				primaryStage.setTitle("Error msg");
+				primaryStage.show();
+			}
+			
+			checkComplaintsFlag=false;
+		}*/	
+	}
+	
 	public void insertSurveyQuestionsBtn(ActionEvent event) throws Exception //To open the view report option
 	{
 		((Node)event.getSource()).getScene().getWindow().hide(); // Hiding primary window 
 		Stage primaryStage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
 		Pane root = loader.load(getClass().getResource("/controller/SurveyFrame.fxml").openStream());
-		Scene scene = new Scene(root);			
+		Scene scene = new Scene(root);	
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);		
 		primaryStage.show();
 		flag=true;
@@ -75,12 +111,8 @@ public class CustomerServiceWorkerController implements Initializable{
 		Stage primaryStage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
 		Pane root = loader.load(getClass().getResource("/controller/ComplaintForm.fxml").openStream());
-		
-		//ComplaintController complaintController = loader.getController();		
-		//complaintController.loadComplaint(); //In this Line We take the Product that we Choose and Show his Details On the GUI */
-		
 		Scene scene = new Scene(root);			
-		//scene.getStylesheets().add(getClass().getResource("/controller/AccountForm.css").toExternalForm());
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Complaint Form");
 		primaryStage.show();
@@ -89,19 +121,14 @@ public class CustomerServiceWorkerController implements Initializable{
 	
 	public void followComplaintBtn(ActionEvent event) throws Exception //To open follow complaint option
 	{
-		//ComplaintHandleController.viewComplaintFlag=true;
 		((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
 		Stage primaryStage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
-		Pane root = loader.load(getClass().getResource("/controller/ComplaintForWorker.fxml").openStream());
-		
-		ComplaintHandleController complaintHandleController = loader.getController();		
-		complaintHandleController.loadHisComplaints(); //we are loading all the requested complaints for this customer service worker
-		
+		Pane root = loader.load(getClass().getResource("/controller/SearchComplaints.fxml").openStream());
 		Scene scene = new Scene(root);			
-		//scene.getStylesheets().add(getClass().getResource("/controller/AccountForm.css").toExternalForm());
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);
-		primaryStage.setTitle("Complaints to handle");
+		primaryStage.setTitle("Search for complaints");
 		primaryStage.show();	
 	}
 	
@@ -122,15 +149,12 @@ public class CustomerServiceWorkerController implements Initializable{
 		FXMLLoader loader = new FXMLLoader(); /* load object */
 		Parent root = FXMLLoader.load(getClass().getResource("/controller/UserLogin.fxml"));
 		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setTitle("LOGIN");
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
 
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub
-		
-	}
+
 
 }

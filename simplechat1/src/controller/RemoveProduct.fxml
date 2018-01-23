@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="283.0" prefWidth="332.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CompanyWorkerController">
+   <children>
+      <Button id="btnBackToCompanyMangetOptions" fx:id="btnBackToCompanyMangetOptions" layoutX="204.0" layoutY="220.0" mnemonicParsing="false" onAction="#backToCompanyWorkerOptions" text="Back" />
+      <Label layoutX="54.0" layoutY="47.0" text="Remove Product" textFill="#0022ff">
+         <font>
+            <Font name="Bodoni MT Bold" size="35.0" />
+         </font></Label>
+      <Button id="btnLoadProduct" fx:id="btnLoadProduct" layoutX="73.0" layoutY="220.0" mnemonicParsing="false" onAction="#openProductInfoToDeleteWindow" text="load product" />
+      <ComboBox fx:id="cmbPid" layoutX="92.0" layoutY="151.0" prefWidth="150.0" />
+      <Label layoutX="122.0" layoutY="114.0" text="Product Id:">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

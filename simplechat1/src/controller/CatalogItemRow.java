@@ -2,10 +2,6 @@ package controller;
 
 import java.io.InputStream;
 
-import entity.Product;
-import entity.Product.ProductColor;
-import javafx.fxml.FXML;
-import javafx.scene.control.Hyperlink;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -13,7 +9,7 @@ public class CatalogItemRow
 {
 
 
-	private String m_id;
+	private int m_id;
 
 	private String m_name;
 
@@ -26,7 +22,7 @@ public class CatalogItemRow
 	private Image m_image;
 
 
-		public CatalogItemRow(String m_id, String m_name, String m_type, double m_price, String m_domainColor,InputStream is) {
+		public CatalogItemRow(int m_id, String m_name, String m_type, double m_price, String m_domainColor,InputStream is) {
 		super();
 		this.m_id = m_id;
 		this.m_name = m_name;
@@ -39,7 +35,7 @@ public class CatalogItemRow
 		/**
 	 * @return Item id.
 	 */
-	public String getM_id()
+	public int getM_id()
 	{
 		return m_id;
 	}
@@ -47,18 +43,16 @@ public class CatalogItemRow
 	/**
 	 * @return String item id.
 	 */
-	public String getId()
+	public int getId()
 	{
-		if(m_id == null)
-			return " ";
-		return m_id.toString();
+		return m_id;
 	}
 
 	/**
 	 * @param m_id
 	 *            Item id to set.
 	 */
-	public void setM_id(String m_id)
+	public void setM_id(int m_id)
 	{
 		this.m_id = m_id;
 	}

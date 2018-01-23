@@ -15,7 +15,7 @@ import entity.Store;
 public class StoreManagerUI extends Application 		/* With This Class We Show the Report GUI */{
 	
 	/* Vector Of ---> { Store , Order , Complaint , Date , Average Of Result At Survey } */
-	public static Vector<Store> stores = new Vector<Store>();
+	public static Vector<String> stores = new Vector<String>();
 	public static Vector<Order> orders = new Vector<Order>(); 
 	public static Vector<Complaint> complaints = new Vector<Complaint>(); 
 	public static Vector<Date> Dates = new Vector<Date>();

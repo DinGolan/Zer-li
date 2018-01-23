@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="339.0" prefWidth="451.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CancelOrderController">
+   <children>
+      <Button id="btnCancelOrderClose" fx:id="btnCancelOrderClose" layoutX="319.0" layoutY="285.0" mnemonicParsing="false" onAction="#closeOrderOptionWindow" prefHeight="25.0" prefWidth="45.0" text="Close" />
+      <Label layoutX="15.0" layoutY="25.0" prefHeight="35.0" prefWidth="421.0" text="Zer-li Cancel Order - instructions:" textFill="#0022ff">
+         <font>
+            <Font name="Bodoni MT" size="29.0" />
+         </font></Label>
+      <TextArea editable="false" layoutX="29.0" layoutY="82.0" prefHeight="176.0" prefWidth="394.0" text="1. Notice that you can cancel order and get a refund just if you're&#10;at the store that you make the requested order.&#10;2. If you cancel the order at the last hour before the supply time- &#10;you won't get a refund my friend.&#10;3. If you cancel the order between the last 1-3 hours before the &#10;supply time- you will get a 50% refund.&#10;4. If you cancel the order before the last 3 hours of the supply &#10;time- you will get a full refund.&#10;" />
+      <Button id="btnOrdernext" fx:id="btnOrdernext" layoutX="107.0" layoutY="285.0" mnemonicParsing="false" onAction="#cancelOrderStart" text="next" />
+   </children>
+</AnchorPane>

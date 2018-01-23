@@ -4,7 +4,7 @@
  }
 
  .label{
-     -fx-text-fill: #e8e8e8;
+     -fx-text-fill: #000000;
   }
 
  .button{
@@ -17,3 +17,4 @@
      -fx-background-color: white;
      -fx-background-radius: 0;
   }
+ 

@@ -114,7 +114,7 @@ public class SelfDefenitionProductController implements Initializable{
 
 	public void setComboBox()
 	{
-		cmbProductType.setItems(FXCollections.observableArrayList("BOUQUET", "ARRANGEMENT", "FLOWER_CROWN","BRIDAL_BOUQUET"));
+		cmbProductType.setItems(FXCollections.observableArrayList("BOUQUET", "ARRANGEMENT", "FLOWER_CROWN","BRIDAL_BOUQUET","VASE" , "WREATH_FLOWERS"));
 		cmbDominantColor.setItems(FXCollections.observableArrayList("RED", "WHITE", "YELLOW","ORANGE", "PINK"));
 		cmbPriceRange.setItems(FXCollections.observableArrayList("0-50", "50-100", "100-150","200-250" ,"250-300" , "300-350", "350-400", "400-450", "450-500"));
 		cmbProductType.setValue("BOUQUET");
@@ -146,7 +146,7 @@ public class SelfDefenitionProductController implements Initializable{
 			p = CatalogUI.products.get(j);
 			for(k = 0 ; k<CatalogUI.productsInSale.size() ; k++)
 			{
-				if(p.getpID().compareTo(CatalogUI.productsInSale.get(k).getpID()) == 0)
+				if(p.getpID() == CatalogUI.productsInSale.get(k).getpID())
 				{
 					p.setpPrice(CatalogUI.productsInSale.get(k).getpPrice());
 					flagSale = true;
@@ -155,7 +155,7 @@ public class SelfDefenitionProductController implements Initializable{
 			}
 				if((p.getpPrice()>=minPrice) && (p.getpPrice()<=maxPrice) && (String.valueOf(p.getpColor()).compareTo(pColor)==0) && (String.valueOf(p.getpType()).compareTo(pType)==0))
 				{
-					productsId.add(p.getpID());
+					productsId.add(String.valueOf(p.getpID()));
 					targetStream= new ByteArrayInputStream(p.getByteArray());
 					CatalogItemRow itemRow = new CatalogItemRow(p.getpID(), p.getpName(),p.getpType().toString(), p.getpPrice(),  p.getpColor().toString(), targetStream );
 			catalog.add(itemRow);
@@ -186,6 +186,7 @@ public class SelfDefenitionProductController implements Initializable{
 		FXMLLoader loader = new FXMLLoader(); 					 /* load object */
 		Pane root = loader.load(getClass().getResource("/controller/SelfDefOrder.fxml").openStream());
 		Scene scene = new Scene(root);			
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);	
 			
 		primaryStage.show();
@@ -201,7 +202,8 @@ public class SelfDefenitionProductController implements Initializable{
 		FXMLLoader loader = new FXMLLoader(); 					 /* load object */
 		Pane root = loader.load(getClass().getResource("/controller/CustomerOptions.fxml").openStream());
 	
-		Scene scene = new Scene(root);			
+		Scene scene = new Scene(root);	
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);	
 			
 		primaryStage.show();
@@ -215,7 +217,8 @@ public class SelfDefenitionProductController implements Initializable{
 		FXMLLoader loader = new FXMLLoader(); 					 /* load object */
 		Pane root = loader.load(getClass().getResource("/controller/SelfDefenitionProduct.fxml").openStream());
 	
-		Scene scene = new Scene(root);			
+		Scene scene = new Scene(root);	
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);	
 			
 		primaryStage.show();
@@ -248,7 +251,7 @@ public class SelfDefenitionProductController implements Initializable{
 		int i;
 		for (i=0; i<CatalogUI.products.size() ; i++)
 		{
-			if(CatalogUI.products.get(i).getpID().compareTo(pId) == 0)
+			if(CatalogUI.products.get(i).getpID() == Integer.valueOf(pId))
 				return CatalogUI.products.get(i);
 		}
 		return null;
@@ -264,6 +267,7 @@ public class SelfDefenitionProductController implements Initializable{
 		FXMLLoader loader = new FXMLLoader(); /* load object */
 		Parent root = FXMLLoader.load(getClass().getResource("/controller/UserLogin.fxml"));
 		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setTitle("LOGIN");
 		primaryStage.setScene(scene);
 		primaryStage.show();
@@ -279,7 +283,7 @@ public class SelfDefenitionProductController implements Initializable{
 		
 		
 		Scene scene = new Scene(root);			
-		//scene.getStylesheets().add(getClass().getResource("/gui/StudentForm.css").toExternalForm());
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		
 		primaryStage.setScene(scene);		
 		primaryStage.show();

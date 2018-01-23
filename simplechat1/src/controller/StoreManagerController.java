@@ -3,6 +3,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import boundery.ComplaintUI;
+import boundery.StoreManagerUI;
 import boundery.UserUI;
 import entity.Message;
 import entity.Store;
@@ -41,6 +42,7 @@ public class StoreManagerController implements Initializable {
 	{	
 		Parent root = FXMLLoader.load(getClass().getResource("/controller/StoreManagerOptions.fxml"));
 		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 	    primaryStage.setTitle("Menu");
         primaryStage.setScene(scene);
 		primaryStage.show();		
@@ -50,12 +52,21 @@ public class StoreManagerController implements Initializable {
 	
 	public void viewReportBtn(ActionEvent event) throws Exception //To open the view report option
 	{
-		((Node)event.getSource()).getScene().getWindow().hide();    			  /* Hiding primary window */
+		Message msg = new Message(UserUI.user.getId(),"Store Manager - Want To Store Number And Address Of The Store");
+		UserUI.myClient.accept(msg);
+		while(StoreManagerUI.stores.size() == 0);
+		Thread.sleep(200);
+		
+		UserUI.store = new Store();                             					/* Create New Object Of Store */
+		UserUI.store.setStoreId(Integer.parseInt(StoreManagerUI.stores.get(0)));	/* Put In the New Object The Store_Id */
+		UserUI.store.setStore_Address(StoreManagerUI.stores.get(1));                /* Put In the New Object The Store_Address */
+		 
+		((Node)event.getSource()).getScene().getWindow().hide();    			    /* Hiding primary window */
 		Stage primaryStage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
 		Pane root = loader.load(getClass().getResource("/controller/StoreManagerReportForm.fxml").openStream()); 
-		
-		Scene scene = new Scene(root);			
+		Scene scene = new Scene(root);	
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);		
 		primaryStage.show();
 	}
@@ -83,7 +94,6 @@ public class StoreManagerController implements Initializable {
 		Stage primaryStage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
 		Pane root = loader.load(getClass().getResource("/controller/AccountForm.fxml").openStream());
-		
 		Scene scene = new Scene(root);			
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);
@@ -102,6 +112,7 @@ public class StoreManagerController implements Initializable {
 		FXMLLoader loader = new FXMLLoader(); 		/* load object */
 		Parent root = FXMLLoader.load(getClass().getResource("/controller/UserLogin.fxml"));
 		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setTitle("LOGIN");
 		primaryStage.setScene(scene);
 		primaryStage.show();		

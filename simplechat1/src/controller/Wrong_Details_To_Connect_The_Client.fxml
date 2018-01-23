@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="215.0" prefWidth="510.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.UserController">
+   <children>
+      <Button id="btnExit" fx:id="btnExit" layoutX="229.0" layoutY="154.0" mnemonicParsing="false" onAction="#getExitBtn" text="Exit" />
+      <Label layoutX="47.0" layoutY="24.0" prefHeight="39.0" prefWidth="441.0" text="Login To Client - Wrong Details " textFill="#0022ff">
+         <font>
+            <Font name="Bodoni MT Italic" size="32.0" />
+         </font></Label>
+      <TextArea id="txtErrorMassage_Wrong_Details" fx:id="txtErrorMassage_Wrong_Details" editable="false" layoutX="67.0" layoutY="77.0" prefHeight="62.0" prefWidth="391.0" text="The Details That You Type Is Wrong !&#10;Please Try Again To Type ! " />
+   </children>
+</AnchorPane>

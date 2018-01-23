@@ -5,20 +5,18 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="215.0" prefWidth="312.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.OrderController">
+<AnchorPane prefHeight="215.0" prefWidth="345.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.OrderController">
    <children>
        <Button id="btnCustomerOption" fx:id="btnCustomerOption" layoutX="125.0" layoutY="176.0" mnemonicParsing="false" onAction="#backToCustomerOption" text="Back" />
       <Label layoutX="74.0" layoutY="14.0" text="Order Details" textFill="#0022ff">
          <font>
             <Font name="Bodoni MT" size="29.0" />
          </font></Label>
-      <Label layoutX="27.0" layoutY="57.0" text="Thank you for your order. Your account has been" />
-      <Label layoutX="27.0" layoutY="87.0" text="charged at" />
-      <Label id="lbltotalprice" fx:id="lbltotalprice" layoutX="97.0" layoutY="87.0" text="ammount" />
-      <Label layoutX="157.0" layoutY="87.0" text="because your Payment" />
-      <Label layoutX="27.0" layoutY="120.0" text=" Arrangement is" />
-      <Label id="lblArrangement" fx:id="lblArrangement" layoutX="123.0" layoutY="120.0" text="Arrang" />
-      <Label layoutX="27.0" layoutY="151.0" text="Your account balance is :" />
-      <Label id="lblAccountBalance" fx:id="lblAccountBalance" layoutX="166.0" layoutY="151.0" text="balance" />
+      <Label layoutX="27.0" layoutY="59.0" text="Thank you for your order." />
+      <Label layoutX="24.0" layoutY="89.0" text=" You have to pay" />
+      <Label id="lbltotalprice" fx:id="lbltotalprice" layoutX="127.0" layoutY="89.0" text="ammount" />
+      <Label layoutX="24.0" layoutY="121.0" text=" because your Payment Arrangement is" />
+      <Label id="lblArrangement" fx:id="lblArrangement" layoutX="241.0" layoutY="121.0" text="Arrang" />
+      <Label id="lblImidiateOrder" fx:id="lblImidiateOrder" layoutX="27.0" layoutY="149.0" text="IsImidiateOrder" />
    </children>
 </AnchorPane>

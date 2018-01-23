@@ -54,8 +54,7 @@ public class CompanyManagerReportController implements Initializable {
 			Stage primaryStage = new Stage();
 			FXMLLoader loader = new FXMLLoader();
 			Pane root = loader.load(getClass().getResource("/controller/CompanyManagerReportForm_Window_Only_One_Store.fxml").openStream());
-			
-			Scene scene = new Scene(root);			
+			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);		
 			primaryStage.show();
 			

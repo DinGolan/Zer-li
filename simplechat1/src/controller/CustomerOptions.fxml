@@ -17,7 +17,7 @@
             <Font name="Bodoni MT Bold" size="29.0" />
          </font></Label>
       <Button id="btnViewProfile" fx:id="btnViewProfile" layoutX="71.0" layoutY="201.0" mnemonicParsing="false" onAction="#openProfileWindow" prefHeight="44.0" prefWidth="172.0" text="View profile" />
-      <Button id="btnCancelOrder" layoutX="71.0" layoutY="139.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="172.0" text="Cancel order" />
+      <Button id="btnCancelOrder" fx:id="btnCancelOrder" layoutX="71.0" layoutY="139.0" mnemonicParsing="false" onAction="#cancelOrderWindow" prefHeight="44.0" prefWidth="172.0" text="Cancel order" />
       <Button id="btnCatalog" fx:id="btnCatalog" layoutX="71.0" layoutY="76.0" mnemonicParsing="false" onAction="#openCatalogWindow" prefHeight="44.0" prefWidth="172.0" text="View catalog" />
       <Button id="btnSelfDef" fx:id="btnSelfDef" layoutX="71.0" layoutY="260.0" mnemonicParsing="false" onAction="#openSelfDef" prefHeight="44.0" prefWidth="172.0" text="Self - Defenition Product" />
    </children>

@@ -70,8 +70,6 @@ public class ChatClient extends AbstractClient
 		  clientUI.addComplaint(msg);	  
 	  else if(((Message)msg).getOption().compareTo("get all the survey") ==0)
 		  clientUI.displayUI(msg);
-	  else if(((Message)msg).getOption().compareTo("get all the survey") ==0)
-		  clientUI.displayUI(msg);
 	  else if(((Message)msg).getOption().compareTo("get all stores from DB") ==0)
 		  clientUI.displayUI(msg);
 	  else if(((Message)msg).getOption().compareTo("Update customer account") ==0)
@@ -82,20 +80,19 @@ public class ChatClient extends AbstractClient
 		  clientUI.displayUI(msg);	
 	  else if(((Message)msg).getOption().compareTo("Get all orders for this customer") ==0)
 		  clientUI.displayUI(msg);
+	  else if(((Message)msg).getOption().compareTo("get all products in order") ==0)
+		  clientUI.displayUI(msg);
 	  else if(((Message)msg).getOption().compareTo("Get all complaints numbers for this customer service worker") ==0)
 		  clientUI.displayUI(msg);
 	  else if(((Message)msg).getOption().compareTo("Get complaint details") ==0)
-	  {
-		  System.out.println("maymay");
 		  clientUI.displayUI(msg);
-	  }
+	  else if(((Message)msg).getOption().compareTo("Get order details") ==0)
+		  clientUI.displayUI(msg);
 	  else if(((Message)msg).getOption().compareTo("Store manager want store number") ==0)
 		  clientUI.displayUI(msg);
-	  //else if(((Message)msg).getOption().compareTo("Update complaint") ==0)
-	//	  clientUI.displayUI(msg);	   else if(((Message)msg).getOption().compareTo("Store Manager - Add Store To Combo Box From DB") == 0) 
-
-	  else if(((Message)msg).getOption().compareTo("Store Manager - Take The Orders Of Specific Store") == 0) 
-		  clientUI.displayUI(msg);
+	  else if(((Message)msg).getOption().compareTo("Get all orders numbers for this customer can cancel") ==0)
+  			clientUI.displayUI(msg); 	  else if(((Message)msg).getOption().compareTo("Store Manager - Add Store To Combo Box From DB") == 0) 
+		  clientUI.displayUI(msg);	  	  else if(((Message)msg).getOption().compareTo("Store Manager - Take The Orders Of Specific Store") == 0) 		  clientUI.displayUI(msg);
 	  else if(((Message)msg).getOption().compareTo("Store Manager - Take The Complaints Of Specific Store") == 0) 
 		  clientUI.displayUI(msg);
 	  else if(((Message)msg).getOption().compareTo("Store Manager - Take the Revenue Of Specific Quarter Of Specific Store") == 0) 
@@ -103,6 +100,8 @@ public class ChatClient extends AbstractClient
 	  else if(((Message)msg).getOption().compareTo("Store Manager - Take The Date Of All the Report Of Specific Store") == 0) 
 		  clientUI.displayUI(msg);
 	  else if(((Message)msg).getOption().compareTo("Store Manager - Take The Surveys Of Specific Store In Specific Quarter") == 0) 
+		  clientUI.displayUI(msg);
+	  else if(((Message)msg).getOption().compareTo("Store Manager - Want To Store Number And Address Of The Store") == 0) 
 		  clientUI.displayUI(msg);
 	  else if(((Message)msg).getOption().compareTo("Company Manager - Add Store To Combo Box From DB") == 0) 
 		  clientUI.displayUI(msg);
@@ -118,25 +117,12 @@ public class ChatClient extends AbstractClient
 		  clientUI.displayUI(msg);
 	  else if(((Message)msg).getOption().compareTo("Company Manager - Compare Between Two Different Quarter") == 0) 
 		  clientUI.displayUI(msg);
-	  else if(((Message)msg).getOption().compareTo("get all the customerId") == 0) 
+	  else if(((Message)msg).getOption().compareTo("Customer - Want To Take His Order") == 0) 
 		  clientUI.displayUI(msg);
-	  else if(((Message)msg).getOption().compareTo("The storeId is not correct") == 0) 
+	  else if(((Message)msg).getOption().compareTo("Customer - Want To Take His Complaints") == 0) 
 		  clientUI.displayUI(msg);
-	  else if(((Message)msg).getOption().compareTo("Error your date not between start and end date of the survey") == 0) 
+	  else if(((Message)msg).getOption().compareTo("Customer - Want To Take His Account Details") == 0) 
 		  clientUI.displayUI(msg);
-	  else if(((Message)msg).getOption().compareTo("succed!") == 0)
-		  clientUI.displayUI(msg);
-	  else if(((Message)msg).getOption().compareTo("customer twice") == 0) 
-		  clientUI.displayUI(msg);
-	  
-	  else if(((Message)msg).getOption().compareTo("date between error") == 0)
-		  clientUI.displayUI(msg);
-	  else if(((Message)msg).getOption().compareTo("error store have survey") == 0)
-		  clientUI.displayUI(msg);
-	  else if(((Message)msg).getOption().compareTo("succes survey") == 0)
-		  clientUI.displayUI(msg);
-
-
   }
 
   /**

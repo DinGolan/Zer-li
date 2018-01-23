@@ -67,7 +67,7 @@ public class CompanyManagerController_With_Only_One_Store implements Initializab
 		FXMLLoader loader = new FXMLLoader(); 					 	 /* Load object */
 		Pane root = loader.load(getClass().getResource("/controller/CompanyManagerReportForm.fxml").openStream());
 		
-		Scene scene = new Scene(root);			
+		Scene scene = new Scene(root);	
 		primaryStage.setScene(scene);		
 		primaryStage.show();										   /* show catalog frame window */
 	}
@@ -84,7 +84,7 @@ public class CompanyManagerController_With_Only_One_Store implements Initializab
 		QuarterlyRevenueReportController_For_CompanyManager quarterlyRevenueReportController = loader.getController();
 		quarterlyRevenueReportController.loadStore(CompanyManagerUI.stores_For_Company_Manager.get(getItemIndex_For_CompanyManager())); 
 		
-		Scene scene = new Scene(root);			
+		Scene scene = new Scene(root);	
 		primaryStage.setScene(scene);		
 		primaryStage.show();
 	}
@@ -101,7 +101,7 @@ public class CompanyManagerController_With_Only_One_Store implements Initializab
 		OrderReportController_For_ComapnyManager orderReportController = loader.getController();
 		orderReportController.loadStore(CompanyManagerUI.stores_For_Company_Manager.get(getItemIndex_For_CompanyManager()));
 		
-		Scene scene = new Scene(root);			
+		Scene scene = new Scene(root);
 		primaryStage.setScene(scene);		
 		primaryStage.show();
 	}
@@ -118,7 +118,7 @@ public class CompanyManagerController_With_Only_One_Store implements Initializab
 		CustomerComplaintStatusReportController_For_CompanyManager customerComplaintStatusReportController = loader.getController();
 		customerComplaintStatusReportController.loadStore(CompanyManagerUI.stores_For_Company_Manager.get(getItemIndex_For_CompanyManager()));
 		
-		Scene scene = new Scene(root);			
+		Scene scene = new Scene(root);
 		primaryStage.setScene(scene);		
 		primaryStage.show();
 	}
@@ -135,7 +135,7 @@ public class CompanyManagerController_With_Only_One_Store implements Initializab
 		SatisfactionReportController_For_CompanyManager satisfactionReportController = loader.getController();
 		satisfactionReportController.loadStore(CompanyManagerUI.stores_For_Company_Manager.get(getItemIndex_For_CompanyManager()));
 		
-		Scene scene = new Scene(root);			
+		Scene scene = new Scene(root);
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}	

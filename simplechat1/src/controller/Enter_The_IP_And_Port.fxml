@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="358.0" prefWidth="431.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.UserController">
+   <children>
+      <Label id="txtHeadLine" fx:id="txtHeadLine" layoutX="99.0" layoutY="33.0" prefHeight="39.0" prefWidth="234.0" text="The Client - IP" textFill="RED">
+         <font>
+            <Font name="Times New Roman Bold" size="35.0" />
+         </font>
+         <effect>
+            <Glow />
+         </effect>
+      </Label>
+      <Label id="Label_IP" fx:id="Label_IP" layoutX="30.0" layoutY="100.0" text="Enter The IP -------&gt;" textFill="RED">
+         <effect>
+            <Glow />
+         </effect>
+         <font>
+            <Font name="System Italic" size="12.0" />
+         </font>
+      </Label>
+      <TextField id="txtIP" fx:id="txtIP" layoutX="142.0" layoutY="96.0" prefHeight="25.0" prefWidth="149.0" />
+      <Button id="btnIPAndPort" fx:id="btnIPAndPort" layoutX="176.0" layoutY="202.0" mnemonicParsing="false" onAction="#After_You_Enter_Your_Port_And_IP_Go_To_User_Login" text="Enter To Login" textFill="RED">
+         <effect>
+            <Glow />
+         </effect>
+         <font>
+            <Font name="System Italic" size="12.0" />
+         </font>
+      </Button>
+      <Label id="Label_Port" fx:id="Label_Port" layoutX="30.0" layoutY="159.0" text="Enter The Port ----&gt;" textFill="RED">
+         <effect>
+            <Glow />
+         </effect>
+         <font>
+            <Font name="System Italic" size="12.0" />
+         </font>
+      </Label>
+      <TextField id="txtPort" fx:id="txtPort" layoutX="142.0" layoutY="155.0" />
+      <Button id="btnCloseWindow" fx:id="btnCloseWindow" layoutX="115.0" layoutY="240.0" mnemonicParsing="false" onAction="#Close_The_Window" text="Only Close The Window After Logging" textFill="RED">
+         <effect>
+            <Glow />
+         </effect>
+         <font>
+            <Font name="System Italic" size="12.0" />
+         </font>
+      </Button>
+      <Button id="Exit_From_Client" fx:id="Exit_From_Client" layoutX="186.0" layoutY="319.0" mnemonicParsing="false" onAction="#getExitBtn" prefHeight="25.0" prefWidth="61.0" text="Exit " textFill="RED">
+         <font>
+            <Font name="System Italic" size="12.0" />
+         </font>
+      </Button>
+      <Label id="Lablel_Not_Enter_The_Server_Allready" fx:id="Lablel_Not_Enter_The_Server_Allready" layoutX="100.0" layoutY="288.0" text="--- If You Not Connect To Server AllReady ---" textFill="RED">
+         <font>
+            <Font name="System Italic" size="12.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
