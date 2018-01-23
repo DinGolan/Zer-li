@@ -2885,5 +2885,55 @@ public class EchoServer extends AbstractServer
 	  catch (SQLException e) {	e.printStackTrace();}	  
 	  return null;
   }
+  
+  public static void changeOrderStatusToRecived(Connection conn) /* This method get products table details from DB */
+  {
+	  ArrayList<Order> orders = new ArrayList<>();
+	  Order o;
+	  Statement stmt;
+	  String updateOrders;
+	  String requestedTime,hours,minutes;
+	  int userid;
+	  Date toCompare;
+	  LocalDate dateToCompare;
+	  LocalDate localDate = LocalDate.now();//For reference
+      Calendar cal = Calendar.getInstance();
+      int minute = cal.get(Calendar.MINUTE); /*get now time */
+      int hour = cal.get(Calendar.HOUR);
+      if(cal.get(Calendar.AM_PM) != 0)
+        	hour += 12;
+	  try {
+		  stmt = conn.createStatement();
+		  String getOrders = "SELECT * FROM project.order WHERE orderStatus='APPROVED';"; /* Get all the Table from the DB */
+		  ResultSet rs = stmt.executeQuery(getOrders);
+		  while(rs.next())
+	 	{
+			  o = new Order();
+			  o.setRequiredSupplyDate((rs.getDate("orderRequiredSupplyDate")).toLocalDate());
+			  o.setOrderID(rs.getInt("orderID"));
+			  o.setRequiredSupplyTime(rs.getString("orderRequiredSupplyTime"));
+			  orders.add(o);
+	 	}
+		  for(int i =0 ; i< orders.size() ; i++)
+		  {
+			  hours = orders.get(i).getRequiredSupplyTime().substring(0, 2);
+			  minutes = orders.get(i).getRequiredSupplyTime().substring(3, 5);
+			  dateToCompare= orders.get(i).getRequiredSupplyDate();
+			  if(localDate.isAfter(dateToCompare)) //This date after order supply requested date
+			  {
+				  updateOrders="UPDATE project.order SET orderStatus='"+Order.orderStatus.RECIVED+"' WHERE orderID="+orders.get(i).getOrderID()+";";
+				  stmt.executeUpdate(updateOrders);
+			  }
+			  else if(localDate.isEqual(dateToCompare))//This date equals order supply requested date
+			  {
+				  if(hour> Integer.valueOf(hours) || (hour == Integer.valueOf(hours) && Integer.valueOf(minutes) <= minute))
+				  {
+					  updateOrders="UPDATE project.order SET orderStatus='"+Order.orderStatus.RECIVED+"' WHERE orderID="+orders.get(i).getOrderID()+";";
+					  stmt.executeUpdate(updateOrders);
+				  }
+			  }
+	 	}
+	  } catch (SQLException e) {	e.printStackTrace();}	
+  }
 }
 
