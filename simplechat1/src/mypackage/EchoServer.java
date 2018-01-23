@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import java.util.Calendar;
@@ -41,6 +42,7 @@ import entity.Report;
 import entity.Store;
 import entity.Survey;
 import entity.User;
+import entity.Order.orderStatus;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 
@@ -58,7 +60,6 @@ public class EchoServer extends AbstractServer
 {
   //Class variables *************************************************
   static String url,username,password,name;
-  
   /**
    * The default port to listen on.
    */
@@ -91,7 +92,7 @@ public class EchoServer extends AbstractServer
   {
 	  	Connection conn = connectToDB();
 	    System.out.println("Message received: " + msg + " from " + client);
-	    
+	    changeOrderStatusToRecived(conn);
 	    if(((Message)msg).getOption().compareTo("0") == 0) 		/* Check that its update */
 	    		UpdateProductName(msg,conn); 
 	    
@@ -2873,6 +2874,56 @@ public class EchoServer extends AbstractServer
 	  } 
 	  catch (SQLException e) {	e.printStackTrace();}	  
 	  return null;
+  }
+  
+  protected void changeOrderStatusToRecived(Connection conn) /* This method get products table details from DB */
+  {
+	  ArrayList<Order> orders = new ArrayList<>();
+	  Order o;
+	  Statement stmt;
+	  String updateOrders;
+	  String requestedTime,hours,minutes;
+	  int userid;
+	  Date toCompare;
+	  LocalDate dateToCompare;
+	  LocalDate localDate = LocalDate.now();//For reference
+      Calendar cal = Calendar.getInstance();
+      int minute = cal.get(Calendar.MINUTE); /*get now time */
+      int hour = cal.get(Calendar.HOUR);
+      if(cal.get(Calendar.AM_PM) != 0)
+        	hour += 12;
+	  try {
+		  stmt = conn.createStatement();
+		  String getOrders = "SELECT * FROM project.order WHERE orderStatus='APPROVED';"; /* Get all the Table from the DB */
+		  ResultSet rs = stmt.executeQuery(getOrders);
+		  while(rs.next())
+	 	{
+			  o = new Order();
+			  o.setRequiredSupplyDate((rs.getDate("orderRequiredSupplyDate")).toLocalDate());
+			  o.setOrderID(rs.getInt("orderID"));
+			  o.setRequiredSupplyTime(rs.getString("orderRequiredSupplyTime"));
+			  orders.add(o);
+	 	}
+		  for(int i =0 ; i< orders.size() ; i++)
+		  {
+			  hours = orders.get(i).getRequiredSupplyTime().substring(0, 2);
+			  minutes = orders.get(i).getRequiredSupplyTime().substring(3, 5);
+			  dateToCompare= orders.get(i).getRequiredSupplyDate();
+			  if(localDate.isAfter(dateToCompare)) //This date after order supply requested date
+			  {
+				  updateOrders="UPDATE project.order SET orderStatus='"+Order.orderStatus.RECIVED+"' WHERE orderID="+orders.get(i).getOrderID()+";";
+				  stmt.executeUpdate(updateOrders);
+			  }
+			  else if(localDate.isEqual(dateToCompare))//This date equals order supply requested date
+			  {
+				  if(hour> Integer.valueOf(hours) || (hour == Integer.valueOf(hours) && Integer.valueOf(minutes) <= minute))
+				  {
+					  updateOrders="UPDATE project.order SET orderStatus='"+Order.orderStatus.RECIVED+"' WHERE orderID="+orders.get(i).getOrderID()+";";
+					  stmt.executeUpdate(updateOrders);
+				  }
+			  }
+	 	}
+	  } catch (SQLException e) {	e.printStackTrace();}	
   }
 }
 
