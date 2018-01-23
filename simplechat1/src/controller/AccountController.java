@@ -2,9 +2,7 @@ package controller;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
-
 import boundery.AccountUI;
-import boundery.ComplaintUI;
 import boundery.UserUI;
 import entity.Account;
 import entity.Account.PaymentArrangement;
@@ -16,7 +14,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
@@ -90,18 +87,16 @@ public class AccountController {
 		AccountUI.account=new Account();
 
 		a.setAccountUserId(txtAccountUserId.getText()); //set the user id
-		//a.setAccountBalanceCard(0); //set the balance account
-		//a.setAccountStoreNum(StoreManagerController.storeID); //save the store number that connected to this account and user
+		a.setAccountBalanceCard(0); //set the balance account
 		a.setAccountStoreNum(UserUI.store.getStoreId()); //save the store number that connected to this account and user
 		if(rdbtnAccountPaymentArrangmentAnnual.isSelected()) //if we choose Annual
 		{
 			a.setAccountPaymentArrangement(PaymentArrangement.ANNUAL);
 			LocalDate localDate = LocalDate.now().plusYears(1); //end subscription date one year later
-			java.sql.Date dateSql=null;
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 			String dateStr=localDate.toString();
 			Date parsed = format.parse(dateStr);
-			dateSql = new java.sql.Date(parsed.getTime());
+			java.sql.Date dateSql = new java.sql.Date(parsed.getTime());
 			a.setAccountSubscriptionEndDate(dateSql); //set the date
 		}
 					
@@ -206,8 +201,7 @@ public class AccountController {
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);	
 		primaryStage.setTitle("Menu");
-		primaryStage.show(); //show sore manager options window
-		//System.out.println("Exit from- Account card form");							
+		primaryStage.show(); //show sore manager options window							
 	}
 		
 }

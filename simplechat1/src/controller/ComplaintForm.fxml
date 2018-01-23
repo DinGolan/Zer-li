@@ -10,7 +10,7 @@
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="489.0" prefWidth="457.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ComplaintController">
    <children>
       <TextField id="txtComplaintUserId" fx:id="txtComplaintUserId" layoutX="187.0" layoutY="75.0" />
-      <TextArea id="txtComplaintReason" fx:id="txtComplaintReason" layoutX="22.0" layoutY="180.0" prefHeight="200.0" prefWidth="397.0" promptText="Enter customer reason of complaint (until 200 characters)">
+      <TextArea id="txtComplaintReason" fx:id="txtComplaintReason" disable="true" layoutX="22.0" layoutY="180.0" prefHeight="200.0" prefWidth="397.0" promptText="Enter customer reason of complaint (until 200 characters)">
          <font>
             <Font size="14.0" />
          </font>

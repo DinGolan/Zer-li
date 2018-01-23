@@ -13,17 +13,24 @@ import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+<<<<<<< .mine
+import java.time.LocalTime;
+import java.util.ArrayList;
+
+=======
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
+>>>>>>> .theirs
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Vector;
-
 import com.mysql.jdbc.PreparedStatement;
 
-import controller.EchoServerController;import entity.Account;
+import boundery.OrderUI;
+import controller.EchoServerController;
+import entity.Account;
 import entity.Complaint;
 import entity.Message;
 import entity.Order;
@@ -85,7 +92,6 @@ public class EchoServer extends AbstractServer
 	  	Connection conn = connectToDB();
 	    System.out.println("Message received: " + msg + " from " + client);
 	    
-	    
 	    if(((Message)msg).getOption().compareTo("0") == 0) 		/* Check that its update */
 	    		UpdateProductName(msg,conn); 
 	    
@@ -111,6 +117,13 @@ public class EchoServer extends AbstractServer
 	    		this.sendToAllClients(msg);
   		}
 	    
+	    if(((Message)msg).getOption().compareTo("get all products in order") ==0) //check if we get all the product in specific order
+	    {	
+	    	System.out.println("mayyy");
+	    		((Message)msg).setMsg(getAllProductsInOrder(msg, conn));	
+	    		this.sendToAllClients(msg);
+  		}
+	    
 	    if(((Message)msg).getOption().compareTo("get all stores from DB") ==0) 	    /* Check that we get from DB Because We want to Initialized */
 	    {										
 	    		((Message)msg).setMsg(getStoresFromDB(conn));	    
@@ -133,12 +146,25 @@ public class EchoServer extends AbstractServer
         {										
 	    	UpdateUserAtDB(msg,conn);
 		}
+<<<<<<< .mine
+	    		
+=======
 	    
+>>>>>>> .theirs
 		if (((Message) msg).getOption().compareTo("Update Product in DB") == 0) /* Check that we get from DB Because We want to Initialized */
+		{
+			UpdateProductAtDB(msg, conn);
+		} <<<<<<< .mine
+
+
+
+
+=======
 		{
 			UpdateProductAtDB(msg, conn);
 		} 
 		
+>>>>>>> .theirs
 		if (((Message) msg).getOption().compareTo("Update Product In Sale In DB") == 0) /* Check that we get from DB Because We want to Initialized */
 		{
 			UpdateProductInSaleAtDB(msg, conn);
@@ -224,9 +250,14 @@ public class EchoServer extends AbstractServer
     		this.sendToAllClients(msg);	
 		}
 	    
-	    if(((Message)msg).getOption().compareTo("Update complaint") ==0) //update compalint at DB
+	    if(((Message)msg).getOption().compareTo("Update complaint") ==0) //update complaint at DB
         {									
 	    	UpdateComplaint(msg,conn);    
+		}
+	    
+	    if(((Message)msg).getOption().compareTo("update cancel order") ==0) //update cancel order at DB
+        {									
+	    	UpdateCancelOrder(msg,conn);    
 		}
 	    
 	    if(((Message)msg).getOption().compareTo("UserStatus") ==0) 	    /* return user with specific UserName */
@@ -2087,6 +2118,32 @@ public class EchoServer extends AbstractServer
    	  return products;
      }
   
+  protected ArrayList<Product> getAllProductsInOrder(Object msg, Connection conn) //this method get all products for specific order
+  {
+	  ArrayList<Product> products = new ArrayList<Product>();
+	  int orderId = ((int)(((Message)msg).getMsg()));
+	System.out.println(orderId+"mayyyyyyyy");
+	  Statement stmt;
+	  Product pr;
+	  try {
+		  stmt = conn.createStatement();
+		  String getProductsTable = "SELECT * FROM project.productinorder WHERE OrderID="+orderId+";"; //get all the products for this order
+		  ResultSet rs = stmt.executeQuery(getProductsTable);
+		  while(rs.next())
+		  {
+			  pr = new Product();
+			  pr.setpID(rs.getInt("ProductID"));
+			  pr.setQuantity(rs.getInt("QuantityOfProduct"));
+			  pr.setpPrice(rs.getDouble("productPrice"));
+			  pr.setpName(rs.getString("ProductName"));
+			  System.out.println(pr);
+			  products.add(pr);
+	 	}
+	  } catch (SQLException e) {e.printStackTrace();}	
+	System.out.println(products+"mayyyyyyyy");
+	  return products;
+  }
+  
   protected ArrayList<Product> getProductsInSaleFromDB(Object msg, Connection conn) /* This method get products table details from DB */
   {
 	  ArrayList<Product> products = new ArrayList<Product>();
@@ -2211,7 +2268,11 @@ public class EchoServer extends AbstractServer
 	  return users_After_Change;
   }
   
-  protected ArrayList<Integer> getAllOrdersToCustomerCancel(Object msg, Connection conn) //this method get all the orders that match to specific customer and can be cancel
+ protected ArrayList<Integer> getAllOrdersToCustomerCancel(Object msg, Connection conn) //this method get all the orders that match to specific customer and can be cancel<<<<<<< .mine
+ protected ArrayList<Integer> getAllOrdersToCustomerCancel(Object msg, Connection conn) //this method get all the orders that match to specific customer and can be cancel
+=======
+
+>>>>>>> .theirs
   {
 	 int StoreNum = Integer.parseInt(((ArrayList<String>)(((Message)msg).getMsg())).get(1));
 	 System.out.println(StoreNum);
@@ -2239,23 +2300,24 @@ public class EchoServer extends AbstractServer
 
 	 try {
 		 stmt = conn.createStatement();
-		 String getOrders = "SELECT * FROM project.order WHERE customerID='"+requestedCustomerId+"' AND StoreID="+StoreNum+" AND orderStatus='APPROVED';";//get all the orders numbers that connected to this customer and made from this store and can be canceld
+		 String getOrders = "SELECT * FROM project.order WHERE customerID='"+requestedCustomerId+"' AND StoreID="+StoreNum+" AND orderStatus='APPROVED';";//get all the orders numbers that connected to this customer and made from this store and can be canceled
 		 ResultSet rs = stmt.executeQuery(getOrders);
 		 if(rs.isBeforeFirst()) //we have orders to this customer at DB
 		 {
 			 while(rs.next())
-	  			{
+	  		{
 	  				co = rs.getInt("orderID");
 	  				day= rs.getDate("orderRequiredSupplyDate");
 	  				time=rs.getString("orderRequiredSupplyTime");
 	  				t = LocalTime.parse(time); //the time from DB at localtime
 	  				if(day.after(today)||(day.equals(today)&&nowTime.isBefore(t))) //if the date of the order is in the future or its today but later
 	  					ordersNums.add(co); //we can try to cancel this order
-	  			}	
+	  		}	
 		 }
-		 else
+		 if(ordersNums.size()==0)
 			 ordersNums.add(-1); //to know that we didn't have orders to this customer at DB that we can to cancel
-		  } catch (SQLException e) {	e.printStackTrace();}			  
+		  } catch (SQLException e) {	e.printStackTrace();}	
+	 System.out.println(ordersNums);
 	  return ordersNums;
  }	
  
@@ -2279,6 +2341,10 @@ public class EchoServer extends AbstractServer
 		  		o=new Order();
 		  		temp = rs.getInt("orderID");
 		  		o.setOrderID(temp);
+		  		str= rs.getString("customerID");
+		  		o.setCustomerID(str);
+		  		temp=rs.getInt("StoreID");
+		  		o.setStoreID(temp);
 		  		day = rs.getDate("orderDate");
 		  		o.setOrderDate(day);
 		  		dayReq = rs.getDate("orderRequiredSupplyDate");
@@ -2427,7 +2493,7 @@ public class EchoServer extends AbstractServer
 		  	if(rs1.isBeforeFirst()) //we have customer at DB
 		  	{
 		  		stmt = conn.createStatement();
-		  		String getOrders = "SELECT * FROM project.order WHERE customerID='"+requestedCustomerId+"';"; //get all the orders numbers that connected to this customer
+		  		String getOrders = "SELECT * FROM project.order WHERE customerID='"+requestedCustomerId+"' AND orderStatus='APPROVED';"; //get all the orders numbers that connected to this customer and he didn't cancel them
 		  		ResultSet rs2 = stmt.executeQuery(getOrders);
 		  		if(rs2.isBeforeFirst()) //we have orders to this customer at DB
 		  		{
@@ -2491,19 +2557,45 @@ public class EchoServer extends AbstractServer
   protected void UpdateComplaint(Object msg, Connection conn) //this method update the complaint at DB
   {
 	  Complaint co = (Complaint)(((Message)msg).getMsg());
+	  int storeNumber = 0;
 	  Statement stmt;
 	  try {
 			stmt = conn.createStatement();
-			String updateComplaint = "UPDATE project.complaint SET ComplaintStatus ='" + co.getComplaintStat() +"', ComplaintCompansation="+co.getComplaintCompansation()+", ComplaintCompanyServiceWorkerAnswer='"+ co.getComplaintCompanyServiceWorkerAnswer()+ "' WHERE ComplaintNum='" +co.getComplaintNum() + "';";
+			String updateComplaint = "UPDATE project.complaint SET ComplaintStatus ='" + co.getComplaintStat() +"', ComplaintCompansation="+co.getComplaintCompansation()+", ComplaintCompanyServiceWorkerAnswer='"+ co.getComplaintCompanyServiceWorkerAnswer()+ "' WHERE ComplaintNum=" +co.getComplaintNum() + ";";
 			stmt.executeUpdate(updateComplaint); //update the complaint at DB
-			if(co.getComplaintStat().equals("CLOSE")) //if we finish to handle the complaint
+			if(co.getComplaintStat().equals(Complaint.ComplaintStatus.CLOSE)) //if we finish to handle the complaint
 			{
+				int OrderNum=co.getComplaintOrderId();
+				stmt = conn.createStatement(); //get the store number
+				String getStoreNum = "SELECT * FROM project.order WHERE orderID="+OrderNum+";";//get the store number for the account that his user complaint about specific order
+				ResultSet rs = stmt.executeQuery(getStoreNum);
+			  	while(rs.next())
+			  	{
+			  		storeNumber=rs.getInt("StoreID");
+			  	}
 				stmt = conn.createStatement(); //update the account compensation
-				String updateAccountBalance = "UPDATE project.account SET AccountBalanceCard = AccountBalanceCard + " +co.getComplaintCompansation() +"WHERE AccountUserId='" +co.getComplaintUserId() + "';";
+				String updateAccountBalance = "UPDATE project.account SET AccountBalanceCard = AccountBalanceCard + " +co.getComplaintCompansation() +"WHERE AccountUserId='" +co.getComplaintUserId() + "' AND AccountStoreId="+storeNumber+";";
 				stmt.executeUpdate(updateAccountBalance);
 			}
 		} catch (SQLException e) {	e.printStackTrace();}	  
-	  //ComplaintHandleController.saveComplaintflag=true;
+  }
+  
+  protected void UpdateCancelOrder(Object msg, Connection conn) //this method update the cancel order at DB
+  {
+	  Order o = (Order)(((Message)msg).getMsg());
+	  Statement stmt;
+	  try {
+			stmt = conn.createStatement();
+			String updateOrder = "UPDATE project.order SET orderStatus ='" + o.getoStatus() +"', orderRefund="+o.getRefund()+" WHERE orderID=" +o.getOrderID() + ";";
+			stmt.executeUpdate(updateOrder); //update the order at DB
+			if(o.getRefund()>0) //if he get a refund
+			{
+				System.out.println(o+"mayyyy");
+				stmt = conn.createStatement(); //update the account compensation
+				String updateAccountBalance = "UPDATE project.account SET AccountBalanceCard = AccountBalanceCard + " +o.getRefund() +"WHERE AccountUserId='" +o.getCustomerID() + "' AND AccountStoreId="+o.getStoreID()+";";
+				stmt.executeUpdate(updateAccountBalance);
+			}
+		} catch (SQLException e) {	e.printStackTrace();}	  
   }
   
   protected ArrayList<Integer> getAllComplaintsForWorker(Object msg, Connection conn) //this method get all the complaints that match to specific customer service worker

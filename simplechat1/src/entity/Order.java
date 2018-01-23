@@ -59,7 +59,7 @@ public class Order implements Serializable{
 
 	public Order(SupplyOption supply, double orderTotalPrice, HashMap<Product, Integer> productsInOrder,
 			LocalDate requiredSupplyDate, String customerID, String requiredSupplyTime, String recipientAddress,
-			String recipientName, String recipienPhoneNum, String postCard,  int storeID, Account.PaymentMethod paymentMethod) {
+			String recipientName, String recipienPhoneNum, String postCard,  int storeID, Account.PaymentMethod paymentMethod, orderStatus oStatus, double refund) {
 		super();
 		this.supply = supply;
 		this.orderDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
@@ -74,6 +74,8 @@ public class Order implements Serializable{
 		this.postCard = postCard;
 		this.storeID = storeID;
 		this.paymentMethod = paymentMethod;
+		this.oStatus=oStatus;
+		this.refund=refund;
 	}
 	
 	public Date getOrderDate() {
@@ -192,14 +194,15 @@ public class Order implements Serializable{
 		ProductInOrderType = productInOrderType;
 	}
 
-
 	@Override
 	public String toString() {
 		return "Order [orderDate=" + orderDate + ", supply=" + supply + ", orderTotalPrice=" + orderTotalPrice
-				+ ", productsInOrder=" + productsInOrder + ", requiredSupplyDate=" + requiredSupplyDate
-				+ ", customerID=" + customerID + ", storeID=" + storeID + ", requiredSupplyTime=" + requiredSupplyTime
-				+ ", recipientAddress=" + recipientAddress + ", recipientName=" + recipientName + ", recipienPhoneNum="
-				+ recipienPhoneNum + ", postCard=" + postCard + "]";
+				+ ", productsInOrder=" + productsInOrder + ", ProductInOrderType=" + ProductInOrderType
+				+ ", requiredSupplyDate=" + requiredSupplyDate + ", orderID=" + orderID + ", customerID=" + customerID
+				+ ", storeID=" + storeID + ", requiredSupplyTime=" + requiredSupplyTime + ", recipientAddress="
+				+ recipientAddress + ", recipientName=" + recipientName + ", recipienPhoneNum=" + recipienPhoneNum
+				+ ", postCard=" + postCard + ", refund=" + refund + ", oStatus=" + oStatus + ", paymentMethod="
+				+ paymentMethod + ", paymentArrangement=" + paymentArrangement + "]";
 	}
 
 	public Account.PaymentMethod getPaymentMethod() {
