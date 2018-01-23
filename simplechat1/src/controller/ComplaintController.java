@@ -28,8 +28,7 @@ import javafx.stage.Stage;
 public class ComplaintController implements Initializable{
 	private Complaint c= new Complaint();
 	public static boolean flag = false;
-	public static boolean loadOrdersFlag = false;
-	//private static int itemIndex = 0; //the default if he didn't choose an order take the first one 
+	public static boolean loadOrdersFlag = false; 
 	
 	@FXML
 	private TextField txtComplaintUserId; //text field for the complaint customer id
@@ -82,11 +81,10 @@ public class ComplaintController implements Initializable{
 		Pane root = null;
 		Stage primaryStage = new Stage(); //Object present window with graphics elements
 		FXMLLoader loader = new FXMLLoader(); //load object
-		String customerThatComplain=txtComplaintUserId.getText(); //אולי להפוך לגלובלי
+		String customerThatComplain=txtComplaintUserId.getText(); 
 		ArrayList<Integer> ordersNum = new ArrayList<Integer>();
 		Message msg = new Message(customerThatComplain , "Get all orders for this customer");
 		UserUI.myClient.accept(msg); // get all orders for this user from DB
-		//while(ComplaintUI.ordersNumbers.size() == 0); //the waiting time is low להחליף  ל flag ואז לנסות לבטל את הכפתור של טעינת הזמנות
 		while(loadOrdersFlag==false)
 		{
 			System.out.print(""); //DOES NOT RUN WITHOUT THIS LINE
@@ -97,7 +95,8 @@ public class ComplaintController implements Initializable{
 		if(ordersNum.get(0)==-1) //we didn't have orders to this customer at DB
 		{
 			//לבדוק הדפסות ונעילות של אנבל דיסאבל
-			txtComplaintUserId.clear();
+			//txtComplaintUserId.clear();
+			txtComplaintReason.setDisable(true);
 			cmbComplaintOrderId.setPromptText("Doesn't have orders");
 			cmbComplaintOrderId.setDisable(true); //view the option to open combobox
 			root = loader.load(getClass().getResource("/controller/ComplaintOrderMsg.fxml").openStream());
@@ -109,10 +108,10 @@ public class ComplaintController implements Initializable{
 		}
 		else if(ordersNum.get(0)==-2) //we didn't have this customer at DB
 		{
-			//txtComplaintUserId.clear();
 			cmbComplaintOrderId.setPromptText("Press Load orders");
 			cmbComplaintOrderId.setDisable(true); //view the option to open combobox
 			txtComplaintUserId.setPromptText("User doesn't exist");
+			txtComplaintReason.setDisable(true);
 			root = loader.load(getClass().getResource("/controller/ComplaintCustomerMsg.fxml").openStream());
 			Scene scene = new Scene(root);
 			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
@@ -123,6 +122,8 @@ public class ComplaintController implements Initializable{
 		else //the customer exist and have some orders
 		{
 			cmbComplaintOrderId.setPromptText("Press Load orders");
+			txtComplaintUserId.setDisable(true);
+			txtComplaintReason.setDisable(false);
 			listForOrderComboBox = FXCollections.observableArrayList(ordersNum); 
 			cmbComplaintOrderId.setItems(FXCollections.observableArrayList(listForOrderComboBox)); //set the orders to this user
 			cmbComplaintOrderId.setDisable(false); //view the option to open combobox
@@ -134,18 +135,6 @@ public class ComplaintController implements Initializable{
 	{
 		if(cmbComplaintOrderId.getSelectionModel().getSelectedIndex() == -1)
 			return -1;
-		/*{
-			Pane root = null;
-			Stage primaryStage = new Stage(); //Object present window with graphics elements
-			FXMLLoader loader = new FXMLLoader(); //load object
-			root = loader.load(getClass().getResource("/controller/ComplaintComboboxMsg.fxml").openStream());
-			Scene scene = new Scene(root);			
-			primaryStage.setScene(scene);	
-			primaryStage.setTitle("Error msg");
-			primaryStage.show();	
-			return 0;
-		}*/
-			//return itemIndex;// לעשות שיקפיץ הודעה שהוא חייב לבחור משהו
 		return cmbComplaintOrderId.getSelectionModel().getSelectedIndex();
 	}
 			
@@ -166,7 +155,7 @@ public class ComplaintController implements Initializable{
 		java.sql.Date dateSql = new java.sql.Date(parsed.getTime());
 		c.setComplaintDate(dateSql); //set the date
 		
-		if(txtComplaintReason.getLength()>200) //enter complain reason more then 200 characters
+		if((txtComplaintReason.getLength()>200)||(txtComplaintReason.getLength()<10)) //enter complain reason more then 200 characters or less then 10
 		{
 			((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
 			root = loader.load(getClass().getResource("/controller/ComplaintReasonLengthMsg.fxml").openStream());
@@ -178,7 +167,7 @@ public class ComplaintController implements Initializable{
 		}
 		
 		else 
-		{ //enter 200 characters for the reason field
+		{ //enter until 200 characters for the reason field
 			c.setComplaintDetails(txtComplaintReason.getText()); 
 		
 			if(getItemIndex() == -1) //didn't choose order number from the combobox
@@ -249,6 +238,7 @@ public class ComplaintController implements Initializable{
 
 	public void closeComplaintFormWindow(ActionEvent event) throws Exception  //To close the The Window of the complaint form GUI
 	{ 
+		//CustomerServiceWorkerController.checkComplaintsFlag=true;
 		((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
 		Stage primaryStage = new Stage();						 //Object present window with graphics elements
 		FXMLLoader loader = new FXMLLoader(); 					 //load object

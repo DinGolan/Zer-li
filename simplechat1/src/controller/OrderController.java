@@ -196,6 +196,7 @@ public class OrderController implements Initializable{
 		}
 		flag = 0;
 		Scene scene = new Scene(root);			
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);	
 				
 		primaryStage.show();									 /* show catalog frame window */
@@ -211,7 +212,8 @@ public class OrderController implements Initializable{
 			FXMLLoader loader = new FXMLLoader(); 					 /* load object */
 			Pane root = loader.load(getClass().getResource("/controller/OrderForm.fxml").openStream());
 		
-			Scene scene = new Scene(root);			
+			Scene scene = new Scene(root);	
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 			primaryStage.setScene(scene);	
 				
 			primaryStage.show();									 /* show catalog frame window */
@@ -223,7 +225,8 @@ public class OrderController implements Initializable{
 			FXMLLoader loader = new FXMLLoader(); 					 /* load object */
 			Pane root = loader.load(getClass().getResource("/controller/NoProductsInOrderMsg.fxml").openStream());
 		
-			Scene scene = new Scene(root);			
+			Scene scene = new Scene(root);	
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 			primaryStage.setScene(scene);	
 				
 			primaryStage.show();									 /* show catalog frame window */
@@ -247,7 +250,8 @@ public class OrderController implements Initializable{
 			FXMLLoader loader = new FXMLLoader(); 					 /* load object */
 			Pane root = loader.load(getClass().getResource("/controller/ErrDateMsg.fxml").openStream());
 		
-			Scene scene = new Scene(root);			
+			Scene scene = new Scene(root);		
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 			primaryStage.setScene(scene);	
 				
 			primaryStage.show();
@@ -261,7 +265,8 @@ public class OrderController implements Initializable{
 					FXMLLoader loader = new FXMLLoader(); 					 /* load object */
 					Pane root = loader.load(getClass().getResource("/controller/ErrEmptyFieldMsg.fxml").openStream());
 					
-					Scene scene = new Scene(root);			
+					Scene scene = new Scene(root);		
+					scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 					primaryStage.setScene(scene);	
 					
 					primaryStage.show();
@@ -274,7 +279,8 @@ public class OrderController implements Initializable{
 				FXMLLoader loader = new FXMLLoader(); 					 /* load object */
 				Pane root = loader.load(getClass().getResource("/controller/ErrEmptyFieldMsg.fxml").openStream());
 				
-				Scene scene = new Scene(root);			
+				Scene scene = new Scene(root);
+				scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 				primaryStage.setScene(scene);	
 				
 				primaryStage.show();
@@ -292,7 +298,8 @@ public class OrderController implements Initializable{
 					FXMLLoader loader = new FXMLLoader(); 					 /* load object */
 					Pane root = loader.load(getClass().getResource("/controller/ErrDateMsg.fxml").openStream());
 				
-					Scene scene = new Scene(root);			
+					Scene scene = new Scene(root);	
+					scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 					primaryStage.setScene(scene);	
 						
 					primaryStage.show();
@@ -308,8 +315,10 @@ public class OrderController implements Initializable{
 						s = Order.SupplyOption.DELIVERY;
 					else 
 						s = Order.SupplyOption.PICKUP;
-					String userId = UserUI.user.getId();
-					Message msg = new Message(userId, "Update customer account");
+					ArrayList<Object> user = new ArrayList<>();
+					user.add(0, UserUI.user.getId());
+					user.add(1, UserUI.store.getStoreId());
+					Message msg = new Message(user, "Update customer account");
 					UserUI.myClient.accept(msg);
 					accountFlag = false;
 					accountExistFlag = true;
@@ -326,7 +335,8 @@ public class OrderController implements Initializable{
 						FXMLLoader loader = new FXMLLoader(); 					 /* load object */
 						Pane root = loader.load(getClass().getResource("/controller/NoAccountMsg.fxml").openStream());
 					
-						Scene scene = new Scene(root);			
+						Scene scene = new Scene(root);	
+						scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 						primaryStage.setScene(scene);	
 							
 						primaryStage.show();
@@ -342,7 +352,7 @@ public class OrderController implements Initializable{
 							pm = Account.PaymentMethod.CASH;
 						else
 							pm = Account.PaymentMethod.CREDITCARD;
-						Order saveOrder = new Order(s, totalPrice, CatalogController.order.getProductsInOrder(), localDate, UserUI.user.getId(), txtRequiredTime.getText(), txtAddress.getText(), txtRecipientsName.getText(), txtRecipientsPhoneNumber.getText(), txtPostCard.getText() , UserUI.store.getStoreId(), pm);
+						Order saveOrder = new Order(s, totalPrice, CatalogController.order.getProductsInOrder(), localDate, UserUI.user.getId(), txtRequiredTime.getText(), txtAddress.getText(), txtRecipientsName.getText(), txtRecipientsPhoneNumber.getText(), txtPostCard.getText() , UserUI.store.getStoreId(), pm,Order.orderStatus.APPROVED,0);
 						msg = new Message(saveOrder, "insert order to DB");
 						UserUI.myClient.accept(msg);
 						accountFlag = false;
@@ -361,7 +371,8 @@ public class OrderController implements Initializable{
 						FXMLLoader loader = new FXMLLoader(); 					 /* load object */
 						Pane root = loader.load(getClass().getResource("/controller/ThankForOrder.fxml").openStream());
 						totalPrice=0;  /*for next order*/
-						Scene scene = new Scene(root);			
+						Scene scene = new Scene(root);	
+						scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 						primaryStage.setScene(scene);	
 								
 						primaryStage.show();
@@ -375,7 +386,8 @@ public class OrderController implements Initializable{
 						FXMLLoader loader = new FXMLLoader(); 					 /* load object */
 						Pane root = loader.load(getClass().getResource("/controller/ErrTimmeMsg.fxml").openStream());
 					
-						Scene scene = new Scene(root);			
+						Scene scene = new Scene(root);		
+						scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 						primaryStage.setScene(scene);	
 							
 						primaryStage.show();
@@ -437,7 +449,8 @@ public class OrderController implements Initializable{
 		FXMLLoader loader = new FXMLLoader(); 					 /* load object */
 		Pane root = loader.load(getClass().getResource("/controller/OrderForm.fxml").openStream());
 	
-		Scene scene = new Scene(root);			
+		Scene scene = new Scene(root);		
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);	
 			
 		primaryStage.show();									 /* show catalog frame window */
@@ -453,6 +466,7 @@ public class OrderController implements Initializable{
 		Pane root = loader.load(getClass().getResource("/controller/CustomerOptions.fxml").openStream());
 	
 		Scene scene = new Scene(root);			
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);	
 			
 		primaryStage.show();

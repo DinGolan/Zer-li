@@ -84,6 +84,7 @@ public class UserController implements Initializable {
 	{
 		Parent root = FXMLLoader.load(getClass().getResource("/controller/Enter_The_IP_And_Port.fxml"));
 		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setTitle("Client IP - Managment Tool");
 		primaryStage.setScene(scene);
 		primaryStage.show();
@@ -116,7 +117,7 @@ public class UserController implements Initializable {
 		root = FXMLLoader.load(getClass().getResource("/controller/UserLogin.fxml"));
 		Scene scene = new Scene(root);
 		
-		/* scene.getStylesheets().add(getClass().getResource("/boundery/CatalogFrame.css").toExternalForm()); */
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		
 		primaryStage.setTitle("LOGIN");
 		primaryStage.setScene(scene);
@@ -129,6 +130,7 @@ public class UserController implements Initializable {
 		Stage primaryStage = new Stage(); 						  /* Object present window with graphics elements */
 		Parent root = FXMLLoader.load(getClass().getResource("/controller/Enter_The_IP_And_Port.fxml"));
 		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setTitle("Client IP - Managment Tool");
 		primaryStage.setScene(scene);
 		primaryStage.show();
@@ -190,6 +192,7 @@ public class UserController implements Initializable {
 				break;
 			case CUSTOMER_SERVICE_WORKER:
 				permission = "CustomerServiceWorkerOptions";
+				//CustomerServiceWorkerController.checkComplaintsFlag=true;
 				break;
 			case CUSTOMER:
 				permission = "CustomerChooseStore";
@@ -204,6 +207,12 @@ public class UserController implements Initializable {
 				permission = "StoreWorkerOptions";
 				break;
 			}
+			
+			/*if (permission.equals("CustomerServiceWorkerOptions")) //customerServiceWorker
+				permission="24HoursComplaints";
+			else
+				permission = "/controller/" + permission + ".fxml";*/
+			
 			permission = "/controller/" + permission + ".fxml";
 			URL o = getClass().getResource(permission);
 			((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */

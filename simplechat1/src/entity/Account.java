@@ -7,7 +7,6 @@ public class Account implements Serializable{
 
 	private String accountUserId; //save the userId for this account
 	public PaymentArrangement accountPaymentArrangement;
-	//public PaymentMethod accountPaymentMethod;
 	private double accountBalanceCard;
 	private String accountCreditCardNum;
 	private Date accountSubscriptionEndDate;
@@ -16,31 +15,28 @@ public class Account implements Serializable{
 	public enum PaymentArrangement{ //enum for the payment arrangement
 		FULLPRICE,MONTHLY,ANNUAL
 	}
+	
 	public enum PaymentMethod{ //enum for the payment method
 		CASH,CREDITCARD;	
-	}
+	}	
 	
-	/*public Account() { //constructor
-		//super();
-		this.accountUserId = null;
-		this.accountPaymentArrangement = PaymentArrangement.FULLPRICE;
-		this.accountPaymentMethod = PaymentMethod.CASH;
-		this.accountBalanceCard = 0;
-		this.accountCreditCardNum = null;
-		this.accountSubscriptionEndDate = null;	
-	}*/
+	public Account() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
-	/*public Account(String accountUserId, PaymentArrangement accountPaymentArrangement,
-			PaymentMethod accountPaymentMethod, double accountBalanceCard, String accountCreditCardNum,
-			Date accountSubscriptionEndDate) {
+
+	public Account(String accountUserId, PaymentArrangement accountPaymentArrangement, double accountBalanceCard,
+			String accountCreditCardNum, Date accountSubscriptionEndDate, int accountStoreNum) {
 		super();
 		this.accountUserId = accountUserId;
 		this.accountPaymentArrangement = accountPaymentArrangement;
-		this.accountPaymentMethod = accountPaymentMethod;
 		this.accountBalanceCard = accountBalanceCard;
 		this.accountCreditCardNum = accountCreditCardNum;
 		this.accountSubscriptionEndDate = accountSubscriptionEndDate;
-	}*/
+		this.accountStoreNum = accountStoreNum;
+	}
+
 
 	public String getAccountUserId() { //accountUserId getter
 		return accountUserId;
@@ -57,14 +53,6 @@ public class Account implements Serializable{
 	public void setAccountPaymentArrangement(PaymentArrangement accountPaymentArrangement) { //accountPaymentArrangement setter
 		this.accountPaymentArrangement = accountPaymentArrangement;
 	}
-
-	//public PaymentMethod getAccountPaymentMethod() { //accountPaymentMethod getter
-	//	return accountPaymentMethod;
-	//}
-
-	//public void setAccountPaymentMethod(PaymentMethod accountPaymentMethod) { //accountPaymentMethod setter
-	//	this.accountPaymentMethod = accountPaymentMethod;
-	//}
 
 	public double getAccountBalanceCard() { //accountBalanceCard getter
 		return accountBalanceCard;

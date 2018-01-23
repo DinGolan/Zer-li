@@ -26,10 +26,12 @@
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <TableView layoutX="84.0" layoutY="264.0" prefHeight="200.0" prefWidth="200.0">
+      <TableView id="cancelOrder_table" fx:id="cancelOrder_table" editable="true" layoutY="264.0" prefHeight="200.0" prefWidth="369.0">
         <columns>
-          <TableColumn prefWidth="121.0" text="Product" />
-          <TableColumn prefWidth="78.0" text="Quantity" />
+            <TableColumn id="tablecolumn_id" fx:id="tablecolumn_id" prefWidth="76.0" text="Number" />
+            <TableColumn id="tablecolumn_id" fx:id="tablecolumn_name" prefWidth="163.0" text="Name" />
+          <TableColumn id="tablecolumn_quantity" fx:id="tablecolumn_quantity" prefWidth="65.0" text="Quantity" />
+          <TableColumn id="tablecolumn_price" fx:id="tablecolumn_price" prefWidth="64.0" text="Price" />
         </columns>
       </TableView>
    </children>

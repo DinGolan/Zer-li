@@ -12,12 +12,12 @@
    <children>
       <Button id="btnBack" fx:id="btnBack" layoutX="206.0" layoutY="350.0" mnemonicParsing="false" onAction="#closeCarttWindow" text="Back" />
       <Button id="btnOrder" fx:id="btnOrder" layoutX="61.0" layoutY="350.0" mnemonicParsing="false" onAction="#continueToOrder" text="Continue to Order" />
-      <Label layoutX="88.0" layoutY="32.0" text="Your - Cart" textFill="#0022ff">
+      <Label layoutX="88.0" layoutY="21.0" text="Your - Cart" textFill="#0022ff">
          <font>
             <Font name="Bodoni MT Bold" size="29.0" />
          </font></Label>
       <Button id="btnRemove" fx:id="btnRemove" layoutX="229.0" layoutY="167.0" mnemonicParsing="false" onAction="#removeProduct" text="Remove" />
-      <TextArea editable="false" layoutX="25.0" layoutY="92.0" prefHeight="45.0" prefWidth="283.0" text="Choose a product from your list and press remove&#10;if you dont want it in your cart." />
+      <TextArea editable="false" layoutX="25.0" layoutY="69.0" prefHeight="68.0" prefWidth="283.0" text="Choose a product from your list and press&#10; remove if you dont want it in your cart." />
       <ComboBox id="cmbProducts" fx:id="cmbProducts" layoutX="45.0" layoutY="167.0" prefWidth="150.0" />
       <Label layoutX="41.0" layoutY="231.0" text="Total price : ">
          <font>

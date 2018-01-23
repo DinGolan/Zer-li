@@ -178,7 +178,7 @@ public void displayUI(Object message)
 	    
 	    if(((Message)message).getOption().compareTo("get all products in sale from DB") ==0)
 	    {
-	  	  	int i=0,j;
+	  	  	int i=0;
 	  	  	ArrayList<Product> temp = new ArrayList<Product>();
 	  	  	temp = (ArrayList<Product>)((Message)message).getMsg();
 	  	  	CatalogUI.productsInSale.clear();
@@ -188,6 +188,18 @@ public void displayUI(Object message)
 	  	  	CatalogUI.productsInSale.add(temp.get(i));
 	  	  	}
 	  	  CatalogController.waitFlag=1;
+	    }
+	    
+	    if(((Message)message).getOption().compareTo("get all products in order") ==0)
+	    {
+	  	  	int i=0;
+	  	  	ArrayList<Product> temp = new ArrayList<Product>();
+	  	  	temp = (ArrayList<Product>)((Message)message).getMsg();
+	  	  	OrderUI.productInOrder.clear();
+
+	  	  	for(i=0;i<temp.size();i++)
+	  	  		OrderUI.productInOrder.add(temp.get(i));
+	  	  CancelOrderController.getProducstFlag=true;
 	    }
 	    
 	    if(((Message)message).getOption().compareTo("insert order to DB") == 0)
@@ -307,7 +319,15 @@ public void displayUI(Object message)
   	  		StoreManagerController.storeID=((Integer)((Message)message).getMsg()); //save the store number
   	  		StoreManagerController.flag=true; //finish to get the store number
 	    }
-	    
+
+	    /*else if(((Message)message).getOption().compareTo("Update complaint") == 0) //update complaint	    
+	      {
+    	System.out.println("clientcons");
+	  	  	//ComplaintUI.complaint=new Complaint();
+	  	  	ComplaintUI.complaint=(Complaint)((Message)message).getMsg(); //save the complaint from the DB with all the details at the ComplaintUI
+	  	  	ComplaintHandleController.complaintFlag=true; //finish to get all the details for this complaint
+	  	  	System.out.println(ComplaintUI.complaint);
+	    }*/ 
 	    /* else if(((Message)message).getOption().compareTo("Update complaint") == 0) //update complaint	   
 	       {
     			System.out.println("clientcons");
@@ -316,6 +336,20 @@ public void displayUI(Object message)
 	  	  		ComplaintHandleController.complaintFlag=true; //finish to get all the details for this complaint
 	  	  		System.out.println(ComplaintUI.complaint);
 	    }  */ 
+
+    else if(((Message)message).getOption().compareTo("Store Manager - Add Store To Combo Box From DB") == 0)
+	    {
+		  	  int i=0;
+			  ArrayList<Store> temp = new ArrayList<Store>();
+			  temp = (ArrayList<Store>)((Message)message).getMsg();
+			  StoreManagerUI.stores.clear();
+
+			  for(i=0;i<temp.size();i++)
+		  	  {
+	//			  StoreManagerUI.stores.add(temp.get(i));
+		  	  }	    
+		}
+	    
 	    else if(((Message)message).getOption().compareTo("Store Manager - Take The Orders Of Specific Store") == 0)
 	    {
 		  	  int i=0;
