@@ -319,8 +319,7 @@ public void displayUI(Object message)
   	  		StoreManagerController.storeID=((Integer)((Message)message).getMsg()); //save the store number
   	  		StoreManagerController.flag=true; //finish to get the store number
 	    }
-	    
-<<<<<<< .mine
+
 	    /*else if(((Message)message).getOption().compareTo("Update complaint") == 0) //update complaint	    
 	      {
     	System.out.println("clientcons");
@@ -329,7 +328,6 @@ public void displayUI(Object message)
 	  	  	ComplaintHandleController.complaintFlag=true; //finish to get all the details for this complaint
 	  	  	System.out.println(ComplaintUI.complaint);
 	    }*/ 
-=======
 	    /* else if(((Message)message).getOption().compareTo("Update complaint") == 0) //update complaint	   
 	       {
     			System.out.println("clientcons");
@@ -338,7 +336,7 @@ public void displayUI(Object message)
 	  	  		ComplaintHandleController.complaintFlag=true; //finish to get all the details for this complaint
 	  	  		System.out.println(ComplaintUI.complaint);
 	    }  */ 
->>>>>>> .theirs
+
     else if(((Message)message).getOption().compareTo("Store Manager - Add Store To Combo Box From DB") == 0)
 	    {
 		  	  int i=0;
@@ -350,31 +348,8 @@ public void displayUI(Object message)
 		  	  {
 	//			  StoreManagerUI.stores.add(temp.get(i));
 		  	  }	    
-		}<<<<<<< .mine
-	    {
-		  	  int i=0;
-			  ArrayList<Store> temp = new ArrayList<Store>();
-			  temp = (ArrayList<Store>)((Message)message).getMsg();
-			  StoreManagerUI.stores.clear();
-
-			  for(i=0;i<temp.size();i++)
-		  	  {
-	//			  StoreManagerUI.stores.add(temp.get(i));
-		  	  }	    
 		}
-=======
-
-
-
-
-
-
-
-
-
-
-
->>>>>>> .theirs
+	    
 	    else if(((Message)message).getOption().compareTo("Store Manager - Take The Orders Of Specific Store") == 0)
 	    {
 		  	  int i=0;

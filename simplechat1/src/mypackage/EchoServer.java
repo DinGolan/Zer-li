@@ -13,15 +13,15 @@ import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-<<<<<<< .mine
+
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-=======
+
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
->>>>>>> .theirs
+
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map.Entry;
@@ -146,25 +146,12 @@ public class EchoServer extends AbstractServer
         {										
 	    	UpdateUserAtDB(msg,conn);
 		}
-<<<<<<< .mine
-	    		
-=======
-	    
->>>>>>> .theirs
+
 		if (((Message) msg).getOption().compareTo("Update Product in DB") == 0) /* Check that we get from DB Because We want to Initialized */
 		{
 			UpdateProductAtDB(msg, conn);
-		} <<<<<<< .mine
+		}
 
-
-
-
-=======
-		{
-			UpdateProductAtDB(msg, conn);
-		} 
-		
->>>>>>> .theirs
 		if (((Message) msg).getOption().compareTo("Update Product In Sale In DB") == 0) /* Check that we get from DB Because We want to Initialized */
 		{
 			UpdateProductInSaleAtDB(msg, conn);
@@ -2269,10 +2256,6 @@ public class EchoServer extends AbstractServer
   }
   
  protected ArrayList<Integer> getAllOrdersToCustomerCancel(Object msg, Connection conn) //this method get all the orders that match to specific customer and can be cancel<<<<<<< .mine
- protected ArrayList<Integer> getAllOrdersToCustomerCancel(Object msg, Connection conn) //this method get all the orders that match to specific customer and can be cancel
-=======
-
->>>>>>> .theirs
   {
 	 int StoreNum = Integer.parseInt(((ArrayList<String>)(((Message)msg).getMsg())).get(1));
 	 System.out.println(StoreNum);
