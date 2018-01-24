@@ -8,13 +8,12 @@
   }
 
  .button{
--fx-background-color: linear-gradient(#4f5b66,#343d46);
--fx-background-radius: 100;
--fx-text-fill: #c0c5ce;
+	-fx-background-color: linear-gradient(#4f5b66,#343d46);
+	-fx-background-radius: 100;
+	-fx-text-fill: #DC143C;
  }
 
  .text-area{
      -fx-background-color: white;
-     -fx-background-radius: 0;
   }
  

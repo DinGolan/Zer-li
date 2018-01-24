@@ -65,8 +65,15 @@ public class SatisfactionReportController_For_CompanyManager implements Initiali
 	 
 	public void loadStore(Store s) 			 /* To load the Store details to the text fields */
 	{ 
-		this.store = s;
-		this.txtStoreID.setText(String.valueOf(store.getStoreId()));
+		if(CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == true && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == true)
+		{
+			this.store = s;
+			this.txtStoreID.setText(String.valueOf(store.getStoreId()));
+		}
+		else
+		{
+			this.txtStoreID.setText(String.valueOf(1));
+		}
 	}
 	
 /* --------------------------------- Close the Satisfaction Report Window ------------------------------------------------- */			
@@ -103,12 +110,31 @@ public class SatisfactionReportController_For_CompanyManager implements Initiali
 		String Year;
 		String Full_Date_String;
 		Date temp_Date_Quarter_Report;
-		temp_Date_Quarter_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.get(1);                             /* The Date */
-		Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
-		Year = Full_Date_String.substring(0 , 4);
-		Month = Full_Date_String.substring(5 , 7);
-		Year_Integer = Integer.parseInt(Year);
-		Month_Integer = Integer.parseInt(Month);
+		
+		if((CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == false && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == false)
+				|| (CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == false && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == true) 
+				|| (CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == true && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == false))
+		{
+			int temp_Store_Id = 1;
+			temp_Date_Quarter_Report = Date.valueOf("2017-12-31");
+			CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.clear();
+			CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.add(temp_Store_Id);
+			CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.add(temp_Date_Quarter_Report);
+			Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
+			Year = Full_Date_String.substring(0 , 4);
+			Month = Full_Date_String.substring(5 , 7);
+			Year_Integer = Integer.parseInt(Year);
+			Month_Integer = Integer.parseInt(Month);
+		}
+		else
+		{
+			temp_Date_Quarter_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.get(1);                             /* The Date */
+			Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
+			Year = Full_Date_String.substring(0 , 4);
+			Month = Full_Date_String.substring(5 , 7);
+			Year_Integer = Integer.parseInt(Year);
+			Month_Integer = Integer.parseInt(Month);
+		}
 		
 		this.txtYear.setText(String.valueOf(Year_Integer)); 					/* Set The Year */
 		

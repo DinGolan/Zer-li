@@ -85,7 +85,9 @@ public class UserController implements Initializable {
 	{
 		Parent root = FXMLLoader.load(getClass().getResource("/controller/Enter_The_IP_And_Port.fxml"));
 		Scene scene = new Scene(root);
+		
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+		
 		primaryStage.setTitle("Client IP - Managment Tool");
 		primaryStage.setScene(scene);
 		primaryStage.show();
@@ -112,6 +114,9 @@ public class UserController implements Initializable {
 			((Node) event.getSource()).getScene().getWindow().hide(); 
 			Parent root = FXMLLoader.load(getClass().getResource("/controller/Wrong_Details_To_Connect_The_Client.fxml"));
 			Scene scene = new Scene(root);
+			
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Error Massage");
 			primaryStage.show();
@@ -144,7 +149,9 @@ public class UserController implements Initializable {
 		Stage primaryStage = new Stage(); 						  /* Object present window with graphics elements */
 		Parent root = FXMLLoader.load(getClass().getResource("/controller/Enter_The_IP_And_Port.fxml"));
 		Scene scene = new Scene(root);
+		
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+		
 		primaryStage.setTitle("Client IP - Managment Tool");
 		primaryStage.setScene(scene);
 		primaryStage.show();
@@ -172,7 +179,9 @@ public class UserController implements Initializable {
 			((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
 			root = FXMLLoader.load(getClass().getResource("/controller/UserDoesNotExist.fxml"));
 			Scene scene = new Scene(root);
+			
 			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("error msg");
 			primaryStage.show();
@@ -184,7 +193,9 @@ public class UserController implements Initializable {
 			((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
 			root = FXMLLoader.load(getClass().getResource("/controller/WrongPasswordMsg.fxml"));
 			Scene scene = new Scene(root);
+			
 			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("error msg");
 			primaryStage.show();
@@ -233,7 +244,9 @@ public class UserController implements Initializable {
 			((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
 			root = FXMLLoader.load(o);
 			Scene scene = new Scene(root);
+			
 			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Menu");
 			primaryStage.show();
@@ -246,7 +259,9 @@ public class UserController implements Initializable {
 				((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
 				root = FXMLLoader.load(getClass().getResource("/controller/AllReadyLoginMsg.fxml"));
 				Scene scene = new Scene(root);
+				
 				scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+				
 				primaryStage.setScene(scene);
 				primaryStage.setTitle("error msg");
 				primaryStage.show();
@@ -256,7 +271,9 @@ public class UserController implements Initializable {
 				((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
 				root = FXMLLoader.load(getClass().getResource("/controller/BlockedMsg.fxml"));
 				Scene scene = new Scene(root);
+				
 				scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+				
 				primaryStage.setScene(scene);
 				primaryStage.setTitle("error msg");
 				primaryStage.show();
@@ -271,7 +288,9 @@ public class UserController implements Initializable {
 		FXMLLoader loader = new FXMLLoader(); /* load object */
 		Parent root = FXMLLoader.load(getClass().getResource("/controller/UserLogin.fxml"));
 		Scene scene = new Scene(root);
+		
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+		
 		primaryStage.setTitle("LOGIN");
 		primaryStage.setScene(scene);
 		primaryStage.show();
@@ -286,7 +305,9 @@ public class UserController implements Initializable {
 		FXMLLoader loader = new FXMLLoader(); /* load object */
 		Parent root = FXMLLoader.load(getClass().getResource("/controller/UserLogin.fxml"));
 		Scene scene = new Scene(root);
+		
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+	
 		primaryStage.setTitle("LOGIN");
 		primaryStage.setScene(scene);
 		primaryStage.show();

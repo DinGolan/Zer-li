@@ -22,7 +22,7 @@ import javafx.stage.Stage;
 
 public class CompanyManagerReportController implements Initializable {
 
-	private int Integer_The_Option_You_Choose;
+	public static int Integer_The_Option_You_Choose;
 	private String String_The_Option_You_Choose;
 	private static int itemIndex = 0; 		/* This Variable Need for the the Case - that we not choose any Option - So By Default it will Be The Index 0 Its Mean - One */
 	public static int Flag_For_Return_Window_With_One_Store_Or_With_Two_Store = 1;

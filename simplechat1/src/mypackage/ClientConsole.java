@@ -116,6 +116,9 @@ public class ClientConsole implements ChatIF
 			e.printStackTrace();
 		}
 		Scene scene = new Scene(root);
+		
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+		
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Error Massage");
 		primaryStage.show();

@@ -52,8 +52,15 @@ public class CustomerComplaintStatusReportController_For_CompanyManager_2 implem
 	
 	public void loadStore(Store s) 					/* To load the User details to the text fields */
 	{ 
-		this.store = s;
-		this.txtStoreID.setText(String.valueOf(store.getStoreId()));
+		if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2 == true)
+		{
+			this.store = s;
+			this.txtStoreID.setText(String.valueOf(store.getStoreId()));
+		}
+		else
+		{
+			this.txtStoreID.setText(String.valueOf(2));
+		}
 	}
 	
 	public void closeCustomerComplaintStatusReportWindow(ActionEvent event) throws Exception    /* To close the The Window of the Product GUI and Show The Catalog GUI again */
@@ -71,12 +78,31 @@ public class CustomerComplaintStatusReportController_For_CompanyManager_2 implem
 		String Year;
 		String Full_Date_String;
 		Date temp_Date_Quarter_Report;
-		temp_Date_Quarter_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager_2.get(1);                             /* The Date */
-		Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
-		Year = Full_Date_String.substring(0 , 4);
-		Month = Full_Date_String.substring(5 , 7);
-		Year_Integer = Integer.parseInt(Year);
-		Month_Integer = Integer.parseInt(Month);
+		
+		if((CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == false)
+				|| (CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == true) 
+				|| (CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == false))
+		{
+			int temp_Store_Id = 2;
+			temp_Date_Quarter_Report = Date.valueOf("2017-09-30");
+			CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager_2.clear();
+			CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager_2.add(temp_Store_Id);
+			CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager_2.add(temp_Date_Quarter_Report);
+			Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
+			Year = Full_Date_String.substring(0 , 4);
+			Month = Full_Date_String.substring(5 , 7);
+			Year_Integer = Integer.parseInt(Year);
+			Month_Integer = Integer.parseInt(Month);
+		}
+		else
+		{
+			temp_Date_Quarter_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager_2.get(1);                             /* The Date */
+			Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
+			Year = Full_Date_String.substring(0 , 4);
+			Month = Full_Date_String.substring(5 , 7);
+			Year_Integer = Integer.parseInt(Year);
+			Month_Integer = Integer.parseInt(Month);
+		}
 		
 		this.txtYear.setText(String.valueOf(Year_Integer)); 					/* Set The Year */
 		
@@ -100,6 +126,7 @@ public class CustomerComplaintStatusReportController_For_CompanyManager_2 implem
 		ArrayList<Object> StoreID_And_Date_Of_Report = new ArrayList<Object>();
 		StoreID_And_Date_Of_Report.add(CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager_2.get(0));    /* The Store Id */
 		StoreID_And_Date_Of_Report.add(CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager_2.get(1));    /* The Date Of the Report */
+		
 		msg = new Message(StoreID_And_Date_Of_Report,"Company Manager - Take The Complaints Of Specific Store"); 		/* I take All the Orders Of Specific Store , And After That I Take All the Complaint Of All The Order Of the Specific Store */
 		UserUI.myClient.accept(msg);
 		while(CompanyManagerUI.complaints_For_Company_Manager_2.size() == 0)

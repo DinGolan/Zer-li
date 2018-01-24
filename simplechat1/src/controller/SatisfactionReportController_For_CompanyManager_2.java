@@ -59,8 +59,15 @@ public class SatisfactionReportController_For_CompanyManager_2 implements Initia
 	 
 	public void loadStore(Store s) 			 /* To load the Store details to the text fields */
 	{ 
-		this.store = s;
-		this.txtStoreID.setText(String.valueOf(store.getStoreId()));
+		if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2 == true)
+		{
+			this.store = s;
+			this.txtStoreID.setText(String.valueOf(store.getStoreId()));
+		}
+		else
+		{
+			this.txtStoreID.setText(String.valueOf(2));
+		}
 	}
 	
 /* --------------------------------- Close the Satisfaction Report Window ------------------------------------------------- */			
@@ -76,19 +83,69 @@ public class SatisfactionReportController_For_CompanyManager_2 implements Initia
 	@Override
 	public void initialize(URL location, ResourceBundle resources) 
 	{
-		int Year_Integer;
-		int Month_Integer;
+		int Year_Integer = 0;
+		int Month_Integer = 0;
 		String Month;
 		String Year;
 		String Full_Date_String;
 		Date temp_Date_Quarter_Report;
-		temp_Date_Quarter_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager_2.get(1);                             /* The Date */
-		Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
-		Year = Full_Date_String.substring(0 , 4);
-		Month = Full_Date_String.substring(5 , 7);
-		Year_Integer = Integer.parseInt(Year);
-		Month_Integer = Integer.parseInt(Month);
 		
+		if(CompanyManagerReportController.Integer_The_Option_You_Choose == 1)
+		{
+		
+			if((CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == false)
+					|| (CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == true) 
+					|| (CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == false))
+			{
+				int temp_Store_Id = 2;
+				temp_Date_Quarter_Report = Date.valueOf("2017-09-30");
+				CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager_2.clear();
+				CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager_2.add(temp_Store_Id);
+				CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager_2.add(temp_Date_Quarter_Report);
+				Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
+				Year = Full_Date_String.substring(0 , 4);
+				Month = Full_Date_String.substring(5 , 7);
+				Year_Integer = Integer.parseInt(Year);
+				Month_Integer = Integer.parseInt(Month);
+			}
+			else
+			{
+				temp_Date_Quarter_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager_2.get(1);                             /* The Date */
+				Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
+				Year = Full_Date_String.substring(0 , 4);
+				Month = Full_Date_String.substring(5 , 7);
+				Year_Integer = Integer.parseInt(Year);
+				Month_Integer = Integer.parseInt(Month);
+			}
+		}
+		else if(CompanyManagerReportController.Integer_The_Option_You_Choose == 2)
+		{
+			if((CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == false)
+					|| (CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == true) 
+					|| (CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == false))
+				{
+					int temp_Store_Id = 1;
+					temp_Date_Quarter_Report = Date.valueOf("2017-12-31");
+					CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager_2.clear();
+					CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager_2.add(temp_Store_Id);
+					CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager_2.add(temp_Date_Quarter_Report);
+					Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
+					Year = Full_Date_String.substring(0 , 4);
+					Month = Full_Date_String.substring(5 , 7);
+					Year_Integer = Integer.parseInt(Year);
+					Month_Integer = Integer.parseInt(Month);
+				}
+				else
+				{
+					temp_Date_Quarter_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager_2.get(1);                             /* The Date */
+					Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
+					Year = Full_Date_String.substring(0 , 4);
+					Month = Full_Date_String.substring(5 , 7);
+					Year_Integer = Integer.parseInt(Year);
+					Month_Integer = Integer.parseInt(Month);
+				}
+		}
+			
 		this.txtYear.setText(String.valueOf(Year_Integer)); 					/* Set The Year */
 		
 		if(Month_Integer == 1 || Month_Integer == 2 || Month_Integer == 3)      /* Set The Month */
@@ -111,6 +168,7 @@ public class SatisfactionReportController_For_CompanyManager_2 implements Initia
 		ArrayList<Object> StoreID_And_Date_Of_Report = new ArrayList<Object>();
 		StoreID_And_Date_Of_Report.add(CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager_2.get(0)); /* The Store Id */
 		StoreID_And_Date_Of_Report.add(CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager_2.get(1)); /* The Date Of the Report */
+		
 		msg = new Message(StoreID_And_Date_Of_Report ,"Company Manager - Take The Surveys Of Specific Store In Specific Quarter"); 		/* I take All the Orders Of Specific Store , And After That I Take All the Complaint Of All The Order Of the Specific Store */
 		UserUI.myClient.accept(msg);
 		while(CompanyManagerUI.Average_Result_Of_Each_Qustions_In_surveys_For_Company_Manager_2.size() == 0)

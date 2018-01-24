@@ -8,54 +8,72 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="149.0" prefHeight="361.0" prefWidth="364.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EchoServerController">
+<AnchorPane minHeight="149.0" prefHeight="361.0" prefWidth="437.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EchoServerController">
    <children>
-      <Label id="Label_Connected" fx:id="Label_Connected" layoutX="135.0" layoutY="87.0" text="Not Connected" textFill="RED">
+      <Label id="Label_Connected" fx:id="Label_Connected" layoutX="180.0" layoutY="89.0" text="Not Connected" textFill="RED">
          <font>
-            <Font size="14.0" />
+            <Font name="System Italic" size="14.0" />
          </font>
          <effect>
             <Glow />
          </effect>
       </Label>
-      <Button id="btnConnect" fx:id="btnConnect" layoutX="191.0" layoutY="268.0" mnemonicParsing="false" onAction="#TryToConnectToServer" prefHeight="25.0" prefWidth="69.0" text="Connect" textFill="RED">
+      <Button id="btnConnect" fx:id="btnConnect" layoutX="235.0" layoutY="268.0" mnemonicParsing="false" onAction="#TryToConnectToServer" prefHeight="25.0" prefWidth="67.0" text="Connect" textFill="RED">
          <effect>
             <Glow />
-         </effect></Button>
-      <Button id="btnExit" fx:id="btnExit" layoutX="117.0" layoutY="268.0" mnemonicParsing="false" onAction="#getExitBtn" prefHeight="25.0" prefWidth="69.0" text="Exit" textFill="RED">
+         </effect>
+         <font>
+            <Font name="System Italic" size="12.0" />
+         </font></Button>
+      <Button id="btnExit" fx:id="btnExit" layoutX="158.0" layoutY="268.0" mnemonicParsing="false" onAction="#getExitBtn" prefHeight="25.0" prefWidth="67.0" text="Exit" textFill="RED">
          <effect>
             <Glow />
-         </effect></Button>
+         </effect>
+         <font>
+            <Font name="System Italic" size="12.0" />
+         </font></Button>
       <Label id="Label_Name_Of_Scheme" fx:id="Label_Name_Of_Scheme" layoutX="48.0" layoutY="149.0" text="Enter Name Of Scheme ---&gt;" textFill="RED">
          <effect>
             <Glow />
          </effect>
+         <font>
+            <Font name="System Italic" size="12.0" />
+         </font>
       </Label>
       <Label id="Label_User" fx:id="Label_User" layoutX="47.0" layoutY="188.0" text="Enter Name Of User -------&gt;" textFill="RED">
          <effect>
             <Glow />
          </effect>
+         <font>
+            <Font name="System Italic" size="12.0" />
+         </font>
       </Label>
       <Label id="Label_Password" fx:id="Label_Password" layoutX="47.0" layoutY="228.0" text="Enter Password ------------&gt;" textFill="RED">
          <effect>
             <Glow />
          </effect>
-      </Label>
-      <TextField id="txtScheme" fx:id="txtScheme" layoutX="201.0" layoutY="145.0" />
-      <TextField id="txtUser" fx:id="txtUser" layoutX="201.0" layoutY="184.0" />
-      <Label id="txtHeadLine" fx:id="txtHeadLine" layoutX="82.0" layoutY="27.0" prefHeight="39.0" prefWidth="212.0" text="The - Server" textFill="RED">
          <font>
-            <Font name="Times New Roman Bold" size="35.0" />
+            <Font name="System Italic" size="12.0" />
+         </font>
+      </Label>
+      <TextField id="txtScheme" fx:id="txtScheme" layoutX="240.0" layoutY="145.0" />
+      <TextField id="txtUser" fx:id="txtUser" layoutX="240.0" layoutY="184.0" />
+      <Label id="txtHeadLine" fx:id="txtHeadLine" layoutX="82.0" layoutY="27.0" prefHeight="54.0" prefWidth="266.0" text="The - Server" textFill="RED">
+         <font>
+            <Font name="Times New Roman Bold" size="48.0" />
          </font>
          <effect>
             <Glow />
          </effect>
       </Label>
-      <Button id="btnCloseWindow" fx:id="btnCloseWindow" layoutX="117.0" layoutY="305.0" mnemonicParsing="false" onAction="#Close_The_Window" text="Only Close The Window" textFill="RED">
+      <Button id="btnCloseWindow" fx:id="btnCloseWindow" layoutX="159.0" layoutY="305.0" mnemonicParsing="false" onAction="#Close_The_Window" text="Only Close The Window" textFill="RED">
          <effect>
             <Glow />
          </effect>
+         <font>
+            <Font name="System Italic" size="12.0" />
+         </font>
       </Button>
-      <PasswordField id="txtPassword" fx:id="txtPassword" layoutX="201.0" layoutY="222.0" />
+      <PasswordField id="txtPassword" fx:id="txtPassword" layoutX="240.0" layoutY="224.0" />
    </children>
 </AnchorPane>

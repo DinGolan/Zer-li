@@ -31,8 +31,9 @@ public class StoreManagerReportController implements Initializable {
 
 	private Message msg;
 	private static int itemIndex = 0; /* This Variable Need for the the Case - that we not choose any Store from the ComboBox , so we take the Store that in Index 0 By Default - Store 1 */
-	private int temp_Store_Id;
+	public static int temp_Store_Id;
 	private Date temp_Date_Quarter_Report;
+	public static boolean Flag_Press_On_The_Date_ComboBox = false;
 	
 	ObservableList<Date> DateList;
 	
@@ -200,26 +201,16 @@ public class StoreManagerReportController implements Initializable {
 	
 	public void Click_On_Your_Quarter_Report(ActionEvent event) throws Exception
 	{
-		
-		/* ---------------------- For The Revenue Report ---------------------------*/
 		temp_Date_Quarter_Report = StoreManagerUI.Dates.get(getItemIndexFromDateComboBox());
 		ArrayList<Object> Store_Id_And_Date_Of_Report = new ArrayList<Object>();
 		Store_Id_And_Date_Of_Report.add(temp_Store_Id);
 		Store_Id_And_Date_Of_Report.add(temp_Date_Quarter_Report);
-		msg = new Message(Store_Id_And_Date_Of_Report,"Store Manager - Take the Revenue Of Specific Quarter Of Specific Store");
-		UserUI.myClient.accept(msg);
-		while(StoreManagerUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter.size() == 0)
-		{
-			if(StoreManagerUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter.size() == 0)
-			{
-				break;
-			}
-		}
-		Thread.sleep(200);
+
+		/* ---------------------- For The Revenue Report ---------------------------*/
+		
 		StoreManagerUI.Help_To_Transfer_Object_At_Revenue_Report.clear();
-		StoreManagerUI.Help_To_Transfer_Object_At_Revenue_Report.add(StoreManagerUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter.get(0));
-		StoreManagerUI.Help_To_Transfer_Object_At_Revenue_Report.add(StoreManagerUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter.get(1));
-		StoreManagerUI.Help_To_Transfer_Object_At_Revenue_Report.add(temp_Date_Quarter_Report);
+		StoreManagerUI.Help_To_Transfer_Object_At_Revenue_Report.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
+		StoreManagerUI.Help_To_Transfer_Object_At_Revenue_Report.add(Store_Id_And_Date_Of_Report.get(1));    /* The Date Of the Report */
 		
 		/* ----------------------- For The Order Report -----------------------------*/
 		
@@ -238,6 +229,8 @@ public class StoreManagerReportController implements Initializable {
 		StoreManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report.clear();
 		StoreManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
 		StoreManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report.add(Store_Id_And_Date_Of_Report.get(1));  /* The Date Of the Report */
+		
+		Flag_Press_On_The_Date_ComboBox = true;
 	}
 	
 /* -------------------------------- Initialized The ComboBox In the First Window - Report GUI ------------------------------- */	
@@ -245,6 +238,8 @@ public class StoreManagerReportController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
+		Flag_Press_On_The_Date_ComboBox = false;
+		
 		set_Store_At_Text();
 		temp_Store_Id = UserUI.store.getStoreId();
 		msg = new Message(temp_Store_Id, "Store Manager - Take The Date Of All the Report Of Specific Store");

@@ -38,6 +38,9 @@ public class CompanyManagerController_With_Only_One_Store implements Initializab
 	/* Variable That Help's me To Transfer Details To the DB */
 	private int temp_Store_Id;
 	private Date temp_Date_Quarter_Report;
+	public static boolean Flag_Enter_On_The_Date_Combo_Box = false;
+	public static boolean Flag_Enter_On_The_Store_Combo_Box = false;
+	
 	
 	/**
 	 * With This Variable I Can Fill The ComboBox With Number Of Store & Address , And Date Of Report
@@ -264,6 +267,8 @@ public class CompanyManagerController_With_Only_One_Store implements Initializab
 		}
 		Thread.sleep(200);
 		set_Dates_Of_Report_At_ComboBox_For_CompanyManager();
+		
+		Flag_Enter_On_The_Store_Combo_Box = true;
 	}	
 	
 /* -------------------------------- The Button Of The Report That We Choose ------------------------------- */				
@@ -277,30 +282,20 @@ public class CompanyManagerController_With_Only_One_Store implements Initializab
  	 */
 	public void Click_On_Your_Quarter_Report_For_CompanyManager(ActionEvent event) throws Exception
 	{
-		/* ---------------------- For The Revenue Report ------------------------------------------------------------------------------------------------------------------------------------------------------------- */
-		
 		temp_Date_Quarter_Report = CompanyManagerUI.Dates_For_Company_Manager.get(getItemIndexFromDateComboBox_For_CompanyManager());
 		ArrayList<Object> Store_Id_And_Date_Of_Report = new ArrayList<Object>();
 		Store_Id_And_Date_Of_Report.add(temp_Store_Id);
 		Store_Id_And_Date_Of_Report.add(temp_Date_Quarter_Report);
-		msg = new Message(Store_Id_And_Date_Of_Report,"Company Manager - Take the Revenue Of Specific Quarter Of Specific Store");
-		UserUI.myClient.accept(msg);
-		while(CompanyManagerUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter_For_Company_Manager.size() == 0)
-		{
-			if(CompanyManagerUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter_For_Company_Manager.size() == 0)
-			{
-				break;
-			}
-		}
-		Thread.sleep(200);
+		
+		
+		/* ---------------------- For The Revenue Report ------------------------------------------------------------------------------------------------------------------------------------------------------------- */
 		
 		/**
 		 * This Variable Helps Me To Transfer Important Details For Building The Revenue Report
 		 */
 		CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.clear();
-		CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.add(CompanyManagerUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter_For_Company_Manager.get(0));
-		CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.add(CompanyManagerUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter_For_Company_Manager.get(1));
-		CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.add(temp_Date_Quarter_Report);
+		CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.add(Store_Id_And_Date_Of_Report.get(0));
+		CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.add(Store_Id_And_Date_Of_Report.get(1));
 		
 		/* ----------------------- For The Order Report ----------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 		
@@ -328,6 +323,8 @@ public class CompanyManagerController_With_Only_One_Store implements Initializab
 		CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.clear();
 		CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
 		CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.add(Store_Id_And_Date_Of_Report.get(1));  /* The Date Of the Report */
+		
+		Flag_Enter_On_The_Date_Combo_Box = true;
 	}	
 	
 /* -------------------------------- Initialized The ComboBox In the First Window - Report GUI ------------------------------------------------------------------------------------------------------------------------- */		
@@ -338,6 +335,9 @@ public class CompanyManagerController_With_Only_One_Store implements Initializab
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
+		Flag_Enter_On_The_Date_Combo_Box = false;
+		Flag_Enter_On_The_Store_Combo_Box = false;
+		
 		ArrayList<Store> stores = new ArrayList<Store>();           /* For the First Connection With The DB the ArrayList Of stores Is Empty */
 		msg = new Message(stores,"Company Manager - Add Store To Combo Box From DB");
 		UserUI.myClient.accept(msg);
