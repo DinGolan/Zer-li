@@ -30,7 +30,8 @@ public class ExpertSurveyController implements Initializable {
 	private Button btnAddConclusion = null; /* button close for close product form */
 	@FXML
 	private Button btnInfo = null; /* button close for close product form */
-
+	@FXML
+	private ComboBox cmbSurveyCustomerId;  /* ComboBox With List Of Product */
 	@FXML
 	private ComboBox cmbSurveyId;  /* ComboBox With List Of Product */
 	
@@ -57,6 +58,21 @@ public class ExpertSurveyController implements Initializable {
 		//CustomerServiceWorkerButton.flag =false;
 		slist = FXCollections.observableArrayList(UserUI.Id);
 		cmbSurveyId.setItems(slist); // initelize id combo box
+		//---------------------------------------------------------customer----------------------------
+		msg.setOption("get all the customerId");
+		UserUI.myClient.accept(msg);
+		//msg2 = new Message(temp, "get all the customerId");
+		//UserUI.myClient.accept(msg2);
+		while(SurveyResultController.flag2 == false)
+		{
+			System.out.print("SACA");
+		}
+
+		SurveyResultController.flag2 = false;
+		//CustomerServiceWorkerButton.flag =false;
+		slist = FXCollections.observableArrayList(UserUI.CId);
+		cmbSurveyCustomerId.setItems(slist); // initelize id combo box
+
 
 	}
 	public int getItemIndex(ComboBox cmb) /* With this Method we Take Product from the List of the Product at the ComboBox */

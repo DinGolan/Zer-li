@@ -2,6 +2,9 @@ package controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -18,6 +21,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
@@ -27,7 +31,7 @@ import javafx.stage.Stage;
 public class SurveyController implements Initializable {
 
 	@FXML
-	private TextField txtQ1; /* text field for the product Id */
+	private DatePicker dp = new DatePicker(LocalDate.now());
 	@FXML
 	private ComboBox cmb;  /* ComboBox With List Of Product */
 	@FXML
@@ -81,8 +85,13 @@ public class SurveyController implements Initializable {
 		temp = new ArrayList<String>();
 		
 		temp.add((Integer.toString(getItemIndex(cmb)+1))); // store id
-
-		temp.add(this.txtQ1.getText()); // end date
+		LocalDate localDate = dp.getValue();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		LocalDate today = LocalDate.now();
+  		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+  		String formattedString = today.format(formatter);
+	
+		temp.add(formattedString); // end date
 		msg = new Message(temp, "add survey");
 
 		UserUI.myClient.accept(msg);
