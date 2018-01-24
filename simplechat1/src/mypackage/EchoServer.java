@@ -2178,7 +2178,6 @@ protected boolean checkStoreHasSurvey(Object msg, Connection conn,java.util.Date
 	  		Statement stmt;
 	     	ArrayList<String> temp = (ArrayList<String>)(((Message)msg).getMsg());
 	     	ArrayList<Integer> ans = new ArrayList<Integer>();
-			stmt = conn.createStatement();
 	   		if(checkCustomerFillTwice(conn,Integer.parseInt(temp.get(0)),Integer.parseInt(temp.get(1))) ==false)
 	   		{
 	   			System.out.println("customer didnt fill this survey");      			
@@ -2187,7 +2186,8 @@ protected boolean checkStoreHasSurvey(Object msg, Connection conn,java.util.Date
 		 			return a;
 
 	   		}
-			
+			stmt = conn.createStatement();
+
 			 String getSurveyIdTable = "SELECT* FROM project.survey_result WHERE Surveyid = " + "'" +temp.get(0) + "'" +"AND customerId =" +"'" +temp.get(1) + "'" + ";";
 			 ResultSet rs = stmt.executeQuery(getSurveyIdTable);
 			 while(rs.next())

@@ -125,8 +125,40 @@ public class ExpertSurveyController implements Initializable {
 	}
 	
 	public void openInfo(ActionEvent event)throws IOException  {
+
 		surveyId = Integer.toString(UserUI.Id.get(getItemIndex(cmbSurveyId)));
 		customerId= Integer.toString(UserUI.CId.get(getItemIndex(cmbSurveyCustomerId)));
+		
+		ArrayList<String> temp2 = new ArrayList<String>();
+		temp2.add(ExpertSurveyController.surveyId);
+		temp2.add(ExpertSurveyController.customerId);
+		
+		msg = new Message(temp2, "get info survey");
+		UserUI.myClient.accept(msg);
+		
+		ExpertSurveyController.errorMsg = null;
+
+		while(ExpertSurveyController.errorMsg == null)
+		{
+			System.out.print("");
+		}
+		
+		if(ExpertSurveyController.errorMsg.compareTo("11") ==0)
+		{
+			try {
+				check(event);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else {
+		
+			ExpertSurveyController.errorMsg = null;
+		
+		
+		
+		
 		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
 		Stage primaryStage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
@@ -136,7 +168,23 @@ public class ExpertSurveyController implements Initializable {
 		
 		primaryStage.setScene(scene);		
 		primaryStage.show();	
+		}
 	}
+	
+	public void check(ActionEvent event)throws IOException {
+		ExpertSurveyController.errorMsg = null;
+		ExpertSurveyController.flagError =true;
+		Pane root = null;
+		Stage primaryStage = new Stage(); //Object present window with graphics elements
+		FXMLLoader loader = new FXMLLoader(); //load object
+		((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
+		root = loader.load(getClass().getResource("/controller/errorCustomerExpert.fxml").openStream());
+		Scene scene = new Scene(root);			
+		primaryStage.setScene(scene);	
+		primaryStage.setTitle("Error msg");
+		primaryStage.show();
+
+}
 	
 	
 	public void close(ActionEvent event)throws IOException  {

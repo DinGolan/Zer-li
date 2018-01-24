@@ -5,6 +5,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import com.sun.corba.se.spi.orbutil.fsm.Action;
+
 import boundery.UserUI;
 import entity.Message;
 import javafx.collections.FXCollections;
@@ -22,8 +24,8 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class SurveyInfoController implements Initializable{
-	@FXML
-	private TextArea txtA1; 
+	//@FXML
+	//private TextArea txtA1; 
 	@FXML
 	private TextField txt1;
 	@FXML
@@ -40,12 +42,15 @@ public class SurveyInfoController implements Initializable{
 	private Button btnClose = null;
 	
 	private Message msg;
-	public static boolean flag = false;
+	public static boolean flag = false,flag2=false;
 	private ObservableList<Integer> slist;
 	ArrayList<String> temp;
 	private static int itemIndex = 1; /* This Variable Need for the the Case - that we not choose any Product from the ComboBox , so we take the product that in Index 2 By Defualt */
 	public static ArrayList<Integer> ans = new ArrayList<Integer>();
+	ActionEvent tempEvent;
 
+	
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
@@ -55,6 +60,9 @@ public class SurveyInfoController implements Initializable{
 		
 		msg = new Message(temp, "get info survey");
 		UserUI.myClient.accept(msg);
+
+			ExpertSurveyController.errorMsg = null;
+
 		while(flag == false)
 		{
 			System.out.print(" ");
@@ -70,6 +78,7 @@ public class SurveyInfoController implements Initializable{
 
 		
 	}
+	
 	
 	public void close(ActionEvent event)throws IOException  {
 		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */

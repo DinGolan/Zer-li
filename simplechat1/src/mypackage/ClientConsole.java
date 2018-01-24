@@ -316,8 +316,8 @@ public void displayUI(Object message)
 	    	}
 	    	else {
 	    	SurveyInfoController.ans = (ArrayList<Integer>)(((Message)message).getMsg());
+	  		ExpertSurveyController.errorMsg = "10";
 	    	SurveyInfoController.flag = true;
-	  		  ExpertSurveyController.errorMsg = "10";
 	             }
 	    }
 	    
