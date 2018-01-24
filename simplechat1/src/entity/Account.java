@@ -3,6 +3,9 @@ package entity;
 import java.io.Serializable;
 import java.sql.Date;
 
+/**
+ * Entity class for the Account with the enum, get,set, enum
+ */
 public class Account implements Serializable{
 
 	private String accountUserId; //save the userId for this account
@@ -12,20 +15,30 @@ public class Account implements Serializable{
 	private Date accountSubscriptionEndDate;
 	private int accountStoreNum;
 	
+	/**
+	 * enum to choose the payment arrangement
+	 */
 	public enum PaymentArrangement{ //enum for the payment arrangement
 		FULLPRICE,MONTHLY,ANNUAL
 	}
 	
+	/**
+	 * enum to choose the payment Method
+	 */
 	public enum PaymentMethod{ //enum for the payment method
 		CASH,CREDITCARD;	
 	}	
 	
+	/**
+	 * auto empty acoount constructor
+	 */
 	public Account() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
-
+	/**
+	 * auto fiiled acoount constructor
+	 */
 	public Account(String accountUserId, PaymentArrangement accountPaymentArrangement, double accountBalanceCard,
 			String accountCreditCardNum, Date accountSubscriptionEndDate, int accountStoreNum) {
 		super();

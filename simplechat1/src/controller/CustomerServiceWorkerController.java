@@ -18,7 +18,6 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class CustomerServiceWorkerController implements Initializable{
-	public static boolean checkComplaintsFlag = false;
 	
 	@FXML
 	private Button btnCServiceWInsertSurveyQ = null; //button to insert survey questions
@@ -43,35 +42,7 @@ public class CustomerServiceWorkerController implements Initializable{
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		/*if(checkComplaintsFlag==true)
-		{
-			Pane root = null;
-			Stage primaryStage = new Stage(); //Object present window with graphics elements
-			FXMLLoader loader = new FXMLLoader(); //load object
-			String cuurentCustomerServiceWorkerUserName=UserUI.user.getUserName();
-			System.out.println(cuurentCustomerServiceWorkerUserName);
-			
-			Message msg = new Message(cuurentCustomerServiceWorkerUserName , "Get all complaints numbers for this customer service worker 24");
-			UserUI.myClient.accept(msg); // get all complaints for this customer service worker from DB
-			while(ComplaintHandleController.loadComplaintsFlag==false)
-			{
-				System.out.print(""); //DOES NOT RUN WITHOUT THIS LINE
-			}
-			ComplaintHandleController.loadComplaintsFlag=false;
-			
-			if(ComplaintUI.complaintsNumbers.get(0)!=-1) //we have complaints to handle for this customer service worker at DB
-			{
-				//((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
-				root = loader.load(getClass().getResource("/controller/ComplaintForWorker.fxml").openStream());
-				Scene scene = new Scene(root);		
-				scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-				primaryStage.setScene(scene);	
-				primaryStage.setTitle("Error msg");
-				primaryStage.show();
-			}
-			
-			checkComplaintsFlag=false;
-		}*/	
+		
 	}
 	
 	public void insertSurveyQuestionsBtn(ActionEvent event) throws Exception //To open the view report option
@@ -85,7 +56,6 @@ public class CustomerServiceWorkerController implements Initializable{
 		primaryStage.setScene(scene);		
 		primaryStage.show();
 		flag=true;
-
 	}
 	
 	@SuppressWarnings("static-access")
@@ -96,7 +66,7 @@ public class CustomerServiceWorkerController implements Initializable{
 		Pane root = loader.load(getClass().getResource("/controller/SurveyResultFrame.fxml").openStream());
 		
 		Scene scene = new Scene(root);			
-		
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);		
 		primaryStage.show();
 		//SurveyResultController sr = new SurveyResultController();				  
@@ -115,8 +85,7 @@ public class CustomerServiceWorkerController implements Initializable{
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Complaint Form");
-		primaryStage.show();
-	
+		primaryStage.show();	
 	}
 	
 	public void followComplaintBtn(ActionEvent event) throws Exception //To open follow complaint option
@@ -132,7 +101,6 @@ public class CustomerServiceWorkerController implements Initializable{
 		primaryStage.show();	
 	}
 	
-	/////אולי להוריד את קיום הכפתור יציאה
 	public void exitBtn(ActionEvent event) throws Exception //Exit from the customer service worker options
 	{
 		System.out.println("exit customer service worker options");

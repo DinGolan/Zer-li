@@ -19,6 +19,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+/**
+ * Controller for the option of create new account
+ */
 public class AccountController {
 	
 	private Account a= new Account();
@@ -51,34 +54,41 @@ public class AccountController {
 	@FXML
 	private Button btnAccountAddAccount = null; //button add account for the account card form
 	
-	public void start(Stage primaryStage) throws Exception //With this Method we show the GUI of the Catalog
-	{	
-		Parent root = FXMLLoader.load(getClass().getResource("/controller/AccountForm.fxml"));	
-		Scene scene = new Scene(root);
-		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-		primaryStage.setTitle("Account Card Form");
-		primaryStage.setScene(scene);		
-		primaryStage.show();
-	}
-	
-	public void FULLPRICEbtn(ActionEvent event) throws Exception //To turn-off the cash radio button
+	/**
+	 * Turn off the black dot at the others options for subscription
+	 * @param event- choose full price radio button
+	 */
+	public void FULLPRICEbtn(ActionEvent event) 
 	{
 		rdbtnAccountPaymentArrangmentAnnual.setSelected(false);
 		rdbtnAccountPaymentArrangmentMonthly.setSelected(false);
 	}
 	
-	public void ANNUALbtn(ActionEvent event) throws Exception //To turn-off the cash radio button
+	/**
+	 * Turn off the black dot at the others options for subscription
+	 * @param event- choose annual radio button
+	 */
+	public void ANNUALbtn(ActionEvent event) 
 	{
 		rdbtnAccountPaymentArrangmentFullPrice.setSelected(false);
 		rdbtnAccountPaymentArrangmentMonthly.setSelected(false);
 	}
 	
-	public void MONTHLYbtn(ActionEvent event) throws Exception //To turn-off the cash radio button
+	/**
+	 * Turn off the black dot at the others options for subscription
+	 * @param event- choose monthly radio button
+	 */
+	public void MONTHLYbtn(ActionEvent event) 
 	{
 		rdbtnAccountPaymentArrangmentFullPrice.setSelected(false);
 		rdbtnAccountPaymentArrangmentAnnual.setSelected(false);
 	}
 
+	/**
+	 * Add new account to Zer-Li system and check all the information and show error msg if wrong
+	 * @param event- click on add account button
+	 * @throws Exception if we can't load the fxml
+	 */
 	public void addNewAccountButton(ActionEvent event) throws Exception //add new account to Zer-Li system
 	{		
 		Pane root = null;
@@ -118,7 +128,7 @@ public class AccountController {
 			a.setAccountSubscriptionEndDate(null); //set the date
 		}
 		
-		if(txtAccountCreditCardNum.getLength()!=16) //enter credit card number length wrong
+		if((txtAccountCreditCardNum.getLength()!=16)||(!(txtAccountCreditCardNum.getText().matches("[0-9]+")))) //enter credit card number length wrong
 		{
 			((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
 			root = loader.load(getClass().getResource("/controller/AccountCreditCardLengthMsg.fxml").openStream());
@@ -143,7 +153,7 @@ public class AccountController {
 			flag = false;
 		
 			System.out.print(AccountUI.success); 
-			if(AccountUI.success.equals("User doesnt exist"))//user for this customer doesnt exist
+			if(AccountUI.success.compareTo("User doesnt exist")==0)//user for this customer doesnt exist
 			{
 				((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
 				root = loader.load(getClass().getResource("/controller/AccountUserNotExistMsg.fxml").openStream());
@@ -154,7 +164,7 @@ public class AccountController {
 				primaryStage.show();	
 			}
 			
-			else if(AccountUI.success.equals("Account already exist")) //account for this user already exist
+			else if(AccountUI.success.compareTo("Account already exist")==0) //account for this user already exist
 			{
 				((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
 				root = loader.load(getClass().getResource("/controller/UserAccountExistMsg.fxml").openStream());
@@ -177,7 +187,12 @@ public class AccountController {
 			}
 		}
 	} 
-		
+	
+	/**
+	 * Show the GUI again of empty account form to add a new other account
+	 * @param event- click on try again or add other acoount button
+	 * @throws Exception if we can't load the fxml
+	 */
 	public void addNewOtherAccount(ActionEvent event) throws Exception //With this Method we show the GUI of the First Window
 	{	
 		((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
@@ -191,6 +206,11 @@ public class AccountController {
 		primaryStage.show();	
 	}
 
+	/**
+	 * To close the The Window of the Account card and return the store manager menu
+	 * @param event- click on close button
+	 * @throws Exception if we can't load the fxml
+	 */
 	public void closeAccountFormWindow(ActionEvent event) throws Exception  //To close the The Window of the Account card GUI
 	{ 
 		((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window

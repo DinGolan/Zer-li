@@ -10,14 +10,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="215.0" prefWidth="354.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ComplaintHandleController">
+<AnchorPane prefHeight="215.0" prefWidth="373.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ComplaintHandleController">
    <children>
-      <Button id="btnComplaintClose" fx:id="btnComplaintClose" layoutX="240.0" layoutY="168.0" mnemonicParsing="false" onAction="#closeComplaintHandleWindow" prefHeight="25.0" prefWidth="52.0" text="Close" />
+      <Button id="btnComplaintClose" fx:id="btnComplaintClose" layoutX="268.0" layoutY="168.0" mnemonicParsing="false" onAction="#closeComplaintHandleWindow" prefHeight="25.0" prefWidth="52.0" text="Close" />
       <Label layoutX="4.0" layoutY="32.0" text="Update complaint - successed" textFill="#0022ff">
          <font>
             <Font name="Bodoni MT" size="29.0" />
          </font></Label>
-      <TextArea layoutX="61.0" layoutY="95.0" prefHeight="48.0" prefWidth="259.0" text="The complaint has been update successfully." />
-      <Button id="btnComplaintHandleOther" fx:id="btnComplaintHandleOther" layoutX="63.0" layoutY="168.0" mnemonicParsing="false" onAction="#loadHisComplaints" text="Handle other complaint" />
+      <TextArea layoutX="44.0" layoutY="84.0" prefHeight="59.0" prefWidth="276.0" text="The complaint has been update successfully." />
+      <Button id="btnComplaintHandleOther" fx:id="btnComplaintHandleOther" layoutX="44.0" layoutY="168.0" mnemonicParsing="false" onAction="#loadHisComplaints" text="Handle other complaint" />
    </children>
 </AnchorPane>

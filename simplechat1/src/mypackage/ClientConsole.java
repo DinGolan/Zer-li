@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Vector;
-
 import boundery.AccountUI;
 import boundery.CatalogUI;
 import boundery.CompanyManagerUI;
@@ -27,8 +26,8 @@ import controller.ComplaintController;
 import controller.ComplaintHandleController;
 import controller.CustomerController;
 import controller.OrderController;
-import controller.ProfileController;
-import controller.StoreManagerController;import controller.SurveyResultController;
+import controller.StoreManagerController;
+import controller.SurveyResultController;
 import controller.UserController;
 import entity.Account;
 import entity.Complaint;
@@ -37,7 +36,6 @@ import entity.Order;
 import entity.Product;
 import entity.Store;
 import entity.User;
-import boundery.SurveyResultUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -225,7 +223,7 @@ public void displayUI(Object message)
 	    if(((Message)message).getOption().compareTo("Update customer account") == 0)
 	    {
 	    	if(((Message)message).getMsg() != null)
-	    			{
+	    	{
 	    		Account a = (Account)(((Message)message).getMsg());
 			    	CustomerUI.account = new Account();
 			    	CustomerUI.account.setAccountBalanceCard(a.getAccountBalanceCard());
@@ -297,14 +295,12 @@ public void displayUI(Object message)
 	  	  	
 	  	  	ComplaintHandleController.loadComplaintsFlag=true; //finish to get all the complaints to this customer service worker
 	    }
+	    
 	    else if(((Message)message).getOption().compareTo("Get complaint details") == 0) //get all the details for this complaint
 	    {
-	    	System.out.println(ComplaintUI.complaint+"clientcon");
 	  	  	ComplaintUI.complaint=new Complaint();
-	  	  System.out.println(ComplaintUI.complaint+"clientcon2");
 	  	  	ComplaintUI.complaint=(Complaint)((Message)message).getMsg(); //save the complaint from the DB with all the details at the ComplaintUI
 	  	  	ComplaintHandleController.complaintFlag=true; //finish to get all the details for this complaint
-	  	  System.out.println(ComplaintUI.complaint+"clientcon3");
 	    }
 	    
 	    else if(((Message)message).getOption().compareTo("Get order details") == 0) //get all the details for this order
@@ -320,26 +316,7 @@ public void displayUI(Object message)
   	  		StoreManagerController.flag=true; //finish to get the store number
 	    }
 	    
-<<<<<<< .mine
-	    /*else if(((Message)message).getOption().compareTo("Update complaint") == 0) //update complaint	    
-	      {
-    	System.out.println("clientcons");
-	  	  	//ComplaintUI.complaint=new Complaint();
-	  	  	ComplaintUI.complaint=(Complaint)((Message)message).getMsg(); //save the complaint from the DB with all the details at the ComplaintUI
-	  	  	ComplaintHandleController.complaintFlag=true; //finish to get all the details for this complaint
-	  	  	System.out.println(ComplaintUI.complaint);
-	    }*/ 
-=======
-	    /* else if(((Message)message).getOption().compareTo("Update complaint") == 0) //update complaint	   
-	       {
-    			System.out.println("clientcons");
-	  	  		ComplaintUI.complaint=new Complaint();
-	  	  		ComplaintUI.complaint=(Complaint)((Message)message).getMsg(); //save the complaint from the DB with all the details at the ComplaintUI
-	  	  		ComplaintHandleController.complaintFlag=true; //finish to get all the details for this complaint
-	  	  		System.out.println(ComplaintUI.complaint);
-	    }  */ 
->>>>>>> .theirs
-    else if(((Message)message).getOption().compareTo("Store Manager - Add Store To Combo Box From DB") == 0)
+	    else if(((Message)message).getOption().compareTo("Store Manager - Add Store To Combo Box From DB") == 0)
 	    {
 		  	  int i=0;
 			  ArrayList<Store> temp = new ArrayList<Store>();
@@ -349,32 +326,8 @@ public void displayUI(Object message)
 			  for(i=0;i<temp.size();i++)
 		  	  {
 	//			  StoreManagerUI.stores.add(temp.get(i));
-		  	  }	    
-		}<<<<<<< .mine
-	    {
-		  	  int i=0;
-			  ArrayList<Store> temp = new ArrayList<Store>();
-			  temp = (ArrayList<Store>)((Message)message).getMsg();
-			  StoreManagerUI.stores.clear();
-
-			  for(i=0;i<temp.size();i++)
-		  	  {
-	//			  StoreManagerUI.stores.add(temp.get(i));
-		  	  }	    
-		}
-=======
-
-
-
-
-
-
-
-
-
-
-
->>>>>>> .theirs
+		  	  }
+	    }
 	    else if(((Message)message).getOption().compareTo("Store Manager - Take The Orders Of Specific Store") == 0)
 	    {
 		  	  int i=0;
@@ -616,26 +569,9 @@ public void displayUI(Object message)
   
      public void addComplaint(Object message)
      {
-		 // if(((Complaint)((Message)message).getMsg()).getComplaintDetails().equals("Complaint already exist")) //complaint is already exist
-			//  ComplaintUI.complaint.setComplaintDetails("Complaint already exist");
-		//  if(((String)((Message)message).getMsg()).equals("Complaint already exist")) //complaint is already exist
-			//  ComplaintUI.success="Complaint already exist";
-	
-		//  else //אולי לבטל בכלל
-		 // {
-			  /*ComplaintUI.complaint.setComplaintNum(((Complaint)((Message)message).getMsg()).getComplaintNum());
-			  ComplaintUI.complaint.setComplaintStat(((Complaint)((Message)message).getMsg()).getComplaintStat());
-			  ComplaintUI.complaint.setComplaintDate(((Complaint)((Message)message).getMsg()).getComplaintDate());
-			  ComplaintUI.complaint.setComplaintDetails(((Complaint)((Message)message).getMsg()).getComplaintDetails());
-			  ComplaintUI.complaint.setComplaintOrderId(((Complaint)((Message)message).getMsg()).getComplaintOrderId());
-			  ComplaintUI.complaint.setComplaintServiceWorkerUserName(((Complaint)((Message)message).getMsg()).getComplaintServiceWorkerUserName());
-			  ComplaintUI.complaint.setComplaintUserId(((Complaint)((Message)message).getMsg()).getComplaintUserId());*/
-			  ComplaintUI.success=(String)((Message)message).getMsg();
-		 // }
-		  
-		  //System.out.println(UserUI.complaint);
-			  ComplaintUI.complaint=null;	  
-		  ComplaintController.flag = true;  
+    	 ComplaintUI.success=(String)((Message)message).getMsg();
+    	 ComplaintUI.complaint=null;	  
+		 ComplaintController.flag = true;  
      }
 }
 

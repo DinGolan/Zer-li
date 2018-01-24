@@ -13,10 +13,10 @@
 <AnchorPane prefHeight="215.0" prefWidth="379.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AccountController">
    <children>
       <Button id="btnAccountTryAgain" fx:id="btnAccountAddOther" layoutX="142.0" layoutY="165.0" mnemonicParsing="false" onAction="#addNewOtherAccount" text="Try again" />
-      <Label layoutX="11.0" layoutY="28.0" text="Create new complaint - failed" textFill="#0022ff">
+      <Label layoutX="11.0" layoutY="28.0" text="Create new account - failed" textFill="#0022ff">
          <font>
             <Font name="Bodoni MT" size="29.0" />
          </font></Label>
-      <TextArea layoutX="56.0" layoutY="95.0" prefHeight="48.0" prefWidth="260.0" text="You can NOT create new account because &#10;this customer user name doesn't exist" />
+      <TextArea layoutX="40.0" layoutY="72.0" prefHeight="81.0" prefWidth="289.0" text="You can NOT create new account because &#10;this customer user Id doesn't exist" />
    </children>
 </AnchorPane>
