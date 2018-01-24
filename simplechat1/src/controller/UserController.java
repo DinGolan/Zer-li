@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -92,16 +93,29 @@ public class UserController implements Initializable {
 	
 	public void After_You_Enter_Your_Port_And_IP_Go_To_User_Login(ActionEvent event) throws Exception
 	{	
-		UserUI.IP = this.txtIP.getText();
-		UserUI.Port = Integer.parseInt(this.txtPort.getText());
-		UserUI.myClient = new ClientConsole(event,this.txtIP.getText(), Integer.parseInt(this.txtPort.getText())); 
-		txtHeadLine.setTextFill(Color.GREEN.brighter());
-		Label_IP.setTextFill(Color.GREEN.brighter());
-		Label_Port.setTextFill(Color.GREEN.brighter());
-		btnIPAndPort.setTextFill(Color.GREEN.brighter());
-		btnCloseWindow.setTextFill(Color.GREEN.brighter());
-		Lablel_Not_Enter_The_Server_Allready.setTextFill(Color.GREEN.brighter());
-		Exit_From_Client.setTextFill(Color.GREEN.brighter());
+		try 
+		{
+			UserUI.IP = this.txtIP.getText();
+			UserUI.Port = Integer.parseInt(this.txtPort.getText());
+			UserUI.myClient = new ClientConsole(event,this.txtIP.getText(), Integer.parseInt(this.txtPort.getText())); 
+			txtHeadLine.setTextFill(Color.GREEN.brighter());
+			Label_IP.setTextFill(Color.GREEN.brighter());
+			Label_Port.setTextFill(Color.GREEN.brighter());
+			btnIPAndPort.setTextFill(Color.GREEN.brighter());
+			btnCloseWindow.setTextFill(Color.GREEN.brighter());
+			Lablel_Not_Enter_The_Server_Allready.setTextFill(Color.GREEN.brighter());
+			Exit_From_Client.setTextFill(Color.GREEN.brighter());
+		}
+		catch(NumberFormatException e)
+		{
+			Stage primaryStage = new Stage();
+			((Node) event.getSource()).getScene().getWindow().hide(); 
+			Parent root = FXMLLoader.load(getClass().getResource("/controller/Wrong_Details_To_Connect_The_Client.fxml"));
+			Scene scene = new Scene(root);
+			primaryStage.setScene(scene);
+			primaryStage.setTitle("Error Massage");
+			primaryStage.show();
+		}
 	}
 	
 	public void Close_The_Window(ActionEvent event) throws Exception
@@ -165,7 +179,8 @@ public class UserController implements Initializable {
 	} 
 		
 		else if (!UserUI.user.getPassword().equals(u.getPassword())) // insert the wrong password
-		{			System.out.println("WrongPasswordMsg");
+		{			
+			System.out.println("WrongPasswordMsg");
 			((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
 			root = FXMLLoader.load(getClass().getResource("/controller/WrongPasswordMsg.fxml"));
 			Scene scene = new Scene(root);
