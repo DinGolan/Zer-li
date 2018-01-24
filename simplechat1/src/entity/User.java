@@ -2,8 +2,7 @@ package entity;
 
 import java.io.Serializable;
 
-import com.sun.org.apache.xml.internal.security.encryption.Serializer;
-
+@SuppressWarnings("serial")
 public class User implements Serializable {
 
 	private String id;
