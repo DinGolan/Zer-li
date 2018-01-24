@@ -56,16 +56,33 @@ public class QuarterlyRevenueReportController_For_CompanyManager implements Init
 	 
 		public void loadStore(Store s) 					/* To load the Store details to the text fields */
 		{ 
-			if(CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == true && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == true)
+			if(CompanyManagerReportController.Integer_The_Option_You_Choose == 1)
 			{
-				this.store = s;
-				this.txtStoreID.setText(String.valueOf(store.getStoreId()));
-				this.txtStoreAddress.setText((store.getStore_Address()));
+				if(CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == true && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == true)
+				{
+					this.store = s;
+					this.txtStoreID.setText(String.valueOf(store.getStoreId()));
+					this.txtStoreAddress.setText((store.getStore_Address()));
+				}
+				else
+				{
+					this.txtStoreID.setText(String.valueOf(1));
+					this.txtStoreAddress.setText(("Nahariya"));
+				}
 			}
-			else
+			else if(CompanyManagerReportController.Integer_The_Option_You_Choose == 2)
 			{
-				this.txtStoreID.setText(String.valueOf(1));
-				this.txtStoreAddress.setText(("Nahariya"));
+				if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == true)
+				{
+					this.store = s;
+					this.txtStoreID.setText(String.valueOf(store.getStoreId()));
+					this.txtStoreAddress.setText((store.getStore_Address()));
+				}
+				else
+				{
+					this.txtStoreID.setText(String.valueOf(1));
+					this.txtStoreAddress.setText(("Nahariya"));
+				}
 			}
 		}
 
@@ -73,13 +90,27 @@ public class QuarterlyRevenueReportController_For_CompanyManager implements Init
 		
 		public void loadQuarter(String string) 					/* To load the Store details to the text fields */
 		{ 
-			if(CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == true && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == true)
+			if(CompanyManagerReportController.Integer_The_Option_You_Choose == 1)
 			{
-				this.txtQuarterNum.setText(string);
+				if(CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == true && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == true)
+				{
+					this.txtQuarterNum.setText(string);
+				}
+				else
+				{
+					this.txtQuarterNum.setText(String.valueOf(4));
+				}
 			}
-			else
+			else if(CompanyManagerReportController.Integer_The_Option_You_Choose == 2)
 			{
-				this.txtQuarterNum.setText(String.valueOf(4));
+				if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == true)
+				{
+					this.txtQuarterNum.setText(string);
+				}
+				else
+				{
+					this.txtQuarterNum.setText(String.valueOf(4));
+				}
 			}
 		}
 	 
@@ -101,7 +132,8 @@ public class QuarterlyRevenueReportController_For_CompanyManager implements Init
 				root = loader.load(getClass().getResource("/controller/CompanyManagerReportForm_Window_With_Two_Store.fxml").openStream());
 			}
 			
-			Scene scene = new Scene(root);			
+			Scene scene = new Scene(root);		
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 			primaryStage.setScene(scene);		
 			primaryStage.show();										   /* show catalog frame window */
 		}

@@ -104,7 +104,8 @@ public class CompanyManagerReportController_Compare_Between_Two_Diffrent_Quarter
 		FXMLLoader loader = new FXMLLoader(); 					 	 /* Load object */
 		Pane root = loader.load(getClass().getResource("/controller/CompanyManagerReportForm_Window_With_Two_Store.fxml").openStream());
 		
-		Scene scene = new Scene(root);			
+		Scene scene = new Scene(root);	
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);		
 		primaryStage.show();										   /* show catalog frame window */
 	}
@@ -228,6 +229,7 @@ public class CompanyManagerReportController_Compare_Between_Two_Diffrent_Quarter
 		}
 		msg = new Message(ArrayList_Of_Field_To_Compare,"Company Manager - Compare Between Two Different Quarter");
 		UserUI.myClient.accept(msg);
+		
 		ArrayList_Of_Field_To_Compare.clear();
 		
 		while(CompanyManagerUI.Object_From_Comparing_For_Store_1.size() == 0)

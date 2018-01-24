@@ -97,7 +97,8 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 		FXMLLoader loader = new FXMLLoader(); 					 	 /* Load object */
 		Pane root = loader.load(getClass().getResource("/controller/CompanyManagerReportForm.fxml").openStream());
 		
-		Scene scene = new Scene(root);			
+		Scene scene = new Scene(root);	
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);		
 		primaryStage.show();										   /* show catalog frame window */
 	}	
@@ -124,7 +125,9 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 		quarterlyRevenueReportController_2.loadStore(CompanyManagerUI.stores_For_Company_Manager_2.get(getItemIndex_Second_Store())); 
 		
 		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		Scene scene_2 = new Scene(root_2);
+		scene_2.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);	
 		primaryStage_2.setScene(scene_2);
 		primaryStage.show();
@@ -153,7 +156,9 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 		orderReportController_2.loadStore(CompanyManagerUI.stores_For_Company_Manager_2.get(getItemIndex_Second_Store()));
 		
 		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		Scene scene_2 = new Scene(root_2);
+		scene_2.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);	
 		primaryStage_2.setScene(scene_2);
 		primaryStage.show();
@@ -182,7 +187,9 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 		customerComplaintStatusReportController_2.loadStore(CompanyManagerUI.stores_For_Company_Manager_2.get(getItemIndex_Second_Store()));
 		
 		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		Scene scene_2 = new Scene(root_2);
+		scene_2.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);
 		primaryStage_2.setScene(scene_2);
 		primaryStage.show();
@@ -211,7 +218,9 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 		satisfactionReportController_2.loadStore(CompanyManagerUI.stores_For_Company_Manager_2.get(getItemIndex_Second_Store()));
 		
 		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		Scene scene_2 = new Scene(root_2);
+		scene_2.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);
 		primaryStage_2.setScene(scene_2);
 		primaryStage.show();
@@ -463,7 +472,8 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 		FXMLLoader loader = new FXMLLoader();
 		Pane root = loader.load(getClass().getResource("/controller/CompanyManagerReportController_Compare_Between_Two_Diffrent_Quarter.fxml").openStream());
 				
-		Scene scene = new Scene(root);			
+		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);
 		primaryStage.show(); 
 	}
@@ -479,7 +489,8 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 		FXMLLoader loader = new FXMLLoader(); 					 	 /* Load object */
 		Pane root = loader.load(getClass().getResource("/controller/CompanyManagerReportForm_Window_With_Two_Store.fxml").openStream());
 		
-		Scene scene = new Scene(root);			
+		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);		
 		primaryStage.show();
 	}

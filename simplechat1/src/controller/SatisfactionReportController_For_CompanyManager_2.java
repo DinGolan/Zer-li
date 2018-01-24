@@ -205,6 +205,10 @@ public class SatisfactionReportController_For_CompanyManager_2 implements Initia
 		
 		Total_Average = The_Average_Result_Of_Each_Question.get(6);       		   /* In The 6 Cell There Have The Total Average Of The Survey */
 		Number_Of_Client = The_Average_Result_Of_Each_Question.get(7).intValue();  /* In The 7 Cell There Have The Number Of Client */
+		if(String.valueOf(Total_Average).compareTo("NaN") == 0)
+		{
+			Total_Average = 0;
+		}
 		this.txtTotalAvgRank.setText(String.valueOf(Total_Average));
 		this.txtNumberOfClient.setText(String.valueOf(Number_Of_Client));
 		The_Average_Result_Of_Each_Question.remove(6);                    /* Remove The Almost Last Index With the Total Average - After That The Last Index Is 6 */

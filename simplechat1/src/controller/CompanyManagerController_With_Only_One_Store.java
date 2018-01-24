@@ -86,8 +86,10 @@ public class CompanyManagerController_With_Only_One_Store implements Initializab
 		Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
 		FXMLLoader loader = new FXMLLoader(); 					 	 /* Load object */
 		Pane root = loader.load(getClass().getResource("/controller/CompanyManagerReportForm.fxml").openStream());
-		
 		Scene scene = new Scene(root);	
+		
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+		
 		primaryStage.setScene(scene);		
 		primaryStage.show();										 /* show catalog frame window */
 	}
@@ -109,7 +111,8 @@ public class CompanyManagerController_With_Only_One_Store implements Initializab
 		QuarterlyRevenueReportController_For_CompanyManager quarterlyRevenueReportController = loader.getController();
 		quarterlyRevenueReportController.loadStore(CompanyManagerUI.stores_For_Company_Manager.get(getItemIndex_For_CompanyManager())); 
 		
-		Scene scene = new Scene(root);	
+		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);		
 		primaryStage.show();
 	}
@@ -132,6 +135,7 @@ public class CompanyManagerController_With_Only_One_Store implements Initializab
 		orderReportController.loadStore(CompanyManagerUI.stores_For_Company_Manager.get(getItemIndex_For_CompanyManager()));
 		
 		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);		
 		primaryStage.show();
 	}
@@ -154,6 +158,7 @@ public class CompanyManagerController_With_Only_One_Store implements Initializab
 		customerComplaintStatusReportController.loadStore(CompanyManagerUI.stores_For_Company_Manager.get(getItemIndex_For_CompanyManager()));
 		
 		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);		
 		primaryStage.show();
 	}
@@ -176,6 +181,7 @@ public class CompanyManagerController_With_Only_One_Store implements Initializab
 		satisfactionReportController.loadStore(CompanyManagerUI.stores_For_Company_Manager.get(getItemIndex_For_CompanyManager()));
 		
 		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}	

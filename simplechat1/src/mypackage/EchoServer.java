@@ -504,7 +504,6 @@ public class EchoServer extends AbstractServer
 				  temp_Order.setOrderID(rs.getInt("orderID"));
 				  temp_Order.setOrderTotalPrice(rs.getDouble("orderTotalPrice"));
 				  temp_Order.setoStatus(Order.orderStatus.valueOf(rs.getString("orderStatus")));
-				  
 				  temp_Order.setPaymentMethod(Account.PaymentMethod.valueOf(rs.getString("paymentMethod")));
 				  temp_Order.setSupply(Order.SupplyOption.valueOf(rs.getString("orderSupplyOption")));
 				  temp_Order.setRecipientAddress(rs.getString("orderRecipientAddress"));
@@ -577,6 +576,7 @@ public class EchoServer extends AbstractServer
 	  /* ------------------------------ Variables ------------------------------------- */
 	  ArrayList<Store> All_Stores = new ArrayList<Store>();
 	  int Number_Of_Quarter;
+	  int Count_Of_Report = 0;
 	  String localDate;
 	  Statement stmt;
 	  String Scheme_Name = EchoServerController.Scheme;
@@ -589,10 +589,19 @@ public class EchoServer extends AbstractServer
 	  try 
 	  {
 		  stmt = conn.createStatement();
+		  
+		  String Take_The_Num_Of_Report = "SELECT reportNumber FROM " + Scheme_Name + ".report " + ";";
+		  ResultSet rs = stmt.executeQuery(Take_The_Num_Of_Report);
+		  while(rs.next())
+		  {
+			  Count_Of_Report++;
+		  }
+		  
+		  
 		  for(int i = 0 ; i < All_Stores.size() ; i++)      /* In this For We Insert For Each Store The 'Big Report' That Include All The 'Small Report' */
 		  {
-			  String Report_Query = "INSERT INTO " + Scheme_Name + ".report " + " (storeID, QuarterNumber, DateOfCreateReport)" + " VALUES (" + "'" + All_Stores.get(i).getStoreId() + "'"
-					  + ", " + "'" + Number_Of_Quarter + "'" + ", " + "'" + localDate + "'" +")";
+			  String Report_Query = "INSERT INTO " + Scheme_Name + ".report " + " (reportNumber, storeID, QuarterNumber, DateOfCreateReport)" + " VALUES (" + "'" + (++Count_Of_Report) + "'" + ", " + "'" + All_Stores.get(i).getStoreId() + "'"
+					  + ", " + "'" + Number_Of_Quarter + "'" + ", " + "'" + localDate + "'" + ")" + ";" ;
 			  stmt.executeUpdate(Report_Query);
 		  } 
 	  } 

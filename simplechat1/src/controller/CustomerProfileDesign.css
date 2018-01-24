@@ -4,16 +4,17 @@
  }
 
  .label{
-     -fx-text-fill: #DC143C;
+     -fx-text-fill: #0000FF;
   }
 
  .button{
-	-fx-background-color: linear-gradient(#4f5b66,#343d46);
-	-fx-background-radius: 100;
-	-fx-text-fill: #DC143C;
+-fx-background-color: linear-gradient(#4f5b66,#343d46);
+-fx-background-radius: 100;
+-fx-text-fill: #c0c5ce;
  }
 
  .text-area{
      -fx-background-color: white;
+     -fx-background-radius: 0;
   }
  

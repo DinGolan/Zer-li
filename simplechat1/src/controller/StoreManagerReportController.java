@@ -72,7 +72,8 @@ public class StoreManagerReportController implements Initializable {
 		QuarterlyRevenueReportController quarterlyRevenueReportController = loader.getController();
 		quarterlyRevenueReportController.loadStore(UserUI.store); 
 		
-		Scene scene = new Scene(root);			
+		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);		
 		primaryStage.show();
 	}
@@ -89,7 +90,8 @@ public class StoreManagerReportController implements Initializable {
 		OrderReportController orderReportController = loader.getController();
 		orderReportController.loadStore(UserUI.store);
 		
-		Scene scene = new Scene(root);			
+		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);		
 		primaryStage.show();
 	}
@@ -106,7 +108,8 @@ public class StoreManagerReportController implements Initializable {
 		CustomerComplaintStatusReportController customerComplaintStatusReportController = loader.getController();
 		customerComplaintStatusReportController.loadStore(UserUI.store);
 		
-		Scene scene = new Scene(root);			
+		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);		
 		primaryStage.show();
 	}
@@ -123,7 +126,8 @@ public class StoreManagerReportController implements Initializable {
 		SatisfactionReportController satisfactionReportController = loader.getController();
 		satisfactionReportController.loadStore(UserUI.store);
 		
-		Scene scene = new Scene(root);			
+		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
@@ -170,7 +174,8 @@ public class StoreManagerReportController implements Initializable {
 		FXMLLoader loader = new FXMLLoader(); 					 	 /* Load object */
 		Pane root = loader.load(getClass().getResource("/controller/StoreManagerOptions.fxml").openStream());
 		
-		Scene scene = new Scene(root);			
+		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);		
 		primaryStage.show();										   /* show catalog frame window */
 	}

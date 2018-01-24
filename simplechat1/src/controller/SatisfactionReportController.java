@@ -77,7 +77,8 @@ public class SatisfactionReportController implements Initializable {
 		FXMLLoader loader = new FXMLLoader(); 					 	 /* Load object */
 		Pane root = loader.load(getClass().getResource("/controller/StoreManagerReportForm.fxml").openStream());
 		
-		Scene scene = new Scene(root);			
+		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);		
 		primaryStage.show();										   
 	}
@@ -137,6 +138,7 @@ public class SatisfactionReportController implements Initializable {
 		ArrayList<Object> StoreID_And_Date_Of_Report = new ArrayList<Object>();
 		StoreID_And_Date_Of_Report.add(StoreManagerUI.Help_To_Transfer_Object_At_Complaint_Report.get(0)); /* The Store Id */
 		StoreID_And_Date_Of_Report.add(StoreManagerUI.Help_To_Transfer_Object_At_Complaint_Report.get(1)); /* The Date Of the Report */
+		
 		msg = new Message(StoreID_And_Date_Of_Report , "Store Manager - Take The Surveys Of Specific Store In Specific Quarter"); 		/* I take All the Orders Of Specific Store , And After That I Take All the Complaint Of All The Order Of the Specific Store */
 		UserUI.myClient.accept(msg);
 		while(StoreManagerUI.Average_Result_Of_Each_Qustions_In_surveys.size() == 0)
@@ -172,6 +174,10 @@ public class SatisfactionReportController implements Initializable {
 		}
 		
 		Total_Average = The_Average_Result_Of_Each_Question.get(6);       		   /* In The 6 Cell There Have The Total Average Of The Survey */
+		if(String.valueOf(Total_Average).compareTo("NaN") == 0)
+		{
+			Total_Average = 0;
+		}
 		Number_Of_Client = The_Average_Result_Of_Each_Question.get(7).intValue();  /* In The 7 Cell There Have The Number Of Client */
 		this.txtTotalAvgRank.setText(String.valueOf(Total_Average));
 		this.txtNumberOfClient.setText(String.valueOf(Number_Of_Client));

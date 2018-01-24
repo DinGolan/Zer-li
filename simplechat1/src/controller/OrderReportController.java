@@ -77,7 +77,8 @@ public class OrderReportController implements Initializable{
 		FXMLLoader loader = new FXMLLoader(); 					 	 /* Load object */
 		Pane root = loader.load(getClass().getResource("/controller/StoreManagerReportForm.fxml").openStream());
 		
-		Scene scene = new Scene(root);			
+		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);		
 		primaryStage.show();										   /* show catalog frame window */
 	}
@@ -138,6 +139,7 @@ public class OrderReportController implements Initializable{
 		ArrayList<Object> StoreID_And_Date_Of_Report = new ArrayList<Object>();
 		StoreID_And_Date_Of_Report.add(StoreManagerUI.Help_To_Transfer_Object_At_Order_Report.get(0)); /* The Store Id */
 		StoreID_And_Date_Of_Report.add(StoreManagerUI.Help_To_Transfer_Object_At_Order_Report.get(1)); /* The Date Of the Report */
+		
 		msg = new Message(StoreID_And_Date_Of_Report, "Store Manager - Take The Orders Of Specific Store");
 		UserUI.myClient.accept(msg);
 		while(StoreManagerUI.orders.size() == 0)

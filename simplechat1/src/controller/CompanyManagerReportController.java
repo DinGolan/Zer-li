@@ -54,7 +54,9 @@ public class CompanyManagerReportController implements Initializable {
 			Stage primaryStage = new Stage();
 			FXMLLoader loader = new FXMLLoader();
 			Pane root = loader.load(getClass().getResource("/controller/CompanyManagerReportForm_Window_Only_One_Store.fxml").openStream());
+			
 			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 			primaryStage.setScene(scene);		
 			primaryStage.show();
 			
@@ -67,7 +69,8 @@ public class CompanyManagerReportController implements Initializable {
 			FXMLLoader loader = new FXMLLoader();
 			Pane root = loader.load(getClass().getResource("/controller/CompanyManagerReportForm_Window_With_Two_Store.fxml").openStream());
 
-			Scene scene = new Scene(root);			
+			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 			primaryStage.setScene(scene);		
 			primaryStage.show();
 		}
@@ -94,7 +97,8 @@ public class CompanyManagerReportController implements Initializable {
 		FXMLLoader loader = new FXMLLoader(); 					 	 /* Load object */
 		Pane root = loader.load(getClass().getResource("/controller/CompanyManagerOptions.fxml").openStream());
 		
-		Scene scene = new Scene(root);			
+		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);		
 		primaryStage.show();										   /* show catalog frame window */
 	}
