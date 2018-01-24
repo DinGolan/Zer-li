@@ -318,7 +318,20 @@ public class EchoServer extends AbstractServer
 	    if(((Message)msg).getOption().compareTo("add surveyConclusion") == 0) 	    							
 	    {
 	    	try {
-				addConclusion(conn,msg);
+	    		((Message)msg).setMsg(addConclusion(conn,msg));
+	    		this.sendToAllClients(msg);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	    }
+	    
+	    if(((Message)msg).getOption().compareTo("get info survey") == 0) 	    							
+	    {
+	    	try {
+				((Message)msg).setMsg(getSurveyInfo(conn,msg));	
+	    		this.sendToAllClients(msg);
+				
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -2138,14 +2151,60 @@ protected boolean checkStoreHasSurvey(Object msg, Connection conn,java.util.Date
   }
   
   @SuppressWarnings("unchecked")
-  protected void addConclusion(Connection conn, Object msg) throws SQLException {
+  protected ArrayList<Integer> addConclusion(Connection conn, Object msg) throws SQLException {
 	  		Statement stmt;
 	     	  ArrayList<String> temp = (ArrayList<String>)(((Message)msg).getMsg());
+		   		if(checkCustomerFillTwice(conn,Integer.parseInt(temp.get(0)),Integer.parseInt(temp.get(1))) ==false)
+		   		{
+		   			System.out.println("customer didnt fill this survey");      			
+			 			ArrayList<Integer> a = new ArrayList<Integer>();
+			 			a.add(11);
+			 			return a;
+
+		   		}
+	     	  
 			stmt = conn.createStatement();
-		    String getSurveyIdTable = "UPDATE survey SET ExpertConclusion =" + "'" + temp.get(1)  + "'" + "WHERE Surveyid=" +"'" +temp.get(0) + "'" +";";;
+		    String getSurveyIdTable = "UPDATE survey_result SET ExpertConclusion =" + "'" + temp.get(2)  + "'" + "WHERE Surveyid=" +"'" +temp.get(0) + "'" +"AND customerId =" +"'" +temp.get(1) + "'" + ";";;
 			 stmt.executeUpdate(getSurveyIdTable);
+	 			ArrayList<Integer> a = new ArrayList<Integer>();
+	 			a.add(10);
+	 			return a;
+
 
   }
+  
+  @SuppressWarnings("unchecked")
+  protected ArrayList<Integer> getSurveyInfo(Connection conn, Object msg) throws SQLException {
+	  		Statement stmt;
+	     	ArrayList<String> temp = (ArrayList<String>)(((Message)msg).getMsg());
+	     	ArrayList<Integer> ans = new ArrayList<Integer>();
+			stmt = conn.createStatement();
+	   		if(checkCustomerFillTwice(conn,Integer.parseInt(temp.get(0)),Integer.parseInt(temp.get(1))) ==false)
+	   		{
+	   			System.out.println("customer didnt fill this survey");      			
+		 			ArrayList<Integer> a = new ArrayList<Integer>();
+		 			a.add(11);
+		 			return a;
+
+	   		}
+			
+			 String getSurveyIdTable = "SELECT* FROM project.survey_result WHERE Surveyid = " + "'" +temp.get(0) + "'" +"AND customerId =" +"'" +temp.get(1) + "'" + ";";
+			 ResultSet rs = stmt.executeQuery(getSurveyIdTable);
+			 while(rs.next())
+			 {
+			 	ans.add(rs.getInt("ansQ1"));
+			 	ans.add(rs.getInt("ansQ2"));
+			 	ans.add(rs.getInt("ansQ3"));
+			 	ans.add(rs.getInt("ansQ4"));
+			 	ans.add(rs.getInt("ansQ5"));
+			 	ans.add(rs.getInt("ansQ6"));
+
+			 }
+			 
+			 return ans;
+
+  }
+  
   
   
   @SuppressWarnings("unchecked")
@@ -2235,7 +2294,7 @@ protected Object addSurveyResult(Object msg, Connection conn) throws ParseExcept
 		  stmt = conn.createStatement();
 		  String getSurveyTable = "SELECT * FROM project.survey_result WHERE Surveyid="+ "'" +id+ "'" + "AND customerId =" + "'" + customerId + "'" + ";"; // get the survey that connected to new survey id of exist
 		  ResultSet rs = stmt.executeQuery(getSurveyTable);
-		  while(rs.next()) {
+		  while(rs.next()) {//if he is exist
 			flag=true;
 		  }
 		  if(flag==true)

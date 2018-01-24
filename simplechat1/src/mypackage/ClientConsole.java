@@ -26,10 +26,12 @@ import controller.CatalogController;
 import controller.ComplaintController;
 import controller.ComplaintHandleController;
 import controller.CustomerController;
+import controller.ExpertSurveyController;
 import controller.OrderController;
 import controller.ProfileController;
 import controller.StoreManagerController;
 import controller.SurveyController;
+import controller.SurveyInfoController;
 import controller.SurveyResultController;
 import controller.UserController;
 import entity.Account;
@@ -305,6 +307,33 @@ public void displayUI(Object message)
 	    	UserUI.CId = (ArrayList<Integer>)(((Message)message).getMsg());
 	    	SurveyResultController.flag2 = true;
 	    }
+	    if(((Message)message).getOption().compareTo("get info survey") == 0)
+	    {
+	    	if(((ArrayList<Integer>)(((Message)message).getMsg())).get(0)==11)
+	    	{
+	  		  ExpertSurveyController.errorMsg = "11";
+	    		//----------------------------------------------------
+	    	}
+	    	else {
+	    	SurveyInfoController.ans = (ArrayList<Integer>)(((Message)message).getMsg());
+	    	SurveyInfoController.flag = true;
+	  		  ExpertSurveyController.errorMsg = "10";
+	             }
+	    }
+	    
+	    if(((Message)message).getOption().compareTo("add surveyConclusion") == 0)
+	    {
+	    	if(((ArrayList<Integer>)(((Message)message).getMsg())).get(0)==11)
+	    	{
+	  		  ExpertSurveyController.errorMsg = "11";
+	    		//----------------------------------------------------
+	    	}
+	    	else {
+	  		  ExpertSurveyController.errorMsg = "10";
+	             }
+	    }
+
+	    
 	    
 	    else if(((Message)message).getOption().compareTo("Get all orders for this customer") == 0) //get all the orders to specific customer
 	    {

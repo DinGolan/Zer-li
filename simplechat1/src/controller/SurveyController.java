@@ -141,6 +141,7 @@ public class SurveyController implements Initializable {
 	}
 	
 	public void Close(ActionEvent event) throws IOException {
+		flagError = false;
 		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
 		Stage primaryStage = new Stage();
 		FXMLLoader loader = new FXMLLoader();

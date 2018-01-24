@@ -28,7 +28,7 @@
                </font>
             </Button>
             <ComboBox id="cmbSurveyId" fx:id="cmbSurveyId" layoutX="309.0" layoutY="128.0" prefWidth="150.0" />
-            <Button layoutX="384.0" layoutY="205.0" mnemonicParsing="false" text="Survey Info">
+            <Button id="ExpertSurvey.fxml" fx:id="btnInfo" layoutX="384.0" layoutY="205.0" mnemonicParsing="false" onAction="#openInfo" text="Survey Info">
                <font>
                   <Font size="18.0" />
                </font>

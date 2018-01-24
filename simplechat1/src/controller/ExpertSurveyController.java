@@ -29,7 +29,9 @@ public class ExpertSurveyController implements Initializable {
 	@FXML
 	private Button btnAddConclusion = null; /* button close for close product form */
 	@FXML
-	private Button btnInfo = null; /* button close for close product form */
+	private Button btnInfo = null; 
+	@FXML
+	private Button btnCloseError = null;	
 	@FXML
 	private ComboBox cmbSurveyCustomerId;  /* ComboBox With List Of Product */
 	@FXML
@@ -37,14 +39,19 @@ public class ExpertSurveyController implements Initializable {
 	
 	private ArrayList<Integer> temp;
 	private Message msg,msg2;
-	public static boolean flag = false;
+	public static boolean flag = false,flagError=false;
 	private ObservableList<Integer> slist;
 	private static int itemIndex = 1; /* This Variable Need for the the Case - that we not choose any Product from the ComboBox , so we take the product that in Index 2 By Defualt */
-
+	public static String surveyId;
+	public static String customerId;
+	public static String errorMsg= null;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
+		if(flagError ==false)
+		{
+
 		temp = new ArrayList<Integer>();
 		msg = new Message(temp, "get all the survey");
 		//UserUI.Id.clear();
@@ -72,7 +79,7 @@ public class ExpertSurveyController implements Initializable {
 		//CustomerServiceWorkerButton.flag =false;
 		slist = FXCollections.observableArrayList(UserUI.CId);
 		cmbSurveyCustomerId.setItems(slist); // initelize id combo box
-
+		}
 
 	}
 	public int getItemIndex(ComboBox cmb) /* With this Method we Take Product from the List of the Product at the ComboBox */
@@ -83,26 +90,54 @@ public class ExpertSurveyController implements Initializable {
 		return cmb.getSelectionModel().getSelectedIndex();
 	}
 	
-	public void addConclusion() {
+	public void addConclusion(ActionEvent event) throws IOException {
 		ArrayList<String> i = new ArrayList<String>();
 		i.add(Integer.toString(UserUI.Id.get(getItemIndex(cmbSurveyId))));//id
+		i.add(Integer.toString(UserUI.CId.get(getItemIndex(cmbSurveyCustomerId))));
 		i.add(txt1.getText());//conclusion
 		msg2 = new Message(i, "add surveyConclusion");	
 		UserUI.myClient.accept(msg2);
+		
+		while(errorMsg == null)
+		{
+			System.out.print("");
+		}
+		
+		if(errorMsg.compareTo("11") ==0)
+		{
+			 errorMsg = null;
+			flagError =true;
+			Pane root = null;
+			Stage primaryStage = new Stage(); //Object present window with graphics elements
+			FXMLLoader loader = new FXMLLoader(); //load object
+			((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
+			root = loader.load(getClass().getResource("/controller/errorCustomerExpert.fxml").openStream());
+			Scene scene = new Scene(root);			
+			primaryStage.setScene(scene);	
+			primaryStage.setTitle("Error msg");
+			primaryStage.show();
+		}
+		 errorMsg = null;
+
+
+		
 
 	}
 	
 	public void openInfo(ActionEvent event)throws IOException  {
+		surveyId = Integer.toString(UserUI.Id.get(getItemIndex(cmbSurveyId)));
+		customerId= Integer.toString(UserUI.CId.get(getItemIndex(cmbSurveyCustomerId)));
 		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
 		Stage primaryStage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
-		Pane root = loader.load(getClass().getResource("/controller/ExpertOptions.fxml").openStream());
+		Pane root = loader.load(getClass().getResource("/controller/SurveyInfo.fxml").openStream());
 		
 		Scene scene = new Scene(root);			
 		
 		primaryStage.setScene(scene);		
 		primaryStage.show();	
 	}
+	
 	
 	public void close(ActionEvent event)throws IOException  {
 		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
@@ -114,6 +149,20 @@ public class ExpertSurveyController implements Initializable {
 		
 		primaryStage.setScene(scene);		
 		primaryStage.show();	
+	}
+	
+	public void CloseError(ActionEvent event) throws IOException {
+		flagError = false;
+		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+		Stage primaryStage = new Stage();
+		FXMLLoader loader = new FXMLLoader();
+		Pane root = loader.load(getClass().getResource("/controller/ExpertSurvey.fxml").openStream());
+		
+		Scene scene = new Scene(root);			
+		
+		primaryStage.setScene(scene);		
+		primaryStage.show();		
+
 	}
 	
 	
