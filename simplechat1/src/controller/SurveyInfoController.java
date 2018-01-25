@@ -87,8 +87,9 @@ public class SurveyInfoController implements Initializable{
 		Pane root = loader.load(getClass().getResource("/controller/ExpertSurvey.fxml").openStream());
 		
 		Scene scene = new Scene(root);			
-		
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);		
+		primaryStage.setTitle("Expert Conclusion");
 		primaryStage.show();	
 	}
 

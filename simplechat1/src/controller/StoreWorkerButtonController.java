@@ -32,8 +32,9 @@ public class StoreWorkerButtonController {
 		Pane root = loader.load(getClass().getResource("/controller/SurveyResultFrame.fxml").openStream());
 		
 		Scene scene = new Scene(root);			
-		
-		primaryStage.setScene(scene);		
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+		primaryStage.setScene(scene);
+		primaryStage.setTitle("Add Result");
 		primaryStage.show();
 		//SurveyResultController sr = new SurveyResultController();				  
 		//sr.start(primaryStage);
@@ -49,6 +50,7 @@ public class StoreWorkerButtonController {
 		FXMLLoader loader = new FXMLLoader(); /* load object */
 		Parent root = FXMLLoader.load(getClass().getResource("/controller/UserLogin.fxml"));
 		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setTitle("LOGIN");
 		primaryStage.setScene(scene);
 		primaryStage.show();

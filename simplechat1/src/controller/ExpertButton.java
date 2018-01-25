@@ -30,8 +30,10 @@ public class ExpertButton {
 		Pane root = loader.load(getClass().getResource("/controller/ExpertSurvey.fxml").openStream());
 		
 		Scene scene = new Scene(root);			
-		
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+
 		primaryStage.setScene(scene);		
+		primaryStage.setTitle("Expert Conclusion");
 		primaryStage.show();
 	}
 	
@@ -43,6 +45,8 @@ public class ExpertButton {
 		FXMLLoader loader = new FXMLLoader(); /* load object */
 		Parent root = FXMLLoader.load(getClass().getResource("/controller/UserLogin.fxml"));
 		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+
 		primaryStage.setTitle("LOGIN");
 		primaryStage.setScene(scene);
 		primaryStage.show();

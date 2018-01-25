@@ -33,6 +33,9 @@ public class ExpertSurveyController implements Initializable {
 	@FXML
 	private Button btnCloseError = null;	
 	@FXML
+	private Button btnCloseSuccessful = null;	
+
+	@FXML
 	private ComboBox cmbSurveyCustomerId;  /* ComboBox With List Of Product */
 	@FXML
 	private ComboBox cmbSurveyId;  /* ComboBox With List Of Product */
@@ -95,6 +98,25 @@ public class ExpertSurveyController implements Initializable {
 		i.add(Integer.toString(UserUI.Id.get(getItemIndex(cmbSurveyId))));//id
 		i.add(Integer.toString(UserUI.CId.get(getItemIndex(cmbSurveyCustomerId))));
 		i.add(txt1.getText());//conclusion
+		
+		if(txt1.getText().length()==0)
+		{
+			errorMsg = null;
+			flagError =true;
+			Pane root = null;
+			Stage primaryStage = new Stage(); //Object present window with graphics elements
+			FXMLLoader loader = new FXMLLoader(); //load object
+			((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
+			root = loader.load(getClass().getResource("/controller/errorMsgNoConclusion.fxml").openStream());
+			Scene scene = new Scene(root);	
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setScene(scene);	
+			primaryStage.setTitle("Error msg");
+			primaryStage.show();
+
+			return;
+		}
+		
 		msg2 = new Message(i, "add surveyConclusion");	
 		UserUI.myClient.accept(msg2);
 		
@@ -105,16 +127,33 @@ public class ExpertSurveyController implements Initializable {
 		
 		if(errorMsg.compareTo("11") ==0)
 		{
-			 errorMsg = null;
+			errorMsg = null;
 			flagError =true;
 			Pane root = null;
 			Stage primaryStage = new Stage(); //Object present window with graphics elements
 			FXMLLoader loader = new FXMLLoader(); //load object
 			((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
 			root = loader.load(getClass().getResource("/controller/errorCustomerExpert.fxml").openStream());
-			Scene scene = new Scene(root);			
+			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 			primaryStage.setScene(scene);	
 			primaryStage.setTitle("Error msg");
+			primaryStage.show();
+			 errorMsg = null;
+
+		}
+		else {
+			errorMsg = null;
+			flagError =true;
+			Pane root = null;
+			Stage primaryStage = new Stage(); //Object present window with graphics elements
+			FXMLLoader loader = new FXMLLoader(); //load object
+			((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
+			root = loader.load(getClass().getResource("/controller/MsgSuccecfulExpert2.fxml").openStream());
+			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setScene(scene);	
+			primaryStage.setTitle("Successful add conclusion");
 			primaryStage.show();
 		}
 		 errorMsg = null;
@@ -165,8 +204,9 @@ public class ExpertSurveyController implements Initializable {
 		Pane root = loader.load(getClass().getResource("/controller/SurveyInfo.fxml").openStream());
 		
 		Scene scene = new Scene(root);			
-		
-		primaryStage.setScene(scene);		
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+		primaryStage.setScene(scene);
+		primaryStage.setTitle("Survey Info");
 		primaryStage.show();	
 		}
 	}
@@ -179,7 +219,8 @@ public class ExpertSurveyController implements Initializable {
 		FXMLLoader loader = new FXMLLoader(); //load object
 		((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
 		root = loader.load(getClass().getResource("/controller/errorCustomerExpert.fxml").openStream());
-		Scene scene = new Scene(root);			
+		Scene scene = new Scene(root);		
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);	
 		primaryStage.setTitle("Error msg");
 		primaryStage.show();
@@ -188,14 +229,16 @@ public class ExpertSurveyController implements Initializable {
 	
 	
 	public void close(ActionEvent event)throws IOException  {
+		flagError = false;
 		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
 		Stage primaryStage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
 		Pane root = loader.load(getClass().getResource("/controller/ExpertOptions.fxml").openStream());
 		
 		Scene scene = new Scene(root);			
-		
-		primaryStage.setScene(scene);		
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+		primaryStage.setScene(scene);
+		primaryStage.setTitle("Expert Options");
 		primaryStage.show();	
 	}
 	
@@ -207,13 +250,11 @@ public class ExpertSurveyController implements Initializable {
 		Pane root = loader.load(getClass().getResource("/controller/ExpertSurvey.fxml").openStream());
 		
 		Scene scene = new Scene(root);			
-		
-		primaryStage.setScene(scene);		
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+		primaryStage.setScene(scene);	
+		primaryStage.setTitle("Expert Conclusion");
 		primaryStage.show();		
 
 	}
-	
-	
 
-	
 }

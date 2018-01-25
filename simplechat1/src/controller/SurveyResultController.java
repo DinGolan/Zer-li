@@ -45,7 +45,9 @@ public class SurveyResultController implements Initializable{
 	private Button btnCloseDate = null; /* button close for close product form */
 	@FXML
 	private Button btnCloseCustomer = null; /* button close for close product form */
-	
+	@FXML
+	private Button btnCloseSuccessful = null;	
+
 	@FXML
 	private ComboBox cmbSurveyId= null;  /* ComboBox With List Of Product */
 	@FXML
@@ -71,8 +73,11 @@ public class SurveyResultController implements Initializable{
 		Pane root = loader.load(getClass().getResource("/controller/SurveyResultFrame.fxml").openStream());
 		
 		Scene scene = new Scene(root);			
-		
-		primaryStage.setScene(scene);		
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+
+		primaryStage.setScene(scene);
+		primaryStage.setTitle("Add Result");
+
 		primaryStage.show();
 	    
 	}
@@ -122,7 +127,8 @@ public class SurveyResultController implements Initializable{
 				FXMLLoader loader = new FXMLLoader(); //load object
 				((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
 				root = loader.load(getClass().getResource("/controller/errorMsgStore.fxml").openStream());
-				Scene scene = new Scene(root);			
+				Scene scene = new Scene(root);
+				scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 				primaryStage.setScene(scene);	
 				primaryStage.setTitle("Error msg");
 				primaryStage.show();
@@ -135,7 +141,8 @@ public class SurveyResultController implements Initializable{
 				FXMLLoader loader = new FXMLLoader(); //load object
 				((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
 				root = loader.load(getClass().getResource("/controller/errorMsgDate.fxml").openStream());
-				Scene scene = new Scene(root);			
+				Scene scene = new Scene(root);		
+				scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 				primaryStage.setScene(scene);	
 				primaryStage.setTitle("Error msg");
 				primaryStage.show();
@@ -149,29 +156,43 @@ public class SurveyResultController implements Initializable{
 				FXMLLoader loader = new FXMLLoader(); //load object
 				((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
 				root = loader.load(getClass().getResource("/controller/errorMsgCustomer.fxml").openStream());
-				Scene scene = new Scene(root);			
+				Scene scene = new Scene(root);	
+				scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 				primaryStage.setScene(scene);	
 				primaryStage.setTitle("Error msg");
 				primaryStage.show();
 			}
 			
 			else if(errorMsg.compareTo("succed!")==0) {
-			     flagError =false;
-				 errorMsg = null;
-				 Close(event);
+			     //flagError =false;
+					flagError =true;
+					 errorMsg = null;
+					Pane root = null;
+					Stage primaryStage = new Stage(); //Object present window with graphics elements
+					FXMLLoader loader = new FXMLLoader(); //load object
+					((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
+					root = loader.load(getClass().getResource("/controller/MsgSuccecfulResult.fxml").openStream());
+					Scene scene = new Scene(root);	
+					scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+					primaryStage.setScene(scene);	
+					primaryStage.setTitle("succed msg");
+					primaryStage.show();
 			}
 			
 	}
 	
 	public void Close(ActionEvent event) throws IOException {
+		flagError = false;
 		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
 		Stage primaryStage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
 		Pane root = loader.load(getClass().getResource("/controller/StoreWorkerOptions.fxml").openStream());
 		
 		Scene scene = new Scene(root);			
-		
-		primaryStage.setScene(scene);		
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+		primaryStage.setScene(scene);
+		primaryStage.setTitle("Store Worker Options");
+
 		primaryStage.show();		
 
 	}
@@ -238,8 +259,9 @@ public class SurveyResultController implements Initializable{
 		Pane root = loader.load(getClass().getResource("/controller/SurveyResultFrame.fxml").openStream());
 		
 		Scene scene = new Scene(root);			
-		
-		primaryStage.setScene(scene);		
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+		primaryStage.setScene(scene);
+		primaryStage.setTitle("Add Result");
 		primaryStage.show();		
 
 	}
