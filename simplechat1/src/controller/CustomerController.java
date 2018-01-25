@@ -69,7 +69,7 @@ public class CustomerController implements Initializable{
 		
 		Scene scene = new Scene(root);			
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-		
+		primaryStage.setTitle("Catalog");
 		primaryStage.setScene(scene);	
 		primaryStage.show();
 	}
@@ -94,6 +94,7 @@ public class CustomerController implements Initializable{
 		Pane root = loader.load(getClass().getResource("/controller/CancelRules.fxml").openStream());
 		Scene scene = new Scene(root);			
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());	
+		primaryStage.setTitle("Cancel Rules");
 		primaryStage.setScene(scene);		
 		primaryStage.show();	
 	}
@@ -137,7 +138,7 @@ public class CustomerController implements Initializable{
 		
 		Scene scene = new Scene(root);			
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-		
+		primaryStage.setTitle("Customer Options");
 		primaryStage.setScene(scene);		
 		primaryStage.show();
 		}
@@ -152,7 +153,7 @@ public class CustomerController implements Initializable{
 		
 		Scene scene = new Scene(root);			
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-		
+		primaryStage.setTitle("Self Defenition Product");
 		primaryStage.setScene(scene);		
 		primaryStage.show();
 	}
