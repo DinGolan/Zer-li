@@ -10,13 +10,13 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="215.0" prefWidth="348.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ComplaintController">
+<AnchorPane prefHeight="215.0" prefWidth="348.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ComplaintHandleController">
    <children>
-      <Button id="btnComplaintTryAgain" fx:id="btnComplaintTryAgain" layoutX="142.0" layoutY="165.0" mnemonicParsing="false" onAction="#addNewOtherComplaint" text="Try again" />
+      <Button id="btnComplaintTryAgain" fx:id="btnComplaintTryAgain" layoutX="142.0" layoutY="165.0" mnemonicParsing="false" onAction="#loadHisComplaints" text="Try again" />
       <Label layoutX="14.0" layoutY="14.0" text="Error!" textFill="#0022ff">
          <font>
             <Font name="Bodoni MT" size="29.0" />
          </font></Label>
-      <TextArea layoutX="21.0" layoutY="62.0" prefHeight="81.0" prefWidth="301.0" text="You need to enter the complaint reason until &#10;200 characters try again." />
+      <TextArea layoutX="20.0" layoutY="52.0" prefHeight="100.0" prefWidth="302.0" text="You need to enter the complaint compansation &#10;amount as decimal number." />
    </children>
 </AnchorPane>

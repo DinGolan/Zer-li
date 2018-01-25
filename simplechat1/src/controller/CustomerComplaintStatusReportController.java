@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import boundery.StoreManagerUI;
+import boundery.StoreUI;
 import boundery.UserUI;
 import entity.Message;
 import entity.Store;
@@ -55,6 +56,8 @@ public class CustomerComplaintStatusReportController implements Initializable {
 	 
 	 @FXML
 	 private Button btnClose;
+	 
+	 
 	
 	public void loadStore(Store s) 					/* To load the User details to the text fields */
 	{ 
@@ -70,7 +73,8 @@ public class CustomerComplaintStatusReportController implements Initializable {
 		FXMLLoader loader = new FXMLLoader(); 					 	 /* load object */
 		Pane root = loader.load(getClass().getResource("/controller/StoreManagerReportForm.fxml").openStream());
 		
-		Scene scene = new Scene(root);			
+		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);		
 		primaryStage.show();										   /* show catalog frame window */
 	}
@@ -84,12 +88,28 @@ public class CustomerComplaintStatusReportController implements Initializable {
 		String Year;
 		String Full_Date_String;
 		Date temp_Date_Quarter_Report;
-		temp_Date_Quarter_Report = (Date)StoreManagerUI.Help_To_Transfer_Object_At_Order_Report.get(1);                             /* The Date */
-		Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
-		Year = Full_Date_String.substring(0 , 4);
-		Month = Full_Date_String.substring(5 , 7);
-		Year_Integer = Integer.parseInt(Year);
-		Month_Integer = Integer.parseInt(Month);
+		
+		if(StoreManagerReportController.Flag_Press_On_The_Date_ComboBox == false)
+		{
+			StoreManagerUI.Help_To_Transfer_Object_At_Complaint_Report.clear();
+			StoreManagerUI.Help_To_Transfer_Object_At_Complaint_Report.add(StoreManagerReportController.temp_Store_Id);
+			StoreManagerUI.Help_To_Transfer_Object_At_Complaint_Report.add(StoreManagerUI.Dates.get(0));
+			temp_Date_Quarter_Report = (Date)StoreManagerUI.Help_To_Transfer_Object_At_Complaint_Report.get(1);
+			Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
+			Year = Full_Date_String.substring(0 , 4);
+			Month = Full_Date_String.substring(5 , 7);
+			Year_Integer = Integer.parseInt(Year);
+			Month_Integer = Integer.parseInt(Month);
+		}
+		else 
+		{
+			temp_Date_Quarter_Report = (Date)StoreManagerUI.Help_To_Transfer_Object_At_Order_Report.get(1);                             /* The Date */
+			Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
+			Year = Full_Date_String.substring(0 , 4);
+			Month = Full_Date_String.substring(5 , 7);
+			Year_Integer = Integer.parseInt(Year);
+			Month_Integer = Integer.parseInt(Month);
+		}
 		
 		this.txtYear.setText(String.valueOf(Year_Integer)); 					/* Set The Year */
 		
@@ -115,16 +135,20 @@ public class CustomerComplaintStatusReportController implements Initializable {
 		StoreID_And_Date_Of_Report.add(StoreManagerUI.Help_To_Transfer_Object_At_Complaint_Report.get(1));    /* The Date Of the Report */
 		msg = new Message(StoreID_And_Date_Of_Report, "Store Manager - Take The Complaints Of Specific Store"); 		/* I take All the Orders Of Specific Store , And After That I Take All the Complaint Of All The Order Of the Specific Store */
 		UserUI.myClient.accept(msg);
-		while(StoreManagerUI.complaints.size() == 0);
+		while(StoreManagerUI.complaints.size() == 0)
+		{
+			if(StoreManagerUI.complaints.size() == 0)
+				break;
+		}
 		try 
 		{
 			Thread.sleep(200);
 		} 
 		catch (InterruptedException e) 
 		{
-		
 			e.printStackTrace();
 		}
+		
 		Put_At_The_Chart_All_The_Complaints();
 	}
 

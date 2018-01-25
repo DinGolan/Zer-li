@@ -143,7 +143,6 @@ public class AccountController {
 		{ //enter good credit card number
 			a.setAccountCreditCardNum(txtAccountCreditCardNum.getText()); //set the credit card number
 			Message msg = new Message(a, "Add new account");
-			System.out.println(msg);
 			UserUI.myClient.accept(msg);
 		
 			while(flag == false) 
@@ -151,9 +150,8 @@ public class AccountController {
 				System.out.print(""); //DOES NOT RUN WITHOUT THIS LINE
 			}
 			flag = false;
-		
-			System.out.print(AccountUI.success); 
-			if(AccountUI.success.compareTo("User doesnt exist")==0)//user for this customer doesnt exist
+		 
+			if(AccountUI.success.compareTo("User doesnt exist")==0)//user for this customer doesn't exist
 			{
 				((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
 				root = loader.load(getClass().getResource("/controller/AccountUserNotExistMsg.fxml").openStream());

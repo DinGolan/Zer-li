@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
@@ -8,7 +13,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="149.0" prefHeight="361.0" prefWidth="364.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EchoServerController">
+<AnchorPane minHeight="149.0" prefHeight="361.0" prefWidth="364.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EchoServerController">
    <children>
       <Label id="Label_Connected" fx:id="Label_Connected" layoutX="135.0" layoutY="87.0" text="Not Connected" textFill="RED">
          <font>
@@ -18,14 +23,6 @@
             <Glow />
          </effect>
       </Label>
-      <Button id="btnConnect" fx:id="btnConnect" layoutX="191.0" layoutY="268.0" mnemonicParsing="false" onAction="#TryToConnectToServer" prefHeight="25.0" prefWidth="69.0" text="Connect" textFill="RED">
-         <effect>
-            <Glow />
-         </effect></Button>
-      <Button id="btnExit" fx:id="btnExit" layoutX="117.0" layoutY="268.0" mnemonicParsing="false" onAction="#getExitBtn" prefHeight="25.0" prefWidth="69.0" text="Exit" textFill="RED">
-         <effect>
-            <Glow />
-         </effect></Button>
       <Label id="Label_Name_Of_Scheme" fx:id="Label_Name_Of_Scheme" layoutX="48.0" layoutY="149.0" text="Enter Name Of Scheme ---&gt;" textFill="RED">
          <effect>
             <Glow />
@@ -43,6 +40,11 @@
       </Label>
       <TextField id="txtScheme" fx:id="txtScheme" layoutX="201.0" layoutY="145.0" />
       <TextField id="txtUser" fx:id="txtUser" layoutX="201.0" layoutY="184.0" />
+      <PasswordField id="txtPassword" fx:id="txtPassword" layoutX="201.0" layoutY="222.0" />
+      <Button id="btnConnect" fx:id="btnConnect" layoutX="191.0" layoutY="268.0" mnemonicParsing="false" onAction="#TryToConnectToServer" prefHeight="25.0" prefWidth="69.0" text="Connect" textFill="RED">
+         <effect>
+            <Glow />
+         </effect></Button>
       <Label id="txtHeadLine" fx:id="txtHeadLine" layoutX="82.0" layoutY="27.0" prefHeight="39.0" prefWidth="212.0" text="The - Server" textFill="RED">
          <font>
             <Font name="Times New Roman Bold" size="35.0" />
@@ -56,6 +58,9 @@
             <Glow />
          </effect>
       </Button>
-      <PasswordField id="txtPassword" fx:id="txtPassword" layoutX="201.0" layoutY="222.0" />
+      <Button id="btnExit" fx:id="btnExit" layoutX="117.0" layoutY="268.0" mnemonicParsing="false" onAction="#getExitBtn" prefHeight="25.0" prefWidth="69.0" text="Exit" textFill="RED">
+         <effect>
+            <Glow />
+         </effect></Button>
    </children>
 </AnchorPane>

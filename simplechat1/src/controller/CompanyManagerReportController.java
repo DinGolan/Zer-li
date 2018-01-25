@@ -22,7 +22,7 @@ import javafx.stage.Stage;
 
 public class CompanyManagerReportController implements Initializable {
 
-	private int Integer_The_Option_You_Choose;
+	public static int Integer_The_Option_You_Choose;
 	private String String_The_Option_You_Choose;
 	private static int itemIndex = 0; 		/* This Variable Need for the the Case - that we not choose any Option - So By Default it will Be The Index 0 Its Mean - One */
 	public static int Flag_For_Return_Window_With_One_Store_Or_With_Two_Store = 1;
@@ -54,7 +54,9 @@ public class CompanyManagerReportController implements Initializable {
 			Stage primaryStage = new Stage();
 			FXMLLoader loader = new FXMLLoader();
 			Pane root = loader.load(getClass().getResource("/controller/CompanyManagerReportForm_Window_Only_One_Store.fxml").openStream());
+			
 			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 			primaryStage.setScene(scene);		
 			primaryStage.show();
 			
@@ -67,7 +69,8 @@ public class CompanyManagerReportController implements Initializable {
 			FXMLLoader loader = new FXMLLoader();
 			Pane root = loader.load(getClass().getResource("/controller/CompanyManagerReportForm_Window_With_Two_Store.fxml").openStream());
 
-			Scene scene = new Scene(root);			
+			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 			primaryStage.setScene(scene);		
 			primaryStage.show();
 		}
@@ -94,7 +97,8 @@ public class CompanyManagerReportController implements Initializable {
 		FXMLLoader loader = new FXMLLoader(); 					 	 /* Load object */
 		Pane root = loader.load(getClass().getResource("/controller/CompanyManagerOptions.fxml").openStream());
 		
-		Scene scene = new Scene(root);			
+		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);		
 		primaryStage.show();										   /* show catalog frame window */
 	}

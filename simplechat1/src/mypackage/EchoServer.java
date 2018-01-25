@@ -16,9 +16,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.time.LocalTime;
-import java.time.ZoneId;
-import java.util.ArrayList;import java.util.Calendar;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Vector;
@@ -503,7 +501,7 @@ public class EchoServer extends AbstractServer
 	  try 
 	  {	
 		  stmt = conn.createStatement();
-		  String getAccount_Of_Customer_Account_Table = "SELECT * FROM" + Scheme_Name + ".account WHERE AccountUserId = " + "'" + Customer_User_ID + "'" + ";"; 
+		  String getAccount_Of_Customer_Account_Table = "SELECT * FROM " + Scheme_Name + ".account WHERE AccountUserId = " + "'" + Customer_User_ID + "'" + ";"; 
 		  ResultSet rs = stmt.executeQuery(getAccount_Of_Customer_Account_Table);
 		  while(rs.next())
 	 	  {
@@ -581,7 +579,6 @@ public class EchoServer extends AbstractServer
 				  temp_Order.setOrderID(rs.getInt("orderID"));
 				  temp_Order.setOrderTotalPrice(rs.getDouble("orderTotalPrice"));
 				  temp_Order.setoStatus(Order.orderStatus.valueOf(rs.getString("orderStatus")));
-				  
 				  temp_Order.setPaymentMethod(Account.PaymentMethod.valueOf(rs.getString("paymentMethod")));
 				  temp_Order.setSupply(Order.SupplyOption.valueOf(rs.getString("orderSupplyOption")));
 				  temp_Order.setRecipientAddress(rs.getString("orderRecipientAddress"));
@@ -654,6 +651,7 @@ public class EchoServer extends AbstractServer
 	  /* ------------------------------ Variables ------------------------------------- */
 	  ArrayList<Store> All_Stores = new ArrayList<Store>();
 	  int Number_Of_Quarter;
+	  int Count_Of_Report = 0;
 	  String localDate;
 	  Statement stmt;
 	  String Scheme_Name = EchoServerController.Scheme;
@@ -666,10 +664,19 @@ public class EchoServer extends AbstractServer
 	  try 
 	  {
 		  stmt = conn.createStatement();
+		  
+		  String Take_The_Num_Of_Report = "SELECT reportNumber FROM " + Scheme_Name + ".report " + ";";
+		  ResultSet rs = stmt.executeQuery(Take_The_Num_Of_Report);
+		  while(rs.next())
+		  {
+			  Count_Of_Report++;
+		  }
+		  
+		  
 		  for(int i = 0 ; i < All_Stores.size() ; i++)      /* In this For We Insert For Each Store The 'Big Report' That Include All The 'Small Report' */
 		  {
-			  String Report_Query = "INSERT INTO " + Scheme_Name + ".report " + " (storeID, QuarterNumber, DateOfCreateReport)" + " VALUES (" + "'" + All_Stores.get(i).getStoreId() + "'"
-					  + ", " + "'" + Number_Of_Quarter + "'" + ", " + "'" + localDate + "'" +")";
+			  String Report_Query = "INSERT INTO " + Scheme_Name + ".report " + " (reportNumber, storeID, QuarterNumber, DateOfCreateReport)" + " VALUES (" + "'" + (++Count_Of_Report) + "'" + ", " + "'" + All_Stores.get(i).getStoreId() + "'"
+					  + ", " + "'" + Number_Of_Quarter + "'" + ", " + "'" + localDate + "'" + ")" + ";" ;
 			  stmt.executeUpdate(Report_Query);
 		  } 
 	  } 
@@ -821,7 +828,7 @@ public class EchoServer extends AbstractServer
 					  Order_Field = rs_3.getString("orderID");
 					  temp_Order.setOrderID(Integer.parseInt(Order_Field));
 					  Order_Field = rs_3.getString("orderTotalPrice");
-					  temp_Order.setOrderTotalPrice(Integer.parseInt(Order_Field));
+					  temp_Order.setOrderTotalPrice(Double.parseDouble(Order_Field));
 					  Order_Field = rs_3.getString("orderDate");
 					  temp_Order.setOrderDate(Date.valueOf(Order_Field));
 					  Order_From_DB_Store_1.add(temp_Order);
@@ -856,7 +863,7 @@ public class EchoServer extends AbstractServer
 					  Order_Field = rs_4.getString("orderID");
 					  temp_Order.setOrderID(Integer.parseInt(Order_Field));
 					  Order_Field = rs_4.getString("orderTotalPrice");
-					  temp_Order.setOrderTotalPrice(Integer.parseInt(Order_Field));
+					  temp_Order.setOrderTotalPrice(Double.parseDouble(Order_Field));
 					  Order_Field = rs_4.getString("orderDate");
 					  temp_Order.setOrderDate(Date.valueOf(Order_Field));
 					  Order_From_DB_Store_2.add(temp_Order);
@@ -905,8 +912,6 @@ public class EchoServer extends AbstractServer
 					  }
 				  }
 		 	  }
-			  
-			
 		  }
 		  
 		  All_The_Object_To_Return.add(Product_Type_Of_Store_One);   /* Index Number ---> 6 */
@@ -997,7 +1002,7 @@ public class EchoServer extends AbstractServer
 				  } 
 		 	  } 
 			  
-			  Sum_The_Revenue_Of_Store_One += Order_From_DB_Store_1.get(i).getOrderTotalPrice();;
+			  Sum_The_Revenue_Of_Store_One += Order_From_DB_Store_1.get(i).getOrderTotalPrice();
 		  }
 		  
 		  /* ---------------------------------- Take All The Money From The Canceled Order Of Store One ----------------------------------- */
@@ -1521,7 +1526,7 @@ public class EchoServer extends AbstractServer
 	  String product_In_OrderField;
 	  String Report_Field;
 	  String Approved = "APPROVED";
-	  String Received = "Recieved";
+	  String Received = "RECIVED";
 	  Order temp_Order;
 	  Product temp_Product;
 	  Report temp_Report = null;
@@ -1550,7 +1555,7 @@ public class EchoServer extends AbstractServer
 		  /* -------------------------------- Take All The Order Of Specific Store In Specific Quarter ------------------------- */
 		  
 		  
-		  
+		
 		  String getOrdersOfSpecificStoreTable = "SELECT * FROM " + Scheme_Name + ".order WHERE StoreID = " + "'" + Store_ID + "'" + "AND (orderStatus = " + "'" +  Approved  + "'" + "OR orderStatus = " + "'" + Received + "'" + ")" + ";";    
 		  ResultSet rs_2 = stmt.executeQuery(getOrdersOfSpecificStoreTable);
 		  int Integer_Help_Month_In_Order_Table;
@@ -1866,6 +1871,7 @@ public class EchoServer extends AbstractServer
 		  int Integer_Help_Year_In_Order_Table;
 		  String String_Year_Date_Of_Report = String.valueOf(date_Of_Report).substring(0, 4);   
 		  int Integer_Year_Date_Of_Report  = Integer.parseInt(String_Year_Date_Of_Report);
+		  int Count_Order_Canceled = 0;
 		      
 		  String getOrders_That_Canceled_OfSpecificStoreTable = "SELECT * FROM " + Scheme_Name + ".order WHERE StoreID = " + "'" + temp_Store_Id + "'" + "AND orderStatus = " + "'" +  Cancle  + "'" + ";";  
 		  ResultSet rs_4 = stmt.executeQuery(getOrders_That_Canceled_OfSpecificStoreTable);
@@ -1880,12 +1886,12 @@ public class EchoServer extends AbstractServer
 				  Integer_Help_Year_In_Order_Table = Integer.parseInt(String_Help_Date_In_Order_Table.substring(0, 4));
 				  if(Integer_Help_Year_In_Order_Table == Integer_Year_Date_Of_Report)
 				  {
-				  		   Sum_Of_Refund_From_Cancel_Order = Sum_Of_Refund_From_Cancel_Order + rs_4.getInt("orderRefund");
+				  		Sum_Of_Refund_From_Cancel_Order = Sum_Of_Refund_From_Cancel_Order + rs_4.getInt("orderRefund");
+				  		Count_Order_Canceled++;
 				  }
-			  }
+			  } 
 	 	  }
 	 	  	   	
-		 
 		  /* -------------------------------- Calculate The Revenue According To Quarter ------------------------- */
 		  
 		  int Count_Of_Order_Of_Specific_Quarter = 0;
@@ -2011,7 +2017,7 @@ public class EchoServer extends AbstractServer
 		  Revenue_Of_Specific_Quarter = Revenue_Of_Specific_Quarter - Sum_Of_Refund_From_Cancel_Order;
 		  Revenue_Of_Specific_Quarter = Revenue_Of_Specific_Quarter - Compensation_Of_Specific_Quarter;
 		  Revenue_To_Return_And_Number_Of_Order.add(Revenue_Of_Specific_Quarter);
-		  Revenue_To_Return_And_Number_Of_Order.add(Count_Of_Order_Of_Specific_Quarter);
+		  Revenue_To_Return_And_Number_Of_Order.add(Count_Of_Order_Of_Specific_Quarter - Count_Order_Canceled);
 	  }
 	  catch (SQLException e) 
 	  {	
@@ -2597,9 +2603,7 @@ protected ResultSet getSurveyData(Connection conn,int id) throws SQLException {
   protected ArrayList<Integer> getAllOrdersToCustomerCancel(Object msg, Connection conn) //this method get all the orders that match to specific customer and can be cancel
   {
 	 int StoreNum = Integer.parseInt(((ArrayList<String>)(((Message)msg).getMsg())).get(1));
-	 System.out.println(StoreNum);
 	 String requestedCustomerId=((ArrayList<String>)(((Message)msg).getMsg())).get(0);
-	 System.out.println(requestedCustomerId);
 	 ArrayList<Integer> ordersNums = new ArrayList<Integer>();
 	 Statement stmt;
 	 Integer co;
@@ -2639,7 +2643,6 @@ protected ResultSet getSurveyData(Connection conn,int id) throws SQLException {
 		 if(ordersNums.size()==0)
 			 ordersNums.add(-1); //to know that we didn't have orders to this customer at DB that we can to cancel
 		  } catch (SQLException e) {	e.printStackTrace();}	
-	 System.out.println(ordersNums);
 	  return ordersNums;
  }	
  
@@ -2736,18 +2739,28 @@ protected ResultSet getSurveyData(Connection conn,int id) throws SQLException {
   protected void addProductToDB(Object msg, Connection conn) /* This Method Update the DB */
 	{
 		Statement stmt;
+		int productId = 0;
 		Product product = (Product) ((Message) msg).getMsg();
 		try {
 
-			stmt = conn.createStatement();                             
+			stmt = conn.createStatement();     
+			String getComplaintIdTable = "SELECT * FROM project.product;";
+			ResultSet rs1 = stmt.executeQuery(getComplaintIdTable);
+			while(rs1.next())
+			  {
+				 if(rs1.getInt("ProductID")>productId)
+					 productId=rs1.getInt("ProductID");
+			  }
+			 productId=productId+1;
 			InputStream targetStream= new ByteArrayInputStream(product.getByteArray());
-			 String query = "INSERT INTO " + EchoServerController.Scheme + ".product SET ProductName =?,productType=?,productPrice=?,productColor=?,ProductPicure=?";
+			 String query = "INSERT INTO " + EchoServerController.Scheme + ".product SET ProductID=?,ProductName =?,productType=?,productPrice=?,productColor=?,ProductPicure=?";
 		      java.sql.PreparedStatement preparedStmt = conn.prepareStatement(query);
-		      preparedStmt.setString   (1, product.getpName());
-		      preparedStmt.setString(2, product.getpType().toString());
-		      preparedStmt.setDouble(3, product.getpPrice());
-		      preparedStmt.setString(4, product.getpColor().toString());
-		      preparedStmt.setBlob(5, targetStream);
+		      preparedStmt.setInt   (1, productId);
+		      preparedStmt.setString   (2, product.getpName());
+		      preparedStmt.setString(3, product.getpType().toString());
+		      preparedStmt.setDouble(4, product.getpPrice());
+		      preparedStmt.setString(5, product.getpColor().toString());
+		      preparedStmt.setBlob(6, targetStream);
 		      preparedStmt.executeUpdate();
 			
 		} catch (Exception e) {
@@ -3168,6 +3181,9 @@ protected ResultSet getSurveyData(Connection conn,int id) throws SQLException {
   protected User getUserStatusFromDB(Object msg, Connection conn) /* This method get products table details from DB */
   {
 	  Statement stmt;
+	  boolean userNameFlag = false;
+	  String tempUserNames;
+	  String userId = null;
 	  String userName=(String)((Message)msg).getMsg();
 	  String getUserStatus = null;
 	  String p;
@@ -3175,9 +3191,23 @@ protected ResultSet getSurveyData(Connection conn,int id) throws SQLException {
 	  Product pr;
 	  try {
 		  stmt = conn.createStatement();
-		  getUserStatus = "SELECT * FROM " + EchoServerController.Scheme + ".user WHERE UserName = " + "'" +  userName + "'" + ";" ; /* Get all the Table from the DB */
+		  getUserStatus = "SELECT * FROM " + EchoServerController.Scheme + ".user;" ; /* Get all the Table from the DB */
 		  ResultSet rs = stmt.executeQuery(getUserStatus);
-		  if (!rs.isBeforeFirst())
+		  while(rs.next())
+		  {
+			  tempUserNames= rs.getString("UserName");
+			  if(tempUserNames.compareTo(userName) == 0 )
+			  {
+				  userNameFlag = true;
+				  userId= rs.getString("UserId");
+			  }  
+		  }
+		  if(userNameFlag == true)
+		  {
+			  getUserStatus = "SELECT * FROM " + EchoServerController.Scheme + ".user WHERE UserId = " + "'" +  userId + "'" + ";" ; /* Get all the Table from the DB */
+			  rs = stmt.executeQuery(getUserStatus);
+		  }
+		  if ((!rs.isBeforeFirst()) || userNameFlag == false)
 		  {
 			  user.setId("Does Not Exist"); 
 		  }
@@ -3236,10 +3266,19 @@ protected ResultSet getSurveyData(Connection conn,int id) throws SQLException {
   {
 	  Order newOrder = (Order)(((Message)msg).getMsg());
 	  int orderID=0;
+	  int orderNum=0;
 	  Statement stmt;
 	  Account.PaymentArrangement arrangement = null;
 	  try {
 			  stmt = conn.createStatement(); 
+			  String getComplaintIdTable = "SELECT * FROM project.order;";
+			  ResultSet rs1 = stmt.executeQuery(getComplaintIdTable);
+			  while(rs1.next())
+			  {
+				 if(rs1.getInt("orderID")>orderNum)
+					 orderNum=rs1.getInt("orderID");
+			  }
+			  orderNum=orderNum+1;
 			  String InsertAccountToID = "SELECT * FROM " + EchoServerController.Scheme + ".account WHERE AccountUserId = '"+newOrder.getCustomerID()+"' AND AccountStoreId= "+newOrder.getStoreID()+";";
 			  ResultSet rs = stmt.executeQuery(InsertAccountToID);
 			  while(rs.next())
@@ -3248,8 +3287,8 @@ protected ResultSet getSurveyData(Connection conn,int id) throws SQLException {
 			 	}
 			  if(arrangement != null) 
 			  {	 
-				  InsertAccountToID = "INSERT INTO " + EchoServerController.Scheme + ".order(customerID, orderSupplyOption, orderTotalPrice, orderRequiredSupplyDate, orderRequiredSupplyTime, orderRecipientAddress , orderRecipientName , orderRecipientPhoneNumber, orderPostcard ,orderDate, StoreID ,paymentMethod,orderStatus)" + 
-				  		"VALUES('"+newOrder.getCustomerID()+"','"+newOrder.getSupply()+ "',"+newOrder.getOrderTotalPrice()+",'"+newOrder.getRequiredSupplyDate()+"','"+newOrder.getRequiredSupplyTime()+"','"+newOrder.getRecipientAddress()+"','"+newOrder.getRecipientName()+"','"+newOrder.getRecipienPhoneNum()+"','"+newOrder.getPostCard()+"','"+newOrder.getOrderDate()+"' , "+newOrder.getStoreID()+",'"+newOrder.getPaymentMethod()+"','"+Order.orderStatus.APPROVED+"');";
+				  InsertAccountToID = "INSERT INTO " + EchoServerController.Scheme + ".order(orderID, customerID, orderSupplyOption, orderTotalPrice, orderRequiredSupplyDate, orderRequiredSupplyTime, orderRecipientAddress , orderRecipientName , orderRecipientPhoneNumber, orderPostcard ,orderDate, StoreID ,paymentMethod,orderStatus)" + 
+				  		"VALUES("+orderNum+",'"+newOrder.getCustomerID()+"','"+newOrder.getSupply()+ "',"+newOrder.getOrderTotalPrice()+",'"+newOrder.getRequiredSupplyDate()+"','"+newOrder.getRequiredSupplyTime()+"','"+newOrder.getRecipientAddress()+"','"+newOrder.getRecipientName()+"','"+newOrder.getRecipienPhoneNum()+"','"+newOrder.getPostCard()+"','"+newOrder.getOrderDate()+"' , "+newOrder.getStoreID()+",'"+newOrder.getPaymentMethod()+"','"+Order.orderStatus.APPROVED+"');";
 				  stmt.executeUpdate(InsertAccountToID);
 				  InsertAccountToID = "SELECT orderID FROM " + EchoServerController.Scheme + ".order WHERE customerID = '"+newOrder.getCustomerID()+"' AND orderDate = '"+newOrder.getOrderDate()+"' AND orderTotalPrice = "+newOrder.getOrderTotalPrice()+" AND orderRequiredSupplyTime ='"+newOrder.getRequiredSupplyTime()+"';";
 				  rs = stmt.executeQuery(InsertAccountToID);

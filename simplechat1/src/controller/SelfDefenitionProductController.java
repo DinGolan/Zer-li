@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 import boundery.CatalogUI;
 import boundery.OrderUI;
 import boundery.UserUI;
+import entity.CatalogItemRow;
 import entity.Message;
 import entity.Order;
 import entity.Product;
@@ -191,6 +192,7 @@ public class SelfDefenitionProductController implements Initializable{
 		Pane root = loader.load(getClass().getResource("/controller/SelfDefOrder.fxml").openStream());
 		Scene scene = new Scene(root);			
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+		primaryStage.setTitle("Self Defenition Order");
 		primaryStage.setScene(scene);	
 			
 		primaryStage.show();
@@ -210,6 +212,7 @@ public class SelfDefenitionProductController implements Initializable{
 		Pane root = loader.load(getClass().getResource("/controller/SelfDefOrder.fxml").openStream());
 		Scene scene = new Scene(root);			
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+		primaryStage.setTitle("Self Defenition Order");
 		primaryStage.setScene(scene);	
 			
 		primaryStage.show();
@@ -227,6 +230,7 @@ public class SelfDefenitionProductController implements Initializable{
 	
 		Scene scene = new Scene(root);	
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+		primaryStage.setTitle("Menu");
 		primaryStage.setScene(scene);	
 			
 		primaryStage.show();
@@ -242,6 +246,7 @@ public class SelfDefenitionProductController implements Initializable{
 	
 		Scene scene = new Scene(root);	
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+		primaryStage.setTitle("Self Defenition Product Options");
 		primaryStage.setScene(scene);	
 			
 		primaryStage.show();
@@ -333,7 +338,7 @@ public class SelfDefenitionProductController implements Initializable{
 		
 		Scene scene = new Scene(root);			
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-		
+		primaryStage.setTitle("Cart");
 		primaryStage.setScene(scene);		
 		primaryStage.show();
 	}

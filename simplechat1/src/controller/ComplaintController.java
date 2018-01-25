@@ -169,7 +169,6 @@ public class ComplaintController implements Initializable{
 		c.setComplaintDate(dateSql); //set the date
 		 
 		LocalTime nowTime=LocalTime.parse(new SimpleDateFormat("HH:mm").format(Calendar.getInstance().getTime())); //get the current time
-		System.out.println(nowTime.toString());
 		c.setComplaintTime(nowTime.toString());
 		
 		if((txtComplaintReason.getLength()>200)||(txtComplaintReason.getLength()<1)) //enter complain reason more then 200 characters or less then 10

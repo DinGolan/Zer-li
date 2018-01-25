@@ -85,13 +85,12 @@ public class ComplaintHandleController implements Initializable{
 	ArrayList <String> stat=new ArrayList<String>(Arrays.asList("INPROGRESS", "CLOSE"));
 	
 	/**
-	 * Initialized The details & combobox of the complaint
+	 * Initialized The details of the complaint & combobox of the complaint status or the complaints numbers combobox
 	 */
 	public void initialize(URL arg0, ResourceBundle arg1) // Initialized The ComboBox of the complaint form
 	{
 		if(loadComplaintDetailsFlag==true) 
 		{ //show complaint details	
-			System.out.print(ComplaintUI.complaint);
 			this.txtComplaintNumber.setText(String.valueOf(ComplaintUI.complaint.getComplaintNum()));
 			this.txtComplaintUserId.setText(String.valueOf(ComplaintUI.complaint.getComplaintUserId()));
 			this.txtComplaintDate.setText(String.valueOf(ComplaintUI.complaint.getComplaintDate()));
@@ -99,7 +98,7 @@ public class ComplaintHandleController implements Initializable{
 			this.txtComplaintOrderId.setText(String.valueOf(ComplaintUI.complaint.getComplaintOrderId()));
 			if(ComplaintUI.complaint.getComplaintCompanyServiceWorkerAnswer()!=null) //
 				this.txtComplaintAnswer.setText(ComplaintUI.complaint.getComplaintCompanyServiceWorkerAnswer());
-			if(ComplaintUI.complaint.getComplaintDetails()!=null) //μαγεχ
+			if(ComplaintUI.complaint.getComplaintDetails()!=null) 
 				this.txtComplaintReason.setText(ComplaintUI.complaint.getComplaintDetails());
 			this.txtComplaintCompansationAmount.setText(String.valueOf(ComplaintUI.complaint.getComplaintCompansation()));
 			listForStatusComboBox = FXCollections.observableArrayList(stat); 
@@ -119,7 +118,7 @@ public class ComplaintHandleController implements Initializable{
 	}
 	
 	/**
-	 * Load the customer service worker complaints (in his handle)
+	 * Load the customer service worker complaints number (in his handle) to the combobox
 	 * @param event - click on handle complaints button
 	 * @throws Exception if we can't load the fxml
 	 */
@@ -129,7 +128,6 @@ public class ComplaintHandleController implements Initializable{
 		Stage primaryStage = new Stage(); //Object present window with graphics elements
 		FXMLLoader loader = new FXMLLoader(); //load object
 		String cuurentCustomerServiceWorkerUserName=UserUI.user.getUserName();
-		System.out.println(cuurentCustomerServiceWorkerUserName);
 		
 		Message msg = new Message(cuurentCustomerServiceWorkerUserName , "Get all complaints numbers for this customer service worker");
 		UserUI.myClient.accept(msg); // get all complaints for this customer service worker from DB
@@ -226,7 +224,7 @@ public class ComplaintHandleController implements Initializable{
 	}
 	
 	/**
-	 * Update complaint to Zer-Li system after we press save and show error msg if not all the details are good
+	 * Update complaint to Zer-Li system after we press save and show error msg if not all the details are good- handle try catch if we didn't enter double number for the compensataion price
 	 * @param event- click save button
 	 * @throws Exception if we can't load the fxml
 	 */
@@ -250,6 +248,8 @@ public class ComplaintHandleController implements Initializable{
 		else 
 		{ //enter 200 characters for the reason field
 			ComplaintUI.complaint.setComplaintCompanyServiceWorkerAnswer(txtComplaintAnswer.getText()); 
+			try {
+			Double.parseDouble(txtComplaintCompansationAmount.getText());
 			ComplaintUI.complaint.setComplaintCompansation(Double.parseDouble(txtComplaintCompansationAmount.getText()));
 			ComplaintUI.complaint.setComplaintStat(Complaint.ComplaintStatus.valueOf(stat.get(getStatusIndex()))); //take the status
 			Message msg = new Message(ComplaintUI.complaint, "Update complaint");	
@@ -264,8 +264,19 @@ public class ComplaintHandleController implements Initializable{
 			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 			primaryStage.setScene(scene);	
 			primaryStage.setTitle("Update complaint msg");
-			primaryStage.show();						
-		}					
+			primaryStage.show();
+		}
+			catch(NumberFormatException e)
+			{
+				((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
+				root = loader.load(getClass().getResource("/controller/ComplaintNotDoubleMsg.fxml").openStream());
+				Scene scene = new Scene(root);	
+				scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+				primaryStage.setScene(scene);	
+				primaryStage.setTitle("Error msg");
+				primaryStage.show();	
+			}	
+		}
 	}
 	
 	/**

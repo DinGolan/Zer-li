@@ -1,8 +1,7 @@
-package controller;
+package entity;
 
 import java.sql.Date;
 
-import entity.Complaint;
 import entity.Complaint.ComplaintStatus;
 
 public class CustomerComplaintDetailsRow

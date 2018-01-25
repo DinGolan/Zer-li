@@ -31,7 +31,6 @@ public class EchoServerController implements Initializable {
 	public  static boolean server_Is_Up = false;                /* Flag = If the Server Already Up */
 	public static int Flag_Bad_Choise = 0;                      /* Parameter That Tell Me If The Connection Was Good Or Not */
 	
-	
 	/* Parameter That I Type ---> To Connect The DB */
 	public static String Scheme;
 	public static String User_Name;
@@ -105,6 +104,7 @@ public class EchoServerController implements Initializable {
 			Scheme = this.txtScheme.getText();
 			User_Name = this.txtUser.getText();
 			Password = this.txtPassword.getText();
+			
 			txtHeadLine.setTextFill(Color.GREEN.brighter());
 			Label_Connected.setText("Connected");
 			Label_Connected.setTextFill(Color.GREEN.brighter());
@@ -112,19 +112,22 @@ public class EchoServerController implements Initializable {
 			Label_User.setTextFill(Color.GREEN.brighter());
 			Label_Password.setTextFill(Color.GREEN.brighter());
 			btnConnect.setTextFill(Color.GREEN.brighter());
-			btnExit.setTextFill(Color.GREEN.brighter());
 			btnCloseWindow.setTextFill(Color.GREEN.brighter());
+			btnExit.setTextFill(Color.GREEN.brighter());
 			server_Is_Up = true;
 			ConnectToServer(event,EchoServerUI.DEFAULT_PORT_For_Server);
-			ThreadController.Flag_For_Thread = 1;   			/* We Change The Flag Of The Thread To = 1 */
+			ThreadController.Flag_For_Thread = 1;   						/* We Change The Flag Of The Thread To = 1 */
+			
 		}
 		else
 		{
 			Flag_Bad_Choise = 1;
+			server_Is_Up = false;
 			System.out.println("You Already_Get_In_Into_The_Server ---> Try Again");
 			((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
 			root = FXMLLoader.load(getClass().getResource("/controller/Allready_Get_In_Into_The_Server.fxml"));
 			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Error Massage");
 			primaryStage.show();
@@ -150,14 +153,14 @@ public class EchoServerController implements Initializable {
 		{
 			con = DriverManager.getConnection("jdbc:mysql://localhost/" + Scheme , User_Name , Password);
 		} 
-		catch (SQLException e)
+		catch (SQLException e)  /* Show GUI Error */
 		{
 			Flag_Bad_Choise = 1;
-			/* Show GUI Error */
 			((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
 			Stage primaryStage = new Stage();
 			root = FXMLLoader.load(getClass().getResource("/controller/Wrong_Details_To_Connect_The_DB.fxml"));
 			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Error Massage");
 			primaryStage.show();
@@ -183,6 +186,7 @@ public class EchoServerController implements Initializable {
 			Stage primaryStage = new Stage();
 			root = FXMLLoader.load(getClass().getResource("/controller/Could_Not_Listen_To_Client_AnyMore.fxml"));
 			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Error Massage");
 			primaryStage.show();
@@ -195,6 +199,7 @@ public class EchoServerController implements Initializable {
 		Stage primaryStage = new Stage(); 						  /* Object present window with graphics elements */
 		Parent root = FXMLLoader.load(getClass().getResource("/controller/EchoServerForm.fxml"));
 		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setTitle("Server - Managment Tool");
 		primaryStage.setScene(scene);
 		primaryStage.show();

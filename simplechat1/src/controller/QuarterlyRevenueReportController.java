@@ -2,9 +2,12 @@ package controller;
 
 import java.net.URL;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import boundery.StoreManagerUI;
+import boundery.UserUI;
+import entity.Message;
 import entity.Store;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -72,7 +75,8 @@ public class QuarterlyRevenueReportController implements Initializable{
 		FXMLLoader loader = new FXMLLoader(); 					 	 /* load object */
 		Pane root = loader.load(getClass().getResource("/controller/StoreManagerReportForm.fxml").openStream());
 		
-		Scene scene = new Scene(root);			
+		Scene scene = new Scene(root);		
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);		
 		primaryStage.show();										   /* show catalog frame window */
 	}
@@ -82,20 +86,34 @@ public class QuarterlyRevenueReportController implements Initializable{
 	@Override
 	 public void initialize(URL location, ResourceBundle resources) 
 	{
-		int Year_Integer;
-		int Month_Integer;
+		int Year_Integer = 0;
+		int Month_Integer = 0;
 		String Month;
 		String Year;
 		String Full_Date_String;
 		Date temp_Date_Quarter_Report;
-		String Revenue_Of_Specific_Quarter = String.valueOf(StoreManagerUI.Help_To_Transfer_Object_At_Revenue_Report.get(0));         /* The Revenue */
-		String Amount_Of_Order_Of_Specific_Quarter = String.valueOf(StoreManagerUI.Help_To_Transfer_Object_At_Revenue_Report.get(1)); /* The Amount Of Order */
-		temp_Date_Quarter_Report = (Date)StoreManagerUI.Help_To_Transfer_Object_At_Revenue_Report.get(2);                             /* The Date */
-		Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
-		Year = Full_Date_String.substring(0 , 4);
-		Month = Full_Date_String.substring(5 , 7);
-		Year_Integer = Integer.parseInt(Year);
-		Month_Integer = Integer.parseInt(Month);
+
+		if(StoreManagerReportController.Flag_Press_On_The_Date_ComboBox == false)
+		{
+			StoreManagerUI.Help_To_Transfer_Object_At_Revenue_Report.clear();
+			StoreManagerUI.Help_To_Transfer_Object_At_Revenue_Report.add(StoreManagerReportController.temp_Store_Id);
+			StoreManagerUI.Help_To_Transfer_Object_At_Revenue_Report.add(StoreManagerUI.Dates.get(0));
+			temp_Date_Quarter_Report = (Date)StoreManagerUI.Help_To_Transfer_Object_At_Revenue_Report.get(1);
+			Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
+			Year = Full_Date_String.substring(0 , 4);
+			Month = Full_Date_String.substring(5 , 7);
+			Year_Integer = Integer.parseInt(Year);
+			Month_Integer = Integer.parseInt(Month);
+		}
+		else
+		{
+			temp_Date_Quarter_Report = (Date)StoreManagerUI.Help_To_Transfer_Object_At_Revenue_Report.get(1);                             /* The Date */
+			Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
+			Year = Full_Date_String.substring(0 , 4);
+			Month = Full_Date_String.substring(5 , 7);
+			Year_Integer = Integer.parseInt(Year);
+			Month_Integer = Integer.parseInt(Month);
+		}
 		
 		this.txtYear.setText(String.valueOf(Year_Integer)); 					/* Set The Year */
 		
@@ -115,6 +133,31 @@ public class QuarterlyRevenueReportController implements Initializable{
 		{
 			this.txtQuarterNum.setText(String.valueOf(4));
 		}
+		
+		ArrayList<Object> StoreID_And_Date_Of_Report = new ArrayList<Object>();
+		StoreID_And_Date_Of_Report.add(StoreManagerUI.Help_To_Transfer_Object_At_Revenue_Report.get(0)); /* The Store Id */
+		StoreID_And_Date_Of_Report.add(StoreManagerUI.Help_To_Transfer_Object_At_Revenue_Report.get(1)); /* The Date Of the Report */
+		Message msg = new Message(StoreID_And_Date_Of_Report,"Store Manager - Take the Revenue Of Specific Quarter Of Specific Store");
+		
+		UserUI.myClient.accept(msg);
+		while(StoreManagerUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter.size() == 0)
+		{
+			if(StoreManagerUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter.size() == 0)
+			{
+				break;
+			}
+		}
+		try 
+		{
+			Thread.sleep(200);
+		} 
+		catch (InterruptedException e) 
+		{
+			e.printStackTrace();
+		}
+		
+		String Revenue_Of_Specific_Quarter = String.valueOf(StoreManagerUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter.get(0));         /* The Revenue */
+		String Amount_Of_Order_Of_Specific_Quarter = String.valueOf(StoreManagerUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter.get(1)); /* The Amount Of Order */
 		
 		this.txtQuantityOfOrder.setText(String.valueOf(Amount_Of_Order_Of_Specific_Quarter));
 		this.txtRevenueOfSpecificQuarter.setText(Revenue_Of_Specific_Quarter);   /* Set the Revenue */

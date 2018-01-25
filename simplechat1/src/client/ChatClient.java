@@ -24,7 +24,7 @@ public class ChatClient extends AbstractClient
   //Instance variables **********************************************
   
   /**
-   * The interface type variable.  It allows the implementation of 
+  * The interface type variable.  It allows the implementation of 
    * the display method in the client.
    */
   ChatIF clientUI; 
@@ -39,7 +39,6 @@ public class ChatClient extends AbstractClient
    * @param port - The port number to connect on.
    * @param clientUI - The interface type variable.
    */
-  
   public ChatClient(String host, int port, ChatIF clientUI) 
     throws IOException 
   {
@@ -91,8 +90,9 @@ public class ChatClient extends AbstractClient
 	  else if(((Message)msg).getOption().compareTo("Store manager want store number") ==0)
 		  clientUI.displayUI(msg);
 	  else if(((Message)msg).getOption().compareTo("Get all orders numbers for this customer can cancel") ==0)
-  			clientUI.displayUI(msg); 	  else if(((Message)msg).getOption().compareTo("Store Manager - Add Store To Combo Box From DB") == 0) 
-		  clientUI.displayUI(msg);	  	  else if(((Message)msg).getOption().compareTo("Store Manager - Take The Orders Of Specific Store") == 0) 		  clientUI.displayUI(msg);
+  			clientUI.displayUI(msg); 	  	  	  
+	  else if(((Message)msg).getOption().compareTo("Store Manager - Take The Orders Of Specific Store") == 0) 		  
+		  clientUI.displayUI(msg);
 	  else if(((Message)msg).getOption().compareTo("Store Manager - Take The Complaints Of Specific Store") == 0) 
 		  clientUI.displayUI(msg);
 	  else if(((Message)msg).getOption().compareTo("Store Manager - Take the Revenue Of Specific Quarter Of Specific Store") == 0) 

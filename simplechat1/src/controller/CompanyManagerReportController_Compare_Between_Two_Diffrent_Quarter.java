@@ -6,11 +6,9 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import boundery.CompanyManagerUI;
-import boundery.StoreManagerUI;
 import boundery.UserUI;
 import entity.Message;
 import entity.Product;
-import entity.Store;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -20,7 +18,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
@@ -33,6 +30,11 @@ public class CompanyManagerReportController_Compare_Between_Two_Diffrent_Quarter
 	private int Store_ID_2;
 	private Date Date_Quarter_Report_1;
 	private Date Date_Quarter_Report_2;
+	private int Store_1_Defult;
+	private int Store_2_Defult;
+	private Date Date_1_Defult;
+	private Date Date_2_Defult;
+	
 	ObservableList<String> ProductTypeList_Store_1;
 	ObservableList<String> ProductTypeList_Store_2;
 	ObservableList<String> Product_Of_Store_1;
@@ -99,7 +101,8 @@ public class CompanyManagerReportController_Compare_Between_Two_Diffrent_Quarter
 		FXMLLoader loader = new FXMLLoader(); 					 	 /* Load object */
 		Pane root = loader.load(getClass().getResource("/controller/CompanyManagerReportForm_Window_With_Two_Store.fxml").openStream());
 		
-		Scene scene = new Scene(root);			
+		Scene scene = new Scene(root);	
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);		
 		primaryStage.show();										   /* show catalog frame window */
 	}
@@ -196,19 +199,50 @@ public class CompanyManagerReportController_Compare_Between_Two_Diffrent_Quarter
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
-		Store_ID_1 = (int) CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_1.get(0);
-		Store_ID_2 = (int) CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_2.get(0);
-		Date_Quarter_Report_1 = (Date) CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_1.get(1);
-		Date_Quarter_Report_2 = (Date) CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_2.get(1);
-		ArrayList<Object> ArrayList_Of_Field_To_Compare = new ArrayList<Object>(); 
-		ArrayList_Of_Field_To_Compare.add(Store_ID_1);
-		ArrayList_Of_Field_To_Compare.add(Store_ID_2);
-		ArrayList_Of_Field_To_Compare.add(Date_Quarter_Report_1);
-		ArrayList_Of_Field_To_Compare.add(Date_Quarter_Report_2);
+		ArrayList<Object> ArrayList_Of_Field_To_Compare = new ArrayList<Object>();
+		if(CompanyManagerController_With_Two_Store.Flag_Enter_Two_Store == false)
+		{
+			
+			Store_1_Defult = 1;
+			Date_1_Defult = Date.valueOf("2017-12-31");
+			Store_2_Defult = 2;
+			Date_2_Defult = Date.valueOf("2017-09-30");
+			ArrayList_Of_Field_To_Compare.add(Store_1_Defult);
+			ArrayList_Of_Field_To_Compare.add(Store_2_Defult);
+			ArrayList_Of_Field_To_Compare.add(Date_1_Defult);
+			ArrayList_Of_Field_To_Compare.add(Date_2_Defult);
+		}
+		else
+		{
+			Store_ID_1 = (int) CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_1.get(0);
+			Store_ID_2 = (int) CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_2.get(0);
+			Date_Quarter_Report_1 = (Date) CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_1.get(1);
+			Date_Quarter_Report_2 = (Date) CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_2.get(1);
+			 
+			ArrayList_Of_Field_To_Compare.add(Store_ID_1);
+			ArrayList_Of_Field_To_Compare.add(Store_ID_2);
+			ArrayList_Of_Field_To_Compare.add(Date_Quarter_Report_1);
+			ArrayList_Of_Field_To_Compare.add(Date_Quarter_Report_2);
+		}
 		msg = new Message(ArrayList_Of_Field_To_Compare,"Company Manager - Compare Between Two Different Quarter");
 		UserUI.myClient.accept(msg);
-		while(CompanyManagerUI.Object_From_Comparing_For_Store_1.size() == 0);
-		while(CompanyManagerUI.Object_From_Comparing_For_Store_2.size() == 0);
+		
+		ArrayList_Of_Field_To_Compare.clear();
+		
+		while(CompanyManagerUI.Object_From_Comparing_For_Store_1.size() == 0)
+		{
+			if(CompanyManagerUI.Object_From_Comparing_For_Store_1.size() == 0)
+			{
+				break;
+			}
+		}
+		while(CompanyManagerUI.Object_From_Comparing_For_Store_2.size() == 0)
+		{
+			if(CompanyManagerUI.Object_From_Comparing_For_Store_2.size() == 0)
+			{
+				break;
+			}
+		}
 		try 
 		{
 			Thread.sleep(200);
