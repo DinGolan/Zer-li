@@ -1,6 +1,5 @@
 package boundery;
 
-import java.util.Scanner;
 import java.util.Vector;
 import controller.DataCompanyManagerController;
 import javafx.application.Application;
@@ -8,24 +7,27 @@ import javafx.stage.Stage;
 import mypackage.ClientConsole;
 import entity.User;
 
-public class DataCompanyManagerUI extends Application /* With This Class We Show the Data Company Manager GUI */{
+/**
+ * This Class Is the Boundary Of the Data Company Manager
+ * @author dingo
+ *
+ */
+public class DataCompanyManagerUI extends Application                  
+{
 	
 	public static Vector<User> users = new Vector<User>();
 	public static ClientConsole myClient;
 	
-	public static void main( String args[] ) throws Exception
-	{ 
-//		System.out.println("Please enter the server IP");
-//		Scanner scanner = new Scanner(System.in);
-//		String IP = scanner.next(); 				 /* Enter Server IP */
-		myClient = new ClientConsole("localhost", 5555);
-        launch(args);		
-	} 
+	public static void main( String args[] ) throws Exception {}
+	 
 	
+/**
+*  The Function 'Start' - Run The Application of the Data Company Manager
+*/
 	@Override
 	public void start(Stage arg0) throws Exception 
 	{		
-		DataCompanyManagerController aFrame = new DataCompanyManagerController(); /* Create Data Company Manager frame */				  
+		DataCompanyManagerController aFrame = new DataCompanyManagerController(); 			  
 		aFrame.start(arg0);
 	}
 

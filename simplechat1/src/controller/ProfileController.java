@@ -8,6 +8,9 @@ import boundery.CustomerUI;
 import boundery.UserUI;
 import entity.Account;
 import entity.Complaint;
+import entity.CustomerAccountDetailsRow;
+import entity.CustomerComplaintDetailsRow;
+import entity.CustomerOrderDetailsRow;
 import entity.Message;
 import entity.Order;
 import javafx.collections.FXCollections;
@@ -138,7 +141,8 @@ public class ProfileController implements Initializable
 		Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
 		FXMLLoader loader = new FXMLLoader(); 					 	 /* Load object */
 		Pane root = loader.load(getClass().getResource("/controller/CustomerOptions.fxml").openStream());
-		Scene scene = new Scene(root);			
+		Scene scene = new Scene(root);		
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);		
 		primaryStage.show();										   /* show catalog frame window */
 	}

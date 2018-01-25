@@ -27,11 +27,18 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-
+/**
+ * controller for add survey to the DB
+ * @author itait
+ *
+ */
 public class SurveyController implements Initializable {
 
 	@FXML
 	private DatePicker dp = new DatePicker(LocalDate.now());
+	//@FXML
+	//private DatePicker dp = new DatePicker();
+	
 	@FXML
 	private ComboBox cmb;  /* ComboBox With List Of Product */
 	@FXML
@@ -41,6 +48,8 @@ public class SurveyController implements Initializable {
 	private Button btnCloseError = null; /* button close for close product form */
 	@FXML
 	private Button btnCloseError2 = null; /* button close for close product form */
+	@FXML
+	private Button btnCloseSuccessful = null;	
 
 	@FXML
 	private Button btnAdd = null; /* button close for close product form */
@@ -65,6 +74,8 @@ public class SurveyController implements Initializable {
 		//scene.getStylesheets().add(getClass().getResource("/boundery/CatalogFrame.css").toExternalForm());
 		primaryStage.setTitle("Catalog Managment Tool");
 		primaryStage.setScene(scene);
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+		primaryStage.setTitle("Add Survey");
 		
 		primaryStage.show();		
 	}
@@ -81,15 +92,32 @@ public class SurveyController implements Initializable {
 		return cmb.getSelectionModel().getSelectedIndex();
 	}
 	
+	/**
+	 * add survey to the datebase we send the store id and the end date we check if there is already
+	 * a survey to this store and if there is we put error msg and dont add this survey
+	 * and we check if the end date is less than today(the start date) we put error msg and dont add this survey
+	 * if all the field is correct (we dont have error) we add the survey to the database
+	 * 
+	 * @param event
+	 * @throws IOException
+	 */
 	public void addSurvey(ActionEvent event) throws IOException {
 		temp = new ArrayList<String>();
 		
 		temp.add((Integer.toString(getItemIndex(cmb)+1))); // store id
 		LocalDate localDate = dp.getValue();
+		if(localDate == null)
+		{
+  			dp = new DatePicker(LocalDate.now());
+  			localDate = dp.getValue();
+		}
+		System.out.println(localDate);
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		LocalDate today = LocalDate.now();
   		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-  		String formattedString = today.format(formatter);
+  		
+
+  		String formattedString = localDate.format(formatter);
 	
 		temp.add(formattedString); // end date
 		msg = new Message(temp, "add survey");
@@ -111,7 +139,8 @@ public class SurveyController implements Initializable {
 			FXMLLoader loader = new FXMLLoader(); //load object
 			((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
 			root = loader.load(getClass().getResource("/controller/errorMsgDateBetween.fxml").openStream());
-			Scene scene = new Scene(root);			
+			Scene scene = new Scene(root);		
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 			primaryStage.setScene(scene);	
 			primaryStage.setTitle("Error msg");
 			primaryStage.show();
@@ -124,22 +153,37 @@ public class SurveyController implements Initializable {
 			FXMLLoader loader = new FXMLLoader(); //load object
 			((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
 			root = loader.load(getClass().getResource("/controller/errorMsgStoreNoSurvey.fxml").openStream());
-			Scene scene = new Scene(root);			
+			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 			primaryStage.setScene(scene);	
 			primaryStage.setTitle("Error msg");
 			primaryStage.show();
 		}
 		
 		else if(errorMsg.compareTo("succes survey")==0) {
-		     flagError =false;
-			 errorMsg = null;
-			 Close(event);
+		     //flagError =false;
+				flagError =true;
+				 errorMsg = null;
+				Pane root = null;
+				Stage primaryStage = new Stage(); //Object present window with graphics elements
+				FXMLLoader loader = new FXMLLoader(); //load object
+				((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
+				root = loader.load(getClass().getResource("/controller/MsgSuccecfulAddSurvey.fxml").openStream());
+				Scene scene = new Scene(root);	
+				scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+				primaryStage.setScene(scene);	
+				primaryStage.setTitle("succed msg");
+				primaryStage.show();
 		}
 
 		
 		
 	}
-	
+	/**
+	 * close this window and open CustomerServiceWorkerOptions window
+	 * @param event
+	 * @throws IOException
+	 */
 	public void Close(ActionEvent event) throws IOException {
 		flagError = false;
 		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
@@ -148,12 +192,17 @@ public class SurveyController implements Initializable {
 		Pane root = loader.load(getClass().getResource("/controller/CustomerServiceWorkerOptions.fxml").openStream());
 		
 		Scene scene = new Scene(root);			
-		
-		primaryStage.setScene(scene);		
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+		primaryStage.setScene(scene);
+		primaryStage.setTitle("Customer Service Worker Options");
 		primaryStage.show();		
 
 	}
-	
+	/**
+	 * close this error window and open the SurveyFrame window 
+	 * @param event
+	 * @throws IOException
+	 */
 	public void CloseError(ActionEvent event) throws IOException {
 		flagError = false;
 		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
@@ -162,12 +211,18 @@ public class SurveyController implements Initializable {
 		Pane root = loader.load(getClass().getResource("/controller/SurveyFrame.fxml").openStream());
 		
 		Scene scene = new Scene(root);			
-		
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);		
+		primaryStage.setTitle("Add Survey");
 		primaryStage.show();		
 
 	}
-
+	/**
+	 * initelize the combo box "cmb" the store id (num 1,2,3,4) 
+	 * if I in the error window I dont use initelize "flagError" responsibale for it
+	 * @param location
+	 * @param resources
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		if(flagError ==false)

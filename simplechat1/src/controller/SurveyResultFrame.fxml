@@ -44,7 +44,7 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <Button id="txtQ1" fx:id="btnClose" layoutX="661.0" layoutY="861.0" mnemonicParsing="false" onAction="#Close" text="Cancle">
+      <Button id="txtQ1" fx:id="btnClose" layoutX="661.0" layoutY="861.0" mnemonicParsing="false" onAction="#Close" text="Cancel">
          <font>
             <Font size="24.0" />
          </font>

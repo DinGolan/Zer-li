@@ -9,20 +9,20 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CustomerComplaintStatusReportController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="699.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CustomerComplaintStatusReportController">
    <children>
-      <Label layoutX="79.0" layoutY="14.0" prefHeight="78.0" prefWidth="443.0" text="Customer Complaint Status Report" textFill="#0022ff">
+      <Label layoutX="128.0" layoutY="14.0" prefHeight="78.0" prefWidth="443.0" text="Customer Complaint Status Report" textFill="#0022ff">
          <font>
             <Font name="Bodoni MT Bold" size="30.0" />
          </font>
       </Label>
-      <Label layoutX="45.0" layoutY="102.0" text="Store ID : ">
+      <Label layoutX="60.0" layoutY="102.0" text="Store ID : ">
          <font>
             <Font name="System Italic" size="16.0" />
          </font>
       </Label>
-      <TextField id="txtStoreID" fx:id="txtStoreID" editable="false" layoutX="113.0" layoutY="102.0" prefHeight="25.0" prefWidth="53.0" />
-      <BarChart id="Complaint_BarChart" fx:id="Complaint_BarChart" layoutX="39.0" layoutY="155.0" title="Complaint According To Month">
+      <TextField id="txtStoreID" fx:id="txtStoreID" editable="false" layoutX="128.0" layoutY="102.0" prefHeight="25.0" prefWidth="53.0" />
+      <BarChart id="Complaint_BarChart" fx:id="Complaint_BarChart" layoutX="99.0" layoutY="154.0" title="Complaint According To Month">
         <xAxis>
           <CategoryAxis fx:id="X_Month" label="Month " side="BOTTOM" />
         </xAxis>
@@ -30,18 +30,18 @@
           <NumberAxis fx:id="Y_Complaint" label="Complaint" side="LEFT" />
         </yAxis>
       </BarChart>
-      <Button id="btnClose" fx:id="btnClose" layoutX="256.0" layoutY="567.0" mnemonicParsing="false" onAction="#closeCustomerComplaintStatusReportWindow" text="Close" />
-      <Label layoutX="206.0" layoutY="102.0" text="Year : ">
+      <Button id="btnClose" fx:id="btnClose" layoutX="350.0" layoutY="566.0" mnemonicParsing="false" onAction="#closeCustomerComplaintStatusReportWindow" text="Close" />
+      <Label layoutX="278.0" layoutY="102.0" text="Year : ">
          <font>
             <Font name="System Italic" size="16.0" />
          </font>
       </Label>
-      <TextField id="txtYear" fx:id="txtYear" editable="false" layoutX="250.0" layoutY="102.0" prefHeight="25.0" prefWidth="57.0" />
-      <Label layoutX="349.0" layoutY="102.0" text="Number Of Quarter :">
+      <TextField id="txtYear" fx:id="txtYear" editable="false" layoutX="322.0" layoutY="102.0" prefHeight="25.0" prefWidth="57.0" />
+      <Label layoutX="454.0" layoutY="102.0" text="Number Of Quarter :">
          <font>
             <Font name="System Italic" size="16.0" />
          </font>
       </Label>
-      <TextField id="txtNumberOfQuarter" fx:id="txtNumberOfQuarter" editable="false" layoutX="500.0" layoutY="102.0" prefHeight="25.0" prefWidth="57.0" />
+      <TextField id="txtNumberOfQuarter" fx:id="txtNumberOfQuarter" editable="false" layoutX="599.0" layoutY="102.0" prefHeight="25.0" prefWidth="57.0" />
    </children>
 </AnchorPane>

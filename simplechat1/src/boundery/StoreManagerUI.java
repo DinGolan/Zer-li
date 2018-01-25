@@ -13,7 +13,9 @@ import entity.Order;
 import entity.Store;
 
 /**
- * class to save static variables that belong to the store manager
+ * This Class - is The Boundary of The Store Manager 
+ * @author dingo
+ *
  */
 public class StoreManagerUI extends Application 		/* With This Class We Show the Report GUI */{
 	
@@ -24,7 +26,7 @@ public class StoreManagerUI extends Application 		/* With This Class We Show the
 	public static Vector<Date> Dates = new Vector<Date>();
 	public static Vector<Double> Average_Result_Of_Each_Qustions_In_surveys = new Vector<Double>();
 	
-	/* ArrayList Of Object */
+	/* ArrayList Of Object That Help Me To Transfer Details from the Client to the Server */
 	public static Vector<Object> Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter = new Vector<Object>();
 	public static Vector<Object> Help_To_Transfer_Object_At_Revenue_Report = new Vector<Object>();
 	public static Vector<Object> Help_To_Transfer_Object_At_Order_Report = new Vector<Object>();
@@ -34,6 +36,10 @@ public class StoreManagerUI extends Application 		/* With This Class We Show the
 	/* Client Console */
 	public static ClientConsole myClient;
 	
+	
+	/**
+	* The Function 'Start' - This Function run the Application Of The Store Manager 
+	 */
 	@Override
 	public void start(Stage arg0) throws Exception 
 	{		
