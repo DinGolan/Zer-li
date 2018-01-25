@@ -2731,18 +2731,28 @@ protected ResultSet getSurveyData(Connection conn,int id) throws SQLException {
   protected void addProductToDB(Object msg, Connection conn) /* This Method Update the DB */
 	{
 		Statement stmt;
+		int productId = 0;
 		Product product = (Product) ((Message) msg).getMsg();
 		try {
 
-			stmt = conn.createStatement();                             
+			stmt = conn.createStatement();     
+			String getComplaintIdTable = "SELECT * FROM project.product;";
+			ResultSet rs1 = stmt.executeQuery(getComplaintIdTable);
+			while(rs1.next())
+			  {
+				 if(rs1.getInt("ProductID")>productId)
+					 productId=rs1.getInt("ProductID");
+			  }
+			 productId=productId+1;
 			InputStream targetStream= new ByteArrayInputStream(product.getByteArray());
-			 String query = "INSERT INTO " + EchoServerController.Scheme + ".product SET ProductName =?,productType=?,productPrice=?,productColor=?,ProductPicure=?";
+			 String query = "INSERT INTO " + EchoServerController.Scheme + ".product SET ProductID=?,ProductName =?,productType=?,productPrice=?,productColor=?,ProductPicure=?";
 		      java.sql.PreparedStatement preparedStmt = conn.prepareStatement(query);
-		      preparedStmt.setString   (1, product.getpName());
-		      preparedStmt.setString(2, product.getpType().toString());
-		      preparedStmt.setDouble(3, product.getpPrice());
-		      preparedStmt.setString(4, product.getpColor().toString());
-		      preparedStmt.setBlob(5, targetStream);
+		      preparedStmt.setInt   (1, productId);
+		      preparedStmt.setString   (2, product.getpName());
+		      preparedStmt.setString(3, product.getpType().toString());
+		      preparedStmt.setDouble(4, product.getpPrice());
+		      preparedStmt.setString(5, product.getpColor().toString());
+		      preparedStmt.setBlob(6, targetStream);
 		      preparedStmt.executeUpdate();
 			
 		} catch (Exception e) {
@@ -3163,6 +3173,9 @@ protected ResultSet getSurveyData(Connection conn,int id) throws SQLException {
   protected User getUserStatusFromDB(Object msg, Connection conn) /* This method get products table details from DB */
   {
 	  Statement stmt;
+	  boolean userNameFlag = false;
+	  String tempUserNames;
+	  String userId = null;
 	  String userName=(String)((Message)msg).getMsg();
 	  String getUserStatus = null;
 	  String p;
@@ -3170,9 +3183,23 @@ protected ResultSet getSurveyData(Connection conn,int id) throws SQLException {
 	  Product pr;
 	  try {
 		  stmt = conn.createStatement();
-		  getUserStatus = "SELECT * FROM " + EchoServerController.Scheme + ".user WHERE UserName = " + "'" +  userName + "'" + ";" ; /* Get all the Table from the DB */
+		  getUserStatus = "SELECT * FROM " + EchoServerController.Scheme + ".user;" ; /* Get all the Table from the DB */
 		  ResultSet rs = stmt.executeQuery(getUserStatus);
-		  if (!rs.isBeforeFirst())
+		  while(rs.next())
+		  {
+			  tempUserNames= rs.getString("UserName");
+			  if(tempUserNames.compareTo(userName) == 0 )
+			  {
+				  userNameFlag = true;
+				  userId= rs.getString("UserId");
+			  }  
+		  }
+		  if(userNameFlag == true)
+		  {
+			  getUserStatus = "SELECT * FROM " + EchoServerController.Scheme + ".user WHERE UserId = " + "'" +  userId + "'" + ";" ; /* Get all the Table from the DB */
+			  rs = stmt.executeQuery(getUserStatus);
+		  }
+		  if ((!rs.isBeforeFirst()) || userNameFlag == false)
 		  {
 			  user.setId("Does Not Exist"); 
 		  }
@@ -3231,10 +3258,19 @@ protected ResultSet getSurveyData(Connection conn,int id) throws SQLException {
   {
 	  Order newOrder = (Order)(((Message)msg).getMsg());
 	  int orderID=0;
+	  int orderNum=0;
 	  Statement stmt;
 	  Account.PaymentArrangement arrangement = null;
 	  try {
 			  stmt = conn.createStatement(); 
+			  String getComplaintIdTable = "SELECT * FROM project.order;";
+			  ResultSet rs1 = stmt.executeQuery(getComplaintIdTable);
+			  while(rs1.next())
+			  {
+				 if(rs1.getInt("orderID")>orderNum)
+					 orderNum=rs1.getInt("orderID");
+			  }
+			  orderNum=orderNum+1;
 			  String InsertAccountToID = "SELECT * FROM " + EchoServerController.Scheme + ".account WHERE AccountUserId = '"+newOrder.getCustomerID()+"' AND AccountStoreId= "+newOrder.getStoreID()+";";
 			  ResultSet rs = stmt.executeQuery(InsertAccountToID);
 			  while(rs.next())
@@ -3243,8 +3279,8 @@ protected ResultSet getSurveyData(Connection conn,int id) throws SQLException {
 			 	}
 			  if(arrangement != null) 
 			  {	 
-				  InsertAccountToID = "INSERT INTO " + EchoServerController.Scheme + ".order(customerID, orderSupplyOption, orderTotalPrice, orderRequiredSupplyDate, orderRequiredSupplyTime, orderRecipientAddress , orderRecipientName , orderRecipientPhoneNumber, orderPostcard ,orderDate, StoreID ,paymentMethod,orderStatus)" + 
-				  		"VALUES('"+newOrder.getCustomerID()+"','"+newOrder.getSupply()+ "',"+newOrder.getOrderTotalPrice()+",'"+newOrder.getRequiredSupplyDate()+"','"+newOrder.getRequiredSupplyTime()+"','"+newOrder.getRecipientAddress()+"','"+newOrder.getRecipientName()+"','"+newOrder.getRecipienPhoneNum()+"','"+newOrder.getPostCard()+"','"+newOrder.getOrderDate()+"' , "+newOrder.getStoreID()+",'"+newOrder.getPaymentMethod()+"','"+Order.orderStatus.APPROVED+"');";
+				  InsertAccountToID = "INSERT INTO " + EchoServerController.Scheme + ".order(orderID, customerID, orderSupplyOption, orderTotalPrice, orderRequiredSupplyDate, orderRequiredSupplyTime, orderRecipientAddress , orderRecipientName , orderRecipientPhoneNumber, orderPostcard ,orderDate, StoreID ,paymentMethod,orderStatus)" + 
+				  		"VALUES("+orderNum+",'"+newOrder.getCustomerID()+"','"+newOrder.getSupply()+ "',"+newOrder.getOrderTotalPrice()+",'"+newOrder.getRequiredSupplyDate()+"','"+newOrder.getRequiredSupplyTime()+"','"+newOrder.getRecipientAddress()+"','"+newOrder.getRecipientName()+"','"+newOrder.getRecipienPhoneNum()+"','"+newOrder.getPostCard()+"','"+newOrder.getOrderDate()+"' , "+newOrder.getStoreID()+",'"+newOrder.getPaymentMethod()+"','"+Order.orderStatus.APPROVED+"');";
 				  stmt.executeUpdate(InsertAccountToID);
 				  InsertAccountToID = "SELECT orderID FROM " + EchoServerController.Scheme + ".order WHERE customerID = '"+newOrder.getCustomerID()+"' AND orderDate = '"+newOrder.getOrderDate()+"' AND orderTotalPrice = "+newOrder.getOrderTotalPrice()+" AND orderRequiredSupplyTime ='"+newOrder.getRequiredSupplyTime()+"';";
 				  rs = stmt.executeQuery(InsertAccountToID);

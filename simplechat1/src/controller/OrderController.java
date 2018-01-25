@@ -208,11 +208,15 @@ public class OrderController implements Initializable{
 		Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
 		FXMLLoader loader = new FXMLLoader(); 					 /* load object */
 		if(flag!=4)
+		{
 			root = loader.load(getClass().getResource("/controller/Catalog.fxml").openStream());
+			primaryStage.setTitle("Catalog");	
+		}
 		else
 		{
 			SelfDefenitionProductController.modeFlag = 1;
 			root = loader.load(getClass().getResource("/controller/SelfDefenitionProduct.fxml").openStream());
+			primaryStage.setTitle("Self Defenition Product");	
 		}
 		flag = 0;
 		Scene scene = new Scene(root);			
@@ -234,6 +238,7 @@ public class OrderController implements Initializable{
 		
 			Scene scene = new Scene(root);	
 			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setTitle("Order Form");	
 			primaryStage.setScene(scene);	
 				
 			primaryStage.show();									 /* show catalog frame window */
@@ -247,6 +252,7 @@ public class OrderController implements Initializable{
 		
 			Scene scene = new Scene(root);	
 			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setTitle("Error Message");	
 			primaryStage.setScene(scene);	
 				
 			primaryStage.show();									 /* show catalog frame window */
@@ -282,6 +288,7 @@ public class OrderController implements Initializable{
 		
 			Scene scene = new Scene(root);		
 			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setTitle("Error Message");
 			primaryStage.setScene(scene);	
 				
 			primaryStage.show();
@@ -297,6 +304,7 @@ public class OrderController implements Initializable{
 					
 					Scene scene = new Scene(root);		
 					scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+					primaryStage.setTitle("Error Message");
 					primaryStage.setScene(scene);	
 					
 					primaryStage.show();
@@ -311,6 +319,7 @@ public class OrderController implements Initializable{
 				
 				Scene scene = new Scene(root);
 				scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+				primaryStage.setTitle("Error Message");
 				primaryStage.setScene(scene);	
 				
 				primaryStage.show();
@@ -325,6 +334,7 @@ public class OrderController implements Initializable{
 				
 				Scene scene = new Scene(root);
 				scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+				primaryStage.setTitle("Error Message");
 				primaryStage.setScene(scene);	
 				
 				primaryStage.show();
@@ -344,6 +354,7 @@ public class OrderController implements Initializable{
 				
 					Scene scene = new Scene(root);	
 					scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+					primaryStage.setTitle("Error Message");
 					primaryStage.setScene(scene);	
 						
 					primaryStage.show();
@@ -381,6 +392,7 @@ public class OrderController implements Initializable{
 					
 						Scene scene = new Scene(root);	
 						scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+						primaryStage.setTitle("Error Message");
 						primaryStage.setScene(scene);	
 							
 						primaryStage.show();
@@ -440,6 +452,7 @@ public class OrderController implements Initializable{
 						totalPrice=0;  /*for next order*/
 						Scene scene = new Scene(root);	
 						scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+						primaryStage.setTitle("Thank For Order");
 						primaryStage.setScene(scene);	
 								
 						primaryStage.show();
@@ -455,6 +468,7 @@ public class OrderController implements Initializable{
 					
 						Scene scene = new Scene(root);		
 						scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+						primaryStage.setTitle("Error Message");
 						primaryStage.setScene(scene);	
 							
 						primaryStage.show();
@@ -535,6 +549,7 @@ public class OrderController implements Initializable{
 	
 		Scene scene = new Scene(root);		
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+		primaryStage.setTitle("Order Form");
 		primaryStage.setScene(scene);	
 			
 		primaryStage.show();									 /* show catalog frame window */
@@ -551,6 +566,7 @@ public class OrderController implements Initializable{
 	
 		Scene scene = new Scene(root);			
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+		primaryStage.setTitle("Customer Options");
 		primaryStage.setScene(scene);	
 			
 		primaryStage.show();
