@@ -9,10 +9,10 @@
 <AnchorPane prefHeight="215.0" prefWidth="312.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SelfDefenitionProductController">
    <children>
        <Button id="btnBackToSelfDef" fx:id="btnBackToSelfDef" layoutX="131.0" layoutY="176.0" mnemonicParsing="false" onAction="#backToSelfDefOrder" text="Back" />
-      <Label layoutX="24.0" layoutY="36.0" text="Self Defenition Failed" textFill="#0022ff">
+      <Label layoutX="24.0" layoutY="22.0" text="Self Defenition Failed" textFill="#0022ff">
          <font>
             <Font name="Bodoni MT" size="29.0" />
          </font></Label>
-      <TextArea layoutX="56.0" layoutY="91.0" prefHeight="66.0" prefWidth="200.0" text="We can NOT make a product &#10;that suit to your defenitions.&#10;Please try something else." />
+      <TextArea layoutX="19.0" layoutY="66.0" prefHeight="91.0" prefWidth="265.0" text="We can NOT make a product &#10;that suit to your defenitions.&#10;Please try something else." />
    </children>
 </AnchorPane>

@@ -10,10 +10,10 @@
    <children>
        <Button id="btnExit" fx:id="btnExit" layoutX="183.0" layoutY="176.0" mnemonicParsing="false" onAction="#getExitBtn" text="Exit" />
       <Button id="btnTryAgain" fx:id="btnTryAgain" layoutX="67.0" layoutY="176.0" mnemonicParsing="false" onAction="#tryAgainLogin" text="Try again" />
-      <Label layoutX="75.0" layoutY="36.0" text="Login - failed" textFill="#0022ff">
+      <Label layoutX="75.0" layoutY="25.0" text="Login - failed" textFill="#0022ff">
          <font>
             <Font name="Bodoni MT" size="29.0" />
          </font></Label>
-      <TextArea layoutX="56.0" layoutY="84.0" prefHeight="79.0" prefWidth="200.0" text="You can NOT login,&#10;you user account is blocked.&#10;Please try login with another &#10;account." />
+      <TextArea layoutX="24.0" layoutY="65.0" prefHeight="98.0" prefWidth="267.0" text="You can NOT login,&#10;you user account is blocked.&#10;Please try login with another &#10;account." />
    </children>
 </AnchorPane>

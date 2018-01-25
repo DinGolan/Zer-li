@@ -9,13 +9,13 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SurveyController">
    <children>
-      <AnchorPane layoutY="-8.0" prefHeight="624.0" prefWidth="676.0">
+      <AnchorPane layoutY="-8.0" prefHeight="527.0" prefWidth="670.0">
          <children>
             <Button id="txtQ1" fx:id="btnAdd" layoutX="232.0" layoutY="402.0" mnemonicParsing="false" onAction="#addSurvey" text="Add">
                <font>
                   <Font size="18.0" />
                </font></Button>
-            <Button id="txtQ1" fx:id="btnClose" layoutX="391.0" layoutY="402.0" mnemonicParsing="false" onAction="#Close" text="Cancle">
+            <Button id="txtQ1" fx:id="btnClose" layoutX="391.0" layoutY="402.0" mnemonicParsing="false" onAction="#Close" text="Cancel">
                <font>
                   <Font size="18.0" />
                </font>
@@ -26,7 +26,7 @@
                   <Font size="24.0" />
                </font>
             </Label>
-            <Label id="Lb2" layoutX="23.0" layoutY="259.0" text="Survey End Date(yyyy-MM-dd):">
+            <Label id="Lb2" layoutX="98.0" layoutY="259.0" text="Survey End Date:">
                <font>
                   <Font size="24.0" />
                </font>
@@ -36,7 +36,7 @@
                   <Font name="System Bold" size="35.0" />
                </font>
             </Label>
-            <DatePicker layoutX="400.0" layoutY="261.0" />
+            <DatePicker id="dp" fx:id="dp" layoutX="400.0" layoutY="261.0" />
          </children></AnchorPane>
    </children>
 </AnchorPane>

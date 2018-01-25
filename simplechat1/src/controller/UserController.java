@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -16,6 +17,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.control.Label;
@@ -38,6 +40,9 @@ public class UserController implements Initializable {
 	@FXML
 	private Label Label_Port;
 
+	@FXML
+	private ImageView ImgLogo;
+	
 	@FXML
 	private TextField txtPort;
 
@@ -320,6 +325,6 @@ public class UserController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) // Initialized The ComboBox of the Product
 	{
-		
+
 	}	
 }

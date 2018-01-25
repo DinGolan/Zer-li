@@ -8,11 +8,11 @@
 
 <AnchorPane prefHeight="215.0" prefWidth="348.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AccountController">
    <children>
-      <Button id="btnAccountTryAgain" fx:id="btnAccountTryAgain" layoutX="142.0" layoutY="165.0" mnemonicParsing="false" onAction="#addNewOtherAccount" text="Try again" />
-      <Label layoutX="11.0" layoutY="28.0" text="Create new account - failed" textFill="#0022ff">
+      <Button id="btnAccountClose" fx:id="btnAccountClose" layoutX="142.0" layoutY="165.0" mnemonicParsing="false" onAction="#closeAccountFormWindow" text="Close" />
+      <Label layoutX="11.0" layoutY="28.0" text="Error!" textFill="#0022ff">
          <font>
             <Font name="Bodoni MT" size="29.0" />
          </font></Label>
-      <TextArea layoutX="21.0" layoutY="78.0" prefHeight="74.0" prefWidth="308.0" text="You can NOT create new account,&#10;this user allready have an account." />
+      <TextArea layoutX="28.0" layoutY="76.0" prefHeight="67.0" prefWidth="294.0" text="You don't have a customers to renewe&#10;theis subscription." />
    </children>
 </AnchorPane>

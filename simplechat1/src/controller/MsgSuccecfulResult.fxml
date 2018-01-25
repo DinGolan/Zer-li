@@ -8,11 +8,11 @@
 
 <AnchorPane prefHeight="215.0" prefWidth="348.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SurveyResultController">
    <children>
-      <Button id="btnCloseDate" fx:id="btnCloseDate" layoutX="142.0" layoutY="165.0" mnemonicParsing="false" onAction="#CloseError" text="Close" />
-      <Label layoutX="11.0" layoutY="28.0" text="Error!" textFill="#0022ff">
+      <Button id="btnCloseSuccessful" fx:id="btnCloseSuccessful" layoutX="142.0" layoutY="165.0" mnemonicParsing="false" onAction="#Close" text="Close" />
+      <Label layoutX="11.0" layoutY="28.0" text="succeed !" textFill="#0022ff">
          <font>
             <Font name="Bodoni MT" size="29.0" />
          </font></Label>
-      <TextArea layoutX="20.0" layoutY="71.0" prefHeight="74.0" prefWidth="307.0" text="Error your date not between start &#10;and end date of the survey" />
+      <TextArea layoutX="42.0" layoutY="85.0" prefHeight="58.0" prefWidth="280.0" text="You Successful add result!" />
    </children>
 </AnchorPane>

@@ -13,6 +13,6 @@
          <font>
             <Font name="Bodoni MT" size="29.0" />
          </font></Label>
-      <TextArea layoutX="56.0" layoutY="91.0" prefHeight="52.0" prefWidth="200.0" text="You can NOT make an Order &#10;without you have an account." />
+      <TextArea layoutX="16.0" layoutY="77.0" prefHeight="83.0" prefWidth="282.0" text="You can NOT make an Order &#10;without you have an account." />
    </children>
 </AnchorPane>

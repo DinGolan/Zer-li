@@ -10,10 +10,10 @@
    <children>
       <Button id="btnExit" fx:id="btnExit" layoutX="209.0" layoutY="178.0" mnemonicParsing="false" onAction="#getExitBtn" text="Exit" />
       <Button id="btnTryAgain" fx:id="btnTryAgain" layoutX="65.0" layoutY="178.0" mnemonicParsing="false" onAction="#tryAgainLogin" text="Try again" />
-      <Label layoutX="75.0" layoutY="36.0" text="Login - failed" textFill="#0022ff">
+      <Label layoutX="75.0" layoutY="21.0" text="Login - failed" textFill="#0022ff">
          <font>
             <Font name="Bodoni MT" size="29.0" />
          </font></Label>
-      <TextArea layoutX="56.0" layoutY="95.0" prefHeight="48.0" prefWidth="200.0" text="The UserName does NOT exist&#10;please try again." />
+      <TextArea layoutX="18.0" layoutY="66.0" prefHeight="91.0" prefWidth="276.0" text="The UserName does NOT exist&#10;please try again." />
    </children>
 </AnchorPane>

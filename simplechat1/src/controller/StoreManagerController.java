@@ -17,7 +17,8 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
- *Controller for the store manager permission with options of view report, add new account and logout options
+ *Controller for the store manager permission with options of view report,
+ * add new account and logout options, Renewal account
  */
 public class StoreManagerController implements Initializable {
 	
@@ -29,6 +30,11 @@ public class StoreManagerController implements Initializable {
 
     @FXML
     private Button btnViewReport;         /* Button For View Report */
+    
+    @FXML
+    private Button btnStoreManagerRenewal;         /* Button For Renewal account */
+    
+    
 
     @FXML
     private Button btnStoreManagerOpenNewAccount;  /* Button For Open New Account */
@@ -123,6 +129,34 @@ public class StoreManagerController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
 		
+	}
+
+	
+	/**
+	 * Open the renewal account subscription option and check the store manager store number
+	 * @param event- click on "renewal subscription" button
+	 * @throws Exception if we can't load the fxml
+	 */
+	public void renewalAccountBtn(ActionEvent event) throws Exception //To open the add new account option
+	{
+		Message msg = new Message(UserUI.user.getId(), "Store manager want store number");
+		flag = false;
+		UserUI.myClient.accept(msg);	
+		while (flag == false) {
+			System.out.print(""); // DOES NOT RUN WITHOUT THIS LINE
+		}
+		flag = false;
+		UserUI.store=new Store();
+		UserUI.store.setStoreId(storeID);
+		((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
+		Stage primaryStage = new Stage();
+		FXMLLoader loader = new FXMLLoader();
+		Pane root = loader.load(getClass().getResource("/controller/SubscriptionRules.fxml").openStream());
+		Scene scene = new Scene(root);			
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+		primaryStage.setScene(scene);
+		primaryStage.setTitle("Subscription Rules");
+		primaryStage.show();
 	}
 
 }
