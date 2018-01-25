@@ -18,7 +18,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+/**
+ *  * controller for add survey result for each customer to the DB
 
+ * @author itait
+ *
+ */
 public class SurveyResultController implements Initializable{
 
 
@@ -45,7 +50,9 @@ public class SurveyResultController implements Initializable{
 	private Button btnCloseDate = null; /* button close for close product form */
 	@FXML
 	private Button btnCloseCustomer = null; /* button close for close product form */
-	
+	@FXML
+	private Button btnCloseSuccessful = null;	
+
 	@FXML
 	private ComboBox cmbSurveyId= null;  /* ComboBox With List Of Product */
 	@FXML
@@ -62,7 +69,11 @@ public class SurveyResultController implements Initializable{
 	
 	private static int itemIndex = 1; /* This Variable Need for the the Case - that we not choose any Product from the ComboBox , so we take the product that in Index 2 By Defualt */
 
-	
+	/**
+	 * open SurveyResultFrame fxml
+	 * @param event
+	 * @throws Exception
+	 */
 	public void start(ActionEvent event) throws Exception     // With this Method we show the GUI of the Catalog 
 	{	
 		((Node)event.getSource()).getScene().getWindow().hide(); // Hiding primary window 
@@ -71,12 +82,19 @@ public class SurveyResultController implements Initializable{
 		Pane root = loader.load(getClass().getResource("/controller/SurveyResultFrame.fxml").openStream());
 		
 		Scene scene = new Scene(root);			
-		
-		primaryStage.setScene(scene);		
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+
+		primaryStage.setScene(scene);
+		primaryStage.setTitle("Add Result");
+
 		primaryStage.show();
 	    
 	}
-	
+	/**
+	 * get the index of the item in the wanted comboBox
+	 * @param cmb
+	 * @return
+	 */
 	public int getItemIndex(ComboBox cmb) /* With this Method we Take Product from the List of the Product at the ComboBox */
 	{
 		if(cmb.getSelectionModel().getSelectedIndex() ==-1)
@@ -84,7 +102,15 @@ public class SurveyResultController implements Initializable{
 	
 		return cmb.getSelectionModel().getSelectedIndex();
 	}
-	
+	/**
+	 * add survey result to the DB for each customer we send the user id the 6 answer the store id and customer id,
+	 * and we check if The storeId is not correct if he is we put error msg and dont add this survey result,
+	 * we also check if our date is not correct(between start to end) if he is we put error msg and dont add this survey result,
+	 * and we also check if the customer already fill this survey if he is we put error msg and dont add this survey result,
+	 * if all the field is correct (we dont have error) we add the survey result to the database
+	 * @param event
+	 * @throws IOException
+	 */
 	public void addSurveyResult(ActionEvent event) throws IOException {
 		ArrayList<Integer> i = new ArrayList<Integer>();
 		i.add(UserUI.Id.get(getItemIndex(cmbSurveyId)));
@@ -122,7 +148,8 @@ public class SurveyResultController implements Initializable{
 				FXMLLoader loader = new FXMLLoader(); //load object
 				((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
 				root = loader.load(getClass().getResource("/controller/errorMsgStore.fxml").openStream());
-				Scene scene = new Scene(root);			
+				Scene scene = new Scene(root);
+				scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 				primaryStage.setScene(scene);	
 				primaryStage.setTitle("Error msg");
 				primaryStage.show();
@@ -135,7 +162,8 @@ public class SurveyResultController implements Initializable{
 				FXMLLoader loader = new FXMLLoader(); //load object
 				((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
 				root = loader.load(getClass().getResource("/controller/errorMsgDate.fxml").openStream());
-				Scene scene = new Scene(root);			
+				Scene scene = new Scene(root);		
+				scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 				primaryStage.setScene(scene);	
 				primaryStage.setTitle("Error msg");
 				primaryStage.show();
@@ -149,34 +177,60 @@ public class SurveyResultController implements Initializable{
 				FXMLLoader loader = new FXMLLoader(); //load object
 				((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
 				root = loader.load(getClass().getResource("/controller/errorMsgCustomer.fxml").openStream());
-				Scene scene = new Scene(root);			
+				Scene scene = new Scene(root);	
+				scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 				primaryStage.setScene(scene);	
 				primaryStage.setTitle("Error msg");
 				primaryStage.show();
 			}
 			
 			else if(errorMsg.compareTo("succed!")==0) {
-			     flagError =false;
-				 errorMsg = null;
-				 Close(event);
+			     //flagError =false;
+					flagError =true;
+					 errorMsg = null;
+					Pane root = null;
+					Stage primaryStage = new Stage(); //Object present window with graphics elements
+					FXMLLoader loader = new FXMLLoader(); //load object
+					((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
+					root = loader.load(getClass().getResource("/controller/MsgSuccecfulResult.fxml").openStream());
+					Scene scene = new Scene(root);	
+					scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+					primaryStage.setScene(scene);	
+					primaryStage.setTitle("succed msg");
+					primaryStage.show();
 			}
 			
 	}
 	
+	/**
+	 * close this window and open StoreWorkerOptions window
+	 * @param event
+	 * @throws IOException
+	 */
 	public void Close(ActionEvent event) throws IOException {
+		flagError = false;
 		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
 		Stage primaryStage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
 		Pane root = loader.load(getClass().getResource("/controller/StoreWorkerOptions.fxml").openStream());
 		
 		Scene scene = new Scene(root);			
-		
-		primaryStage.setScene(scene);		
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+		primaryStage.setScene(scene);
+		primaryStage.setTitle("Store Worker Options");
+
 		primaryStage.show();		
 
 	}
 
-	
+	/**
+	 * initelize the combo box "cmbSurveyId" the survey id with all the survey id in the database
+	 * initelize the combo box "cmbAnswer1"-6 the survey answer with num 1-5
+	 * initelize the combo box "cmbcustomerId" the survey id with all the customer id in the database
+	 * if I in the error window I dont use initelize "flagError" responsibale for it
+	 * @param location
+	 * @param resources
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		if(flagError ==false)
@@ -229,7 +283,11 @@ public class SurveyResultController implements Initializable{
 		
 		
 	}
-	
+	/**
+	 * close this error window and open the SurveyResultFrame window 
+	 * @param event
+	 * @throws IOException
+	 */
 	public void CloseError(ActionEvent event) throws IOException {
 		flagError = false;
 		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
@@ -238,8 +296,9 @@ public class SurveyResultController implements Initializable{
 		Pane root = loader.load(getClass().getResource("/controller/SurveyResultFrame.fxml").openStream());
 		
 		Scene scene = new Scene(root);			
-		
-		primaryStage.setScene(scene);		
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+		primaryStage.setScene(scene);
+		primaryStage.setTitle("Add Result");
 		primaryStage.show();		
 
 	}

@@ -81,7 +81,8 @@ public class UserInfoController_For_DataCompanyManagerController implements Init
 		FXMLLoader loader = new FXMLLoader(); 					 	 /* load object */
 		Pane root = loader.load(getClass().getResource("/controller/DataCompanyManagerOptions.fxml").openStream());
 		
-		Scene scene = new Scene(root);			
+		Scene scene = new Scene(root);	
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);	
 				
 		primaryStage.show();										   /* show catalog frame window */

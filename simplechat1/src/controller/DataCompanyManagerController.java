@@ -52,6 +52,7 @@ public class DataCompanyManagerController implements Initializable{
 	{	
 		Parent root = FXMLLoader.load(getClass().getResource("/controller/DataCompanyManagerOptions.fxml"));
 		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setTitle("Data Company Manager - Managment Tool");
 		primaryStage.setScene(scene);
 		primaryStage.show();		
@@ -69,7 +70,8 @@ public class DataCompanyManagerController implements Initializable{
 		UserInfoController_For_DataCompanyManagerController userInfoController_For_DataCompanyManagerController = loader.getController();		                                        
 		userInfoController_For_DataCompanyManagerController.loadUser(DataCompanyManagerUI.users.get(getItemIndex()));  /* In this Line We take the User that we Choose and Show his Details On the GUI */
 		
-		Scene scene = new Scene(root);			
+		Scene scene = new Scene(root);	
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);		
 		primaryStage.show();
 	}
@@ -103,6 +105,7 @@ public class DataCompanyManagerController implements Initializable{
 		FXMLLoader loader = new FXMLLoader(); 		/* load object */
 		Parent root = FXMLLoader.load(getClass().getResource("/controller/UserLogin.fxml"));
 		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setTitle("LOGIN");
 		primaryStage.setScene(scene);
 		primaryStage.show();		
@@ -139,7 +142,13 @@ public class DataCompanyManagerController implements Initializable{
 		
 		msg = new Message(users, "Add User To Combo Box From DB");
 		UserUI.myClient.accept(msg);
-		while(DataCompanyManagerUI.users.size() == 0);
+		while(DataCompanyManagerUI.users.size() == 0)
+		{
+			if(DataCompanyManagerUI.users.size() == 0)
+			{
+				break;
+			}
+		}
 		try 
 		{
 			Thread.sleep(200);
@@ -148,6 +157,7 @@ public class DataCompanyManagerController implements Initializable{
 		{
 			e.printStackTrace();
 		}
+		
 		setUsersComboBox();
 	}
 	

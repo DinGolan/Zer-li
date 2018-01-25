@@ -61,7 +61,8 @@ public class CustomerServiceWorkerController implements Initializable{
 		Pane root = loader.load(getClass().getResource("/controller/SurveyFrame.fxml").openStream());
 		Scene scene = new Scene(root);	
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-		primaryStage.setScene(scene);		
+		primaryStage.setScene(scene);
+		primaryStage.setTitle("Add Survey");
 		primaryStage.show();
 		flag=true;
 	}

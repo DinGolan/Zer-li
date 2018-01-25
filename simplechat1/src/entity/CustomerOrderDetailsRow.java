@@ -1,10 +1,8 @@
-package controller;
+package entity;
 
 import java.sql.Date;
 
-import entity.Account;
 import entity.Account.PaymentMethod;
-import entity.Order;
 import entity.Order.SupplyOption;
 import entity.Order.orderStatus;
 

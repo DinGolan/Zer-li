@@ -13,13 +13,13 @@
             <Font name="Bodoni MT Bold" size="37.0" />
          </font>
       </Label>
-      <ComboBox id="cmbOptions" fx:id="cmbOptions" layoutX="130.0" layoutY="200.0" onAction="#setOptionsComboBox" prefHeight="39.0" prefWidth="317.0" promptText="How Much Store You Want To Watch ---&gt; { 1 , 2 }" />
+      <ComboBox id="cmbOptions" fx:id="cmbOptions" layoutX="88.0" layoutY="199.0" onAction="#setOptionsComboBox" prefHeight="39.0" prefWidth="411.0" promptText="How Much Store You Want To Watch ---&gt; { 1 , 2 }" />
       <Label layoutX="36.0" layoutY="134.0" text="Please Select Your Amount Option :" textFill="#100f0f">
          <font>
             <Font name="System Italic" size="20.0" />
          </font>
       </Label>
-      <Button id="btnClick" fx:id="btnClick" layoutX="103.0" layoutY="289.0" mnemonicParsing="false" onAction="#Button_To_See_One_Store_Or_Two_Store" text="Click To See The Next Window Of ---&gt; { One Report , Two Report } " />
-      <Button id="btnClose" fx:id="btnClose" layoutX="271.0" layoutY="366.0" mnemonicParsing="false" onAction="#closeCompanyManagerReportWindow" text="Close" />
+      <Button id="btnClick" fx:id="btnClick" layoutX="108.0" layoutY="288.0" mnemonicParsing="false" onAction="#Button_To_See_One_Store_Or_Two_Store" text="Click To See The Next Window Of ---&gt; { One Report , Two Report } " />
+      <Button id="btnClose" fx:id="btnClose" layoutX="278.0" layoutY="366.0" mnemonicParsing="false" onAction="#closeCompanyManagerReportWindow" text="Close" />
    </children>
 </AnchorPane>

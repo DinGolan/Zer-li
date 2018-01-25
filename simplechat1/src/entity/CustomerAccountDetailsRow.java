@@ -1,8 +1,7 @@
-package controller;
+package entity;
 
 import java.sql.Date;
 
-import entity.Account;
 import entity.Account.PaymentArrangement;
 
 public class CustomerAccountDetailsRow {
