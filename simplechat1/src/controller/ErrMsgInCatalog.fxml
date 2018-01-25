@@ -13,6 +13,6 @@
          <font>
             <Font name="Bodoni MT" size="29.0" />
          </font></Label>
-      <TextArea id="btnTryAgain" editable="false" layoutX="56.0" layoutY="88.0" prefHeight="68.0" prefWidth="200.0" text="You have to fill the&#10;ammount field, it must be &#10;positive NUMBER." />
+      <TextArea id="btnTryAgain" editable="false" layoutX="14.0" layoutY="88.0" prefHeight="68.0" prefWidth="282.0" text="You have to fill the ammount field, it must be &#10;positive NUMBER.&#10;You have to pick product number from the list." />
    </children>
 </AnchorPane>

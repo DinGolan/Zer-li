@@ -123,6 +123,28 @@ public class ChatClient extends AbstractClient
 		  clientUI.displayUI(msg);
 	  else if(((Message)msg).getOption().compareTo("Customer - Want To Take His Account Details") == 0) 
 		  clientUI.displayUI(msg);
+	  
+	  
+	  else if(((Message)msg).getOption().compareTo("succed!") == 0) 
+		  clientUI.displayUI(msg);
+	  else if(((Message)msg).getOption().compareTo("Error your date not between start and end date of the survey") == 0) 
+		  clientUI.displayUI(msg);
+	  else if(((Message)msg).getOption().compareTo("The storeId is not correct") == 0) 
+		  clientUI.displayUI(msg);
+	  else if(((Message)msg).getOption().compareTo("customer twice") == 0) 
+		  clientUI.displayUI(msg);
+	  else if(((Message)msg).getOption().compareTo("date between error") == 0) 
+		  clientUI.displayUI(msg);
+	  else if(((Message)msg).getOption().compareTo("error store have survey") == 0) 
+		  clientUI.displayUI(msg);
+	  else if(((Message)msg).getOption().compareTo("succes survey") == 0) 
+		  clientUI.displayUI(msg);
+	  else if(((Message)msg).getOption().compareTo("get all the customerId") == 0)
+		  clientUI.displayUI(msg);
+	  else if(((Message)msg).getOption().compareTo("get info survey") == 0)
+		  clientUI.displayUI(msg);
+	  else if(((Message)msg).getOption().compareTo("add surveyConclusion") == 0)
+		  clientUI.displayUI(msg);
   }
 
   /**

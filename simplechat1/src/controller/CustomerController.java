@@ -66,10 +66,10 @@ public class CustomerController implements Initializable{
 		Stage primaryStage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
 		Pane root = loader.load(getClass().getResource("/controller/Catalog.fxml").openStream());
-		Scene scene = new Scene(root);	
 		
+		Scene scene = new Scene(root);			
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-		
+		primaryStage.setTitle("Catalog");
 		primaryStage.setScene(scene);	
 		primaryStage.show();
 	}
@@ -79,10 +79,9 @@ public class CustomerController implements Initializable{
 		Stage primaryStage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
 		Pane root = loader.load(getClass().getResource("/controller/CustomerProfile.fxml").openStream());
-		Scene scene = new Scene(root);	
 		
-		scene.getStylesheets().add(getClass().getResource("/controller/CustomerProfileDesign.css").toExternalForm());
-		
+		Scene scene = new Scene(root);			
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setTitle("Profile");
 		primaryStage.setScene(scene);		
 		primaryStage.show();
@@ -93,10 +92,9 @@ public class CustomerController implements Initializable{
 		Stage primaryStage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
 		Pane root = loader.load(getClass().getResource("/controller/CancelRules.fxml").openStream());
-		Scene scene = new Scene(root);	
-		
+		Scene scene = new Scene(root);			
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());	
-		
+		primaryStage.setTitle("Cancel Rules");
 		primaryStage.setScene(scene);		
 		primaryStage.show();	
 	}
@@ -119,9 +117,7 @@ public class CustomerController implements Initializable{
 		FXMLLoader loader = new FXMLLoader(); /* load object */
 		Parent root = FXMLLoader.load(getClass().getResource("/controller/UserLogin.fxml"));
 		Scene scene = new Scene(root);
-		
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-		
 		primaryStage.setTitle("LOGIN");
 		primaryStage.setScene(scene);
 		primaryStage.show();
@@ -139,24 +135,25 @@ public class CustomerController implements Initializable{
 		Stage primaryStage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
 		Pane root = loader.load(getClass().getResource("/controller/CustomerOptions.fxml").openStream());
-		Scene scene = new Scene(root);		
 		
+		Scene scene = new Scene(root);			
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-		
+		primaryStage.setTitle("Customer Options");
 		primaryStage.setScene(scene);		
 		primaryStage.show();
 		}
 	}
 	
 	public void openSelfDef(ActionEvent event) throws Exception {
+		SelfDefenitionProductController.modeFlag = 1;
 		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
 		Stage primaryStage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
 		Pane root = loader.load(getClass().getResource("/controller/SelfDefenitionProduct.fxml").openStream());
-		Scene scene = new Scene(root);		
 		
+		Scene scene = new Scene(root);			
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-		
+		primaryStage.setTitle("Self Defenition Product");
 		primaryStage.setScene(scene);		
 		primaryStage.show();
 	}

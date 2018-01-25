@@ -2,7 +2,9 @@ package controller;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.ResourceBundle;
 import boundery.ComplaintUI;
@@ -25,6 +27,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+/**
+ * Controller for the option of create new complaint
+ */
 public class ComplaintController implements Initializable{
 	private Complaint c= new Complaint();
 	public static boolean flag = false;
@@ -69,13 +74,13 @@ public class ComplaintController implements Initializable{
 	//if(loadOrdersFlag == true)
 	//	loadOrdersComboBox();
 	}
-	
-	//public void loadComplaint() //view complaint num+status
-	//{
-	//	this.txtComplaintNum.setText(String.valueOf(complaintIndex));
-		//this.txtComplaintStatus.setText("OPEN");
-	//}
-	
+
+	/**
+	 * load all the orders that connected to this customer id to a combobox and enable/disable 
+	 * fields at the complaint and error msg if something isn't good
+	 * @param event- click on load orders button after we entered user id
+	 * @throws Exception
+	 */
 	public void loadOrdersComboBox(ActionEvent event) throws Exception
 	{
 		Pane root = null;
@@ -130,32 +135,43 @@ public class ComplaintController implements Initializable{
 		}
 	}
 	
-	//יש בעיה מדפיס את זה בנוסף להודעה אחחרתת
+	/**
+	 * Take the selected order number from the combobox
+	 * @return int -order number (index)
+	 */
 	public int getItemIndex() //With this Method we Take the selected order number
 	{
 		if(cmbComplaintOrderId.getSelectionModel().getSelectedIndex() == -1)
 			return -1;
 		return cmbComplaintOrderId.getSelectionModel().getSelectedIndex();
 	}
-			
+	
+	/**
+	 * Add new complaint to Zer-Li system- check if all the required data is correct and show error msg if not
+	 * @param event- click on save button
+	 * @throws Exception  if we can't load the fxml
+	 */
 	public void saveComplaintButton(ActionEvent event) throws Exception //add new complaint to Zer-Li system
 	{		
 		Pane root = null;
 		Stage primaryStage = new Stage(); //Object present window with graphics elements
 		FXMLLoader loader = new FXMLLoader(); //load object
 		ComplaintUI.complaint=new Complaint();
-		//c.setComplaintNum(complaintIndex); //set the complaint num
 		c.setComplaintStat(Complaint.ComplaintStatus.OPEN);
 		c.setComplaintUserId(txtComplaintUserId.getText());
 		
+		//casting for the date
 		LocalDate localDate = LocalDate.now(); //get the current date
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		String dateStr=localDate.toString();
 		Date parsed = format.parse(dateStr);
 		java.sql.Date dateSql = new java.sql.Date(parsed.getTime());
 		c.setComplaintDate(dateSql); //set the date
+		 
+		LocalTime nowTime=LocalTime.parse(new SimpleDateFormat("HH:mm").format(Calendar.getInstance().getTime())); //get the current time
+		c.setComplaintTime(nowTime.toString());
 		
-		if((txtComplaintReason.getLength()>200)||(txtComplaintReason.getLength()<10)) //enter complain reason more then 200 characters or less then 10
+		if((txtComplaintReason.getLength()>200)||(txtComplaintReason.getLength()<1)) //enter complain reason more then 200 characters or less then 10
 		{
 			((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
 			root = loader.load(getClass().getResource("/controller/ComplaintReasonLengthMsg.fxml").openStream());
@@ -194,7 +210,7 @@ public class ComplaintController implements Initializable{
 				}
 				flag =false;
 		
-				if(ComplaintUI.success.equals("Complaint already exist")) //this complaint already exist
+				if(ComplaintUI.success.compareTo("Complaint already exist")==0) //this complaint already exist
 				{
 					((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
 					root = loader.load(getClass().getResource("/controller/ComplaintExistMsg.fxml").openStream());
@@ -217,7 +233,12 @@ public class ComplaintController implements Initializable{
 			}
 		} 
 	}
-		
+	
+	/**
+	 * Show the GUI again of empty complaint form to add a new other complaint
+	 * @param event- click on add other complaint button or try again
+	 * @throws Exception  if we can't load the fxml
+	 */
 	public void addNewOtherComplaint(ActionEvent event) throws Exception //With this Method we show the GUI of the First Window
 	{	
 		((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
@@ -231,11 +252,21 @@ public class ComplaintController implements Initializable{
 		primaryStage.show();	
 	}
 	
+	/**
+	 * Close the The Window of the complaint error msg
+	 * @param event- click on close button
+	 * @throws Exception if we can't hide the fxml that loaded
+	 */
 	public void closeComplaintErrorMsgWindow(ActionEvent event) throws Exception  //To close the The Window of the complaint error msg
 	{ 
 		((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window								
 	}
 
+	/**
+	 * Close the The Window of the complaint form GUI and return the customer service worker menu
+	 * @param event- click on close button
+	 * @throws Exception if we can't load the fxml
+	 */
 	public void closeComplaintFormWindow(ActionEvent event) throws Exception  //To close the The Window of the complaint form GUI
 	{ 
 		//CustomerServiceWorkerController.checkComplaintsFlag=true;
@@ -247,7 +278,6 @@ public class ComplaintController implements Initializable{
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);			
 		primaryStage.setTitle("Menu");
-		primaryStage.show(); //show customer service worker options window
-		//System.out.println("Exit from- Account card form");											
+		primaryStage.show(); //show customer service worker options window											
 	}
 }

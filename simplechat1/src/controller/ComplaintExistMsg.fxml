@@ -17,6 +17,6 @@
          <font>
             <Font name="Bodoni MT" size="29.0" />
          </font></Label>
-      <TextArea layoutX="56.0" layoutY="95.0" prefHeight="48.0" prefWidth="260.0" text="You can NOT create new complaint because &#10;it's allready exist." />
+      <TextArea layoutX="46.0" layoutY="83.0" prefHeight="60.0" prefWidth="270.0" text="You can NOT create new complaint because &#10;it's allready exist." />
    </children>
 </AnchorPane>

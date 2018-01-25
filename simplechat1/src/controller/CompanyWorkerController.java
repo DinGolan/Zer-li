@@ -23,6 +23,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+/**
+ * controller for the Company Worker options
+ *
+ */
 public class CompanyWorkerController implements Initializable {
 	
 	private Message msg;
@@ -30,43 +34,48 @@ public class CompanyWorkerController implements Initializable {
 	public static int cwflag=0;
 	
     @FXML
-    private Button btnUpdateCatalog; /* Button For Update catalog by company worker */
+    private Button btnUpdateCatalog; 
     
     @FXML
-    private Button btnAddNewProduct; /* Button For Add product in catalog by company worker */
+    private Button btnAddNewProduct; 
     
     @FXML
-    private Button btnDeleteProduct; /* Button For delete product from catalog by company worker */
+    private Button btnDeleteProduct;
     
     @FXML
-    private Button btnUpdateSaleInCatalog; /* Button For Update sale in catalog by company worker */
+    private Button btnUpdateSaleInCatalog;
     
     @FXML
-    private Button btnBackToCompanyMangetOptions; /* Button For back to choose product to update */
+    private Button btnBackToCompanyMangetOptions;
     
     @FXML
-    private Button btnLoadProduct; /* Button For loading product */
+    private Button btnLoadProduct;
     
     @FXML
-    private Button btnLogout; /* Button For loading product */
+    private Button btnLogout;
     
     @FXML
-    private Button btnBacKToCWO; /* Button For loading product */
+    private Button btnBacKToCWO; 
     
     @FXML
-    private Button btnUpdateSaleInStore; /* Button For loading product */
+    private Button btnUpdateSaleInStore; 
     
     @FXML
-    private Button btnAddNewSale; /* Button For loading product */
+    private Button btnAddNewSale;
     
     @FXML
-    private Button btnRemoveSale; /* Button For loading product */
+    private Button btnRemoveSale;
+    
+    @FXML
+    private Button btnBack; 
+    
+    @FXML
+    private Button btnBackToDelete; 
     
 	@FXML
-	private ComboBox<String> cmbPid = new ComboBox<>(); /* comboBox of products id */
+	private ComboBox<String> cmbPid = new ComboBox<>(); 
 	
 	ObservableList<String> productsId = FXCollections.observableArrayList();
-    
     
     
 	@Override
@@ -130,10 +139,24 @@ public class CompanyWorkerController implements Initializable {
 			primaryStage.setScene(scene);		
 			primaryStage.show();
 		}
+		else
+		{
+			cwflag = 1;
+			((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+			Stage primaryStage = new Stage();
+			FXMLLoader loader = new FXMLLoader();
+			Pane root = loader.load(getClass().getResource("/controller/DidNotPickProduct.fxml").openStream());
+			
+			Scene scene = new Scene(root);			
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setTitle("Error Meesage");
+			primaryStage.setScene(scene);		
+			primaryStage.show();
+		}
 	}
 	
 	public void addNewProductWindow(ActionEvent event) throws Exception { // open info window of the product the user want info of.
-		ProductController.flag = 1;
+		ProductController.flag = 0;
 			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 			Stage primaryStage = new Stage();
 			FXMLLoader loader = new FXMLLoader();
@@ -220,6 +243,20 @@ public class CompanyWorkerController implements Initializable {
 			Scene scene = new Scene(root);			
 			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 			primaryStage.setTitle("Remove Product");
+			primaryStage.setScene(scene);		
+			primaryStage.show();
+		}
+		else
+		{
+			cwflag = 1;
+			((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+			Stage primaryStage = new Stage();
+			FXMLLoader loader = new FXMLLoader();
+			Pane root = loader.load(getClass().getResource("/controller/DidNotPickProductToDelete.fxml").openStream());
+			
+			Scene scene = new Scene(root);			
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setTitle("Error Meesage");
 			primaryStage.setScene(scene);		
 			primaryStage.show();
 		}

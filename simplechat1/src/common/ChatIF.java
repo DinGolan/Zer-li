@@ -21,6 +21,14 @@ public interface ChatIF
   public abstract void display(String message);
   public abstract void displayUI(Object message);
   public abstract void sendUser(Object message);
+  /**
+   * Get an object of message with option to add new account
+   * @param message- object of message
+   */
   public abstract void addAccount(Object message);
+  /**
+   * Get an object of message with option to add new complaint
+   * @param msg- object of message
+   */
   public abstract void addComplaint(Object msg);
 }

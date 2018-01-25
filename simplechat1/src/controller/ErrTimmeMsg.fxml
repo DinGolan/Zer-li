@@ -13,6 +13,6 @@
          <font>
             <Font name="Bodoni MT" size="29.0" />
          </font></Label>
-      <TextArea editable="false" layoutX="56.0" layoutY="95.0" prefHeight="61.0" prefWidth="200.0" text="You can not set required supply&#10;date to earlier date than today." />
+      <TextArea editable="false" layoutX="16.0" layoutY="78.0" prefHeight="78.0" prefWidth="276.0" text="InValid time.&#10;Requested time have to be later&#10;than current time." />
    </children>
 </AnchorPane>

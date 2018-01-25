@@ -17,7 +17,7 @@
          <font>
             <Font name="Bodoni MT" size="29.0" />
          </font></Label>
-      <TextArea layoutX="61.0" layoutY="95.0" prefHeight="48.0" prefWidth="259.0" text="The complaint has been update successfully.&#10;a notification will be send to the customer" />
+      <TextArea layoutX="33.0" layoutY="78.0" prefHeight="65.0" prefWidth="305.0" text="The complaint has been update successfully.&#10;a notification will be send to the customer." />
       <Button id="btnComplaintHandleOther" fx:id="btnComplaintHandleOther" layoutX="63.0" layoutY="168.0" mnemonicParsing="false" onAction="#loadHisComplaints" text="Handle other complaint" />
    </children>
 </AnchorPane>

@@ -1,5 +1,6 @@
 package controller;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -21,6 +22,9 @@ public class ThreadController implements Runnable
 	private int Number_Of_Quarter;
 	public static int Flag_For_Thread = 0;
 	
+	private static String ago="2017-10-30 17:12:35.584"; //for 24 hours complaint & order status
+	private final double ONE_MINUTE = 60 * 1000;
+	
 	@Override
 	public void run() 
 	{
@@ -36,7 +40,19 @@ public class ThreadController implements Runnable
 	  		String Formatted_String_2 = localDate.format(Formatter);
 	  		Formatted_String = Formatted_String.substring(5,10);      /* This Is The Month And The Day */
 	  		Formatted_String_2 = Formatted_String_2 .substring(0,5);  /* This Is The Year */
-	  
+	  		
+	  		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis()); //currentTime
+	  		Timestamp oneAgo = Timestamp.valueOf(ago); //cast to timestamp
+	  		
+	  		long diff = currentTimestamp.getTime() - oneAgo.getTime(); //check if pass 1 min
+	  		if (diff>=ONE_MINUTE) 
+	  		{
+	  			EchoServer.getAllComplaintsPass24(EchoServerController.con);
+	  			ago=currentTimestamp.toString();
+	  			EchoServer.changeOrderStatusToRecived(EchoServerController.con);
+	  		}
+	  	
+	  		    
 			if(Formatted_String.compareTo("01-01") == 0 && Flag_Date_1 == 0)
 			{
 				Flag_Date_1 = 1;

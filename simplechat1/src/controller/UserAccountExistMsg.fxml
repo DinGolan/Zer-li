@@ -17,6 +17,6 @@
          <font>
             <Font name="Bodoni MT" size="29.0" />
          </font></Label>
-      <TextArea layoutX="56.0" layoutY="95.0" prefHeight="48.0" prefWidth="200.0" text="You can NOT create new account,&#10;this user allready have an account." />
+      <TextArea layoutX="34.0" layoutY="78.0" prefHeight="61.0" prefWidth="276.0" text="You can NOT create new account,&#10;this user allready have an account." />
    </children>
 </AnchorPane>

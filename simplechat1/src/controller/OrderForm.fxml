@@ -22,8 +22,8 @@
       <DatePicker id="dpRequiresSupplyDate" fx:id="dpRequiresSupplyDate" layoutX="257.0" layoutY="384.0" promptText="None" />
       <Label layoutX="78.0" layoutY="386.0" text="required supply Date : " />
       <TextField id="txtTotalOrderPrice" fx:id="txtTotalOrderPrice" editable="false" layoutX="257.0" layoutY="477.0" promptText="0.0" />
-      <Button id="btnOrderNow" fx:id="btnOrderNow" layoutX="106.0" layoutY="583.0" mnemonicParsing="false" onAction="#checkAndSaveOrderDetails" text="Order Now" />
-      <Button id="btnBackToCart" fx:id="btnBack" layoutX="421.0" layoutY="583.0" mnemonicParsing="false" onAction="#closeCarttWindow" text="Back" />
+      <Button id="btnOrderNow" fx:id="btnOrderNow" layoutX="106.0" layoutY="602.0" mnemonicParsing="false" onAction="#checkAndSaveOrderDetails" text="Order Now" />
+      <Button id="btnBackToCart" fx:id="btnBack" layoutX="421.0" layoutY="602.0" mnemonicParsing="false" onAction="#closeCarttWindow" text="Back" />
       <Label layoutX="75.0" layoutY="76.0" text="add postCard:" />
       <RadioButton id="rdbtnAddPostCard" fx:id="rdbtnAddPostCard" layoutX="217.0" layoutY="76.0" mnemonicParsing="false" onAction="#AddPostCard" text="Yes" />
       <RadioButton id="rdbtnNoAddPostCard" fx:id="rdbtnNoAddPostCard" layoutX="339.0" layoutY="76.0" mnemonicParsing="false" onAction="#NotAddPostCard" selected="true" text="No" />
@@ -39,5 +39,8 @@
       <Label layoutX="77.0" layoutY="524.0" text="payment method : " />
       <RadioButton id="rdbtnCredirCard" fx:id="rdbtnCredirCard" layoutX="219.0" layoutY="524.0" mnemonicParsing="false" onAction="#PayByCreditcard" text="Credit Card" />
       <RadioButton id="rdbtnCash" fx:id="rdbtnCash" layoutX="341.0" layoutY="524.0" mnemonicParsing="false" onAction="#payCash" selected="true" text="Cash" />
+      <Label layoutX="77.0" layoutY="566.0" text="use account balance : " />
+      <RadioButton id="rdbtnUseAccountBalance" fx:id="rdbtnUseAccountBalance" layoutX="220.0" layoutY="566.0" mnemonicParsing="false" onAction="#useAccountBalace" text="Yes" />
+      <RadioButton id="rdbtnDontUseAccountBalance" fx:id="rdbtnDontUseAccountBalance" layoutX="342.0" layoutY="566.0" mnemonicParsing="false" onAction="#dontUseAccountBalace" selected="true" text="No" />
    </children>
 </AnchorPane>

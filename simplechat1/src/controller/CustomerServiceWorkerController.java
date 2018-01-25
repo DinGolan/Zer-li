@@ -17,8 +17,10 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+/**
+ *controller for the customer service worker permission with options of insert survey, open new complaint and handle a complaint
+ */
 public class CustomerServiceWorkerController implements Initializable{
-	public static boolean checkComplaintsFlag = false;
 	
 	@FXML
 	private Button btnCServiceWInsertSurveyQ = null; //button to insert survey questions
@@ -43,38 +45,15 @@ public class CustomerServiceWorkerController implements Initializable{
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		/*if(checkComplaintsFlag==true)
-		{
-			Pane root = null;
-			Stage primaryStage = new Stage(); //Object present window with graphics elements
-			FXMLLoader loader = new FXMLLoader(); //load object
-			String cuurentCustomerServiceWorkerUserName=UserUI.user.getUserName();
-			System.out.println(cuurentCustomerServiceWorkerUserName);
-			
-			Message msg = new Message(cuurentCustomerServiceWorkerUserName , "Get all complaints numbers for this customer service worker 24");
-			UserUI.myClient.accept(msg); // get all complaints for this customer service worker from DB
-			while(ComplaintHandleController.loadComplaintsFlag==false)
-			{
-				System.out.print(""); //DOES NOT RUN WITHOUT THIS LINE
-			}
-			ComplaintHandleController.loadComplaintsFlag=false;
-			
-			if(ComplaintUI.complaintsNumbers.get(0)!=-1) //we have complaints to handle for this customer service worker at DB
-			{
-				//((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
-				root = loader.load(getClass().getResource("/controller/ComplaintForWorker.fxml").openStream());
-				Scene scene = new Scene(root);		
-				scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-				primaryStage.setScene(scene);	
-				primaryStage.setTitle("Error msg");
-				primaryStage.show();
-			}
-			
-			checkComplaintsFlag=false;
-		}*/	
+		
 	}
 	
-	public void insertSurveyQuestionsBtn(ActionEvent event) throws Exception //To open the view report option
+	/**
+	 * open the gui of the oprions to add survey
+	 * @param event- click on insert survey button
+	 * @throws Exception if we can't load the fxml
+	 */
+	public void insertSurveyQuestionsBtn(ActionEvent event) throws Exception 
 	{
 		((Node)event.getSource()).getScene().getWindow().hide(); // Hiding primary window 
 		Stage primaryStage = new Stage();
@@ -85,26 +64,13 @@ public class CustomerServiceWorkerController implements Initializable{
 		primaryStage.setScene(scene);		
 		primaryStage.show();
 		flag=true;
-
 	}
 	
-	@SuppressWarnings("static-access")
-	public void SaveSurveyBtn(ActionEvent event) throws Exception{
-		((Node)event.getSource()).getScene().getWindow().hide(); // Hiding primary window 
-		Stage primaryStage = new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		Pane root = loader.load(getClass().getResource("/controller/SurveyResultFrame.fxml").openStream());
-		
-		Scene scene = new Scene(root);			
-		
-		primaryStage.setScene(scene);		
-		primaryStage.show();
-		//SurveyResultController sr = new SurveyResultController();				  
-		//sr.start(primaryStage);
-		//SurveyResultUI s = new SurveyResultUI();
-		//s.main(primaryStage);
-	}
-	
+	/**
+	 * open the gui of new complaint option
+	 * @param event- click on add compaint option
+	 * @throws Exception if we can't load the fxml
+	 */
 	public void openNewComplaintBtn(ActionEvent event) throws Exception //To open new complaint option
 	{
 		((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
@@ -115,10 +81,14 @@ public class CustomerServiceWorkerController implements Initializable{
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Complaint Form");
-		primaryStage.show();
-	
+		primaryStage.show();	
 	}
 	
+	/**
+	 * open the gui of search complains- reminder the customer service worker to handle his complaints
+	 * @param event -click on handle complaints button
+	 * @throws Exception if we can't load the fxml
+	 */
 	public void followComplaintBtn(ActionEvent event) throws Exception //To open follow complaint option
 	{
 		((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
@@ -132,14 +102,22 @@ public class CustomerServiceWorkerController implements Initializable{
 		primaryStage.show();	
 	}
 	
-	/////אולי להוריד את קיום הכפתור יציאה
+	/**
+	 * Exit from the customer service worker options
+	 * @param event- click on exit button
+	 * @throws Exception
+	 */
 	public void exitBtn(ActionEvent event) throws Exception //Exit from the customer service worker options
 	{
 		System.out.println("exit customer service worker options");
 		System.exit(0);			
 	}
 	
-	
+	/**
+	 * logout by the customer service worker and "UserLogin" window open.
+	 * @param event- click on logout button
+	 * @throws Exception if we can't load the fxml
+	 */
 	public void LogoutBtn(ActionEvent event) throws IOException
 	{
 		Message msg = new Message(UserUI.user.getId(), "change User status to DISCONNECTED");

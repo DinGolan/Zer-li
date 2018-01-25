@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 import boundery.CatalogUI;
 import boundery.OrderUI;
 import boundery.UserUI;
+import entity.CatalogItemRow;
 import entity.Message;
 import entity.Order;
 import entity.Product;
@@ -48,6 +49,10 @@ public class SelfDefenitionProductController implements Initializable{
 	
 	@FXML
 	private Button btnBackToSelfDef = null; /* button update for update product */
+	
+	@FXML
+	private Button btnTryAgainOrder = null; /* button update for update product */
+	
 
 	@FXML
 	private TextField txtPPrice = null; /* button update for update product */
@@ -72,17 +77,17 @@ public class SelfDefenitionProductController implements Initializable{
 	@FXML
 	private Hyperlink LinkLogout;
 	
-	@FXML private TableView<CatalogItemRow> catalog_table;
+	@FXML private TableView<CatalogItemRow> catalog_table = new TableView<>();
 
-	@FXML private TableColumn<CatalogItemRow, String> tablecolumn_id;
+	@FXML private TableColumn<CatalogItemRow, String> tablecolumn_id = new TableColumn<>();
 
-	@FXML private TableColumn<CatalogItemRow, String> tablecolumn_name;
+	@FXML private TableColumn<CatalogItemRow, String> tablecolumn_name = new TableColumn<>();
 
-	@FXML private TableColumn<CatalogItemRow, Product.ProductType> tablecolumn_type;
+	@FXML private TableColumn<CatalogItemRow, Product.ProductType> tablecolumn_type = new TableColumn<>();
 
-	@FXML private TableColumn<CatalogItemRow, Double> tablecolumn_price;
+	@FXML private TableColumn<CatalogItemRow, Double> tablecolumn_price = new TableColumn<>();
 
-	@FXML private TableColumn<CatalogItemRow, ImageView> tablecolumn_image;
+	@FXML private TableColumn<CatalogItemRow, ImageView> tablecolumn_image = new TableColumn<>();
 	
 	@FXML
 	private Button btnAddToCard = null;	
@@ -114,7 +119,7 @@ public class SelfDefenitionProductController implements Initializable{
 
 	public void setComboBox()
 	{
-		cmbProductType.setItems(FXCollections.observableArrayList("BOUQUET", "ARRANGEMENT", "FLOWER_CROWN","BRIDAL_BOUQUET","VASE" , "WREATH_FLOWERS"));
+		cmbProductType.setItems(FXCollections.observableArrayList("BOUQUET", "ARRANGEMENT", "FLOWER_CROWN","BRIDAL_BOUQUET","VASE" , "WREATH_FLOWERS" , "SWEET_BOUQUET"));
 		cmbDominantColor.setItems(FXCollections.observableArrayList("RED", "WHITE", "YELLOW","ORANGE", "PINK"));
 		cmbPriceRange.setItems(FXCollections.observableArrayList("0-50", "50-100", "100-150","200-250" ,"250-300" , "300-350", "350-400", "400-450", "450-500"));
 		cmbProductType.setValue("BOUQUET");
@@ -187,6 +192,27 @@ public class SelfDefenitionProductController implements Initializable{
 		Pane root = loader.load(getClass().getResource("/controller/SelfDefOrder.fxml").openStream());
 		Scene scene = new Scene(root);			
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+		primaryStage.setTitle("Self Defenition Order");
+		primaryStage.setScene(scene);	
+			
+		primaryStage.show();
+	}
+	
+	public void backToSelfOption(ActionEvent event) throws Exception
+	{
+		modeFlag=0;
+		int tempPrice , i=0;
+		boolean flag = true;
+		minPrice = Integer.valueOf(pRange.substring(0, pRange.indexOf("-")));
+		maxPrice = Integer.valueOf(pRange.substring(pRange.indexOf("-")+1, pRange.length()));
+		
+		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+		Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
+		FXMLLoader loader = new FXMLLoader(); 					 /* load object */
+		Pane root = loader.load(getClass().getResource("/controller/SelfDefOrder.fxml").openStream());
+		Scene scene = new Scene(root);			
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+		primaryStage.setTitle("Self Defenition Order");
 		primaryStage.setScene(scene);	
 			
 		primaryStage.show();
@@ -204,6 +230,7 @@ public class SelfDefenitionProductController implements Initializable{
 	
 		Scene scene = new Scene(root);	
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+		primaryStage.setTitle("Menu");
 		primaryStage.setScene(scene);	
 			
 		primaryStage.show();
@@ -219,6 +246,7 @@ public class SelfDefenitionProductController implements Initializable{
 	
 		Scene scene = new Scene(root);	
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+		primaryStage.setTitle("Self Defenition Product Options");
 		primaryStage.setScene(scene);	
 			
 		primaryStage.show();
@@ -228,22 +256,46 @@ public class SelfDefenitionProductController implements Initializable{
 	{
 		String pId = cmbPid.getValue();
 		int pAmmount;
-		if(txtPAmmount.getText().compareTo("")!=0)
+		try
 		{
-			pAmmount = Integer.valueOf(txtPAmmount.getText());
-			if(pId != null)
+			if((txtPAmmount.getText().compareTo("")!=0) && (Integer.valueOf(txtPAmmount.getText())) > 0 && pId != null)
 			{
-				Product p = getproductById(pId);
-				if(p != null)
+				pAmmount = Integer.valueOf(txtPAmmount.getText());
+				if(pId != null)
 				{
-					if(CatalogController.order.getProductsInOrder().containsKey(p))
-						CatalogController.order.getProductsInOrder().put(p, (CatalogController.order.getProductsInOrder().get(p))+pAmmount);
-					else
-						CatalogController.order.getProductsInOrder().put(p, pAmmount);
-					txtPAmmount.setText("");
+					Product p = getproductById(pId);
+					if(p != null)
+					{
+						if(CatalogController.order.getProductsInOrder().containsKey(p))
+							CatalogController.order.getProductsInOrder().put(p, (CatalogController.order.getProductsInOrder().get(p))+pAmmount);
+						else
+							CatalogController.order.getProductsInOrder().put(p, pAmmount);
+						txtPAmmount.setText("");
+					}
 				}
 			}
+			else
+				showErrMsg(event);
 		}
+		catch (NumberFormatException e)
+		{
+			showErrMsg(event);
+		}
+	}
+	
+	public void showErrMsg(ActionEvent event) throws Exception // add product to cart
+	{
+		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+		Stage primaryStage = new Stage();
+		FXMLLoader loader = new FXMLLoader();
+		Pane root = loader.load(getClass().getResource("/controller/ErrMsgInSelfDef.fxml").openStream());
+		
+		
+		Scene scene = new Scene(root);			
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+		primaryStage.setTitle("Error Msg");
+		primaryStage.setScene(scene);		
+		primaryStage.show();
 	}
 
 	private Product getproductById(String pId)
@@ -259,6 +311,7 @@ public class SelfDefenitionProductController implements Initializable{
 	
 	public void logout(ActionEvent event) throws Exception /* logout and open login window */
 	{
+		modeFlag = 1;
 		CustomerController.flag = false;
 		Message msg = new Message(UserUI.user.getId(), "change User status to DISCONNECTED");
 		UserUI.myClient.accept(msg); // change User status to DISCONNECTED in DB
@@ -275,6 +328,7 @@ public class SelfDefenitionProductController implements Initializable{
 	
 	public void showCart(ActionEvent event) throws Exception // show all products in cart. 
 	{
+		modeFlag = 1;
 		OrderController.flag=4;
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 		Stage primaryStage = new Stage();
@@ -284,7 +338,7 @@ public class SelfDefenitionProductController implements Initializable{
 		
 		Scene scene = new Scene(root);			
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-		
+		primaryStage.setTitle("Cart");
 		primaryStage.setScene(scene);		
 		primaryStage.show();
 	}

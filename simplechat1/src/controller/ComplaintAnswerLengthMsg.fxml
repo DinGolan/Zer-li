@@ -12,11 +12,11 @@
 
 <AnchorPane prefHeight="215.0" prefWidth="348.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ComplaintHandleController">
    <children>
-      <Button id="btnComplaintTryAgain" fx:id="btnComplaintTryAgain" layoutX="142.0" layoutY="165.0" mnemonicParsing="false" onAction="#viewComplaintDetails" text="Try again" />
-      <Label layoutX="11.0" layoutY="28.0" text="Error!" textFill="#0022ff">
+      <Button id="btnComplaintTryAgain" fx:id="btnComplaintTryAgain" layoutX="142.0" layoutY="165.0" mnemonicParsing="false" onAction="#loadHisComplaints" text="Try again" />
+      <Label layoutX="14.0" layoutY="14.0" text="Error!" textFill="#0022ff">
          <font>
             <Font name="Bodoni MT" size="29.0" />
          </font></Label>
-      <TextArea layoutX="34.0" layoutY="85.0" prefHeight="58.0" prefWidth="288.0" text="You need to enter the complaint reason at 10-200 &#10;characters try again." />
+      <TextArea layoutX="20.0" layoutY="52.0" prefHeight="100.0" prefWidth="302.0" text="You need to enter the complaint answer until &#10;200 characters try again." />
    </children>
 </AnchorPane>

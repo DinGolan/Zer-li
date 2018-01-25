@@ -1,13 +1,10 @@
 package controller;
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import boundery.ComplaintUI;
 import boundery.StoreManagerUI;
 import boundery.UserUI;
 import entity.Message;
 import entity.Store;
-import entity.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,6 +16,9 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+/**
+ *Controller for the store manager permission with options of view report, add new account and logout options
+ */
 public class StoreManagerController implements Initializable {
 	
 	public static Integer storeID;
@@ -29,9 +29,6 @@ public class StoreManagerController implements Initializable {
 
     @FXML
     private Button btnViewReport;         /* Button For View Report */
-
-    @FXML
-    private Button btnUpdateCatalog;      /* Button For Update Catalog */
 
     @FXML
     private Button btnStoreManagerOpenNewAccount;  /* Button For Open New Account */
@@ -71,15 +68,14 @@ public class StoreManagerController implements Initializable {
 		primaryStage.show();
 	}
 	
-/* ----------------------------------- Open For Us The GUI Of the Store Manager - Update Catalog And Make Sales -------------------------------------- */	
-	
-	public void updateCatalogAndSalesBtn(ActionEvent event) throws Exception //To open the update catalog and sales option
-	{
-	
-	}
 	
 /* ----------------------------------- Open For Us The GUI Of the Store Manager - Open New Account -------------------------------------- */
 	
+	/**
+	 * Open the add new account option and check the store manager store number
+	 * @param event- click on open new account button
+	 * @throws Exception if we can't load the fxml
+	 */
 	public void openNewAccountBtn(ActionEvent event) throws Exception //To open the add new account option
 	{
 		Message msg = new Message(UserUI.user.getId(), "Store manager want store number");
@@ -103,6 +99,11 @@ public class StoreManagerController implements Initializable {
 	
 /* ---------------------------------------- Logout From The GUI Of The Store Manager ---------------------------------------  */	
 	
+	/**
+	 * logout by the store manager and "UserLogin" window open.
+	 * @param event- click on logout button
+	 * @throws Exception if we can't load the fxml
+	 */
 	public void logoutBtn(ActionEvent event) throws Exception //logout by the store manager
 	{
 		Message msg = new Message(UserUI.user.getId(), "change User status to DISCONNECTED");

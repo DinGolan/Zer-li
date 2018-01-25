@@ -5,16 +5,15 @@ import entity.Complaint;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-
+/**
+ * class to save static variables that belong to the complaint
+ */
 public class ComplaintUI extends Application 
 {
-	//public static Vector<Complaint> complaints = new Vector<Complaint>();
 	public static Vector<Integer> ordersNumbers = new Vector<Integer>();
 	public static Vector<Integer> complaintsNumbers = new Vector<Integer>();
-	//public static Vector<String> status = new Vector<String>();
 	public static Complaint complaint=null; //save the requested complaint 
 	public static String success=null;
-	//public static boolean complaintFlag=false;
 
 	@Override
 	public void start(Stage arg0) throws Exception {

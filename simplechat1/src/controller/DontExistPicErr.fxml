@@ -8,11 +8,11 @@
 
 <AnchorPane prefHeight="215.0" prefWidth="312.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProductController">
    <children>
-      <Button id="btnTryAgain" fx:id="btnTryAgain" layoutX="125.0" layoutY="178.0" mnemonicParsing="false" onAction="#openProductWindow" text="Try again" />
+      <Button id="btnTryAgain" fx:id="btnTryAgain" layoutX="125.0" layoutY="178.0" mnemonicParsing="false" onAction="#openNewProductWindow" text="Try again" />
       <Label layoutX="75.0" layoutY="36.0" text="Picture Error" textFill="#0022ff">
          <font>
             <Font name="Bodoni MT" size="29.0" />
          </font></Label>
-      <TextArea editable="false" layoutX="56.0" layoutY="95.0" prefHeight="61.0" prefWidth="200.0" text="The picture you tried to upload&#10;does NOT exist." />
+      <TextArea editable="false" layoutX="16.0" layoutY="95.0" prefHeight="61.0" prefWidth="286.0" text="The picture you tried to upload&#10;does NOT exist." />
    </children>
 </AnchorPane>

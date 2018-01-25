@@ -62,6 +62,9 @@ public class OrderController implements Initializable{
 	private Button btnCustomerOption = null; /* button order for continue to create order */
 	@FXML
 	private Button btnBackToOptions = null; /* button order for continue to create order */
+	@FXML
+	private Button btnTryAgainOrder = null; /* button order for continue to create order */
+	
 
 	@FXML
 	private RadioButton rdbtnAddPostCard = null; /* button order for continue to create order */
@@ -75,6 +78,10 @@ public class OrderController implements Initializable{
 	private RadioButton rdbtnCash = null; /* button order for continue to create order */
 	@FXML
 	private RadioButton rdbtnCredirCard = null; /* button order for continue to create order */
+	@FXML
+	private RadioButton rdbtnDontUseAccountBalance = null; /* button order for continue to create order */
+	@FXML
+	private RadioButton rdbtnUseAccountBalance = null; /* button order for continue to create order */
 	
 	@FXML
 	private ComboBox<String> cmbProducts = null; /* list of product in cart */
@@ -100,7 +107,9 @@ public class OrderController implements Initializable{
 	private Label lblArrangement= null; /* text field for Total price of cart */
 	@FXML
 	private Label lblImidiateOrder= null; /* text field for Total price of cart */
-
+	@FXML
+	private Label lblBalance= null; /* text field for Total price of cart */
+	
 	@FXML
 	private DatePicker dpRequiresSupplyDate=new DatePicker(LocalDate.now());  //DatePicker with the end date of the subscription
 	
@@ -108,13 +117,20 @@ public class OrderController implements Initializable{
 	private ComboBox <Integer> cmbOrdersForCustomer=null; //combobox to view all the orders for the specific customer
 	ObservableList<Integer> listForOrderCustomerComboBox;
 	
-	public static double totalPrice;
+	public static double totalPrice = 0;
+	
+	public static boolean deliveryFlag = false;
+	
+	public double balanceAmount = 0;
 	
 	ObservableList<String> listForComboBox;
 	
 	private static boolean imidiateOrderFlag = false;
 	
-
+	private static boolean useAccountBakanceFlag = false;
+	
+	public static double balance = 0;
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) // Initialized The ComboBox of the Product 
 	{
@@ -133,6 +149,10 @@ public class OrderController implements Initializable{
 				lblImidiateOrder.setText("Your order will be delivered within 3 hours");
 				imidiateOrderFlag = false;
 			}
+			if(useAccountBakanceFlag == true)
+				lblBalance.setText( String.valueOf(balance) + " NS");
+			else
+				lblBalance.setText("0 NS");
 		}
 	}
 	
@@ -188,11 +208,15 @@ public class OrderController implements Initializable{
 		Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
 		FXMLLoader loader = new FXMLLoader(); 					 /* load object */
 		if(flag!=4)
+		{
 			root = loader.load(getClass().getResource("/controller/Catalog.fxml").openStream());
+			primaryStage.setTitle("Catalog");	
+		}
 		else
 		{
 			SelfDefenitionProductController.modeFlag = 1;
 			root = loader.load(getClass().getResource("/controller/SelfDefenitionProduct.fxml").openStream());
+			primaryStage.setTitle("Self Defenition Product");	
 		}
 		flag = 0;
 		Scene scene = new Scene(root);			
@@ -214,6 +238,7 @@ public class OrderController implements Initializable{
 		
 			Scene scene = new Scene(root);	
 			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setTitle("Order Form");	
 			primaryStage.setScene(scene);	
 				
 			primaryStage.show();									 /* show catalog frame window */
@@ -227,6 +252,7 @@ public class OrderController implements Initializable{
 		
 			Scene scene = new Scene(root);	
 			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setTitle("Error Message");	
 			primaryStage.setScene(scene);	
 				
 			primaryStage.show();									 /* show catalog frame window */
@@ -234,6 +260,7 @@ public class OrderController implements Initializable{
 	}
 	public void checkAndSaveOrderDetails(ActionEvent event) throws Exception  /*check all order fields and save in DB*/
 	{
+		String phoneNumber = txtRecipientsPhoneNumber.getText();
 		LocalDate localDate = dpRequiresSupplyDate.getValue();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		LocalDate today = LocalDate.now();
@@ -242,6 +269,15 @@ public class OrderController implements Initializable{
         int hour = cal.get(Calendar.HOUR);
         if(cal.get(Calendar.AM_PM) != 0)
         	hour += 12;
+        boolean inValidPhone = true;
+        if(phoneNumber != null)
+        {
+	        for(int i = 0; i<phoneNumber.length() ; i++)
+	        {
+	        	if(phoneNumber.charAt(i) < '0' || phoneNumber.charAt(i) > '9')
+	        		inValidPhone = false;
+	        }
+        }
 		if((localDate != null) && (localDate.isBefore(today))) // required supply date passed
 		{
 			flag = 2;
@@ -252,6 +288,7 @@ public class OrderController implements Initializable{
 		
 			Scene scene = new Scene(root);		
 			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setTitle("Error Message");
 			primaryStage.setScene(scene);	
 				
 			primaryStage.show();
@@ -267,6 +304,7 @@ public class OrderController implements Initializable{
 					
 					Scene scene = new Scene(root);		
 					scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+					primaryStage.setTitle("Error Message");
 					primaryStage.setScene(scene);	
 					
 					primaryStage.show();
@@ -281,6 +319,22 @@ public class OrderController implements Initializable{
 				
 				Scene scene = new Scene(root);
 				scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+				primaryStage.setTitle("Error Message");
+				primaryStage.setScene(scene);	
+				
+				primaryStage.show();
+			}
+			else if (inValidPhone == false ||(txtPostCard.getText().length() > 500) || (txtAddress.getText().length() > 45) || (txtRecipientsName.getText().length() > 45) || (txtRecipientsPhoneNumber.getText().length() > 10) || (txtRequiredTime.getText().length() != 5))
+			{
+				flag = 2;
+				((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+				Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
+				FXMLLoader loader = new FXMLLoader(); 					 /* load object */
+				Pane root = loader.load(getClass().getResource("/controller/ErrInValidFieldMsg.fxml").openStream());
+				
+				Scene scene = new Scene(root);
+				scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+				primaryStage.setTitle("Error Message");
 				primaryStage.setScene(scene);	
 				
 				primaryStage.show();
@@ -300,6 +354,7 @@ public class OrderController implements Initializable{
 				
 					Scene scene = new Scene(root);	
 					scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+					primaryStage.setTitle("Error Message");
 					primaryStage.setScene(scene);	
 						
 					primaryStage.show();
@@ -337,6 +392,7 @@ public class OrderController implements Initializable{
 					
 						Scene scene = new Scene(root);	
 						scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+						primaryStage.setTitle("Error Message");
 						primaryStage.setScene(scene);	
 							
 						primaryStage.show();
@@ -360,6 +416,29 @@ public class OrderController implements Initializable{
 							System.out.print("");
 						}
 						accountFlag = false;
+						if(rdbtnUseAccountBalance.isSelected())
+						{
+							useAccountBakanceFlag = true;
+							balance = CustomerUI.account.getAccountBalanceCard();
+							if(CustomerUI.account.getAccountBalanceCard() > totalPrice)
+							{
+								balance = totalPrice;
+								balanceAmount = CustomerUI.account.getAccountBalanceCard()- totalPrice;
+								totalPrice = 0;
+							}
+							else
+							{
+								balance = CustomerUI.account.getAccountBalanceCard();
+								balanceAmount = 0;
+								totalPrice -= CustomerUI.account.getAccountBalanceCard();
+							}
+							ArrayList<Object> useAndBalance = new ArrayList<>();
+							useAndBalance.add(0, UserUI.user.getId());
+							useAndBalance.add(1, balanceAmount);
+							useAndBalance.add(2, UserUI.store.getStoreId());
+							msg = new Message(useAndBalance, "update balance Ammount");
+							UserUI.myClient.accept(msg);
+						}
 						OrderUI.order = null;
 						if(localDate.equals(today) && (Integer.valueOf(hours) < (hour+3)) || ((Integer.valueOf(hours) == (hour+3)) && (Integer.valueOf(minutes) <= minute)))
 						{
@@ -373,6 +452,7 @@ public class OrderController implements Initializable{
 						totalPrice=0;  /*for next order*/
 						Scene scene = new Scene(root);	
 						scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+						primaryStage.setTitle("Thank For Order");
 						primaryStage.setScene(scene);	
 								
 						primaryStage.show();
@@ -388,6 +468,7 @@ public class OrderController implements Initializable{
 					
 						Scene scene = new Scene(root);		
 						scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+						primaryStage.setTitle("Error Message");
 						primaryStage.setScene(scene);	
 							
 						primaryStage.show();
@@ -405,6 +486,7 @@ public class OrderController implements Initializable{
 	
 	public void NotAddPostCard(ActionEvent event) throws Exception  /*  */
 	{
+		txtPostCard.setText("");
 		rdbtnAddPostCard.setSelected(false);
 		txtPostCard.setEditable(false);
 	}
@@ -419,8 +501,19 @@ public class OrderController implements Initializable{
 		rdbtnCash.setSelected(false);
 	}
 	
+	public void useAccountBalace(ActionEvent event) throws Exception  /*  */
+	{
+		rdbtnDontUseAccountBalance.setSelected(false);
+	}
+	public void dontUseAccountBalace(ActionEvent event) throws Exception  /*  */
+	{
+		rdbtnUseAccountBalance.setSelected(false);
+	}
+	
+	
 	public void supplyByPickup(ActionEvent event) throws Exception  /*  */
 	{
+		deliveryFlag = false;
 		rdbtnDelivery.setSelected(false);
 		txtAddress.setText("");
 		txtRecipientsName.setText("");
@@ -428,21 +521,26 @@ public class OrderController implements Initializable{
 		txtAddress.setEditable(false);
 		txtRecipientsName.setEditable(false);
 		txtRecipientsPhoneNumber.setEditable(false);
+		totalPrice -= Order.getDeliveryPrice();
 		txtTotalOrderPrice.setText(String.valueOf(totalPrice));
 	}
 	
 	public void supplyByDelivery(ActionEvent event) throws Exception  /*  */
 	{
+		deliveryFlag = true;
 		rdbtnPickup.setSelected(false);
 		txtAddress.setEditable(true);
 		txtRecipientsName.setEditable(true);
 		txtRecipientsPhoneNumber.setEditable(true);
-		double price = totalPrice + Order.getDeliveryPrice();
-		txtTotalOrderPrice.setText(String.valueOf(price));
+		totalPrice = totalPrice + Order.getDeliveryPrice();
+		txtTotalOrderPrice.setText(String.valueOf(totalPrice));
 	}
 	
 	public void backToOrder(ActionEvent event) throws Exception  /*  */
 	{
+		if(deliveryFlag == true)
+			totalPrice = totalPrice - Order.getDeliveryPrice();
+		deliveryFlag = false;
 		flag = 1;
 		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
 		Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
@@ -451,6 +549,7 @@ public class OrderController implements Initializable{
 	
 		Scene scene = new Scene(root);		
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+		primaryStage.setTitle("Order Form");
 		primaryStage.setScene(scene);	
 			
 		primaryStage.show();									 /* show catalog frame window */
@@ -467,6 +566,7 @@ public class OrderController implements Initializable{
 	
 		Scene scene = new Scene(root);			
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+		primaryStage.setTitle("Customer Options");
 		primaryStage.setScene(scene);	
 			
 		primaryStage.show();

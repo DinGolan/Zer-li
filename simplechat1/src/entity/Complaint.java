@@ -6,6 +6,7 @@ import java.sql.Date;
 public class Complaint implements Serializable{
 	private int complaintNum; //save the complaint number
 	private Date complaintDate;
+	private String complaintTime;
 	private ComplaintStatus complaintStat;
 	private double complaintCompansation;
 	private String complaintCompanyServiceWorkerAnswer;
@@ -56,6 +57,14 @@ public class Complaint implements Serializable{
 
 	public void setComplaintDate(Date complaintDate) {
 		this.complaintDate = complaintDate;
+	}
+	
+	public String getComplaintTime() {
+		return complaintTime;
+	}
+
+	public void setComplaintTime(String complaintTime) {
+		this.complaintTime = complaintTime;
 	}
 
 	public ComplaintStatus getComplaintStat() {
@@ -122,14 +131,14 @@ public class Complaint implements Serializable{
 		this.complaintMonth = complaintMonth;
 	}
 
-
 	@Override
 	public String toString() {
-		return "Complaint [complaintNum=" + complaintNum + ", complaintDate=" + complaintDate + ", complaintStat="
-				+ complaintStat + ", complaintCompansation=" + complaintCompansation
-				+ ", complaintCompanyServiceWorkerAnswer=" + complaintCompanyServiceWorkerAnswer + ", complaintDetails="
-				+ complaintDetails + ", complaintUserId=" + complaintUserId + ", complaintServiceWorkerUserName="
-				+ complaintServiceWorkerUserName + ", complaintOrderId=" + complaintOrderId + "]";
+		return "Complaint [complaintNum=" + complaintNum + ", complaintDate=" + complaintDate + ", complaintTime="
+				+ complaintTime + ", complaintStat=" + complaintStat + ", complaintCompansation="
+				+ complaintCompansation + ", complaintCompanyServiceWorkerAnswer=" + complaintCompanyServiceWorkerAnswer
+				+ ", complaintDetails=" + complaintDetails + ", complaintUserId=" + complaintUserId
+				+ ", complaintServiceWorkerUserName=" + complaintServiceWorkerUserName + ", complaintOrderId="
+				+ complaintOrderId + ", complaintMonth=" + complaintMonth + "]";
 	}
 	
 }

@@ -17,7 +17,7 @@
          <font>
             <Font name="Bodoni MT" size="29.0" />
          </font></Label>
-      <TextArea editable="false" layoutX="29.0" layoutY="64.0" prefHeight="96.0" prefWidth="394.0" text="Hello,&#10;The system check for open complaint that in your handle.&#10;Don't forget that you need to handle a complaint within 24 hours.&#10;" />
+      <TextArea editable="false" layoutX="16.0" layoutY="64.0" prefHeight="96.0" prefWidth="421.0" text="Hello,&#10;The system check for open complaint that in your handle.&#10;Don't forget that you need to handle a complaint within 24 hours.&#10;" />
       <Button id="btnComplaintNext" fx:id="btnComplaintNext" layoutX="107.0" layoutY="285.0" mnemonicParsing="false" onAction="#loadHisComplaints" prefHeight="25.0" prefWidth="46.0" text="Next" />
       <ProgressIndicator layoutX="200.0" layoutY="176.0" />
       <Label layoutX="123.0" layoutY="246.0" text="Press next to view the open complaints" />

@@ -10,14 +10,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="215.0" prefWidth="354.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ComplaintController">
+<AnchorPane prefHeight="215.0" prefWidth="397.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ComplaintController">
    <children>
-      <Button id="btnComplaintClose" fx:id="btnComplaintClose" layoutX="240.0" layoutY="168.0" mnemonicParsing="false" onAction="#closeComplaintFormWindow" prefHeight="25.0" prefWidth="52.0" text="Close" />
-      <Label layoutX="4.0" layoutY="32.0" text="Add new complaint - successed" textFill="#0022ff">
+      <Button id="btnComplaintClose" fx:id="btnComplaintClose" layoutX="272.0" layoutY="168.0" mnemonicParsing="false" onAction="#closeComplaintFormWindow" prefHeight="25.0" prefWidth="52.0" text="Close" />
+      <Label layoutX="12.0" layoutY="30.0" text="Add new complaint - successed" textFill="#0022ff">
          <font>
             <Font name="Bodoni MT" size="29.0" />
          </font></Label>
-      <TextArea layoutX="63.0" layoutY="95.0" prefHeight="48.0" prefWidth="229.0" text="The new complaint add successfully." />
+      <TextArea layoutX="63.0" layoutY="84.0" prefHeight="48.0" prefWidth="272.0" text="The new complaint add successfully." />
       <Button id="btnComplaintAddOther" fx:id="btnComplaintAddOther" layoutX="63.0" layoutY="168.0" mnemonicParsing="false" onAction="#addNewOtherComplaint" text="Add other complaint" />
    </children>
 </AnchorPane>
