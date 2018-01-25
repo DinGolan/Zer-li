@@ -328,7 +328,7 @@ public class CatalogController implements Initializable {
 		int pAmmount;
 		try
 		{
-			if((txtPAmmount.getText().compareTo("")!=0) && (Integer.valueOf(txtPAmmount.getText())) > 0)
+			if((txtPAmmount.getText().compareTo("")!=0) && (Integer.valueOf(txtPAmmount.getText())) > 0 && pId != null)
 			{
 				pAmmount = Integer.valueOf(txtPAmmount.getText());
 				if(pId != null)

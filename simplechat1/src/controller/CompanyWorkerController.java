@@ -62,6 +62,12 @@ public class CompanyWorkerController implements Initializable {
     @FXML
     private Button btnRemoveSale; /* Button For loading product */
     
+    @FXML
+    private Button btnBack; /* Button For loading product */
+    
+    @FXML
+    private Button btnBackToDelete; /* Button For loading product */
+    
 	@FXML
 	private ComboBox<String> cmbPid = new ComboBox<>(); /* comboBox of products id */
 	
@@ -130,10 +136,24 @@ public class CompanyWorkerController implements Initializable {
 			primaryStage.setScene(scene);		
 			primaryStage.show();
 		}
+		else
+		{
+			cwflag = 1;
+			((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+			Stage primaryStage = new Stage();
+			FXMLLoader loader = new FXMLLoader();
+			Pane root = loader.load(getClass().getResource("/controller/DidNotPickProduct.fxml").openStream());
+			
+			Scene scene = new Scene(root);			
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setTitle("Error Meesage");
+			primaryStage.setScene(scene);		
+			primaryStage.show();
+		}
 	}
 	
 	public void addNewProductWindow(ActionEvent event) throws Exception { // open info window of the product the user want info of.
-		ProductController.flag = 1;
+		ProductController.flag = 0;
 			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 			Stage primaryStage = new Stage();
 			FXMLLoader loader = new FXMLLoader();
@@ -220,6 +240,20 @@ public class CompanyWorkerController implements Initializable {
 			Scene scene = new Scene(root);			
 			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 			primaryStage.setTitle("Remove Product");
+			primaryStage.setScene(scene);		
+			primaryStage.show();
+		}
+		else
+		{
+			cwflag = 1;
+			((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+			Stage primaryStage = new Stage();
+			FXMLLoader loader = new FXMLLoader();
+			Pane root = loader.load(getClass().getResource("/controller/DidNotPickProductToDelete.fxml").openStream());
+			
+			Scene scene = new Scene(root);			
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setTitle("Error Meesage");
 			primaryStage.setScene(scene);		
 			primaryStage.show();
 		}

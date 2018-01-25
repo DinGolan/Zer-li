@@ -142,7 +142,7 @@ public class ProductController implements Initializable{
 	{
 		try 
 		{
-			if((this.txtPName.getText().compareTo("") !=0) && (this.txtPPrice.getText().compareTo("") !=0) && (Double.valueOf(this.txtPPrice.getText()) > 0)) 
+			if((this.txtPName.getText().compareTo("") !=0) && (this.txtPPrice.getText().compareTo("") !=0) && (Double.valueOf(this.txtPPrice.getText()) > 0) && (txtPName.getText().length() <= 45)) 
 			{
 				try {
 				Product toCompare = new  Product();
@@ -255,11 +255,27 @@ public class ProductController implements Initializable{
 		primaryStage.show();									 /* show catalog frame window */
 	}
 	
+	public void openNewProductWindow(ActionEvent event) throws Exception  /* To close the The Window of the Product GUI and Show The Catalog GUI again */
+	{ 
+		flag =0;
+		ProductUI.products.clear();
+		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+		Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
+		FXMLLoader loader = new FXMLLoader(); 					 /* load object */
+		Pane root = loader.load(getClass().getResource("/controller/ProductForm.fxml").openStream());
+		
+		Scene scene = new Scene(root);			
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+		primaryStage.setScene(scene);	
+		primaryStage.setTitle("Product Form");			
+		primaryStage.show();									 /* show catalog frame window */
+	}
+	
 	public void addProduct(ActionEvent event) throws Exception // add product to cart
 	{
 		try
 		{
-			if((this.txtPPicPath.getText().compareTo("")!=0) &&  (this.txtPName.getText().compareTo("")!=0)&& (this.txtPPrice.getText().compareTo("")!=0)&& (this.cmbPtype.getValue()!=null)&& (this.cmbpColor.getValue()!=null)&& (Double.valueOf(this.txtPPrice.getText()) > 0))
+			if((this.txtPPicPath.getText().compareTo("")!=0) &&  (this.txtPName.getText().compareTo("")!=0)&& (this.txtPPrice.getText().compareTo("")!=0)&& (this.cmbPtype.getValue()!=null)&& (this.cmbpColor.getValue()!=null)&& (Double.valueOf(this.txtPPrice.getText()) > 0) && (txtPName.getText().length() <= 45))
 			{
 				try {
 				Product toadd = new  Product();
@@ -277,7 +293,7 @@ public class ProductController implements Initializable{
 				toadd.setpColor(Product.ProductColor.valueOf(this.cmbpColor.getValue()));
 				msg = new Message(toadd , "Add new Product in DB");
 				UserUI.myClient.accept(msg);
-				addProductWindow(event);
+				closeAddtWindow(event);
 				} catch (FileNotFoundException e) {
 					flag =1;
 					((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */

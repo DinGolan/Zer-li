@@ -8,11 +8,11 @@
 
 <AnchorPane prefHeight="215.0" prefWidth="312.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.OrderController">
    <children>
-      <Button id="btnBackToOrder" fx:id="btnBackToOrder" layoutX="102.0" layoutY="176.0" mnemonicParsing="false" onAction="#backToOrder" text="Back to Order" />
-      <Label layoutX="75.0" layoutY="36.0" text="Order - failed" textFill="#0022ff">
+      <Button id="btnTryAgainOrder" fx:id="btnTryAgainOrder" layoutX="125.0" layoutY="178.0" mnemonicParsing="false" onAction="#backToOrder" text="Try again" />
+      <Label layoutX="75.0" layoutY="36.0" text="      Error" textFill="#0022ff">
          <font>
             <Font name="Bodoni MT" size="29.0" />
          </font></Label>
-      <TextArea editable="false" layoutX="16.0" layoutY="78.0" prefHeight="78.0" prefWidth="276.0" text="InValid time.&#10;Requested time have to be later&#10;than current time." />
+      <TextArea editable="false" layoutX="23.0" layoutY="84.0" prefHeight="72.0" prefWidth="277.0" text="InVald field.&#10;You have to fill all the fields to complete&#10;the procces (price  have to be positive). " />
    </children>
 </AnchorPane>

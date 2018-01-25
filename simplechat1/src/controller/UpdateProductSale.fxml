@@ -41,7 +41,7 @@
             </Label>
             <TextField id="txtPPrice" fx:id="txtPPrice" layoutX="217.0" layoutY="278.0" prefHeight="25.0" prefWidth="149.0" />
             <Button id="btnRemoveSale" fx:id="btnRemoveSale" layoutX="180.0" layoutY="347.0" mnemonicParsing="false" onAction="#removeProductInSale" text="Remove Sale" />
-            <TextField id="txtSType" fx:id="txtSType" layoutX="217.0" layoutY="226.0" />
+            <TextField id="txtSType" fx:id="txtSType" editable="false" layoutX="217.0" layoutY="226.0" />
          </children>
       </AnchorPane>
    </children>

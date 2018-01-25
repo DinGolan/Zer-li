@@ -31,9 +31,6 @@ public class StoreManagerController implements Initializable {
     private Button btnViewReport;         /* Button For View Report */
 
     @FXML
-    private Button btnUpdateCatalog;      /* Button For Update Catalog */
-
-    @FXML
     private Button btnStoreManagerOpenNewAccount;  /* Button For Open New Account */
 
 /* ----------------------------------- Open For Us The GUI Of the Store Manager -------------------------------------- */
@@ -71,12 +68,6 @@ public class StoreManagerController implements Initializable {
 		primaryStage.show();
 	}
 	
-/* ----------------------------------- Open For Us The GUI Of the Store Manager - Update Catalog And Make Sales -------------------------------------- */	
-	
-	public void updateCatalogAndSalesBtn(ActionEvent event) throws Exception //To open the update catalog and sales option
-	{
-	
-	}
 	
 /* ----------------------------------- Open For Us The GUI Of the Store Manager - Open New Account -------------------------------------- */
 	
