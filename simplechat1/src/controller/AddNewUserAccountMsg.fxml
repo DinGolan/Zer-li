@@ -1,23 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="215.0" prefWidth="354.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AccountController">
+<AnchorPane prefHeight="215.0" prefWidth="354.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AccountController">
    <children>
       <Button id="btnAccountClose" fx:id="btnAccountClose" layoutX="240.0" layoutY="168.0" mnemonicParsing="false" onAction="#closeAccountFormWindow" prefHeight="25.0" prefWidth="52.0" text="Close" />
       <Label layoutX="4.0" layoutY="32.0" text="Add new account - successed" textFill="#0022ff">
          <font>
             <Font name="Bodoni MT" size="29.0" />
          </font></Label>
-      <TextArea layoutX="27.0" layoutY="76.0" prefHeight="80.0" prefWidth="289.0" text="The new user account add successfully." />
+      <TextArea layoutX="27.0" layoutY="76.0" prefHeight="80.0" prefWidth="297.0" text="The new user account add successfully." />
       <Button id="btnAccountAddOther" fx:id="btnAccountAddOther" layoutX="63.0" layoutY="168.0" mnemonicParsing="false" onAction="#addNewOtherAccount" text="Add other account" />
    </children>
 </AnchorPane>

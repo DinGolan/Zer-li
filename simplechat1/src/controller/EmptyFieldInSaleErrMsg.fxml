@@ -6,13 +6,13 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="215.0" prefWidth="312.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProductInSaleController">
+<AnchorPane prefHeight="250.0" prefWidth="312.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProductInSaleController">
    <children>
-      <Button id="btnTryAgainAddSale" fx:id="btnTryAgainAddSale" layoutX="125.0" layoutY="178.0" mnemonicParsing="false" onAction="#tryAddSaleAgain" text="Try again" />
+      <Button id="btnTryAgainAddSale" fx:id="btnTryAgainAddSale" layoutX="124.0" layoutY="199.0" mnemonicParsing="false" onAction="#tryAddSaleAgain" text="Try again" />
       <Label layoutX="122.0" layoutY="18.0" text="Error" textFill="#0022ff">
          <font>
             <Font name="Bodoni MT" size="29.0" />
          </font></Label>
-      <TextArea editable="false" layoutX="10.0" layoutY="58.0" prefHeight="99.0" prefWidth="294.0" text="You have to fill the price field.&#10;The price you enter can NOT&#10;be more than the original price&#10;and have to be positive." />
+      <TextArea editable="false" layoutX="10.0" layoutY="58.0" prefHeight="125.0" prefWidth="294.0" text="You have to fill the price field.&#10;The price you enter can NOT&#10;be more than the original price&#10;and have to be positive." />
    </children>
 </AnchorPane>

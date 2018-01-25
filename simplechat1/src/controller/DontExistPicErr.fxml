@@ -13,6 +13,6 @@
          <font>
             <Font name="Bodoni MT" size="29.0" />
          </font></Label>
-      <TextArea editable="false" layoutX="16.0" layoutY="95.0" prefHeight="61.0" prefWidth="286.0" text="The picture you tried to upload&#10;does NOT exist." />
+      <TextArea editable="false" layoutX="16.0" layoutY="80.0" prefHeight="76.0" prefWidth="286.0" text="The picture you tried to upload&#10;does NOT exist." />
    </children>
 </AnchorPane>

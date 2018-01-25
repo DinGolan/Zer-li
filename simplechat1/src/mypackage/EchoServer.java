@@ -512,7 +512,7 @@ public class EchoServer extends AbstractServer
 	  try 
 	  {	
 		  stmt = conn.createStatement();
-		  String getAccount_Of_Customer_Account_Table = "SELECT * FROM" + Scheme_Name + ".account WHERE AccountUserId = " + "'" + Customer_User_ID + "'" + ";"; 
+		  String getAccount_Of_Customer_Account_Table = "SELECT * FROM " + Scheme_Name + ".account WHERE AccountUserId = " + "'" + Customer_User_ID + "'" + ";"; 
 		  ResultSet rs = stmt.executeQuery(getAccount_Of_Customer_Account_Table);
 		  while(rs.next())
 	 	  {
@@ -2042,7 +2042,7 @@ public class EchoServer extends AbstractServer
 			try {
 			stmt = conn.createStatement();
 
-			String updateProductName = "UPDATE product SET ProductName =" + "'" + temp.get(1) +"'" + "WHERE ProductID=" +"'" +temp.get(0) + "'" +";";
+			String updateProductName = "UPDATE " + EchoServerController.Scheme + ".product SET ProductName =" + "'" + temp.get(1) +"'" + "WHERE ProductID=" +"'" +temp.get(0) + "'" +";";
 			stmt.executeUpdate(updateProductName);
 			} catch (SQLException e) {	e.printStackTrace();}	  
   }
@@ -2130,7 +2130,7 @@ public class EchoServer extends AbstractServer
   		//String AddSurvey = "insert into project.survey VALUES(1," + "1" + "," + "'" + temp.get(1) + "'" + "," + "'" + temp.get(2) + "'" + "," + "'" + temp.get(3) + "'" + "," + "'" + temp.get(4) + "'" + "," + "'" + temp.get(5) + "'" + "," + "'" + temp.get(6) + "'" + ";";
   		//String AddSurvey = "INSERT INTO project.survey ('Surveyid', 'Question1', 'Question2', 'Question3', 'Question4', 'Question5', 'Question6') VALUES ( " +"''" + "," + "'" + temp.get(1) + "'" + "," + "'" + temp.get(2) + "'" + "," + "'" + temp.get(3) + "'" + "," + "'" + temp.get(4) + "'" + "," + "'" + temp.get(5) + "'" + "," + "'" + temp.get(6) + "'" + ";";
   	// the mysql insert statement
-        String query = "INSERT INTO project.survey (Surveyid, SurveyStartDate, SurveyEndDate , StoreId)"
+        String query = "INSERT INTO " + EchoServerController.Scheme + ".survey (Surveyid, SurveyStartDate, SurveyEndDate , StoreId)"
           + " VALUES (?, ?, ?, ?)";
 
         PreparedStatement preparedStmt = (PreparedStatement) conn.prepareStatement(query);
@@ -2156,7 +2156,7 @@ protected boolean checkStoreHasSurvey(Object msg, Connection conn,java.util.Date
   	  String s;
 	  		Statement stmt;
 			  stmt = conn.createStatement();
-	 String getSurveyIdTable = "SELECT SurveyEndDate FROM project.survey WHERE StoreId = " + temp.get(0)+ ";";
+	 String getSurveyIdTable = "SELECT SurveyEndDate FROM " + EchoServerController.Scheme + ".survey WHERE StoreId = " + temp.get(0)+ ";";
 			 ResultSet rs = stmt.executeQuery(getSurveyIdTable);
 			 while(rs.next())
 			 {
@@ -2178,7 +2178,7 @@ protected boolean checkStoreHasSurvey(Object msg, Connection conn,java.util.Date
  	 int id=0;
 	  		Statement stmt;
 			  stmt = conn.createStatement();
-	 String getSurveyIdTable = "SELECT Surveyid FROM project.survey;";
+	 String getSurveyIdTable = "SELECT Surveyid FROM " + EchoServerController.Scheme + ".survey;";
 			 ResultSet rs = stmt.executeQuery(getSurveyIdTable);
 			 while(rs.next())
 			 {
@@ -2204,7 +2204,7 @@ protected boolean checkStoreHasSurvey(Object msg, Connection conn,java.util.Date
 		   		}
 	     	  
 			stmt = conn.createStatement();
-		    String getSurveyIdTable = "UPDATE survey_result SET ExpertConclusion =" + "'" + temp.get(2)  + "'" + "WHERE Surveyid=" +"'" +temp.get(0) + "'" +"AND customerId =" +"'" +temp.get(1) + "'" + ";";;
+		    String getSurveyIdTable = "UPDATE " + EchoServerController.Scheme + ".survey_result SET ExpertConclusion =" + "'" + temp.get(2)  + "'" + "WHERE Surveyid=" +"'" +temp.get(0) + "'" +"AND customerId =" +"'" +temp.get(1) + "'" + ";";;
 			 stmt.executeUpdate(getSurveyIdTable);
 	 			ArrayList<Integer> a = new ArrayList<Integer>();
 	 			a.add(10);
@@ -2228,7 +2228,7 @@ protected boolean checkStoreHasSurvey(Object msg, Connection conn,java.util.Date
 	   		}
 			stmt = conn.createStatement();
 
-			 String getSurveyIdTable = "SELECT* FROM project.survey_result WHERE Surveyid = " + "'" +temp.get(0) + "'" +"AND customerId =" +"'" +temp.get(1) + "'" + ";";
+			 String getSurveyIdTable = "SELECT* FROM " + EchoServerController.Scheme + ".survey_result WHERE Surveyid = " + "'" +temp.get(0) + "'" +"AND customerId =" +"'" +temp.get(1) + "'" + ";";
 			 ResultSet rs = stmt.executeQuery(getSurveyIdTable);
 			 while(rs.next())
 			 {
@@ -2302,7 +2302,7 @@ protected Object addSurveyResult(Object msg, Connection conn) throws ParseExcept
 			 }
 
    			
- 	        String query = "INSERT INTO project.survey_result (Surveyid, ansQ1 ,ansQ2, ansQ3, ansQ4, ansQ5, ansQ6 ,storeId ,customerId ,Date)"
+ 	        String query = "INSERT INTO " + EchoServerController.Scheme + ".survey_result (Surveyid, ansQ1 ,ansQ2, ansQ3, ansQ4, ansQ5, ansQ6 ,storeId ,customerId ,Date)"
  	                + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
  	        try {
@@ -2332,7 +2332,7 @@ protected Object addSurveyResult(Object msg, Connection conn) throws ParseExcept
  	  boolean flag=false;
  	  Statement stmt;
 		  stmt = conn.createStatement();
-		  String getSurveyTable = "SELECT * FROM project.survey_result WHERE Surveyid="+ "'" +id+ "'" + "AND customerId =" + "'" + customerId + "'" + ";"; // get the survey that connected to new survey id of exist
+		  String getSurveyTable = "SELECT * FROM " + EchoServerController.Scheme + ".survey_result WHERE Surveyid="+ "'" +id+ "'" + "AND customerId =" + "'" + customerId + "'" + ";"; // get the survey that connected to new survey id of exist
 		  ResultSet rs = stmt.executeQuery(getSurveyTable);
 		  while(rs.next()) {//if he is exist
 			flag=true;
@@ -2347,7 +2347,7 @@ protected ResultSet getSurveyData(Connection conn,int id) throws SQLException {
  	 
  	 		  Statement stmt;
  			  stmt = conn.createStatement();
- 			  String getSurveyTable = "SELECT* FROM project.survey;";
+ 			  String getSurveyTable = "SELECT* FROM " + EchoServerController.Scheme + ".survey;";
  			  ResultSet rs = stmt.executeQuery(getSurveyTable);
  			  
  			  return rs;
@@ -2363,7 +2363,7 @@ protected ResultSet getSurveyData(Connection conn,int id) throws SQLException {
 	  		temp =(ArrayList<Integer>)(((Message)msg).getMsg());
 		 try {
 			  stmt = conn.createStatement();
-			  String getSurveyTable = "SELECT * FROM project.survey_result WHERE Surveyid="+temp.get(0)+";"; // get the survey that connected to new survey id of exist
+			  String getSurveyTable = "SELECT * FROM " + EchoServerController.Scheme + ".survey_result WHERE Surveyid="+temp.get(0)+";"; // get the survey that connected to new survey id of exist
 			  ResultSet rs = stmt.executeQuery(getSurveyTable);
 			  while(rs.next())  // get all the surveys
 		 	{
@@ -2380,25 +2380,25 @@ protected ResultSet getSurveyData(Connection conn,int id) throws SQLException {
 			  
 			  // update the survey to sum the answar
 			  int sum = temp.get(1)+oldId.get(1);
-			  String updateSurveyTable = "UPDATE survey_result SET sumQ1 =" + "'" + sum  + "'" + "WHERE Surveyid=" +"'" +temp.get(0) + "'" +";";
+			  String updateSurveyTable = "UPDATE " + EchoServerController.Scheme + ".survey_result SET sumQ1 =" + "'" + sum  + "'" + "WHERE Surveyid=" +"'" +temp.get(0) + "'" +";";
 			  stmt.executeUpdate(updateSurveyTable);
 			  sum =temp.get(2)+oldId.get(2);
-			   updateSurveyTable = "UPDATE survey_result SET sumQ2 =" + "'" +  sum + "'" + "WHERE Surveyid=" +"'" +temp.get(0) + "'" +";";
+			   updateSurveyTable = "UPDATE " + EchoServerController.Scheme + ".survey_result SET sumQ2 =" + "'" +  sum + "'" + "WHERE Surveyid=" +"'" +temp.get(0) + "'" +";";
 			  stmt.executeUpdate(updateSurveyTable);
 			  sum =temp.get(3)+oldId.get(3);
-			   updateSurveyTable = "UPDATE survey_result SET sumQ3 =" + "'" + sum  + "'" + "WHERE Surveyid=" +"'" +temp.get(0) + "'" +";";
+			   updateSurveyTable = "UPDATE " + EchoServerController.Scheme + ".survey_result SET sumQ3 =" + "'" + sum  + "'" + "WHERE Surveyid=" +"'" +temp.get(0) + "'" +";";
 			  stmt.executeUpdate(updateSurveyTable);
 			  sum =temp.get(4)+oldId.get(4);
-			   updateSurveyTable = "UPDATE survey_result SET sumQ4 =" + "'" + sum  + "'" + "WHERE Surveyid=" +"'" +temp.get(0) + "'" +";";
+			   updateSurveyTable = "UPDATE " + EchoServerController.Scheme + ".survey_result SET sumQ4 =" + "'" + sum  + "'" + "WHERE Surveyid=" +"'" +temp.get(0) + "'" +";";
 			  stmt.executeUpdate(updateSurveyTable);
 			  sum =temp.get(5)+oldId.get(5);
-			   updateSurveyTable = "UPDATE survey_result SET sumQ5 =" + "'" + sum  + "'" + "WHERE Surveyid=" +"'" +temp.get(0) + "'" +";";
+			   updateSurveyTable = "UPDATE " + EchoServerController.Scheme + ".survey_result SET sumQ5 =" + "'" + sum  + "'" + "WHERE Surveyid=" +"'" +temp.get(0) + "'" +";";
 			  stmt.executeUpdate(updateSurveyTable);
 			  sum =temp.get(6)+oldId.get(6);
-			   updateSurveyTable = "UPDATE survey_result SET sumQ6 =" + "'" + sum  + "'" + "WHERE Surveyid=" +"'" +temp.get(0) + "'" +";";
+			   updateSurveyTable = "UPDATE " + EchoServerController.Scheme + ".survey_result SET sumQ6 =" + "'" + sum  + "'" + "WHERE Surveyid=" +"'" +temp.get(0) + "'" +";";
 			  stmt.executeUpdate(updateSurveyTable);
 			  sum =oldId.get(7)+1;
-			   updateSurveyTable = "UPDATE survey_result SET numOfClients =" + "'" + sum  + "'" + "WHERE Surveyid=" +"'" +temp.get(0) + "'" +";";
+			   updateSurveyTable = "UPDATE " + EchoServerController.Scheme + ".survey_result SET numOfClients =" + "'" + sum  + "'" + "WHERE Surveyid=" +"'" +temp.get(0) + "'" +";";
 				  stmt.executeUpdate(updateSurveyTable);
 
 		  } 
@@ -2412,7 +2412,7 @@ protected ResultSet getSurveyData(Connection conn,int id) throws SQLException {
  	 ArrayList<Integer> i = new ArrayList<Integer>();
 	  		Statement stmt;
 			  stmt = conn.createStatement();
- 	 String getSurveyIdTable = "SELECT Surveyid FROM project.survey_result;";
+ 	 String getSurveyIdTable = "SELECT Surveyid FROM " + EchoServerController.Scheme + ".survey_result;";
  			 ResultSet rs = stmt.executeQuery(getSurveyIdTable);
  			 while(rs.next())
  			 {
@@ -2432,7 +2432,7 @@ protected ResultSet getSurveyData(Connection conn,int id) throws SQLException {
 		 stmt = conn.createStatement();
  	 //String getSCustomerId = "SELECT* FROM project.user;" ;
 
- 	 String getSCustomerId = "SELECT UserId FROM project.user WHERE UserPermission = " + "'" + Customer + "'" +  ";" ;
+ 	 String getSCustomerId = "SELECT UserId FROM " + EchoServerController.Scheme + ".user WHERE UserPermission = " + "'" + Customer + "'" +  ";" ;
  			 ResultSet rs = stmt.executeQuery(getSCustomerId);
  			 while(rs.next())
  			 {
@@ -2452,7 +2452,7 @@ protected ResultSet getSurveyData(Connection conn,int id) throws SQLException {
    	  Product pr;
    	  try {
    		  stmt = conn.createStatement();
-   		  String getProductsTable = "SELECT * FROM product;"; /* Get all the Table from the DB */
+   		  String getProductsTable = "SELECT * FROM " + EchoServerController.Scheme + ".product;"; /* Get all the Table from the DB */
    		  ResultSet rs = stmt.executeQuery(getProductsTable);
    		  while(rs.next())
    	 	{
@@ -2482,7 +2482,7 @@ protected ResultSet getSurveyData(Connection conn,int id) throws SQLException {
 	  Product pr;
 	  try {
 		  stmt = conn.createStatement();
-		  String getProductsTable = "SELECT * FROM project.productinorder WHERE OrderID="+orderId+";"; //get all the products for this order
+		  String getProductsTable = "SELECT * FROM " + EchoServerController.Scheme + ".productinorder WHERE OrderID="+orderId+";"; //get all the products for this order
 		  ResultSet rs = stmt.executeQuery(getProductsTable);
 		  while(rs.next())
 		  {
@@ -2504,7 +2504,7 @@ protected ResultSet getSurveyData(Connection conn,int id) throws SQLException {
 	  Statement stmt;
 	  try {
 		  stmt = conn.createStatement();
-		  String getProductsTable = "SELECT * FROM project.account WHERE AccountStoreId="+storeNumber+" AND AccountPaymentArrangement='FULLPRICE';"; //get all the products for this order
+		  String getProductsTable = "SELECT * FROM " + EchoServerController.Scheme + ".account WHERE AccountStoreId="+storeNumber+" AND AccountPaymentArrangement='FULLPRICE';"; //get all the products for this order
 		  ResultSet rs = stmt.executeQuery(getProductsTable);
 		  System.out.println(getProductsTable);
 		  while(rs.next())
@@ -2526,7 +2526,7 @@ protected ResultSet getSurveyData(Connection conn,int id) throws SQLException {
 	  Product pr;
 	  try {
 		  stmt = conn.createStatement();
-		  String getProductsTable = "SELECT * FROM productinsale WHERE StoreID = "+storeId+";"; /* Get all the Table from the DB */
+		  String getProductsTable = "SELECT * FROM " + EchoServerController.Scheme + ".productinsale WHERE StoreID = "+storeId+";"; /* Get all the Table from the DB */
 		  ResultSet rs = stmt.executeQuery(getProductsTable);
 		  while(rs.next())
 	 	{
@@ -2549,7 +2549,7 @@ protected ResultSet getSurveyData(Connection conn,int id) throws SQLException {
 	  Product pr;
 	  try {
 		  stmt = conn.createStatement();
-		  String getProductsTable = "SELECT * FROM project.productinsale;"; /* Get all the Table from the DB */
+		  String getProductsTable = "SELECT * FROM " + EchoServerController.Scheme + ".productinsale;"; /* Get all the Table from the DB */
 		  ResultSet rs = stmt.executeQuery(getProductsTable);
 		  while(rs.next())
 	 	{
@@ -2786,7 +2786,7 @@ protected ResultSet getSurveyData(Connection conn,int id) throws SQLException {
 		try {
 
 			stmt = conn.createStatement();     
-			String getComplaintIdTable = "SELECT * FROM project.product;";
+			String getComplaintIdTable = "SELECT * FROM " + EchoServerController.Scheme + ".product;";
 			ResultSet rs1 = stmt.executeQuery(getComplaintIdTable);
 			while(rs1.next())
 			  {
@@ -2864,12 +2864,12 @@ protected ResultSet getSurveyData(Connection conn,int id) throws SQLException {
 
 	  try {
 		  	stmt = conn.createStatement();
-		  	String getCustomerExist = "SELECT * FROM project.user WHERE UserId='"+requestedCustomerId+"'AND UserPermission='CUSTOMER';"; // get if the customer is already at DB
+		  	String getCustomerExist = "SELECT * FROM " + EchoServerController.Scheme + ".user WHERE UserId='"+requestedCustomerId+"'AND UserPermission='CUSTOMER';"; // get if the customer is already at DB
 		  	ResultSet rs1 = stmt.executeQuery(getCustomerExist);
 		  	if(rs1.isBeforeFirst()) //we have customer at DB
 		  	{
 		  		stmt = conn.createStatement();
-		  		String getOrders = "SELECT * FROM project.order WHERE customerID='"+requestedCustomerId+"' AND orderStatus!='CANCEL';"; //get all the orders numbers that connected to this customer and he didn't cancel them
+		  		String getOrders = "SELECT * FROM " + EchoServerController.Scheme + ".order WHERE customerID='"+requestedCustomerId+"' AND orderStatus!='CANCEL';"; //get all the orders numbers that connected to this customer and he didn't cancel them
 		  		ResultSet rs2 = stmt.executeQuery(getOrders);
 		  		if(rs2.isBeforeFirst()) //we have orders to this customer at DB
 		  		{
@@ -2907,7 +2907,7 @@ protected ResultSet getSurveyData(Connection conn,int id) throws SQLException {
 
 	  try {
 		  	stmt = conn.createStatement();
-		  	String getComplaint = "SELECT * FROM project.complaint WHERE ComplaintNum="+requestedComplaintNum+";"; //get the complaint details
+		  	String getComplaint = "SELECT * FROM " + EchoServerController.Scheme + ".complaint WHERE ComplaintNum="+requestedComplaintNum+";"; //get the complaint details
 		  	ResultSet rs = stmt.executeQuery(getComplaint);
 		  	while(rs.next())
 		  	{
@@ -2950,20 +2950,20 @@ protected ResultSet getSurveyData(Connection conn,int id) throws SQLException {
 	  Statement stmt;
 	  try {
 			stmt = conn.createStatement();
-			String updateComplaint = "UPDATE project.complaint SET ComplaintStatus ='" + co.getComplaintStat() +"', ComplaintCompansation="+co.getComplaintCompansation()+", ComplaintCompanyServiceWorkerAnswer='"+ co.getComplaintCompanyServiceWorkerAnswer()+ "' WHERE ComplaintNum=" +co.getComplaintNum() + ";";
+			String updateComplaint = "UPDATE " + EchoServerController.Scheme + ".complaint SET ComplaintStatus ='" + co.getComplaintStat() +"', ComplaintCompansation="+co.getComplaintCompansation()+", ComplaintCompanyServiceWorkerAnswer='"+ co.getComplaintCompanyServiceWorkerAnswer()+ "' WHERE ComplaintNum=" +co.getComplaintNum() + ";";
 			stmt.executeUpdate(updateComplaint); //update the complaint at DB
 			if(co.getComplaintStat().equals(Complaint.ComplaintStatus.CLOSE)) //if we finish to handle the complaint
 			{
 				int OrderNum=co.getComplaintOrderId();
 				stmt = conn.createStatement(); //get the store number
-				String getStoreNum = "SELECT * FROM project.order WHERE orderID="+OrderNum+";";//get the store number for the account that his user complaint about specific order
+				String getStoreNum = "SELECT * FROM " + EchoServerController.Scheme + ".order WHERE orderID="+OrderNum+";";//get the store number for the account that his user complaint about specific order
 				ResultSet rs = stmt.executeQuery(getStoreNum);
 			  	while(rs.next())
 			  	{
 			  		storeNumber=rs.getInt("StoreID");
 			  	}
 				stmt = conn.createStatement(); //update the account compensation
-				String updateAccountBalance = "UPDATE project.account SET AccountBalanceCard = AccountBalanceCard + " +co.getComplaintCompansation() +"WHERE AccountUserId='" +co.getComplaintUserId() + "' AND AccountStoreId="+storeNumber+";";
+				String updateAccountBalance = "UPDATE " + EchoServerController.Scheme + ".account SET AccountBalanceCard = AccountBalanceCard + " +co.getComplaintCompansation() +"WHERE AccountUserId='" +co.getComplaintUserId() + "' AND AccountStoreId="+storeNumber+";";
 				stmt.executeUpdate(updateAccountBalance);
 			}
 		} catch (SQLException e) {	e.printStackTrace();}	  
@@ -2980,12 +2980,12 @@ protected ResultSet getSurveyData(Connection conn,int id) throws SQLException {
 	  Statement stmt;
 	  try {
 			stmt = conn.createStatement();
-			String updateOrder = "UPDATE project.order SET orderStatus ='" + o.getoStatus() +"', orderRefund="+o.getRefund()+" WHERE orderID=" +o.getOrderID() + ";";
+			String updateOrder = "UPDATE " + EchoServerController.Scheme + ".order SET orderStatus ='" + o.getoStatus() +"', orderRefund="+o.getRefund()+" WHERE orderID=" +o.getOrderID() + ";";
 			stmt.executeUpdate(updateOrder); //update the order at DB
 			if(o.getRefund()>0) //if he get a refund
 			{
 				stmt = conn.createStatement(); //update the account compensation
-				String updateAccountBalance = "UPDATE project.account SET AccountBalanceCard = AccountBalanceCard + " +o.getRefund() +"WHERE AccountUserId='" +o.getCustomerID() + "' AND AccountStoreId="+o.getStoreID()+";";
+				String updateAccountBalance = "UPDATE " + EchoServerController.Scheme + ".account SET AccountBalanceCard = AccountBalanceCard + " +o.getRefund() +"WHERE AccountUserId='" +o.getCustomerID() + "' AND AccountStoreId="+o.getStoreID()+";";
 				stmt.executeUpdate(updateAccountBalance);
 			}
 		} catch (SQLException e) {	e.printStackTrace();}	  
@@ -3009,7 +3009,7 @@ protected ResultSet getSurveyData(Connection conn,int id) throws SQLException {
 	  LocalDate today = LocalDate.now(); //get the current date
 	  try {
 		  stmt = conn.createStatement();
-		  String getComplaints = "SELECT * FROM project.complaint WHERE ComplaintStatus!='CLOSE';"; //get all the unclosed complaints numbers
+		  String getComplaints = "SELECT * FROM " + EchoServerController.Scheme + ".complaint WHERE ComplaintStatus!='CLOSE';"; //get all the unclosed complaints numbers
 		  ResultSet rs = stmt.executeQuery(getComplaints);
 		  if(rs.isBeforeFirst()) //we have unclosed complaints at DB
 		  {
@@ -3049,7 +3049,7 @@ protected ResultSet getSurveyData(Connection conn,int id) throws SQLException {
 			  Double totalPrice;
 			  int storeNumber = 0;
 			  stmt = conn.createStatement(); //take for every complaint the total price for the order he complain
-			  String getTotalPrice = "SELECT * FROM project.order WHERE orderID="+complaints.get(i).getComplaintOrderId()+";"; //get the connected order to this complaint
+			  String getTotalPrice = "SELECT * FROM " + EchoServerController.Scheme + ".order WHERE orderID="+complaints.get(i).getComplaintOrderId()+";"; //get the connected order to this complaint
 			  ResultSet rs1 = stmt.executeQuery(getTotalPrice);
 			  if(rs1.isBeforeFirst()) //we have connected order at DB
 			  {
@@ -3063,11 +3063,11 @@ protected ResultSet getSurveyData(Connection conn,int id) throws SQLException {
 				  }					  
 			  }
 			  stmt = conn.createStatement();
-			  String updateComplaint = "UPDATE project.complaint SET ComplaintStatus ='" + complaints.get(i).getComplaintStat() +"', ComplaintCompansation="+complaints.get(i).getComplaintCompansation()+", ComplaintCompanyServiceWorkerAnswer='"+ complaints.get(i).getComplaintCompanyServiceWorkerAnswer()+ "' WHERE ComplaintNum=" +complaints.get(i).getComplaintNum() + ";";
+			  String updateComplaint = "UPDATE " + EchoServerController.Scheme + ".complaint SET ComplaintStatus ='" + complaints.get(i).getComplaintStat() +"', ComplaintCompansation="+complaints.get(i).getComplaintCompansation()+", ComplaintCompanyServiceWorkerAnswer='"+ complaints.get(i).getComplaintCompanyServiceWorkerAnswer()+ "' WHERE ComplaintNum=" +complaints.get(i).getComplaintNum() + ";";
 			  stmt.executeUpdate(updateComplaint); //update the complaint at DB
 			  
 			  stmt = conn.createStatement(); //update the account compensation
-			  String updateAccountBalance = "UPDATE project.account SET AccountBalanceCard = AccountBalanceCard + " +complaints.get(i).getComplaintCompansation() +"WHERE AccountUserId='" +complaints.get(i).getComplaintUserId() + "' AND AccountStoreId="+storeNumber+";";
+			  String updateAccountBalance = "UPDATE " + EchoServerController.Scheme + ".account SET AccountBalanceCard = AccountBalanceCard + " +complaints.get(i).getComplaintCompansation() +"WHERE AccountUserId='" +complaints.get(i).getComplaintUserId() + "' AND AccountStoreId="+storeNumber+";";
 			  stmt.executeUpdate(updateAccountBalance);  			
 		  }
 	 } catch (SQLException e) {	e.printStackTrace();}			  
@@ -3088,7 +3088,7 @@ protected ResultSet getSurveyData(Connection conn,int id) throws SQLException {
 
 	  try {
 		  stmt = conn.createStatement();
-		  String getComplaints = "SELECT * FROM project.complaint WHERE ComplaintServiceWorkerUserName='"+requestedCustomerServiceWorkerName+"' AND ComplaintStatus!='CLOSE';"; //get all the unclosed complaints numbers that connected to this customer service worker
+		  String getComplaints = "SELECT * FROM " + EchoServerController.Scheme + ".complaint WHERE ComplaintServiceWorkerUserName='"+requestedCustomerServiceWorkerName+"' AND ComplaintStatus!='CLOSE';"; //get all the unclosed complaints numbers that connected to this customer service worker
 		  ResultSet rs = stmt.executeQuery(getComplaints);
 		  if(rs.isBeforeFirst()) //we have complaints to this customer at DB
 		  {
@@ -3117,7 +3117,7 @@ protected ResultSet getSurveyData(Connection conn,int id) throws SQLException {
 	  Integer storeNum = 0;
 	  try {
 		  stmt = conn.createStatement();
-		  String getUserStoreNum = "SELECT * FROM project.storeworkers WHERE StoreEmployeeUserId = " + "'" +  userName + "'" + ";" ; /* Get all the Table from the DB */
+		  String getUserStoreNum = "SELECT * FROM " + EchoServerController.Scheme + ".storeworkers WHERE StoreEmployeeUserId = " + "'" +  userName + "'" + ";" ; /* Get all the Table from the DB */
 		  ResultSet rs = stmt.executeQuery(getUserStoreNum);
 		  while(rs.next())
 			  storeNum=rs.getInt("StoreID");
@@ -3139,12 +3139,12 @@ protected ResultSet getSurveyData(Connection conn,int id) throws SQLException {
 	  Statement stmt;	  
 	  try {
 		  stmt = conn.createStatement(); //this statement check if we didn't have this userID for a customer
-		  String getCustomerExist = "SELECT * FROM project.user WHERE UserId='"+newAccount.getAccountUserId()+"' AND UserPermission='CUSTOMER';"; //check if its correct user name
+		  String getCustomerExist = "SELECT * FROM " + EchoServerController.Scheme + ".user WHERE UserId='"+newAccount.getAccountUserId()+"' AND UserPermission='CUSTOMER';"; //check if its correct user name
 		  ResultSet rs = stmt.executeQuery(getCustomerExist);
 		  if(rs.isBeforeFirst()) //this statement enter new account to the DB  
 		  {
 			  stmt = conn.createStatement(); //this statement check if we didn't have account with this userID
-			  String getAccountToID = "SELECT * FROM project.account WHERE AccountUserId='"+newAccount.getAccountUserId()+"' AND AccountStoreId="+newAccount.getAccountStoreNum()+";"; // get the account that connected to new account id of exist
+			  String getAccountToID = "SELECT * FROM " + EchoServerController.Scheme + ".account WHERE AccountUserId='"+newAccount.getAccountUserId()+"' AND AccountStoreId="+newAccount.getAccountStoreNum()+";"; // get the account that connected to new account id of exist
 			  ResultSet rs1 = stmt.executeQuery(getAccountToID);
 			  if(!rs1.isBeforeFirst()) //this statement enter new account to the DB  
 			  {
@@ -3152,12 +3152,12 @@ protected ResultSet getSurveyData(Connection conn,int id) throws SQLException {
 				  String InsertAccountToID=null;
 				  if(newAccount.getAccountSubscriptionEndDate()!=null)
 				  {
-					  InsertAccountToID = "INSERT INTO project.account(AccountUserId, AccountStoreId, AccountBalanceCard, AccountPaymentArrangement,AccountCreditCardNum,AccountSubscriptionEndDate)" + 
+					  InsertAccountToID = "INSERT INTO " + EchoServerController.Scheme + ".account(AccountUserId, AccountStoreId, AccountBalanceCard, AccountPaymentArrangement,AccountCreditCardNum,AccountSubscriptionEndDate)" + 
 							  "VALUES('"+newAccount.getAccountUserId()+"',"+newAccount.getAccountStoreNum()+","+newAccount.getAccountBalanceCard()+ ",'"+newAccount.getAccountPaymentArrangement()+"','"+newAccount.getAccountCreditCardNum()+"','"+newAccount.getAccountSubscriptionEndDate()+"');";
 				  }
 				  else
 				  {
-					  InsertAccountToID = "INSERT INTO project.account(AccountUserId, AccountStoreId, AccountBalanceCard, AccountPaymentArrangement,AccountCreditCardNum,AccountSubscriptionEndDate)" + 
+					  InsertAccountToID = "INSERT INTO " + EchoServerController.Scheme + ".account(AccountUserId, AccountStoreId, AccountBalanceCard, AccountPaymentArrangement,AccountCreditCardNum,AccountSubscriptionEndDate)" + 
 							  "VALUES('"+newAccount.getAccountUserId()+"',"+newAccount.getAccountStoreNum()+","+newAccount.getAccountBalanceCard()+ ",'"+newAccount.getAccountPaymentArrangement()+"','"+newAccount.getAccountCreditCardNum()+"',"+newAccount.getAccountSubscriptionEndDate()+");";
 				  }
 				  stmt.executeUpdate(InsertAccountToID);	 
@@ -3187,7 +3187,7 @@ protected ResultSet getSurveyData(Connection conn,int id) throws SQLException {
 	  Statement stmt;	  
 	  try {
 		  stmt = conn.createStatement();  //this statement check check the next number for this complaint in the DB
-		  String getComplaintIdTable = "SELECT * FROM project.complaint;";
+		  String getComplaintIdTable = "SELECT * FROM " + EchoServerController.Scheme + ".complaint;";
 		  ResultSet rs1 = stmt.executeQuery(getComplaintIdTable);
 		  while(rs1.next())
 		  {
@@ -3197,7 +3197,7 @@ protected ResultSet getSurveyData(Connection conn,int id) throws SQLException {
 		  complaintId=complaintId+1;
 		  newComplaint.setComplaintNum(complaintId);
 		  stmt = conn.createStatement(); //this statement check if we didn't have this complaint in the DB
-		  String getComplaintexist = "SELECT * FROM project.complaint WHERE ComplaintNum="+newComplaint.getComplaintNum()+";"; // get the complaint that already at DB
+		  String getComplaintexist = "SELECT * FROM " + EchoServerController.Scheme + ".complaint WHERE ComplaintNum="+newComplaint.getComplaintNum()+";"; // get the complaint that already at DB
 		  ResultSet rs = stmt.executeQuery(getComplaintexist);
 		  if(!rs.isBeforeFirst()) //this statement try to enter new complaint to the DB  
 		  {
@@ -3208,7 +3208,7 @@ protected ResultSet getSurveyData(Connection conn,int id) throws SQLException {
 			  Calendar cal = Calendar.getInstance();
 		      String month = monthName[cal.get(Calendar.MONTH)];
 			  stmt = conn.createStatement(); 
-			  String InsertComplaint = "INSERT INTO project.complaint(ComplaintNum, ComplaintUserId, ComplaintStatus, ComplaintDate, ComplaintTime, ComplaintDetails, ComplaintOrderId, ComplaintServiceWorkerUserName,complaintMonth)" + 
+			  String InsertComplaint = "INSERT INTO " + EchoServerController.Scheme + ".complaint(ComplaintNum, ComplaintUserId, ComplaintStatus, ComplaintDate, ComplaintTime, ComplaintDetails, ComplaintOrderId, ComplaintServiceWorkerUserName,complaintMonth)" + 
 					"VALUES("+newComplaint.getComplaintNum()+",'"+newComplaint.getComplaintUserId()+"','"+newComplaint.getComplaintStat()+"','"+newComplaint.getComplaintDate()+"','"+newComplaint.getComplaintTime()+"','"+newComplaint.getComplaintDetails()+"',"+newComplaint.getComplaintOrderId()+",'"+newComplaint.getComplaintServiceWorkerUserName()+"','"+month+"');";
 			  stmt.executeUpdate(InsertComplaint);	
 			  success="good";				    
@@ -3293,7 +3293,7 @@ protected ResultSet getSurveyData(Connection conn,int id) throws SQLException {
 	  Statement stmt;
 	  try {
 		  stmt = conn.createStatement();
-		  String getSurveyTable = "SELECT * FROM survey;"; /* Get all the Table from the DB */
+		  String getSurveyTable = "SELECT * FROM " + EchoServerController.Scheme + ".survey;"; /* Get all the Table from the DB */
 		  ResultSet rs = stmt.executeQuery(getSurveyTable);
 		  while(rs.next())
 	 	{
@@ -3313,7 +3313,7 @@ protected ResultSet getSurveyData(Connection conn,int id) throws SQLException {
 	  Account.PaymentArrangement arrangement = null;
 	  try {
 			  stmt = conn.createStatement(); 
-			  String getComplaintIdTable = "SELECT * FROM project.order;";
+			  String getComplaintIdTable = "SELECT * FROM " + EchoServerController.Scheme + ".order;";
 			  ResultSet rs1 = stmt.executeQuery(getComplaintIdTable);
 			  while(rs1.next())
 			  {
@@ -3358,7 +3358,7 @@ protected ResultSet getSurveyData(Connection conn,int id) throws SQLException {
 	  Store pr;
 	  try {
 		  stmt = conn.createStatement();
-		  String getProductsTable = "SELECT * FROM store;"; /* Get all the Table from the DB */
+		  String getProductsTable = "SELECT * FROM " + EchoServerController.Scheme + ".store;"; /* Get all the Table from the DB */
 		  ResultSet rs = stmt.executeQuery(getProductsTable);
 		  while(rs.next())
 	 	{
@@ -3381,7 +3381,7 @@ protected ResultSet getSurveyData(Connection conn,int id) throws SQLException {
 	  ArrayList<Object> user = (ArrayList<Object>)((Message)msg).getMsg();
 	  try {
 		  stmt = conn.createStatement();
-		  String getCustomerAccount = "SELECT * FROM project.account WHERE AccountUserId='"+user.get(0)+"' AND AccountStoreId="+user.get(1)+";";
+		  String getCustomerAccount = "SELECT * FROM " + EchoServerController.Scheme + ".account WHERE AccountUserId='"+user.get(0)+"' AND AccountStoreId="+user.get(1)+";";
 		  ResultSet rs = stmt.executeQuery(getCustomerAccount);
 		  while(rs.next())
 		 	{
@@ -3394,13 +3394,13 @@ protected ResultSet getSurveyData(Connection conn,int id) throws SQLException {
 			  {
 				  if(today.getYear()>date.getYear() ||  (today.getYear() == date.getYear() && today.getMonthValue()>date.getMonth()) || (today.getYear() == date.getYear() && today.getMonthValue() == date.getMonth() && today.getDayOfMonth() > date.getDate())) // check end date of PaymentArrangement
 				  {
-					  getCustomerAccount="UPDATE project.account SET AccountPaymentArrangement='FULLPRICE' WHERE AccountUserId='"+user.get(0)+"'AND AccountStoreId="+user.get(1)+";";
+					  getCustomerAccount="UPDATE " + EchoServerController.Scheme + ".account SET AccountPaymentArrangement='FULLPRICE' WHERE AccountUserId='"+user.get(0)+"'AND AccountStoreId="+user.get(1)+";";
 					  stmt.executeUpdate(getCustomerAccount);
-					  getCustomerAccount="UPDATE project.account SET AccountSubscriptionEndDate=null WHERE AccountUserId='"+user.get(0)+"'AND AccountStoreId="+user.get(1)+";";
+					  getCustomerAccount="UPDATE " + EchoServerController.Scheme + ".account SET AccountSubscriptionEndDate=null WHERE AccountUserId='"+user.get(0)+"'AND AccountStoreId="+user.get(1)+";";
 					  stmt.executeUpdate(getCustomerAccount);
 				  }
 			  }
-			  getCustomerAccount = "SELECT * FROM project.account WHERE AccountUserId='"+user.get(0)+"'AND AccountStoreId="+user.get(1)+"; " ;
+			  getCustomerAccount = "SELECT * FROM " + EchoServerController.Scheme + ".account WHERE AccountUserId='"+user.get(0)+"'AND AccountStoreId="+user.get(1)+"; " ;
 			  rs = stmt.executeQuery(getCustomerAccount);
 			  while(rs.next())
 			 	{

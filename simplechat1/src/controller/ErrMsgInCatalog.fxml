@@ -6,13 +6,13 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="215.0" prefWidth="312.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CatalogController">
+<AnchorPane prefHeight="255.0" prefWidth="340.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CatalogController">
    <children>
-      <Button id="btnTryAgain" fx:id="btnTryAgain" layoutX="125.0" layoutY="178.0" mnemonicParsing="false" onAction="#tryAgainMakeOrder" text="Try again" />
-      <Label layoutX="122.0" layoutY="37.0" text="Error" textFill="#0022ff">
+      <Button id="btnTryAgain" fx:id="btnTryAgain" layoutX="124.0" layoutY="201.0" mnemonicParsing="false" onAction="#tryAgainMakeOrder" text="Try again" />
+      <Label layoutX="136.0" layoutY="23.0" text="Error" textFill="#0022ff">
          <font>
             <Font name="Bodoni MT" size="29.0" />
          </font></Label>
-      <TextArea id="btnTryAgain" editable="false" layoutX="14.0" layoutY="88.0" prefHeight="68.0" prefWidth="282.0" text="You have to fill the ammount field, it must be &#10;positive NUMBER.&#10;You have to pick product number from the list." />
+      <TextArea id="btnTryAgain" editable="false" layoutX="13.0" layoutY="71.0" prefHeight="95.0" prefWidth="314.0" text="You have to fill the ammount field, it must be &#10;positive NUMBER.&#10;You have to pick product number from the list." />
    </children>
 </AnchorPane>
