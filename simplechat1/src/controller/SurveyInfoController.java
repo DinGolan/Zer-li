@@ -22,7 +22,11 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-
+/**
+ * show the info of the survey resuly for a customer
+ * @author itait
+ *
+ */
 public class SurveyInfoController implements Initializable{
 	//@FXML
 	//private TextArea txtA1; 
@@ -50,7 +54,10 @@ public class SurveyInfoController implements Initializable{
 	ActionEvent tempEvent;
 
 	
-	
+	/**
+	 * initelize the answer of a specific customer
+	 * initelize the txt1-tx6 of the answer that we get from the DB
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
@@ -79,7 +86,11 @@ public class SurveyInfoController implements Initializable{
 		
 	}
 	
-	
+	/**
+	 * close this window and open ExpertSurvey window
+	 * @param event
+	 * @throws IOException
+	 */
 	public void close(ActionEvent event)throws IOException  {
 		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
 		Stage primaryStage = new Stage();

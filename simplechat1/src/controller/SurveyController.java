@@ -27,7 +27,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-
+/**
+ * controller for add survey to the DB
+ * @author itait
+ *
+ */
 public class SurveyController implements Initializable {
 
 	@FXML
@@ -88,6 +92,15 @@ public class SurveyController implements Initializable {
 		return cmb.getSelectionModel().getSelectedIndex();
 	}
 	
+	/**
+	 * add survey to the datebase we send the store id and the end date we check if there is already
+	 * a survey to this store and if there is we put error msg and dont add this survey
+	 * and we check if the end date is less than today(the start date) we put error msg and dont add this survey
+	 * if all the field is correct (we dont have error) we add the survey to the database
+	 * 
+	 * @param event
+	 * @throws IOException
+	 */
 	public void addSurvey(ActionEvent event) throws IOException {
 		temp = new ArrayList<String>();
 		
@@ -166,7 +179,11 @@ public class SurveyController implements Initializable {
 		
 		
 	}
-	
+	/**
+	 * close this window and open CustomerServiceWorkerOptions window
+	 * @param event
+	 * @throws IOException
+	 */
 	public void Close(ActionEvent event) throws IOException {
 		flagError = false;
 		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
@@ -181,7 +198,11 @@ public class SurveyController implements Initializable {
 		primaryStage.show();		
 
 	}
-	
+	/**
+	 * close this error window and open the SurveyFrame window 
+	 * @param event
+	 * @throws IOException
+	 */
 	public void CloseError(ActionEvent event) throws IOException {
 		flagError = false;
 		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
@@ -196,7 +217,12 @@ public class SurveyController implements Initializable {
 		primaryStage.show();		
 
 	}
-
+	/**
+	 * initelize the combo box "cmb" the store id (num 1,2,3,4) 
+	 * if I in the error window I dont use initelize "flagError" responsibale for it
+	 * @param location
+	 * @param resources
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		if(flagError ==false)

@@ -15,7 +15,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-
+/**
+ * menu for the store worker to open a survey result window
+ * @author itait
+ *
+ */
 public class StoreWorkerButtonController {
 
 	@FXML

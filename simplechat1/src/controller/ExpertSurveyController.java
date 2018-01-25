@@ -20,7 +20,11 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-
+/**
+ * controller for add conclusion for each customer that fill a survey
+ * @author itait
+ *
+ */
 public class ExpertSurveyController implements Initializable {
 	@FXML
 	private TextArea txt1; 
@@ -49,6 +53,11 @@ public class ExpertSurveyController implements Initializable {
 	public static String customerId;
 	public static String errorMsg= null;
 
+	/**
+	 * initelize the combo box "cmbSurveyId" the survey id with all the survey id in the database
+	 * initelize the combo box "cmbcustomerId" the survey id with all the customer id in the database
+	 * if I in the error window I dont use initelize "flagError" responsibale for it
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
@@ -85,6 +94,12 @@ public class ExpertSurveyController implements Initializable {
 		}
 
 	}
+	
+	/**
+	 * get the index of the item in the wanted comboBox
+	 * @param cmb
+	 * @return
+	 */
 	public int getItemIndex(ComboBox cmb) /* With this Method we Take Product from the List of the Product at the ComboBox */
 	{
 		if(cmb.getSelectionModel().getSelectedIndex() ==-1)
@@ -93,6 +108,14 @@ public class ExpertSurveyController implements Initializable {
 		return cmb.getSelectionModel().getSelectedIndex();
 	}
 	
+	/**
+	 * add survey conclusion to the DB for each customer we send the user and customer id,
+	 * and we check if the conclusion is bigger than 0 if he is we put error msg and dont add this survey result,
+	 * and we also check if the customer already fill this survey if he is we put error msg and dont add this survey result,
+	 * if all the field is correct (we dont have error) we add the survey result to the database
+	 * @param event
+	 * @throws IOException
+	 */
 	public void addConclusion(ActionEvent event) throws IOException {
 		ArrayList<String> i = new ArrayList<String>();
 		i.add(Integer.toString(UserUI.Id.get(getItemIndex(cmbSurveyId))));//id
@@ -162,7 +185,11 @@ public class ExpertSurveyController implements Initializable {
 		
 
 	}
-	
+	/**
+	 * close this window and open the SurveyInfo window
+	 * @param event
+	 * @throws IOException
+	 */
 	public void openInfo(ActionEvent event)throws IOException  {
 
 		surveyId = Integer.toString(UserUI.Id.get(getItemIndex(cmbSurveyId)));
@@ -210,7 +237,11 @@ public class ExpertSurveyController implements Initializable {
 		primaryStage.show();	
 		}
 	}
-	
+	/**
+	 * check if there is error msg if there is open error msg if not open SurveyInfo window
+	 * @param event
+	 * @throws IOException
+	 */
 	public void check(ActionEvent event)throws IOException {
 		ExpertSurveyController.errorMsg = null;
 		ExpertSurveyController.flagError =true;
@@ -227,7 +258,12 @@ public class ExpertSurveyController implements Initializable {
 
 }
 	
-	
+	/**
+	 * close this window and open ExpertOptions window
+	 * @param event
+	 * @throws IOException
+	 */
+
 	public void close(ActionEvent event)throws IOException  {
 		flagError = false;
 		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
@@ -241,7 +277,11 @@ public class ExpertSurveyController implements Initializable {
 		primaryStage.setTitle("Expert Options");
 		primaryStage.show();	
 	}
-	
+	/**
+	 * close this error window and open the ExpertSurvey window 
+	 * @param event
+	 * @throws IOException
+	 */
 	public void CloseError(ActionEvent event) throws IOException {
 		flagError = false;
 		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */

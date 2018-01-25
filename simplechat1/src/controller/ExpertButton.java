@@ -13,7 +13,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-
+/**
+ * menu that open the survey conclusion screen 
+ * @author itait
+ *
+ */
 public class ExpertButton {
 	@FXML
 	private Button btnAttach = null; 
@@ -23,6 +27,11 @@ public class ExpertButton {
 	@FXML
 	private Button btnClose = null; /* button close for close product form */
 	
+	/**
+	 * close this windows and open ExpertSurvey window
+	 * @param event
+	 * @throws IOException
+	 */
 	public void AttachSurveyConclusion(ActionEvent event) throws IOException{
 		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
 		Stage primaryStage = new Stage();
@@ -36,7 +45,11 @@ public class ExpertButton {
 		primaryStage.setTitle("Expert Conclusion");
 		primaryStage.show();
 	}
-	
+	/**
+	 * logout this user and close this window and open UserLogin windows
+	 * @param event
+	 * @throws IOException
+	 */
 	public void Logout(ActionEvent event) throws IOException{
 		Message msg = new Message(UserUI.user.getId(), "change User status to DISCONNECTED");
 		UserUI.myClient.accept(msg); // change User status to DISCONNECTED in DB
