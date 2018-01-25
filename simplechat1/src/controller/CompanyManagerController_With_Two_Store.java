@@ -19,7 +19,10 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -108,10 +111,10 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 	/* -------------------------------- Store 1 + 2 ----------------------------------- */
 	
 	public void QuarterlyRevenueReport_Store(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Report' and Show the GUI of the Quarterly Revenue Report that we Choose */
-	{ 
+	{ 	
 		((Node)event.getSource()).getScene().getWindow().hide();    			  /* Hiding primary window */
-		Stage primaryStage = new Stage();
-		Stage primaryStage_2 = new Stage();
+		BorderPane border = new BorderPane(); 
+		HBox rootPane = new HBox();
 		
 		FXMLLoader loader = new FXMLLoader();
 		FXMLLoader loader_2 = new FXMLLoader();
@@ -124,14 +127,16 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 		QuarterlyRevenueReportController_For_CompanyManager_2 quarterlyRevenueReportController_2 = loader_2.getController();
 		quarterlyRevenueReportController_2.loadStore(CompanyManagerUI.stores_For_Company_Manager_2.get(getItemIndex_Second_Store())); 
 		
-		Scene scene = new Scene(root);
+		rootPane.getChildren().addAll(root,root_2); 
+		
+		border.setCenter(rootPane);
+		
+		Scene scene = new Scene(border);
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-		Scene scene_2 = new Scene(root_2);
-		scene_2.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-		primaryStage.setScene(scene);	
-		primaryStage_2.setScene(scene_2);
+		Stage primaryStage = new Stage();
+		primaryStage.setScene(scene);
+		primaryStage.setTitle("Comparing Between - Two Different Quarter ---> { The Left Is - Store One , The Right Is - Store Two }");
 		primaryStage.show();
-		primaryStage_2.show();
 	}
 	
 /* --------------------------------  The Report About Order ----------------------------------- */	
@@ -141,8 +146,8 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 	public void OrderReport_Store(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Report' and Show the GUI of the Order Report that we Choose */
 	{
 		((Node)event.getSource()).getScene().getWindow().hide();       /* Hiding primary window */
-		Stage primaryStage = new Stage();
-		Stage primaryStage_2 = new Stage();
+		BorderPane border = new BorderPane(); 
+		HBox rootPane = new HBox();
 		
 		FXMLLoader loader = new FXMLLoader();
 		FXMLLoader loader_2 = new FXMLLoader();
@@ -155,14 +160,16 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 		OrderReportController_For_ComapnyManager_2 orderReportController_2 = loader_2.getController();
 		orderReportController_2.loadStore(CompanyManagerUI.stores_For_Company_Manager_2.get(getItemIndex_Second_Store()));
 		
-		Scene scene = new Scene(root);
+		rootPane.getChildren().addAll(root,root_2); 
+		
+		border.setCenter(rootPane);
+		
+		Scene scene = new Scene(border);
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-		Scene scene_2 = new Scene(root_2);
-		scene_2.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-		primaryStage.setScene(scene);	
-		primaryStage_2.setScene(scene_2);
+		Stage primaryStage = new Stage();
+		primaryStage.setScene(scene);
+		primaryStage.setTitle("Comparing Between - Two Different Quarter ---> { The Left Is - Store One , The Right Is - Store Two }");
 		primaryStage.show();
-		primaryStage_2.show();
 	}
 		
 /* --------------------------------  The Report About Complaint ----------------------------------- */
@@ -172,8 +179,8 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 	public void CustomerComplaintStatusReport_Store(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Report' and Show the GUI of the Customer Complaint Status Report that we Choose */
 	{
 		((Node)event.getSource()).getScene().getWindow().hide();    					 /* Hiding primary window */
-		Stage primaryStage = new Stage();
-		Stage primaryStage_2 = new Stage();
+		BorderPane border = new BorderPane(); 
+		HBox rootPane = new HBox();
 		
 		FXMLLoader loader = new FXMLLoader();
 		FXMLLoader loader_2 = new FXMLLoader();
@@ -186,14 +193,16 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 		CustomerComplaintStatusReportController_For_CompanyManager_2 customerComplaintStatusReportController_2 = loader_2.getController();
 		customerComplaintStatusReportController_2.loadStore(CompanyManagerUI.stores_For_Company_Manager_2.get(getItemIndex_Second_Store()));
 		
-		Scene scene = new Scene(root);
+		rootPane.getChildren().addAll(root,root_2); 
+		
+		border.setCenter(rootPane);
+		
+		Scene scene = new Scene(border);
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-		Scene scene_2 = new Scene(root_2);
-		scene_2.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+		Stage primaryStage = new Stage();
 		primaryStage.setScene(scene);
-		primaryStage_2.setScene(scene_2);
-		primaryStage.show();
-		primaryStage_2.show();	
+		primaryStage.setTitle("Comparing Between - Two Different Quarter ---> { The Left Is - Store One , The Right Is - Store Two }");
+		primaryStage.show();	
 	}
 	
 /* --------------------------------  The Report About Satisfaction ----------------------------------- */
@@ -203,8 +212,8 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 	public void SatisfactionReport_Store(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Report' and Show the GUI of the Satisfaction Report that we Choose */
 	{
 		((Node)event.getSource()).getScene().getWindow().hide();    		  /* Hiding primary window */
-		Stage primaryStage = new Stage();
-		Stage primaryStage_2 = new Stage();
+		BorderPane border = new BorderPane(); 
+		HBox rootPane = new HBox();
 		
 		FXMLLoader loader = new FXMLLoader();
 		FXMLLoader loader_2 = new FXMLLoader();
@@ -217,14 +226,16 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 		SatisfactionReportController_For_CompanyManager_2 satisfactionReportController_2 = loader_2.getController();
 		satisfactionReportController_2.loadStore(CompanyManagerUI.stores_For_Company_Manager_2.get(getItemIndex_Second_Store()));
 		
-		Scene scene = new Scene(root);
+		rootPane.getChildren().addAll(root,root_2); 
+		
+		border.setCenter(rootPane);
+		
+		Scene scene = new Scene(border);
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-		Scene scene_2 = new Scene(root_2);
-		scene_2.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+		Stage primaryStage = new Stage();
 		primaryStage.setScene(scene);
-		primaryStage_2.setScene(scene_2);
+		primaryStage.setTitle("Comparing Between - Two Different Quarter ---> { The Left Is - Store One , The Right Is - Store Two }");
 		primaryStage.show();
-		primaryStage_2.show();
 	}	
 	
 /* -------------------------- Taking Store From The Combo Box of Store ------------------------------------ */	

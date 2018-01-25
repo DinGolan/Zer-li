@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="493.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.QuarterlyRevenueReportController_For_CompanyManager_2">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="493.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.QuarterlyRevenueReportController_For_CompanyManager_2">
    <children>
       <Label layoutX="99.0" layoutY="21.0" prefHeight="60.0" prefWidth="402.0" text="Quarterly Revenue Report" textFill="#0022ff">
          <font>
@@ -24,7 +28,6 @@
          </font>
       </Label>
       <TextField id="txtStoreID" fx:id="txtStoreID" editable="false" layoutX="311.0" layoutY="210.0" />
-      <Button id="btnClose" fx:id="btnClose" layoutX="278.0" layoutY="438.0" mnemonicParsing="false" onAction="#closeQuarterlyRevenueReportWindow" text="Close" />
       <Label layoutX="64.0" layoutY="272.0" text="Store - Address :">
          <font>
             <Font name="System Italic" size="16.0" />

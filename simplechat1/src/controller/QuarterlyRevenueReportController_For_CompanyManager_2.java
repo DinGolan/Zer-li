@@ -42,7 +42,6 @@ public class QuarterlyRevenueReportController_For_CompanyManager_2 implements In
     
     @FXML
 	private Button btnClose;                    /* Button For Close The Window */
-
    
 	
 /* --------------------------------- Loading Store To the Text Fields ------------------------------------------------- */

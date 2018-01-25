@@ -9,9 +9,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="796.0" prefWidth="687.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SatisfactionReportController_For_CompanyManager">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="693.0" prefWidth="663.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SatisfactionReportController_For_CompanyManager">
    <children>
-      <Label layoutX="112.0" layoutY="20.0" prefHeight="78.0" prefWidth="497.0" text="Saticfaction Report" textFill="#0022ff">
+      <Label layoutX="40.0" layoutY="24.0" prefHeight="78.0" prefWidth="497.0" text="Saticfaction Report" textFill="#0022ff">
          <font>
             <Font name="Bodoni MT Bold" size="60.0" />
          </font>
@@ -28,8 +28,8 @@
          </font>
       </Label>
       <TextField id="txtTotalAvgRank" fx:id="txtTotalAvgRank" editable="false" layoutX="262.0" layoutY="160.0" prefHeight="25.0" prefWidth="53.0" />
-      <Button id="btnClose" fx:id="btnClose" layoutX="338.0" layoutY="635.0" mnemonicParsing="false" onAction="#closeSatisfactionReportWindow" text="Close" />
-      <BarChart id="Chart_SatisfactionReport" fx:id="Chart_SatisfactionReport" layoutX="46.0" layoutY="199.0" prefHeight="423.0" prefWidth="584.0" title="Satisfaction Of The User's">
+      <Button id="btnClose" fx:id="btnClose" layoutX="316.0" layoutY="633.0" mnemonicParsing="false" onAction="#closeSatisfactionReportWindow" text="Close" />
+      <BarChart id="Chart_SatisfactionReport" fx:id="Chart_SatisfactionReport" layoutX="23.0" layoutY="199.0" prefHeight="423.0" prefWidth="584.0" title="Satisfaction Of The User's">
         <xAxis>
           <CategoryAxis id="X_Questions" fx:id="X_Questions" label="Questions" side="BOTTOM" />
         </xAxis>
