@@ -50,6 +50,8 @@ public class ThreadController implements Runnable
 	  		{
 	  			EchoServer.getAllComplaintsPass24(EchoServerController.con);
 	  			ago=currentTimestamp.toString();
+	  			EchoServer.changeOrderStatusToRecived(EchoServerController.con);
+	  			System.out.println("goooddd");
 	  		}
 	  	
 	  		    

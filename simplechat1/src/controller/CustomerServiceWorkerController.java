@@ -58,23 +58,6 @@ public class CustomerServiceWorkerController implements Initializable{
 		flag=true;
 	}
 	
-	@SuppressWarnings("static-access")
-	public void SaveSurveyBtn(ActionEvent event) throws Exception{
-		((Node)event.getSource()).getScene().getWindow().hide(); // Hiding primary window 
-		Stage primaryStage = new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		Pane root = loader.load(getClass().getResource("/controller/SurveyResultFrame.fxml").openStream());
-		
-		Scene scene = new Scene(root);			
-		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-		primaryStage.setScene(scene);		
-		primaryStage.show();
-		//SurveyResultController sr = new SurveyResultController();				  
-		//sr.start(primaryStage);
-		//SurveyResultUI s = new SurveyResultUI();
-		//s.main(primaryStage);
-	}
-	
 	public void openNewComplaintBtn(ActionEvent event) throws Exception //To open new complaint option
 	{
 		((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
