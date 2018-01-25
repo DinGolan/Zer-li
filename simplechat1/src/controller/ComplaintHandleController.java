@@ -99,7 +99,7 @@ public class ComplaintHandleController implements Initializable{
 			this.txtComplaintOrderId.setText(String.valueOf(ComplaintUI.complaint.getComplaintOrderId()));
 			if(ComplaintUI.complaint.getComplaintCompanyServiceWorkerAnswer()!=null) //
 				this.txtComplaintAnswer.setText(ComplaintUI.complaint.getComplaintCompanyServiceWorkerAnswer());
-			if(ComplaintUI.complaint.getComplaintDetails()!=null) //μαγεχ
+			if(ComplaintUI.complaint.getComplaintDetails()!=null) 
 				this.txtComplaintReason.setText(ComplaintUI.complaint.getComplaintDetails());
 			this.txtComplaintCompansationAmount.setText(String.valueOf(ComplaintUI.complaint.getComplaintCompansation()));
 			listForStatusComboBox = FXCollections.observableArrayList(stat); 
@@ -250,6 +250,8 @@ public class ComplaintHandleController implements Initializable{
 		else 
 		{ //enter 200 characters for the reason field
 			ComplaintUI.complaint.setComplaintCompanyServiceWorkerAnswer(txtComplaintAnswer.getText()); 
+			try {
+			Double.parseDouble(txtComplaintCompansationAmount.getText());
 			ComplaintUI.complaint.setComplaintCompansation(Double.parseDouble(txtComplaintCompansationAmount.getText()));
 			ComplaintUI.complaint.setComplaintStat(Complaint.ComplaintStatus.valueOf(stat.get(getStatusIndex()))); //take the status
 			Message msg = new Message(ComplaintUI.complaint, "Update complaint");	
@@ -264,8 +266,19 @@ public class ComplaintHandleController implements Initializable{
 			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 			primaryStage.setScene(scene);	
 			primaryStage.setTitle("Update complaint msg");
-			primaryStage.show();						
-		}					
+			primaryStage.show();
+		}
+			catch(NumberFormatException e)
+			{
+				((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
+				root = loader.load(getClass().getResource("/controller/ComplaintNotDoubleMsg.fxml").openStream());
+				Scene scene = new Scene(root);	
+				scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+				primaryStage.setScene(scene);	
+				primaryStage.setTitle("Error msg");
+				primaryStage.show();	
+			}	
+		}
 	}
 	
 	/**
