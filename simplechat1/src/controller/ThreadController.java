@@ -33,7 +33,6 @@ public class ThreadController implements Runnable
 		
 		while(true)
 		{	
-			//EchoServer.changeOrderStatusToRecived(EchoServerController.con);
 			/* Variables */
 			LocalDate localDate = LocalDate.now();
 	  		DateTimeFormatter Formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -51,7 +50,6 @@ public class ThreadController implements Runnable
 	  			EchoServer.getAllComplaintsPass24(EchoServerController.con);
 	  			ago=currentTimestamp.toString();
 	  			EchoServer.changeOrderStatusToRecived(EchoServerController.con);
-	  			System.out.println("goooddd");
 	  		}
 	  	
 	  		    

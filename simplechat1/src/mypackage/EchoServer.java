@@ -2595,9 +2595,7 @@ protected ResultSet getSurveyData(Connection conn,int id) throws SQLException {
   protected ArrayList<Integer> getAllOrdersToCustomerCancel(Object msg, Connection conn) //this method get all the orders that match to specific customer and can be cancel
   {
 	 int StoreNum = Integer.parseInt(((ArrayList<String>)(((Message)msg).getMsg())).get(1));
-	 System.out.println(StoreNum);
 	 String requestedCustomerId=((ArrayList<String>)(((Message)msg).getMsg())).get(0);
-	 System.out.println(requestedCustomerId);
 	 ArrayList<Integer> ordersNums = new ArrayList<Integer>();
 	 Statement stmt;
 	 Integer co;
@@ -2637,7 +2635,6 @@ protected ResultSet getSurveyData(Connection conn,int id) throws SQLException {
 		 if(ordersNums.size()==0)
 			 ordersNums.add(-1); //to know that we didn't have orders to this customer at DB that we can to cancel
 		  } catch (SQLException e) {	e.printStackTrace();}	
-	 System.out.println(ordersNums);
 	  return ordersNums;
  }	
  

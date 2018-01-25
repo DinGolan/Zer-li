@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.ResourceBundle;
 import boundery.OrderUI;
 import boundery.UserUI;
+import entity.CancelOrderItemRow;
 import entity.Message;
 import entity.Order;
 import entity.Product;
@@ -74,7 +75,6 @@ public class CancelOrderController implements Initializable{
 	
 	@FXML
 	private Button btnCancelOtherOrder=null; //button to cancel other order
-	
 	
 	@FXML
 	private Button btnCancelOrderClose=null; //button close for error msg or for return the menu options	
@@ -148,15 +148,15 @@ public class CancelOrderController implements Initializable{
 		
 		else if(refundMsgflag==true) //Initialized the order refund msg
 		{
-			System.out.println(textRefundMsg);
 			this.txtOrderCancelRefund.setText(textRefundMsg);
 			refundMsgflag=false;
 		}
 	}
 	
 	/**
-	 * Start the process of search of possible orders to cancel- show combobox of orders numbers
-	 * @param event- click on cancel order button
+	 * Start the process of search of possible orders to cancel- show cancel order instructions and then after click 
+	 * the next button show combobox of orders numbers if he has or error msg if he doesn't has
+	 * @param event- click on next button after the cancel order instruction
 	 * @throws Exception if we can't load the fxml
 	 */
 	public void cancelOrderStart(ActionEvent event) throws Exception //this method start the process of search of possible orders to cancel
@@ -197,7 +197,7 @@ public class CancelOrderController implements Initializable{
 	}
 	
 	/**
-	 * Take the selected order number from the combobox
+	 * Take the selected order number from the combobox if return (-1) mean that he didn't choose an order number 
 	 * @return int- selected order number (index)
 	 */
 	public int getItemIndex() //With this Method we Take the selected order number
@@ -209,6 +209,7 @@ public class CancelOrderController implements Initializable{
 	
 	/**
 	 * Open the details of the order if we choose one at the combobox
+	 * else show error msg that we didn't choose one
 	 * @param event- click on open button
 	 * @throws Exception if we can't load the fxml
 	 */
@@ -249,7 +250,11 @@ public class CancelOrderController implements Initializable{
 	}
 	
 	/**
-	 * To cancel this specific order by the 3 options of the time of canceling, update the order status and the refund
+	 * To cancel this specific order by the 3 options of the time of canceling"
+	 * 1- if we are at the last hour before the supply time
+	 * 2- if we are before 3 hours before the supply time
+	 * 3- if we are between 1-3 hours before the supply time
+	 * update the order status and the refund he need to get also show msg to the customer 
 	 * @param event-click on cancel button
 	 * @throws Exception if we can't load the fxml
 	 */
@@ -264,23 +269,22 @@ public class CancelOrderController implements Initializable{
 		
 		if((OrderUI.order.getRequiredSupplyDate().equals(today)) && (LocalTime.parse(OrderUI.order.getRequiredSupplyTime()).minusHours(1).isBefore(nowTime))) //if we are at the last hour before the supply time
 		{
-			textRefundMsg="The order has been canceled successfully. but you didn't get a refund!";
+			textRefundMsg="The order has been canceled successfully. \nbut you didn't get a refund!";
 			OrderUI.order.setRefund(0);
 		}
 		else if(((OrderUI.order.getRequiredSupplyDate().equals(today))&&(LocalTime.parse(OrderUI.order.getRequiredSupplyTime()).minusHours(3).isAfter(nowTime)))||(OrderUI.order.getRequiredSupplyDate().isAfter(today))) //if we are before 3 hours before the supply time
 		{
-			textRefundMsg="The order has been canceled successfully. You get "+OrderUI.order.getOrderTotalPrice()+" ILS credit to shop at Zer-li "+ UserUI.store.getStore_Address() +" branch";
+			textRefundMsg="The order has been canceled successfully. \nYou get "+OrderUI.order.getOrderTotalPrice()+" ILS credit \nto shop at Zer-li "+ UserUI.store.getStore_Address() +" branch";
 			OrderUI.order.setRefund(OrderUI.order.getOrderTotalPrice());
 		}
 		else //if we are between 1-3 hours before the supply time
 		{
-			textRefundMsg="The order has been canceled successfully. You get "+0.5*(OrderUI.order.getOrderTotalPrice())+" ILS credit to shop at Zer-li "+ UserUI.store.getStore_Address() +" branch";
+			textRefundMsg="The order has been canceled successfully. \nYou get "+0.5*(OrderUI.order.getOrderTotalPrice())+" ILS credit \nto shop at Zer-li "+ UserUI.store.getStore_Address() +" branch";
 			OrderUI.order.setRefund(0.5*(OrderUI.order.getOrderTotalPrice()));
 		}
 		
 		refundMsgflag=true;
 		
-		System.out.println(textRefundMsg);
 		OrderUI.order.setoStatus(Order.orderStatus.CANCEL); 
 		
 		Message msg = new Message(OrderUI.order , "update cancel order");
@@ -304,7 +308,7 @@ public class CancelOrderController implements Initializable{
 	}
 	
 	/**
-	 * Close the The Window of the choose option and return to customer menu
+	 * Close the The Window of the choosen option and open to customer menu
 	 * @param event- click on close button
 	 * @throws Exception if we can't load the fxml
 	 */

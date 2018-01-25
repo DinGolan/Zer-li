@@ -17,6 +17,9 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+/**
+ *controller for the customer service worker permission with options of insert survey, open new complaint and handle a complaint
+ */
 public class CustomerServiceWorkerController implements Initializable{
 	
 	@FXML
@@ -45,7 +48,12 @@ public class CustomerServiceWorkerController implements Initializable{
 		
 	}
 	
-	public void insertSurveyQuestionsBtn(ActionEvent event) throws Exception //To open the view report option
+	/**
+	 * open the gui of the oprions to add survey
+	 * @param event- click on insert survey button
+	 * @throws Exception if we can't load the fxml
+	 */
+	public void insertSurveyQuestionsBtn(ActionEvent event) throws Exception 
 	{
 		((Node)event.getSource()).getScene().getWindow().hide(); // Hiding primary window 
 		Stage primaryStage = new Stage();
@@ -58,6 +66,11 @@ public class CustomerServiceWorkerController implements Initializable{
 		flag=true;
 	}
 	
+	/**
+	 * open the gui of new complaint option
+	 * @param event- click on add compaint option
+	 * @throws Exception if we can't load the fxml
+	 */
 	public void openNewComplaintBtn(ActionEvent event) throws Exception //To open new complaint option
 	{
 		((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
@@ -71,6 +84,11 @@ public class CustomerServiceWorkerController implements Initializable{
 		primaryStage.show();	
 	}
 	
+	/**
+	 * open the gui of search complains- reminder the customer service worker to handle his complaints
+	 * @param event -click on handle complaints button
+	 * @throws Exception if we can't load the fxml
+	 */
 	public void followComplaintBtn(ActionEvent event) throws Exception //To open follow complaint option
 	{
 		((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
@@ -84,13 +102,22 @@ public class CustomerServiceWorkerController implements Initializable{
 		primaryStage.show();	
 	}
 	
+	/**
+	 * Exit from the customer service worker options
+	 * @param event- click on exit button
+	 * @throws Exception
+	 */
 	public void exitBtn(ActionEvent event) throws Exception //Exit from the customer service worker options
 	{
 		System.out.println("exit customer service worker options");
 		System.exit(0);			
 	}
 	
-	
+	/**
+	 * logout by the customer service worker and "UserLogin" window open.
+	 * @param event- click on logout button
+	 * @throws Exception if we can't load the fxml
+	 */
 	public void LogoutBtn(ActionEvent event) throws IOException
 	{
 		Message msg = new Message(UserUI.user.getId(), "change User status to DISCONNECTED");

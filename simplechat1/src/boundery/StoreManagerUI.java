@@ -12,6 +12,9 @@ import entity.Complaint;
 import entity.Order;
 import entity.Store;
 
+/**
+ * class to save static variables that belong to the store manager
+ */
 public class StoreManagerUI extends Application 		/* With This Class We Show the Report GUI */{
 	
 	/* Vector Of ---> { Store , Order , Complaint , Date , Average Of Result At Survey } */
@@ -30,15 +33,6 @@ public class StoreManagerUI extends Application 		/* With This Class We Show the
 	
 	/* Client Console */
 	public static ClientConsole myClient;
-	
-	public static void main( String args[] ) throws Exception
-	{ 
-		//System.out.println("Please enter the server IP");
-		//Scanner scanner = new Scanner(System.in);
-		//String IP = scanner.next(); 			/* Enter Server IP */
-		myClient = new ClientConsole("localhost", 5555);
-        launch(args);		
-	} 
 	
 	@Override
 	public void start(Stage arg0) throws Exception 
