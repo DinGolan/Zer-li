@@ -1,5 +1,8 @@
-package controller;
+package entity;
 
+/**
+ * class CancelOrderItemRow for a row on the table of products 
+ */
 public class CancelOrderItemRow
 {
 	private int m_id;

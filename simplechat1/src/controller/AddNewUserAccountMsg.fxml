@@ -17,7 +17,7 @@
          <font>
             <Font name="Bodoni MT" size="29.0" />
          </font></Label>
-      <TextArea layoutX="63.0" layoutY="95.0" prefHeight="48.0" prefWidth="229.0" text="The new user account add successfully." />
+      <TextArea layoutX="27.0" layoutY="76.0" prefHeight="80.0" prefWidth="289.0" text="The new user account add successfully." />
       <Button id="btnAccountAddOther" fx:id="btnAccountAddOther" layoutX="63.0" layoutY="168.0" mnemonicParsing="false" onAction="#addNewOtherAccount" text="Add other account" />
    </children>
 </AnchorPane>

@@ -17,6 +17,6 @@
          <font>
             <Font name="Bodoni MT" size="29.0" />
          </font></Label>
-      <TextArea layoutX="20.0" layoutY="52.0" prefHeight="100.0" prefWidth="302.0" text="You need to enter the complaint answer until 200 &#10;characters try again." />
+      <TextArea layoutX="20.0" layoutY="52.0" prefHeight="100.0" prefWidth="302.0" text="You need to enter the complaint answer until &#10;200 characters try again." />
    </children>
 </AnchorPane>

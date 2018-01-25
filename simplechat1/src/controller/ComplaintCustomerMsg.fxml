@@ -17,6 +17,6 @@
          <font>
             <Font name="Bodoni MT" size="29.0" />
          </font></Label>
-      <TextArea layoutX="17.0" layoutY="73.0" prefHeight="70.0" prefWidth="305.0" text="The customer id number you entered doesn't exist." />
+      <TextArea layoutX="17.0" layoutY="73.0" prefHeight="70.0" prefWidth="305.0" text="The customer id number you entered &#10;doesn't exist." />
    </children>
 </AnchorPane>
