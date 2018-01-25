@@ -71,7 +71,6 @@ public class CustomerController implements Initializable{
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		
 		primaryStage.setScene(scene);	
-		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.show();
 	}
 	
@@ -145,6 +144,7 @@ public class CustomerController implements Initializable{
 	}
 	
 	public void openSelfDef(ActionEvent event) throws Exception {
+		SelfDefenitionProductController.modeFlag = 1;
 		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
 		Stage primaryStage = new Stage();
 		FXMLLoader loader = new FXMLLoader();

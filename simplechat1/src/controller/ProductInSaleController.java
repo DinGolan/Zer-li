@@ -78,6 +78,13 @@ public class ProductInSaleController implements Initializable{
     @FXML
     private Button btnTryAgainAddSale; /* Button For loading product */
     
+    @FXML
+    private Button btnBackToAddSaleFromErr; /* Button For loading product */
+    
+    @FXML
+    private Button btnBack; /* Button For loading product */
+    
+    
 	@FXML
 	private TextField txtPID; /* text field for the product Name */
 	
@@ -166,6 +173,14 @@ public class ProductInSaleController implements Initializable{
 		productsId.clear();
 		String storeId;
 		int j;
+		CatalogUI.productsInSale.clear();
+		msg = new Message(null,"get products in sale from DB");
+		UserUI.myClient.accept(msg);
+		CatalogController.waitFlag=0;
+		while(CatalogController.waitFlag==0) {
+		System.out.print("");
+		}
+		CatalogController.waitFlag=0;
 		if(cmbSid.getValue() != null)
 		{
 			storeId = cmbSid.getValue();
@@ -176,6 +191,19 @@ public class ProductInSaleController implements Initializable{
 			}
 
 			cmbPid.setItems(productsId);
+		}
+		else
+		{
+			((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+			Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
+			FXMLLoader loader = new FXMLLoader(); 					 /* load object */
+			Pane root = loader.load(getClass().getResource("/controller/DidNotPickStoreId.fxml").openStream());
+			
+			Scene scene = new Scene(root);		
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setScene(scene);	
+			primaryStage.setTitle("Error Message");		
+			primaryStage.show();									 /* show catalog frame window */
 		}
 	}
 	
@@ -196,6 +224,19 @@ public class ProductInSaleController implements Initializable{
 			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 			primaryStage.setScene(scene);	
 			primaryStage.setTitle("Sales Options");		
+			primaryStage.show();									 /* show catalog frame window */
+		}
+		else
+		{
+			((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+			Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
+			FXMLLoader loader = new FXMLLoader(); 					 /* load object */
+			Pane root = loader.load(getClass().getResource("/controller/DidNotPickProductId.fxml").openStream());
+			
+			Scene scene = new Scene(root);		
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setScene(scene);	
+			primaryStage.setTitle("Error Message");		
 			primaryStage.show();									 /* show catalog frame window */
 		}
 	}
@@ -262,7 +303,7 @@ public class ProductInSaleController implements Initializable{
 		}
 		try
 		{
-			if((this.txtPPrice.getText().compareTo("")!=0) && (Double.valueOf(this.txtPPrice.getText())<pPrice))
+			if((this.txtPPrice.getText().compareTo("")!=0) && (Double.valueOf(this.txtPPrice.getText())<pPrice) && (Double.valueOf(this.txtPPrice.getText())>pPrice))
 			{
 				p.setpPrice(Double.valueOf(this.txtPPrice.getText()));
 				msg = new Message(p , "Update Product In Sale In DB");
@@ -342,55 +383,72 @@ public class ProductInSaleController implements Initializable{
 		System.out.print("");
 		}
 		CatalogController.waitFlag=0;
-		for(j=0 ; j<CatalogUI.productsInSale.size() ; j++)
+		if(cmbPid.getValue() != null && cmbSid.getValue() != null)
 		{
-
-			if((CatalogUI.productsInSale.get(j).getpID() == Integer.valueOf(cmbPid.getValue())) && (CatalogUI.productsInSale.get(j).getpStore() == Integer.valueOf(cmbSid.getValue())))
-				addFlag = false;
-		}
-		msg = new Message(null,"get all products in DB");
-		UserUI.myClient.accept(msg);
-		CatalogUI.products.clear();
-		CatalogController.waitFlag=0;
-		while(CatalogController.waitFlag==0) {
-		System.out.print("");
-		}
-		CatalogController.waitFlag=0;
-		for(j=0 ; j<CatalogUI.products.size() ; j++)
-		{
-			if(CatalogUI.products.get(j).getpID() == Integer.valueOf(cmbPid.getValue()))
+			for(j=0 ; j<CatalogUI.productsInSale.size() ; j++)
 			{
-				p.setpType(CatalogUI.products.get(j).getpType());
-				producePrice = CatalogUI.products.get(j).getpPrice();
+	
+				if((CatalogUI.productsInSale.get(j).getpID() == Integer.valueOf(cmbPid.getValue())) && (CatalogUI.productsInSale.get(j).getpStore() == Integer.valueOf(cmbSid.getValue())))
+					addFlag = false;
+			}
+			msg = new Message(null,"get all products in DB");
+			UserUI.myClient.accept(msg);
+			CatalogUI.products.clear();
+			CatalogController.waitFlag=0;
+			while(CatalogController.waitFlag==0) {
+			System.out.print("");
+			}
+			CatalogController.waitFlag=0;
+			for(j=0 ; j<CatalogUI.products.size() ; j++)
+			{
+				if(CatalogUI.products.get(j).getpID() == Integer.valueOf(cmbPid.getValue()))
+				{
+					p.setpType(CatalogUI.products.get(j).getpType());
+					producePrice = CatalogUI.products.get(j).getpPrice();
+				}
+			}
+			if(addFlag == true) // can add product
+			{
+				p.setpID(Integer.valueOf(cmbPid.getValue()));
+				p.setpStore(Integer.valueOf(cmbSid.getValue()));
+				flag = 4;
+				((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+				Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
+				FXMLLoader loader = new FXMLLoader(); 					 /* load object */
+				Pane root = loader.load(getClass().getResource("/controller/AddSalesInStore.fxml").openStream());
+				
+				ProductInSaleController productInSaleController = loader.getController();
+				productInSaleController.loadFields(p);
+				
+				Scene scene = new Scene(root);		
+				scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+				primaryStage.setScene(scene);	
+				primaryStage.setTitle("Add Sales In Store");	
+				primaryStage.show();									 /* show catalog frame window */
+			}
+			
+			else // cant add product
+			{
+				flag =4;
+				((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+				Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
+				FXMLLoader loader = new FXMLLoader(); 					 /* load object */
+				Pane root = loader.load(getClass().getResource("/controller/SaleAlreadyExist.fxml").openStream());
+				
+				Scene scene = new Scene(root);		
+				scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+				primaryStage.setScene(scene);	
+				primaryStage.setTitle("Add Sales In Store");	
+				primaryStage.show();									 /* show catalog frame window */
 			}
 		}
-		if(addFlag == true) // can add product
-		{
-			p.setpID(Integer.valueOf(cmbPid.getValue()));
-			p.setpStore(Integer.valueOf(cmbSid.getValue()));
-			flag = 4;
-			((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
-			Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
-			FXMLLoader loader = new FXMLLoader(); 					 /* load object */
-			Pane root = loader.load(getClass().getResource("/controller/AddSalesInStore.fxml").openStream());
-			
-			ProductInSaleController productInSaleController = loader.getController();
-			productInSaleController.loadFields(p);
-			
-			Scene scene = new Scene(root);		
-			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-			primaryStage.setScene(scene);	
-			primaryStage.setTitle("Add Sales In Store");	
-			primaryStage.show();									 /* show catalog frame window */
-		}
-		
-		else // cant add product
+		else
 		{
 			flag =4;
 			((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
 			Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
 			FXMLLoader loader = new FXMLLoader(); 					 /* load object */
-			Pane root = loader.load(getClass().getResource("/controller/SaleAlreadyExist.fxml").openStream());
+			Pane root = loader.load(getClass().getResource("/controller/DidNotPickProOrStore.fxml").openStream());
 			
 			Scene scene = new Scene(root);		
 			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());

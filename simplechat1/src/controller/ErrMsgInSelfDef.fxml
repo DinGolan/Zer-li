@@ -6,9 +6,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="215.0" prefWidth="312.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CatalogController">
+<AnchorPane prefHeight="215.0" prefWidth="312.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SelfDefenitionProductController">
    <children>
-      <Button id="btnTryAgain" fx:id="btnTryAgain" layoutX="125.0" layoutY="178.0" mnemonicParsing="false" onAction="#tryAgainMakeOrder" text="Try again" />
+      <Button id="btnTryAgain" fx:id="btnTryAgainOrder" layoutX="125.0" layoutY="178.0" mnemonicParsing="false" onAction="#backToSelfOption" text="Try again" />
       <Label layoutX="122.0" layoutY="37.0" text="Error" textFill="#0022ff">
          <font>
             <Font name="Bodoni MT" size="29.0" />

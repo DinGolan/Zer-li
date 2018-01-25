@@ -13,6 +13,6 @@
          <font>
             <Font name="Bodoni MT" size="29.0" />
          </font></Label>
-      <TextArea editable="false" layoutX="56.0" layoutY="84.0" prefHeight="55.0" prefWidth="200.0" text="The Sale You want to add &#10;already exist, please try again. " />
+      <TextArea editable="false" layoutX="12.0" layoutY="84.0" prefHeight="55.0" prefWidth="290.0" text="The Sale You want to add &#10;already exist, please try again. " />
    </children>
 </AnchorPane>
