@@ -14,6 +14,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -129,8 +130,23 @@ public class EchoServer extends AbstractServer
 	    
 	    if(((Message)msg).getOption().compareTo("add survey") ==0) // add survey to db
 	    {
-	    	System.out.println("a");
-	    	AddSurveyToDB(msg,conn);
+	    	int id=0;
+	    	try {
+				 id = getLastSurveyId(conn);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	    	try {
+				msg =AddSurveyToDB(msg,conn,id);
+	    		this.sendToAllClients(msg);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	    }
 	    
 	    if(((Message)msg).getOption().compareTo("Update User At Data Base") == 0) 	    /* Check that we get from DB Because We want to Initialized */
@@ -268,16 +284,65 @@ public class EchoServer extends AbstractServer
 	    if(((Message)msg).getOption().compareTo("add surveyResult") ==0) 	    /* add new answar ro a survey */							
 	    {
 	    	int id = ((ArrayList<Integer>)(((Message)msg).getMsg())).get(0);
-	    	if(resulrId.contains(id) == true)
-	    	{
-		    		updateSurveyResult(msg,conn);
-
-	    	}
-	    	else {
-			    	addSurveyResult(msg,conn);
-
-	    	}
-	    } 
+	    	
+	    	try {
+				resulrId=getSurveyId(conn); // get all the surveyId
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	
+			    	try {
+						msg =addSurveyResult(msg,conn);
+						this.sendToAllClients(msg);
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+	    }
+	    
+	    if(((Message)msg).getOption().compareTo("get all the customerId") ==0) 	    						
+	    {
+	    	//int id = ((ArrayList<Integer>)(((Message)msg).getMsg())).get(0);
+	    	ArrayList<Integer> t= new ArrayList<Integer>();
+	    	try {
+				t= getCustomerIdUser(conn);
+				((Message)msg).setMsg(t);	
+	    		this.sendToAllClients(msg);
+				
+			} catch (SQLException e) {
+				System.out.println("customer");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	    	
+	    }
+	    if(((Message)msg).getOption().compareTo("add surveyConclusion") == 0) 	    							
+	    {
+	    	try {
+	    		((Message)msg).setMsg(addConclusion(conn,msg));
+	    		this.sendToAllClients(msg);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	    }
+	    
+	    if(((Message)msg).getOption().compareTo("get info survey") == 0) 	    							
+	    {
+	    	try {
+				((Message)msg).setMsg(getSurveyInfo(conn,msg));	
+	    		this.sendToAllClients(msg);
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	    }
+	    
 	    if(((Message)msg).getOption().compareTo("Store Manager - Take the Revenue Of Specific Quarter Of Specific Store") == 0) /* Taking All the Revenue Of Specific Store */							
 	    {
 	    	((Message)msg).setMsg(Get_The_Revenue_Of_Specific_Store_From_DB(msg,conn));  
@@ -1988,58 +2053,271 @@ public class EchoServer extends AbstractServer
   }
     
   @SuppressWarnings("unchecked")
-  protected void AddSurveyToDB(Object msg, Connection conn)
+  protected Object AddSurveyToDB(Object msg, Connection conn,int id) throws SQLException, ParseException
   {
   	  ArrayList<String> temp = (ArrayList<String>)(((Message)msg).getMsg());
-  	  
   		Statement stmt;
+  		
+  		LocalDate localDate = LocalDate.now();//For reference
+  		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+  		String formattedString = localDate.format(formatter);
+  		String endYear = temp.get(1);
+  		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+  		java.util.Date date1 = format.parse(formattedString);
+  		java.util.Date date2 = format.parse(endYear);
 
+  		/*String sYear = formattedString.substring(0,4);
+  		String smonth = formattedString.substring(5,7);
+  		String sday = formattedString.substring(8,10);
+  		String eYear = endYear.substring(0,4);
+  		String emonth = endYear.substring(5,7);
+  		String eday = endYear.substring(8,10);*/
+  		
+
+  		if (date2.before(date1)==true) {
+  			System.out.println("error : Start date is later than end date ");
+  			((Message)msg).setOption("date between error");
+ 			return msg;
+  			//add error window------------------------------------------
+
+  		}
+  		
+  		if(checkStoreHasSurvey( msg,  conn, date1) == true){
+  			System.out.println("error: There is alredy Survey for this store at this time");
+  			((Message)msg).setOption("error store have survey");
+ 			return msg;
+  			//add error window------------------------------------------
+  		}
+  		
+  		
   		try {
   		//stmt = conn.createStatement();
   		//String AddSurvey = "insert into project.survey VALUES(1," + "1" + "," + "'" + temp.get(1) + "'" + "," + "'" + temp.get(2) + "'" + "," + "'" + temp.get(3) + "'" + "," + "'" + temp.get(4) + "'" + "," + "'" + temp.get(5) + "'" + "," + "'" + temp.get(6) + "'" + ";";
   		//String AddSurvey = "INSERT INTO project.survey ('Surveyid', 'Question1', 'Question2', 'Question3', 'Question4', 'Question5', 'Question6') VALUES ( " +"''" + "," + "'" + temp.get(1) + "'" + "," + "'" + temp.get(2) + "'" + "," + "'" + temp.get(3) + "'" + "," + "'" + temp.get(4) + "'" + "," + "'" + temp.get(5) + "'" + "," + "'" + temp.get(6) + "'" + ";";
   	// the mysql insert statement
-        String query = "INSERT INTO project.survey (Surveyid, Question1, Question2, Question3, Question4, Question5, Question6)"
-          + " VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO project.survey (Surveyid, SurveyStartDate, SurveyEndDate , StoreId)"
+          + " VALUES (?, ?, ?, ?)";
 
         PreparedStatement preparedStmt = (PreparedStatement) conn.prepareStatement(query);
-        preparedStmt.setInt(1, counter);
-        preparedStmt.setString (2, temp.get(0));
-        preparedStmt.setString (3, temp.get(1));
-        preparedStmt.setString (4, temp.get(2));
-        preparedStmt.setString (5, temp.get(3));
-        preparedStmt.setString (6, temp.get(4));
-        preparedStmt.setString (7, temp.get(5));
-        counter++;
+        preparedStmt.setInt(1, id);
+        preparedStmt.setString (2, formattedString);
+        preparedStmt.setString (3, temp.get(1));//end date
+        preparedStmt.setString (4, temp.get(0));// store id
         preparedStmt.execute();
 
+        ((Message)msg).setOption("succes survey");
+			return msg;
   		//stmt.executeUpdate(query);
   		} catch (SQLException e) {	e.printStackTrace();}	  
-  
-  
+  		((Message)msg).setOption("succes survey");
+			return msg;
+  		
     }
-     
+  
   @SuppressWarnings("unchecked")
-  protected void addSurveyResult(Object msg, Connection conn) {
-    	 int id = ((ArrayList<Integer>)(((Message)msg).getMsg())).get(0);
-    	 resulrId.add(id);
-    	        String query = "INSERT INTO project.survey_result (Surveyid, sumQ1 ,sumQ2, sumQ3, sumQ4, sumQ5, sumQ6 , numOfClients)"
-    	                + " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-    	        try {
-    	              PreparedStatement preparedStmt = (PreparedStatement) conn.prepareStatement(query);
-    	              preparedStmt.setInt(1, id);
-    	              preparedStmt.setInt (2, ((ArrayList<Integer>)(((Message)msg).getMsg())).get(1));
-    	              preparedStmt.setInt (3, ((ArrayList<Integer>)(((Message)msg).getMsg())).get(2));
-    	              preparedStmt.setInt (4, ((ArrayList<Integer>)(((Message)msg).getMsg())).get(3));
-    	              preparedStmt.setInt (5, ((ArrayList<Integer>)(((Message)msg).getMsg())).get(4));
-    	              preparedStmt.setInt (6, ((ArrayList<Integer>)(((Message)msg).getMsg())).get(5));
-    	              preparedStmt.setInt (7, ((ArrayList<Integer>)(((Message)msg).getMsg())).get(6));
-    	              preparedStmt.setInt (8, 1);
-    	              preparedStmt.execute();
-    	        }catch (SQLException e) {	e.printStackTrace();}	
+protected boolean checkStoreHasSurvey(Object msg, Connection conn,java.util.Date start) throws SQLException, ParseException
+ {
+  	  ArrayList<String> temp = (ArrayList<String>)(((Message)msg).getMsg());
+  	  String s;
+	  		Statement stmt;
+			  stmt = conn.createStatement();
+	 String getSurveyIdTable = "SELECT SurveyEndDate FROM project.survey WHERE StoreId = " + temp.get(0)+ ";";
+			 ResultSet rs = stmt.executeQuery(getSurveyIdTable);
+			 while(rs.next())
+			 {
+			 	s=rs.getString("SurveyEndDate");
+		  		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		  		java.util.Date date2 = format.parse(s);
 
-    	 //}
-     }
+			 	if(start.before(date2)==true)
+			 	{
+			 		return true;
+			 	}
+			 }
+ 	 
+		return false;
+ }
+  
+  @SuppressWarnings("unchecked")
+  protected int getLastSurveyId(Connection conn) throws SQLException {
+ 	 int id=0;
+	  		Statement stmt;
+			  stmt = conn.createStatement();
+	 String getSurveyIdTable = "SELECT Surveyid FROM project.survey;";
+			 ResultSet rs = stmt.executeQuery(getSurveyIdTable);
+			 while(rs.next())
+			 {
+			 	id=rs.getInt("Surveyid");
+			 }
+
+ 	 
+ 	 
+ 	 return id+1;
+  }
+  
+  @SuppressWarnings("unchecked")
+  protected ArrayList<Integer> addConclusion(Connection conn, Object msg) throws SQLException {
+	  		Statement stmt;
+	     	  ArrayList<String> temp = (ArrayList<String>)(((Message)msg).getMsg());
+		   		if(checkCustomerFillTwice(conn,Integer.parseInt(temp.get(0)),Integer.parseInt(temp.get(1))) ==false)
+		   		{
+		   			System.out.println("customer didnt fill this survey");      			
+			 			ArrayList<Integer> a = new ArrayList<Integer>();
+			 			a.add(11);
+			 			return a;
+
+		   		}
+	     	  
+			stmt = conn.createStatement();
+		    String getSurveyIdTable = "UPDATE survey_result SET ExpertConclusion =" + "'" + temp.get(2)  + "'" + "WHERE Surveyid=" +"'" +temp.get(0) + "'" +"AND customerId =" +"'" +temp.get(1) + "'" + ";";;
+			 stmt.executeUpdate(getSurveyIdTable);
+	 			ArrayList<Integer> a = new ArrayList<Integer>();
+	 			a.add(10);
+	 			return a;
+
+
+  }
+  
+  @SuppressWarnings("unchecked")
+  protected ArrayList<Integer> getSurveyInfo(Connection conn, Object msg) throws SQLException {
+	  		Statement stmt;
+	     	ArrayList<String> temp = (ArrayList<String>)(((Message)msg).getMsg());
+	     	ArrayList<Integer> ans = new ArrayList<Integer>();
+	   		if(checkCustomerFillTwice(conn,Integer.parseInt(temp.get(0)),Integer.parseInt(temp.get(1))) ==false)
+	   		{
+	   			System.out.println("customer didnt fill this survey");      			
+		 			ArrayList<Integer> a = new ArrayList<Integer>();
+		 			a.add(11);
+		 			return a;
+
+	   		}
+			stmt = conn.createStatement();
+
+			 String getSurveyIdTable = "SELECT* FROM project.survey_result WHERE Surveyid = " + "'" +temp.get(0) + "'" +"AND customerId =" +"'" +temp.get(1) + "'" + ";";
+			 ResultSet rs = stmt.executeQuery(getSurveyIdTable);
+			 while(rs.next())
+			 {
+			 	ans.add(rs.getInt("ansQ1"));
+			 	ans.add(rs.getInt("ansQ2"));
+			 	ans.add(rs.getInt("ansQ3"));
+			 	ans.add(rs.getInt("ansQ4"));
+			 	ans.add(rs.getInt("ansQ5"));
+			 	ans.add(rs.getInt("ansQ6"));
+
+			 }
+			 
+			 return ans;
+
+  }
+  
+  
+  
+  @SuppressWarnings("unchecked")
+protected Object addSurveyResult(Object msg, Connection conn) throws ParseException, SQLException {
+ 	    int id = ((ArrayList<Integer>)(((Message)msg).getMsg())).get(0);
+ 	    int tempId=0;
+ 	    int storeId = ((ArrayList<Integer>)(((Message)msg).getMsg())).get(7);
+   		String startDate;
+   		String endDate;
+   		int customerId = ((ArrayList<Integer>)(((Message)msg).getMsg())).get(8);
+   		LocalDate localDate = LocalDate.now();//For reference
+   		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+   		String formattedString = localDate.format(formatter);
+   		
+   		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+   		java.util.Date my_date = format.parse(formattedString);
+  		
+   		if(checkCustomerFillTwice(conn,id,customerId) ==true)// check if customer already fill this survey
+   		{
+   			System.out.println("customer twice");      			
+	 			((Message)msg).setOption("customer twice");
+	 			return msg;
+   		}
+   		
+   		ResultSet rs = getSurveyData(conn,id); // get all the survey
+   		
+   		
+			 while(rs.next())
+			 {
+			 	tempId=rs.getInt("Surveyid");
+			 	
+			 	if(id== tempId) // find the id we choose in the survey table
+			 	{
+			 		if(rs.getInt("StoreId") != storeId) // check if store id match
+			 		{
+			 			System.out.println("The storeId is not correct");
+			 			((Message)msg).setOption("The storeId is not correct");
+			 			return msg;
+			 		}
+			 		startDate =rs.getString("SurveyStartDate");
+			 		endDate = rs.getString("SurveyEndDate");
+		      		java.util.Date start_date = format.parse(startDate);
+		      		java.util.Date end_date = format.parse(endDate);
+			 		
+		      		//(start_date.equals(my_date)==false)   (end_date.equals(my_date)==false)
+			      		if ((((my_date.before(start_date)) ) || ((my_date.after(end_date)))) )
+			      		{
+			      			if(!((start_date.equals(my_date)==true) || (end_date.equals(my_date)==true)))
+				 			System.out.println("Error your date not between start and end date of the survey");//-------------------------fix---------------------
+				 			((Message)msg).setOption("Error your date not between start and end date of the survey");
+				 			return msg;
+	
+			      		}
+			 	}
+			 }
+
+   			
+ 	        String query = "INSERT INTO project.survey_result (Surveyid, ansQ1 ,ansQ2, ansQ3, ansQ4, ansQ5, ansQ6 ,storeId ,customerId ,Date)"
+ 	                + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+ 	        try {
+ 	              PreparedStatement preparedStmt = (PreparedStatement) conn.prepareStatement(query);
+ 	              preparedStmt.setInt(1, id);
+ 	              preparedStmt.setInt (2, ((ArrayList<Integer>)(((Message)msg).getMsg())).get(1));
+ 	              preparedStmt.setInt (3, ((ArrayList<Integer>)(((Message)msg).getMsg())).get(2));
+ 	              preparedStmt.setInt (4, ((ArrayList<Integer>)(((Message)msg).getMsg())).get(3));
+ 	              preparedStmt.setInt (5, ((ArrayList<Integer>)(((Message)msg).getMsg())).get(4));
+ 	              preparedStmt.setInt (6, ((ArrayList<Integer>)(((Message)msg).getMsg())).get(5));
+ 	              preparedStmt.setInt (7, ((ArrayList<Integer>)(((Message)msg).getMsg())).get(6));
+ 	              preparedStmt.setInt (8, ((ArrayList<Integer>)(((Message)msg).getMsg())).get(7)); // store id
+ 	              preparedStmt.setInt (9, ((ArrayList<Integer>)(((Message)msg).getMsg())).get(8));//customer id
+ 	              preparedStmt.setString(10, formattedString);
+ 	              preparedStmt.execute();
+			 		  ((Message)msg).setOption("succed!");
+ 	              return msg;
+ 	        }catch (SQLException e) {e.printStackTrace();}
+	 			((Message)msg).setOption("succed!");
+				return msg;	
+
+ 	 //}
+  }
+  
+  @SuppressWarnings("unchecked")
+  protected boolean checkCustomerFillTwice(Connection conn,int id,int customerId) throws SQLException {
+ 	  boolean flag=false;
+ 	  Statement stmt;
+		  stmt = conn.createStatement();
+		  String getSurveyTable = "SELECT * FROM project.survey_result WHERE Surveyid="+ "'" +id+ "'" + "AND customerId =" + "'" + customerId + "'" + ";"; // get the survey that connected to new survey id of exist
+		  ResultSet rs = stmt.executeQuery(getSurveyTable);
+		  while(rs.next()) {//if he is exist
+			flag=true;
+		  }
+		  if(flag==true)
+			  return true;
+		  return false;
+  }
+  
+  @SuppressWarnings("unchecked")
+protected ResultSet getSurveyData(Connection conn,int id) throws SQLException {
+ 	 
+ 	 		  Statement stmt;
+ 			  stmt = conn.createStatement();
+ 			  String getSurveyTable = "SELECT* FROM project.survey;";
+ 			  ResultSet rs = stmt.executeQuery(getSurveyTable);
+ 			  
+ 			  return rs;
+
+      }
       
   @SuppressWarnings("unchecked")
   protected void updateSurveyResult(Object msg, Connection conn) {
@@ -2094,6 +2372,42 @@ public class EchoServer extends AbstractServer
 
     	 
      }
+  
+  protected ArrayList<Integer> getSurveyId(Connection conn) throws SQLException{
+ 	 ArrayList<Integer> i = new ArrayList<Integer>();
+	  		Statement stmt;
+			  stmt = conn.createStatement();
+ 	 String getSurveyIdTable = "SELECT Surveyid FROM project.survey_result;";
+ 			 ResultSet rs = stmt.executeQuery(getSurveyIdTable);
+ 			 while(rs.next())
+ 			 {
+ 			 	i.add(rs.getInt("Surveyid"));
+ 			 }
+
+
+ 	 
+ 	 return i;
+  }
+  
+  protected ArrayList<Integer> getCustomerIdUser(Connection conn) throws SQLException{
+ 	 
+ 	 ArrayList<Integer> i = new ArrayList<Integer>();
+	  	 Statement stmt;
+	  	 String Customer = "CUSTOMER";
+		 stmt = conn.createStatement();
+ 	 //String getSCustomerId = "SELECT* FROM project.user;" ;
+
+ 	 String getSCustomerId = "SELECT UserId FROM project.user WHERE UserPermission = " + "'" + Customer + "'" +  ";" ;
+ 			 ResultSet rs = stmt.executeQuery(getSCustomerId);
+ 			 while(rs.next())
+ 			 {
+ 			 	i.add(Integer.parseInt(rs.getString("UserId")));
+ 			 }
+
+ 	 return i;
+
+ 	 
+  }
   
   protected ArrayList<Product> getProductsFromDB(Connection conn) /* This method get products table details from DB */
   {

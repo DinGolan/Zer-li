@@ -18,6 +18,7 @@ public class UserUI extends Application /* With This Class We Show the Product G
 	public static User user = null;
 	public static Store store;
 	public static ArrayList<Integer> Id = new ArrayList<Integer>();
+	public static ArrayList<Integer> CId = new ArrayList<Integer>();
 	
 	public static String IP;
 	public static int Port;

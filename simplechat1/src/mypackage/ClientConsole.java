@@ -26,9 +26,13 @@ import controller.CatalogController;
 import controller.ComplaintController;
 import controller.ComplaintHandleController;
 import controller.CustomerController;
+import controller.ExpertSurveyController;
 import controller.OrderController;
 import controller.ProfileController;
-import controller.StoreManagerController;import controller.SurveyResultController;
+import controller.StoreManagerController;
+import controller.SurveyController;
+import controller.SurveyInfoController;
+import controller.SurveyResultController;
 import controller.UserController;
 import entity.Account;
 import entity.Complaint;
@@ -162,6 +166,45 @@ public class ClientConsole implements ChatIF
   @SuppressWarnings("unchecked")
 public void displayUI(Object message) 
   {
+	  
+	  if(((Message)message).getOption().compareTo("succed!") ==0) 
+	  {
+		  SurveyResultController.errorMsg = "succed!";
+	  }
+	  
+	  if(((Message)message).getOption().compareTo("Error your date not between start and end date of the survey") ==0) 
+	  {
+		  SurveyResultController.errorMsg = "Error your date not between start and end date of the survey";
+	  }
+	  
+	  if(((Message)message).getOption().compareTo("The storeId is not correct") ==0) 
+	  {
+
+		  SurveyResultController.errorMsg = "The storeId is not correct";
+	  }
+	  
+	  if(((Message)message).getOption().compareTo("customer twice") ==0) 
+	  {
+
+		  SurveyResultController.errorMsg = "customer twice";
+	  }
+	  
+	  if(((Message)message).getOption().compareTo("date between error") ==0) 
+	  {
+		  SurveyController.errorMsg = "date between error";
+	  }
+	  
+	  if(((Message)message).getOption().compareTo("error store have survey") ==0) 
+	  {
+		  SurveyController.errorMsg = "error store have survey";
+	  }
+	  
+	  if(((Message)message).getOption().compareTo("succes survey") ==0) 
+	  {
+		  SurveyController.errorMsg = "succes survey";
+	  }
+
+	  
 	    if(((Message)message).getOption().compareTo("get all products in DB") ==0) 		/* Check that its update */
 	    {
 	  	  	int i=0;
@@ -258,6 +301,39 @@ public void displayUI(Object message)
 	    	UserUI.Id = (ArrayList<Integer>)(((Message)message).getMsg());
 	    	SurveyResultController.flag = true;
 	    }
+	    
+	    if(((Message)message).getOption().compareTo("get all the customerId") == 0)
+	    {
+	    	UserUI.CId = (ArrayList<Integer>)(((Message)message).getMsg());
+	    	SurveyResultController.flag2 = true;
+	    }
+	    if(((Message)message).getOption().compareTo("get info survey") == 0)
+	    {
+	    	if(((ArrayList<Integer>)(((Message)message).getMsg())).get(0)==11)
+	    	{
+	  		  ExpertSurveyController.errorMsg = "11";
+	    		//----------------------------------------------------
+	    	}
+	    	else {
+	    	SurveyInfoController.ans = (ArrayList<Integer>)(((Message)message).getMsg());
+	  		ExpertSurveyController.errorMsg = "10";
+	    	SurveyInfoController.flag = true;
+	             }
+	    }
+	    
+	    if(((Message)message).getOption().compareTo("add surveyConclusion") == 0)
+	    {
+	    	if(((ArrayList<Integer>)(((Message)message).getMsg())).get(0)==11)
+	    	{
+	  		  ExpertSurveyController.errorMsg = "11";
+	    		//----------------------------------------------------
+	    	}
+	    	else {
+	  		  ExpertSurveyController.errorMsg = "10";
+	             }
+	    }
+
+	    
 	    
 	    else if(((Message)message).getOption().compareTo("Get all orders for this customer") == 0) //get all the orders to specific customer
 	    {
