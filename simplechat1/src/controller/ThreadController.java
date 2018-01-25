@@ -33,6 +33,7 @@ public class ThreadController implements Runnable
 		
 		while(true)
 		{	
+			//EchoServer.changeOrderStatusToRecived(EchoServerController.con);
 			/* Variables */
 			LocalDate localDate = LocalDate.now();
 	  		DateTimeFormatter Formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");

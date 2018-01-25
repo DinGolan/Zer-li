@@ -48,7 +48,7 @@ public class Order implements Serializable{
 	
 	public enum SupplyOption { DELIVERY , PICKUP }
 	
-	public enum orderStatus { APPROVED , CANCEL }
+	public enum orderStatus { APPROVED , CANCEL , RECIVED}
 	
 	public Order()
 	{

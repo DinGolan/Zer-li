@@ -148,7 +148,7 @@ public class EchoServerController implements Initializable {
 
 		try 
 		{
-			con = DriverManager.getConnection("jdbc:mysql://localhost/" + this.txtScheme.getText() , this.txtUser.getText() , this.txtPassword.getText());
+			con = DriverManager.getConnection("jdbc:mysql://localhost/" + Scheme , User_Name , Password);
 		} 
 		catch (SQLException e)
 		{

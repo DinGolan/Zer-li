@@ -84,6 +84,7 @@ public class UserController implements Initializable {
 	{
 		Parent root = FXMLLoader.load(getClass().getResource("/controller/Enter_The_IP_And_Port.fxml"));
 		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setTitle("Client IP - Managment Tool");
 		primaryStage.setScene(scene);
 		primaryStage.show();
@@ -115,7 +116,16 @@ public class UserController implements Initializable {
 		Parent root = null;
 		root = FXMLLoader.load(getClass().getResource("/controller/UserLogin.fxml"));
 		Scene scene = new Scene(root);
+<<<<<<< .mine
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+=======
+		
+>>>>>>> .theirs
+scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());<<<<<<< .mine
+
+=======
+		
+>>>>>>> .theirs
 		primaryStage.setTitle("LOGIN");
 		primaryStage.setScene(scene);
 		primaryStage.show();
@@ -127,6 +137,7 @@ public class UserController implements Initializable {
 		Stage primaryStage = new Stage(); 						  /* Object present window with graphics elements */
 		Parent root = FXMLLoader.load(getClass().getResource("/controller/Enter_The_IP_And_Port.fxml"));
 		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setTitle("Client IP - Managment Tool");
 		primaryStage.setScene(scene);
 		primaryStage.show();

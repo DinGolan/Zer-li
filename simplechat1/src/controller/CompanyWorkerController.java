@@ -85,7 +85,7 @@ public class CompanyWorkerController implements Initializable {
 		Pane root = loader.load(getClass().getResource("/controller/UpdateProduct.fxml").openStream());
 		
 		Scene scene = new Scene(root);			
-		//scene.getStylesheets().add(getClass().getResource("/gui/StudentForm.css").toExternalForm());
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setTitle("Update Product");
 		primaryStage.setScene(scene);		
 		primaryStage.show();
@@ -125,7 +125,7 @@ public class CompanyWorkerController implements Initializable {
 			productController.loadProduct(p);
 			
 			Scene scene = new Scene(root);			
-			//scene.getStylesheets().add(getClass().getResource("/gui/StudentForm.css").toExternalForm());
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 			primaryStage.setTitle("Product Form");
 			primaryStage.setScene(scene);		
 			primaryStage.show();
@@ -140,7 +140,7 @@ public class CompanyWorkerController implements Initializable {
 			Pane root = loader.load(getClass().getResource("/controller/AddProductForm.fxml").openStream());
 			
 			Scene scene = new Scene(root);			
-			//scene.getStylesheets().add(getClass().getResource("/gui/StudentForm.css").toExternalForm());
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 			primaryStage.setTitle("Add Product");
 			primaryStage.setScene(scene);		
 			primaryStage.show();
@@ -155,7 +155,7 @@ public class CompanyWorkerController implements Initializable {
 		Pane root = loader.load(getClass().getResource("/controller/RemoveProduct.fxml").openStream());
 		
 		Scene scene = new Scene(root);			
-		//scene.getStylesheets().add(getClass().getResource("/gui/StudentForm.css").toExternalForm());
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setTitle("Remove Product");
 		primaryStage.setScene(scene);		
 		primaryStage.show();
@@ -181,6 +181,7 @@ public class CompanyWorkerController implements Initializable {
 			FXMLLoader loader = new FXMLLoader();
 			Pane root = loader.load(getClass().getResource("/controller/CompanyWorkerOptions.fxml").openStream());
 			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Company Worker Options");
 			primaryStage.show();
@@ -195,6 +196,7 @@ public class CompanyWorkerController implements Initializable {
 		FXMLLoader loader = new FXMLLoader(); /* load object */
 		Parent root = FXMLLoader.load(getClass().getResource("/controller/UserLogin.fxml"));
 		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setTitle("LOGIN");
 		primaryStage.setScene(scene);
 		primaryStage.show();
@@ -216,7 +218,7 @@ public class CompanyWorkerController implements Initializable {
 			productController.loadProduct(p);
 			
 			Scene scene = new Scene(root);			
-			//scene.getStylesheets().add(getClass().getResource("/gui/StudentForm.css").toExternalForm());
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 			primaryStage.setTitle("Remove Product");
 			primaryStage.setScene(scene);		
 			primaryStage.show();
@@ -230,6 +232,7 @@ public class CompanyWorkerController implements Initializable {
 		FXMLLoader loader = new FXMLLoader(); /* load object */
 		Parent root = FXMLLoader.load(getClass().getResource("/controller/SalesOptions.fxml"));
 		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setTitle("Sales Options");
 		primaryStage.setScene(scene);
 		primaryStage.show();
@@ -243,6 +246,7 @@ public class CompanyWorkerController implements Initializable {
 		FXMLLoader loader = new FXMLLoader(); /* load object */
 		Parent root = FXMLLoader.load(getClass().getResource("/controller/UpdateSalesInStore.fxml"));
 		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setTitle("Sales Options");
 		primaryStage.setScene(scene);
 		primaryStage.show();
@@ -256,6 +260,7 @@ public class CompanyWorkerController implements Initializable {
 		FXMLLoader loader = new FXMLLoader(); /* load object */
 		Parent root = FXMLLoader.load(getClass().getResource("/controller/AddSale.fxml"));
 		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setTitle("Add Sale");
 		primaryStage.setScene(scene);
 		primaryStage.show();

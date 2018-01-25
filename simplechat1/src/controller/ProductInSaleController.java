@@ -192,7 +192,8 @@ public class ProductInSaleController implements Initializable{
 			ProductInSaleController productInSaleController = loader.getController();	
 			productInSaleController.loadProduct(cmbPid.getValue());
 				
-			Scene scene = new Scene(root);			
+			Scene scene = new Scene(root);		
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 			primaryStage.setScene(scene);	
 			primaryStage.setTitle("Sales Options");		
 			primaryStage.show();									 /* show catalog frame window */
@@ -206,7 +207,8 @@ public class ProductInSaleController implements Initializable{
 		FXMLLoader loader = new FXMLLoader(); 					 /* load object */
 		Pane root = loader.load(getClass().getResource("/controller/SalesOptions.fxml").openStream());
 		
-		Scene scene = new Scene(root);			
+		Scene scene = new Scene(root);		
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);	
 		primaryStage.setTitle("Sales Options");		
 		primaryStage.show();									 /* show catalog frame window */
@@ -285,6 +287,7 @@ public class ProductInSaleController implements Initializable{
 		Pane root = loader.load(getClass().getResource("/controller/EmptyFieldsErrInSale.fxml").openStream());
 		
 		Scene scene = new Scene(root);			
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);	
 		primaryStage.setTitle("Error message");	
 		primaryStage.show();									 /* show catalog frame window */
@@ -303,6 +306,7 @@ public class ProductInSaleController implements Initializable{
 		productInSaleController.loadProduct(String.valueOf(p.getpID()));
 				
 		Scene scene = new Scene(root);			
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);	
 		primaryStage.setTitle("Sales Options");		
 		primaryStage.show();									 /* show catalog frame window */
@@ -317,7 +321,8 @@ public class ProductInSaleController implements Initializable{
 		FXMLLoader loader = new FXMLLoader(); 					 /* load object */
 		Pane root = loader.load(getClass().getResource("/controller/UpdateSalesInStore.fxml").openStream());
 		
-		Scene scene = new Scene(root);			
+		Scene scene = new Scene(root);	
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);	
 		primaryStage.setTitle("Update Sales In Store");	
 		primaryStage.show();									 /* show catalog frame window */
@@ -372,7 +377,8 @@ public class ProductInSaleController implements Initializable{
 			ProductInSaleController productInSaleController = loader.getController();
 			productInSaleController.loadFields(p);
 			
-			Scene scene = new Scene(root);			
+			Scene scene = new Scene(root);		
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 			primaryStage.setScene(scene);	
 			primaryStage.setTitle("Add Sales In Store");	
 			primaryStage.show();									 /* show catalog frame window */
@@ -386,7 +392,8 @@ public class ProductInSaleController implements Initializable{
 			FXMLLoader loader = new FXMLLoader(); 					 /* load object */
 			Pane root = loader.load(getClass().getResource("/controller/SaleAlreadyExist.fxml").openStream());
 			
-			Scene scene = new Scene(root);			
+			Scene scene = new Scene(root);		
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 			primaryStage.setScene(scene);	
 			primaryStage.setTitle("Add Sales In Store");	
 			primaryStage.show();									 /* show catalog frame window */
@@ -401,7 +408,8 @@ public class ProductInSaleController implements Initializable{
 		FXMLLoader loader = new FXMLLoader(); 					 /* load object */
 		Pane root = loader.load(getClass().getResource("/controller/AddSale.fxml").openStream());
 		
-		Scene scene = new Scene(root);			
+		Scene scene = new Scene(root);		
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);	
 		primaryStage.setTitle("Update Sales In Store");	
 		primaryStage.show();									 /* show catalog frame window */
@@ -446,7 +454,8 @@ public class ProductInSaleController implements Initializable{
 		FXMLLoader loader = new FXMLLoader(); 					 /* load object */
 		Pane root = loader.load(getClass().getResource("/controller/EmptyFieldInSaleErrMsg.fxml").openStream());
 		
-		Scene scene = new Scene(root);			
+		Scene scene = new Scene(root);		
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);	
 		primaryStage.setTitle("Add Sales In Store");	
 		primaryStage.show();									 /* show catalog frame window */
@@ -463,7 +472,8 @@ public class ProductInSaleController implements Initializable{
 		ProductInSaleController productInSaleController = loader.getController();
 		productInSaleController.loadFields(p);
 		
-		Scene scene = new Scene(root);			
+		Scene scene = new Scene(root);	
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);	
 		primaryStage.setTitle("Add Sales In Store");	
 		primaryStage.show();									 /* show catalog frame window */

@@ -25,9 +25,23 @@ import controller.CatalogController;
 import controller.ComplaintController;
 import controller.ComplaintHandleController;
 import controller.CustomerController;
+import controller.ExpertSurveyController;
 import controller.OrderController;
 import controller.StoreManagerController;
 import controller.SurveyResultController;
+<<<<<<< .mine
+import controller.StoreManagerController;
+import controller.SurveyResultController;
+
+
+
+=======
+import controller.ProfileController;
+import controller.StoreManagerController;
+import controller.SurveyController;
+import controller.SurveyInfoController;
+import controller.SurveyResultController;
+>>>>>>> .theirs
 import controller.UserController;
 import entity.Account;
 import entity.Complaint;
@@ -160,6 +174,45 @@ public class ClientConsole implements ChatIF
   @SuppressWarnings("unchecked")
 public void displayUI(Object message) 
   {
+	  
+	  if(((Message)message).getOption().compareTo("succed!") ==0) 
+	  {
+		  SurveyResultController.errorMsg = "succed!";
+	  }
+	  
+	  if(((Message)message).getOption().compareTo("Error your date not between start and end date of the survey") ==0) 
+	  {
+		  SurveyResultController.errorMsg = "Error your date not between start and end date of the survey";
+	  }
+	  
+	  if(((Message)message).getOption().compareTo("The storeId is not correct") ==0) 
+	  {
+
+		  SurveyResultController.errorMsg = "The storeId is not correct";
+	  }
+	  
+	  if(((Message)message).getOption().compareTo("customer twice") ==0) 
+	  {
+
+		  SurveyResultController.errorMsg = "customer twice";
+	  }
+	  
+	  if(((Message)message).getOption().compareTo("date between error") ==0) 
+	  {
+		  SurveyController.errorMsg = "date between error";
+	  }
+	  
+	  if(((Message)message).getOption().compareTo("error store have survey") ==0) 
+	  {
+		  SurveyController.errorMsg = "error store have survey";
+	  }
+	  
+	  if(((Message)message).getOption().compareTo("succes survey") ==0) 
+	  {
+		  SurveyController.errorMsg = "succes survey";
+	  }
+
+	  
 	    if(((Message)message).getOption().compareTo("get all products in DB") ==0) 		/* Check that its update */
 	    {
 	  	  	int i=0;
@@ -257,6 +310,39 @@ public void displayUI(Object message)
 	    	SurveyResultController.flag = true;
 	    }
 	    
+	    if(((Message)message).getOption().compareTo("get all the customerId") == 0)
+	    {
+	    	UserUI.CId = (ArrayList<Integer>)(((Message)message).getMsg());
+	    	SurveyResultController.flag2 = true;
+	    }
+	    if(((Message)message).getOption().compareTo("get info survey") == 0)
+	    {
+	    	if(((ArrayList<Integer>)(((Message)message).getMsg())).get(0)==11)
+	    	{
+	  		  ExpertSurveyController.errorMsg = "11";
+	    		//----------------------------------------------------
+	    	}
+	    	else {
+	    	SurveyInfoController.ans = (ArrayList<Integer>)(((Message)message).getMsg());
+	  		ExpertSurveyController.errorMsg = "10";
+	    	SurveyInfoController.flag = true;
+	             }
+	    }
+	    
+	    if(((Message)message).getOption().compareTo("add surveyConclusion") == 0)
+	    {
+	    	if(((ArrayList<Integer>)(((Message)message).getMsg())).get(0)==11)
+	    	{
+	  		  ExpertSurveyController.errorMsg = "11";
+	    		//----------------------------------------------------
+	    	}
+	    	else {
+	  		  ExpertSurveyController.errorMsg = "10";
+	             }
+	    }
+
+	    
+	    
 	    else if(((Message)message).getOption().compareTo("Get all orders for this customer") == 0) //get all the orders to specific customer
 	    {
 	  	  	int i=0;
@@ -315,9 +401,14 @@ public void displayUI(Object message)
   	  		StoreManagerController.storeID=((Integer)((Message)message).getMsg()); //save the store number
   	  		StoreManagerController.flag=true; //finish to get the store number
 	    }
-	    
-	    else if(((Message)message).getOption().compareTo("Store Manager - Add Store To Combo Box From DB") == 0)
-	    {
+			else if(((Message)message).getOption().compareTo("Update complaint") == 0) //update complaint	   
+	       {
+    			System.out.println("clientcons");
+	  	  		ComplaintUI.complaint=new Complaint();
+	  	  		ComplaintUI.complaint=(Complaint)((Message)message).getMsg(); //save the complaint from the DB with all the details at the ComplaintUI
+	  	  		ComplaintHandleController.complaintFlag=true; //finish to get all the details for this complaint
+	  	  		System.out.println(ComplaintUI.complaint);
+	   	 } else if(((Message)message).getOption().compareTo("Store Manager - Add Store To Combo Box From DB") == 0)	    {
 		  	  int i=0;
 			  ArrayList<Store> temp = new ArrayList<Store>();
 			  temp = (ArrayList<Store>)((Message)message).getMsg();
@@ -326,9 +417,7 @@ public void displayUI(Object message)
 			  for(i=0;i<temp.size();i++)
 		  	  {
 	//			  StoreManagerUI.stores.add(temp.get(i));
-		  	  }
-	    }
-	    else if(((Message)message).getOption().compareTo("Store Manager - Take The Orders Of Specific Store") == 0)
+}}	    else if(((Message)message).getOption().compareTo("Store Manager - Take The Orders Of Specific Store") == 0)
 	    {
 		  	  int i=0;
 			  ArrayList<Order> temp_Order = new ArrayList<Order>();

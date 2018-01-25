@@ -100,7 +100,7 @@ public class CatalogController implements Initializable {
 		Pane root = loader.load(getClass().getResource("/controller/CustomerOptions.fxml").openStream());
 				
 		Scene scene = new Scene(root);			
-		/* scene.getStylesheets().add(getClass().getResource("/boundery/ProductForm.css").toExternalForm()); */
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setTitle("Customer Options");
 		primaryStage.setScene(scene);		
 		primaryStage.show();	
@@ -299,7 +299,7 @@ public class CatalogController implements Initializable {
 		
 		
 		Scene scene = new Scene(root);			
-		//scene.getStylesheets().add(getClass().getResource("/gui/StudentForm.css").toExternalForm());
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setTitle("Cart Frame");
 		primaryStage.setScene(scene);		
 		primaryStage.show();
@@ -316,6 +316,7 @@ public class CatalogController implements Initializable {
 		FXMLLoader loader = new FXMLLoader(); /* load object */
 		Parent root = FXMLLoader.load(getClass().getResource("/controller/UserLogin.fxml"));
 		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setTitle("LOGIN");
 		primaryStage.setScene(scene);
 		primaryStage.show();
@@ -372,7 +373,7 @@ public class CatalogController implements Initializable {
 		
 		
 		Scene scene = new Scene(root);			
-		//scene.getStylesheets().add(getClass().getResource("/gui/StudentForm.css").toExternalForm());
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setTitle("Error Msg");
 		primaryStage.setScene(scene);		
 		primaryStage.show();
@@ -387,7 +388,7 @@ public class CatalogController implements Initializable {
 		
 		
 		Scene scene = new Scene(root);			
-		//scene.getStylesheets().add(getClass().getResource("/gui/StudentForm.css").toExternalForm());
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setTitle("Catalog");
 		primaryStage.setScene(scene);		
 		primaryStage.show();

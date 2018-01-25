@@ -30,7 +30,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class ProductController implements Initializable{
-	private static Product p;
+	private static Product p = new Product();
 	private Message msg;
 	public static Order order;
 	public static int flag =0 ;
@@ -106,7 +106,8 @@ public class ProductController implements Initializable{
 		FXMLLoader loader = new FXMLLoader(); 					 /* load object */
 		Pane root = loader.load(getClass().getResource("/controller/UpdateProduct.fxml").openStream());
 		
-		Scene scene = new Scene(root);			
+		Scene scene = new Scene(root);		
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);	
 		primaryStage.setTitle("Update Product");		
 		primaryStage.show();									 /* show catalog frame window */
@@ -171,7 +172,8 @@ public class ProductController implements Initializable{
 					FXMLLoader loader = new FXMLLoader(); 					 /* load object */
 					Pane root = loader.load(getClass().getResource("/controller/DontExistPicErr.fxml").openStream());
 					
-					Scene scene = new Scene(root);			
+					Scene scene = new Scene(root);		
+					scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 					primaryStage.setScene(scene);	
 					primaryStage.setTitle("Error message");	
 					primaryStage.show();									 /* show catalog frame window */
@@ -185,7 +187,8 @@ public class ProductController implements Initializable{
 				FXMLLoader loader = new FXMLLoader(); 					 /* load object */
 				Pane root = loader.load(getClass().getResource("/controller/ErrInFields.fxml").openStream());
 				
-				Scene scene = new Scene(root);			
+				Scene scene = new Scene(root);		
+				scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 				primaryStage.setScene(scene);	
 				primaryStage.setTitle("Error message");	
 				primaryStage.show();									 /* show catalog frame window */
@@ -199,7 +202,8 @@ public class ProductController implements Initializable{
 			FXMLLoader loader = new FXMLLoader(); 					 /* load object */
 			Pane root = loader.load(getClass().getResource("/controller/ErrInFields.fxml").openStream());
 			
-			Scene scene = new Scene(root);			
+			Scene scene = new Scene(root);		
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 			primaryStage.setScene(scene);	
 			primaryStage.setTitle("Error message");	
 			primaryStage.show();									 /* show catalog frame window */
@@ -223,7 +227,8 @@ public class ProductController implements Initializable{
 				FXMLLoader loader = new FXMLLoader(); 					 /* load object */
 				Pane root = loader.load(getClass().getResource("/controller/DontExistPicErr.fxml").openStream());
 				
-				Scene scene = new Scene(root);			
+				Scene scene = new Scene(root);	
+				scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 				primaryStage.setScene(scene);	
 				primaryStage.setTitle("Error message");	
 				primaryStage.show();									 /* show catalog frame window */
@@ -244,6 +249,7 @@ public class ProductController implements Initializable{
 		productController.loadProduct(p);
 		
 		Scene scene = new Scene(root);			
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);	
 		primaryStage.setTitle("Product Form");			
 		primaryStage.show();									 /* show catalog frame window */
@@ -279,7 +285,8 @@ public class ProductController implements Initializable{
 					FXMLLoader loader = new FXMLLoader(); 					 /* load object */
 					Pane root = loader.load(getClass().getResource("/controller/DontExistPicErr.fxml").openStream());
 					
-					Scene scene = new Scene(root);			
+					Scene scene = new Scene(root);		
+					scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 					primaryStage.setScene(scene);	
 					primaryStage.setTitle("Error message");			
 					primaryStage.show();									 /* show catalog frame window */
@@ -294,6 +301,7 @@ public class ProductController implements Initializable{
 				Pane root = loader.load(getClass().getResource("/controller/EmptyFieldsErr.fxml").openStream());
 				
 				Scene scene = new Scene(root);			
+				scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 				primaryStage.setScene(scene);	
 				primaryStage.setTitle("Error message");			
 				primaryStage.show();									 /* show catalog frame window */
@@ -308,6 +316,7 @@ public class ProductController implements Initializable{
 			Pane root = loader.load(getClass().getResource("/controller/EmptyFieldsErr.fxml").openStream());
 			
 			Scene scene = new Scene(root);			
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 			primaryStage.setScene(scene);	
 			primaryStage.setTitle("Error message");	
 			primaryStage.show();									 /* show catalog frame window */
@@ -325,6 +334,7 @@ public class ProductController implements Initializable{
 		Pane root = loader.load(getClass().getResource("/controller/AddProductForm.fxml").openStream());
 		
 		Scene scene = new Scene(root);			
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);	
 		primaryStage.setTitle("Add product");		
 		primaryStage.show();									 /* show catalog frame window */
@@ -348,7 +358,8 @@ public class ProductController implements Initializable{
 		FXMLLoader loader = new FXMLLoader(); 					 /* load object */
 		Pane root = loader.load(getClass().getResource("/controller/CompanyWorkerOptions.fxml").openStream());
 		
-		Scene scene = new Scene(root);			
+		Scene scene = new Scene(root);		
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);	
 		primaryStage.setTitle("Update Product");		
 		primaryStage.show();									 /* show catalog frame window */

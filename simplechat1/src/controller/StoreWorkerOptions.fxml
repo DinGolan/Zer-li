@@ -5,13 +5,13 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="293.0" prefWidth="332.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CompanyManagerController">
+<AnchorPane prefHeight="293.0" prefWidth="332.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.StoreWorkerButtonController">
    <children>
-      <Button id="btnLogout" fx:id="btnLogout" layoutX="140.0" layoutY="232.0" mnemonicParsing="false" onAction="#logoutBtn" text="Logout" />
+      <Button id="btnLogout" fx:id="btnLogOut" layoutX="140.0" layoutY="232.0" mnemonicParsing="false" onAction="#Logout" text="Logout" />
       <Label layoutX="70.0" layoutY="28.0" text="Store Worker" textFill="#0022ff">
          <font>
             <Font name="Bodoni MT Bold" size="35.0" />
          </font></Label>
-      <Button id="btnUpdateCatalog" fx:id="btnUpdateCatalog" layoutX="72.0" layoutY="118.0" mnemonicParsing="false" onAction="#updateCatalogAndSalesBtn" prefHeight="44.0" prefWidth="191.0" text="Insert Survey Answers" />
+      <Button id="btnSave" fx:id="btnSave" layoutX="72.0" layoutY="118.0" mnemonicParsing="false" onAction="#SaveSurvey" prefHeight="44.0" prefWidth="191.0" text="Insert Survey Answers" />
    </children>
 </AnchorPane>
