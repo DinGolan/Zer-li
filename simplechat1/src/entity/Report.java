@@ -1,21 +1,24 @@
 package entity;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 @SuppressWarnings("serial")
 public class Report implements Serializable {
 	
-	private String qaurterReportNumber;
-	private int serialNumberReport;
-	private int storeId;
+	private String qaurterReportNumber;      /* The Quarter Report Number */
+	private int serialNumberReport;			 /* The Serial Number Of the Report */
+	private int storeId;                     /* Report That Belong to Specific Store */
+	private Date Date_Of_Report;			 /* The Date That We Create The Report */
 	
 	public Report() {}
 	
-	public Report(String qaurterReport, int serialNumberReport, int storeId) {
+	public Report(String qaurterReport, int serialNumberReport, int storeId , Date Date_Of_Report) {
 		super();
 		this.qaurterReportNumber = qaurterReport;
 		this.serialNumberReport = serialNumberReport;
 		this.storeId = storeId;
+		this.Date_Of_Report = Date_Of_Report;
 	}
 	
 	public String getQaurterReportNumber() {
@@ -38,10 +41,18 @@ public class Report implements Serializable {
 	public void setStoreId(int storeId) {
 		this.storeId = storeId;
 	}
-	
+
+	public Date getDate_Of_Report() {
+		return Date_Of_Report;
+	}
+
+	public void setDate_Of_Report(Date date_Of_Report) {
+		Date_Of_Report = date_Of_Report;
+	}
+
 	@Override
 	public String toString() {
-		return "Report [qaurterReport=" + qaurterReportNumber + ", serialNumberReport=" + serialNumberReport + ", storeId="
-				+ storeId + "]";
+		return "Report [qaurterReportNumber=" + qaurterReportNumber + ", serialNumberReport=" + serialNumberReport
+				+ ", storeId=" + storeId + ", Date_Of_Report=" + Date_Of_Report + "]";
 	}
 }

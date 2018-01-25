@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="293.0" prefWidth="332.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CompanyManagerController">
+<AnchorPane prefHeight="293.0" prefWidth="332.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CompanyManagerController">
    <children>
-      <Button id="btnLogout" fx:id="btnLogout" layoutX="140.0" layoutY="232.0" mnemonicParsing="false" onAction="#logoutBtn" text="Logout" />
+      <Button id="btnLogout" fx:id="btnLogout" layoutX="126.0" layoutY="232.0" mnemonicParsing="false" onAction="#logoutBtn" text="Logout" />
       <Label layoutX="31.0" layoutY="25.0" text="Company Manager" textFill="#0022ff">
          <font>
             <Font name="Bodoni MT Bold" size="35.0" />
          </font></Label>
-      <Button id="btnUpdateCatalog" fx:id="btnUpdateCatalog" layoutX="71.0" layoutY="161.0" mnemonicParsing="false" onAction="#updateCatalogAndSalesBtn" prefHeight="44.0" prefWidth="191.0" text="Update Catalog And Sales" />
-      <Button id="btnViewReports" fx:id="btnViewReports" layoutX="71.0" layoutY="88.0" mnemonicParsing="false" onAction="#viewReportBtn" prefHeight="44.0" prefWidth="191.0" text="View Report's" />
+      <Button id="btnViewReports" fx:id="btnViewReports" layoutX="71.0" layoutY="125.0" mnemonicParsing="false" onAction="#viewReportBtn" prefHeight="44.0" prefWidth="191.0" text="View Report's" />
    </children>
 </AnchorPane>

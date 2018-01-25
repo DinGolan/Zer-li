@@ -1,23 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="242.0" prefWidth="534.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EchoServerController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="242.0" prefWidth="583.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EchoServerController">
    <children>
-      <Label layoutX="31.0" layoutY="32.0" text="Error - Could Not Listen To Client" textFill="#0022ff">
+      <Label layoutX="82.0" layoutY="31.0" text="Error - Could Not Listen To Client" textFill="#0022ff">
          <font>
             <Font name="Bodoni MT Italic" size="30.0" />
          </font>
       </Label>
-      <TextArea id="txtErrMsg_For_Cant_Listen_For_Client" fx:id="txtErrMsg_For_Cant_Listen_For_Client" editable="false" layoutX="66.0" layoutY="99.0" prefHeight="62.0" prefWidth="391.0" text="The Server Cant Listen For Client AnyMore !" />
-      <Button id="btnExit" fx:id="btnExit" layoutX="225.0" layoutY="180.0" mnemonicParsing="false" onAction="#getExitBtn" prefHeight="39.0" prefWidth="73.0" text="Exit" />
+      <TextArea id="txtErrMsg_For_Cant_Listen_For_Client" fx:id="txtErrMsg_For_Cant_Listen_For_Client" editable="false" layoutX="66.0" layoutY="99.0" prefHeight="71.0" prefWidth="451.0" text="The Server Cant Listen For Client AnyMore !" />
+      <Button id="btnExit" fx:id="btnExit" layoutX="270.0" layoutY="189.0" mnemonicParsing="false" onAction="#getExitBtn" prefHeight="26.0" prefWidth="44.0" text="Exit" />
    </children>
 </AnchorPane>

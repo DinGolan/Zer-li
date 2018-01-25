@@ -7,12 +7,13 @@
 
 <AnchorPane prefHeight="405.0" prefWidth="332.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.StoreManagerController">
    <children>
-      <Button id="btnLogout" fx:id="btnStoreManagerLogout" layoutX="130.0" layoutY="327.0" mnemonicParsing="false" onAction="#logoutBtn" text="Logout" />
+      <Button id="btnLogout" fx:id="btnStoreManagerLogout" layoutX="130.0" layoutY="335.0" mnemonicParsing="false" onAction="#logoutBtn" text="Logout" />
       <Label layoutX="70.0" layoutY="30.0" text="Store Manager" textFill="#0022ff">
          <font>
             <Font name="Bodoni MT Bold" size="29.0" />
          </font></Label>
-      <Button id="btnViewReport" fx:id="btnViewReport" layoutX="71.0" layoutY="136.0" mnemonicParsing="false" onAction="#viewReportBtn" prefHeight="44.0" prefWidth="172.0" text="View store report" />
-      <Button id="btnStoreManagerOpenNewAccount" fx:id="btnStoreManagerOpenNewAccount" layoutX="71.0" layoutY="226.0" mnemonicParsing="false" onAction="#openNewAccountBtn" prefHeight="44.0" prefWidth="172.0" text="Open new accoount" />
+      <Button id="btnViewReport" fx:id="btnViewReport" layoutX="71.0" layoutY="105.0" mnemonicParsing="false" onAction="#viewReportBtn" prefHeight="44.0" prefWidth="172.0" text="View store report" />
+      <Button id="btnStoreManagerOpenNewAccount" fx:id="btnStoreManagerOpenNewAccount" layoutX="71.0" layoutY="183.0" mnemonicParsing="false" onAction="#openNewAccountBtn" prefHeight="44.0" prefWidth="172.0" text="Open new accoount" />
+      <Button id="btnStoreManagerRenewal" fx:id="btnStoreManagerRenewal" layoutX="71.0" layoutY="260.0" mnemonicParsing="false" onAction="#renewalAccountBtn" prefHeight="44.0" prefWidth="172.0" text="Renewal subscription" />
    </children>
 </AnchorPane>

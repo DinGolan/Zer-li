@@ -33,6 +33,9 @@ public class CompanyManagerController implements Initializable {
 	{	
 		Parent root = FXMLLoader.load(getClass().getResource("/controller/CompanyManagerOptions.fxml"));
 		Scene scene = new Scene(root);
+		
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+		
 		primaryStage.setTitle("Quarterly Report - Managment Tool");
 		primaryStage.setScene(scene);
 		primaryStage.show();		
@@ -47,15 +50,11 @@ public class CompanyManagerController implements Initializable {
 		FXMLLoader loader = new FXMLLoader();
 		Pane root = loader.load(getClass().getResource("/controller/CompanyManagerReportForm.fxml").openStream()); 
 		Scene scene = new Scene(root);	
+		
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+		
 		primaryStage.setScene(scene);		
 		primaryStage.show();
-	}
-	
-/* ----------------------------------- Open For Us The GUI Of the Company Manager - Update Catalog And Make Sales -------------------------------------- */	
-	
-	public void updateCatalogAndSalesBtn(ActionEvent event) throws Exception //To open the update catalog and sales option
-	{
-	
 	}
 	
 /* ----------------------------------- Logout From the User Of - Company Manager -------------------------------------- */
@@ -69,6 +68,9 @@ public class CompanyManagerController implements Initializable {
 		FXMLLoader loader = new FXMLLoader(); 		/* load object */
 		Parent root = FXMLLoader.load(getClass().getResource("/controller/UserLogin.fxml"));
 		Scene scene = new Scene(root);
+		
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+		
 		primaryStage.setTitle("LOGIN");
 		primaryStage.setScene(scene);
 		primaryStage.show();			

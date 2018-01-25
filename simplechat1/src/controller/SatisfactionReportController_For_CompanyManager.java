@@ -65,8 +65,30 @@ public class SatisfactionReportController_For_CompanyManager implements Initiali
 	 
 	public void loadStore(Store s) 			 /* To load the Store details to the text fields */
 	{ 
-		this.store = s;
-		this.txtStoreID.setText(String.valueOf(store.getStoreId()));
+		if(CompanyManagerReportController.Integer_The_Option_You_Choose == 1)
+		{
+			if(CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == true && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == true)
+			{
+				this.store = s;
+				this.txtStoreID.setText(String.valueOf(store.getStoreId()));
+			}
+			else
+			{
+				this.txtStoreID.setText(String.valueOf(1));
+			}
+		}
+		else if(CompanyManagerReportController.Integer_The_Option_You_Choose == 2)
+		{
+			if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == true)
+			{
+				this.store = s;
+				this.txtStoreID.setText(String.valueOf(store.getStoreId()));
+			}
+			else
+			{
+				this.txtStoreID.setText(String.valueOf(1));
+			}
+		}
 	}
 	
 /* --------------------------------- Close the Satisfaction Report Window ------------------------------------------------- */			
@@ -87,7 +109,8 @@ public class SatisfactionReportController_For_CompanyManager implements Initiali
 			root = loader.load(getClass().getResource("/controller/CompanyManagerReportForm_Window_With_Two_Store.fxml").openStream());
 		}
 		
-		Scene scene = new Scene(root);			
+		Scene scene = new Scene(root);	
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);		
 		primaryStage.show();										   
 	}
@@ -103,12 +126,31 @@ public class SatisfactionReportController_For_CompanyManager implements Initiali
 		String Year;
 		String Full_Date_String;
 		Date temp_Date_Quarter_Report;
-		temp_Date_Quarter_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.get(1);                             /* The Date */
-		Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
-		Year = Full_Date_String.substring(0 , 4);
-		Month = Full_Date_String.substring(5 , 7);
-		Year_Integer = Integer.parseInt(Year);
-		Month_Integer = Integer.parseInt(Month);
+		
+		if((CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == false && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == false)
+				|| (CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == false && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == true) 
+				|| (CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == true && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == false))
+		{
+			int temp_Store_Id = 1;
+			temp_Date_Quarter_Report = Date.valueOf("2017-12-31");
+			CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.clear();
+			CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.add(temp_Store_Id);
+			CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.add(temp_Date_Quarter_Report);
+			Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
+			Year = Full_Date_String.substring(0 , 4);
+			Month = Full_Date_String.substring(5 , 7);
+			Year_Integer = Integer.parseInt(Year);
+			Month_Integer = Integer.parseInt(Month);
+		}
+		else
+		{
+			temp_Date_Quarter_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.get(1);                             /* The Date */
+			Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
+			Year = Full_Date_String.substring(0 , 4);
+			Month = Full_Date_String.substring(5 , 7);
+			Year_Integer = Integer.parseInt(Year);
+			Month_Integer = Integer.parseInt(Month);
+		}
 		
 		this.txtYear.setText(String.valueOf(Year_Integer)); 					/* Set The Year */
 		
@@ -132,9 +174,16 @@ public class SatisfactionReportController_For_CompanyManager implements Initiali
 		ArrayList<Object> StoreID_And_Date_Of_Report = new ArrayList<Object>();
 		StoreID_And_Date_Of_Report.add(CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager.get(0)); /* The Store Id */
 		StoreID_And_Date_Of_Report.add(CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager.get(1)); /* The Date Of the Report */
+		
 		msg = new Message(StoreID_And_Date_Of_Report ,"Company Manager - Take The Surveys Of Specific Store In Specific Quarter"); 		/* I take All the Orders Of Specific Store , And After That I Take All the Complaint Of All The Order Of the Specific Store */
 		UserUI.myClient.accept(msg);
-		while(CompanyManagerUI.Average_Result_Of_Each_Qustions_In_surveys_For_Company_Manager.size() == 0);
+		while(CompanyManagerUI.Average_Result_Of_Each_Qustions_In_surveys_For_Company_Manager.size() == 0)
+		{
+			if(CompanyManagerUI.Average_Result_Of_Each_Qustions_In_surveys_For_Company_Manager.size() == 0)
+			{
+				break;
+			}
+		}
 		try 
 		{
 			Thread.sleep(200);
@@ -162,6 +211,10 @@ public class SatisfactionReportController_For_CompanyManager implements Initiali
 		
 		Total_Average = The_Average_Result_Of_Each_Question.get(6);       		   /* In The 6 Cell There Have The Total Average Of The Survey */
 		Number_Of_Client = The_Average_Result_Of_Each_Question.get(7).intValue();  /* In The 7 Cell There Have The Number Of Client */
+		if(String.valueOf(Total_Average).compareTo("NaN") == 0)
+		{
+			Total_Average = 0;
+		}
 		this.txtTotalAvgRank.setText(String.valueOf(Total_Average));
 		this.txtNumberOfClient.setText(String.valueOf(Number_Of_Client));
 		The_Average_Result_Of_Each_Question.remove(6);                    /* Remove The Almost Last Index With the Total Average - After That The Last Index Is 6 */

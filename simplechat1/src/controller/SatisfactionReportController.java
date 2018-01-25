@@ -77,7 +77,8 @@ public class SatisfactionReportController implements Initializable {
 		FXMLLoader loader = new FXMLLoader(); 					 	 /* Load object */
 		Pane root = loader.load(getClass().getResource("/controller/StoreManagerReportForm.fxml").openStream());
 		
-		Scene scene = new Scene(root);			
+		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);		
 		primaryStage.show();										   
 	}
@@ -93,12 +94,27 @@ public class SatisfactionReportController implements Initializable {
 		String Year;
 		String Full_Date_String;
 		Date temp_Date_Quarter_Report;
-		temp_Date_Quarter_Report = (Date)StoreManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report.get(1);                             /* The Date */
-		Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
-		Year = Full_Date_String.substring(0 , 4);
-		Month = Full_Date_String.substring(5 , 7);
-		Year_Integer = Integer.parseInt(Year);
-		Month_Integer = Integer.parseInt(Month);
+		if(StoreManagerReportController.Flag_Press_On_The_Date_ComboBox == false)
+		{
+			StoreManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report.clear();
+			StoreManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report.add(StoreManagerReportController.temp_Store_Id);
+			StoreManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report.add(StoreManagerUI.Dates.get(0));
+			temp_Date_Quarter_Report = (Date)StoreManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report.get(1);
+			Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
+			Year = Full_Date_String.substring(0 , 4);
+			Month = Full_Date_String.substring(5 , 7);
+			Year_Integer = Integer.parseInt(Year);
+			Month_Integer = Integer.parseInt(Month);
+		}
+		else
+		{
+			temp_Date_Quarter_Report = (Date)StoreManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report.get(1);                             /* The Date */
+			Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
+			Year = Full_Date_String.substring(0 , 4);
+			Month = Full_Date_String.substring(5 , 7);
+			Year_Integer = Integer.parseInt(Year);
+			Month_Integer = Integer.parseInt(Month);
+		}
 		
 		this.txtYear.setText(String.valueOf(Year_Integer)); 					/* Set The Year */
 		
@@ -122,9 +138,16 @@ public class SatisfactionReportController implements Initializable {
 		ArrayList<Object> StoreID_And_Date_Of_Report = new ArrayList<Object>();
 		StoreID_And_Date_Of_Report.add(StoreManagerUI.Help_To_Transfer_Object_At_Complaint_Report.get(0)); /* The Store Id */
 		StoreID_And_Date_Of_Report.add(StoreManagerUI.Help_To_Transfer_Object_At_Complaint_Report.get(1)); /* The Date Of the Report */
+		
 		msg = new Message(StoreID_And_Date_Of_Report , "Store Manager - Take The Surveys Of Specific Store In Specific Quarter"); 		/* I take All the Orders Of Specific Store , And After That I Take All the Complaint Of All The Order Of the Specific Store */
 		UserUI.myClient.accept(msg);
-		while(StoreManagerUI.Average_Result_Of_Each_Qustions_In_surveys.size() == 0);
+		while(StoreManagerUI.Average_Result_Of_Each_Qustions_In_surveys.size() == 0)
+		{
+			if(StoreManagerUI.Average_Result_Of_Each_Qustions_In_surveys.size() == 0)
+			{
+				break;
+			}
+		}
 		try 
 		{
 			Thread.sleep(200);
@@ -151,6 +174,10 @@ public class SatisfactionReportController implements Initializable {
 		}
 		
 		Total_Average = The_Average_Result_Of_Each_Question.get(6);       		   /* In The 6 Cell There Have The Total Average Of The Survey */
+		if(String.valueOf(Total_Average).compareTo("NaN") == 0)
+		{
+			Total_Average = 0;
+		}
 		Number_Of_Client = The_Average_Result_Of_Each_Question.get(7).intValue();  /* In The 7 Cell There Have The Number Of Client */
 		this.txtTotalAvgRank.setText(String.valueOf(Total_Average));
 		this.txtNumberOfClient.setText(String.valueOf(Number_Of_Client));

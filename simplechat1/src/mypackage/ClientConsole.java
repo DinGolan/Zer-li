@@ -116,6 +116,9 @@ public class ClientConsole implements ChatIF
 			e.printStackTrace();
 		}
 		Scene scene = new Scene(root);
+		
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+		
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Error Massage");
 		primaryStage.show();
@@ -200,6 +203,20 @@ public void displayUI(Object message)
 	  if(((Message)message).getOption().compareTo("succes survey") ==0) 
 	  {
 		  SurveyController.errorMsg = "succes survey";
+	  }
+	  
+	  if(((Message)message).getOption().compareTo("get all customers have FULLPRICE in this store") ==0) 
+	  {
+		  	int i=0;
+	  	  	ArrayList<String> temp = new ArrayList<String>();
+	  	  	temp = (ArrayList<String>)((Message)message).getMsg();
+	  	  	
+	  	  	AccountUI.customersId.clear();
+	  	  	for(i=0;i<temp.size();i++)
+	  	  	{
+	  	  	AccountUI.customersId.add(temp.get(i));
+	  	  	}
+	  	  	AccountController.loadCustomersFlag=true;
 	  }
 
 	  
@@ -398,17 +415,9 @@ public void displayUI(Object message)
 	  	  		ComplaintUI.complaint=(Complaint)((Message)message).getMsg(); //save the complaint from the DB with all the details at the ComplaintUI
 	  	  		ComplaintHandleController.complaintFlag=true; //finish to get all the details for this complaint
 	  	  		System.out.println(ComplaintUI.complaint);
-	   	 } else if(((Message)message).getOption().compareTo("Store Manager - Add Store To Combo Box From DB") == 0)	    {
-		  	  int i=0;
-			  ArrayList<Store> temp = new ArrayList<Store>();
-			  temp = (ArrayList<Store>)((Message)message).getMsg();
-			  StoreManagerUI.stores.clear();
-
-			  for(i=0;i<temp.size();i++)
-		  	  {
-	//			  StoreManagerUI.stores.add(temp.get(i));
-}}	    else if(((Message)message).getOption().compareTo("Store Manager - Take The Orders Of Specific Store") == 0)
-	    {
+	   	 }
+		 else if(((Message)message).getOption().compareTo("Store Manager - Take The Orders Of Specific Store") == 0)
+	     {
 		  	  int i=0;
 			  ArrayList<Order> temp_Order = new ArrayList<Order>();
 			  temp_Order = (ArrayList<Order>)((Message)message).getMsg();
@@ -418,9 +427,9 @@ public void displayUI(Object message)
 		  	  {
 				  StoreManagerUI.orders.add(temp_Order.get(i));
 		  	  }
-	    } 
-	    else if(((Message)message).getOption().compareTo("Store Manager - Take The Complaints Of Specific Store") == 0)
-	    {
+	     } 
+	     else if(((Message)message).getOption().compareTo("Store Manager - Take The Complaints Of Specific Store") == 0)
+	     {
 		  	  int i=0;
 			  ArrayList<Complaint> temp_Complaint = new ArrayList<Complaint>();
 			  temp_Complaint = (ArrayList<Complaint>)((Message)message).getMsg();

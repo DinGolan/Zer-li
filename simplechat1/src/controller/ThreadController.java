@@ -58,6 +58,10 @@ public class ThreadController implements Runnable
 				Flag_Date_1 = 1;
 				Number_Of_Quarter = 4;
 				Stores = new ArrayList<Store>();
+				int Integer_Formatted_String_Year = Integer.parseInt(Formatted_String_2.substring(0, 4));
+				Integer_Formatted_String_Year -= 1;
+				Formatted_String_2 = String.valueOf(Integer_Formatted_String_Year);
+				Formatted_String_2 += "-";
 				
 				Stores = EchoServer.Get_All_Stores_For_Thread_Controller(EchoServerController.con);
 				Help_To_Transfer_Object_To_The_Data_Base = new Vector<Object>();

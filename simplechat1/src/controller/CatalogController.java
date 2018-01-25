@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 
 import boundery.CatalogUI;
 import boundery.UserUI;
+import entity.CatalogItemRow;
 import entity.Message;
 import entity.Order;
 import entity.Product;
@@ -31,6 +32,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+/**
+ * controller for the Catalog options - show catalog products by type,
+ * add product to cart, open cart window.
+ *
+ */
 public class CatalogController implements Initializable {
 	private Message msg;
 	
@@ -67,10 +73,10 @@ public class CatalogController implements Initializable {
 	private Hyperlink LinkLogout;
 
 	@FXML
-	private ComboBox<String> cmbPid = new ComboBox<>(); /* button close for close product form */
+	private ComboBox<String> cmbPid = new ComboBox<>(); 
 	
 	@FXML
-	private TextField txtPAmmount; /* text field for the product Name */
+	private TextField txtPAmmount; /* text field for the product amount */
 	
 	@FXML private TableView<CatalogItemRow> catalog_table = new TableView<>();
 
@@ -90,8 +96,12 @@ public class CatalogController implements Initializable {
 	static String flag = null;
 	
 	ObservableList<String> plist;
-
-	public void back(ActionEvent event) throws Exception /* With this Method we Exit from the Catalog */ 
+/**
+ * back to Customer Options from catalog window.
+ * @param event - when customer press "Back" button
+ * @throws Exception - if we can't load the fxml file
+ */
+	public void back(ActionEvent event) throws Exception 
 	{
 		order = null;
 		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
@@ -106,6 +116,11 @@ public class CatalogController implements Initializable {
 		primaryStage.show();	
 	}
 
+	/**
+	 * initialize the table view of the catalog, the first product type that appear is "BOUQUET"
+	 * take all the product from Data Base and check the product type
+	 * if the product type is "BOUQUET" and the product is not on "SALE"
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
@@ -166,6 +181,15 @@ public class CatalogController implements Initializable {
 		cmbPid.setItems(productsId);
 	}
 	
+	/**
+	 * productCategory - update the table view of the catalog to products that their type
+	 * is suit the type the customer choose. 
+	 * take all the product from Data Base and check the product type.
+	 * if the product type is the type the customer choose and the product is not on "SALE"
+	 * we add it to the table view.
+	 * @param event - the customer clicked product type he want to see in catalog
+	 * @throws Exception - if we can't load the fxml file
+	 */
 	public void productCategory(ActionEvent event) throws Exception //create and the catalog by categories
 	{
 		productsId.clear();
@@ -289,7 +313,12 @@ public class CatalogController implements Initializable {
 	}
 
 	
-	
+	/**
+	 * "show - Cart" the cart window open:
+	 *  all the products that the customer choose to buy are displayed in cart window
+ 	 * @param event  - the customer clicked "cart" Hyperlink
+	 * @throws Exception - if we can't load the fxml file
+	 */
 	public void showCart(ActionEvent event) throws Exception // show all products in cart. 
 	{
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
@@ -305,6 +334,11 @@ public class CatalogController implements Initializable {
 		primaryStage.show();
 	}
 	
+	/**
+	 * logout - customer logout the system and "UserLogin" window open.
+	 * @param event - the customer clicked "logout" Hyperlink 
+	 * @throws Exception - if we can't load the fxml file
+	 */
 	public void logout(ActionEvent event) throws Exception /* logout and open login window */
 	{
 		CustomerController.flag = false;
@@ -322,6 +356,14 @@ public class CatalogController implements Initializable {
 		primaryStage.show();
 	}
 	
+	/**
+	 * addToCart - the customer choose product Id and amount he want to 
+	 * add his cart, after we check the values are valid it "add" to 
+	 * his cart. we save the current cart in HashMap - if
+	 * its new product we add it, else we increase the amount in cart.
+	 * @param event - the customer clicked "add To Cart" button 
+	 * @throws Exception - if we can't load the fxml file
+	 */
 	public void addToCart(ActionEvent event) throws Exception // add product to cart
 	{
 		String pId = cmbPid.getValue();
@@ -352,7 +394,13 @@ public class CatalogController implements Initializable {
 			showErrMsg(event);
 		}
 	}
-
+	
+	/**
+	 * "getproductById" - search, find and return the product from combo-Box
+	 * that the customer choose to add his cart
+	 * @param pId - gets the product ID to find it in the products list
+	 * @return - return the Product that the customer want to add
+	 */
 	private Product getproductById(String pId)
 	{
 		int i;
@@ -364,7 +412,13 @@ public class CatalogController implements Initializable {
 		return null;
 	}
 	
-	public void showErrMsg(ActionEvent event) throws Exception // add product to cart
+	/**
+	 * If the customer did NOT insert valid amount or did NOT choose
+	 * any product from the combo-Box we show Error message window.  
+	 * @param event - the customer clicked "add To Cart" button 
+	 * @throws Exception - if we can't load the fxml file
+	 */
+	public void showErrMsg(ActionEvent event) throws Exception 
 	{
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 		Stage primaryStage = new Stage();
@@ -379,7 +433,14 @@ public class CatalogController implements Initializable {
 		primaryStage.show();
 	}
 	
-	public void tryAgainMakeOrder(ActionEvent event) throws Exception // add product to cart
+	/**
+	 * try Again Make Order - if the customer arrived to error message window
+	 * after click on "Try Again" button he return the catalog, his cuurent
+	 * cart saved. 
+	 * @param event - the customer clicked "Try Again" button 
+	 * @throws Exception - if we can't load the fxml file
+	 */
+	public void tryAgainMakeOrder(ActionEvent event) throws Exception 
 	{
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 		Stage primaryStage = new Stage();

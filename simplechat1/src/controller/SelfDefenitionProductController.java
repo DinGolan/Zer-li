@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 import boundery.CatalogUI;
 import boundery.OrderUI;
 import boundery.UserUI;
+import entity.CatalogItemRow;
 import entity.Message;
 import entity.Order;
 import entity.Product;

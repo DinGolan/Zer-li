@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="221.0" prefWidth="353.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AccountController">
+   <children>
+      <Label layoutX="80.0" layoutY="27.0" prefHeight="32.0" prefWidth="193.0" text="Change subscription for:" textAlignment="CENTER" textFill="#000dff">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font></Label>
+      <Button id="btnComplaintClose" fx:id="btnAccountClose" layoutX="249.0" layoutY="165.0" mnemonicParsing="false" onAction="#closeAccountFormWindow" text="close" />
+      <Button id="btnRenew" fx:id="btnRenew" layoutX="60.0" layoutY="165.0" mnemonicParsing="false" onAction="#saveRenew" text="renew" />
+      <ComboBox id="cmbCustomersForStore" fx:id="cmbCustomersForStore" layoutX="61.0" layoutY="81.0" prefHeight="25.0" prefWidth="231.0" promptText="Choose customer Id" />
+      <RadioButton id="rdbtnWantsMonthly" fx:id="rdbtnWantsMonthly" layoutX="196.0" layoutY="131.0" mnemonicParsing="false" onAction="#chooseMONTHLYbtn" selected="true" text="Monthly" />
+      <RadioButton id="rdbtnWantsAnnual" fx:id="rdbtnWantsAnnual" layoutX="90.0" layoutY="131.0" mnemonicParsing="false" onAction="#chooseAnnualbtn" text="Annual" />
+   </children>
+</AnchorPane>
