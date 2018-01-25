@@ -163,13 +163,9 @@ public class EchoServer extends AbstractServer
 		if (((Message) msg).getOption().compareTo("Update Product in DB") == 0) /* Check that we get from DB Because We want to Initialized */
 		{
 			UpdateProductAtDB(msg, conn);
-<<<<<<< .mine
-		} 		
-		
-=======
-		}
 
->>>>>>> .theirs
+		} 		
+
 		if (((Message) msg).getOption().compareTo("Update Product In Sale In DB") == 0) /* Check that we get from DB Because We want to Initialized */
 		{
 			UpdateProductInSaleAtDB(msg, conn);
@@ -2598,11 +2594,7 @@ protected ResultSet getSurveyData(Connection conn,int id) throws SQLException {
 	  return users_After_Change;
   }
   
-<<<<<<< .mine
- protected ArrayList<Integer> getAllOrdersToCustomerCancel(Object msg, Connection conn) //this method get all the orders that match to specific customer and can be cancel<<<<<<< .mine
-=======
-  protected ArrayList<Integer> getAllOrdersToCustomerCancel(Object msg, Connection conn) //this method get all the orders that match to specific customer and can be cancel<<<<<<< .mine
->>>>>>> .theirs
+  protected ArrayList<Integer> getAllOrdersToCustomerCancel(Object msg, Connection conn) //this method get all the orders that match to specific customer and can be cancel
   {
 	 int StoreNum = Integer.parseInt(((ArrayList<String>)(((Message)msg).getMsg())).get(1));
 	 System.out.println(StoreNum);
@@ -2767,7 +2759,6 @@ protected ResultSet getSurveyData(Connection conn,int id) throws SQLException {
 		Statement stmt;
 		Product product = (Product) ((Message) msg).getMsg();
 		try {
-
 			stmt = conn.createStatement();                             
 			 String query = "INSERT INTO " + EchoServerController.Scheme + ".productinsale SET ProductID =?,StoreID=?,productPrice=?,productType=?";
 		      java.sql.PreparedStatement preparedStmt = conn.prepareStatement(query);

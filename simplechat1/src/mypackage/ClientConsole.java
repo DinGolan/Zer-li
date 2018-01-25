@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Vector;
+
 import boundery.AccountUI;
 import boundery.CatalogUI;
 import boundery.CompanyManagerUI;
@@ -28,20 +29,9 @@ import controller.CustomerController;
 import controller.ExpertSurveyController;
 import controller.OrderController;
 import controller.StoreManagerController;
-import controller.SurveyResultController;
-<<<<<<< .mine
-import controller.StoreManagerController;
-import controller.SurveyResultController;
-
-
-
-=======
-import controller.ProfileController;
-import controller.StoreManagerController;
 import controller.SurveyController;
 import controller.SurveyInfoController;
 import controller.SurveyResultController;
->>>>>>> .theirs
 import controller.UserController;
 import entity.Account;
 import entity.Complaint;
