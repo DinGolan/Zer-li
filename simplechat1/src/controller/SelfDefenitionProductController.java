@@ -34,6 +34,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+/**
+ * controller for the self definition product options - show products by
+ * the categories the customer choose,
+ * add product to cart, open cart window.
+ *
+ */
 public class SelfDefenitionProductController implements Initializable{
 	
 	private Message msg;
@@ -109,6 +115,13 @@ public class SelfDefenitionProductController implements Initializable{
 	static int minPrice=0;
 	static int maxPrice=0;
 	
+	/**
+	 * call function that set 3 comboBox of the customer options
+	 * in case the customer in self definition window,
+	 * call function that set the table view with products
+	 * suit to the customer chosen options in case the customer
+	 * want to see his options.
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		if(modeFlag == 1)
@@ -117,6 +130,11 @@ public class SelfDefenitionProductController implements Initializable{
 			setOptions();
 	}
 
+	/**
+	 * set 3 comboBox of the customer options:
+	 * comboBox of Product type, comboBox of domain color,
+	 * and comboBox of price range
+	 */
 	public void setComboBox()
 	{
 		cmbProductType.setItems(FXCollections.observableArrayList("BOUQUET", "ARRANGEMENT", "FLOWER_CROWN","BRIDAL_BOUQUET","VASE" , "WREATH_FLOWERS" , "SWEET_BOUQUET"));
@@ -127,6 +145,11 @@ public class SelfDefenitionProductController implements Initializable{
 		cmbPriceRange.setValue("0-50");
 	}
 	
+	/**
+	 * set the table view with products suit to the customer chosen options
+	 * we take all the products from the Data Base, also the products
+	 * in sale of the customer store, and update the table view
+	 */
 	public void setOptions()
 	{
 		if(CatalogController.order == null)
@@ -175,6 +198,13 @@ public class SelfDefenitionProductController implements Initializable{
 		cmbPid.setItems(productsId);
 	}
 	
+	/**
+	 * when the customer fill the categories he wants and
+	 * click "show options" button we save his options
+	 * and display the products that suit  
+	 * @param event - customer click "show options" button
+	 * @throws Exception - if we can't load the fxml file
+	 */
 	public void showoptions(ActionEvent event) throws Exception
 	{
 		modeFlag=0;
@@ -198,6 +228,12 @@ public class SelfDefenitionProductController implements Initializable{
 		primaryStage.show();
 	}
 	
+	/**
+	 * back to the self definition options in case the
+	 * customer click "back" button from cart
+	 * @param event - customer click "back" button
+	 * @throws Exception - if we can't load the fxml file
+	 */
 	public void backToSelfOption(ActionEvent event) throws Exception
 	{
 		modeFlag=0;
@@ -218,6 +254,12 @@ public class SelfDefenitionProductController implements Initializable{
 		primaryStage.show();
 	}
 	
+	/**
+	 * back to the customer options in case the
+	 * customer click "back" button
+	 * @param event - customer click "back" button
+	 * @throws Exception - if we can't load the fxml file
+	 */
 	public void backToCustomerOption(ActionEvent event) throws Exception
 	{
 		CatalogController.order= new Order();
@@ -236,6 +278,13 @@ public class SelfDefenitionProductController implements Initializable{
 		primaryStage.show();
 	}
 	
+	/**
+	 * back to self definition categories in case the
+	 * customer click "back" button from products option
+	 * window
+	 * @param event - customer click "back" button
+	 * @throws Exception - if we can't load the fxml file
+	 */
 	public void backToSelfDefOrder(ActionEvent event) throws Exception
 	{
 		modeFlag =1;
@@ -252,6 +301,15 @@ public class SelfDefenitionProductController implements Initializable{
 		primaryStage.show();
 	}
 	
+	
+	/**
+	 * addToCart - the customer choose product Id and amount he want to 
+	 * add his cart, after we check the values are valid it "add" to 
+	 * his cart. we save the current cart in HashMap - if
+	 * its new product we add it, else we increase the amount in cart.
+	 * @param event - the customer clicked "add To Cart" button 
+	 * @throws Exception - if we can't load the fxml file
+	 */
 	public void addToCart(ActionEvent event) throws Exception // add product to cart
 	{
 		String pId = cmbPid.getValue();
@@ -283,6 +341,12 @@ public class SelfDefenitionProductController implements Initializable{
 		}
 	}
 	
+	/**
+	 * If the customer did NOT insert valid amount or did NOT choose
+	 * any product from the combo-Box we show Error message window.  
+	 * @param event - the customer clicked "add To Cart" button 
+	 * @throws Exception - if we can't load the fxml file
+	 */
 	public void showErrMsg(ActionEvent event) throws Exception // add product to cart
 	{
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
@@ -298,6 +362,12 @@ public class SelfDefenitionProductController implements Initializable{
 		primaryStage.show();
 	}
 
+	/**
+	 * "getproductById" - search, find and return the product from combo-Box
+	 * that the customer choose to add his cart
+	 * @param pId - gets the product ID to find it in the products list
+	 * @return - return the Product that the customer want to add
+	 */
 	private Product getproductById(String pId)
 	{
 		int i;
@@ -309,6 +379,11 @@ public class SelfDefenitionProductController implements Initializable{
 		return null;
 	}
 	
+	/**
+	 * logout - customer logout the system and "UserLogin" window open.
+	 * @param event - the customer clicked "logout" Hyperlink 
+	 * @throws Exception - if we can't load the fxml file
+	 */
 	public void logout(ActionEvent event) throws Exception /* logout and open login window */
 	{
 		modeFlag = 1;
@@ -326,6 +401,12 @@ public class SelfDefenitionProductController implements Initializable{
 		primaryStage.show();
 	}
 	
+	/**
+	 * "show - Cart" the cart window open:
+	 *  all the products that the customer choose to buy are displayed in cart window
+ 	 * @param event  - the customer clicked "cart" Hyperlink
+	 * @throws Exception - if we can't load the fxml file
+	 */
 	public void showCart(ActionEvent event) throws Exception // show all products in cart. 
 	{
 		modeFlag = 1;
