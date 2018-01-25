@@ -7,8 +7,7 @@
 
 <AnchorPane prefHeight="387.0" prefWidth="332.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CustomerServiceWorkerController">
    <children>
-      <Button id="btnCServiceWExit" fx:id="btnCServiceWExit" layoutX="252.0" layoutY="338.0" mnemonicParsing="false" onAction="#exitBtn" text="Exit" />
-      <Button id="btnCServiceWLogout" fx:id="btnCServiceWLogout" layoutX="44.0" layoutY="338.0" mnemonicParsing="false" onAction="#LogoutBtn" text="Logout" />
+      <Button id="btnCServiceWLogout" fx:id="btnCServiceWLogout" layoutX="123.0" layoutY="342.0" mnemonicParsing="false" onAction="#LogoutBtn" text="Logout" />
       <Label layoutX="20.0" layoutY="25.0" text="Customer service worker" textFill="#0022ff">
          <font>
             <Font name="Bodoni MT Bold" size="29.0" />
