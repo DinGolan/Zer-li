@@ -828,7 +828,7 @@ public class EchoServer extends AbstractServer
 					  Order_Field = rs_3.getString("orderID");
 					  temp_Order.setOrderID(Integer.parseInt(Order_Field));
 					  Order_Field = rs_3.getString("orderTotalPrice");
-					  temp_Order.setOrderTotalPrice(Integer.parseInt(Order_Field));
+					  temp_Order.setOrderTotalPrice(Double.parseDouble(Order_Field));
 					  Order_Field = rs_3.getString("orderDate");
 					  temp_Order.setOrderDate(Date.valueOf(Order_Field));
 					  Order_From_DB_Store_1.add(temp_Order);
@@ -863,7 +863,7 @@ public class EchoServer extends AbstractServer
 					  Order_Field = rs_4.getString("orderID");
 					  temp_Order.setOrderID(Integer.parseInt(Order_Field));
 					  Order_Field = rs_4.getString("orderTotalPrice");
-					  temp_Order.setOrderTotalPrice(Integer.parseInt(Order_Field));
+					  temp_Order.setOrderTotalPrice(Double.parseDouble(Order_Field));
 					  Order_Field = rs_4.getString("orderDate");
 					  temp_Order.setOrderDate(Date.valueOf(Order_Field));
 					  Order_From_DB_Store_2.add(temp_Order);
