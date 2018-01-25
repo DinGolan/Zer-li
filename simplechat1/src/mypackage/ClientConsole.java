@@ -201,6 +201,20 @@ public void displayUI(Object message)
 	  {
 		  SurveyController.errorMsg = "succes survey";
 	  }
+	  
+	  if(((Message)message).getOption().compareTo("get all customers have FULLPRICE in this store") ==0) 
+	  {
+		  	int i=0;
+	  	  	ArrayList<String> temp = new ArrayList<String>();
+	  	  	temp = (ArrayList<String>)((Message)message).getMsg();
+	  	  	
+	  	  	AccountUI.customersId.clear();
+	  	  	for(i=0;i<temp.size();i++)
+	  	  	{
+	  	  	AccountUI.customersId.add(temp.get(i));
+	  	  	}
+	  	  	AccountController.loadCustomersFlag=true;
+	  }
 
 	  
 	    if(((Message)message).getOption().compareTo("get all products in DB") ==0) 		/* Check that its update */

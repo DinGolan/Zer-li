@@ -115,6 +115,12 @@ public class EchoServer extends AbstractServer
 	    		this.sendToAllClients(msg);
   		}
 	    
+	    if(((Message)msg).getOption().compareTo("get all customers have FULLPRICE in this store") ==0) //check if we get all the product in specific order
+	    {	
+	    		((Message)msg).setMsg(getAllCustomerFullPrice(msg, conn));	
+	    		this.sendToAllClients(msg);
+  		}
+	    
 	    if(((Message)msg).getOption().compareTo("get all stores from DB") ==0) 	    /* Check that we get from DB Because We want to Initialized */
 	    {										
 	    		((Message)msg).setMsg(getStoresFromDB(conn));	    
@@ -151,6 +157,11 @@ public class EchoServer extends AbstractServer
 	    if(((Message)msg).getOption().compareTo("Update User At Data Base") == 0) 	    /* Check that we get from DB Because We want to Initialized */
         {										
 	    	UpdateUserAtDB(msg,conn);
+		}
+	    
+	    if(((Message)msg).getOption().compareTo("Update renew account") == 0) 	    /* Check that we get from DB Because We want to Initialized */
+        {										
+	    	renewAccount(msg,conn);
 		}
 	    
 	    if(((Message)msg).getOption().compareTo("update balance Ammount") == 0) 	    /* Check that we get from DB Because We want to Initialized */
@@ -2056,6 +2067,25 @@ public class EchoServer extends AbstractServer
 	  } 
 	  catch (SQLException e) {	e.printStackTrace();}	  
   }
+  
+  protected void renewAccount(Object msg, Connection conn) /* This Method Update the DB */
+  {
+	  Statement stmt;
+	  ArrayList<Object> forRenew = ( ArrayList<Object>)((Message)msg).getMsg();
+	  String Scheme_Name = EchoServerController.Scheme;
+	  
+	  try {
+		  stmt = conn.createStatement();
+		  
+		  String UpdateTableAccount = "UPDATE " + Scheme_Name + ".account SET AccountPaymentArrangement =" + "'" + forRenew.get(0) + "'" + "WHERE AccountUserId=" + "'" + forRenew.get(2) + "'" + ";" ;
+		  
+		  String UpdateTableAccount2 = "UPDATE " + Scheme_Name + ".account SET AccountSubscriptionEndDate =" + "'" + forRenew.get(1) + "'" + "WHERE AccountUserId=" + "'" + forRenew.get(2) + "'" + ";" ;
+		  
+		  stmt.executeUpdate(UpdateTableAccount);
+		  stmt.executeUpdate(UpdateTableAccount2);
+	  } 
+	  catch (SQLException e) {	e.printStackTrace();}	  
+  }
     
   @SuppressWarnings("unchecked")
   protected Object AddSurveyToDB(Object msg, Connection conn,int id) throws SQLException, ParseException
@@ -2465,6 +2495,26 @@ protected ResultSet getSurveyData(Connection conn,int id) throws SQLException {
 	 	}
 	  } catch (SQLException e) {e.printStackTrace();}	
 	  return products;
+  }
+  
+  protected ArrayList<String> getAllCustomerFullPrice(Object msg, Connection conn) //this method get all products for specific order
+  {
+	  ArrayList<String> customers = new ArrayList<String>();
+	  int storeNumber = ((int)(((Message)msg).getMsg()));
+	  Statement stmt;
+	  try {
+		  stmt = conn.createStatement();
+		  String getProductsTable = "SELECT * FROM project.account WHERE AccountStoreId="+storeNumber+" AND AccountPaymentArrangement='FULLPRICE';"; //get all the products for this order
+		  ResultSet rs = stmt.executeQuery(getProductsTable);
+		  System.out.println(getProductsTable);
+		  while(rs.next())
+		  {
+			  customers.add(rs.getString("AccountUserId"));
+	 	}
+		  if(customers.size() == 0)
+			  customers.add("-1");
+	  } catch (SQLException e) {e.printStackTrace();}	
+	  return customers;
   }
   
   protected ArrayList<Product> getProductsInSaleFromDB(Object msg, Connection conn) /* This method get products table details from DB */
