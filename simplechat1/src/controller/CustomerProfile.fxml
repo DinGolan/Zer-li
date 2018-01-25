@@ -43,21 +43,21 @@
           <TableColumn fx:id="Table_Column_Store_ID" minWidth="0.0" prefWidth="81.0" text="Store ID" />
             <TableColumn fx:id="Table_Column_Order_Date" prefWidth="81.0" text="Order Date" />
             <TableColumn fx:id="Table_Column_Total_Price" prefWidth="112.66665649414062" text="Order Total Price" />
-            <TableColumn fx:id="Table_Column_Address" minWidth="0.0" prefWidth="75.0" text="Address" />
-            <TableColumn fx:id="Table_Column_Order_Status" minWidth="6.33331298828125" prefWidth="95.0" text="Order Status" />
-            <TableColumn fx:id="Table_Column_Supply_Option" minWidth="9.0" prefWidth="83.0" text="Order Supply" />
-            <TableColumn fx:id="Table_Column_Payment_Method" prefWidth="107.0" text="Payment Method" />
-            <TableColumn fx:id="Table_Column_Refund" minWidth="6.33331298828125" prefWidth="87.00006103515625" text="Order Refund" />
+            <TableColumn fx:id="Table_Column_Address" minWidth="0.0" prefWidth="83.0" text="Address" />
+            <TableColumn fx:id="Table_Column_Order_Status" minWidth="6.33331298828125" prefWidth="108.0" text="Order Status" />
+            <TableColumn fx:id="Table_Column_Supply_Option" minWidth="9.0" prefWidth="101.0" text="Order Supply" />
+            <TableColumn fx:id="Table_Column_Payment_Method" prefWidth="136.6666259765625" text="Payment Method" />
+            <TableColumn fx:id="Table_Column_Refund" minWidth="6.33331298828125" prefWidth="113.3333740234375" text="Order Refund" />
         </columns>
       </TableView>
       <TableView id="Table_Complaint_Details" fx:id="Table_Complaint_Details" layoutX="36.0" layoutY="463.0" prefHeight="149.0" prefWidth="873.0">
         <columns>
           <TableColumn fx:id="Table_Column_Complaint_ID" prefWidth="91.66665649414062" text="Complaint ID" />
-          <TableColumn fx:id="Table_Column_Complaint_Date" prefWidth="121.33334350585938" text="Complaint Date" />
-            <TableColumn fx:id="Table_Column_Complaint_Status" prefWidth="115.66665649414062" text="Complaint Status" />
-            <TableColumn fx:id="Table_Column_Month" prefWidth="127.0" text="Complaint Month" />
-            <TableColumn fx:id="Table_Column_Complaint_Compansation" prefWidth="156.0" text="Complaint Compensation" />
-            <TableColumn fx:id="Table_Column_Complaint_Order_ID" prefWidth="175.0" text="Complaint Of - Order ID" />
+          <TableColumn fx:id="Table_Column_Complaint_Date" prefWidth="143.33334350585938" text="Complaint Date" />
+            <TableColumn fx:id="Table_Column_Complaint_Status" prefWidth="144.66665649414062" text="Complaint Status" />
+            <TableColumn fx:id="Table_Column_Month" prefWidth="146.0" text="Complaint Month" />
+            <TableColumn fx:id="Table_Column_Complaint_Compansation" prefWidth="166.33334350585938" text="Complaint Compensation" />
+            <TableColumn fx:id="Table_Column_Complaint_Order_ID" prefWidth="180.33331298828125" text="Complaint Of - Order ID" />
         </columns>
       </TableView>
       <Button id="btnBack" fx:id="btnBack" layoutX="445.0" layoutY="625.0" mnemonicParsing="false" onAction="#BackToCatalogOption" prefHeight="25.0" prefWidth="54.0" text="Back">
@@ -73,11 +73,11 @@
       <TextField id="txtCustomerPhone" fx:id="txtCustomerPhone" editable="false" layoutX="794.0" layoutY="82.0" prefHeight="25.0" prefWidth="114.0" />
       <TableView id="table_Account" fx:id="table_Account" layoutX="35.0" layoutY="154.0" prefHeight="71.0" prefWidth="873.0">
         <columns>
-          <TableColumn id="table_Column_Account_Store_ID" fx:id="table_Column_Account_Store_ID" prefWidth="118.33334350585938" text="Account Store ID" />
-          <TableColumn id="table_Column_Account_Payment_Arrangment" fx:id="table_Column_Account_Payment_Arrangment" prefWidth="153.33331298828125" text="Payment Arrangement" />
-            <TableColumn id="table_Column_Account_Card_Number" fx:id="table_Column_Account_Card_Number" prefWidth="186.66668701171875" text="Credit Card Number" />
-            <TableColumn id="table_Column_Account_Balance_Card" fx:id="table_Column_Account_Balance_Card" minWidth="0.0" prefWidth="124.66668701171875" text="Balance Card" />
-            <TableColumn id="table_Column_End_Date" fx:id="table_Column_End_Date" prefWidth="199.33331298828125" text="Subscription End Date" />
+          <TableColumn id="table_Column_Account_Store_ID" fx:id="table_Column_Account_Store_ID" prefWidth="158.33334732055664" text="Account Store ID" />
+          <TableColumn id="table_Column_Account_Payment_Arrangment" fx:id="table_Column_Account_Payment_Arrangment" prefWidth="208.66665649414062" text="Payment Arrangement" />
+            <TableColumn id="table_Column_Account_Card_Number" fx:id="table_Column_Account_Card_Number" prefWidth="183.66665649414062" text="Credit Card Number" />
+            <TableColumn id="table_Column_Account_Balance_Card" fx:id="table_Column_Account_Balance_Card" minWidth="0.0" prefWidth="150.66668701171875" text="Balance Card" />
+            <TableColumn id="table_Column_End_Date" fx:id="table_Column_End_Date" prefWidth="172.33331298828125" text="Subscription End Date" />
         </columns>
       </TableView>
       <Label layoutX="380.0" layoutY="133.0" text="- Customer Account Details -" textFill="#0b00ff">

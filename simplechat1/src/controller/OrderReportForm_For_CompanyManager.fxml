@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.chart.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
@@ -14,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="768.0" prefWidth="671.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.OrderReportController_For_ComapnyManager">
+<AnchorPane prefHeight="675.0" prefWidth="685.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.OrderReportController_For_ComapnyManager">
    <children>
       <Label layoutX="93.0" layoutY="119.0" />
       <Label fx:id="T3" layoutX="93.0" layoutY="247.0" />
@@ -32,7 +27,7 @@
       </Label>
       <TextField id="txtStoreID" fx:id="txtStoreID" editable="false" layoutX="129.0" layoutY="116.0" prefHeight="25.0" prefWidth="57.0" />
       <Button id="btnClose" fx:id="btnClose" layoutX="313.0" layoutY="622.0" mnemonicParsing="false" onAction="#closeOrderReportWindow" text="Close" />
-      <BarChart id="ChartOrderReport" fx:id="ChartOrderReport" layoutX="24.0" layoutY="175.0" prefHeight="435.0" prefWidth="599.0" title="Order Of Store According To Product Type">
+      <BarChart id="ChartOrderReport" fx:id="ChartOrderReport" layoutX="14.0" layoutY="170.0" prefHeight="435.0" prefWidth="599.0" title="Order Of Store According To Product Type">
         <xAxis>
           <CategoryAxis id="X_ProductType" fx:id="X_ProductType" label="Product Type" side="BOTTOM" />
         </xAxis>

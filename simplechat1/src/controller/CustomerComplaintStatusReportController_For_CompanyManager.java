@@ -109,6 +109,10 @@ public class CustomerComplaintStatusReportController_For_CompanyManager implemen
 	@Override
 	public void initialize(URL location, ResourceBundle resources) 
 	{
+		if(CompanyManagerReportController.Flag_For_Return_Window_With_One_Store_Or_With_Two_Store == 2)
+		{
+			 btnClose.setTranslateX(335);
+		}
 		int Year_Integer = 0;
 		int Month_Integer = 0;
 		String Month;
