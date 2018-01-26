@@ -38,6 +38,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+
+/**
+ * controller for the Order options - remove products from customer
+ * cart, show cart, fill and create order form and check all fields
+ *
+ */
 public class OrderController implements Initializable{
 
 	public static int flag=0;
