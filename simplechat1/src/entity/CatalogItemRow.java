@@ -5,6 +5,10 @@ import java.io.InputStream;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+/**
+ * entity of catalog item row (for table view)
+ *
+ */
 public class CatalogItemRow
 {
 
@@ -21,7 +25,15 @@ public class CatalogItemRow
 
 	private Image m_image;
 
-
+	/**
+	 * constructor for row of item in Catalog
+	 * @param m_id - product Id
+	 * @param m_name - product name
+	 * @param m_type - product type
+	 * @param m_price - product price
+	 * @param m_domainColor - product domain color
+	 * @param is - product inputstream for picture
+	 */
 		public CatalogItemRow(int m_id, String m_name, String m_type, double m_price, String m_domainColor,InputStream is) {
 		super();
 		this.m_id = m_id;
@@ -32,8 +44,8 @@ public class CatalogItemRow
 		this.m_image = new Image(is);
 	}
 
-		/**
-	 * @return Item id.
+	/**
+	 * @return product Id
 	 */
 	public int getM_id()
 	{
@@ -41,7 +53,7 @@ public class CatalogItemRow
 	}
 
 	/**
-	 * @return String item id.
+	 * @return product Id for row.
 	 */
 	public int getId()
 	{
@@ -49,8 +61,7 @@ public class CatalogItemRow
 	}
 
 	/**
-	 * @param m_id
-	 *            Item id to set.
+	 * @param m_id - get product Id to set
 	 */
 	public void setM_id(int m_id)
 	{
@@ -58,7 +69,7 @@ public class CatalogItemRow
 	}
 
 	/**
-	 * @return Item name.
+	 * @return product name.
 	 */
 	public String getM_name()
 	{
@@ -66,7 +77,7 @@ public class CatalogItemRow
 	}
 
 	/**
-	 * @return Item name.
+	 * @return product name for row.
 	 */
 	public String getName()
 	{
@@ -74,8 +85,7 @@ public class CatalogItemRow
 	}
 
 	/**
-	 * @param m_name
-	 *            Item name to set.
+	 * @param m_name - get product name to set
 	 */
 	public void setM_name(String m_name)
 	{
@@ -83,7 +93,7 @@ public class CatalogItemRow
 	}
 
 	/**
-	 * @return Item type.
+	 * @return product type.
 	 */
 	public String getM_type()
 	{
@@ -91,7 +101,7 @@ public class CatalogItemRow
 	}
 
 	/**
-	 * @return Item type.
+	 * @return product type for row.
 	 */
 	public String getType()
 	{
@@ -99,8 +109,7 @@ public class CatalogItemRow
 	}
 
 	/**
-	 * @param m_type
-	 *            Item type to set.
+	 * @param m_type - product type to set
 	 */
 	public void setM_type(String m_type)
 	{
@@ -108,7 +117,7 @@ public class CatalogItemRow
 	}
 
 	/**
-	 * @return Item price.
+	 * @return product price
 	 */
 	public double getM_price()
 	{
@@ -116,7 +125,7 @@ public class CatalogItemRow
 	}
 
 	/**
-	 * @return Item string price.
+	 * @return product price for row.
 	 */
 	public String getPrice()
 	{
@@ -124,8 +133,7 @@ public class CatalogItemRow
 	}
 
 	/**
-	 * @param m_price
-	 *            Item price to set.
+	 * @param m_price-  product price to set
 	 */
 	public void setM_price(double m_price)
 	{
@@ -133,7 +141,7 @@ public class CatalogItemRow
 	}
 
 	/**
-	 * @return Item domain color.
+	 * @return product domain color.
 	 */
 	public String getM_domainColor()
 	{
@@ -141,8 +149,7 @@ public class CatalogItemRow
 	}
 
 	/**
-	 * @param m_domainColor
-	 *            Item domain color to set.
+	 * @param m_domainColor - product domain color to set
 	 */
 	public void setM_domainColor(String m_domainColor)
 	{
@@ -150,7 +157,7 @@ public class CatalogItemRow
 	}
 
 	/**
-	 * @return Item image.
+	 * @return product image.
 	 */
 	public Image getM_image()
 	{
@@ -158,7 +165,7 @@ public class CatalogItemRow
 	}
 
 	/**
-	 * @return Item image ImageView.
+	 * @return product image ImageView for row
 	 */
 	public ImageView getImage()
 	{
