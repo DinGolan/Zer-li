@@ -95,7 +95,6 @@ public class UserController implements Initializable {
 	{
 		Parent root = FXMLLoader.load(getClass().getResource("/controller/Enter_The_IP_And_Port.fxml"));
 		Scene scene = new Scene(root);
-		//scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm()); 
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesignServerClient.css").toExternalForm()); 
 		primaryStage.setTitle("Client IP - Managment Tool");
 		primaryStage.setScene(scene);
