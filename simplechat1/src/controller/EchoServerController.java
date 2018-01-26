@@ -88,6 +88,7 @@ public class EchoServerController implements Initializable {
 	{
 		Parent root = FXMLLoader.load(getClass().getResource("/controller/EchoServerForm.fxml"));
 		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesignServerClient.css").toExternalForm()); 
 		primaryStage.setTitle("Server - Managment Tool");
 		primaryStage.setScene(scene);
 		primaryStage.show();
