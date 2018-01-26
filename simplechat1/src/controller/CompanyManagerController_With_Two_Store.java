@@ -27,33 +27,54 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 
-public class CompanyManagerController_With_Two_Store implements Initializable{
-
+public class CompanyManagerController_With_Two_Store implements Initializable {
+	
+	/**
+	 * With This Variable I Connect Between The Server And The Client .
+	 */
 	private Message msg;
+	
+	/**
+	 * This Variable's Is The Index that return from the ComboBox .
+	 */
 	private static int itemIndex_For_Store_2 = 0;
-	private static int itemIndex_For_Store_1 = 0; /* This Variable Need for the the Case - that we not choose any Store from the ComboBox , so we take the Store that in Index 0 By Default - Store 1 */
+	private static int itemIndex_For_Store_1 = 0; 
 	private static int itemIndex_For_Report_Store_1 = 0;
 	private static int itemIndex_For_Report_Store_2 = 0;
+	
+	/**
+	 * This Variabel's Help me With to connection to the Server .
+	 */
 	private int temp_Store_Id_1;
 	private int temp_Store_Id_2;
 	private Date temp_Date_Quarter_Report_1;
 	private Date temp_Date_Quarter_Report_2;
-	public static boolean Flag_Enter_Two_Store = false;
 	
+	/**
+	 * This Flag's Help Me To know if i Click On the ComboBox Of Store's And Date's .
+	 */
 	public static boolean Flag_Enter_On_The_Combo_Box_Store_1 = false;
 	public static boolean Flag_Enter_On_The_Combo_Box_Store_2 = false;
 	public static boolean Flag_Enter_On_The_Combo_Box_Date_1 = false;
 	public static boolean Flag_Enter_On_The_Combo_Box_Date_2 = false;
 	
+	public static boolean Flag_Enter_On_The_Combo_Box_Store_1_For_Compare = false;
+	public static boolean Flag_Enter_On_The_Combo_Box_Store_2_For_Compare = false;
+	public static boolean Flag_Enter_On_The_Combo_Box_Date_1_For_Compare = false;
+	public static boolean Flag_Enter_On_The_Combo_Box_Date_2_For_Compare = false;
+	
+	/**
+	 * ObservableList That Help Me To Get Inside The ComboBox Details .
+	 */
 	ObservableList<String> storeList_One;
 	ObservableList<String> storeList_Two;
 	ObservableList<Date> DateList_One;
 	ObservableList<Date> DateList_Two;
 	
-/* -------------------------  For The Window Of Company Manager Report - To See One Store ----------------------------------- */		
+/* -------------------------  For The Window Of Company Manager Report - To See Two Store In Parallel ----------------------------------- */		
 	
 	 @FXML
-	 private ComboBox<String> cmbFirstStores;
+	 private ComboBox<String> cmbFirstStores;                  
 
 	 @FXML
 	 private ComboBox<String> cmbSecondStores;
@@ -88,8 +109,13 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 	 @FXML
 	 private TextArea txtArea_Error_Message;
 	
-/* --------------------------------- Close the Order Report Window ------------------------------------------------- */	 	
+/* --------------------------------- Close the GUI Of - The Company Manager Report With Two Store ------------------------------------------------- */	 	
 	
+	 /**
+	  * With This Function We Close The GUI Of Company Manager With Two Store .
+	  * @param event - When I click on the button close This Parameter start to work .
+	  * @throws Exception
+	  */
 	public void closeTwoStoreWindow(ActionEvent event) throws Exception   
 	{ 
 		CompanyManagerReportController.Flag_For_Return_Window_With_One_Store_Or_With_Two_Store = 1;
@@ -102,17 +128,23 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 		
 		Scene scene = new Scene(root);	
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-		primaryStage.setScene(scene);		
-		primaryStage.show();										   /* show catalog frame window */
+		primaryStage.setScene(scene);
+		primaryStage.setTitle("----- Company Manager Report Form -----");
+		primaryStage.show();										   
 	}	
 	
 /* --------------------------------  The Report About Quarterly Revenue ----------------------------------- */	
 	
-	/* -------------------------------- Store 1 + 2 ----------------------------------- */
+	/* -------------------------------- Store 1 + 2 ------------------------------------------------------- */
 	
-	public void QuarterlyRevenueReport_Store(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Report' and Show the GUI of the Quarterly Revenue Report that we Choose */
+	/**
+	 * In This Function I See the GUI Of - Two Store In Parrallel ((The Store Can Be The Same , Or Not The Same) & (The Date Can Be The same Or Not The Same)) .  
+	 * @param event - When I click on the button The Quarterly Revenue Report Start to work .
+	 * @throws Exception
+	 */
+	public void QuarterlyRevenueReport_Store(ActionEvent event) throws Exception        
 	{ 	
-		((Node)event.getSource()).getScene().getWindow().hide();    			  /* Hiding primary window */
+		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
 		BorderPane border = new BorderPane(); 
 		HBox rootPane = new HBox();
 		
@@ -141,11 +173,16 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 	
 /* --------------------------------  The Report About Order ----------------------------------- */	
 	
-	/* -------------------------------- Store 1 + 2 ----------------------------------- */
+	/* -------------------------------- Store 1 + 2 ------------------------------------------- */
 	
-	public void OrderReport_Store(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Report' and Show the GUI of the Order Report that we Choose */
+	/**
+	 * In This Function I See the GUI Of - Two Store In Parrallel ((The Store Can Be The Same , Or Not The Same) & (The Date Can Be The same Or Not The Same)) .  
+	 * @param event - When I click on the button The Order Report Start to work .
+	 * @throws Exception
+	 */
+	public void OrderReport_Store(ActionEvent event) throws Exception        
 	{
-		((Node)event.getSource()).getScene().getWindow().hide();       /* Hiding primary window */
+		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
 		BorderPane border = new BorderPane(); 
 		HBox rootPane = new HBox();
 		
@@ -174,11 +211,17 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 		
 /* --------------------------------  The Report About Complaint ----------------------------------- */
 	
-	/* -------------------------------- Store 1 + 2 ----------------------------------- */
+	/* -------------------------------- Store 1 + 2 ----------------------------------------------- */
 	
-	public void CustomerComplaintStatusReport_Store(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Report' and Show the GUI of the Customer Complaint Status Report that we Choose */
+	
+	/**
+	 * In This Function I See the GUI Of - Two Store In Parrallel ((The Store Can Be The Same , Or Not The Same) & (The Date Can Be The same Or Not The Same)) .  
+	 * @param event - When I click on the button The Customer Complaint Report Start to work .
+	 * @throws Exception
+	 */
+	public void CustomerComplaintStatusReport_Store(ActionEvent event) throws Exception       
 	{
-		((Node)event.getSource()).getScene().getWindow().hide();    					 /* Hiding primary window */
+		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
 		BorderPane border = new BorderPane(); 
 		HBox rootPane = new HBox();
 		
@@ -207,11 +250,16 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 	
 /* --------------------------------  The Report About Satisfaction ----------------------------------- */
 	
-	/* -------------------------------- Store 1 + 2 ----------------------------------- */
+	/* -------------------------------- Store 1 + 2 -------------------------------------------------- */
 	
-	public void SatisfactionReport_Store(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Report' and Show the GUI of the Satisfaction Report that we Choose */
+	/**
+	 * In This Function I See the GUI Of - Two Store In Parrallel ((The Store Can Be The Same , Or Not The Same) & (The Date Can Be The same Or Not The Same)) .  
+	 * @param event - When I click on the button The Saticfaction Report Start to work .
+	 * @throws Exception
+	 */
+	public void SatisfactionReport_Store(ActionEvent event) throws Exception         
 	{
-		((Node)event.getSource()).getScene().getWindow().hide();    		  /* Hiding primary window */
+		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
 		BorderPane border = new BorderPane(); 
 		HBox rootPane = new HBox();
 		
@@ -240,9 +288,13 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 	
 /* -------------------------- Taking Store From The Combo Box of Store ------------------------------------ */	
 	
-	/* -------------------------------- Store 1 ----------------------------------- */
+	/* -------------------------------- Store 1 ----------------------------------------------------------- */
 	
-	public int getItemIndex_First_Store()                                   	/* With this Method we Take User from the List of the Users at the ComboBox */
+	/**
+	 * In This Function We Return The Index From Our Choise From - the ComboBox Of The First Store .
+	 * @return
+	 */
+	public int getItemIndex_First_Store()                                   	
 	{
 		if(cmbFirstStores.getSelectionModel().getSelectedIndex() == -1)
 			return itemIndex_For_Store_1;
@@ -250,9 +302,13 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 		return cmbFirstStores.getSelectionModel().getSelectedIndex();
 	}
 	
-	/* -------------------------------- Store 2 ----------------------------------- */
+	/* -------------------------------- Store 2 ------------------------------------------------------------ */
 	
-	public int getItemIndex_Second_Store()                                   	/* With this Method we Take User from the List of the Users at the ComboBox */
+	/**
+	 * In This Function We Return The Index From Our Choise From - the ComboBox Of The Second Store .
+	 * @return
+	 */
+	public int getItemIndex_Second_Store()                                   	
 	{
 		if(cmbSecondStores.getSelectionModel().getSelectedIndex() == -1)
 			return itemIndex_For_Store_2;
@@ -263,9 +319,13 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 	
 /* -------------------------- Taking Date From The Combo Box of Report ------------------------------------ */	
 	
-	/* -------------------------------- Store 1 ----------------------------------- */
+	/* -------------------------------- Store 1 ----------------------------------------------------------- */
 	
-	public int getItemIndexFromDateComboBox_For_CompanyManager_FirstStore()                                   	/* With this Method we Take User from the List of the Users at the ComboBox */
+	/**
+	 * In This Function We Return The Index From Our Choise From - the ComboBox Of The Date Report Of Store One .
+	 * @return
+	 */
+	public int getItemIndexFromDateComboBox_For_CompanyManager_FirstStore()                                   	
 	{
 		if(cmbReportsFirstStore.getSelectionModel().getSelectedIndex() == -1)
 			return itemIndex_For_Report_Store_1;
@@ -275,9 +335,13 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 	
 /* -------------------------- Taking Date From The Combo Box of Report ------------------------------------ */	
 	
-	/* -------------------------------- Store 2 ----------------------------------- */
+	/* -------------------------------- Store 2 ----------------------------------------------------------- */
 	
-	public int getItemIndexFromDateComboBox_For_CompanyManager_SecondStore()                                   	/* With this Method we Take User from the List of the Users at the ComboBox */
+	/**
+	 * In This Function We Return The Index From Our Choise From - the ComboBox Of The Date Report Of Store Two .
+	 * @return
+	 */
+	public int getItemIndexFromDateComboBox_For_CompanyManager_SecondStore()                                   	
 	{
 		if(cmbReportsSecondStore.getSelectionModel().getSelectedIndex() == -1)
 			return itemIndex_For_Report_Store_2;
@@ -287,9 +351,13 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 	
 /* ----------------------------------------- Set The Combo Box Of All the Date Of the Report Of Specific Store ----------------------------------- */		
 	
-	/* -------------------------------- Store 1 ----------------------------------- */
+	/* -------------------------------- Store 1 -------------------------------------------------------------------------------------------------- */
 	
-	public void set_Dates_Of_Report_Of_Store_One_At_ComboBox()      								/* In this Method we Set the Stores at the ComboBox */
+	/**
+	 * In This Function We Set The Date Of the Report Of Store One .
+	 * @return
+	 */
+	public void set_Dates_Of_Report_Of_Store_One_At_ComboBox()      								
 	{ 				
 		ArrayList<Date> Date_Of_Report = new ArrayList<Date>();	
 		
@@ -302,9 +370,13 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 		cmbReportsFirstStore.setItems(DateList_One);
 	}
 	
-	/* -------------------------------- Store 2 ----------------------------------- */
+	/* -------------------------------- Store 2 --------------------------------------------------------------------------------------------------- */
 	
-	public void set_Dates_Of_Report_Of_Store_Two_At_ComboBox()      								/* In this Method we Set the Stores at the ComboBox */
+	/**
+	 * In This Function We Set The Date Of the Report Of Store Two .
+	 * @return
+	 */
+	public void set_Dates_Of_Report_Of_Store_Two_At_ComboBox()      								
 	{ 				
 		ArrayList<Date> Date_Of_Report = new ArrayList<Date>();	
 		
@@ -319,9 +391,13 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 	
 /* ----------------------------------------- Set The Combo Box Of Stores ----------------------------------- */	
 	
-	/* -------------------------------- Store 1 ----------------------------------- */
+	/* -------------------------------- Store 1 ------------------------------------------------------------ */
 	
-	public void setStores_One_ComboBox()    								/* In this Method we Set the Stores at the ComboBox */
+	/**
+	 * In This Function We Set The Store In the Company At ComboBox Number One .
+	 * @return
+	 */
+	public void setStores_One_ComboBox()    								
 	{ 				
 		ArrayList<String> temp_Stores_ID_And_Address_List = new ArrayList<String>();	
 		
@@ -334,8 +410,12 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 		cmbFirstStores.setItems(storeList_One);
 	}	
 	
-	/* -------------------------------- Store 2 ----------------------------------- */
+	/* -------------------------------- Store 2 ------------------------------------------------------------- */
 	
+	/**
+	 * In This Function We Set The Store In the Company At ComboBox Number Two .
+	 * @return
+	 */
 	public void setStores_Two_ComboBox()    								/* In this Method we Set the Stores at the ComboBox */
 	{ 				
 		ArrayList<String> temp_Stores_ID_And_Address_List = new ArrayList<String>();	
@@ -349,8 +429,13 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 		cmbSecondStores.setItems(storeList_Two);
 	}	
 	
-/* -------------------------------- The Button Of The Store That You Choose ------------------------------- */		
+/* -------------------------------- The Button Of The Store That You Choose --------------------------------- */		
 	
+	/**
+	 * In This Function The Company Manager Choose His First Store To Watch .
+	 * @param event - When I Click This Parameter Start To work .
+	 * @throws Exception
+	 */
 	public void Click_On_Your_First_Store_Choise(ActionEvent event) throws Exception
 	{
 		temp_Store_Id_1 = CompanyManagerUI.stores_For_Company_Manager.get(getItemIndex_First_Store()).getStoreId();
@@ -367,10 +452,16 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 		set_Dates_Of_Report_Of_Store_One_At_ComboBox();
 		
 		Flag_Enter_On_The_Combo_Box_Store_1 = true;
+		Flag_Enter_On_The_Combo_Box_Store_1_For_Compare = true;
 	}	
 	
 /* -------------------------------- The Button Of The Store That You Choose ------------------------------- */		
 	
+	/**
+	 * In This Function The Company Manager Choose His Second Store To Watch .
+	 * @param event - When I Click This Parameter Start To work .
+	 * @throws Exception
+	 */
 	public void Click_On_Your_Second_Store_Choise(ActionEvent event) throws Exception
 	{
 		temp_Store_Id_2 = CompanyManagerUI.stores_For_Company_Manager_2.get(getItemIndex_Second_Store()).getStoreId();
@@ -387,10 +478,16 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 		set_Dates_Of_Report_Of_Store_Two_At_ComboBox();
 		
 		Flag_Enter_On_The_Combo_Box_Store_2 = true;
+		Flag_Enter_On_The_Combo_Box_Store_2_For_Compare = true;
 	}
 	
 /* -------------------------------- The Button Of The Report That We Choose ------------------------------- */				
 	
+	/**
+	 * In This Function The Company Manager Choose His First Date Of Report Of His First Store Choise .
+	 * @param event - When I Click This Parameter Start To work .
+	 * @throws Exception
+	 */
 	public void Click_On_Your_Quarter_Report_Store_One(ActionEvent event) throws Exception
 	{
 		
@@ -399,19 +496,19 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 		Store_Id_And_Date_Of_Report.add(temp_Store_Id_1);
 		Store_Id_And_Date_Of_Report.add(temp_Date_Quarter_Report_1);
 	
-		/* ---------------------- For The Revenue Report ---------------------------*/
+		/* ---------------------- For The Revenue Report ---------------------------------- */
 		
-		CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.clear();
-		CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.add(Store_Id_And_Date_Of_Report.get(0));
-		CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.add(Store_Id_And_Date_Of_Report.get(1));
+		CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.clear(); 
+		CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.add(Store_Id_And_Date_Of_Report.get(0)); /* The Store_Id */
+		CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.add(Store_Id_And_Date_Of_Report.get(1)); /* The Date Of the Report */
 		
-		/* ----------------------- For The Order Report -----------------------------*/
+		/* ----------------------- For The Order Report ----------------------------------- */
 		
 		CompanyManagerUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager.clear();
 		CompanyManagerUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
 		CompanyManagerUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager.add(Store_Id_And_Date_Of_Report.get(1));  /* The Date Of the Report */
 		
-		/* ----------------------- For The Complaint Report -----------------------------*/
+		/* ----------------------- For The Complaint Report ------------------------------- */
 		
 		CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager.clear();
 		CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
@@ -428,10 +525,17 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 		CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_1.add(Store_Id_And_Date_Of_Report.get(1));  /* The Date Of the Report */
 		
 		Flag_Enter_On_The_Combo_Box_Date_1 = true;
+		
+		Flag_Enter_On_The_Combo_Box_Date_1_For_Compare = true;
 	}	
 	
 /* -------------------------------- The Button Of The Report That We Choose ------------------------------- */				
 	
+	/**
+	 * In This Function The Company Manager Choose His Second Date Of Report Of His Second Store Choise .
+	 * @param event - When I Click This Parameter Start To work .
+	 * @throws Exception
+	 */
 	public void Click_On_Your_Quarter_Report_Store_Two(ActionEvent event) throws Exception
 	{
 		
@@ -440,13 +544,13 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 		Store_Id_And_Date_Of_Report.add(temp_Store_Id_2);
 		Store_Id_And_Date_Of_Report.add(temp_Date_Quarter_Report_2);
 		
-		/* ---------------------- For The Revenue Report ---------------------------*/
+		/* ---------------------- For The Revenue Report ------------------------------- */
 		
 		CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager_2.clear();
-		CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager_2.add(Store_Id_And_Date_Of_Report.get(0));
-		CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager_2.add(Store_Id_And_Date_Of_Report.get(1));
+		CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager_2.add(Store_Id_And_Date_Of_Report.get(0)); /* The Store_Id */
+		CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager_2.add(Store_Id_And_Date_Of_Report.get(1)); /* The Date Of the Report */
 		
-		/* ----------------------- For The Order Report -----------------------------*/
+		/* ----------------------- For The Order Report -------------------------------- */
 		
 		CompanyManagerUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager_2.clear();
 		CompanyManagerUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager_2.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
@@ -458,7 +562,7 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 		CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager_2.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
 		CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager_2.add(Store_Id_And_Date_Of_Report.get(1));  /* The Date Of the Report */
 		
-		/* ----------------------- For The Satisfaction Report -----------------------------*/
+		/* ----------------------- For The Satisfaction Report ------------------------- */
 		
 		CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager_2.clear();
 		CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager_2.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
@@ -468,14 +572,18 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 		
 		CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_2.clear();
 		CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_2.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
-		CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_2.add(Store_Id_And_Date_Of_Report.get(1));  /* The Date Of the Report */
-	
-		Flag_Enter_Two_Store = true; 				/* Very Important Variable For The Comparing */
+		CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_2.add(Store_Id_And_Date_Of_Report.get(1));  /* The Date Of the Report */							
 		
 		Flag_Enter_On_The_Combo_Box_Date_2 = true;
+		
+		Flag_Enter_On_The_Combo_Box_Date_2_For_Compare = true;
 	}
 	
-	
+	/**
+	 * In This Function We Compare Between Two Different Store Or Two Different Quarter .
+	 * @param event -  When I Click This Parameter Start To work .
+	 * @throws Exception
+	 */
 	public void Compare(ActionEvent event) throws Exception
 	{
 		((Node)event.getSource()).getScene().getWindow().hide();    		  /* Hiding primary window */
@@ -486,11 +594,15 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 		Scene scene = new Scene(root);
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);
+		primaryStage.setTitle("Compare Between ---> { Two Different Store || Two Different Quarter }");
 		primaryStage.show(); 
 	}
-	
-/* -------------------------------- Initialized The ComboBox In the First Window - Report GUI ------------------------------- */		
-	
+		
+	/**
+	 * In This Function We Return To The First GUI Of ---> Choose Two Store & Their Date Report .
+	 * @param event - When I Click This Parameter Start To work .
+	 * @throws Exception
+	 */
 	public void Not_Press_On_Any_Store_For_Compare(ActionEvent event) throws Exception
 	{
 		CompanyManagerUI.Object_From_Comparing_For_Store_1.clear();
@@ -502,21 +614,30 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 		
 		Scene scene = new Scene(root);
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-		primaryStage.setScene(scene);		
+		primaryStage.setScene(scene);
+		primaryStage.setTitle("----- Company Manager Report With Two Store -----");
 		primaryStage.show();
 	}
 	
+	/**
+	 * In This Function We initialize The GUI Of The Company Manager Report With Two Store .
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
-		Flag_Enter_Two_Store = false;
+		/* When I Start To Initialize Its Alaways Will Be With the Defult Value */
+		Flag_Enter_On_The_Combo_Box_Store_1_For_Compare = false;
+		Flag_Enter_On_The_Combo_Box_Store_2_For_Compare = false;
+		Flag_Enter_On_The_Combo_Box_Date_1_For_Compare = false;
+		Flag_Enter_On_The_Combo_Box_Date_2_For_Compare = false;
 		
+		/* When I Start To Initialize Its Alaways Will Be With the Defult Value */
 		Flag_Enter_On_The_Combo_Box_Store_1 = false;
 		Flag_Enter_On_The_Combo_Box_Store_2 = false;
 		Flag_Enter_On_The_Combo_Box_Date_1 = false;
 		Flag_Enter_On_The_Combo_Box_Date_2 = false;
 		
-		ArrayList<Store> stores = new ArrayList<Store>();           /* For the First Connection With The DB the ArrayList Of stores Is Empty */
+		ArrayList<Store> stores = new ArrayList<Store>();           
 		msg = new Message(stores,"Company Manager - Add Store To Combo Box From DB");
 		UserUI.myClient.accept(msg);
 		while(CompanyManagerUI.stores_For_Company_Manager.size() == 0)
@@ -545,5 +666,4 @@ public class CompanyManagerController_With_Two_Store implements Initializable{
 		setStores_One_ComboBox();
 		setStores_Two_ComboBox();
 	}
-
 }

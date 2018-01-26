@@ -28,12 +28,25 @@ import javafx.stage.Stage;
 
 public class CustomerComplaintStatusReportController_For_CompanyManager implements Initializable {
 
+	/**
+	 * This Variable Help Me To Load The ComboBox Of Store's .
+	 */
 	private Store store;
+	
+	/**
+	 * This Variable Helping To Transfer Message From the Client to the DB .
+	 */
 	private Message msg;
+	
+	/**
+	 * Variabel's That Help Me To Show The Month In The BarChart . 
+	 */
 	private static String[] Month_Of_Quarter_One = {"January","Febuary","March"};
 	private static String[] Month_Of_Quarter_Two = {"April","May","June"};
 	private static String[] Month_Of_Quarter_Three = {"July","August","September"};
 	private static String[] Month_Of_Quarter_Four = {"October","November","December"};
+	
+	/* -------------------------  For The Window Of First Store - Customer Complaint Report - For The Company Manager ----------------------------------- */	
 	
 	 @FXML
 	 private TextField txtStoreID;
@@ -56,7 +69,12 @@ public class CustomerComplaintStatusReportController_For_CompanyManager implemen
 	 @FXML
 	 private Button btnClose;
 	
-	public void loadStore(Store s) 					/* To load the User details to the text fields */
+	 
+   /**
+    * In This Function We Load The ComboBox Of Store's .
+		 * @param s
+	*/
+	public void loadStore(Store s) 					
 	{ 
 		if(CompanyManagerReportController.Integer_The_Option_You_Choose == 1)
 		{
@@ -65,7 +83,7 @@ public class CustomerComplaintStatusReportController_For_CompanyManager implemen
 					this.store = s;
 					this.txtStoreID.setText(String.valueOf(store.getStoreId()));
 				}
-				else
+				else /* I Get Into This 'else' Statement Only If I Not Press On One of the Combo Box Of Store Or Date */
 				{
 					this.txtStoreID.setText(String.valueOf(1));
 				}
@@ -77,14 +95,19 @@ public class CustomerComplaintStatusReportController_For_CompanyManager implemen
 				this.store = s;
 				this.txtStoreID.setText(String.valueOf(store.getStoreId()));
 			}
-			else
+			else 	/* I Get Into This 'else' Statement Only If I Not Press On One of the Combo Box Of Store Or Date */
 			{
 				this.txtStoreID.setText(String.valueOf(1));
 			}
 		}
 	}
 	
-	public void closeCustomerComplaintStatusReportWindow(ActionEvent event) throws Exception    /* To close the The Window of the Product GUI and Show The Catalog GUI again */
+	/**
+	 * In This Function I close The GUI Of Customer Complaint Report Of the First Store .
+	 * @param event - When Client Press On the Button This Parameter Start To Work . 
+	 * @throws Exception
+	 */
+	public void closeCustomerComplaintStatusReportWindow(ActionEvent event) throws Exception    
 	{ 
 		CompanyManagerUI.stores_For_Company_Manager.clear();
 		((Node)event.getSource()).getScene().getWindow().hide(); 	 /* Hiding primary window */
@@ -102,10 +125,22 @@ public class CustomerComplaintStatusReportController_For_CompanyManager implemen
 		
 		Scene scene = new Scene(root);
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-		primaryStage.setScene(scene);		
-		primaryStage.show();										   /* show catalog frame window */
+		primaryStage.setScene(scene);
+		if(CompanyManagerReportController.Flag_For_Return_Window_With_One_Store_Or_With_Two_Store == 1)
+		{
+			primaryStage.setTitle("----- Company Manager ---> Watch On One Store -----");
+		}
+		else if(CompanyManagerReportController.Flag_For_Return_Window_With_One_Store_Or_With_Two_Store == 2)
+		{
+			primaryStage.setTitle("----- Company Manager ---> Watch On Two Store -----");
+		}
+		primaryStage.show();										
 	}
 	
+	
+	/** 
+	 * In This Function We Initialize The GUI Of Customer Complaint Report Of the First Store .
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) 
 	{
@@ -122,8 +157,8 @@ public class CustomerComplaintStatusReportController_For_CompanyManager implemen
 		
 		if(CompanyManagerReportController.Integer_The_Option_You_Choose == 1)
 		{
+			/* This If Statement Is For Defult Value */
 			if((CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == false && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == false)
-					|| (CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == false && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == true) 
 					|| (CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == true && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == false))
 				{
 					int temp_Store_Id = 1;
@@ -137,9 +172,9 @@ public class CustomerComplaintStatusReportController_For_CompanyManager implemen
 					Year_Integer = Integer.parseInt(Year);
 					Month_Integer = Integer.parseInt(Month);
 				}
-				else
+				else /* This else Statement Is Not For Defult Value */
 				{
-					temp_Date_Quarter_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager.get(1);                             /* The Date */
+					temp_Date_Quarter_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager.get(1); /* The Date */
 					Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
 					Year = Full_Date_String.substring(0 , 4);
 					Month = Full_Date_String.substring(5 , 7);
@@ -149,9 +184,9 @@ public class CustomerComplaintStatusReportController_For_CompanyManager implemen
 		}
 		else if(CompanyManagerReportController.Integer_The_Option_You_Choose == 2)
 		{
+			/* This If Statement Is For Defult Value */
 			if((CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == false)
-					|| (CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == true) 
-					|| (CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == false))
+					|| (CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == true))
 				{
 					int temp_Store_Id = 1;
 					temp_Date_Quarter_Report = Date.valueOf("2017-12-31");
@@ -164,9 +199,9 @@ public class CustomerComplaintStatusReportController_For_CompanyManager implemen
 					Year_Integer = Integer.parseInt(Year);
 					Month_Integer = Integer.parseInt(Month);
 				}
-				else
+				else /* This else Statement Is Not For Defult Value */
 				{
-					temp_Date_Quarter_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager.get(1);                             /* The Date */
+					temp_Date_Quarter_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager.get(1); /* The Date */
 					Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
 					Year = Full_Date_String.substring(0 , 4);
 					Month = Full_Date_String.substring(5 , 7);
@@ -197,7 +232,7 @@ public class CustomerComplaintStatusReportController_For_CompanyManager implemen
 		ArrayList<Object> StoreID_And_Date_Of_Report = new ArrayList<Object>();
 		StoreID_And_Date_Of_Report.add(CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager.get(0));    /* The Store Id */
 		StoreID_And_Date_Of_Report.add(CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager.get(1));    /* The Date Of the Report */
-		msg = new Message(StoreID_And_Date_Of_Report,"Company Manager - Take The Complaints Of Specific Store"); 		/* I take All the Orders Of Specific Store , And After That I Take All the Complaint Of All The Order Of the Specific Store */
+		msg = new Message(StoreID_And_Date_Of_Report,"Company Manager - Take The Complaints Of Specific Store"); 					/* I take All the Orders Of Specific Store , And After That I Take All the Complaint Of All The Order Of the Specific Store */
 		UserUI.myClient.accept(msg);
 		while(CompanyManagerUI.complaints_For_Company_Manager.size() == 0)
 		{
@@ -220,28 +255,31 @@ public class CustomerComplaintStatusReportController_For_CompanyManager implemen
 
 /* --------------------------------- Initialize The Customer Complaint And The Month Of the Complaint At the Bar Chart ------------------------------------------------- */	 			
 	
+	/**
+	 * In This Function I Initialize The BarChart . 
+	 */
 	public void Put_At_The_Chart_All_The_Complaints()
 	{
 		int [] Count_In_Chart;
-		ArrayList<String> Months_Of_Complaint = new ArrayList<String>();   /* All the Product That We Order On Specific Store */
+		ArrayList<String> Months_Of_Complaint = new ArrayList<String>();   							 /* All the Product That We Order On Specific Store */
 		ArrayList<String> Month_Of_Complaint_Without_Duplicate = new ArrayList<String>();
 		Date date_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager.get(1);
 		String String_Date_Report = String.valueOf(date_Report);
 		String Month = String_Date_Report.substring(5 , 7);
 		int Integer_Month = Integer.parseInt(Month);
 		                       						  
-		for(int i = 0 ; i < CompanyManagerUI.complaints_For_Company_Manager.size() ; i++)             /* In This Loop We Initialize All the Orders At ArrayList Of Orders */                                             
+		for(int i = 0 ; i < CompanyManagerUI.complaints_For_Company_Manager.size() ; i++) 			 /* In This Loop We Initialize All the Orders At ArrayList Of Orders */                                             
 		{
 			Months_Of_Complaint.add(CompanyManagerUI.complaints_For_Company_Manager.get(i).getComplaintMonth());
 		}
 		
-		for(int i = 0 ; i < Months_Of_Complaint.size() ; i++)             /* In This Loop We Initialize All the Orders At ArrayList Of Orders */                                             
+		for(int i = 0 ; i < Months_Of_Complaint.size() ; i++) 										 /* In This Loop We Initialize All the Orders At ArrayList Of Orders */                                             
 		{
 			if((Month_Of_Complaint_Without_Duplicate.contains(Months_Of_Complaint.get(i))) == false) /* If Month_Of_Complaint_Without_Duplicate Not Contain */
 				Month_Of_Complaint_Without_Duplicate.add(Months_Of_Complaint.get(i));
 		}
 		
-		Count_In_Chart = new int[3];   /* 3 = Three Month In Each Quarter */
+		Count_In_Chart = new int[3];   																 /* 3 = Three Month In Each Quarter */
 		ArrayList<XYChart.Series<String,Integer>> setChart = new ArrayList<XYChart.Series<String,Integer>>();
 		
 		if(Integer_Month == 1 || Integer_Month == 2 || Integer_Month == 3)

@@ -2,6 +2,7 @@ package controller;
 
 import java.net.URL;
 import java.sql.Date;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -136,8 +137,8 @@ public class SatisfactionReportController implements Initializable {
 		}
 		
 		ArrayList<Object> StoreID_And_Date_Of_Report = new ArrayList<Object>();
-		StoreID_And_Date_Of_Report.add(StoreManagerUI.Help_To_Transfer_Object_At_Complaint_Report.get(0)); /* The Store Id */
-		StoreID_And_Date_Of_Report.add(StoreManagerUI.Help_To_Transfer_Object_At_Complaint_Report.get(1)); /* The Date Of the Report */
+		StoreID_And_Date_Of_Report.add(StoreManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report.get(0)); /* The Store Id */
+		StoreID_And_Date_Of_Report.add(StoreManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report.get(1)); /* The Date Of the Report */
 		
 		msg = new Message(StoreID_And_Date_Of_Report , "Store Manager - Take The Surveys Of Specific Store In Specific Quarter"); 		/* I take All the Orders Of Specific Store , And After That I Take All the Complaint Of All The Order Of the Specific Store */
 		UserUI.myClient.accept(msg);
@@ -174,15 +175,16 @@ public class SatisfactionReportController implements Initializable {
 		}
 		
 		Total_Average = The_Average_Result_Of_Each_Question.get(6);       		   /* In The 6 Cell There Have The Total Average Of The Survey */
+		Number_Of_Client = The_Average_Result_Of_Each_Question.get(7).intValue();   /* In The 7 Cell There Have The Number Of Client */
 		if(String.valueOf(Total_Average).compareTo("NaN") == 0)
 		{
 			Total_Average = 0;
 		}
-		Number_Of_Client = The_Average_Result_Of_Each_Question.get(7).intValue();  /* In The 7 Cell There Have The Number Of Client */
+		Total_Average = Double.parseDouble(new DecimalFormat("##.####").format(Total_Average));
 		this.txtTotalAvgRank.setText(String.valueOf(Total_Average));
 		this.txtNumberOfClient.setText(String.valueOf(Number_Of_Client));
-		The_Average_Result_Of_Each_Question.remove(6);                    /* Remove The Almost Last Index With the Total Average - After That The Last Index Is 6 */
-		The_Average_Result_Of_Each_Question.remove(6);                    /* Remove The Last Index With the Number Of Client */
+		The_Average_Result_Of_Each_Question.remove(6);                    			/* Remove The Almost Last Index With the Total Average - After That The Last Index Is 6 */
+		The_Average_Result_Of_Each_Question.remove(6);                    			/* Remove The Last Index With the Number Of Client */
 		
 		ArrayList<XYChart.Series<String,Double>> setChart = new ArrayList<XYChart.Series<String,Double>>();
 		for(int i = 0 ; i < Questions.length ; i++)

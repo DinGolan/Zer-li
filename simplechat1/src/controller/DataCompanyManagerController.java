@@ -21,18 +21,33 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class DataCompanyManagerController implements Initializable{
+public class DataCompanyManagerController implements Initializable {
 	
+	/**
+	 * This Variable Helping Me To Load The ComboBox Of User .
+	 */
 	private UserInfoController_For_DataCompanyManagerController uic;
+	
+	/**
+	 * This Variable Helping To Transfer Message From the Client to the DB .
+	 */
 	private Message msg;
+	
+	/**
+	 *  Defult Index If I Not Press On the ComboBox Of the User's .
+	 */
 	private static int itemIndex = 2; 	/* This Variable Need for the the Case - that we not choose any User from the ComboBox , so we take the User that in Index 2 By Default */
+	
+	/**
+	 * Variable That Help Me To Compare Between Two User's .
+	 */
 	public User toCompare; 
 	
 	ArrayList<Object> Temp_Array_For_Update;
 	ObservableList<String> userList;
 
 	
-/* -------------------------  For The First Window ----------------------------------- */	
+/* -------------------------  For The First Window Of the Data Company Manager -------------------------------------- */	
 	
     @FXML
     private Button btnLogin = null;
@@ -46,9 +61,14 @@ public class DataCompanyManagerController implements Initializable{
 	@FXML
 	private Button btnUserInfo = null;  /* Button Of User Info */	
 	
-/* ----------------------- Method's For the First Window GUI ------------------------ */	
+/* ----------------------- Method's For the First Window GUI -------------------------------------------------------- */	
 	
-	public void start(Stage primaryStage) throws Exception          /* With this Method we show the GUI of the First Window */
+	/**
+	 * If We Not Run The Proggram From User UI We Can Run Only The Data Company Manager From Here . 
+	 * @param primaryStage
+	 * @throws Exception
+	 */
+	public void start(Stage primaryStage) throws Exception         
 	{	
 		Parent root = FXMLLoader.load(getClass().getResource("/controller/DataCompanyManagerOptions.fxml"));
 		Scene scene = new Scene(root);
@@ -58,8 +78,13 @@ public class DataCompanyManagerController implements Initializable{
 		primaryStage.show();		
 	}
 
-/* ----------------------- Method's For the Second Window GUI ------------------------ */	
+/* ----------------------- Method's For the Second Window GUI ------------------------------------------------------- */	
 	
+	/**
+	 * In this Function I Can See The Details Of Each User . 
+	 * @param event - When The Client Press On the Button This Parameter Start To Work .
+	 * @throws Exception
+	 */
 	public void UserInfo(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Choose User' and Show the GUI of the User that we Choose */
 	{
 		((Node)event.getSource()).getScene().getWindow().hide();    /* Hiding primary window */
@@ -68,17 +93,22 @@ public class DataCompanyManagerController implements Initializable{
 		Pane root = loader.load(getClass().getResource("/controller/UserInfoForm_For_DataCompanyManager.fxml").openStream());
 		
 		UserInfoController_For_DataCompanyManagerController userInfoController_For_DataCompanyManagerController = loader.getController();		                                        
-		userInfoController_For_DataCompanyManagerController.loadUser(DataCompanyManagerUI.users.get(getItemIndex()));  /* In this Line We take the User that we Choose and Show his Details On the GUI */
+		userInfoController_For_DataCompanyManagerController.loadUser(DataCompanyManagerUI.users.get(getItemIndex()));  
 		
 		Scene scene = new Scene(root);	
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-		primaryStage.setScene(scene);		
+		primaryStage.setScene(scene);	
+		primaryStage.setTitle("----- User - Info -----");
 		primaryStage.show();
 	}
 
-/* -------------------------- Taking User From The Combo Box of User ------------------------------------ */		
+/* -------------------------- Taking User From The Combo Box of User ------------------------------------------------ */		
 	
-	public int getItemIndex()   /* With this Method we Take User from the List of the Users at the ComboBox */
+	/**
+	 * This Function Return For Us The Index That We Choose From the Combo Box Of User's .
+	 * @return
+	 */
+	public int getItemIndex()   
 	{
 		if(cmbUsers.getSelectionModel().getSelectedIndex() == -1)
 			return itemIndex;
@@ -86,8 +116,13 @@ public class DataCompanyManagerController implements Initializable{
 		return cmbUsers.getSelectionModel().getSelectedIndex();
 	}
 	
-/* ----------------------------------------- Exit Button --------------------------------------------------- */	
+/* ----------------------------------------- Exit Button ------------------------------------------------------------ */	
 
+	/**
+	 * In This Function We Can Exit From The Proggram .
+	 * @param event - When The Client Press On the Button This Parameter Start To Work .
+	 * @throws Exception
+	 */
 	public void getExitBtn(ActionEvent event) throws Exception      /* With this Method we Exit from the Data Company Manager GUI */ 
 	{
 		System.out.println("Exit From - Tool");
@@ -96,13 +131,18 @@ public class DataCompanyManagerController implements Initializable{
 	
 	/* ----------------------------------- Logout From Data Company Manager Option ---------------------------------- */
 	
-	public void logoutBtn(ActionEvent event) throws Exception //logout by the store manager
+	/**
+	 * In This Function We Logout From The System . 
+	 * @param event - When The Client Press On the Button This Parameter Start To Work .
+	 * @throws Exception
+	 */
+	public void logoutBtn(ActionEvent event) throws Exception 
 	{
 		Message msg = new Message(UserUI.user.getId(), "change User status to DISCONNECTED");
-		UserUI.myClient.accept(msg); 				/* change User status to DISCONNECTED in DB */
-		((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
-		Stage primaryStage = new Stage(); 			/* Object present window with graphics elements */
-		FXMLLoader loader = new FXMLLoader(); 		/* load object */
+		UserUI.myClient.accept(msg); 										/* change User status to DISCONNECTED in DB */
+		((Node) event.getSource()).getScene().getWindow().hide(); 			/* Hiding primary window */
+		Stage primaryStage = new Stage(); 									/* Object present window with graphics elements */
+		FXMLLoader loader = new FXMLLoader(); 								/* load object */
 		Parent root = FXMLLoader.load(getClass().getResource("/controller/UserLogin.fxml"));
 		Scene scene = new Scene(root);
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
@@ -113,6 +153,10 @@ public class DataCompanyManagerController implements Initializable{
 	
 /* --------------------------------- Loading User To the Text Fields ------------------------------------------------- */
 	
+	/**
+	 * In This Function We Can Load User To The Combo Box Of User's . 
+	 * @param user
+	 */
 	public void loadUser(User user) 	/* Loading User */
 	{
 		this.uic.loadUser(user);
@@ -120,7 +164,10 @@ public class DataCompanyManagerController implements Initializable{
 	
 /* ----------------------------------------- Set The Combo Box Of Users ----------------------------------- */	
 	
-	public void setUsersComboBox()      /* In this Method we Set the Product at the ComboBox */
+	/**
+	 * In This Function We Set All The Users In The Combo Box . 
+	 */
+	public void setUsersComboBox()      
 	{ 				
 		ArrayList<String> temp_Users_Name_List = new ArrayList<String>();	
 		
@@ -135,8 +182,11 @@ public class DataCompanyManagerController implements Initializable{
 	
 /* -------------------------------- Initialized The ComboBox In the First Window ------------------------------- */		
 	
+	/**
+	 * In This Function We Initialize The GUI Of The First Window Of ---> DataCompanyManagerUI
+	 */
 	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) // Initialized The ComboBox of the Product 
+	public void initialize(URL arg0, ResourceBundle arg1)  
 	{
 		ArrayList<User> users = new ArrayList<User>();
 		

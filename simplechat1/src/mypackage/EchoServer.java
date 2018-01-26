@@ -92,7 +92,7 @@ public class EchoServer extends AbstractServer
 				/* ArrayList<Product> aa = new ArrayList<Product>(); */
 	    		((Message)msg).setMsg(getProductsFromDB(conn));	    
 	    		this.sendToAllClients(msg);
-  		}
+	    }
 	    
 	    if(((Message)msg).getOption().compareTo("get all products in sale from DB") ==0) 	    /* Check that we get from DB Because We want to Initialized */
 	    {										
@@ -156,7 +156,8 @@ public class EchoServer extends AbstractServer
 	    
 	    if(((Message)msg).getOption().compareTo("Update User At Data Base") == 0) 	    /* Check that we get from DB Because We want to Initialized */
         {										
-	    	UpdateUserAtDB(msg,conn);
+	    	UpdateUserAtDB(msg, conn);	    
+    		
 		}
 	    
 	    if(((Message)msg).getOption().compareTo("Update renew account") == 0) 	    /* Check that we get from DB Because We want to Initialized */
@@ -1305,6 +1306,9 @@ public class EchoServer extends AbstractServer
 		  
 		  All_The_Object_To_Return.add(Sum_Number_Of_Client_Store_Two); /* Index Number ---> 15 */
 		  
+		  Total_Avg_At_Store_One /= 6;
+		  Total_Avg_At_Store_Two /= 6;
+		  
 		  All_The_Object_To_Return.add(Total_Avg_At_Store_One);         /* Index Number ---> 16 */
 		  All_The_Object_To_Return.add(Total_Avg_At_Store_Two);         /* Index Number ---> 17 */
 		  
@@ -1489,6 +1493,8 @@ public class EchoServer extends AbstractServer
 				  Total_Average_Rank += Final_Average_Of_Each_Question.get(i);                                              /* Sum The Total Average */
 			   }
 			  
+			   Total_Average_Rank /= 6;
+			   
 			   Final_Average_Of_Each_Question.add(Total_Average_Rank); 														/* At Index 6 Will Be The Total Average Of All The Survey */
 			   Final_Average_Of_Each_Question.add((double)(Sum_Of_Clients));     											/* At Index 7 Will Be The Number Of Client */
 	  }
@@ -2073,7 +2079,10 @@ public class EchoServer extends AbstractServer
 		  stmt.executeUpdate(UpdateTableUsersPremmision);
 		  stmt.executeUpdate(UpdateTableUsersStatus);
 	  } 
-	  catch (SQLException e) {	e.printStackTrace();}	  
+	  catch (SQLException e) 
+	  {	
+		  e.printStackTrace();
+	  }
   }
   
   protected void renewAccount(Object msg, Connection conn) /* This Method Update the DB */
@@ -2158,8 +2167,8 @@ public class EchoServer extends AbstractServer
     }
   
   @SuppressWarnings("unchecked")
-protected boolean checkStoreHasSurvey(Object msg, Connection conn,java.util.Date start) throws SQLException, ParseException
- {
+  protected boolean checkStoreHasSurvey(Object msg, Connection conn,java.util.Date start) throws SQLException, ParseException
+  {
   	  ArrayList<String> temp = (ArrayList<String>)(((Message)msg).getMsg());
   	  String s;
 	  		Statement stmt;
@@ -2253,10 +2262,9 @@ protected boolean checkStoreHasSurvey(Object msg, Connection conn,java.util.Date
 
   }
   
-  
-  
   @SuppressWarnings("unchecked")
-protected Object addSurveyResult(Object msg, Connection conn) throws ParseException, SQLException {
+  protected Object addSurveyResult(Object msg, Connection conn) throws ParseException, SQLException 
+  {
  	    int id = ((ArrayList<Integer>)(((Message)msg).getMsg())).get(0);
  	    int tempId=0;
  	    int storeId = ((ArrayList<Integer>)(((Message)msg).getMsg())).get(7);
@@ -2351,7 +2359,7 @@ protected Object addSurveyResult(Object msg, Connection conn) throws ParseExcept
   }
   
   @SuppressWarnings("unchecked")
-protected ResultSet getSurveyData(Connection conn,int id) throws SQLException {
+  protected ResultSet getSurveyData(Connection conn,int id) throws SQLException {
  	 
  	 		  Statement stmt;
  			  stmt = conn.createStatement();
@@ -2476,6 +2484,7 @@ protected ResultSet getSurveyData(Connection conn,int id) throws SQLException {
    	  } catch (SQLException e) {e.printStackTrace();} 
    	  return products;
      }
+  
   /**
    * Get all products for specific order number
    * @param msg - object msg with the message of specific order number
@@ -3474,8 +3483,7 @@ protected ResultSet getSurveyData(Connection conn,int id) throws SQLException {
 	 	}
 	  } catch (SQLException e) {	e.printStackTrace();}	
   }
-  
-  
+ 
   protected void UpdateBalaceAtDB(Object msg, Connection conn) /* This Method Update the DB */
   {
 	  Statement stmt;

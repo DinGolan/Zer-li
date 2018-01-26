@@ -58,7 +58,7 @@ public class CustomerController implements Initializable{
 
 	
 	public void openCatalogWindow(ActionEvent event) throws Exception {
-		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+		((Node)event.getSource()).getScene().getWindow().hide(); 	/* Hiding primary window */
 		Stage primaryStage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
 		Pane root = loader.load(getClass().getResource("/controller/Catalog.fxml").openStream());
@@ -70,8 +70,14 @@ public class CustomerController implements Initializable{
 		primaryStage.show();
 	}
 	
-	public void openProfileWindow(ActionEvent event) throws Exception {
-		((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
+	/**
+	 * In This Function The (User = Customer) Can Watch His Profile .
+	 * @param event - When The Client Click On the Button This Parameter Start To Working .
+	 * @throws Exception
+	 */
+	public void openProfileWindow(ActionEvent event) throws Exception 
+	{
+		((Node)event.getSource()).getScene().getWindow().hide(); 			/* Hiding primary window */
 		Stage primaryStage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
 		Pane root = loader.load(getClass().getResource("/controller/CustomerProfile.fxml").openStream());
