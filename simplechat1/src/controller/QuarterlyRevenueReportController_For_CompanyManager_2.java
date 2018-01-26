@@ -18,9 +18,12 @@ import javafx.scene.control.TextField;
 
 public class QuarterlyRevenueReportController_For_CompanyManager_2 implements Initializable {
 
+	/**
+	 * This Variable Help Me To Load The ComboBox Of Store's .
+	 */
 	private Store store;
 	 
-	/* -------------------------  For The Window Of Quarterly Revenue Report ----------------------------------- */	
+	/* -------------------------  For The Window Of Quarterly Revenue Report - For The Second Store - For Company Manager ----------------------------------- */	
 	
 	@FXML
 	private TextField txtYear;
@@ -44,9 +47,13 @@ public class QuarterlyRevenueReportController_For_CompanyManager_2 implements In
 	private Button btnClose;                    /* Button For Close The Window */
    
 	
-/* --------------------------------- Loading Store To the Text Fields ------------------------------------------------- */
+/* --------------------------------- Loading Store To the Text Fields --------------------------------------------------------------------------------------- */
  
-	public void loadStore(Store s) 					/* To load the Store details to the text fields */
+    /**
+	 * In This Function We Load The ComboBox Of Store's .
+	 * @param s
+	 */
+	public void loadStore(Store s) 					
 	{ 
 		if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2 == true)
 		{	
@@ -68,8 +75,12 @@ public class QuarterlyRevenueReportController_For_CompanyManager_2 implements In
 		}
 	}
 
-/* --------------------------------- Loading Quarter Number To the Text Fields ------------------------------------------------- */	
+/* --------------------------------- Loading Quarter Number To the Text Fields ------------------------------------------------------------------------------ */	
 	
+	/**
+	 * In This Function We Load The ComboBox Of Date's .
+	 * @param s
+	 */
 	public void loadQuarter(String string) 					/* To load the Store details to the text fields */
 	{ 
 		if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2 == true)
@@ -87,16 +98,24 @@ public class QuarterlyRevenueReportController_For_CompanyManager_2 implements In
 		}
 	}
  
-/* --------------------------------- Close the Quarterly Revenue Report Window ------------------------------------------------- */		
+/* --------------------------------- Close the Quarterly Revenue Report Window ------------------------------------------------------------------------------ */		
 	
+	/**
+	 * In This Function I close The GUI Of Revenue Report Of the Second Store .
+	 * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
+	 */
 	public void closeQuarterlyRevenueReportWindow(ActionEvent event) throws Exception
 	{
 		CompanyManagerUI.stores_For_Company_Manager_2.clear();
 		((Node)event.getSource()).getScene().getWindow().hide(); 	 /* Hiding primary window */
 	}
 
-/* --------------------------------- Initialize The Quarterly Revenue Report GUI ------------------------------------------------- */	 		
+/* --------------------------------- Initialize The Quarterly Revenue Report GUI ---------------------------------------------------------------------------- */	 		
 	
+	/** 
+	 * In This Function We Initialize The GUI Of Revenue Report Of the Second Store .
+	 */
 	@Override
 	 public void initialize(URL location, ResourceBundle resources) 
 	{
@@ -131,7 +150,6 @@ public class QuarterlyRevenueReportController_For_CompanyManager_2 implements In
 			Year_Integer = Integer.parseInt(Year);
 			Month_Integer = Integer.parseInt(Month);
 		}
-		/* This else Statement Is Not For Defult Value */
 		else if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2 == true)
 		{
 			temp_Date_Quarter_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager_2.get(1); /* The Date */
@@ -187,9 +205,9 @@ public class QuarterlyRevenueReportController_For_CompanyManager_2 implements In
 		String Amount_Of_Order_Of_Specific_Quarter = String.valueOf(CompanyManagerUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter_For_Company_Manager_2.get(1)); /* The Amount Of Order */
 		
 		this.txtQuantityOfOrder.setText(String.valueOf(Amount_Of_Order_Of_Specific_Quarter));
-		this.txtRevenueOfSpecificQuarter.setText(Revenue_Of_Specific_Quarter);   /* Set the Revenue */
+		this.txtRevenueOfSpecificQuarter.setText(Revenue_Of_Specific_Quarter);  
 	} 
 	
-/* ------------------------------------------------------------------------------------------------------------------- */
+/* ---------------------------------------------------------------------------------------------------------------------------------------------------------- */
 	
 }

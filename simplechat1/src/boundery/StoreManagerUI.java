@@ -1,7 +1,6 @@
 package boundery;
 
 import java.sql.Date;
-import java.util.Scanner;
 import java.util.Vector;
 
 import controller.StoreManagerController;

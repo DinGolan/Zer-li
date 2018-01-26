@@ -24,20 +24,36 @@ import javafx.stage.Stage;
 
 public class StoreManagerReportController implements Initializable {
 
+	/* Controllers That I Need To Load The Combo Box Of Each Specific Report Type */
+	
 	private QuarterlyRevenueReportController quarterlyRevenueReportController;
 	private OrderReportController orderReportController;
 	private CustomerComplaintStatusReportController customerComplaintStatusReportController;
 	private SatisfactionReportController satisfactionReportController;
 
+	/**
+	 * This Variable Helping To Transfer Message From the Client to the DB .
+	 */
 	private Message msg;
-	private static int itemIndex = 0; /* This Variable Need for the the Case - that we not choose any Store from the ComboBox , so we take the Store that in Index 0 By Default - Store 1 */
+	
+	/* This Variable Need for the the Case - that we not choose any Store from the ComboBox , so we take the Store that in Index 0 By Default - Store 1 */
+	private static int itemIndex = 0; 
+	
+	/**
+	 * This Variable's Help Me To Transfer Details (To/From) The DB .
+	 */
 	public static int temp_Store_Id;
 	private Date temp_Date_Quarter_Report;
+	
+	/* With This Variable I Know If I Press On The Button Of The Date ComboBox */
 	public static boolean Flag_Press_On_The_Date_ComboBox = false;
 	
+	/**
+	 * With This ObservableList I Fill The ComboBox of Date's .
+	 */
 	ObservableList<Date> DateList;
 	
-/* -------------------------  For The First Window Of Report ----------------------------------- */	
+/* -------------------------  For The First Window Of Report - Of Store Manager ----------------------------------- */	
 	
 	@FXML
     private ComboBox<Date> cmbReports;
@@ -60,8 +76,13 @@ public class StoreManagerReportController implements Initializable {
 	@FXML
     private TextField txtStoreDetails;
 	
-/* --------------------------------  The Report About Quarterly Revenue ----------------------------------- */	
+/* --------------------------------  The Report About Quarterly Revenue - For Store Manager ----------------------------------- */	
 	
+	/**
+	 * In This Function I Show The Quarterly Revenue Report .
+	 * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
+	 */
 	public void QuarterlyRevenueReport(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Report' and Show the GUI of the Quarterly Revenue Report that we Choose */
 	{
 		((Node)event.getSource()).getScene().getWindow().hide();    			  /* Hiding primary window */
@@ -78,8 +99,13 @@ public class StoreManagerReportController implements Initializable {
 		primaryStage.show();
 	}
 	
-/* --------------------------------  The Report About Order ----------------------------------- */	
+/* --------------------------------  The Report About Order - For Store Manager ----------------------------------------------- */	 	
 	
+	/**
+	 * In This Function I Show The Order Report .
+	 * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
+	 */
 	public void OrderReport(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Report' and Show the GUI of the Order Report that we Choose */
 	{
 		((Node)event.getSource()).getScene().getWindow().hide();       /* Hiding primary window */
@@ -96,8 +122,13 @@ public class StoreManagerReportController implements Initializable {
 		primaryStage.show();
 	}
 	
-/* --------------------------------  The Report About Complaint ----------------------------------- */
+/* --------------------------------  The Report About Complaint - For Store Manager ------------------------------------------- */
 	
+	/**
+	 * In This Function I Show The Customer Complaint Status Report .
+	 * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
+	 */
 	public void CustomerComplaintStatusReport(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Report' and Show the GUI of the Customer Complaint Status Report that we Choose */
 	{
 		((Node)event.getSource()).getScene().getWindow().hide();    					 /* Hiding primary window */
@@ -114,8 +145,13 @@ public class StoreManagerReportController implements Initializable {
 		primaryStage.show();
 	}
 	
-/* --------------------------------  The Report About Satisfaction ----------------------------------- */
+/* --------------------------------  The Report About Satisfaction - For Store Manager ---------------------------------------- */
 	
+	/**
+	 * In This Function I Show The Satisfaction Report .
+	 * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
+	 */
 	public void SatisfactionReport(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Report' and Show the GUI of the Satisfaction Report that we Choose */
 	{
 		((Node)event.getSource()).getScene().getWindow().hide();    		  /* Hiding primary window */
@@ -132,9 +168,13 @@ public class StoreManagerReportController implements Initializable {
 		primaryStage.show();
 	}
 		
-/* -------------------------- Taking Date From The Combo Box of Store ------------------------------------ */	
+/* -------------------------- Taking Date Index From The Combo Box of Store --------------------------------------------------- */	
 	
-	public int getItemIndexFromDateComboBox()                                   	/* With this Method we Take User from the List of the Users at the ComboBox */
+	/**
+	 * In This Function I Return The Index From My Choise From the ComboBox Of the Date .
+	 * @return
+	 */
+	public int getItemIndexFromDateComboBox()                                   	
 	{
 		if(cmbReports.getSelectionModel().getSelectedIndex() == -1)
 			return itemIndex;
@@ -142,23 +182,39 @@ public class StoreManagerReportController implements Initializable {
 		return cmbReports.getSelectionModel().getSelectedIndex();
 	}
 	
-/* --------------------------------- Loading Store To the Text Fields ------------------------------------------------- */	
+/* --------------------------------- Loading Store To the Text Fields --------------------------------------------------------- */	
 	
+	/**
+	 * With This Function We Load The TextFiels Of the Store In The Revenue Report .
+	 * @param store
+	 */
 	public void loadStoreToRevenueReport(Store store) 					/* Loading Store */
 	{
 		this.quarterlyRevenueReportController.loadStore(store);
 	}
 	
+	/**
+	 * With This Function We Load The TextFiels Of the Store In The Order Report .
+	 * @param store
+	 */
 	public void loadStoreToOrderReport(Store store) 					/* Loading Store */
 	{
 		this.orderReportController.loadStore(store);
 	}
 	
+	/**
+	 * With This Function We Load The TextFiels Of the Store In The Saticfaction Report .
+	 * @param store
+	 */
 	public void loadStoreToSaticfactionReport(Store store) 				/* Loading Store */
 	{
 		this.satisfactionReportController.loadStore(store);
 	}
 	
+	/**
+	 * With This Function We Load The TextFiels Of the Store In The Customer Complaint Status Report .
+	 * @param store
+	 */
 	public void loadStoreToCustomerComplaintStatusReport(Store store) 	/* Loading Store */
 	{
 		this.customerComplaintStatusReportController.loadStore(store);
@@ -166,6 +222,11 @@ public class StoreManagerReportController implements Initializable {
 	
 /* --------------------------------- Close the Store Manager Report Window ------------------------------------------------- */	 	
 	
+	/**
+	 * With This Function We Close The GUI Of The Store Manager Report . 
+	 * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
+	 */
 	public void closeStoreManagerReportWindow(ActionEvent event) throws Exception   
 	{ 
 		StoreManagerUI.stores.clear();
@@ -177,19 +238,25 @@ public class StoreManagerReportController implements Initializable {
 		Scene scene = new Scene(root);
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);		
-		primaryStage.show();										   /* show catalog frame window */
+		primaryStage.show();										   
 	}
 
-/* ----------------------------------------- Set The Text Of Store ----------------------------------- */	
+/* ----------------------------------------- Set The Text Of Store ------------------------------------------------------------ */	
 	
-	public void set_Store_At_Text()    								/* In this Method we Set the Stores at the ComboBox */
+	/**
+	 * In This Function We Set The Text Field Of The Store ID And The Store Address . 
+	 */
+	public void set_Store_At_Text()    							
 	{ 				
 		this.txtStoreDetails.setText(UserUI.store.getStoreId() + " ---> " + UserUI.store.getStore_Address());
 	}
 
-/* ----------------------------------------- Set The Combo Box Of All the Date Of the Report Of Specific Store ----------------------------------- */		
+/* ----------------------------------------- Set The Combo Box Of All the Date Of the Report Of Specific Store ---------------- */		
 	
-	public void set_Dates_Of_Report_At_ComboBox()      								/* In this Method we Set the Stores at the ComboBox */
+	/**
+	 * In This Function We Set The ComboBox Of Date's Of Specific Store . 
+	 */
+	public void set_Dates_Of_Report_At_ComboBox()      						
 	{ 				
 		ArrayList<Date> Date_Of_Report = new ArrayList<Date>();	
 		
@@ -202,8 +269,13 @@ public class StoreManagerReportController implements Initializable {
 		cmbReports.setItems(DateList);
 	}	
 	
-/* -------------------------------- The Button Of The Report That We Choose ------------------------------- */			
+/* -------------------------------- The Button Of The Report That We Choose --------------------------------------------------- */			
 	
+	/**
+	 * This Function Start To Work When The Store Manager Choose Specific Report .
+	 * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
+	 */
 	public void Click_On_Your_Quarter_Report(ActionEvent event) throws Exception
 	{
 		temp_Date_Quarter_Report = StoreManagerUI.Dates.get(getItemIndexFromDateComboBox());
@@ -211,25 +283,25 @@ public class StoreManagerReportController implements Initializable {
 		Store_Id_And_Date_Of_Report.add(temp_Store_Id);
 		Store_Id_And_Date_Of_Report.add(temp_Date_Quarter_Report);
 
-		/* ---------------------- For The Revenue Report ---------------------------*/
+		/* ---------------------- For The Revenue Report --------------------------- */
 		
 		StoreManagerUI.Help_To_Transfer_Object_At_Revenue_Report.clear();
-		StoreManagerUI.Help_To_Transfer_Object_At_Revenue_Report.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
-		StoreManagerUI.Help_To_Transfer_Object_At_Revenue_Report.add(Store_Id_And_Date_Of_Report.get(1));    /* The Date Of the Report */
+		StoreManagerUI.Help_To_Transfer_Object_At_Revenue_Report.add(Store_Id_And_Date_Of_Report.get(0));  		/* The Store_Id */
+		StoreManagerUI.Help_To_Transfer_Object_At_Revenue_Report.add(Store_Id_And_Date_Of_Report.get(1));    	/* The Date Of the Report */
 		
 		/* ----------------------- For The Order Report -----------------------------*/
 		
 		StoreManagerUI.Help_To_Transfer_Object_At_Order_Report.clear();
-		StoreManagerUI.Help_To_Transfer_Object_At_Order_Report.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
-		StoreManagerUI.Help_To_Transfer_Object_At_Order_Report.add(Store_Id_And_Date_Of_Report.get(1));  /* The Date Of the Report */
+		StoreManagerUI.Help_To_Transfer_Object_At_Order_Report.add(Store_Id_And_Date_Of_Report.get(0));  		/* The Store_Id */
+		StoreManagerUI.Help_To_Transfer_Object_At_Order_Report.add(Store_Id_And_Date_Of_Report.get(1));  		/* The Date Of the Report */
 		
-		/* ----------------------- For The Complaint Report -----------------------------*/
+		/* ----------------------- For The Complaint Report ------------------------ */
 		
 		StoreManagerUI.Help_To_Transfer_Object_At_Complaint_Report.clear();
-		StoreManagerUI.Help_To_Transfer_Object_At_Complaint_Report.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
-		StoreManagerUI.Help_To_Transfer_Object_At_Complaint_Report.add(Store_Id_And_Date_Of_Report.get(1));  /* The Date Of the Report */
+		StoreManagerUI.Help_To_Transfer_Object_At_Complaint_Report.add(Store_Id_And_Date_Of_Report.get(0));  	/* The Store_Id */
+		StoreManagerUI.Help_To_Transfer_Object_At_Complaint_Report.add(Store_Id_And_Date_Of_Report.get(1));  	/* The Date Of the Report */
 		
-		/* ----------------------- For The Satisfaction Report -----------------------------*/
+		/* ----------------------- For The Satisfaction Report --------------------- */
 		
 		StoreManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report.clear();
 		StoreManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
@@ -238,8 +310,11 @@ public class StoreManagerReportController implements Initializable {
 		Flag_Press_On_The_Date_ComboBox = true;
 	}
 	
-/* -------------------------------- Initialized The ComboBox In the First Window - Report GUI ------------------------------- */	
+/* -------------------------------- Initialized The ComboBox In the First Window - Report GUI --------------------------------- */	
 	
+	/**
+	 * In This Function We Initialize The Store Manager Report GUI . 
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
@@ -262,8 +337,9 @@ public class StoreManagerReportController implements Initializable {
 		{
 			e.printStackTrace();
 		}
+		
 		set_Dates_Of_Report_At_ComboBox();
 	 }
-/* ------------------------------------------------------------------------------------------------------------------- */
+/* ---------------------------------------------------------------------------------------------------------------------------- */
 	
 }

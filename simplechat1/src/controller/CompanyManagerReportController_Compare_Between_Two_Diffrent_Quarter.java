@@ -107,8 +107,8 @@ public class CompanyManagerReportController_Compare_Between_Two_Diffrent_Quarter
     
     /**
      * In This Function I Close The GUI Of the Compare Between Two Store's Or Two Different Quarter . 
-     * @param event - When The Client Click On the Button This Parameter Start To Work .
-     * @throws Exception
+     * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
      */
 	public void close_Window_Compare_Between_TWo_Different_Quarter(ActionEvent event) throws Exception   
 	{ 
@@ -239,7 +239,7 @@ public class CompanyManagerReportController_Compare_Between_Two_Diffrent_Quarter
 	{
 		ArrayList<Object> ArrayList_Of_Field_To_Compare = new ArrayList<Object>();
 		
-		/* We Not Press On Any One */
+		/* ------------------------------------- We Not Press On Any One ------------------------------------------- */
 		
 		if(((CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1_For_Compare == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1_For_Compare == false) 
 				|| (CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1_For_Compare == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1_For_Compare == true)) 

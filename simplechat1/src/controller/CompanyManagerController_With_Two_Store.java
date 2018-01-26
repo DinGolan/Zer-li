@@ -19,7 +19,6 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -113,8 +112,8 @@ public class CompanyManagerController_With_Two_Store implements Initializable {
 	
 	 /**
 	  * With This Function We Close The GUI Of Company Manager With Two Store .
-	  * @param event - When I click on the button close This Parameter start to work .
-	  * @throws Exception
+	  * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	  * @throws Exception - If The FXML Not Work .
 	  */
 	public void closeTwoStoreWindow(ActionEvent event) throws Exception   
 	{ 
@@ -139,8 +138,8 @@ public class CompanyManagerController_With_Two_Store implements Initializable {
 	
 	/**
 	 * In This Function I See the GUI Of - Two Store In Parrallel ((The Store Can Be The Same , Or Not The Same) & (The Date Can Be The same Or Not The Same)) .  
-	 * @param event - When I click on the button The Quarterly Revenue Report Start to work .
-	 * @throws Exception
+	 * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
 	 */
 	public void QuarterlyRevenueReport_Store(ActionEvent event) throws Exception        
 	{ 	
@@ -177,8 +176,8 @@ public class CompanyManagerController_With_Two_Store implements Initializable {
 	
 	/**
 	 * In This Function I See the GUI Of - Two Store In Parrallel ((The Store Can Be The Same , Or Not The Same) & (The Date Can Be The same Or Not The Same)) .  
-	 * @param event - When I click on the button The Order Report Start to work .
-	 * @throws Exception
+	 * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
 	 */
 	public void OrderReport_Store(ActionEvent event) throws Exception        
 	{
@@ -216,8 +215,8 @@ public class CompanyManagerController_With_Two_Store implements Initializable {
 	
 	/**
 	 * In This Function I See the GUI Of - Two Store In Parrallel ((The Store Can Be The Same , Or Not The Same) & (The Date Can Be The same Or Not The Same)) .  
-	 * @param event - When I click on the button The Customer Complaint Report Start to work .
-	 * @throws Exception
+	 * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
 	 */
 	public void CustomerComplaintStatusReport_Store(ActionEvent event) throws Exception       
 	{
@@ -254,8 +253,8 @@ public class CompanyManagerController_With_Two_Store implements Initializable {
 	
 	/**
 	 * In This Function I See the GUI Of - Two Store In Parrallel ((The Store Can Be The Same , Or Not The Same) & (The Date Can Be The same Or Not The Same)) .  
-	 * @param event - When I click on the button The Saticfaction Report Start to work .
-	 * @throws Exception
+	 * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
 	 */
 	public void SatisfactionReport_Store(ActionEvent event) throws Exception         
 	{
@@ -433,8 +432,8 @@ public class CompanyManagerController_With_Two_Store implements Initializable {
 	
 	/**
 	 * In This Function The Company Manager Choose His First Store To Watch .
-	 * @param event - When I Click This Parameter Start To work .
-	 * @throws Exception
+	 * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
 	 */
 	public void Click_On_Your_First_Store_Choise(ActionEvent event) throws Exception
 	{
@@ -485,8 +484,8 @@ public class CompanyManagerController_With_Two_Store implements Initializable {
 	
 	/**
 	 * In This Function The Company Manager Choose His Second Store To Watch .
-	 * @param event - When I Click This Parameter Start To work .
-	 * @throws Exception
+	 * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
 	 */
 	public void Click_On_Your_Second_Store_Choise(ActionEvent event) throws Exception
 	{
@@ -537,8 +536,8 @@ public class CompanyManagerController_With_Two_Store implements Initializable {
 	
 	/**
 	 * In This Function The Company Manager Choose His First Date Of Report Of His First Store Choise .
-	 * @param event - When I Click This Parameter Start To work .
-	 * @throws Exception
+	 * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
 	 */
 	public void Click_On_Your_Quarter_Report_Store_One(ActionEvent event) throws Exception
 	{
@@ -577,8 +576,8 @@ public class CompanyManagerController_With_Two_Store implements Initializable {
 	
 	/**
 	 * In This Function The Company Manager Choose His Second Date Of Report Of His Second Store Choise .
-	 * @param event - When I Click This Parameter Start To work .
-	 * @throws Exception
+	 * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
 	 */
 	public void Click_On_Your_Quarter_Report_Store_Two(ActionEvent event) throws Exception
 	{
@@ -612,8 +611,8 @@ public class CompanyManagerController_With_Two_Store implements Initializable {
 	
 	/**
 	 * In This Function We Compare Between Two Different Store Or Two Different Quarter .
-	 * @param event -  When I Click This Parameter Start To work .
-	 * @throws Exception
+	 * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
 	 */
 	public void Compare(ActionEvent event) throws Exception
 	{
@@ -631,8 +630,8 @@ public class CompanyManagerController_With_Two_Store implements Initializable {
 		
 	/**
 	 * In This Function We Return To The First GUI Of ---> Choose Two Store & Their Date Report .
-	 * @param event - When I Click This Parameter Start To work .
-	 * @throws Exception
+	 * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
 	 */
 	public void Not_Press_On_Any_Store_For_Compare(ActionEvent event) throws Exception
 	{

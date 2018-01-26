@@ -27,24 +27,31 @@ import javafx.stage.Stage;
 public class UserInfoController_For_DataCompanyManagerController implements Initializable{
 	
 	private User user;
+	
+	/**
+	 * This Variable Helping To Transfer Message From the Client to the DB .
+	 */
 	private Message msg;
 	
+	/**
+	 * This Variabel's Fill The User.UserStatus & User.UserPermission To The ComboBox Of ---> User.UserStatus & User.UserPermission .
+	 */
 	ObservableList<User.UserStatus> list_1;
 	ObservableList<User.UserPermission> list_2;
 	
 /*-------------------------  For The User Info Window After The Data Company Manager Pick Specific User ----------------------------------- */	
 	
 	@FXML
-	private TextField txtUserID;       /* text field for the User Id */
+	private TextField txtUserID;       					   /* text field for the User Id */
 	
 	@FXML
-	private TextField txtUserName;     /* text field for the User Name */
+	private TextField txtUserName;     					   /* text field for the User Name */
 	
 	@FXML
-	private TextField txtUserPhone;    /* text field for the User Phone */
+	private TextField txtUserPhone;    					   /* text field for the User Phone */
 	
 	@FXML
-	private TextField txtUserPassword; /* text field for the User Password */
+	private TextField txtUserPassword; 					   /* text field for the User Password */
 	
 	@FXML
 	private ComboBox<User.UserPermission> cmbPremmission;  /* ComboBox of User Permission */
@@ -53,14 +60,18 @@ public class UserInfoController_For_DataCompanyManagerController implements Init
 	private ComboBox<User.UserStatus> cmbStatus;           /* ComboBox of User Status */
 	
 	@FXML
-	private Button btnClose = null;    /* button close for close product form */
+	private Button btnClose = null;    					   /* button close for close User form */
 	
 	@FXML
-	private Button btnUpdate = null;   /* button update for update product */
+	private Button btnUpdate = null;  					   /* button update for update User */
 
-/* --------------------------------- Loading User To the Text Fields ------------------------------------------------- */	 
+/* --------------------------------- Loading User To the Text Fields ---------------------------------------------------------------------- */	 
 	
-	public void loadUser(User u) 					/* To load the User details to the text fields */
+	/**
+	 * With This Function I Load All The Text Box Of Specific User .
+	 * @param u
+	 */
+	public void loadUser(User u) 					
 	{ 
 		this.user = u;
 		this.txtUserID.setText(user.getId());
@@ -71,8 +82,13 @@ public class UserInfoController_For_DataCompanyManagerController implements Init
 		this.cmbStatus.setValue(user.getStatus());
 	}
 	
-/* --------------------------------- Close the User Info Window ------------------------------------------------- */	 		
+/* --------------------------------- Close the User Info Window --------------------------------------------------------------------------- */	 		
 	
+	/**
+	 * With This Function I Close The User Info GUI .
+	 * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
+	 */
 	public void closeUserWindow(ActionEvent event) throws Exception   
 	{ 
 		DataCompanyManagerUI.users.clear();
@@ -84,40 +100,49 @@ public class UserInfoController_For_DataCompanyManagerController implements Init
 		Scene scene = new Scene(root);	
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);	
-				
-		primaryStage.show();										   /* show catalog frame window */
+		primaryStage.setTitle("----- Data Company Manager Option -----");		
+		primaryStage.show();										   
 	}
 
-/* ----------------------------------------- Set The Combo Box Of Users Status ----------------------------------- */	
+/* ----------------------------------------- Set The Combo Box Of Users Status ------------------------------------------------------------ */	
 	
-	private void setStatusComboBox() 							       /* creating list of Faculties */
+	/**
+	 * In This Function I Set All The User Status In The ComboBox Of Status . 
+	 */
+	private void setStatusComboBox() 							      
 	{
 		ArrayList<User.UserStatus> all_Users = new ArrayList<User.UserStatus>(); 	
-		for(User.UserStatus status : User.UserStatus.values())         /* We add to the ArrayList all the Faculty */
+		for(User.UserStatus status : User.UserStatus.values())         
 		{ 
 			all_Users.add(status);
 		}
 		
 		list_1 = FXCollections.observableArrayList(all_Users); 
-		cmbStatus.setItems(FXCollections.observableArrayList(list_1)); /* Set the Items Of Faculty at the ComboBox */
+		cmbStatus.setItems(FXCollections.observableArrayList(list_1)); 
 	}
 	
-/* ----------------------------------------- Set The Combo Box Of Users Permission ----------------------------------- */		
+/* ----------------------------------------- Set The Combo Box Of Users Permission -------------------------------------------------------- */		
 	
-	private void setPremissionComboBox() 							   /* creating list of Faculties */
+	/**
+	 * In This Function I Set All The User Premmision In The ComboBox Of Premmision . 
+	 */
+	private void setPremissionComboBox() 							 
 	{
 	   ArrayList<User.UserPermission> all_Users = new ArrayList<User.UserPermission>(); 	
-		for(User.UserPermission permission : User.UserPermission.values())   /* We add to the ArrayList all the Faculty */
+		for(User.UserPermission permission : User.UserPermission.values())   
 		{
 			all_Users.add(permission);
 		}
 		
 		list_2 = FXCollections.observableArrayList(all_Users); 
-		cmbPremmission.setItems(FXCollections.observableArrayList(list_2)); /* Set the Items Of Faculty at the ComboBox */
+		cmbPremmission.setItems(FXCollections.observableArrayList(list_2)); 
 	}
 
-/* -------------------------------- Initialized The ComboBoxs In User Info Window ------------------------------- */		
+/* -------------------------------- Initialized The ComboBoxs In User Info Window --------------------------------------------------------- */		
 	
+	/**
+	 * This Function Initialize The User Info GUI .
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
@@ -125,9 +150,14 @@ public class UserInfoController_For_DataCompanyManagerController implements Init
 		setStatusComboBox();
 	} 
 
-/* -------------------------------- Update The User Fields In And Send To the Server To Update The DB ------------------------------- */			
+/* -------------------------------- Update The User Fields In And Send To the Server To Update The DB ------------------------------------- */			
 	
-	public void updateUser(ActionEvent event) throws Exception         /* Update the product name */
+	/**
+	 * In This Function I Update The ---> Premmision Or Status Of Specific User .
+	 * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
+	 */
+	public void updateUser(ActionEvent event) throws Exception         
 	{
 		User temp_User = new User();
 		temp_User.setId(txtUserID.getText());
@@ -138,6 +168,8 @@ public class UserInfoController_For_DataCompanyManagerController implements Init
 		temp_User.setStatus((UserStatus) cmbStatus.getValue());
 		msg = new Message(temp_User, "Update User At Data Base");
 		UserUI.myClient.accept(msg);
+		
+		/* After I Update ---> I Show GUI That Say ---> "The Update Successful ! */
 		
 		((Node)event.getSource()).getScene().getWindow().hide(); 	 /* Hiding primary window */
 		Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
@@ -152,7 +184,7 @@ public class UserInfoController_For_DataCompanyManagerController implements Init
 		
 	}
 	
-/* ------------------------------------------------------------------------------------------------------------------- */
+/* ---------------------------------------------------------------------------------------------------------------------------------------- */
 	
 }
 

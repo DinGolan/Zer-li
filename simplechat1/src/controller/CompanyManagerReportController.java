@@ -56,8 +56,8 @@ public class CompanyManagerReportController implements Initializable {
 	
 	/**
 	 * In This Function I Decide How Much Store I Want to Watch .
-	 * @param event - When The Client Click On The Button The Parameter Start To Work .
-	 * @throws Exception
+	 * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
 	 */
 	public void Button_To_See_One_Store_Or_Two_Store(ActionEvent event) throws Exception
 	{
@@ -67,7 +67,7 @@ public class CompanyManagerReportController implements Initializable {
 		if(Integer_The_Option_You_Choose == 1)
 		{
 			Flag_For_Return_Window_With_One_Store_Or_With_Two_Store = 1;
-			((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+			((Node)event.getSource()).getScene().getWindow().hide(); 				  /* Hiding primary window */
 			Stage primaryStage = new Stage();
 			FXMLLoader loader = new FXMLLoader();
 			Pane root = loader.load(getClass().getResource("/controller/CompanyManagerReportForm_Window_Only_One_Store.fxml").openStream());
@@ -95,7 +95,7 @@ public class CompanyManagerReportController implements Initializable {
 		}
 	}
 	
-/* -------------------------- Taking Option From The Combo Box of Option ------------------------------------ */	
+/* -------------------------- Taking Option From The Combo Box of Option ---------------------------------------------------------------------------- */	
 	
 	/**
 	 * In this Function I return My Choise From the ComboBox Of Option . 
@@ -109,12 +109,12 @@ public class CompanyManagerReportController implements Initializable {
 		return cmbOptions.getSelectionModel().getSelectedIndex();
 	}
 	
-/* --------------------------------- Close the Company Manager Report Window -------------------------------- */	 	
+/* --------------------------------- Close the Company Manager Report Window ------------------------------------------------------------------------ */	 	
 	
 	/**
 	 * In This Function We Close One Of the Company Manager GUI .
-	 * @param event - When The Client Click On The Button The Parameter Start To Work .
-	 * @throws Exception
+	 * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
 	 */
 	public void closeCompanyManagerReportWindow(ActionEvent event) throws Exception   
 	{ 
@@ -132,7 +132,7 @@ public class CompanyManagerReportController implements Initializable {
 		primaryStage.show();										   
 	}
 	
-/* ----------------------------------------- Set The Combo Box Of Option's ---------------------------------- */		
+/* ----------------------------------------- Set The Combo Box Of Option's -------------------------------------------------------------------------- */		
 	
 	/**
 	 * In This Function We Set The Option That We Have in ComboBox . 
@@ -152,7 +152,7 @@ public class CompanyManagerReportController implements Initializable {
 		cmbOptions.setItems(OptionList);
 	}
 	
-/* -------------------------------- Initialized The ComboBox In the First Window - Of The Options ComboBox GUI ---------------------------------------- */		
+/* -------------------------------- Initialized The ComboBox In the First Window - Of The Options ComboBox GUI -------------------------------------- */		
 	
 	/**
 	 * Initialize One Of the GUI ---> Of The Comapny Manager .

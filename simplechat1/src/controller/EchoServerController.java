@@ -87,8 +87,8 @@ public class EchoServerController implements Initializable {
     
     /**
      * This Function Run The GUI Of The Echo Server .
-     * @param primaryStage
-     * @throws Exception
+     * @param primaryStage - Show The GUI . 
+     * @throws Exception - If The FXML Not Working . 
      */
 	public void start(Stage primaryStage) throws Exception 
 	{
@@ -102,8 +102,8 @@ public class EchoServerController implements Initializable {
 	
 	/**
 	 * In This Function We Try To Connect To The Server (To The DB) .
-	 * @param event
-	 * @throws Exception
+	 * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
 	 */
 	@FXML
 	public void TryToConnectToServer(ActionEvent event) throws Exception 
@@ -150,7 +150,7 @@ public class EchoServerController implements Initializable {
 
 	/**
 	 * In This Function We Close The GUI Of The Echo Server .
-	 * @param event
+	 * @param event - When The Client Press On the Butten This Parameter Start To Work .
 	 */
 	public void Close_The_Window(ActionEvent event)
 	{
@@ -159,9 +159,9 @@ public class EchoServerController implements Initializable {
 	
 	/**
 	 * In This Function We Connect To The DB 
-	 * @param event
+	 * @param event - When The Client Press On the Butten This Parameter Start To Work .
 	 * @param Number_Of_Port
-	 * @throws Exception
+	 * @throws Exception - If The FXML Not Work .
 	 */
 	public void ConnectToServer(ActionEvent event,int Number_Of_Port) throws Exception 
 	{
@@ -219,8 +219,8 @@ public class EchoServerController implements Initializable {
 
 	/**
 	 * In This Function We try To Login Again To Our GUI Of Echo Server .
-	 * @param event
-	 * @throws Exception
+	 * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
 	 */
 	public void tryAgainLogin(ActionEvent event) throws Exception /* With this Method we show the GUI of the First Window */
 	{
@@ -236,8 +236,8 @@ public class EchoServerController implements Initializable {
 	
 	/**
 	 * In This Function We Exit From The Proggram .
-	 * @param event
-	 * @throws Exception
+	 * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
 	 */
 	public void getExitBtn(ActionEvent event) throws Exception /* With this Method we Exit from the Catalog */
 	{

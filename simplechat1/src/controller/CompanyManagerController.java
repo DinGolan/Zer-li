@@ -32,9 +32,9 @@ public class CompanyManagerController implements Initializable {
 /* ----------------------- Method's For the First Window GUI - Of Company Manager ------------------------ */
     
 	/**
-	 * In This Function - I See the Fisrt GUI Of the Company Manager .
-	 * @param primaryStage
-	 * @throws Exception
+	 * In This Function - I See the Fisrt GUI Of the Company Manager If I Not Run From the UserUI .
+	 * @param primaryStage - Show The GUI .
+	 * @throws Exception - If The FXML Not Working .
 	 */
 	public void start(Stage primaryStage) throws Exception          			  
 	{	
@@ -53,8 +53,8 @@ public class CompanyManagerController implements Initializable {
 	
 	/**
 	 * In This Function - I Click On - View Report  
-	 * @param event - When The Company Manager Click On the button , He will see GUI that Allowed to Him to choose Store & Date Of Report
-	 * @throws Exception
+	 * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
 	 */
 	public void viewReportBtn(ActionEvent event) throws Exception 
 	{
@@ -75,8 +75,8 @@ public class CompanyManagerController implements Initializable {
 	
 	/**
 	 * In This Function - The Company Manager Logout From The System .  
-	 * @param event
-	 * @throws Exception
+	 * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
 	 */
 	public void logoutBtn(ActionEvent event) throws Exception 
 	{

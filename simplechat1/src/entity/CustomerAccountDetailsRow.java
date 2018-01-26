@@ -4,6 +4,11 @@ import java.sql.Date;
 
 import entity.Account.PaymentArrangement;
 
+/**
+ * This Class For Inserting Details To The TabelView Of Account In The Profile Customer  . 
+ * @author dingo
+ *
+ */
 public class CustomerAccountDetailsRow {
 
 	private int Account_Store_ID;

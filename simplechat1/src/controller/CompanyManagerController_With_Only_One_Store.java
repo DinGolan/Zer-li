@@ -75,8 +75,8 @@ public class CompanyManagerController_With_Only_One_Store implements Initializab
 	
 	/**
 	 * In This Function We Close The Window Of That We saw On the Screen And return to the previous window .
-	 * @param event - Start To Working When We Press On the Button Of Close Window .
-	 * @throws Exception
+	 * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
 	 */
 	public void closeOneStoreWindow(ActionEvent event) throws Exception   
 	{ 
@@ -99,8 +99,8 @@ public class CompanyManagerController_With_Only_One_Store implements Initializab
 	
 	/**
 	 * In This Function We See The GUI Of - Quarterly Revenue Report .
-	 * @param event - Start To Working When We Press On the Button Of Quarterly Revenue Report .
-	 * @throws Exception
+	 * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
 	 */
 	public void QuarterlyRevenueReport_For_Company_Worker(ActionEvent event) throws Exception       
 	{
@@ -123,8 +123,8 @@ public class CompanyManagerController_With_Only_One_Store implements Initializab
 	
 	/**
 	 * In This Function We See The GUI Of - Order Report .
-	 * @param event - Start To Working When We Press On the Button Of Order Report .
-	 * @throws Exception
+	 * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
 	 */
 	public void OrderReport_For_Company_Worker(ActionEvent event) throws Exception        
 	{
@@ -147,8 +147,8 @@ public class CompanyManagerController_With_Only_One_Store implements Initializab
 	
 	/**
 	 * In This Function We See The GUI Of - Customer Complaint Report .
-	 * @param event - Start To Working When We Press On the Button Of Customer Complaint Report .
-	 * @throws Exception
+	 * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
 	 */
 	public void CustomerComplaintStatusReport_For_Company_Worker(ActionEvent event) throws Exception        
 	{
@@ -171,8 +171,8 @@ public class CompanyManagerController_With_Only_One_Store implements Initializab
 	
 	/**
 	 * In This Function We See The GUI Of - Satisfaction Report .
-	 * @param event - Start To Working When We Press On the Button Of Satisfaction Report .
-	 * @throws Exception
+	 * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
 	 */
 	public void SatisfactionReport_For_Company_Worker(ActionEvent event) throws Exception        
 	{
@@ -261,8 +261,8 @@ public class CompanyManagerController_With_Only_One_Store implements Initializab
  	 * In This Function - a. We Choose Our Store Choise .
  	 * 					  b. We Going With Our Store Choise To the DB And Take Details .
  	 * 					  c. We Initalized All The Date Of the Report , Of our Store Choise In the ComboBox Of Date's .
- 	 * @param event - When We Click On our Store Choise In the ComboBox This Function start to working .
- 	 * @throws Exception
+ 	 * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
  	 */
 	public void Click_On_Your_Store_Choise_For_CompanyManager(ActionEvent event) throws Exception
 	{
@@ -308,8 +308,8 @@ public class CompanyManagerController_With_Only_One_Store implements Initializab
  	 * In This Function - a. We Choose Our Quarter Choise .
  	 * 					  b. We Going With Our Quarter Choise To the DB And Take Details .
  	 * 					  c. After I Finish To Take The Details From DB , I start To Build All The Report - { Order Report , Revenue Report , Complaint Report , Satisfaction Report } .
- 	 * @param event - When We Click On our Report Date Choise In the ComboBox This Function start to working .
- 	 * @throws Exception
+ 	 * @param  event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
  	 */
 	public void Click_On_Your_Quarter_Report_For_CompanyManager(ActionEvent event) throws Exception
 	{

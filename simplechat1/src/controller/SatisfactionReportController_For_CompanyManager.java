@@ -29,11 +29,22 @@ import javafx.stage.Stage;
 
 public class SatisfactionReportController_For_CompanyManager implements Initializable  {
 
+	/**
+	 * This Variable Help Me To Load The ComboBox Of Store's .
+	 */
 	private Store store;
+	
+	/**
+	 * This Variable Helping To Transfer Message From the Client to the DB .
+	 */
 	private Message msg;
+	
+	/**
+	 * Variabel's That Help Me To Show The Question's In The BarChart . 
+	 */
 	private static String[] Questions = {"Questions 1","Questions 2","Questions 3","Questions 4" , "Questions 5" , "Questions 6"};
 
-/* -------------------------  For The Window Of Satisfaction Report ----------------------------------- */	
+/* -------------------------  For The Window Of Satisfaction Report - For The First Store - For Company Manager ----------------------------------- */	
 	
 	 @FXML
 	 private TextField txtStoreID;           /* Text Field Of the Store ID */
@@ -62,7 +73,7 @@ public class SatisfactionReportController_For_CompanyManager implements Initiali
 	 @FXML
 	 private Button btnClose;                /* Button For Exit from The Window */
 	
-/* --------------------------------- Loading Store To the Text Fields ------------------------------------------------- */	 
+/* --------------------------------- Loading Store To the Text Fields ----------------------------------------------------------------------------- */	 
 	 
 	/**
 	* In This Function We Load The ComboBox Of Store's .
@@ -108,8 +119,13 @@ public class SatisfactionReportController_For_CompanyManager implements Initiali
 			}
 	}
 	
-/* --------------------------------- Close the Satisfaction Report Window ------------------------------------------------- */			
+/* --------------------------------- Close the Satisfaction Report Window ------------------------------------------------------------------------- */			
 	
+	/**
+	 * In This Function I close The GUI Of Satisfaction Report Of the First Store .
+	 * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
+	 */
 	public void closeSatisfactionReportWindow(ActionEvent event) throws Exception  
 	{ 
 		CompanyManagerUI.stores_For_Company_Manager.clear();
@@ -128,12 +144,23 @@ public class SatisfactionReportController_For_CompanyManager implements Initiali
 		
 		Scene scene = new Scene(root);	
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-		primaryStage.setScene(scene);		
+		primaryStage.setScene(scene);
+		if(CompanyManagerReportController.Flag_For_Return_Window_With_One_Store_Or_With_Two_Store == 1)
+		{
+			primaryStage.setTitle("----- Company Manager Report Form - Watch Only One Store -----");
+		}
+		else if(CompanyManagerReportController.Flag_For_Return_Window_With_One_Store_Or_With_Two_Store == 2)
+		{
+			primaryStage.setTitle("----- Company Manager Report Form - Watch Two Store -----");
+		}
 		primaryStage.show();										   
 	}
 	
-/* --------------------------------- Initialize The Satisfaction Report GUI ------------------------------------------------- */	 			
+/* --------------------------------- Initialize The Satisfaction Report GUI ----------------------------------------------------------------------- */	 			
 	
+	/** 
+	 * In This Function We Initialize The GUI Of Saticfaction Report Of the First Store .
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) 
 	{
@@ -264,16 +291,20 @@ public class SatisfactionReportController_For_CompanyManager implements Initiali
 		
 			e.printStackTrace();
 		}
+		
 		Put_At_The_Chart_All_The_Surveys();
 	}
 	
-/* --------------------------------- Initialize The Survey And The Rank On The Bar Chart ------------------------------------------------- */	 			
+/* --------------------------------- Initialize The Survey And The Rank On The Bar Chart ---------------------------------------------------------- */	 			
 	
+	/**
+	 * In This Function I Initialize The BarChart . 
+	 */
 	public void Put_At_The_Chart_All_The_Surveys()
 	{
 		double Total_Average = 0;
 		int Number_Of_Client;
-		ArrayList<Double> The_Average_Result_Of_Each_Question = new ArrayList<Double>();   				  /* All the Product That We Order On Specific Store */
+		ArrayList<Double> The_Average_Result_Of_Each_Question = new ArrayList<Double>();   				  							  /* All the Product That We Order On Specific Store */
 		                       						  
 		for(int i = 0 ; i < CompanyManagerUI.Average_Result_Of_Each_Qustions_In_surveys_For_Company_Manager.size() ; i++)             /* In This Loop We Initialize All the Orders At ArrayList Of Orders */                                             
 		{
@@ -289,8 +320,8 @@ public class SatisfactionReportController_For_CompanyManager implements Initiali
 		Total_Average = Double.parseDouble(new DecimalFormat("##.####").format(Total_Average));
 		this.txtTotalAvgRank.setText(String.valueOf(Total_Average));
 		this.txtNumberOfClient.setText(String.valueOf(Number_Of_Client));
-		The_Average_Result_Of_Each_Question.remove(6);                    /* Remove The Almost Last Index With the Total Average - After That The Last Index Is 6 */
-		The_Average_Result_Of_Each_Question.remove(6);                    /* Remove The Last Index With the Number Of Client */
+		The_Average_Result_Of_Each_Question.remove(6);                    		   /* Remove The Almost Last Index With the Total Average - After That The Last Index Is 6 */
+		The_Average_Result_Of_Each_Question.remove(6);                    		   /* Remove The Last Index With the Number Of Client */
 		
 		ArrayList<XYChart.Series<String,Double>> setChart = new ArrayList<XYChart.Series<String,Double>>();
 		for(int i = 0 ; i < Questions.length ; i++)
@@ -308,6 +339,6 @@ public class SatisfactionReportController_For_CompanyManager implements Initiali
 		Chart_SatisfactionReport.getData().addAll(setChart);
 	}
 	
-/* ------------------------------------------------------------------------------------------------------------------- */	
+/* ------------------------------------------------------------------------------------------------------------------------------------------------ */	
 
 }

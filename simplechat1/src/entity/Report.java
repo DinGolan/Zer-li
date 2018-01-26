@@ -3,6 +3,11 @@ package entity;
 import java.io.Serializable;
 import java.sql.Date;
 
+/**
+ * This Entity Is The Report And All The Properties That Report Need . 
+ * @author dingo
+ *
+ */
 @SuppressWarnings("serial")
 public class Report implements Serializable {
 	

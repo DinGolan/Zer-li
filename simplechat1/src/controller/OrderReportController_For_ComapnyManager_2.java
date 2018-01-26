@@ -3,9 +3,6 @@ package controller;
 import java.net.URL;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Map.Entry;
 
@@ -45,7 +42,7 @@ public class OrderReportController_For_ComapnyManager_2 implements Initializable
 	 */
 	private static String[] Type_Of_Products_In_Order = {"BOUQUET","ARRANGEMENT","VASE","BRIDAL_BOUQUET","FLOWER_CROWN","SWEET_BOUQUET","WREATH_FLOWERS"};
 	
-/* -------------------------  For The Window Of Order Report - For Company Manager ----------------------------------- */		
+/* -------------------------  For The Window Of Order Report - For Company Manager -------------------------------------------------------------- */		
 	
 	 @FXML
 	 private TextField txtStoreID;               			/* Text Field Of the Store ID */
@@ -68,7 +65,7 @@ public class OrderReportController_For_ComapnyManager_2 implements Initializable
 	 @FXML
 	 private Button btnClose;                       		/* Button For Close The Window */
 	 
-/* --------------------------------- Loading Store To the Text Fields ------------------------------------------------- */	 
+/* --------------------------------- Loading Store To the Text Fields --------------------------------------------------------------------------- */	 
 	 
 	/**
 	* In This Function We Load The ComboBox Of Store's .
@@ -93,12 +90,12 @@ public class OrderReportController_For_ComapnyManager_2 implements Initializable
 			}
 	 }
 	
-/* --------------------------------- Close the Order Report Window ---------------------------------------------------------------- */	 	
+/* --------------------------------- Close the Order Report Window ------------------------------------------------------------------------------ */	 	
 	
 	/**
 	 * In This Function I close The GUI Of Order Report Of the Second Store .
-	 * @param event - When Client Press On the Button This Parameter Start To Work . 
-	 * @throws Exception
+	 * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
 	 */
 	public void closeOrderReportWindow(ActionEvent event) throws Exception   
 	{ 
@@ -106,7 +103,7 @@ public class OrderReportController_For_ComapnyManager_2 implements Initializable
 		((Node)event.getSource()).getScene().getWindow().hide(); 	 /* Hiding primary window */										   
 	}
 
-/* --------------------------------- Initialize The Bar Chart Of the Order Report ------------------------------------------------- */	 	
+/* --------------------------------- Initialize The Bar Chart Of the Order Report --------------------------------------------------------------- */	 	
 	
 	/** 
 	 * In This Function We Initialize The GUI Of Order Report Of the Second Store .
@@ -121,7 +118,6 @@ public class OrderReportController_For_ComapnyManager_2 implements Initializable
 		String Full_Date_String;
 		Date temp_Date_Quarter_Report;
 		
-		/* If the Company Manager Not Press On Specific Second Store  */
 		if((CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2 == false)
 				|| (CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2 == true))
 		{
@@ -146,7 +142,6 @@ public class OrderReportController_For_ComapnyManager_2 implements Initializable
 			Year_Integer = Integer.parseInt(Year);
 			Month_Integer = Integer.parseInt(Month);
 		}
-		/* This else Statement Is Not For Defult Value */
 		else if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2 == true)
 		{
 			temp_Date_Quarter_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager_2.get(1); /* The Date */

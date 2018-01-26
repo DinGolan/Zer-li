@@ -63,6 +63,7 @@ public class CustomerComplaintStatusReportController_For_CompanyManager_2 implem
 	 @FXML
 	 private Button btnClose;
 	 
+	 /* --------------------------------- Loading Store To the Text Fields ------------------------------------------------------------------------------- */	 
 	 
 	/**
 	 * In This Function We Load The ComboBox Of Store's .
@@ -89,8 +90,8 @@ public class CustomerComplaintStatusReportController_For_CompanyManager_2 implem
 
 	/**
 	 * In This Function I close The GUI Of Customer Complaint Report Of the Second Store .
-	 * @param event - When Client Press On the Button This Parameter Start To Work . 
-	 * @throws Exception
+	 * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
 	 */
 	public void closeCustomerComplaintStatusReportWindow(ActionEvent event) throws Exception   
 	{ 
@@ -111,7 +112,6 @@ public class CustomerComplaintStatusReportController_For_CompanyManager_2 implem
 		String Full_Date_String;
 		Date temp_Date_Quarter_Report;
 		
-		/* This If Statement Is For Defult Value */
 		if((CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2 == false)
 				|| (CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2 == true))
 		{
@@ -136,7 +136,6 @@ public class CustomerComplaintStatusReportController_For_CompanyManager_2 implem
 			Year_Integer = Integer.parseInt(Year);
 			Month_Integer = Integer.parseInt(Month);
 		}
-		/* This else Statement Is Not For Defult Value */
 		else if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2 == true)
 		{
 			temp_Date_Quarter_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager_2.get(1); /* The Date */
@@ -192,7 +191,7 @@ public class CustomerComplaintStatusReportController_For_CompanyManager_2 implem
 		Put_At_The_Chart_All_The_Complaints();
 	}
 
-/* --------------------------------- Initialize The Customer Complaint And The Month Of the Complaint At the Bar Chart ------------------------------------------------- */	 			
+/* --------------------------------- Initialize The Customer Complaint And The Month Of the Complaint At the Bar Chart ----------------------------------- */	 			
 	
 	/**
 	 * In This Function I Initialize The BarChart . 
@@ -264,7 +263,7 @@ public class CustomerComplaintStatusReportController_For_CompanyManager_2 implem
 		{
 			for(int WithOut_Duplicate_Index = 0 ; WithOut_Duplicate_Index < Month_Of_Complaint_Without_Duplicate.size() ; WithOut_Duplicate_Index++)
 			{
-				if(Months_Of_Complaint.get(i).compareTo(Month_Of_Complaint_Without_Duplicate.get(WithOut_Duplicate_Index)) == 0) /* If Equals Than get In Into The 'If' Statement */
+				if(Months_Of_Complaint.get(i).compareTo(Month_Of_Complaint_Without_Duplicate.get(WithOut_Duplicate_Index)) == 0) 
 				{
 					for(int SetChart_Index = 0 ; SetChart_Index < setChart.size() ; SetChart_Index++)
 					{

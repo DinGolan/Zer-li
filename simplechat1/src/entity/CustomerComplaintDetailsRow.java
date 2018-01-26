@@ -4,6 +4,11 @@ import java.sql.Date;
 
 import entity.Complaint.ComplaintStatus;
 
+/**
+ * This Class For Inserting Details To The TabelView Of Complaint In The Profile Customer . 
+ * @author dingo
+ *
+ */
 public class CustomerComplaintDetailsRow
 {
 

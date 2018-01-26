@@ -17,13 +17,18 @@ import javafx.stage.Stage;
 
 public class Update_Successful_Message_Controller implements Initializable 
 {
-	
+	/* ---------------------------------- Button's For the "Update Successful GUI" --------------------------------- */
 	@FXML
     private Button btnBack;
 
     @FXML
     private TextArea txtErrMsg_For_Details;
 
+    /**
+     * This Function Is For ---> Closing The "Update Successful GUI" .
+     * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
+     */
 	public void Close_Window_Of_Great_Update(ActionEvent event) throws Exception 
 	{
 		DataCompanyManagerUI.users.clear();
@@ -35,7 +40,7 @@ public class Update_Successful_Message_Controller implements Initializable
 		Scene scene = new Scene(root);	
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);	
-				
+		primaryStage.setTitle("----- Data Company Manager Option -----");	
 		primaryStage.show();
 	}
 	

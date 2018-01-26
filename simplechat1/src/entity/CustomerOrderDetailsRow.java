@@ -6,6 +6,12 @@ import entity.Account.PaymentMethod;
 import entity.Order.SupplyOption;
 import entity.Order.orderStatus;
 
+/**
+ * This Class For Inserting Details To The TabelView Of Order In The Profile Customer  . 
+ * @author dingo
+ *
+ */
+
 public class CustomerOrderDetailsRow 
 {
 	private int Order_ID;
