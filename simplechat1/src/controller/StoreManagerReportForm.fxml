@@ -26,7 +26,7 @@
       <Button id="btnSatisfactionReport" fx:id="btnSatisfactionReport" layoutX="234.0" layoutY="389.0" mnemonicParsing="false" onAction="#SatisfactionReport" text="Satisfaction Report" />
       <Button id="btnClose" fx:id="btnClose" layoutX="275.0" layoutY="473.0" mnemonicParsing="false" onAction="#closeStoreManagerReportWindow" text="Close" />
       <ComboBox id="cmbReports" fx:id="cmbReports" layoutX="350.0" layoutY="128.0" onAction="#Click_On_Your_Quarter_Report" prefHeight="39.0" prefWidth="175.0" promptText="Select The Report" />
-      <TextField id="txtStoreDetails" fx:id="txtStoreDetails" layoutX="69.0" layoutY="128.0" prefHeight="39.0" prefWidth="191.0" promptText="Store ID + Address">
+      <TextField id="txtStoreDetails" fx:id="txtStoreDetails" editable="false" layoutX="69.0" layoutY="128.0" prefHeight="39.0" prefWidth="191.0" promptText="Store ID + Address">
          <effect>
             <Glow />
          </effect>

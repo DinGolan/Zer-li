@@ -119,7 +119,8 @@ public class UserInfoController_For_DataCompanyManagerController implements Init
 /* -------------------------------- Initialized The ComboBoxs In User Info Window ------------------------------- */		
 	
 	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
+	public void initialize(URL arg0, ResourceBundle arg1) 
+	{
 		setPremissionComboBox();
 		setStatusComboBox();
 	} 
@@ -137,6 +138,18 @@ public class UserInfoController_For_DataCompanyManagerController implements Init
 		temp_User.setStatus((UserStatus) cmbStatus.getValue());
 		msg = new Message(temp_User, "Update User At Data Base");
 		UserUI.myClient.accept(msg);
+		
+		((Node)event.getSource()).getScene().getWindow().hide(); 	 /* Hiding primary window */
+		Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
+		FXMLLoader loader = new FXMLLoader(); 					 	 /* load object */
+		Pane root = loader.load(getClass().getResource("/controller/Data_Company_Manager_The_Update_Was_Good.fxml").openStream());
+		
+		Scene scene = new Scene(root);	
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+		primaryStage.setScene(scene);	
+		primaryStage.setTitle("The Update - Successful");		
+		primaryStage.show();
+		
 	}
 	
 /* ------------------------------------------------------------------------------------------------------------------- */
