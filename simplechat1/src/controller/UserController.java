@@ -25,6 +25,11 @@ import javafx.scene.control.PasswordField;
 import mypackage.ClientConsole;
 import javafx.scene.control.TextArea;
 
+/**
+ * controller for the User options: 
+ * login , 
+ *
+ */
 public class UserController implements Initializable {
 
 	private User u;
@@ -159,6 +164,15 @@ public class UserController implements Initializable {
 		primaryStage.show();
 	}
 
+	/**
+	 * user try login the system , he need to insert User Name and
+	 * password , we check if the User name exist and if the password is
+	 * correct - if the two fields are correct, we check the permission
+	 * of this user and open his options. in case user name doesn't exist
+	 * or the password is wrong we pop an Error message.
+	 * @param event - user click "login" button
+	 * @throws Exception - if we can't load the fxml file
+	 */
 	public void tryLoginUser(ActionEvent event) throws Exception /* To load the product details to the text fields */
 	{
 		u = new User();
@@ -235,12 +249,7 @@ public class UserController implements Initializable {
 				permission = "StoreWorkerOptions";
 				break;
 			}
-			
-			/*if (permission.equals("CustomerServiceWorkerOptions")) //customerServiceWorker
-				permission="24HoursComplaints";
-			else
-				permission = "/controller/" + permission + ".fxml";*/
-			
+					
 			permission = "/controller/" + permission + ".fxml";
 			URL o = getClass().getResource(permission);
 			((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
@@ -283,6 +292,12 @@ public class UserController implements Initializable {
 		}
 	}
 
+	/**
+	 * after error message pop, if the user click back to try
+	 * login again we open "login" window
+	 * @param event - user click "back" buttom
+	 * @throws Exception - if we can't load the fxml file
+	 */
 	public void tryAgainLogin(ActionEvent event) throws Exception /* With this Method we show the GUI of the First Window */
 	{
 		((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
@@ -298,6 +313,12 @@ public class UserController implements Initializable {
 		primaryStage.show();
 	}
 	
+	/**
+	 * user want logout the system, we change his status to "DISCONNECCT"
+	 * in the Data Base and open "Login" window
+	 * @param event - user click "logout" button
+	 * @throws Exception - if we can't load the fxml file
+	 */
 	public void logout(ActionEvent event) throws Exception /* With this Method we show the GUI of the First Window */
 	{
 		Message msg = new Message(UserUI.user.getId(), "change User status to DISCONNECTED");
@@ -316,7 +337,11 @@ public class UserController implements Initializable {
 	}
 	
 	
-
+	/**
+	 * if the user want to exit from login window we close the system 
+	 * @param event - user click "exit" button
+	 * @throws Exception - if we can't load the fxml file
+	 */
 	public void getExitBtn(ActionEvent event) throws Exception /* With this Method we Exit from the Catalog */
 	{
 		System.out.println("Exit From - Login form");

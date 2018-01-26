@@ -29,6 +29,11 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+/**
+ * controller for the Product in sale options - company worker can:
+ * add/ remove or update sale of specific product in specific store.
+ *
+ */
 public class ProductInSaleController implements Initializable{
 
 	private static Product p;
