@@ -167,7 +167,6 @@ public class ClientConsole implements ChatIF
   @SuppressWarnings("unchecked")
 public void displayUI(Object message) 
   {
-	  
 	  if(((Message)message).getOption().compareTo("succed!") ==0) 
 	  {
 		  SurveyResultController.errorMsg = "succed!";

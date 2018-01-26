@@ -34,36 +34,47 @@ import javafx.stage.Stage;
 
 public class OrderReportController_For_ComapnyManager implements Initializable {
 
+	/**
+	 * This Variable Help Me To Load The ComboBox Of Store's .
+	 */
 	private Store store;
+	
+	/**
+	 * This Variable Helping To Transfer Message From the Client to the DB .
+	 */
 	private Message msg;
+	
+	/**
+	 * Variabel's That Help Me To Show The Product Type In The BarChart . 
+	 */
 	private static String[] Type_Of_Products_In_Order = {"BOUQUET","ARRANGEMENT","VASE","BRIDAL_BOUQUET","FLOWER_CROWN","SWEET_BOUQUET","WREATH_FLOWERS"};
 	
-/* -------------------------  For The Window Of Order Report ----------------------------------- */		
+/* -------------------------  For The Window Of Order Report - For Company Manager ----------------------------------- */		
 	
 	 @FXML
-	 private TextField txtStoreID;                /* Text Field Of the Store ID */
+	 private TextField txtStoreID;                			/* Text Field Of the Store ID */
 	
 	 @FXML
-	 private TextField txtYear;                   /* Text Field Of The Year */
+	 private TextField txtYear;                   			/* Text Field Of The Year */
 
 	 @FXML
-	 private TextField txtNumberOfQuarter;        /* Text Field Of The Number Of Quarter */
+	 private TextField txtNumberOfQuarter;        			/* Text Field Of The Number Of Quarter */
 	
 	 @FXML
 	 private BarChart<String, Integer> ChartOrderReport;    /* Bar Chart */
 
 	 @FXML
-	 private CategoryAxis X_ProductType;            /* Axis X of the - Bar Chart */
+	 private CategoryAxis X_ProductType;            		/* Axis X of the - Bar Chart */
 
 	 @FXML
-	 private NumberAxis Y_OrderSpecificStore;       /* Axis Y of the - Bar Chart */
+	 private NumberAxis Y_OrderSpecificStore;       		/* Axis Y of the - Bar Chart */
 	 
 	 @FXML
-	 private Button btnClose;                       /* Button For Close The Window */
+	 private Button btnClose;                       		/* Button For Close The Window */
 	 
 /* --------------------------------- Loading Store To the Text Fields ------------------------------------------------- */	 
 	 
-	public void loadStore(Store s) 					/* To load the Store details to the text fields */
+	public void loadStore(Store s) 					
 	{ 
 		if(CompanyManagerReportController.Integer_The_Option_You_Choose == 1)
 		{
@@ -112,7 +123,7 @@ public class OrderReportController_For_ComapnyManager implements Initializable {
 		Scene scene = new Scene(root);
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);		
-		primaryStage.show();										   /* show catalog frame window */
+		primaryStage.show();										 
 	}
 
 /* --------------------------------- Initialize The Bar Chart Of the Order Report ------------------------------------------------- */	 	
@@ -133,8 +144,7 @@ public class OrderReportController_For_ComapnyManager implements Initializable {
 		
 		if(CompanyManagerReportController.Integer_The_Option_You_Choose == 1)
 		{
-			if((CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == false && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == false)
-					|| (CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == false && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == true) 
+			if((CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == false && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == false) 
 					|| (CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == true && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == false))
 			{
 				int temp_Store_Id = 1;
@@ -150,7 +160,7 @@ public class OrderReportController_For_ComapnyManager implements Initializable {
 			}
 			else
 			{
-				temp_Date_Quarter_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager.get(1);                             /* The Date */
+				temp_Date_Quarter_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager.get(1); /* The Date */
 				Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
 				Year = Full_Date_String.substring(0 , 4);
 				Month = Full_Date_String.substring(5 , 7);
@@ -161,8 +171,7 @@ public class OrderReportController_For_ComapnyManager implements Initializable {
 		else if(CompanyManagerReportController.Integer_The_Option_You_Choose == 2)
 		{
 			if((CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == false)
-					|| (CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == true) 
-					|| (CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == false))
+					|| (CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == true))
 				{
 					int temp_Store_Id = 1;
 					temp_Date_Quarter_Report = Date.valueOf("2017-12-31");
@@ -177,7 +186,7 @@ public class OrderReportController_For_ComapnyManager implements Initializable {
 				}
 				else
 				{
-					temp_Date_Quarter_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager.get(1);                             /* The Date */
+					temp_Date_Quarter_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager.get(1); /* The Date */
 					Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
 					Year = Full_Date_String.substring(0 , 4);
 					Month = Full_Date_String.substring(5 , 7);
@@ -238,9 +247,9 @@ public class OrderReportController_For_ComapnyManager implements Initializable {
 		int [] Count_In_Chart;
 		Product.ProductType product_Type;
 		ArrayList<Product.ProductType> productType_Of_Specific_Order_Of_Specific_Store = new ArrayList<Product.ProductType>();   /* All the Product That We Order On Specific Store */
-		ArrayList<Order> orders = new ArrayList<Order>();                         						   /* All The Orders That We Order On Specific Store */
+		ArrayList<Order> orders = new ArrayList<Order>();                         						   						 /* All The Orders That We Order On Specific Store */
 		
-		for(int i = 0 ; i < CompanyManagerUI.orders_For_Company_Manager.size() ; i++)                                                  /* In This Loop We Initialize All the Orders At ArrayList Of Orders */                                             
+		for(int i = 0 ; i < CompanyManagerUI.orders_For_Company_Manager.size() ; i++)                                            /* In This Loop We Initialize All the Orders At ArrayList Of Orders */                                             
 		{
 			orders.add(CompanyManagerUI.orders_For_Company_Manager.get(i));
 			
@@ -282,6 +291,7 @@ public class OrderReportController_For_ComapnyManager implements Initializable {
 				}
 			}
 		}
+		
 		ChartOrderReport.getData().addAll(setChart);
 	}
 	
