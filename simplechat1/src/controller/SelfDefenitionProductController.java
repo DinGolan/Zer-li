@@ -59,7 +59,15 @@ public class SelfDefenitionProductController implements Initializable{
 	@FXML
 	private Button btnTryAgainOrder = null; /* button update for update product */
 	
-
+	@FXML
+	private Button btnBackToSelfOptions = null; /* button update for update product */
+	
+	@FXML
+	private Button btnBackToSelf = null; /* button update for update product */
+	
+	@FXML
+	private Button btnMyCart = null; /* button update for update product */
+	
 	@FXML
 	private TextField txtPPrice = null; /* button update for update product */
 	
@@ -319,8 +327,6 @@ public class SelfDefenitionProductController implements Initializable{
 			if((txtPAmmount.getText().compareTo("")!=0) && (Integer.valueOf(txtPAmmount.getText())) > 0 && pId != null && (Integer.valueOf(txtPAmmount.getText())) < 1000)
 			{
 				pAmmount = Integer.valueOf(txtPAmmount.getText());
-				if(pId != null)
-				{
 					Product p = getproductById(pId);
 					if(p != null)
 					{
@@ -329,8 +335,9 @@ public class SelfDefenitionProductController implements Initializable{
 						else
 							CatalogController.order.getProductsInOrder().put(p, pAmmount);
 						txtPAmmount.setText("");
+						cmbPid.setValue(null);
+						showAddSuccessfulMsg(event);
 					}
-				}
 			}
 			else
 				showErrMsg(event);
@@ -358,6 +365,27 @@ public class SelfDefenitionProductController implements Initializable{
 		Scene scene = new Scene(root);			
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setTitle("Error Msg");
+		primaryStage.setScene(scene);		
+		primaryStage.show();
+	}
+	
+	/**
+	 * If the customer insert valid amount and choose
+	 *  product from the combo-Box we show successful message window.  
+	 * @param event - the customer clicked "add To Cart" button 
+	 * @throws Exception - if we can't load the fxml file
+	 */
+	public void showAddSuccessfulMsg(ActionEvent event) throws Exception // add product to cart
+	{
+		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+		Stage primaryStage = new Stage();
+		FXMLLoader loader = new FXMLLoader();
+		Pane root = loader.load(getClass().getResource("/controller/SuccessfulAddMsgInSelfDef.fxml").openStream());
+		
+		
+		Scene scene = new Scene(root);			
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+		primaryStage.setTitle("Successful Message");
 		primaryStage.setScene(scene);		
 		primaryStage.show();
 	}
@@ -409,6 +437,34 @@ public class SelfDefenitionProductController implements Initializable{
 	 */
 	public void showCart(ActionEvent event) throws Exception // show all products in cart. 
 	{
+		ArrayList<Object> user = new ArrayList<>();
+		user.add(0, UserUI.user.getId());
+		user.add(1, UserUI.store.getStoreId());
+		Message msg = new Message(user, "Update customer account");
+		UserUI.myClient.accept(msg);
+		OrderController.accountFlag = false;
+		OrderController.accountExistFlag = true;
+		while(OrderController.accountFlag == false) {
+			System.out.print("");
+		}
+		OrderController.accountFlag = false;
+		if(OrderController.accountExistFlag == false) // no account exist for this customer
+		{
+			OrderController.accountExistFlag = true;
+			((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+			Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
+			FXMLLoader loader = new FXMLLoader(); 					 /* load object */
+			Pane root = loader.load(getClass().getResource("/controller/NoAccountMsgInSelfDef.fxml").openStream());
+		
+			Scene scene = new Scene(root);	
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setTitle("Error Message");
+			primaryStage.setScene(scene);	
+				
+			primaryStage.show();
+		}
+		else
+		{
 		modeFlag = 1;
 		OrderController.flag=4;
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
@@ -422,6 +478,7 @@ public class SelfDefenitionProductController implements Initializable{
 		primaryStage.setTitle("Cart");
 		primaryStage.setScene(scene);		
 		primaryStage.show();
+		}
 	}
 
 }

@@ -6,10 +6,10 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="215.0" prefWidth="312.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CatalogController">
+<AnchorPane prefHeight="215.0" prefWidth="312.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SelfDefenitionProductController">
    <children>
-       <Button id="btnBackToCatalog" fx:id="btnBackToCatalog" layoutX="131.0" layoutY="176.0" mnemonicParsing="false" onAction="#tryAgainMakeOrder" text="Back" />
-      <Label layoutX="34.0" layoutY="27.0" text="No account Message" textFill="#0022ff">
+       <Button id="btnBackToSelfOptions" fx:id="btnBackToSelfOptions" layoutX="131.0" layoutY="176.0" mnemonicParsing="false" onAction="#backToSelfOption" text="Back" />
+      <Label layoutX="33.0" layoutY="27.0" text="No account Message" textFill="#0022ff">
          <font>
             <Font name="Bodoni MT" size="29.0" />
          </font></Label>

@@ -41,9 +41,9 @@ public class CatalogController implements Initializable {
 	private Message msg;
 	
 	public static Order order;
-	
+	//public static boolean accountFlag = false;
 	public static int waitFlag=0;
-	
+	//public static boolean accountExistFlag = true;
 	public static boolean basicFlowersFlag=false;
 	@FXML
 	private Button btnBack = null;	
@@ -51,6 +51,13 @@ public class CatalogController implements Initializable {
 	private Button btnTryAgain = null;	
 	@FXML
 	private Button btnAddToCard = null;	
+	@FXML
+	private Button btnBackToCatalog = null;	
+	@FXML
+	private Button btnBackToCatalog2 = null;	
+	@FXML
+	private Button btnMyCart = null;	
+	
 	@FXML
 	private Hyperlink BouquetsLink;	
 	@FXML
@@ -321,6 +328,34 @@ public class CatalogController implements Initializable {
 	 */
 	public void showCart(ActionEvent event) throws Exception // show all products in cart. 
 	{
+		ArrayList<Object> user = new ArrayList<>();
+		user.add(0, UserUI.user.getId());
+		user.add(1, UserUI.store.getStoreId());
+		Message msg = new Message(user, "Update customer account");
+		UserUI.myClient.accept(msg);
+		OrderController.accountFlag = false;
+		OrderController.accountExistFlag = true;
+		while(OrderController.accountFlag == false) {
+			System.out.print("");
+		}
+		OrderController.accountFlag = false;
+		if(OrderController.accountExistFlag == false) // no account exist for this customer
+		{
+			OrderController.accountExistFlag = true;
+			((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+			Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
+			FXMLLoader loader = new FXMLLoader(); 					 /* load object */
+			Pane root = loader.load(getClass().getResource("/controller/NoAccountMsg.fxml").openStream());
+		
+			Scene scene = new Scene(root);	
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setTitle("Error Message");
+			primaryStage.setScene(scene);	
+				
+			primaryStage.show();
+		}
+		else
+		{
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 		Stage primaryStage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
@@ -332,6 +367,7 @@ public class CatalogController implements Initializable {
 		primaryStage.setTitle("Cart Frame");
 		primaryStage.setScene(scene);		
 		primaryStage.show();
+		}
 	}
 	
 	/**
@@ -373,8 +409,6 @@ public class CatalogController implements Initializable {
 			if((txtPAmmount.getText().compareTo("")!=0) && (Integer.valueOf(txtPAmmount.getText())) > 0 && pId != null && (Integer.valueOf(txtPAmmount.getText())) <= 1000)
 			{
 				pAmmount = Integer.valueOf(txtPAmmount.getText());
-				if(pId != null)
-				{
 					Product p = getproductById(pId);
 					if(p != null)
 					{
@@ -383,8 +417,9 @@ public class CatalogController implements Initializable {
 						else
 							order.getProductsInOrder().put(p, pAmmount);
 						txtPAmmount.setText("");
+						cmbPid.setValue(null);
+						showAddSuccessfulMsg(event);
 					}
-				}
 			}
 			else
 				showErrMsg(event);
@@ -393,6 +428,28 @@ public class CatalogController implements Initializable {
 		{
 			showErrMsg(event);
 		}
+	}
+	
+	
+	/**
+	 * If the customer insert valid amount and choose
+	 *  product from the combo-Box we show successful message window.  
+	 * @param event - the customer clicked "add To Cart" button 
+	 * @throws Exception - if we can't load the fxml file
+	 */
+	public void showAddSuccessfulMsg(ActionEvent event) throws Exception // add product to cart
+	{
+		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+		Stage primaryStage = new Stage();
+		FXMLLoader loader = new FXMLLoader();
+		Pane root = loader.load(getClass().getResource("/controller/SuccessfulAddMsg.fxml").openStream());
+		
+		
+		Scene scene = new Scene(root);			
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+		primaryStage.setTitle("Successful Message");
+		primaryStage.setScene(scene);		
+		primaryStage.show();
 	}
 	
 	/**
