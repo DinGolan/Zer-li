@@ -38,6 +38,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+
+/**
+ * controller for the Order options - remove products from customer
+ * cart, show cart, fill and create order form and check all fields
+ *
+ */
 public class OrderController implements Initializable{
 
 	public static int flag=0;
@@ -407,94 +413,64 @@ public class OrderController implements Initializable{
 						s = Order.SupplyOption.DELIVERY;
 					else 
 						s = Order.SupplyOption.PICKUP;
-					ArrayList<Object> user = new ArrayList<>();
-					user.add(0, UserUI.user.getId());
-					user.add(1, UserUI.store.getStoreId());
-					Message msg = new Message(user, "Update customer account");
+					if(CustomerUI.account.getAccountPaymentArrangement().equals(Account.PaymentArrangement.ANNUAL))
+						totalPrice *= 0.875;
+					else if(CustomerUI.account.getAccountPaymentArrangement().equals(Account.PaymentArrangement.MONTHLY))
+						totalPrice *= 0.9;
+					Account.PaymentMethod pm = null;
+					if(rdbtnCash.isSelected())
+						pm = Account.PaymentMethod.CASH;
+					else
+						pm = Account.PaymentMethod.CREDITCARD;
+					Order saveOrder = new Order(s, totalPrice, CatalogController.order.getProductsInOrder(), localDate, UserUI.user.getId(), txtRequiredTime.getText(), txtAddress.getText(), txtRecipientsName.getText(), txtRecipientsPhoneNumber.getText(), txtPostCard.getText() , UserUI.store.getStoreId(), pm,Order.orderStatus.APPROVED,0);
+					Message msg = new Message(saveOrder, "insert order to DB");
 					UserUI.myClient.accept(msg);
 					accountFlag = false;
-					accountExistFlag = true;
 					while(accountFlag == false) {
 						System.out.print("");
 					}
 					accountFlag = false;
-					if(accountExistFlag == false) // no account exist for this customer
+					if(rdbtnUseAccountBalance.isSelected())
 					{
-						accountExistFlag = true;
-						flag=2;
-						((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
-						Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
-						FXMLLoader loader = new FXMLLoader(); 					 /* load object */
-						Pane root = loader.load(getClass().getResource("/controller/NoAccountMsg.fxml").openStream());
-					
-						Scene scene = new Scene(root);	
-						scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-						primaryStage.setTitle("Error Message");
-						primaryStage.setScene(scene);	
-							
-						primaryStage.show();
-					}
-					else
-					{
-						if(CustomerUI.account.getAccountPaymentArrangement().equals(Account.PaymentArrangement.ANNUAL))
-							totalPrice *= 0.875;
-						else if(CustomerUI.account.getAccountPaymentArrangement().equals(Account.PaymentArrangement.MONTHLY))
-							totalPrice *= 0.9;
-						Account.PaymentMethod pm = null;
-						if(rdbtnCash.isSelected())
-							pm = Account.PaymentMethod.CASH;
+						useAccountBakanceFlag = true;
+						balance = CustomerUI.account.getAccountBalanceCard();
+						if(CustomerUI.account.getAccountBalanceCard() > totalPrice)
+						{
+							balance = totalPrice;
+							balanceAmount = CustomerUI.account.getAccountBalanceCard()- totalPrice;
+							totalPrice = 0;
+						}
 						else
-							pm = Account.PaymentMethod.CREDITCARD;
-						Order saveOrder = new Order(s, totalPrice, CatalogController.order.getProductsInOrder(), localDate, UserUI.user.getId(), txtRequiredTime.getText(), txtAddress.getText(), txtRecipientsName.getText(), txtRecipientsPhoneNumber.getText(), txtPostCard.getText() , UserUI.store.getStoreId(), pm,Order.orderStatus.APPROVED,0);
-						msg = new Message(saveOrder, "insert order to DB");
-						UserUI.myClient.accept(msg);
-						accountFlag = false;
-						while(accountFlag == false) {
-							System.out.print("");
-						}
-						accountFlag = false;
-						if(rdbtnUseAccountBalance.isSelected())
 						{
-							useAccountBakanceFlag = true;
 							balance = CustomerUI.account.getAccountBalanceCard();
-							if(CustomerUI.account.getAccountBalanceCard() > totalPrice)
-							{
-								balance = totalPrice;
-								balanceAmount = CustomerUI.account.getAccountBalanceCard()- totalPrice;
-								totalPrice = 0;
-							}
-							else
-							{
-								balance = CustomerUI.account.getAccountBalanceCard();
-								balanceAmount = 0;
-								totalPrice -= CustomerUI.account.getAccountBalanceCard();
-							}
-							ArrayList<Object> useAndBalance = new ArrayList<>();
-							useAndBalance.add(0, UserUI.user.getId());
-							useAndBalance.add(1, balanceAmount);
-							useAndBalance.add(2, UserUI.store.getStoreId());
-							msg = new Message(useAndBalance, "update balance Ammount");
-							UserUI.myClient.accept(msg);
+							balanceAmount = 0;
+							totalPrice -= CustomerUI.account.getAccountBalanceCard();
 						}
-						OrderUI.order = null;
-						if(localDate.equals(today) && (Integer.valueOf(hours) < (hour+3)) || ((Integer.valueOf(hours) == (hour+3)) && (Integer.valueOf(minutes) <= minute)))
-						{
-							imidiateOrderFlag= true;
-						}
-						flag=3;
-						((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
-						Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
-						FXMLLoader loader = new FXMLLoader(); 					 /* load object */
-						Pane root = loader.load(getClass().getResource("/controller/ThankForOrder.fxml").openStream());
-						totalPrice=0;  /*for next order*/
-						Scene scene = new Scene(root);	
-						scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-						primaryStage.setTitle("Thank For Order");
-						primaryStage.setScene(scene);	
-								
-						primaryStage.show();
+						ArrayList<Object> useAndBalance = new ArrayList<>();
+						useAndBalance.add(0, UserUI.user.getId());
+						useAndBalance.add(1, balanceAmount);
+						useAndBalance.add(2, UserUI.store.getStoreId());
+						msg = new Message(useAndBalance, "update balance Ammount");
+						UserUI.myClient.accept(msg);
 					}
-				 }
+					OrderUI.order = null;
+					if(localDate.equals(today) && (Integer.valueOf(hours) < (hour+3)) || ((Integer.valueOf(hours) == (hour+3)) && (Integer.valueOf(minutes) <= minute)))
+					{
+						imidiateOrderFlag= true;
+					}
+					flag=3;
+					((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+					Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
+					FXMLLoader loader = new FXMLLoader(); 					 /* load object */
+					Pane root = loader.load(getClass().getResource("/controller/ThankForOrder.fxml").openStream());
+					totalPrice=0;  /*for next order*/
+					Scene scene = new Scene(root);	
+					scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+					primaryStage.setTitle("Thank For Order");
+					primaryStage.setScene(scene);	
+								
+					primaryStage.show();
+				}
 				 catch (DateTimeParseException e) /*if supply time is NOT valid*/
 				 {
 						flag = 2;
@@ -510,8 +486,8 @@ public class OrderController implements Initializable{
 							
 						primaryStage.show();
 				 }
+				}
 			}
-		}
 		}
 	}
 	
