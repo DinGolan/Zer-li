@@ -27,7 +27,7 @@ import javafx.scene.control.TextArea;
 
 /**
  * controller for the User options: 
- * login , 
+ * login , logout , 
  *
  */
 public class UserController implements Initializable {
