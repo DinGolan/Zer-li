@@ -83,7 +83,13 @@ public class CustomerComplaintStatusReportController_For_CompanyManager implemen
 					this.store = s;
 					this.txtStoreID.setText(String.valueOf(store.getStoreId()));
 				}
-				else /* I Get Into This 'else' Statement Only If I Not Press On One of the Combo Box Of Store Or Date */
+				else if(CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == true && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == false)
+				{
+					this.store = s;
+					this.txtStoreID.setText(String.valueOf(store.getStoreId()));
+				}
+				else if((CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == false && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == false)
+						|| (CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == false && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == true))
 				{
 					this.txtStoreID.setText(String.valueOf(1));
 				}
@@ -95,7 +101,13 @@ public class CustomerComplaintStatusReportController_For_CompanyManager implemen
 				this.store = s;
 				this.txtStoreID.setText(String.valueOf(store.getStoreId()));
 			}
-			else 	/* I Get Into This 'else' Statement Only If I Not Press On One of the Combo Box Of Store Or Date */
+			else if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == false) 	
+			{
+				this.store = s;
+				this.txtStoreID.setText(String.valueOf(store.getStoreId()));
+			}
+			else if((CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == false)
+					|| (CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == true))
 			{
 				this.txtStoreID.setText(String.valueOf(1));
 			}
@@ -172,7 +184,17 @@ public class CustomerComplaintStatusReportController_For_CompanyManager implemen
 					Year_Integer = Integer.parseInt(Year);
 					Month_Integer = Integer.parseInt(Month);
 				}
-				else /* This else Statement Is Not For Defult Value */
+				else if(CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == true && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == false) /* This else Statement Is Not For Defult Value */
+				{
+					temp_Date_Quarter_Report = Date.valueOf("2017-12-31");
+					CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager.add(temp_Date_Quarter_Report);
+					Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
+					Year = Full_Date_String.substring(0 , 4);
+					Month = Full_Date_String.substring(5 , 7);
+					Year_Integer = Integer.parseInt(Year);
+					Month_Integer = Integer.parseInt(Month);
+				}
+				else if(CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == true && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == true) 
 				{
 					temp_Date_Quarter_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager.get(1); /* The Date */
 					Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
@@ -199,7 +221,18 @@ public class CustomerComplaintStatusReportController_For_CompanyManager implemen
 					Year_Integer = Integer.parseInt(Year);
 					Month_Integer = Integer.parseInt(Month);
 				}
-				else /* This else Statement Is Not For Defult Value */
+				else if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == false) /* This else Statement Is Not For Defult Value */
+				{
+					temp_Date_Quarter_Report = Date.valueOf("2017-12-31");
+					CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager.add(temp_Date_Quarter_Report);
+					Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
+					Year = Full_Date_String.substring(0 , 4);
+					Month = Full_Date_String.substring(5 , 7);
+					Year_Integer = Integer.parseInt(Year);
+					Month_Integer = Integer.parseInt(Month);
+					
+				}
+				else if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == true)
 				{
 					temp_Date_Quarter_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager.get(1); /* The Date */
 					Full_Date_String = String.valueOf(temp_Date_Quarter_Report);

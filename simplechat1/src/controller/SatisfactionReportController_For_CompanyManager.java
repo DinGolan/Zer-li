@@ -64,32 +64,48 @@ public class SatisfactionReportController_For_CompanyManager implements Initiali
 	
 /* --------------------------------- Loading Store To the Text Fields ------------------------------------------------- */	 
 	 
-	public void loadStore(Store s) 			 /* To load the Store details to the text fields */
+	/**
+	* In This Function We Load The ComboBox Of Store's .
+	* @param s
+	*/
+	public void loadStore(Store s) 					
 	{ 
-		if(CompanyManagerReportController.Integer_The_Option_You_Choose == 1)
-		{
-			if(CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == true && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == true)
+			if(CompanyManagerReportController.Integer_The_Option_You_Choose == 1)
 			{
-				this.store = s;
-				this.txtStoreID.setText(String.valueOf(store.getStoreId()));
+					if(CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == true && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == true)
+					{
+						this.store = s;
+						this.txtStoreID.setText(String.valueOf(store.getStoreId()));
+					}
+					else if(CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == true && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == false)
+					{
+						this.store = s;
+						this.txtStoreID.setText(String.valueOf(store.getStoreId()));
+					}
+					else if((CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == false && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == false)
+							|| (CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == false && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == true))
+					{
+						this.txtStoreID.setText(String.valueOf(1));
+					}
 			}
-			else
+			else if(CompanyManagerReportController.Integer_The_Option_You_Choose == 2)
 			{
-				this.txtStoreID.setText(String.valueOf(1));
+				if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == true)
+				{
+					this.store = s;
+					this.txtStoreID.setText(String.valueOf(store.getStoreId()));
+				}
+				else if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == false) 	
+				{
+					this.store = s;
+					this.txtStoreID.setText(String.valueOf(store.getStoreId()));
+				}
+				else if((CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == false)
+						|| (CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == true))
+				{
+					this.txtStoreID.setText(String.valueOf(1));
+				}
 			}
-		}
-		else if(CompanyManagerReportController.Integer_The_Option_You_Choose == 2)
-		{
-			if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == true)
-			{
-				this.store = s;
-				this.txtStoreID.setText(String.valueOf(store.getStoreId()));
-			}
-			else
-			{
-				this.txtStoreID.setText(String.valueOf(1));
-			}
-		}
 	}
 	
 /* --------------------------------- Close the Satisfaction Report Window ------------------------------------------------- */			
@@ -149,9 +165,19 @@ public class SatisfactionReportController_For_CompanyManager implements Initiali
 				Year_Integer = Integer.parseInt(Year);
 				Month_Integer = Integer.parseInt(Month);
 			}
-			else
+			else if(CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == true && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == false) /* This else Statement Is Not For Defult Value */
 			{
-				temp_Date_Quarter_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.get(1);                             /* The Date */
+				temp_Date_Quarter_Report = Date.valueOf("2017-12-31");
+				CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.add(temp_Date_Quarter_Report);
+				Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
+				Year = Full_Date_String.substring(0 , 4);
+				Month = Full_Date_String.substring(5 , 7);
+				Year_Integer = Integer.parseInt(Year);
+				Month_Integer = Integer.parseInt(Month);
+			}
+			else if(CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == true && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == true) 
+			{
+				temp_Date_Quarter_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.get(1); /* The Date */
 				Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
 				Year = Full_Date_String.substring(0 , 4);
 				Month = Full_Date_String.substring(5 , 7);
@@ -163,7 +189,7 @@ public class SatisfactionReportController_For_CompanyManager implements Initiali
 		{
 			if((CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == false)
 					|| (CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == true))
-				{
+			{
 					int temp_Store_Id = 1;
 					temp_Date_Quarter_Report = Date.valueOf("2017-12-31");
 					CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.clear();
@@ -174,16 +200,27 @@ public class SatisfactionReportController_For_CompanyManager implements Initiali
 					Month = Full_Date_String.substring(5 , 7);
 					Year_Integer = Integer.parseInt(Year);
 					Month_Integer = Integer.parseInt(Month);
-				}
-				else
-				{
-					temp_Date_Quarter_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.get(1);                             /* The Date */
-					Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
-					Year = Full_Date_String.substring(0 , 4);
-					Month = Full_Date_String.substring(5 , 7);
-					Year_Integer = Integer.parseInt(Year);
-					Month_Integer = Integer.parseInt(Month);
-				}
+			}
+			else if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == false) /* This else Statement Is Not For Defult Value */
+			{
+				temp_Date_Quarter_Report = Date.valueOf("2017-12-31");
+				CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.add(temp_Date_Quarter_Report);
+				Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
+				Year = Full_Date_String.substring(0 , 4);
+				Month = Full_Date_String.substring(5 , 7);
+				Year_Integer = Integer.parseInt(Year);
+				Month_Integer = Integer.parseInt(Month);
+				
+			}
+			else if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == true)
+			{
+				temp_Date_Quarter_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.get(1); /* The Date */
+				Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
+				Year = Full_Date_String.substring(0 , 4);
+				Month = Full_Date_String.substring(5 , 7);
+				Year_Integer = Integer.parseInt(Year);
+				Month_Integer = Integer.parseInt(Month);
+			}
 		}
 	
 		this.txtYear.setText(String.valueOf(Year_Integer)); 					/* Set The Year */

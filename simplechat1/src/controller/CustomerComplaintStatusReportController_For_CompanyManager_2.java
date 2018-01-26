@@ -75,7 +75,13 @@ public class CustomerComplaintStatusReportController_For_CompanyManager_2 implem
 			this.store = s;
 			this.txtStoreID.setText(String.valueOf(store.getStoreId()));
 		}
-		else /* I Get Into This 'else' Statement Only If I Not Press On One of the Combo Box Of Store Or Date */
+		else if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2 == false)
+		{
+			this.store = s;
+			this.txtStoreID.setText(String.valueOf(store.getStoreId()));
+		}
+		else if((CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2 == false)
+				|| (CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2 == true)) 
 		{
 			this.txtStoreID.setText(String.valueOf(2));
 		}
@@ -98,8 +104,8 @@ public class CustomerComplaintStatusReportController_For_CompanyManager_2 implem
 	@Override
 	public void initialize(URL location, ResourceBundle resources) 
 	{
-		int Year_Integer;
-		int Month_Integer;
+		int Year_Integer = 0;
+		int Month_Integer = 0;
 		String Month;
 		String Year;
 		String Full_Date_String;
@@ -120,7 +126,18 @@ public class CustomerComplaintStatusReportController_For_CompanyManager_2 implem
 			Year_Integer = Integer.parseInt(Year);
 			Month_Integer = Integer.parseInt(Month);
 		}
-		else /* This else Statement Is Not For Defult Value */
+		else if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2 == false)
+		{
+			temp_Date_Quarter_Report = Date.valueOf("2017-09-30");
+			CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager_2.add(temp_Date_Quarter_Report);
+			Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
+			Year = Full_Date_String.substring(0 , 4);
+			Month = Full_Date_String.substring(5 , 7);
+			Year_Integer = Integer.parseInt(Year);
+			Month_Integer = Integer.parseInt(Month);
+		}
+		/* This else Statement Is Not For Defult Value */
+		else if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2 == true)
 		{
 			temp_Date_Quarter_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager_2.get(1); /* The Date */
 			Full_Date_String = String.valueOf(temp_Date_Quarter_Report);

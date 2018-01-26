@@ -27,52 +27,79 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
-public class OrderReportController_For_ComapnyManager_2 implements Initializable {
+public class OrderReportController_For_ComapnyManager_2 implements Initializable 
+{
 
+	/**
+	 * This Variable Help Me To Load The ComboBox Of Store's .
+	 */
 	private Store store;
+	
+	/**
+	 * This Variable Helping To Transfer Message From the Client to the DB .
+	 */
 	private Message msg;
+	
+	/**
+	 * Variabel's That Help Me To Show The Product Type In The BarChart . 
+	 */
 	private static String[] Type_Of_Products_In_Order = {"BOUQUET","ARRANGEMENT","VASE","BRIDAL_BOUQUET","FLOWER_CROWN","SWEET_BOUQUET","WREATH_FLOWERS"};
 	
-/* -------------------------  For The Window Of Order Report ----------------------------------- */		
+/* -------------------------  For The Window Of Order Report - For Company Manager ----------------------------------- */		
 	
 	 @FXML
-	 private TextField txtStoreID;                /* Text Field Of the Store ID */
+	 private TextField txtStoreID;               			/* Text Field Of the Store ID */
 	
 	 @FXML
-	 private TextField txtYear;                   /* Text Field Of The Year */
+	 private TextField txtYear;                   			/* Text Field Of The Year */
 
 	 @FXML
-	 private TextField txtNumberOfQuarter;        /* Text Field Of The Number Of Quarter */
+	 private TextField txtNumberOfQuarter;        			/* Text Field Of The Number Of Quarter */
 	
 	 @FXML
 	 private BarChart<String, Integer> ChartOrderReport;    /* Bar Chart */
 
 	 @FXML
-	 private CategoryAxis X_ProductType;            /* Axis X of the - Bar Chart */
+	 private CategoryAxis X_ProductType;            		/* Axis X of the - Bar Chart */
 
 	 @FXML
-	 private NumberAxis Y_OrderSpecificStore;       /* Axis Y of the - Bar Chart */
+	 private NumberAxis Y_OrderSpecificStore;       		/* Axis Y of the - Bar Chart */
 	 
 	 @FXML
-	 private Button btnClose;                       /* Button For Close The Window */
+	 private Button btnClose;                       		/* Button For Close The Window */
 	 
 /* --------------------------------- Loading Store To the Text Fields ------------------------------------------------- */	 
 	 
-	public void loadStore(Store s) 					/* To load the Store details to the text fields */
-	{ 
-		if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2 == true)
-		{
-			this.store = s;
-			this.txtStoreID.setText(String.valueOf(store.getStoreId()));
-		}
-		else
-		{
-			this.txtStoreID.setText(String.valueOf(2));
-		}
-	}
+	/**
+	* In This Function We Load The ComboBox Of Store's .
+	* @param s
+	*/
+	 public void loadStore(Store s) 					
+	 { 
+			if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2 == true)
+			{
+				this.store = s;
+				this.txtStoreID.setText(String.valueOf(store.getStoreId()));
+			}
+			else if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2 == false)
+			{
+				this.store = s;
+				this.txtStoreID.setText(String.valueOf(store.getStoreId()));
+			}
+			else if((CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2 == false)
+					|| (CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2 == true)) 
+			{
+				this.txtStoreID.setText(String.valueOf(2));
+			}
+	 }
 	
-/* --------------------------------- Close the Order Report Window ------------------------------------------------- */	 	
+/* --------------------------------- Close the Order Report Window ---------------------------------------------------------------- */	 	
 	
+	/**
+	 * In This Function I close The GUI Of Order Report Of the Second Store .
+	 * @param event - When Client Press On the Button This Parameter Start To Work . 
+	 * @throws Exception
+	 */
 	public void closeOrderReportWindow(ActionEvent event) throws Exception   
 	{ 
 		CompanyManagerUI.stores_For_Company_Manager_2.clear();
@@ -81,16 +108,20 @@ public class OrderReportController_For_ComapnyManager_2 implements Initializable
 
 /* --------------------------------- Initialize The Bar Chart Of the Order Report ------------------------------------------------- */	 	
 	
+	/** 
+	 * In This Function We Initialize The GUI Of Order Report Of the Second Store .
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) 
 	{
-		int Year_Integer;
-		int Month_Integer;
+		int Year_Integer = 0;
+		int Month_Integer = 0;
 		String Month;
 		String Year;
 		String Full_Date_String;
 		Date temp_Date_Quarter_Report;
 		
+		/* If the Company Manager Not Press On Specific Second Store  */
 		if((CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2 == false)
 				|| (CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2 == true))
 		{
@@ -105,9 +136,20 @@ public class OrderReportController_For_ComapnyManager_2 implements Initializable
 			Year_Integer = Integer.parseInt(Year);
 			Month_Integer = Integer.parseInt(Month);
 		}
-		else
+		else if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2 == false)
 		{
-			temp_Date_Quarter_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager_2.get(1);                             /* The Date */
+			temp_Date_Quarter_Report = Date.valueOf("2017-09-30");
+			CompanyManagerUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager_2.add(temp_Date_Quarter_Report);
+			Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
+			Year = Full_Date_String.substring(0 , 4);
+			Month = Full_Date_String.substring(5 , 7);
+			Year_Integer = Integer.parseInt(Year);
+			Month_Integer = Integer.parseInt(Month);
+		}
+		/* This else Statement Is Not For Defult Value */
+		else if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2 == true)
+		{
+			temp_Date_Quarter_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager_2.get(1); /* The Date */
 			Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
 			Year = Full_Date_String.substring(0 , 4);
 			Month = Full_Date_String.substring(5 , 7);
@@ -166,9 +208,9 @@ public class OrderReportController_For_ComapnyManager_2 implements Initializable
 		int [] Count_In_Chart;
 		Product.ProductType product_Type;
 		ArrayList<Product.ProductType> productType_Of_Specific_Order_Of_Specific_Store = new ArrayList<Product.ProductType>();   /* All the Product That We Order On Specific Store */
-		ArrayList<Order> orders = new ArrayList<Order>();                         						   /* All The Orders That We Order On Specific Store */
+		ArrayList<Order> orders = new ArrayList<Order>();                         						   						 /* All The Orders That We Order On Specific Store */
 		
-		for(int i = 0 ; i < CompanyManagerUI.orders_For_Company_Manager_2.size() ; i++)                                                  /* In This Loop We Initialize All the Orders At ArrayList Of Orders */                                             
+		for(int i = 0 ; i < CompanyManagerUI.orders_For_Company_Manager_2.size() ; i++)                                          /* In This Loop We Initialize All the Orders At ArrayList Of Orders */                                             
 		{
 			orders.add(CompanyManagerUI.orders_For_Company_Manager_2.get(i));
 			for (Entry<ProductType, Integer> entry : orders.get(i).getProductInOrderType().entrySet()) 

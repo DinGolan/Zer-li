@@ -451,7 +451,33 @@ public class CompanyManagerController_With_Two_Store implements Initializable {
 		Thread.sleep(200);
 		set_Dates_Of_Report_Of_Store_One_At_ComboBox();
 		
+		/* ---------------------- For The Revenue Report ---------------------------------- */
+		
+		CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.clear(); 
+		CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.add(temp_Store_Id_1); /* The Store_Id */
+		
+		/* ----------------------- For The Order Report ----------------------------------- */
+		
+		CompanyManagerUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager.clear();
+		CompanyManagerUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager.add(temp_Store_Id_1);  /* The Store_Id */
+		
+		/* ----------------------- For The Complaint Report ------------------------------- */
+		
+		CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager.clear();
+		CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager.add(temp_Store_Id_1);  /* The Store_Id */
+		
+		/* ----------------------- For The Satisfaction Report -----------------------------*/
+		
+		CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.clear();
+		CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.add(temp_Store_Id_1);  /* The Store_Id */
+		
+		/* ----------------------- For The Comparing Between Two Stores Or Two Quarter's ----------------------*/
+		
+		CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_1.clear();
+		CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_1.add(temp_Store_Id_1);  /* The Store_Id */
+		
 		Flag_Enter_On_The_Combo_Box_Store_1 = true;
+		
 		Flag_Enter_On_The_Combo_Box_Store_1_For_Compare = true;
 	}	
 	
@@ -477,7 +503,33 @@ public class CompanyManagerController_With_Two_Store implements Initializable {
 		Thread.sleep(200);
 		set_Dates_Of_Report_Of_Store_Two_At_ComboBox();
 		
+		/* ---------------------- For The Revenue Report ------------------------------- */
+		
+		CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager_2.clear();
+		CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager_2.add(temp_Store_Id_2); /* The Store_Id */
+		
+		/* ----------------------- For The Order Report -------------------------------- */
+		
+		CompanyManagerUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager_2.clear();
+		CompanyManagerUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager_2.add(temp_Store_Id_2);  /* The Store_Id */
+		
+		/* ----------------------- For The Complaint Report -----------------------------*/
+		
+		CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager_2.clear();
+		CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager_2.add(temp_Store_Id_2);  /* The Store_Id */
+		
+		/* ----------------------- For The Satisfaction Report ------------------------- */
+		
+		CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager_2.clear();
+		CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager_2.add(temp_Store_Id_2);  /* The Store_Id */
+		
+		/* ----------------------- For The Comparing Between Two Different Quarter Report --------------------------------------------*/
+		
+		CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_2.clear();
+		CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_2.add(temp_Store_Id_2);  /* The Store_Id */
+		
 		Flag_Enter_On_The_Combo_Box_Store_2 = true;
+		
 		Flag_Enter_On_The_Combo_Box_Store_2_For_Compare = true;
 	}
 	
@@ -492,37 +544,29 @@ public class CompanyManagerController_With_Two_Store implements Initializable {
 	{
 		
 		temp_Date_Quarter_Report_1 = CompanyManagerUI.Dates_For_Company_Manager.get(getItemIndexFromDateComboBox_For_CompanyManager_FirstStore());
-		ArrayList<Object> Store_Id_And_Date_Of_Report = new ArrayList<Object>();
-		Store_Id_And_Date_Of_Report.add(temp_Store_Id_1);
-		Store_Id_And_Date_Of_Report.add(temp_Date_Quarter_Report_1);
 	
 		/* ---------------------- For The Revenue Report ---------------------------------- */
 		
-		CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.clear(); 
-		CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.add(Store_Id_And_Date_Of_Report.get(0)); /* The Store_Id */
-		CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.add(Store_Id_And_Date_Of_Report.get(1)); /* The Date Of the Report */
+		
+		CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.add(temp_Date_Quarter_Report_1); /* The Date Of the Report */
 		
 		/* ----------------------- For The Order Report ----------------------------------- */
 		
-		CompanyManagerUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager.clear();
-		CompanyManagerUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
-		CompanyManagerUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager.add(Store_Id_And_Date_Of_Report.get(1));  /* The Date Of the Report */
+		
+		CompanyManagerUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager.add(temp_Date_Quarter_Report_1);  /* The Date Of the Report */
 		
 		/* ----------------------- For The Complaint Report ------------------------------- */
 		
-		CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager.clear();
-		CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
-		CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager.add(Store_Id_And_Date_Of_Report.get(1));  /* The Date Of the Report */
+		
+		CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager.add(temp_Date_Quarter_Report_1);  /* The Date Of the Report */
 		
 		/* ----------------------- For The Satisfaction Report -----------------------------*/
 		
-		CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.clear();
-		CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
-		CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.add(Store_Id_And_Date_Of_Report.get(1));  /* The Date Of the Report */
+		CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.add(temp_Date_Quarter_Report_1);  /* The Date Of the Report */
 		
-		CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_1.clear();
-		CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_1.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
-		CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_1.add(Store_Id_And_Date_Of_Report.get(1));  /* The Date Of the Report */
+		/* ----------------------- For The Comparing Between Two Stores Or Two Quarter's -----------------*/
+		
+		CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_1.add(temp_Date_Quarter_Report_1);  				   /* The Date Of the Report */
 		
 		Flag_Enter_On_The_Combo_Box_Date_1 = true;
 		
@@ -540,39 +584,26 @@ public class CompanyManagerController_With_Two_Store implements Initializable {
 	{
 		
 		temp_Date_Quarter_Report_2 = CompanyManagerUI.Dates_For_Company_Manager_2.get(getItemIndexFromDateComboBox_For_CompanyManager_SecondStore());
-		ArrayList<Object> Store_Id_And_Date_Of_Report = new ArrayList<Object>();
-		Store_Id_And_Date_Of_Report.add(temp_Store_Id_2);
-		Store_Id_And_Date_Of_Report.add(temp_Date_Quarter_Report_2);
 		
 		/* ---------------------- For The Revenue Report ------------------------------- */
 		
-		CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager_2.clear();
-		CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager_2.add(Store_Id_And_Date_Of_Report.get(0)); /* The Store_Id */
-		CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager_2.add(Store_Id_And_Date_Of_Report.get(1)); /* The Date Of the Report */
+		CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager_2.add(temp_Date_Quarter_Report_2); /* The Date Of the Report */
 		
 		/* ----------------------- For The Order Report -------------------------------- */
 		
-		CompanyManagerUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager_2.clear();
-		CompanyManagerUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager_2.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
-		CompanyManagerUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager_2.add(Store_Id_And_Date_Of_Report.get(1));  /* The Date Of the Report */
+		CompanyManagerUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager_2.add(temp_Date_Quarter_Report_2);  /* The Date Of the Report */
 		
 		/* ----------------------- For The Complaint Report -----------------------------*/
 		
-		CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager_2.clear();
-		CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager_2.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
-		CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager_2.add(Store_Id_And_Date_Of_Report.get(1));  /* The Date Of the Report */
+		CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager_2.add(temp_Date_Quarter_Report_2);  /* The Date Of the Report */
 		
 		/* ----------------------- For The Satisfaction Report ------------------------- */
 		
-		CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager_2.clear();
-		CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager_2.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
-		CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager_2.add(Store_Id_And_Date_Of_Report.get(1));  /* The Date Of the Report */
+		CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager_2.add(temp_Date_Quarter_Report_2);  /* The Date Of the Report */
 		
-		/* ----------------------- For The Comparing Between Two Different Quarter Report -----------------------------*/
+		/* ----------------------- For The Comparing Between Two Different Quarter Report --------------------------------------------*/
 		
-		CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_2.clear();
-		CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_2.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
-		CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_2.add(Store_Id_And_Date_Of_Report.get(1));  /* The Date Of the Report */							
+		CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_2.add(temp_Date_Quarter_Report_2);  /* The Date Of the Report */							
 		
 		Flag_Enter_On_The_Combo_Box_Date_2 = true;
 		

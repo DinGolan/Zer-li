@@ -64,7 +64,14 @@ public class QuarterlyRevenueReportController_For_CompanyManager implements Init
 					this.txtStoreID.setText(String.valueOf(store.getStoreId()));
 					this.txtStoreAddress.setText((store.getStore_Address()));
 				}
-				else
+				else if(CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == true && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == false)
+				{
+					this.store = s;
+					this.txtStoreID.setText(String.valueOf(store.getStoreId()));
+					this.txtStoreAddress.setText((store.getStore_Address()));
+				}
+				else if((CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == false && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == false)
+						|| CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == false && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == true)
 				{
 					this.txtStoreID.setText(String.valueOf(1));
 					this.txtStoreAddress.setText(("Nahariya"));
@@ -78,7 +85,14 @@ public class QuarterlyRevenueReportController_For_CompanyManager implements Init
 					this.txtStoreID.setText(String.valueOf(store.getStoreId()));
 					this.txtStoreAddress.setText((store.getStore_Address()));
 				}
-				else
+				else if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == false)
+				{
+					this.store = s;
+					this.txtStoreID.setText(String.valueOf(store.getStoreId()));
+					this.txtStoreAddress.setText((store.getStore_Address()));
+				}
+				else if((CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == true)
+						|| (CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == false))
 				{
 					this.txtStoreID.setText(String.valueOf(1));
 					this.txtStoreAddress.setText(("Nahariya"));
@@ -96,7 +110,12 @@ public class QuarterlyRevenueReportController_For_CompanyManager implements Init
 				{
 					this.txtQuarterNum.setText(string);
 				}
-				else
+				else if(CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == true && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == false)
+				{
+					this.txtQuarterNum.setText(string);
+				}
+				else if((CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == false && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == false)
+						|| (CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == false && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == true))
 				{
 					this.txtQuarterNum.setText(String.valueOf(4));
 				}
@@ -107,7 +126,12 @@ public class QuarterlyRevenueReportController_For_CompanyManager implements Init
 				{
 					this.txtQuarterNum.setText(string);
 				}
-				else
+				else if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == false)
+				{
+					this.txtQuarterNum.setText(String.valueOf(4));
+				}
+				else if((CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == false)
+						|| (CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == true))
 				{
 					this.txtQuarterNum.setText(String.valueOf(4));
 				}
@@ -173,22 +197,31 @@ public class QuarterlyRevenueReportController_For_CompanyManager implements Init
 					Year_Integer = Integer.parseInt(Year);
 					Month_Integer = Integer.parseInt(Month);
 				}
-				else
+				else if(CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == true && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == false) /* This else Statement Is Not For Defult Value */
 				{
-					temp_Date_Quarter_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.get(1);                             /* The Date */
+					temp_Date_Quarter_Report = Date.valueOf("2017-12-31");
+					CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.add(temp_Date_Quarter_Report);
 					Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
 					Year = Full_Date_String.substring(0 , 4);
 					Month = Full_Date_String.substring(5 , 7);
 					Year_Integer = Integer.parseInt(Year);
 					Month_Integer = Integer.parseInt(Month);
-					
+				}
+				else if(CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == true && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == true) 
+				{
+					temp_Date_Quarter_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.get(1); /* The Date */
+					Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
+					Year = Full_Date_String.substring(0 , 4);
+					Month = Full_Date_String.substring(5 , 7);
+					Year_Integer = Integer.parseInt(Year);
+					Month_Integer = Integer.parseInt(Month);
 				}
 			}
 			else if(CompanyManagerReportController.Integer_The_Option_You_Choose == 2)
 			{
 				if((CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == false)
 						|| (CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == true))
-					{
+				{
 						int temp_Store_Id = 1;
 						temp_Date_Quarter_Report = Date.valueOf("2017-12-31");
 						CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.clear();
@@ -199,16 +232,27 @@ public class QuarterlyRevenueReportController_For_CompanyManager implements Init
 						Month = Full_Date_String.substring(5 , 7);
 						Year_Integer = Integer.parseInt(Year);
 						Month_Integer = Integer.parseInt(Month);
-					}
-					else
-					{
-						temp_Date_Quarter_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.get(1);                             /* The Date */
-						Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
-						Year = Full_Date_String.substring(0 , 4);
-						Month = Full_Date_String.substring(5 , 7);
-						Year_Integer = Integer.parseInt(Year);
-						Month_Integer = Integer.parseInt(Month);
-					}
+				}
+				else if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == false) /* This else Statement Is Not For Defult Value */
+				{
+					temp_Date_Quarter_Report = Date.valueOf("2017-12-31");
+					CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.add(temp_Date_Quarter_Report);
+					Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
+					Year = Full_Date_String.substring(0 , 4);
+					Month = Full_Date_String.substring(5 , 7);
+					Year_Integer = Integer.parseInt(Year);
+					Month_Integer = Integer.parseInt(Month);
+					
+				}
+				else if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == true)
+				{
+					temp_Date_Quarter_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.get(1); /* The Date */
+					Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
+					Year = Full_Date_String.substring(0 , 4);
+					Month = Full_Date_String.substring(5 , 7);
+					Year_Integer = Integer.parseInt(Year);
+					Month_Integer = Integer.parseInt(Month);
+				}
 			}
 			
 			this.txtYear.setText(String.valueOf(Year_Integer)); 					/* Set The Year */

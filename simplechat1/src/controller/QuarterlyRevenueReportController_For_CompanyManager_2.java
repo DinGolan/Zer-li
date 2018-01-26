@@ -54,7 +54,14 @@ public class QuarterlyRevenueReportController_For_CompanyManager_2 implements In
 			this.txtStoreID.setText(String.valueOf(store.getStoreId()));
 			this.txtStoreAddress.setText((store.getStore_Address()));
 		}
-		else
+		else if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2 == false)
+		{
+			this.store = s;
+			this.txtStoreID.setText(String.valueOf(store.getStoreId()));
+			this.txtStoreAddress.setText((store.getStore_Address()));
+		}
+		else if((CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2 == false)
+				|| (CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2 == true))
 		{
 			this.txtStoreID.setText(String.valueOf(2));
 			this.txtStoreAddress.setText("Haifa");
@@ -69,9 +76,14 @@ public class QuarterlyRevenueReportController_For_CompanyManager_2 implements In
 		{	
 			this.txtQuarterNum.setText(string);
 		}
-		else
+		else if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2 == false)
 		{
-			this.txtQuarterNum.setText("2017-09-31");
+			this.txtQuarterNum.setText(String.valueOf(3));
+		}
+		else if((CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2 == false)
+				||(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2 == true))
+		{
+			this.txtQuarterNum.setText(String.valueOf(3));
 		}
 	}
  
@@ -88,8 +100,8 @@ public class QuarterlyRevenueReportController_For_CompanyManager_2 implements In
 	@Override
 	 public void initialize(URL location, ResourceBundle resources) 
 	{
-		int Year_Integer;
-		int Month_Integer;
+		int Year_Integer = 0;
+		int Month_Integer = 0;
 		String Month;
 		String Year;
 		String Full_Date_String;
@@ -109,9 +121,20 @@ public class QuarterlyRevenueReportController_For_CompanyManager_2 implements In
 			Year_Integer = Integer.parseInt(Year);
 			Month_Integer = Integer.parseInt(Month);
 		}
-		else
+		else if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2 == false)
 		{
-			temp_Date_Quarter_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager_2.get(1);                             /* The Date */
+			temp_Date_Quarter_Report = Date.valueOf("2017-09-30");
+			CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager_2.add(temp_Date_Quarter_Report);
+			Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
+			Year = Full_Date_String.substring(0 , 4);
+			Month = Full_Date_String.substring(5 , 7);
+			Year_Integer = Integer.parseInt(Year);
+			Month_Integer = Integer.parseInt(Month);
+		}
+		/* This else Statement Is Not For Defult Value */
+		else if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2 == true)
+		{
+			temp_Date_Quarter_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager_2.get(1); /* The Date */
 			Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
 			Year = Full_Date_String.substring(0 , 4);
 			Month = Full_Date_String.substring(5 , 7);
