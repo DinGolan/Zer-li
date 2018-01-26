@@ -23,24 +23,24 @@
             <Glow />
          </effect>
       </Label>
-      <Label id="Label_Name_Of_Scheme" fx:id="Label_Name_Of_Scheme" layoutX="48.0" layoutY="149.0" text="Enter Name Of Scheme ---&gt;" textFill="RED">
+      <Label id="Label_Name_Of_Scheme" fx:id="Label_Name_Of_Scheme" layoutX="15.0" layoutY="149.0" text="Enter Name Of Scheme ---&gt;" textFill="RED">
          <effect>
             <Glow />
          </effect>
       </Label>
-      <Label id="Label_User" fx:id="Label_User" layoutX="47.0" layoutY="188.0" text="Enter Name Of User -------&gt;" textFill="RED">
+      <Label id="Label_User" fx:id="Label_User" layoutX="14.0" layoutY="188.0" text="Enter Name Of User -------&gt;" textFill="RED">
          <effect>
             <Glow />
          </effect>
       </Label>
-      <Label id="Label_Password" fx:id="Label_Password" layoutX="47.0" layoutY="228.0" text="Enter Password ------------&gt;" textFill="RED">
+      <Label id="Label_Password" fx:id="Label_Password" layoutX="14.0" layoutY="228.0" text="Enter Password ------------&gt;" textFill="RED">
          <effect>
             <Glow />
          </effect>
       </Label>
-      <TextField id="txtScheme" fx:id="txtScheme" layoutX="201.0" layoutY="145.0" />
-      <TextField id="txtUser" fx:id="txtUser" layoutX="201.0" layoutY="184.0" />
-      <PasswordField id="txtPassword" fx:id="txtPassword" layoutX="201.0" layoutY="222.0" />
+      <TextField id="txtScheme" fx:id="txtScheme" layoutX="186.0" layoutY="146.0" />
+      <TextField id="txtUser" fx:id="txtUser" layoutX="186.0" layoutY="185.0" />
+      <PasswordField id="txtPassword" fx:id="txtPassword" layoutX="186.0" layoutY="223.0" />
       <Button id="btnConnect" fx:id="btnConnect" layoutX="191.0" layoutY="268.0" mnemonicParsing="false" onAction="#TryToConnectToServer" prefHeight="25.0" prefWidth="69.0" text="Connect" textFill="RED">
          <effect>
             <Glow />
