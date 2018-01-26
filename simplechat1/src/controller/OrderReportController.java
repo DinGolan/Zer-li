@@ -32,36 +32,51 @@ import javafx.stage.Stage;
 
 public class OrderReportController implements Initializable{
 
+	/**
+	 * This Variable Help Me To Load The ComboBox Of Store's .
+	 */
 	private Store store;
+	
+	/**
+	 * This Variable Helping To Transfer Message From the Client to the DB .
+	 */
 	private Message msg;
+	
+	/**
+	 * Variabel's That Help Me To Show The Product Type In The BarChart . 
+	 */
 	private static String[] Type_Of_Products_In_Order = {"BOUQUET","ARRANGEMENT","VASE","BRIDAL_BOUQUET","FLOWER_CROWN","SWEET_BOUQUET","WREATH_FLOWERS"};
 	
-/* -------------------------  For The Window Of Order Report ----------------------------------- */		
+/* -------------------------  For The Window Of Order Report - For Store Manager ----------------------------------- */		
 	
 	 @FXML
-	 private TextField txtStoreID;                /* Text Field Of the Store ID */
+	 private TextField txtStoreID;                			/* Text Field Of the Store ID */
 	
 	 @FXML
-	 private TextField txtYear;                   /* Text Field Of The Year */
+	 private TextField txtYear;                   			/* Text Field Of The Year */
 
 	 @FXML
-	 private TextField txtNumberOfQuarter;        /* Text Field Of The Number Of Quarter */
+	 private TextField txtNumberOfQuarter;        			/* Text Field Of The Number Of Quarter */
 	
 	 @FXML
 	 private BarChart<String, Integer> ChartOrderReport;    /* Bar Chart */
 
 	 @FXML
-	 private CategoryAxis X_ProductType;            /* Axis X of the - Bar Chart */
+	 private CategoryAxis X_ProductType;            		/* Axis X of the - Bar Chart */
 
 	 @FXML
-	 private NumberAxis Y_OrderSpecificStore;       /* Axis Y of the - Bar Chart */
+	 private NumberAxis Y_OrderSpecificStore;       		/* Axis Y of the - Bar Chart */
 	 
 	 @FXML
-	 private Button btnClose;                       /* Button For Close The Window */
+	 private Button btnClose;                      			 /* Button For Close The Window */
 	 
 /* --------------------------------- Loading Store To the Text Fields ------------------------------------------------- */	 
 	 
-	public void loadStore(Store s) 					/* To load the Store details to the text fields */
+	/**	
+	* In This Function We Load The Number ID Of Specific Store .
+	* @param s
+	*/
+	public void loadStore(Store s) 						
 	{ 
 		this.store = s;
 		this.txtStoreID.setText(String.valueOf(store.getStoreId()));
@@ -69,6 +84,11 @@ public class OrderReportController implements Initializable{
 	
 /* --------------------------------- Close the Order Report Window ------------------------------------------------- */	 	
 	
+	/**
+	* In This Function I close The GUI Of Order Report Of the First Store Of The Store Manager .
+	* @param event - When Client Press On the Button This Parameter Start To Work . 
+	* @throws Exception
+	*/
 	public void closeOrderReportWindow(ActionEvent event) throws Exception   
 	{ 
 		StoreManagerUI.stores.clear();
@@ -80,11 +100,14 @@ public class OrderReportController implements Initializable{
 		Scene scene = new Scene(root);
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);		
-		primaryStage.show();										   /* show catalog frame window */
+		primaryStage.show();										   
 	}
 
 /* --------------------------------- Initialize The Bar Chart Of the Order Report ------------------------------------------------- */	 	
 	
+	/** 
+	 * In This Function We Initialize The GUI Of Order Report Of the First Store Of The Store Manager .
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) 
 	{
@@ -108,7 +131,7 @@ public class OrderReportController implements Initializable{
 		}
 		else
 		{
-			temp_Date_Quarter_Report = (Date)StoreManagerUI.Help_To_Transfer_Object_At_Order_Report.get(1);                             /* The Date */
+			temp_Date_Quarter_Report = (Date)StoreManagerUI.Help_To_Transfer_Object_At_Order_Report.get(1); /* The Date */
 			Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
 			Year = Full_Date_String.substring(0 , 4);
 			Month = Full_Date_String.substring(5 , 7);
@@ -167,9 +190,9 @@ public class OrderReportController implements Initializable{
 		int [] Count_In_Chart;
 		Product.ProductType product_Type;
 		ArrayList<Product.ProductType> productType_Of_Specific_Order_Of_Specific_Store = new ArrayList<Product.ProductType>();   /* All the Product That We Order On Specific Store */
-		ArrayList<Order> orders = new ArrayList<Order>();                         						   /* All The Orders That We Order On Specific Store */
+		ArrayList<Order> orders = new ArrayList<Order>();                         						   						 /* All The Orders That We Order On Specific Store */
 		
-		for(int i = 0 ; i < StoreManagerUI.orders.size() ; i++)                                                  /* In This Loop We Initialize All the Orders At ArrayList Of Orders */                                             
+		for(int i = 0 ; i < StoreManagerUI.orders.size() ; i++)                                                 				 /* In This Loop We Initialize All the Orders At ArrayList Of Orders */                                             
 		{
 			orders.add(StoreManagerUI.orders.get(i));
 			

@@ -131,6 +131,10 @@ public class OrderController implements Initializable{
 	
 	public static double balance = 0;
 	
+	/**
+	 * call function that set comboBox of the products in the customer
+	 * cart, set the price. set textfield of ending order. 
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) // Initialized The ComboBox of the Product 
 	{
@@ -156,6 +160,11 @@ public class OrderController implements Initializable{
 		}
 	}
 	
+	/**
+	 * set in comboBox the products the customer add to his cart
+	 * (by taking the hashMap and put every single product in it)
+	 * update the price in textfield.
+	 */
 	public void setComboBoxAndPrice() // set comboBox of products
 	{
 		   ArrayList<String> productsNames = new ArrayList<String>();
@@ -179,6 +188,12 @@ public class OrderController implements Initializable{
 			txtPrice.setText(String.valueOf(totalPrice));
 	}
 	
+	/**
+	 * the customer have an option to regret and remove products
+	 * from his cart.
+	 * @param event - customer click "remove" button
+	 * @throws Exception - if we can't load the fxml file
+	 */
 	public void removeProduct(ActionEvent event) throws Exception // remove product from cart
 	{
 		String productToRemove = cmbProducts.getValue();
@@ -199,6 +214,12 @@ public class OrderController implements Initializable{
 			}
 	}
 	
+	/**
+	 * go back from watching customer cart to one of the two options:
+	 * catalog or self definition options, it depend where he "came" from
+	 * @param event - customer click "back" button
+	 * @throws Exception - if we can't load the fxml file 
+	 */
 	public void closeCarttWindow(ActionEvent event) throws Exception  /* To close the The Window of the Product GUI and Show The Catalog GUI again */
 	{ 
 		Pane root;
@@ -226,6 +247,12 @@ public class OrderController implements Initializable{
 		primaryStage.show();									 /* show catalog frame window */
 	}
 	
+	/**
+	 * after the customer satisfied with his products in cart
+	 * we open the order form for him to fill
+	 * @param event - customer click "continue to order" button
+	 * @throws Exception - if we can't load the fxml file
+	 */
 	public void continueToOrder(ActionEvent event) throws Exception  /* To close the The Window of the Product GUI and Show The Catalog GUI again */
 	{ 
 		if(CatalogController.order.getProductsInOrder().size() > 0)
@@ -258,6 +285,16 @@ public class OrderController implements Initializable{
 			primaryStage.show();									 /* show catalog frame window */
 		}
 	}
+	
+	/**
+	 * after customer fill the order form we check every single
+	 * field and buttons. if all the values the customer insert
+	 * are valid: we save in the data base the order, if the customer
+	 * chose to use his balance we update his balance, we save
+	 * the payment method and all the other details of the order. 
+	 * @param event - customer click "order now" button
+	 * @throws Exception - if we can't load the fxml file
+	 */
 	public void checkAndSaveOrderDetails(ActionEvent event) throws Exception  /*check all order fields and save in DB*/
 	{
 		String phoneNumber = txtRecipientsPhoneNumber.getText();
@@ -478,39 +515,83 @@ public class OrderController implements Initializable{
 		}
 	}
 	
-	public void AddPostCard(ActionEvent event) throws Exception  /*  */
+	
+	 /**
+	  * if the customer want to add postcard we turn the post card
+	  * field to editable and the "Not add post card" radio button 
+	  * to not selected.
+	  * @param event - customer click "yes" radio button (yes for - 
+	  * add post card)
+	  */
+	public void AddPostCard(ActionEvent event)  /*  */
 	{
 		rdbtnNoAddPostCard.setSelected(false);
 		txtPostCard.setEditable(true);
 	}
 	
-	public void NotAddPostCard(ActionEvent event) throws Exception  /*  */
+	
+	 /**
+	  * if the customer don't want to add postcard we turn the post card
+	  * field to Not editable and the "add post card" radio button 
+	  * to not selected. we empty the post card text Area in this case.
+	  * @param event - customer click "No" radio button (No for - 
+	  * Not adding post card)
+	  */
+	public void NotAddPostCard(ActionEvent event)  /*  */
 	{
 		txtPostCard.setText("");
 		rdbtnAddPostCard.setSelected(false);
 		txtPostCard.setEditable(false);
 	}
 	
-	public void payCash(ActionEvent event) throws Exception  /*  */
+	 /**
+	  * if the customer want to pay in Cash we turn the 
+	  * "PayByCreditcard" radio button to not selected.
+	  * @param event - customer click "Cash" radio button
+	  */
+	public void payCash(ActionEvent event)  /*  */
 	{
 		rdbtnCredirCard.setSelected(false);
 	}
 	
-	public void PayByCreditcard(ActionEvent event) throws Exception  /*  */
+	 /**
+	  * if the customer want to pay By Credit card we turn the 
+	  * "payCash" radio button to not selected.
+	  * @param event - customer click "Creditcard" radio button
+	  */
+	public void PayByCreditcard(ActionEvent event)  /*  */
 	{
 		rdbtnCash.setSelected(false);
 	}
 	
-	public void useAccountBalace(ActionEvent event) throws Exception  /*  */
+	 /**
+	  * if the customer want to use his account balance
+	  * we turn the "dontUseAccountBalace" radio button to not selected.
+	  * @param event - customer click "Yes" radio button (yes for - 
+	  * use Account Balance)
+	  */
+	public void useAccountBalace(ActionEvent event)  /*  */
 	{
 		rdbtnDontUseAccountBalance.setSelected(false);
 	}
-	public void dontUseAccountBalace(ActionEvent event) throws Exception  /*  */
+	
+	 /**
+	  * if the customer dont want to use his account balance
+	  * we turn the "useAccountBalace" radio button to not selected.
+	  * @param event - customer click "No" radio button (No for - 
+	  * not using Account Balance)
+	  */
+	public void dontUseAccountBalace(ActionEvent event) /*  */
 	{
 		rdbtnUseAccountBalance.setSelected(false);
 	}
 	
-	
+	 /**
+	  * if the customer want to pickup his order
+	  * we turn the "Delivery" radio button to not selected.
+	  * we empty the textfields of Delivery and turn them to Not Editable.
+	  * @param event - customer click "Pickup" radio button 
+	  */
 	public void supplyByPickup(ActionEvent event) throws Exception  /*  */
 	{
 		deliveryFlag = false;
@@ -525,6 +606,12 @@ public class OrderController implements Initializable{
 		txtTotalOrderPrice.setText(String.valueOf(totalPrice));
 	}
 	
+	 /**
+	  * if the customer want supply By Delivery
+	  * we turn the "Pickup" radio button to not selected.
+	  * we empty turn the textfields of Delivery to Editable.
+	  * @param event - customer click "Delivery" radio button 
+	  */
 	public void supplyByDelivery(ActionEvent event) throws Exception  /*  */
 	{
 		deliveryFlag = true;
@@ -536,6 +623,11 @@ public class OrderController implements Initializable{
 		txtTotalOrderPrice.setText(String.valueOf(totalPrice));
 	}
 	
+	/**
+	 * return to "order form" from error message
+	 * @param event - customer click "back" button
+	 * @throws Exception - if we can't load the fxml file
+	 */
 	public void backToOrder(ActionEvent event) throws Exception  /*  */
 	{
 		if(deliveryFlag == true)
@@ -555,6 +647,12 @@ public class OrderController implements Initializable{
 		primaryStage.show();									 /* show catalog frame window */
 	}
 	
+	
+	/**
+	 * return to "Customer Options" window
+	 * @param event - customer click "back" button
+	 * @throws Exception - if we can't load the fxml file
+	 */
 	public void backToCustomerOption(ActionEvent event) throws Exception
 	{
 		flag=0;

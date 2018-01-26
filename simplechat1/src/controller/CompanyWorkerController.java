@@ -24,7 +24,8 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
- * controller for the Company Worker options
+ * controller for the Company Worker options - add product, delete product,
+ * update product, add sale to specific store, remove sale 
  *
  */
 public class CompanyWorkerController implements Initializable {
@@ -77,7 +78,11 @@ public class CompanyWorkerController implements Initializable {
 	
 	ObservableList<String> productsId = FXCollections.observableArrayList();
     
-    
+    /**
+     * call function that set comboBox of products Id
+     * for Company Worker, that he can choose one of
+     * the products and update/delete it.
+     */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) // Initialized The ComboBox of the Product 
 	{
@@ -85,6 +90,12 @@ public class CompanyWorkerController implements Initializable {
 			setProductComboBox();
 	}
 
+	/**
+	 * open "Update product" window that the Company Worker can
+	 * choose one of the product id from the comboBox
+	 * @param event - Company Worker click "update" button
+	 * @throws Exception - if we can't load the fxml file
+	 */
 	public void openUpdateProduct(ActionEvent event) throws Exception {
 		cwflag = 1;
 		ProductController.flag = 0;
@@ -100,6 +111,11 @@ public class CompanyWorkerController implements Initializable {
 		primaryStage.show();
 	}
 	
+	/**
+	 * set comboBox of products Id
+     * for Company Worker, that he can choose one of
+     * the products and update/delete it.
+	 */
 	public void setProductComboBox(){
 		int j;
 		msg = new Message(null,"get all products in DB");
@@ -118,6 +134,12 @@ public class CompanyWorkerController implements Initializable {
 		cmbPid.setItems(productsId);
 	}
 	
+	/**
+	 * open "product info" window that the Company Worker can
+	 * update the product by change it name, price, color, type
+	 * @param event - Company Worker click "update" button
+	 * @throws Exception - if we can't load the fxml file
+	 */
 	public void openProductInfoWindow(ActionEvent event) throws Exception { // open info window of the product the user want info of.
 		if(cmbPid.getValue() != null)
 		{
@@ -155,6 +177,11 @@ public class CompanyWorkerController implements Initializable {
 		}
 	}
 	
+	/**
+	 * function to open "add new product" window
+	 * @param event - Company Worker click "add new product" button 
+	 * @throws Exception - if we can't load the fxml file
+	 */
 	public void addNewProductWindow(ActionEvent event) throws Exception { // open info window of the product the user want info of.
 		ProductController.flag = 0;
 			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
@@ -170,6 +197,11 @@ public class CompanyWorkerController implements Initializable {
 		
 	}
 	
+	/**
+	 * function to open "remove product" window
+	 * @param event - Company Worker click "remove product" button
+	 * @throws Exception - if we can't load the fxml file
+	 */
 	public void removeProductWindow(ActionEvent event) throws Exception { // open info window of the product the user want info of.
 		cwflag = 1;
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
@@ -185,6 +217,12 @@ public class CompanyWorkerController implements Initializable {
 	
 }
 	
+	/**
+	 * "getProductIndext" - search, find and return the product Id from combo-Box
+	 * that the Company Worker choose to remove or update
+	 * @param pId - gets the product ID to find it in the products list
+	 * @return - return the Product id that the Company Worker want to remove/update
+	 */
 	public int getProductIndext(String pid) // return the index of the product the user want info of. 
 	{
 		int i;
@@ -196,6 +234,11 @@ public class CompanyWorkerController implements Initializable {
 		return i;
 	}
 	
+	/**
+	 * open "Company Worker Options" window
+	 * @param event - Company Worker click "back" button
+	 * @throws Exception - if we can't load the fxml file
+	 */
 	public void backToCompanyWorkerOptions(ActionEvent event) throws Exception { // open info window of the product the user want info of.
 
 			cwflag=0;
@@ -210,6 +253,11 @@ public class CompanyWorkerController implements Initializable {
 			primaryStage.show();
 	}
 	
+	/**
+	 * logout - customer logout the system and "UserLogin" window open.
+	 * @param event - the customer clicked "logout" Hyperlink 
+	 * @throws Exception - if we can't load the fxml file
+	 */
 	public void logout(ActionEvent event) throws Exception /* With this Method we show the GUI of the First Window */
 	{
 		Message msg = new Message(UserUI.user.getId(), "change User status to DISCONNECTED");
@@ -225,6 +273,12 @@ public class CompanyWorkerController implements Initializable {
 		primaryStage.show();
 	}
 	
+	/**
+	 * open "product info" window that the Company Worker can
+	 * remove the product he choose
+	 * @param event - Company Worker click "remove product" button
+	 * @throws Exception - if we can't load the fxml file
+	 */
 	public void openProductInfoToDeleteWindow(ActionEvent event) throws Exception { // open info window of the product the user want info of.
 		if(cmbPid.getValue() != null)
 		{
@@ -262,6 +316,11 @@ public class CompanyWorkerController implements Initializable {
 		}
 	}
 	
+	/**
+	 * open "Sale Options" window for the Company Worker 
+	 * @param event - Company Worker click "Update, add or remove sales" button
+	 * @throws Exception - if we can't load the fxml file
+	 */
 	public void updateSales(ActionEvent event) throws Exception /* With this Method we show the GUI of the First Window */
 	{
 		((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
@@ -275,6 +334,11 @@ public class CompanyWorkerController implements Initializable {
 		primaryStage.show();
 	}
 	
+	/**
+	 * open "update or remove sale" window for the Company Worker 
+	 * @param event - Company Worker click "update or remove sales" button
+	 * @throws Exception - if we can't load the fxml file
+	 */
 	public void updateSalesInStore(ActionEvent event) throws Exception /* With this Method we show the GUI of the First Window */
 	{
 		ProductInSaleController.flag = 1;
@@ -289,6 +353,11 @@ public class CompanyWorkerController implements Initializable {
 		primaryStage.show();
 	}
 	
+	/**
+	 * open "add sale" window for the Company Worker 
+	 * @param event - Company Worker click "add sales" button
+	 * @throws Exception - if we can't load the fxml file
+	 */
 	public void addSalesInStore(ActionEvent event) throws Exception /* With this Method we show the GUI of the First Window */
 	{
 		ProductInSaleController.flag = 3;

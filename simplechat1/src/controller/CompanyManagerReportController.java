@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import boundery.CompanyManagerUI;
-import boundery.StoreManagerUI;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,7 +12,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -22,17 +20,31 @@ import javafx.stage.Stage;
 
 public class CompanyManagerReportController implements Initializable {
 
+	/**
+	 * With This Flag I Know If The Company Manager Choose One Store Or Two Store .
+	 */
 	public static int Integer_The_Option_You_Choose;
 	private String String_The_Option_You_Choose;
-	private static int itemIndex = 0; 		/* This Variable Need for the the Case - that we not choose any Option - So By Default it will Be The Index 0 Its Mean - One */
+	
+	/**
+	 * Defult Index If I Not Choose Any Option From the Combo Box Of Option . 
+	 */
+	private static int itemIndex = 0; 
+	
+	/**
+	 * Flag That Help Me To Know To Which GUI Window in Need To Return .
+	 */
 	public static int Flag_For_Return_Window_With_One_Store_Or_With_Two_Store = 1;
 	
+	/**
+	 * ObservableList That Help Me To Initalized The Combo Box Of Option That Have To The Company Manager .
+	 */
 	ObservableList<String> OptionList;
 	
-/* -------------------------  For The First Window Of Company Manager Report ----------------------------------- */	
+/* -------------------------  For The First Window Of Company Manager Report ------------------------------------------------------------------------ */	
 
 	@FXML
-	private ComboBox<String> cmbOptions;  				    /* ComboBox With List Of Option To See The Amount Of Store */
+	private ComboBox<String> cmbOptions;  				    
 	
 	@FXML
 	private Button btnClick;
@@ -42,6 +54,11 @@ public class CompanyManagerReportController implements Initializable {
 	
 /* ------------------------------------- The First Option Is - To see 1 Store , The Second Option Is to see 2 Store --------------------------------- */	
 	
+	/**
+	 * In This Function I Decide How Much Store I Want to Watch .
+	 * @param event - When The Client Click On The Button The Parameter Start To Work .
+	 * @throws Exception
+	 */
 	public void Button_To_See_One_Store_Or_Two_Store(ActionEvent event) throws Exception
 	{
 		String_The_Option_You_Choose = CompanyManagerUI.Option_Of_See_One_Store_Or_To_Store_For_Company_Manager.get(getItemIndex_For_Company_Mangager_For_Option());
@@ -50,14 +67,15 @@ public class CompanyManagerReportController implements Initializable {
 		if(Integer_The_Option_You_Choose == 1)
 		{
 			Flag_For_Return_Window_With_One_Store_Or_With_Two_Store = 1;
-			((Node)event.getSource()).getScene().getWindow().hide();    			  /* Hiding primary window */
+			((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
 			Stage primaryStage = new Stage();
 			FXMLLoader loader = new FXMLLoader();
 			Pane root = loader.load(getClass().getResource("/controller/CompanyManagerReportForm_Window_Only_One_Store.fxml").openStream());
 			
 			Scene scene = new Scene(root);
 			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-			primaryStage.setScene(scene);		
+			primaryStage.setScene(scene);
+			primaryStage.setTitle("----- Company Manager Report ---> Watch One Store -----");
 			primaryStage.show();
 			
 		}
@@ -71,14 +89,19 @@ public class CompanyManagerReportController implements Initializable {
 
 			Scene scene = new Scene(root);
 			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-			primaryStage.setScene(scene);		
+			primaryStage.setScene(scene);	
+			primaryStage.setTitle("----- Company Manager Report ---> Watch Two Store -----");
 			primaryStage.show();
 		}
 	}
 	
-/* -------------------------- Taking Store From The Combo Box of Store ------------------------------------ */	
+/* -------------------------- Taking Option From The Combo Box of Option ------------------------------------ */	
 	
-	public int getItemIndex_For_Company_Mangager_For_Option()                                   	/* With this Method we Take User from the List of the Users at the ComboBox */
+	/**
+	 * In this Function I return My Choise From the ComboBox Of Option . 
+	 * @return
+	 */
+	public int getItemIndex_For_Company_Mangager_For_Option()                                   
 	{
 		if(cmbOptions.getSelectionModel().getSelectedIndex() == -1)
 			return itemIndex;
@@ -86,8 +109,13 @@ public class CompanyManagerReportController implements Initializable {
 		return cmbOptions.getSelectionModel().getSelectedIndex();
 	}
 	
-/* --------------------------------- Close the Store Manager Report Window ------------------------------------------------- */	 	
+/* --------------------------------- Close the Company Manager Report Window -------------------------------- */	 	
 	
+	/**
+	 * In This Function We Close One Of the Company Manager GUI .
+	 * @param event - When The Client Click On The Button The Parameter Start To Work .
+	 * @throws Exception
+	 */
 	public void closeCompanyManagerReportWindow(ActionEvent event) throws Exception   
 	{ 
 		CompanyManagerUI.stores_For_Company_Manager.clear();
@@ -99,13 +127,17 @@ public class CompanyManagerReportController implements Initializable {
 		
 		Scene scene = new Scene(root);
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-		primaryStage.setScene(scene);		
-		primaryStage.show();										   /* show catalog frame window */
+		primaryStage.setScene(scene);
+		primaryStage.setTitle("----- Company Manager Option -----");
+		primaryStage.show();										   
 	}
 	
-/* ----------------------------------------- Set The Combo Box Of Option's ----------------------------------- */		
+/* ----------------------------------------- Set The Combo Box Of Option's ---------------------------------- */		
 	
-	public void setOptionsComboBox()    								/* In this Method we Set the Stores at the ComboBox */
+	/**
+	 * In This Function We Set The Option That We Have in ComboBox . 
+	 */
+	public void setOptionsComboBox()    								
 	{ 				
 		CompanyManagerUI.Option_Of_See_One_Store_Or_To_Store_For_Company_Manager.clear();
 		ArrayList<String> Option_To_See_Amount_Of_Store = new ArrayList<String>();	 
@@ -120,8 +152,11 @@ public class CompanyManagerReportController implements Initializable {
 		cmbOptions.setItems(OptionList);
 	}
 	
-/* -------------------------------- Initialized The ComboBox In the First Window - Of The Options ComboBox GUI ------------------------------- */		
+/* -------------------------------- Initialized The ComboBox In the First Window - Of The Options ComboBox GUI ---------------------------------------- */		
 	
+	/**
+	 * Initialize One Of the GUI ---> Of The Comapny Manager .
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{

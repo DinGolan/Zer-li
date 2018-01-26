@@ -48,8 +48,14 @@
       <TextField id="txtUserPhone" fx:id="txtUserPhone" editable="false" layoutX="205.0" layoutY="250.0" prefHeight="25.0" prefWidth="230.0" />
       <TextField id="txtUserName" fx:id="txtUserName" editable="false" layoutX="205.0" layoutY="188.0" prefHeight="25.0" prefWidth="230.0" />
       <TextField id="txtUserPassword" fx:id="txtUserPassword" editable="false" layoutX="205.0" layoutY="309.0" prefHeight="25.0" prefWidth="230.0" />
-      <Button id="btnUpdate" fx:id="btnUpdate" layoutX="204.0" layoutY="521.0" mnemonicParsing="false" onAction="#updateUser" text="Update" />
-      <Button id="btnClose" fx:id="btnClose" layoutX="390.0" layoutY="521.0" mnemonicParsing="false" onAction="#closeUserWindow" text="Close" />
+      <Button id="btnUpdate" fx:id="btnUpdate" layoutX="205.0" layoutY="515.0" mnemonicParsing="false" onAction="#updateUser" text="Update">
+         <font>
+            <Font name="System Italic" size="12.0" />
+         </font></Button>
+      <Button id="btnClose" fx:id="btnClose" layoutX="380.0" layoutY="515.0" mnemonicParsing="false" onAction="#closeUserWindow" prefHeight="25.0" prefWidth="55.0" text="Close">
+         <font>
+            <Font name="System Italic" size="12.0" />
+         </font></Button>
       <ComboBox id="cmbPremmission" fx:id="cmbPremmission" layoutX="204.0" layoutY="375.0" prefHeight="25.0" prefWidth="230.0" />
       <ComboBox id="cmbStatus" fx:id="cmbStatus" layoutX="204.0" layoutY="441.0" prefHeight="25.0" prefWidth="230.0" />
    </children>

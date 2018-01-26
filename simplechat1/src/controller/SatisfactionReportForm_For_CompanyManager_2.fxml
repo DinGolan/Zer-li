@@ -26,7 +26,7 @@
             <Font name="System Italic" size="16.0" />
          </font>
       </Label>
-      <TextField id="txtTotalAvgRank" fx:id="txtTotalAvgRank" editable="false" layoutX="262.0" layoutY="160.0" prefHeight="25.0" prefWidth="53.0" />
+      <TextField id="txtTotalAvgRank" fx:id="txtTotalAvgRank" editable="false" layoutX="262.0" layoutY="160.0" prefHeight="25.0" prefWidth="102.0" />
       <BarChart id="Chart_SatisfactionReport" fx:id="Chart_SatisfactionReport" layoutX="23.0" layoutY="201.0" prefHeight="423.0" prefWidth="584.0" title="Satisfaction Of The User's">
         <xAxis>
           <CategoryAxis id="X_Questions" fx:id="X_Questions" label="Questions" side="BOTTOM" />
@@ -47,11 +47,11 @@
          </font>
       </Label>
       <TextField id="txtNumberOfQuarter" fx:id="txtNumberOfQuarter" editable="false" layoutX="486.0" layoutY="114.0" prefHeight="25.0" prefWidth="60.0" />
-      <Label layoutX="338.0" layoutY="160.0" text="Number Of Client : ">
+      <Label layoutX="371.0" layoutY="160.0" text="Number Of Client : ">
          <font>
             <Font name="System Italic" size="16.0" />
          </font>
       </Label>
-      <TextField id="txtNumberOfClient" fx:id="txtNumberOfClient" editable="false" layoutX="478.0" layoutY="160.0" prefHeight="25.0" prefWidth="39.0" />
+      <TextField id="txtNumberOfClient" fx:id="txtNumberOfClient" editable="false" layoutX="507.0" layoutY="160.0" prefHeight="25.0" prefWidth="39.0" />
    </children>
 </AnchorPane>

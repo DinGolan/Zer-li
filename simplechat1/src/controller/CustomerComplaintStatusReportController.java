@@ -29,12 +29,25 @@ import javafx.scene.chart.XYChart;
 
 public class CustomerComplaintStatusReportController implements Initializable {
 
+	/**
+	 * This Variable Help Me To Load The ComboBox Of Store's .
+	 */
 	private Store store;
+	
+	/**
+	 * This Variable Helping To Transfer Message From the Client to the DB .
+	 */
 	private Message msg;
+	
+	/**
+	 * Variabel's That Help Me To Show The Month In The BarChart . 
+	 */
 	private static String[] Month_Of_Quarter_One = {"January","Febuary","March"};
 	private static String[] Month_Of_Quarter_Two = {"April","May","June"};
 	private static String[] Month_Of_Quarter_Three = {"July","August","September"};
 	private static String[] Month_Of_Quarter_Four = {"October","November","December"};
+	
+	/* -------------------------  For The Window Of First Store - Customer Complaint Report - For The Store Manager ----------------------------------- */	
 	
 	 @FXML
 	 private TextField txtStoreID;
@@ -58,14 +71,23 @@ public class CustomerComplaintStatusReportController implements Initializable {
 	 private Button btnClose;
 	 
 	 
-	
-	public void loadStore(Store s) 					/* To load the User details to the text fields */
+	/**	
+	* In This Function We Load The Number ID Of Specific Store .
+	* @param s
+	*/
+	public void loadStore(Store s) 					
 	{ 
 		this.store = s;
 		this.txtStoreID.setText(String.valueOf(store.getStoreId()));
 	}
 	
-	public void closeCustomerComplaintStatusReportWindow(ActionEvent event) throws Exception    /* To close the The Window of the Product GUI and Show The Catalog GUI again */
+	
+	/**
+	* In This Function I close The GUI Of Customer Complaint Report Of the First Store Of The Store Manager .
+	* @param event - When Client Press On the Button This Parameter Start To Work . 
+	* @throws Exception
+	*/
+	public void closeCustomerComplaintStatusReportWindow(ActionEvent event) throws Exception    
 	{ 
 		StoreManagerUI.stores.clear();
 		((Node)event.getSource()).getScene().getWindow().hide(); 	 /* Hiding primary window */
@@ -75,10 +97,15 @@ public class CustomerComplaintStatusReportController implements Initializable {
 		
 		Scene scene = new Scene(root);
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-		primaryStage.setScene(scene);		
-		primaryStage.show();										   /* show catalog frame window */
+		primaryStage.setScene(scene);
+		primaryStage.setTitle("----- Store Manager Report Form -----");
+		primaryStage.show();										 
 	}
 	
+	
+	/** 
+	 * In This Function We Initialize The GUI Of Customer Complaint Report Of the First Store Of The Store Manager .
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) 
 	{
@@ -103,7 +130,7 @@ public class CustomerComplaintStatusReportController implements Initializable {
 		}
 		else 
 		{
-			temp_Date_Quarter_Report = (Date)StoreManagerUI.Help_To_Transfer_Object_At_Order_Report.get(1);                             /* The Date */
+			temp_Date_Quarter_Report = (Date)StoreManagerUI.Help_To_Transfer_Object_At_Order_Report.get(1); /* The Date */
 			Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
 			Year = Full_Date_String.substring(0 , 4);
 			Month = Full_Date_String.substring(5 , 7);
@@ -131,9 +158,9 @@ public class CustomerComplaintStatusReportController implements Initializable {
 		}
 		
 		ArrayList<Object> StoreID_And_Date_Of_Report = new ArrayList<Object>();
-		StoreID_And_Date_Of_Report.add(StoreManagerUI.Help_To_Transfer_Object_At_Complaint_Report.get(0));    /* The Store Id */
-		StoreID_And_Date_Of_Report.add(StoreManagerUI.Help_To_Transfer_Object_At_Complaint_Report.get(1));    /* The Date Of the Report */
-		msg = new Message(StoreID_And_Date_Of_Report, "Store Manager - Take The Complaints Of Specific Store"); 		/* I take All the Orders Of Specific Store , And After That I Take All the Complaint Of All The Order Of the Specific Store */
+		StoreID_And_Date_Of_Report.add(StoreManagerUI.Help_To_Transfer_Object_At_Complaint_Report.get(0));    			 /* The Store Id */
+		StoreID_And_Date_Of_Report.add(StoreManagerUI.Help_To_Transfer_Object_At_Complaint_Report.get(1));   			 /* The Date Of the Report */
+		msg = new Message(StoreID_And_Date_Of_Report, "Store Manager - Take The Complaints Of Specific Store"); 		 /* I take All the Orders Of Specific Store , And After That I Take All the Complaint Of All The Order Of the Specific Store */
 		UserUI.myClient.accept(msg);
 		while(StoreManagerUI.complaints.size() == 0)
 		{
@@ -154,24 +181,27 @@ public class CustomerComplaintStatusReportController implements Initializable {
 
 /* --------------------------------- Initialize The Customer Complaint And The Month Of the Complaint At the Bar Chart ------------------------------------------------- */	 			
 	
+	/**
+	 * In This Function I Initialize The BarChart . 
+	 */
 	public void Put_At_The_Chart_All_The_Complaints()
 	{
 		int [] Count_In_Chart;
-		ArrayList<String> Months_Of_Complaint = new ArrayList<String>();   /* All the Product That We Order On Specific Store */
+		ArrayList<String> Months_Of_Complaint = new ArrayList<String>();   								/* All the Product That We Order On Specific Store */
 		ArrayList<String> Month_Of_Complaint_Without_Duplicate = new ArrayList<String>();
 		Date date_Report = (Date)StoreManagerUI.Help_To_Transfer_Object_At_Complaint_Report.get(1);
 		String String_Date_Report = String.valueOf(date_Report);
 		String Month = String_Date_Report.substring(5 , 7);
 		int Integer_Month = Integer.parseInt(Month);
 		                       						  
-		for(int i = 0 ; i < StoreManagerUI.complaints.size() ; i++)             /* In This Loop We Initialize All the Orders At ArrayList Of Orders */                                             
+		for(int i = 0 ; i < StoreManagerUI.complaints.size() ; i++)             						/* In This Loop We Initialize All the Orders At ArrayList Of Orders */                                             
 		{
 			Months_Of_Complaint.add(StoreManagerUI.complaints.get(i).getComplaintMonth());
 		}
 		
-		for(int i = 0 ; i < Months_Of_Complaint.size() ; i++)             /* In This Loop We Initialize All the Orders At ArrayList Of Orders */                                             
+		for(int i = 0 ; i < Months_Of_Complaint.size() ; i++)             								/* In This Loop We Initialize All the Orders At ArrayList Of Orders */                                             
 		{
-			if((Month_Of_Complaint_Without_Duplicate.contains(Months_Of_Complaint.get(i))) == false) /* If Month_Of_Complaint_Without_Duplicate Not Contain */
+			if((Month_Of_Complaint_Without_Duplicate.contains(Months_Of_Complaint.get(i))) == false) 	/* If Month_Of_Complaint_Without_Duplicate Not Contain */
 				Month_Of_Complaint_Without_Duplicate.add(Months_Of_Complaint.get(i));
 		}
 		

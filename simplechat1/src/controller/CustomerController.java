@@ -1,17 +1,13 @@
 package controller;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import boundery.OrderUI;
 import boundery.StoreUI;
 import boundery.UserUI;
 import entity.Message;
-import entity.Order;
 import entity.Store;
-import entity.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -26,6 +22,11 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+/**
+ * controller for the Customer options - make an order, view catalog, 
+ * cancel order, self definition product or view his profile
+ *
+ */
 public class CustomerController implements Initializable{
 
 	public static int cflag =0;
@@ -56,11 +57,19 @@ public class CustomerController implements Initializable{
 	private Button btnSelfDef;
 	
 	@FXML
+	private Button btnBack;
+	
+	
+	@FXML
 	private ComboBox<String> cmbStores = null; /* list of product in cart */
 	
 	ObservableList<String> listForComboBox;
 
-	
+	/**
+	 * open "catalog" window 
+	 * @param event - customer click "view catalog" button
+	 * @throws Exception - if we can't load the fxml file
+	 */
 	public void openCatalogWindow(ActionEvent event) throws Exception {
 		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
 		Stage primaryStage = new Stage();
@@ -74,6 +83,12 @@ public class CustomerController implements Initializable{
 		primaryStage.show();
 	}
 	
+	/**
+	 * open "profile" window - customer can view his orders, his
+	 * account details
+	 * @param event - customer click "view profile" button
+	 * @throws Exception - if we can't load the fxml file
+	 */
 	public void openProfileWindow(ActionEvent event) throws Exception {
 		((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
 		Stage primaryStage = new Stage();
@@ -87,6 +102,12 @@ public class CustomerController implements Initializable{
 		primaryStage.show();
 	}
 	
+	/**
+	 * open "cancel order" window - customer can cancel only his
+	 * orders in condition its not already close order
+	 * @param event - customer click "cancel order" button
+	 * @throws Exception - if we can't load the fxml file
+	 */
 	public void cancelOrderWindow(ActionEvent event) throws Exception { //this method for the option to cancel order- open the instruction
 		((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
 		Stage primaryStage = new Stage();
@@ -99,7 +120,11 @@ public class CustomerController implements Initializable{
 		primaryStage.show();	
 	}
 	
-	
+	/**
+	 * call function "setComboBox" that set stores comboBox that the 
+	 * customer have to choose where he is at (the catalog sales change
+	 * between different stores) 
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) // Initialized The ComboBox of the Product 
 	{
@@ -107,6 +132,12 @@ public class CustomerController implements Initializable{
 			setComboBox();
 	}
 	
+	
+	/**
+	 * logout - customer logout the system and "UserLogin" window open.
+	 * @param event - the customer clicked "logout" button 
+	 * @throws Exception - if we can't load the fxml file
+	 */
 	public void logout(ActionEvent event) throws Exception /* With this Method we show the GUI of the First Window */
 	{
 		flag= false;
@@ -123,6 +154,11 @@ public class CustomerController implements Initializable{
 		primaryStage.show();
 	}
 	
+	/**
+	 * open "customer options" window after the customer choose store he is at
+	 * @param event - customer click "OK" button after he choose store
+	 * @throws Exception - if we can't load the fxml file
+	 */
 	public void openCustomerOptions(ActionEvent event) throws Exception 
 	{
 		if(cmbStores.getValue() != null) 
@@ -142,8 +178,28 @@ public class CustomerController implements Initializable{
 		primaryStage.setScene(scene);		
 		primaryStage.show();
 		}
+		else
+		{
+			flag = true;
+			((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+			Stage primaryStage = new Stage();
+			FXMLLoader loader = new FXMLLoader();
+			Pane root = loader.load(getClass().getResource("/controller/DidNotChooseStore.fxml").openStream());
+			
+			Scene scene = new Scene(root);			
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setTitle("Error Message");
+			primaryStage.setScene(scene);		
+			primaryStage.show();
+		}
 	}
 	
+	/**
+	 * if the customer choose to make an self definition product
+	 * we open "Self Definition Product" window
+	 * @param event - customer click "Self Definition Product" button
+	 * @throws Exception - if we can't load the fxml file
+	 */
 	public void openSelfDef(ActionEvent event) throws Exception {
 		SelfDefenitionProductController.modeFlag = 1;
 		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
@@ -158,6 +214,11 @@ public class CustomerController implements Initializable{
 		primaryStage.show();
 	}
 	
+	/**
+	 * set stores comboBox that the 
+	 * customer have to choose where he is at (the catalog sales change
+	 * between different stores) 
+	 */
 	public void setComboBox()
 	{
 		StoreUI.stores.clear();
@@ -176,11 +237,37 @@ public class CustomerController implements Initializable{
 		cmbStores.setItems(FXCollections.observableArrayList(listForComboBox)); /*  */
 	}
 	
+	
+	/**
+	 * "indexOfStore" - search, find and return the store id from combo-Box
+	 * that the customer choose he is in this store
+	 * @param pId - gets the store ID to find it in the stores list
+	 * @return - return the store Id that the choose
+	 */
 	public int indexOfStore(String address)
 	{
 		for(int i=0 ; i<StoreUI.stores.size() ; i++)
 			if (StoreUI.stores.get(i).getStore_Address().equals(address))
 				return i;
 		return -1;
+	}
+	
+	/**
+	 * back to "choose store" window
+	 * @param event - customer click "back" after error message shown
+	 * @throws Exception - if we can't load the fxml file
+	 */
+	public void backToChooseStore(ActionEvent event) throws Exception {
+		flag = false;
+		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+		Stage primaryStage = new Stage();
+		FXMLLoader loader = new FXMLLoader();
+		Pane root = loader.load(getClass().getResource("/controller/CustomerChooseStore.fxml").openStream());
+		
+		Scene scene = new Scene(root);			
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+		primaryStage.setTitle("Choose store");
+		primaryStage.setScene(scene);		
+		primaryStage.show();
 	}
 }

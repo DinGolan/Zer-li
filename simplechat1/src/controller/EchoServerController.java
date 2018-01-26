@@ -40,7 +40,7 @@ public class EchoServerController implements Initializable {
 	private Parent  root = null;
 	private Stage primaryStage;
 	
-	/* ---------------------------------- Variable Of The GUI -------------------------------------------- */
+	/* ---------------------------------- Variable Of The Echo Server - GUI -------------------------------------------- */
 	
     @FXML
 	private Label txtHeadLine;
@@ -84,6 +84,12 @@ public class EchoServerController implements Initializable {
     @FXML
     private TextArea txtErrMsg_For_Already_Get_In;
     
+    
+    /**
+     * This Function Run The GUI Of The Echo Server .
+     * @param primaryStage
+     * @throws Exception
+     */
 	public void start(Stage primaryStage) throws Exception 
 	{
 		Parent root = FXMLLoader.load(getClass().getResource("/controller/EchoServerForm.fxml"));
@@ -91,9 +97,15 @@ public class EchoServerController implements Initializable {
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesignServerClient.css").toExternalForm()); 
 		primaryStage.setTitle("Server - Managment Tool");
 		primaryStage.setScene(scene);
+		primaryStage.setTitle("Server - Managment Tool");
 		primaryStage.show();
 	}
 	
+	/**
+	 * In This Function We Try To Connect To The Server (To The DB) .
+	 * @param event
+	 * @throws Exception
+	 */
 	@FXML
 	public void TryToConnectToServer(ActionEvent event) throws Exception 
 	{	
@@ -117,15 +129,17 @@ public class EchoServerController implements Initializable {
 			btnExit.setTextFill(Color.GREEN.brighter());
 			server_Is_Up = true;
 			ConnectToServer(event,EchoServerUI.DEFAULT_PORT_For_Server);
-			ThreadController.Flag_For_Thread = 1;   						/* We Change The Flag Of The Thread To = 1 */
+			
+			/* We Change The Flag Of The Thread To = 1 Because I Want That He Will Start To Work */
+			ThreadController.Flag_For_Thread = 1;   
 			
 		}
-		else
+		else 
 		{
 			Flag_Bad_Choise = 1;
 			server_Is_Up = false;
 			System.out.println("You Already_Get_In_Into_The_Server ---> Try Again");
-			((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+			((Node) event.getSource()).getScene().getWindow().hide(); 					/* Hiding primary window */
 			root = FXMLLoader.load(getClass().getResource("/controller/Allready_Get_In_Into_The_Server.fxml"));
 			Scene scene = new Scene(root);
 			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
@@ -135,11 +149,21 @@ public class EchoServerController implements Initializable {
 		}
 	}
 
+	/**
+	 * In This Function We Close The GUI Of The Echo Server .
+	 * @param event
+	 */
 	public void Close_The_Window(ActionEvent event)
 	{
 		((Node) event.getSource()).getScene().getWindow().hide(); 		/* Hiding primary window */
 	}
 	
+	/**
+	 * In This Function We Connect To The DB 
+	 * @param event
+	 * @param Number_Of_Port
+	 * @throws Exception
+	 */
 	public void ConnectToServer(ActionEvent event,int Number_Of_Port) throws Exception 
 	{
 		int port = 0;
@@ -154,7 +178,7 @@ public class EchoServerController implements Initializable {
 		{
 			con = DriverManager.getConnection("jdbc:mysql://localhost/" + Scheme , User_Name , Password);
 		} 
-		catch (SQLException e)  /* Show GUI Error */
+		catch (SQLException e)  									  /* Show GUI Error */
 		{
 			Flag_Bad_Choise = 1;
 			((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
@@ -179,11 +203,11 @@ public class EchoServerController implements Initializable {
 		
 		try 
 		{
-			server.listen(); /* Start listening for connections */
+			server.listen(); 											/* Start listening for connections */
 		} 
 		catch (Exception e) 
 		{
-			((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+			((Node) event.getSource()).getScene().getWindow().hide(); 	/* Hiding primary window */
 			Stage primaryStage = new Stage();
 			root = FXMLLoader.load(getClass().getResource("/controller/Could_Not_Listen_To_Client_AnyMore.fxml"));
 			Scene scene = new Scene(root);
@@ -194,6 +218,11 @@ public class EchoServerController implements Initializable {
 		}
 	}
 
+	/**
+	 * In This Function We try To Login Again To Our GUI Of Echo Server .
+	 * @param event
+	 * @throws Exception
+	 */
 	public void tryAgainLogin(ActionEvent event) throws Exception /* With this Method we show the GUI of the First Window */
 	{
 		((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
@@ -206,6 +235,11 @@ public class EchoServerController implements Initializable {
 		primaryStage.show();
 	}
 	
+	/**
+	 * In This Function We Exit From The Proggram .
+	 * @param event
+	 * @throws Exception
+	 */
 	public void getExitBtn(ActionEvent event) throws Exception /* With this Method we Exit from the Catalog */
 	{
 		System.out.println("Exit From - Login form");
