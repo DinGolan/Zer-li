@@ -2285,9 +2285,9 @@ public class EchoServer extends AbstractServer
 	  try {
 		  stmt = conn.createStatement();
 		  
-		  String UpdateTableAccount = "UPDATE " + Scheme_Name + ".account SET AccountPaymentArrangement =" + "'" + forRenew.get(0) + "'" + "WHERE AccountUserId=" + "'" + forRenew.get(2) + "'" + ";" ;
+		  String UpdateTableAccount = "UPDATE " + Scheme_Name + ".account SET AccountPaymentArrangement =" + "'" + forRenew.get(0) + "'" + "WHERE AccountUserId=" + "'" + forRenew.get(2) + "' AND AccountStoreId=" + forRenew.get(3) + ";" ;
 		  
-		  String UpdateTableAccount2 = "UPDATE " + Scheme_Name + ".account SET AccountSubscriptionEndDate =" + "'" + forRenew.get(1) + "'" + "WHERE AccountUserId=" + "'" + forRenew.get(2) + "'" + ";" ;
+		  String UpdateTableAccount2 = "UPDATE " + Scheme_Name + ".account SET AccountSubscriptionEndDate =" + "'" + forRenew.get(1) + "'" + "WHERE AccountUserId=" + "'" + forRenew.get(2) + "' AND AccountStoreId=" + forRenew.get(3) + ";" ;
 		  
 		  stmt.executeUpdate(UpdateTableAccount);
 		  stmt.executeUpdate(UpdateTableAccount2);

@@ -63,9 +63,6 @@ public class CompanyManagerUI extends Application { 					/* With This Class We S
 	/* Client Console */
 	public static ClientConsole myClient;
 	
-	public static void main( String args[] ) throws Exception {}
-	
-	
 /**
  * The Function 'Start' - This Function run the Application Of The Company Manager If I Not Use With UserUI
  */
