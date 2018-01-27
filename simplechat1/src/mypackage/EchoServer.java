@@ -2369,6 +2369,16 @@ public class EchoServer extends AbstractServer
   		
     }
   
+/**
+ * this function check the end date of survey of specific store 
+ * @param msg - store ID
+ * @param conn - connection to DB
+ * @param start - date
+ * @return - if start date before survey end date rerurn true,
+ * else return false
+ * @throws SQLException
+ * @throws ParseException
+ */
   @SuppressWarnings("unchecked")
   protected boolean checkStoreHasSurvey(Object msg, Connection conn,java.util.Date start) throws SQLException, ParseException
   {
@@ -2627,7 +2637,7 @@ public class EchoServer extends AbstractServer
       }
    
   /**
-    * update the survey result after we initelize it   
+    * update the survey result after we initialize it   
     * @param msg
     * @param conn
     */
@@ -2707,6 +2717,12 @@ public class EchoServer extends AbstractServer
  	 return i;
   }
   
+/**
+ * get all customers Id
+ * @param conn
+ * @return
+ * @throws SQLException
+ */
   protected ArrayList<Integer> getCustomerIdUser(Connection conn) throws SQLException{
  	 
  	 ArrayList<Integer> i = new ArrayList<Integer>();
@@ -2726,7 +2742,11 @@ public class EchoServer extends AbstractServer
 
  	 
   }
-  
+  /**
+   * get all existing products and return it in ArrayList of products
+   * @param conn
+   * @return
+   */
   protected ArrayList<Product> getProductsFromDB(Connection conn) 
   {
    	  ArrayList<Product> products = new ArrayList<Product>();
@@ -2807,7 +2827,13 @@ public class EchoServer extends AbstractServer
 	  return customers;
   }
   
-  
+  /**
+   * get all orders of specific store with status approved for
+   * the store worker that can change their status to receive
+   * @param msg
+   * @param conn
+   * @return
+   */
   protected ArrayList<Integer> getOrdersOfSpecificStoreWithStatusApproved(Object msg, Connection conn)   {
 	  ArrayList<Integer> orders = new ArrayList<Integer>();
 	  int storeNumber = ((int)(((Message)msg).getMsg()));
@@ -2826,6 +2852,13 @@ public class EchoServer extends AbstractServer
 	  return orders;
   }
   
+  /**
+   * get all product in sale of specific store for the catalog
+   * return it in ArrayList of product
+   * @param msg
+   * @param conn
+   * @return
+   */
   protected ArrayList<Product> getProductsInSaleFromDB(Object msg, Connection conn)
   {
 	  ArrayList<Product> products = new ArrayList<Product>();
@@ -2850,6 +2883,13 @@ public class EchoServer extends AbstractServer
 	  return products;
   }
   
+  /**
+   * get all product in sale from data base
+   * return it in ArrayList of product
+   * @param msg
+   * @param conn
+   * @return
+   */
   protected ArrayList<Product> getAllProductsInSaleFromDB(Object msg, Connection conn) 
   {
 	  ArrayList<Product> products = new ArrayList<Product>();
@@ -3066,6 +3106,13 @@ public class EchoServer extends AbstractServer
 	  return o;
  } 
   
+  /**
+   * this function update specific product in data base for 
+   * company worker that can update/add/remove products, we check if he insert
+   * new picture of the product. 
+   * @param msg - object msg with the message of specific product
+   * @param conn -connection to DB
+   */
   protected void UpdateProductAtDB(Object msg, Connection conn) 					     /* This Method Update the DB */
   {
   		Statement stmt;
@@ -3099,6 +3146,12 @@ public class EchoServer extends AbstractServer
   			e.printStackTrace();}
   	}
   
+  /**
+   * this function update product in sale in DB
+   * for the company worker that can update/add/remove sales.
+   * @param msg - object msg with the message of specific product
+   * @param conn -connection to DB
+   */
   protected void UpdateProductInSaleAtDB(Object msg, Connection conn) 				     /* This Method Update the DB */
 	{
 		Statement stmt;
@@ -3118,6 +3171,13 @@ public class EchoServer extends AbstractServer
 			e.printStackTrace();}
 	}
   
+  /**
+   * this product add new product to DB, first we check the maximum 
+   * product Id in DB and than insert the new product. for 
+   * company worker that can update/add/remove products.
+   * @param msg - object msg with the message of specific product
+   * @param conn -connection to DB
+   */
   protected void addProductToDB(Object msg, Connection conn) 						     /* This Method Update the DB */
 	{
 		Statement stmt;
@@ -3149,6 +3209,12 @@ public class EchoServer extends AbstractServer
 			e.printStackTrace();}
 	}
   
+  /**
+   * this function add new sale in DB
+   * for the company worker that can update/add/remove sales.
+   * @param msg - object msg with the message of specific product
+   * @param conn -connection to DB
+   */
   protected void addSaleToDB(Object msg, Connection conn) 							     /* This Method Update the DB */
 	{
 		Statement stmt;
@@ -3167,6 +3233,13 @@ public class EchoServer extends AbstractServer
 			e.printStackTrace();}
 	}
   
+ /**
+   * this function remove specific product from data base for 
+   * company worker that can update/add/remove products. we also delete
+   * all sales that exist of this product.
+   * @param msg - object msg with the message of specific product
+  * @param conn -connection to DB
+  */
   protected void removeProductFromDB(Object msg, Connection conn) 					     /* This Method Update the DB */
 	{
 		Statement stmt;
@@ -3182,6 +3255,12 @@ public class EchoServer extends AbstractServer
 			e.printStackTrace();}
 	}
   
+  /**
+   * this function remove sale from DB
+   * for the company worker that can update/add/remove sales.
+   * @param msg - object msg with the message of specific product
+   * @param conn -connection to DB
+   */
   protected void removeProductInSaleFromDB(Object msg, Connection conn) 			     /* This Method Update the DB */
 	{
 		Statement stmt;
@@ -3605,6 +3684,14 @@ public class EchoServer extends AbstractServer
 	  return success;
   }
   
+  /**
+   * return specific user with the User Name he inserted to "Login"
+   * window, we take all users and than check because the query
+   * Does not distinguish between uppercase and lowercase letters
+   * @param msg - object msg with the message of specific user Name
+   * @param conn -connection to DB
+   * @return - User who suit the User Name
+   */
   protected User getUserStatusFromDB(Object msg, Connection conn) 		 /* This method get products table details from DB */
   {
 	  Statement stmt;
@@ -3655,6 +3742,12 @@ public class EchoServer extends AbstractServer
 	  return user;
   }
   
+  /**
+   * this function change user status to "connected" if he login the system
+   * if the user logout we change his status to "disconnected"
+   * @param msg - specific user Id and message if he login or logout
+   * @param conn -connection to DB
+   */
   protected void changhUserStatus(Object msg, Connection conn) 			 /* This Method Update the DB */
   {
 	  String userId=(String)((Message)msg).getMsg();
@@ -3672,6 +3765,11 @@ public class EchoServer extends AbstractServer
 	  catch (SQLException e) {	e.printStackTrace();}	  
   }
   
+  /**
+   * this function change specific order status to "recived"
+   * @param msg - specific order Id
+   * @param conn -connection to DB
+   */
   protected void changhOrdereStatus(Object msg, Connection conn) 			 /* This Method Update the DB */
   {
 	  int orderId=(int)((Message)msg).getMsg();
@@ -3687,6 +3785,13 @@ public class EchoServer extends AbstractServer
 	  catch (SQLException e) {	e.printStackTrace();}	  
   }
   
+  /**
+   *this function return in ArrayList all survey Id that existing in 
+   *the DB.
+   * @param msg - the message "get Survey"
+   * @param conn -connection to DB 
+   * @return - all survey Id
+   */
   protected ArrayList<Integer> getSurvey(Object msg, Connection conn){
 	  
 	  ArrayList<Integer> Id = new ArrayList<Integer>();
@@ -3704,6 +3809,15 @@ public class EchoServer extends AbstractServer
 	  return Id;
   }
   
+  /**
+   * this function add new order to DB.
+   * first we take the maximum order id, than we check if there is an account
+   * to this customer, if he have an account we insert the order
+   * else, we return "no account" message 
+   * @param msg - specific order we want to insert
+   * @param conn - connection to DB
+   * @return - a message if the customer have an account or not.
+   */
   protected String AddNewOrderToDB(Object msg, Connection conn)    		 /* this method add new account to DB */
   {
 	  Order newOrder = (Order)(((Message)msg).getMsg());
@@ -3750,6 +3864,11 @@ public class EchoServer extends AbstractServer
 	  return "No account";
   }
   
+  /**
+   * this function return all stores Id and their address 
+   * @param conn - connection to DB
+   * @return - ArrayList of all the stores that exist in DB
+   */
   protected ArrayList<Store> getStoresFromDB(Connection conn) 			 /* This method get products table details from DB */
   {
 	  ArrayList<Store> stores = new ArrayList<Store>();
@@ -3771,6 +3890,15 @@ public class EchoServer extends AbstractServer
 	  return stores;
   }
   
+  /**
+   * this function update the customer account subscription , we first check if
+   * the specific account in the store is Annual or monthly  , if the end date
+   * of the subscription over we change the Payment Arrangement to full price
+   * than we return the specific account.
+   * @param msg - user Id and Store id to identify the specific accout
+   * @param conn - connection to DB
+   * @return - the account 
+   */
   protected Account UpdateUserAccountAtDB(Object msg, Connection conn) 	 /* This Method Update the DB */
   {
 	  Account account = new Account();
@@ -3817,6 +3945,14 @@ public class EchoServer extends AbstractServer
 	  return null;
   }
   
+  /**
+   * this function is called from thread every minute , we change order status
+   * from approved to received if the requested supply time over and
+   * the store worker forgot to change it. the company commit to supply
+   * the order in the requested time or within 3 hours in case of
+   * Immediate order.
+   * @param conn - connection to DB
+   */
   public static void changeOrderStatusToRecived(Connection conn) 		 /* This method get products table details from DB */
   {
 	  ArrayList<Order> orders = new ArrayList<>();
@@ -3867,6 +4003,13 @@ public class EchoServer extends AbstractServer
 	  } catch (SQLException e) {	e.printStackTrace();}	
   }
  
+  /**
+   * this function update the balance of specific customer in specific store
+   * in this function we absolutely sure that this customer have an
+   * account in this store.
+   * @param msg - user Id, store id and the new balance.
+   * @param conn - connection to DB
+   */
   protected void UpdateBalaceAtDB(Object msg, Connection conn) 			 /* This Method Update the DB */
   {
 	  Statement stmt;
