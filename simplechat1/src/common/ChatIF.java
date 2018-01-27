@@ -14,18 +14,26 @@ package common;
  */
 public interface ChatIF 
 {
+	
+/**
+ * Method that when overridden is used to display objects onto console
+ */
+  public abstract void display(String message);
+  
   /**
-   * Method that when overriden is used to display objects onto
+   * Method that when overridden is used to display objects onto
    * a UI.
    */
-  public abstract void display(String message);
   public abstract void displayUI(Object message);
+  
   public abstract void sendUser(Object message);
+  
   /**
    * Get an object of message with option to add new account
    * @param message- object of message
    */
   public abstract void addAccount(Object message);
+  
   /**
    * Get an object of message with option to add new complaint
    * @param msg- object of message

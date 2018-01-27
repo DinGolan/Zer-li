@@ -32,9 +32,7 @@ public class StoreManagerController implements Initializable {
     private Button btnViewReport;         			/* Button For View Report */
     
     @FXML
-    private Button btnStoreManagerRenewal;         /* Button For Renewal account */
-    
-    
+    private Button btnStoreManagerRenewal;         /* Button For Renewal account */ 
 
     @FXML
     private Button btnStoreManagerOpenNewAccount;  /* Button For Open New Account */

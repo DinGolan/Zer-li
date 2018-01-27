@@ -160,7 +160,7 @@ public class EchoServer extends AbstractServer
     		
 		}
 	    
-	    if(((Message)msg).getOption().compareTo("Update renew account") == 0) 	    /* Check that we get from DB Because We want to Initialized */
+	    if(((Message)msg).getOption().compareTo("Update renew account") == 0) //update that we renew an account
         {										
 	    	renewAccount(msg,conn);
 		}
@@ -214,7 +214,7 @@ public class EchoServer extends AbstractServer
 	    	removeProductFromDB(msg, conn);
 		}
 	    
-	    if(((Message)msg).getOption().compareTo("Remove Product In Sale from DB") == 0) //check if we remove new product
+	    if(((Message)msg).getOption().compareTo("Remove Product In Sale from DB") == 0) //check if we remove new product in sale
         {
 	    	removeProductInSaleFromDB(msg, conn);
 		}
@@ -286,18 +286,18 @@ public class EchoServer extends AbstractServer
         {									
 	    	changhUserStatus(msg,conn);    
 		}
+	    
 	    if(((Message)msg).getOption().compareTo("change User status to DISCONNECTED") ==0) 	    /* change User status to DISCONNECTED in DB */							
 	    {
 	    	changhUserStatus(msg,conn);    
 	    }
 	    
 	    if(((Message)msg).getOption().compareTo("get all the survey") ==0) 	    /* get all survey ID */							
-	    {
-	    	
+	    {	
 	    	((Message)msg).setMsg(getSurvey(msg,conn));	
     		this.sendToAllClients(msg);
-
 	    }
+	    
 	    if(((Message)msg).getOption().compareTo("add surveyResult") ==0) 	    /* add new answar ro a survey */							
 	    {
 	    	int id = ((ArrayList<Integer>)(((Message)msg).getMsg())).get(0);
@@ -337,6 +337,7 @@ public class EchoServer extends AbstractServer
 			}
 	    	
 	    }
+	    
 	    if(((Message)msg).getOption().compareTo("add surveyConclusion") == 0) 	    							
 	    {
 	    	try {
@@ -383,6 +384,7 @@ public class EchoServer extends AbstractServer
 	    	((Message)msg).setMsg(Get_All_The_Date_Of_Report_Of_Specific_Store_FromDB(msg,conn));  
 	    	this.sendToAllClients(msg);
 	    }
+	    
 	    if(((Message)msg).getOption().compareTo("Store Manager - Take The Surveys Of Specific Store In Specific Quarter") == 0) 	    /* Taking All the Complaints Of Specific Store */							
 	    {
 	    	((Message)msg).setMsg(Get_All_The_Survey_Of_Specific_Quarter_Of_Specific_Store_From_DB(msg,conn));  
@@ -417,32 +419,38 @@ public class EchoServer extends AbstractServer
 	    {
 	    	((Message)msg).setMsg(Get_All_The_Date_Of_Report_Of_Specific_Store_FromDB(msg,conn));  
 	    	this.sendToAllClients(msg);
-	    }	    
+	    }
+	    
 	    if(((Message)msg).getOption().compareTo("Company Manager - Take The Surveys Of Specific Store In Specific Quarter") == 0) 	    /* Taking All the Complaints Of Specific Store */							
 	    {
 	    	((Message)msg).setMsg(Get_All_The_Survey_Of_Specific_Quarter_Of_Specific_Store_From_DB(msg,conn));  
 	    	this.sendToAllClients(msg);
 	    }
+	    
 	    if(((Message)msg).getOption().compareTo("Company Manager - Compare Between Two Different Quarter") == 0) 	    /* Taking All the Complaints Of Specific Store */							
 	    {
 	    	((Message)msg).setMsg(Get_All_The_Compare_Details_Between_Two_Diffrent_Quarter_From_DB(msg,conn));  
 	    	this.sendToAllClients(msg);
 	    }
+	    
 	    if(((Message)msg).getOption().compareTo("Store Manager - Want To Store Number And Address Of The Store") == 0) 	    	
 	    {
 	    	((Message)msg).setMsg(getStore_Manager_Store_Num(msg,conn));  
 	    	this.sendToAllClients(msg);
 	    }
+	    
 	    if(((Message)msg).getOption().compareTo("Customer - Want To Take His Order") == 0) 	    	
 	    {
 	    	((Message)msg).setMsg(Customer_Want_To_Take_His_Order(msg,conn));  
 	    	this.sendToAllClients(msg);
-	    } 
+	    }
+	    
 	    if(((Message)msg).getOption().compareTo("Customer - Want To Take His Complaints") == 0) 	    	
 	    {
 	    	((Message)msg).setMsg(Customer_Want_To_Take_His_Complaint(msg,conn));  
 	    	this.sendToAllClients(msg);
 	    }
+	    
 	    if(((Message)msg).getOption().compareTo(  "Customer - Want To Take His Account Details") == 0) 	    	
 	    {
 	    	((Message)msg).setMsg(Customer_Want_To_Take_His_Account(msg,conn));  
@@ -2207,8 +2215,12 @@ public class EchoServer extends AbstractServer
 	  }
   }
   
-  protected void renewAccount(Object msg, Connection conn) 
-  {
+  /**
+   * update the account subscription
+   * @param msg - object msg with the message of arrayList that have- the requested subscription, user id , subscription end date
+   * @param conn -connection to DB
+   */
+  protected void renewAccount(Object msg, Connection conn) /* This Method Update the DB */  {
 	  Statement stmt;
 	  ArrayList<Object> forRenew = ( ArrayList<Object>)((Message)msg).getMsg();
 	  String Scheme_Name = EchoServerController.Scheme;
@@ -2700,8 +2712,14 @@ public class EchoServer extends AbstractServer
 	  return products;
   }
   
-  protected ArrayList<String> getAllCustomerFullPrice(Object msg, Connection conn) 
-  {
+  /**
+   * Get all customers id for specific store that doesn't have a subscription
+   * @param msg - object msg with the message of specific store number
+   * @param conn -connection to DB
+   * @return ArrayList<String> - the cutomers id numbers
+   * if we didn't have customers eithe full price return -1 string
+   */
+  protected ArrayList<String> getAllCustomerFullPrice(Object msg, Connection conn)   {
 	  ArrayList<String> customers = new ArrayList<String>();
 	  int storeNumber = ((int)(((Message)msg).getMsg()));
 	  Statement stmt;
@@ -2859,7 +2877,18 @@ public class EchoServer extends AbstractServer
 	  return users_After_Change;
   }
   
-  protected ArrayList<Integer> getAllOrdersToCustomerCancel(Object msg, Connection conn) /* this method get all the orders that match to specific customer and can be cancel */
+  /**
+   * Get all orders for specific customer id number that he didn't cancel yet or received them
+   * and make them from this store so he cancel them
+   * take all his orders that he didn't cancel yet or received them
+   * and the supply date and time didn't pass- so he can try to cancel them
+   * if he doesn't have- add (-1) to the arraylist so we know he didn't have orders to cancel
+   * @param msg - object msg with the message of specific customer id
+   * and the store number where he is.
+   * @param conn -connection to DB
+   * @return ArrayList<Integer> - all the orders number
+   */
+  protected ArrayList<Integer> getAllOrdersToCustomerCancel(Object msg, Connection conn) //this method get all the orders that match to specific customer and can be cancel  
   {
 	 int StoreNum = Integer.parseInt(((ArrayList<String>)(((Message)msg).getMsg())).get(1));
 	 String requestedCustomerId=((ArrayList<String>)(((Message)msg).getMsg())).get(0);
@@ -2905,7 +2934,14 @@ public class EchoServer extends AbstractServer
 	  return ordersNums;
  }	
  
-  protected Order getSelectedOrderDetails(Object msg, Connection conn) 				     /* this method return an order from the DB */
+  /** 
+  * Get all the specific Order details that we want to cancel to show the customer 
+  * that he will know what he want to cancel
+  * @param msg - object msg with the message of specific Order number
+  * @param conn -connection to DB
+  * @return Order- Order with all the requested information field- just the fields that we show on the gui
+  */
+  protected Order getSelectedOrderDetails(Object msg, Connection conn) //this method return an order from the DB  
   {
 	  int requestedOrderNum=(int)(((Message)msg).getMsg());
 	  Order o = null;
@@ -2939,7 +2975,6 @@ public class EchoServer extends AbstractServer
 		  		o.setOrderTotalPrice(money);
 		  	}
 		  } catch (SQLException e) {	e.printStackTrace();}	
-	  System.out.print(o);
 	  return o;
  } 
   
@@ -3072,7 +3107,17 @@ public class EchoServer extends AbstractServer
 			e.printStackTrace();}
 	}
   
-  protected ArrayList<Integer> getAllOrdersToCustomer(Object msg, Connection conn)       /* this method get all the orders that match to specific customer */
+  /**
+   * Get all orders for specific customer id number that he didn't cancel yet and he can to complaint about them
+   * check if this customer id number is exist in the DB and he has a customer permission
+    * if we don't have- add (-2) to the arraylist
+   * take all his orders that he didn't cancel yet- so he can to complaint about them
+   * if he doesn't have- add (-1) to the arraylist
+   * @param msg - object msg with the message of specific customer id
+   * @param conn -connection to DB
+   * @return ArrayList<Integer> - all the orders number
+   */
+  protected ArrayList<Integer> getAllOrdersToCustomer(Object msg, Connection conn) //this method get all the orders that match to specific customer  
   {
 	  String requestedCustomerId=(String)(((Message)msg).getMsg());
 	  ArrayList<Integer> ordersNums = new ArrayList<Integer>();
@@ -3107,7 +3152,7 @@ public class EchoServer extends AbstractServer
   
   /**
    * 
-   * Get all the specific complaint details
+   * Get all the specific complaint details that we want to handle
    * @param msg - object msg with the message of specific complaint number
    * @param conn -connection to DB
    * @return Complaint- complaint with all the requested information field
@@ -3156,7 +3201,9 @@ public class EchoServer extends AbstractServer
   }
   
   /**
-   * Update the complaint at DB- status&Compansation&customer service worker answer
+   * Update the complaint at DB- status & Compansation amount & customer service worker answer
+   * if we close the complaint also update the connected account balance to the account at the store of 
+   * where he made the order that he complaint about
    * @param msg - object msg with the message of specific complaint
    * @param conn -connection to DB
    */
@@ -3187,7 +3234,9 @@ public class EchoServer extends AbstractServer
   }
   
   /**
-   * Update the order at DB- change the order status to close and the refund, also update the refund to the account balance
+   * Update the order at DB- change the order status to close and the refund amount, 
+   * also update the refund to the account balance of the account that connected 
+   * to this customer at the store he made the order
    * @param msg - object msg with the message of specific Order
    * @param conn -connection to DB
    */
@@ -3209,7 +3258,13 @@ public class EchoServer extends AbstractServer
   }
   
   /**
-   * Take all the complaints that pass 24 hours and change the status to closed and refund the customer full price of ther order total price
+   * Take all the complaints that pass 24 hours and they still open
+   * (if the complaint open date was before 2 days or more or if it's was one day before and the time of the open is before now)
+   * then we get an arraylist of complaints and them we take the store number and the order total price
+   * change the status to closed and refund the customer full price of their order total price
+   * that connected to this complaint, also update an automatic customer service worker answer- that this is 
+   * an automatic refund and handle.
+   * update the balnce on the account of this user at the store he made the order
    * @param conn -connection to DB
    */
   public static void getAllComplaintsPass24(Connection conn) 						     /* this method take all the complaints that pass 24 hours */
@@ -3292,6 +3347,7 @@ public class EchoServer extends AbstractServer
   
   /**
    * Get all the complaints that match to specific customer service worker
+   * and he didn't close them yet
    * @param msg - object msg with the message of specific customer service worker user name
    * @param conn -connection to DB
    * @return ArrayList<Integer>- ArrayList of all the complaints numbers
@@ -3344,7 +3400,11 @@ public class EchoServer extends AbstractServer
   }
   
   /**
-   * Add new account include subscription and payment method to DB if this user name doesn't have an account in this store
+   * Add new account include subscription and payment method to DB
+   *  if this user name doesn't have an account in this store
+   *  and if this user name exist at zer-li users
+   *  the insert query separated for two cases- if its full price enter to date= null
+   *  else enter date=today date
    * @param msg - object msg with the message of specific Account
    * @param conn -connection to DB
    * @return String- if success or not to add a new account to the DB
@@ -3392,6 +3452,7 @@ public class EchoServer extends AbstractServer
   
   /**
    * Add new complaint to DB if the complaint number doesn't exist 
+   * Calculate the complaint month and the complaint number and  insert the complain to the DB
    * @param msg - object msg with the message of specific Complaint
    * @param conn -connection to DB
    * @return String- if success or not to add a new complaint to the DB

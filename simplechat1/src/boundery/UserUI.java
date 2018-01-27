@@ -2,7 +2,6 @@ package boundery;
 
 import java.util.ArrayList;
 import java.util.Vector;
-
 import controller.UserController;
 import entity.Message;
 import entity.Store;

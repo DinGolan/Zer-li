@@ -101,7 +101,9 @@ public class CancelOrderController implements Initializable{
 	ObservableList<CancelOrderItemRow> cancelOrder = FXCollections.observableArrayList();
 	
 	/**
-	 * Initialized The ComboBox of the orders that he can to cancel or the order details or the order refund msg
+	 * Initialized The ComboBox of the orders that he can to cancel 
+	 * or the order details 
+	 * or the order refund msg
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
@@ -154,8 +156,10 @@ public class CancelOrderController implements Initializable{
 	}
 	
 	/**
-	 * Start the process of search of possible orders to cancel- show cancel order instructions and then after click 
-	 * the next button show combobox of orders numbers if he has or error msg if he doesn't has
+	 * Start the process of search of possible orders to cancel- 
+	 * show cancel order instructions and then after click -
+	 * the next button show combobox of orders numbers if he has 
+	 * or error msg if he doesn't has
 	 * @param event- click on next button after the cancel order instruction
 	 * @throws Exception if we can't load the fxml
 	 */
@@ -197,7 +201,8 @@ public class CancelOrderController implements Initializable{
 	}
 	
 	/**
-	 * Take the selected order number from the combobox if return (-1) mean that he didn't choose an order number 
+	 * Take the selected order number from the combobox if return (-1) mean that 
+	 * he didn't choose an order number 
 	 * @return int- selected order number (index)
 	 */
 	public int getItemIndex() //With this Method we Take the selected order number

@@ -2,7 +2,6 @@ package controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import boundery.UserUI;
 import entity.Message;
 import entity.User;
@@ -14,14 +13,14 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
 import mypackage.ClientConsole;
-import javafx.scene.control.TextArea;
 
 /**
  * controller for the User options: 
@@ -97,8 +96,7 @@ public class UserController implements Initializable {
 	public void start(Stage primaryStage) throws Exception 
 	{
 		Parent root = FXMLLoader.load(getClass().getResource("/controller/Enter_The_IP_And_Port.fxml"));
-		Scene scene = new Scene(root);
-		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesignServerClient.css").toExternalForm()); 
+		Scene scene = new Scene(root);		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesignServerClient.css").toExternalForm()); 
 		primaryStage.setTitle("Client IP - Managment Tool");
 		primaryStage.setScene(scene);
 		primaryStage.show();
@@ -255,7 +253,6 @@ public class UserController implements Initializable {
 				break;
 			case CUSTOMER_SERVICE_WORKER:
 				permission = "CustomerServiceWorkerOptions";
-				/* CustomerServiceWorkerController.checkComplaintsFlag=true; */
 				break;
 			case CUSTOMER:
 				permission = "CustomerChooseStore";
@@ -270,7 +267,6 @@ public class UserController implements Initializable {
 				permission = "StoreWorkerOptions";
 				break;
 			}
-					
 			permission = "/controller/" + permission + ".fxml";
 			URL o = getClass().getResource(permission);
 			((Node) event.getSource()).getScene().getWindow().hide(); 							/* Hiding primary window */

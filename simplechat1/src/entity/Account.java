@@ -37,7 +37,13 @@ public class Account implements Serializable{
 	}
 
 	/**
-	 * auto fiiled acoount constructor
+	 * auto filed account constructor
+	 * @param accountUserId- String
+	 * @param accountPaymentArrangement-enum
+	 * @param accountBalanceCard-double
+	 * @param accountCreditCardNum-String
+	 * @param accountSubscriptionEndDate-Date
+	 * @param accountStoreNum- int
 	 */
 	public Account(String accountUserId, PaymentArrangement accountPaymentArrangement, double accountBalanceCard,
 			String accountCreditCardNum, Date accountSubscriptionEndDate, int accountStoreNum) {
