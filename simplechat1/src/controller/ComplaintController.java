@@ -77,7 +77,7 @@ public class ComplaintController implements Initializable{
 
 	/**
 	 * load all the orders that connected to this customer id to a combobox and enable/disable 
-	 * fields at the complaint and error msg if something isn't good
+	 * fields at the complaint and error msg if something isn't good 
 	 * @param event- click on load orders button after we entered user id
 	 * @throws Exception
 	 */
@@ -99,8 +99,6 @@ public class ComplaintController implements Initializable{
 			ordersNum.add(o);
 		if(ordersNum.get(0)==-1) //we didn't have orders to this customer at DB
 		{
-			//לבדוק הדפסות ונעילות של אנבל דיסאבל
-			//txtComplaintUserId.clear();
 			txtComplaintReason.setDisable(true);
 			cmbComplaintOrderId.setPromptText("Doesn't have orders");
 			cmbComplaintOrderId.setDisable(true); //view the option to open combobox
@@ -148,6 +146,8 @@ public class ComplaintController implements Initializable{
 	
 	/**
 	 * Add new complaint to Zer-Li system- check if all the required data is correct and show error msg if not
+	 * add today date and time to the complaint
+	 * we decided that the customer complain before the customer service worker and he enter the complaint immediately
 	 * @param event- click on save button
 	 * @throws Exception  if we can't load the fxml
 	 */
@@ -201,7 +201,6 @@ public class ComplaintController implements Initializable{
 				c.setComplaintOrderId(ComplaintUI.ordersNumbers.get(getItemIndex())); //take the order number
 				c.setComplaintServiceWorkerUserName(UserUI.user.getUserName()); //take the current connected user name
 				Message msg = new Message(c, "Add new complaint");	
-				//complaintIndex++; // for the next complaint number
 				UserUI.myClient.accept(msg);
 		
 				while(flag ==false)
@@ -269,7 +268,6 @@ public class ComplaintController implements Initializable{
 	 */
 	public void closeComplaintFormWindow(ActionEvent event) throws Exception  //To close the The Window of the complaint form GUI
 	{ 
-		//CustomerServiceWorkerController.checkComplaintsFlag=true;
 		((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
 		Stage primaryStage = new Stage();						 //Object present window with graphics elements
 		FXMLLoader loader = new FXMLLoader(); 					 //load object

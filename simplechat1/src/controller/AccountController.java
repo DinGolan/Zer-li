@@ -5,9 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
-
 import boundery.AccountUI;
-import boundery.ComplaintUI;
 import boundery.UserUI;
 import entity.Account;
 import entity.Account.PaymentArrangement;
@@ -29,7 +27,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
- * Controller for the option of create new account
+ * Controller for the option of create new account and renewal subscription
  */
 public class AccountController implements Initializable{
 	
@@ -51,7 +49,7 @@ public class AccountController implements Initializable{
 	private Button btnAccountAddOther = null; //button to add a new account
 	
 	@FXML
-	private Button btnRenew = null; //button to add a new account
+	private Button btnRenew = null; //button to renewal subscription
 	
 	@FXML
 	private RadioButton rdbtnAccountPaymentArrangmentFullPrice = null; //radio button for the account payment arrangment full price
@@ -75,16 +73,16 @@ public class AccountController implements Initializable{
 	private Button btnAccountAddAccount = null; //button add account for the account card form
 	
 	@FXML
-	private Button btnSubnext = null; //button add account for the account card form
+	private Button btnSubnext = null; 
 	
 	@FXML
-	private ComboBox <String> cmbCustomersForStore=null; //combobox to view all the complaint for the specific customer service worker
+	private ComboBox <String> cmbCustomersForStore=null; 
 	ObservableList<String> listForCustomersComboBox;
 	
 	/**
-	 * Initialized The  combobox of the customers Id
+	 * Initialized The combobox of the customers Id for the renewal option
 	 */
-	public void initialize(URL arg0, ResourceBundle arg1) // Initialized The ComboBox of the complaint form
+	public void initialize(URL arg0, ResourceBundle arg1) // Initialized The ComboBox
 	{
 		if(customerNeedSubFlag == true)
 		{
@@ -92,7 +90,7 @@ public class AccountController implements Initializable{
 			for(String id : AccountUI.customersId)
 				customers.add(id);
 			listForCustomersComboBox = FXCollections.observableArrayList(customers); 
-			cmbCustomersForStore.setItems(FXCollections.observableArrayList(listForCustomersComboBox)); //set the complaints to this user
+			cmbCustomersForStore.setItems(FXCollections.observableArrayList(listForCustomersComboBox)); 
 			customerNeedSubFlag = false;
 		}
 	}
@@ -147,7 +145,8 @@ public class AccountController implements Initializable{
 	}
 
 	/**
-	 * Add new account to Zer-Li system and check all the information and show error msg if wrong
+	 * Add new account to Zer-Li system and check all the information and that this user doesn't 
+	 * have an account at this store and show error msg if wrong
 	 * @param event- click on add account button
 	 * @throws Exception if we can't load the fxml
 	 */
@@ -250,7 +249,7 @@ public class AccountController implements Initializable{
 	
 	/**
 	 * Show the GUI again of empty account form to add a new other account
-	 * @param event- click on try again or add other acoount button
+	 * @param event- click on try again or add other account button
 	 * @throws Exception if we can't load the fxml
 	 */
 	public void addNewOtherAccount(ActionEvent event) throws Exception //With this Method we show the GUI of the First Window
@@ -286,7 +285,7 @@ public class AccountController implements Initializable{
 	
 	/**
 	 * To load all the customers that have account in this store
-	 * and their subscription is over
+	 * and their subscription is over or full price from the start
 	 * @param event- click on "next" button in the instructions
 	 * @throws Exception if we can't load the fxml
 	 */
@@ -365,7 +364,7 @@ public class AccountController implements Initializable{
 				forRenew.add(1,dateSql); //set the date			
 			}
 			else
-			{
+			{ //defult if they didn't choose something
 				forRenew.add(0, PaymentArrangement.MONTHLY);
 				LocalDate localDate = LocalDate.now().plusMonths(1); //end subscription date one month later
 				java.sql.Date dateSql=null;
@@ -388,7 +387,7 @@ public class AccountController implements Initializable{
 			primaryStage.setTitle("Error msg");
 			primaryStage.show();
 		}
-		else
+		else //didn't choose id number
 		{
 			root = loader.load(getClass().getResource("/controller/CustomerDidNotChooseComboBox.fxml").openStream());
 			Scene scene = new Scene(root);
@@ -415,7 +414,7 @@ public class AccountController implements Initializable{
 	 * @param event- click on close button
 	 * @throws Exception if we can't hide the fxml that loaded
 	 */
-	public void closeRenewErrorMsgWindow(ActionEvent event) throws Exception  //To close the The Window of the complaint error msg
+	public void closeRenewErrorMsgWindow(ActionEvent event) throws Exception  
 	{ 
 		((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window								
 	}

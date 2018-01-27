@@ -2,8 +2,6 @@ package controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import boundery.ComplaintUI;
 import boundery.UserUI;
 import entity.Message;
 import javafx.event.ActionEvent;
@@ -18,7 +16,8 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
- *controller for the customer service worker permission with options of insert survey, open new complaint and handle a complaint
+ *controller for the customer service worker permission with options of insert survey,
+ * open new complaint and handle a complaint
  */
 public class CustomerServiceWorkerController implements Initializable{
 	
@@ -49,7 +48,7 @@ public class CustomerServiceWorkerController implements Initializable{
 	}
 	
 	/**
-	 * open the gui of the oprions to add survey
+	 * open the gui of the options to add survey
 	 * @param event- click on insert survey button
 	 * @throws Exception if we can't load the fxml
 	 */
@@ -69,7 +68,7 @@ public class CustomerServiceWorkerController implements Initializable{
 	
 	/**
 	 * open the gui of new complaint option
-	 * @param event- click on add compaint option
+	 * @param event- click on add complaint option
 	 * @throws Exception if we can't load the fxml
 	 */
 	public void openNewComplaintBtn(ActionEvent event) throws Exception //To open new complaint option
@@ -86,7 +85,8 @@ public class CustomerServiceWorkerController implements Initializable{
 	}
 	
 	/**
-	 * open the gui of search complains- reminder the customer service worker to handle his complaints
+	 * open the gui of search complains- 
+	 * reminder the customer service worker to handle his complaints
 	 * @param event -click on handle complaints button
 	 * @throws Exception if we can't load the fxml
 	 */

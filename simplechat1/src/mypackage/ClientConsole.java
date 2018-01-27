@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Vector;
-
 import boundery.AccountUI;
 import boundery.CatalogUI;
 import boundery.CompanyManagerUI;
@@ -161,7 +160,7 @@ public class ClientConsole implements ChatIF
    /**
    * This method overrides the method in the ChatIF interface.  It
    * displays a message onto the Screen In shape Of GUI.
-   *
+   * or put some values on variables/arrayList that we take from the DB
    * @param message - The string to be displayed.
    */
   @SuppressWarnings("unchecked")
@@ -218,8 +217,7 @@ public void displayUI(Object message)
 	  	  	AccountController.loadCustomersFlag=true;
 	  }
 
-	  
-	    if(((Message)message).getOption().compareTo("get all products in DB") ==0) 		/* Check that its update */
+	  if(((Message)message).getOption().compareTo("get all products in DB") ==0) 		/* Check that its update */
 	    {
 	  	  	int i=0;
 	  	  	ArrayList<Product> temp = new ArrayList<Product>();
@@ -326,7 +324,6 @@ public void displayUI(Object message)
 	    	if(((ArrayList<Integer>)(((Message)message).getMsg())).get(0)==11)
 	    	{
 	  		  ExpertSurveyController.errorMsg = "11";
-	    		//----------------------------------------------------
 	    	}
 	    	else {
 	    	SurveyInfoController.ans = (ArrayList<Integer>)(((Message)message).getMsg());
@@ -340,15 +337,12 @@ public void displayUI(Object message)
 	    	if(((ArrayList<Integer>)(((Message)message).getMsg())).get(0)==11)
 	    	{
 	  		  ExpertSurveyController.errorMsg = "11";
-	    		//----------------------------------------------------
 	    	}
 	    	else {
 	  		  ExpertSurveyController.errorMsg = "10";
 	             }
 	    }
 
-	    
-	    
 	    else if(((Message)message).getOption().compareTo("Get all orders for this customer") == 0) //get all the orders to specific customer
 	    {
 	  	  	int i=0;
@@ -407,14 +401,14 @@ public void displayUI(Object message)
   	  		StoreManagerController.storeID=((Integer)((Message)message).getMsg()); //save the store number
   	  		StoreManagerController.flag=true; //finish to get the store number
 	    }
-			else if(((Message)message).getOption().compareTo("Update complaint") == 0) //update complaint	   
-	       {
-    			System.out.println("clientcons");
-	  	  		ComplaintUI.complaint=new Complaint();
-	  	  		ComplaintUI.complaint=(Complaint)((Message)message).getMsg(); //save the complaint from the DB with all the details at the ComplaintUI
-	  	  		ComplaintHandleController.complaintFlag=true; //finish to get all the details for this complaint
-	  	  		System.out.println(ComplaintUI.complaint);
+			
+	    else if(((Message)message).getOption().compareTo("Update complaint") == 0) //update complaint	   
+	    {
+	    	ComplaintUI.complaint=new Complaint();
+  	  		ComplaintUI.complaint=(Complaint)((Message)message).getMsg(); //save the complaint from the DB with all the details at the ComplaintUI
+  	  		ComplaintHandleController.complaintFlag=true; //finish to get all the details for this complaint
 	   	 }
+	    
 		 else if(((Message)message).getOption().compareTo("Store Manager - Take The Orders Of Specific Store") == 0)
 	     {
 		  	  int i=0;
@@ -427,6 +421,7 @@ public void displayUI(Object message)
 				  StoreManagerUI.orders.add(temp_Order.get(i));
 		  	  }
 	     } 
+	    
 	     else if(((Message)message).getOption().compareTo("Store Manager - Take The Complaints Of Specific Store") == 0)
 	     {
 		  	  int i=0;
@@ -439,6 +434,7 @@ public void displayUI(Object message)
 				  StoreManagerUI.complaints.add(temp_Complaint.get(i));
 		  	  }
 	    }
+	    
 	    else if(((Message)message).getOption().compareTo("Store Manager - Take the Revenue Of Specific Quarter Of Specific Store") == 0)
 	    {
 	    	  int i = 0;
@@ -451,6 +447,7 @@ public void displayUI(Object message)
 				  StoreManagerUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter.add(temp_Revenue_And_Number_Of_Order_Of_Specific_Store_Of_Specific_Quarter.get(i));
 		  	  }
 	    }
+	    
 	    else if(((Message)message).getOption().compareTo("Store Manager - Take The Date Of All the Report Of Specific Store") == 0)
 	    {
 		  	  int i = 0;
@@ -463,6 +460,7 @@ public void displayUI(Object message)
 				  StoreManagerUI.Dates.add(temp_Date_Of_Report.get(i));
 		  	  }
 	    }
+	    
 	    else if(((Message)message).getOption().compareTo("Store Manager - Take The Surveys Of Specific Store In Specific Quarter") == 0)
 	    {
 		  	  int i = 0;
@@ -475,6 +473,7 @@ public void displayUI(Object message)
 				  StoreManagerUI.Average_Result_Of_Each_Qustions_In_surveys.add(temp_Survey_Result.get(i));
 		  	  }
 	    }
+	    
 	    else if(((Message)message).getOption().compareTo("Store Manager - Want To Store Number And Address Of The Store") == 0)
 	    {
 		  	  int i = 0;
@@ -487,6 +486,7 @@ public void displayUI(Object message)
 				  StoreManagerUI.stores.add(temp_Store.get(i));
 		  	  }
 	    }
+	    
 	    else if(((Message)message).getOption().compareTo("Company Manager - Add Store To Combo Box From DB") == 0)
 	    {
 		  	  int i=0;
@@ -501,6 +501,7 @@ public void displayUI(Object message)
 				  CompanyManagerUI.stores_For_Company_Manager_2.add(temp.get(i));
 		  	  }
 	    }
+	    
 	    else if(((Message)message).getOption().compareTo("Company Manager - Take The Orders Of Specific Store") == 0)
 	    {
 		  	  int i=0;
@@ -515,6 +516,7 @@ public void displayUI(Object message)
 				  CompanyManagerUI.orders_For_Company_Manager_2.add(temp_Order.get(i));
 		  	  }
 	    } 
+	    
 	    else if(((Message)message).getOption().compareTo("Company Manager - Take The Complaints Of Specific Store") == 0)
 	    {
 		  	  int i=0;
@@ -529,6 +531,7 @@ public void displayUI(Object message)
 				  CompanyManagerUI.complaints_For_Company_Manager_2.add(temp_Complaint.get(i));
 		  	  }
 	    }
+	    
 	    else if(((Message)message).getOption().compareTo("Company Manager - Take the Revenue Of Specific Quarter Of Specific Store") == 0)
 	    {
 	    	  int i = 0;
@@ -542,6 +545,7 @@ public void displayUI(Object message)
 				  CompanyManagerUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter_For_Company_Manager_2.add(temp_Revenue_And_Number_Of_Order_Of_Specific_Store_Of_Specific_Quarter.get(i));
 		  	  }
 	    }
+	    
 	    else if(((Message)message).getOption().compareTo("Comapny Manager - Take The Date Of All the Report Of Specific Store") == 0)
 	    {
 		  	  int i = 0;
@@ -556,6 +560,7 @@ public void displayUI(Object message)
 				  CompanyManagerUI.Dates_For_Company_Manager_2.add(temp_Date_Of_Report.get(i));
 		  	  }
 	    }
+	    
 	    else if(((Message)message).getOption().compareTo("Company Manager - Take The Surveys Of Specific Store In Specific Quarter") == 0)
 	    {
 		  	  int i = 0;
@@ -570,6 +575,7 @@ public void displayUI(Object message)
 				  CompanyManagerUI.Average_Result_Of_Each_Qustions_In_surveys_For_Company_Manager_2.add(temp_Survey_Result.get(i));
 		  	  }
 	    }
+	    
 	    else if(((Message)message).getOption().compareTo("Company Manager - Compare Between Two Different Quarter") == 0)
 	    {
 		  	  int i = 0;
@@ -590,6 +596,7 @@ public void displayUI(Object message)
 				  }
 		  	  }
 	    }
+	    
 	    else if(((Message)message).getOption().compareTo("Customer - Want To Take His Order") == 0)
 	    {
 		  	  int i = 0;
@@ -602,6 +609,7 @@ public void displayUI(Object message)
 				  CustomerUI.Order_Of_Specific_Customer.add(temp_Order_Of_Specific_Customer.get(i));
 		  	  }
 	    } 
+	    
 	    else if(((Message)message).getOption().compareTo("Customer - Want To Take His Complaints") == 0)
 	    {
 		  	  int i = 0;
@@ -614,6 +622,7 @@ public void displayUI(Object message)
 				  CustomerUI.Complaint_Of_Specific_Customer.add(temp_Complaint_Of_Specific_Customer.get(i));
 		  	  }
 	    } 
+	    
 	    else if(((Message)message).getOption().compareTo("Customer - Want To Take His Account Details") == 0)
 	    {
 		  	  int i = 0;
@@ -647,6 +656,11 @@ public void displayUI(Object message)
 		  UserController.flag = true;
 	 }
   
+  	/**
+  	 * handle the option that we choose to add an account- put the msg if success
+  	 * null the account variable
+  	 * and put true on the flag that we can continue
+  	 */
      public void addAccount(Object message)
      {
 		  AccountUI.success=(String)((Message)message).getMsg();
@@ -654,6 +668,11 @@ public void displayUI(Object message)
 		  AccountController.flag = true;  
      }
   
+   	/**
+   	 * handle the option that we choose to add an complaint- put the msg if success
+   	 * null the complaint variable
+   	 * and put true on the flag that we can continue
+   	 */
      public void addComplaint(Object message)
      {
     	 ComplaintUI.success=(String)((Message)message).getMsg();

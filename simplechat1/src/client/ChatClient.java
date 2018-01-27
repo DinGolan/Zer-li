@@ -3,12 +3,10 @@
 /* license found at www.lloseng.com */
 
 package client;
-import ocsf.client.*;
-import common.*;
+import java.io.IOException;
+import common.ChatIF;
 import entity.Message;
-
-import java.io.*;
-import java.util.ArrayList;
+import ocsf.client.AbstractClient;
 
 /**
  * This class overrides some of the methods defined in the abstract
@@ -52,7 +50,7 @@ public class ChatClient extends AbstractClient
     
   /**
    * This method handles all data that comes in from the server.
-   *
+   * get option= string that define which msg it is
    * @param msg - The message from the server.
    */
   public void handleMessageFromServer(Object msg) 

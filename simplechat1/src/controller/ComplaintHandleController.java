@@ -85,7 +85,8 @@ public class ComplaintHandleController implements Initializable{
 	ArrayList <String> stat=new ArrayList<String>(Arrays.asList("INPROGRESS", "CLOSE"));
 	
 	/**
-	 * Initialized The details of the complaint & combobox of the complaint status or the complaints numbers combobox
+	 * Initialized The details of the complaint & combobox of the complaint status 
+	 * or the complaints numbers combobox
 	 */
 	public void initialize(URL arg0, ResourceBundle arg1) // Initialized The ComboBox of the complaint form
 	{
@@ -119,6 +120,7 @@ public class ComplaintHandleController implements Initializable{
 	
 	/**
 	 * Load the customer service worker complaints number (in his handle) to the combobox
+	 * or show error msg if he handdle everything
 	 * @param event - click on handle complaints button
 	 * @throws Exception if we can't load the fxml
 	 */
@@ -214,6 +216,7 @@ public class ComplaintHandleController implements Initializable{
 	
 	/** 
 	 * Take the selected status
+	 * Default if he didn't choose something- INPROGRESS
 	 * @return int selected status (index)
 	 */
 	public int getStatusIndex() //With this Method we Take the selected status
@@ -224,7 +227,9 @@ public class ComplaintHandleController implements Initializable{
 	}
 	
 	/**
-	 * Update complaint to Zer-Li system after we press save and show error msg if not all the details are good- handle try catch if we didn't enter double number for the compensataion price
+	 * Update complaint to Zer-Li system after we press save and 
+	 * show error msg if not all the details are good- 
+	 * handle try catch if we didn't enter double number for the compensation price
 	 * @param event- click save button
 	 * @throws Exception if we can't load the fxml
 	 */
