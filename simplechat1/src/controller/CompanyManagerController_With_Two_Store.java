@@ -541,6 +541,8 @@ public class CompanyManagerController_With_Two_Store implements Initializable {
 	 */
 	public void Click_On_Your_First_Store_Choise(ActionEvent event) throws Exception
 	{
+		cmbReportsFirstStore.setVisible(true);
+		
 		temp_Store_Id_1 = CompanyManagerUI.stores_For_Company_Manager.get(getItemIndex_First_Store()).getStoreId();
 		
 		if(Flag_Enter_On_The_Combo_Box_Store_1 == true && Flag_Enter_On_The_Combo_Box_Store_1_For_Compare == true)
@@ -593,6 +595,8 @@ public class CompanyManagerController_With_Two_Store implements Initializable {
 	 */
 	public void Click_On_Your_Second_Store_Choise(ActionEvent event) throws Exception
 	{
+		cmbReportsSecondStore.setVisible(true);
+		
 		temp_Store_Id_2 = CompanyManagerUI.stores_For_Company_Manager_2.get(getItemIndex_Second_Store()).getStoreId();
 		
 		if(Flag_Enter_On_The_Combo_Box_Store_2 == true && Flag_Enter_On_The_Combo_Box_Store_2_For_Compare == true)
@@ -775,6 +779,9 @@ public class CompanyManagerController_With_Two_Store implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
+		cmbReportsFirstStore.setVisible(false);
+		cmbReportsSecondStore.setVisible(false);
+		
 		/* When I Start To Initialize Its Alaways Will Be With the Defult Value */
 		Flag_Enter_On_The_Combo_Box_Store_1_For_Compare = false;
 		Flag_Enter_On_The_Combo_Box_Store_2_For_Compare = false;

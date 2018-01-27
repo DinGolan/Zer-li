@@ -345,6 +345,8 @@ public class CompanyManagerController_With_Only_One_Store implements Initializab
  	 */
 	public void Click_On_Your_Store_Choise_For_CompanyManager(ActionEvent event) throws Exception
 	{
+		cmbReports.setVisible(true);
+		
 		temp_Store_Id = CompanyManagerUI.stores_For_Company_Manager.get(getItemIndex_For_CompanyManager()).getStoreId();
 		
 		if(Flag_Enter_On_The_Store_Combo_Box == true)
@@ -438,6 +440,8 @@ public class CompanyManagerController_With_Only_One_Store implements Initializab
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
+		cmbReports.setVisible(false);
+		
 		Flag_Enter_On_The_Date_Combo_Box = false;
 		Flag_Enter_On_The_Store_Combo_Box = false;
 		
@@ -459,6 +463,7 @@ public class CompanyManagerController_With_Only_One_Store implements Initializab
 		{
 			e.printStackTrace();
 		}
+		
 		setStoresComboBox_ComapnyManager();
 	}
 }
