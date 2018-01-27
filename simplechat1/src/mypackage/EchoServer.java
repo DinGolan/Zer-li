@@ -2235,6 +2235,10 @@ public class EchoServer extends AbstractServer
 	  Statement stmt;
 	  User temp_User = (User)((Message)msg).getMsg();
 	  String Scheme_Name = EchoServerController.Scheme;
+	  User.UserPermission Premmision = temp_User.getPermission();
+	  User.UserStatus Status = temp_User.getStatus();
+	  String String_Premmision = String.valueOf(Premmision);
+	  String String_Status = String.valueOf(Status);
 	  
 	  try {
 		  
@@ -2250,6 +2254,24 @@ public class EchoServer extends AbstractServer
 		  
 		  stmt.executeUpdate(UpdateTableUsersPremmision);
 		  stmt.executeUpdate(UpdateTableUsersStatus);
+		  
+		  /* This Code Is For ---> If The Data Company Manager Change The Premmision From CUSTOMER to Another */
+		  
+		  /**
+		   * if((String_Premmision.compareTo("CUSTOMER") != 0))	  
+		  {
+			  String Find_If_The_User_Was_Customer = "SELECT * FROM " + Scheme_Name + ".account WHERE AccountUserId = " + "'" + temp_User.getId() + "'" + ";" ; 
+			  ResultSet rs = stmt.executeQuery(Find_If_The_User_Was_Customer);
+			  while(rs.next())
+			  {
+				 String Delete_Details_Of_Past_Customer = "DELETE FROM " + Scheme_Name + ".account WHERE AccountUserId = " + "'" + temp_User.getId() + "'" + ";" ;
+				 stmt.executeUpdate(Delete_Details_Of_Past_Customer);
+			  }
+		  }
+		  
+		  */  
+		  
+		  /* ------------------------------------------------------------------------------------------------ */
 	  } 
 	  catch (SQLException e) 
 	  {	

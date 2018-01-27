@@ -239,6 +239,11 @@ public class CompanyManagerReportController_Compare_Between_Two_Diffrent_Quarter
 	{
 		ArrayList<Object> ArrayList_Of_Field_To_Compare = new ArrayList<Object>();
 		
+		/* ---------------------------------------------------------------------------------------------------------------- */
+		
+		/* This Code Is For Defult Value - Its Mean If The Company Manager Not Press On One Of The ComboBox .
+		 * But On Our Code - We Will Not Get Into To This Code Because We Will See Error Prompt Instead To See Defult Value */
+		
 		/* ------------------------------------- We Not Press On Any One ------------------------------------------- */
 		
 		if(((CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1_For_Compare == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1_For_Compare == false) 
@@ -355,7 +360,11 @@ public class CompanyManagerReportController_Compare_Between_Two_Diffrent_Quarter
 			ArrayList_Of_Field_To_Compare.add(Date_Quarter_Report_2);
 		}
 		
+		/* ---------------------------------------------------------------------------------------------------------------- */
+		
 		/* --------------------------------- We Press On Both Of Them ---------------------------------------------- */
+		
+		/* For This Code We Will Alaways Get In ! */
 		
 		else if((CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1_For_Compare == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1_For_Compare == true)  
 				&& (CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2_For_Compare == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2_For_Compare == true))

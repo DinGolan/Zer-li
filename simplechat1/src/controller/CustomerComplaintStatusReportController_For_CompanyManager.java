@@ -76,7 +76,6 @@ public class CustomerComplaintStatusReportController_For_CompanyManager implemen
 	{ 
 		if(CompanyManagerReportController.Integer_The_Option_You_Choose == 1)
 		{
-			
 				/* For This Code We Will Alaways Get In ! */
 			
 				if(CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == true && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == true)
