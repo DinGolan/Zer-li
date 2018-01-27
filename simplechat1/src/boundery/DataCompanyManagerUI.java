@@ -16,10 +16,7 @@ public class DataCompanyManagerUI extends Application
 {
 	
 	public static Vector<User> users = new Vector<User>();
-	public static ClientConsole myClient;
-	
-	public static void main( String args[] ) throws Exception {}
-	 
+	public static ClientConsole myClient;	 
 	
 /**
 *  The Function 'Start' - Run The Application of the Data Company Manager If I Not Running From UserUI

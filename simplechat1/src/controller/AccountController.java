@@ -376,6 +376,7 @@ public class AccountController implements Initializable{
 			}
 				
 			forRenew.add(2, AccountUI.customersId.get(costomerIndex));
+			forRenew.add(3, UserUI.store.getStoreId());
 			Message msg = new Message(forRenew, "Update renew account");
 			UserUI.myClient.accept(msg);
 			
