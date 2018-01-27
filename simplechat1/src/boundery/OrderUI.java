@@ -5,7 +5,9 @@ import entity.Product;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-
+/**
+ * class to save static variables that belong to the order
+ */
 public class OrderUI extends Application /* With This Class We Show the Product GUI */
 {
 	public static Vector<Order> orders = new Vector<Order>();

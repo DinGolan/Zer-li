@@ -8,7 +8,12 @@ import java.util.Vector;
 import entity.Store;
 import mypackage.EchoServer;
 
-
+/**
+ *Controller for the thread we create
+ *the thread help the system to produce reports
+ *check and change the status of an order
+ *check and change the status of open complaints that pass 24 hours from the time we open them.
+ */
 public class ThreadController implements Runnable
 {
 	/**

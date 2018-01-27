@@ -1,29 +1,12 @@
 package boundery;
 
-import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.Vector;
-import controller.CatalogController;
 import controller.SurveyController;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import mypackage.ClientConsole;
-import entity.Product;
-import entity.User;
 
 public class SurveyUI extends Application {
 	public static ClientConsole myClient;
-
-
-	public static void main( String args[] ) throws Exception
-	{
-
-		System.out.println("Please enter the server IP");
-		Scanner scanner = new Scanner(System.in);
-		String IP = scanner.next(); /* Enter Server IP */
-		myClient = new ClientConsole(IP, 5555);
-        launch(args);		
-	} 
 	
 	@Override
 	public void start(Stage arg0) throws Exception 

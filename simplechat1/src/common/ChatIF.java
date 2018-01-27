@@ -26,6 +26,10 @@ public interface ChatIF
    */
   public abstract void displayUI(Object message);
   
+  /**
+   * Get an object of message with option to send the user- check if user exist or not
+   * @param message- object of message
+   */
   public abstract void sendUser(Object message);
   
   /**
