@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -21,10 +22,11 @@ import javafx.stage.Stage;
 public class CompanyManagerReportController implements Initializable {
 
 	/**
-	 * With This Flag I Know If The Company Manager Choose One Store Or Two Store .
+	 * With This Flag I Know If The Company Manager Choose One Store Or Two Store Or Nothing .
 	 */
 	public static int Integer_The_Option_You_Choose;
 	private String String_The_Option_You_Choose;
+	public static boolean Chose_Option_In_Combo_Box = false;
 	
 	/**
 	 * Defult Index If I Not Choose Any Option From the Combo Box Of Option . 
@@ -62,35 +64,52 @@ public class CompanyManagerReportController implements Initializable {
 	public void Button_To_See_One_Store_Or_Two_Store(ActionEvent event) throws Exception
 	{
 		String_The_Option_You_Choose = CompanyManagerUI.Option_Of_See_One_Store_Or_To_Store_For_Company_Manager.get(getItemIndex_For_Company_Mangager_For_Option());
-		String_The_Option_You_Choose = String_The_Option_You_Choose.substring(0,1);
-		Integer_The_Option_You_Choose = Integer.parseInt(String_The_Option_You_Choose);
-		if(Integer_The_Option_You_Choose == 1)
+		
+		if(Chose_Option_In_Combo_Box == true)
 		{
-			Flag_For_Return_Window_With_One_Store_Or_With_Two_Store = 1;
-			((Node)event.getSource()).getScene().getWindow().hide(); 				  /* Hiding primary window */
-			Stage primaryStage = new Stage();
-			FXMLLoader loader = new FXMLLoader();
-			Pane root = loader.load(getClass().getResource("/controller/CompanyManagerReportForm_Window_Only_One_Store.fxml").openStream());
+			String_The_Option_You_Choose = String_The_Option_You_Choose.substring(0,1);
+			Integer_The_Option_You_Choose = Integer.parseInt(String_The_Option_You_Choose);
+			if(Integer_The_Option_You_Choose == 1)
+			{
+				Flag_For_Return_Window_With_One_Store_Or_With_Two_Store = 1;
+				((Node)event.getSource()).getScene().getWindow().hide(); 				  /* Hiding primary window */
+				Stage primaryStage = new Stage();
+				FXMLLoader loader = new FXMLLoader();
+				Pane root = loader.load(getClass().getResource("/controller/CompanyManagerReportForm_Window_Only_One_Store.fxml").openStream());
+				
+				Scene scene = new Scene(root);
+				scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+				primaryStage.setScene(scene);
+				primaryStage.setTitle("----- Company Manager Report ---> Watch One Store -----");
+				primaryStage.show();
+				
+			}
+			else if(Integer_The_Option_You_Choose == 2)
+			{
+				Flag_For_Return_Window_With_One_Store_Or_With_Two_Store = 2;
+				((Node)event.getSource()).getScene().getWindow().hide();    			  /* Hiding primary window */
+				Stage primaryStage = new Stage();
+				FXMLLoader loader = new FXMLLoader();
+				Pane root = loader.load(getClass().getResource("/controller/CompanyManagerReportForm_Window_With_Two_Store.fxml").openStream());
+	
+				Scene scene = new Scene(root);
+				scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+				primaryStage.setScene(scene);	
+				primaryStage.setTitle("----- Company Manager Report ---> Watch Two Store -----");
+				primaryStage.show();
+			}
+		}
+		else if(Chose_Option_In_Combo_Box == false)
+		{
+			((Node)event.getSource()).getScene().getWindow().hide();
+			Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
+			FXMLLoader loader = new FXMLLoader(); 					 	 /* Load object */
+			Pane root = loader.load(getClass().getResource("/controller/Company_Mannager_Option_You_Not_Press_On_Option.fxml").openStream());
 			
 			Scene scene = new Scene(root);
 			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 			primaryStage.setScene(scene);
-			primaryStage.setTitle("----- Company Manager Report ---> Watch One Store -----");
-			primaryStage.show();
-			
-		}
-		else if(Integer_The_Option_You_Choose == 2)
-		{
-			Flag_For_Return_Window_With_One_Store_Or_With_Two_Store = 2;
-			((Node)event.getSource()).getScene().getWindow().hide();    			  /* Hiding primary window */
-			Stage primaryStage = new Stage();
-			FXMLLoader loader = new FXMLLoader();
-			Pane root = loader.load(getClass().getResource("/controller/CompanyManagerReportForm_Window_With_Two_Store.fxml").openStream());
-
-			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-			primaryStage.setScene(scene);	
-			primaryStage.setTitle("----- Company Manager Report ---> Watch Two Store -----");
+			primaryStage.setTitle("----- Company Manager Not Press On The Combo Box Of Option -----");
 			primaryStage.show();
 		}
 	}
@@ -104,8 +123,15 @@ public class CompanyManagerReportController implements Initializable {
 	public int getItemIndex_For_Company_Mangager_For_Option()                                   
 	{
 		if(cmbOptions.getSelectionModel().getSelectedIndex() == -1)
+		{
+			Chose_Option_In_Combo_Box = false;
 			return itemIndex;
-	
+		}
+		else
+		{
+			Chose_Option_In_Combo_Box = true;
+		}
+		
 		return cmbOptions.getSelectionModel().getSelectedIndex();
 	}
 	
@@ -160,6 +186,7 @@ public class CompanyManagerReportController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
+		Chose_Option_In_Combo_Box = false;
 		setOptionsComboBox();
 	}
 

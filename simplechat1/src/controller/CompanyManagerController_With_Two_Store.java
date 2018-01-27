@@ -143,31 +143,49 @@ public class CompanyManagerController_With_Two_Store implements Initializable {
 	 */
 	public void QuarterlyRevenueReport_Store(ActionEvent event) throws Exception        
 	{ 	
-		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
-		BorderPane border = new BorderPane(); 
-		HBox rootPane = new HBox();
+		if((Flag_Enter_On_The_Combo_Box_Store_1 == true && Flag_Enter_On_The_Combo_Box_Date_1 == true) 
+				&& (Flag_Enter_On_The_Combo_Box_Store_2 == true && Flag_Enter_On_The_Combo_Box_Date_2 == true))
+		{
 		
-		FXMLLoader loader = new FXMLLoader();
-		FXMLLoader loader_2 = new FXMLLoader();
-		
-		Pane root = loader.load(getClass().getResource("/controller/QuarterlyRevenueReportForm_For_CompanyManager.fxml").openStream());
-		QuarterlyRevenueReportController_For_CompanyManager quarterlyRevenueReportController = loader.getController();
-		quarterlyRevenueReportController.loadStore(CompanyManagerUI.stores_For_Company_Manager.get(getItemIndex_First_Store())); 
-		
-		Pane root_2 = loader_2.load(getClass().getResource("/controller/QuarterlyRevenueReportForm_For_CompanyManager_2.fxml").openStream());
-		QuarterlyRevenueReportController_For_CompanyManager_2 quarterlyRevenueReportController_2 = loader_2.getController();
-		quarterlyRevenueReportController_2.loadStore(CompanyManagerUI.stores_For_Company_Manager_2.get(getItemIndex_Second_Store())); 
-		
-		rootPane.getChildren().addAll(root,root_2); 
-		
-		border.setCenter(rootPane);
-		
-		Scene scene = new Scene(border);
-		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-		Stage primaryStage = new Stage();
-		primaryStage.setScene(scene);
-		primaryStage.setTitle("Comparing Between - Two Different Quarter ---> { The Left Is - Store One , The Right Is - Store Two }");
-		primaryStage.show();
+			((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+			BorderPane border = new BorderPane(); 
+			HBox rootPane = new HBox();
+			
+			FXMLLoader loader = new FXMLLoader();
+			FXMLLoader loader_2 = new FXMLLoader();
+			
+			Pane root = loader.load(getClass().getResource("/controller/QuarterlyRevenueReportForm_For_CompanyManager.fxml").openStream());
+			QuarterlyRevenueReportController_For_CompanyManager quarterlyRevenueReportController = loader.getController();
+			quarterlyRevenueReportController.loadStore(CompanyManagerUI.stores_For_Company_Manager.get(getItemIndex_First_Store())); 
+			
+			Pane root_2 = loader_2.load(getClass().getResource("/controller/QuarterlyRevenueReportForm_For_CompanyManager_2.fxml").openStream());
+			QuarterlyRevenueReportController_For_CompanyManager_2 quarterlyRevenueReportController_2 = loader_2.getController();
+			quarterlyRevenueReportController_2.loadStore(CompanyManagerUI.stores_For_Company_Manager_2.get(getItemIndex_Second_Store())); 
+			
+			rootPane.getChildren().addAll(root,root_2); 
+			
+			border.setCenter(rootPane);
+			
+			Scene scene = new Scene(border);
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			Stage primaryStage = new Stage();
+			primaryStage.setScene(scene);
+			primaryStage.setTitle("Comparing Between - Two Different Quarter ---> { The Left Is - Store One , The Right Is - Store Two }");
+			primaryStage.show();
+		}
+		else
+		{
+			((Node)event.getSource()).getScene().getWindow().hide();
+			Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
+			FXMLLoader loader = new FXMLLoader(); 					 	 /* Load object */
+			Pane root = loader.load(getClass().getResource("/controller/Company_Mannager_With_Two_Store_You_Not_Press_On_Store_Or_Date.fxml").openStream());
+			
+			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setScene(scene);
+			primaryStage.setTitle("----- Company Manager With Two Store Not Press On The Combo Box Of Store Or Date -----");
+			primaryStage.show();
+		}
 	}
 	
 /* --------------------------------  The Report About Order ----------------------------------- */	
@@ -181,31 +199,48 @@ public class CompanyManagerController_With_Two_Store implements Initializable {
 	 */
 	public void OrderReport_Store(ActionEvent event) throws Exception        
 	{
-		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
-		BorderPane border = new BorderPane(); 
-		HBox rootPane = new HBox();
-		
-		FXMLLoader loader = new FXMLLoader();
-		FXMLLoader loader_2 = new FXMLLoader();
-		
-		Pane root = loader.load(getClass().getResource("/controller/OrderReportForm_For_CompanyManager.fxml").openStream());
-		OrderReportController_For_ComapnyManager orderReportController = loader.getController();
-		orderReportController.loadStore(CompanyManagerUI.stores_For_Company_Manager.get(getItemIndex_First_Store()));
-		
-		Pane root_2 = loader_2.load(getClass().getResource("/controller/OrderReportForm_For_CompanyManager_2.fxml").openStream());
-		OrderReportController_For_ComapnyManager_2 orderReportController_2 = loader_2.getController();
-		orderReportController_2.loadStore(CompanyManagerUI.stores_For_Company_Manager_2.get(getItemIndex_Second_Store()));
-		
-		rootPane.getChildren().addAll(root,root_2); 
-		
-		border.setCenter(rootPane);
-		
-		Scene scene = new Scene(border);
-		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-		Stage primaryStage = new Stage();
-		primaryStage.setScene(scene);
-		primaryStage.setTitle("Comparing Between - Two Different Quarter ---> { The Left Is - Store One , The Right Is - Store Two }");
-		primaryStage.show();
+		if((Flag_Enter_On_The_Combo_Box_Store_1 == true && Flag_Enter_On_The_Combo_Box_Date_1 == true) 
+				&& (Flag_Enter_On_The_Combo_Box_Store_2 == true && Flag_Enter_On_The_Combo_Box_Date_2 == true))
+		{
+			((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+			BorderPane border = new BorderPane(); 
+			HBox rootPane = new HBox();
+			
+			FXMLLoader loader = new FXMLLoader();
+			FXMLLoader loader_2 = new FXMLLoader();
+			
+			Pane root = loader.load(getClass().getResource("/controller/OrderReportForm_For_CompanyManager.fxml").openStream());
+			OrderReportController_For_ComapnyManager orderReportController = loader.getController();
+			orderReportController.loadStore(CompanyManagerUI.stores_For_Company_Manager.get(getItemIndex_First_Store()));
+			
+			Pane root_2 = loader_2.load(getClass().getResource("/controller/OrderReportForm_For_CompanyManager_2.fxml").openStream());
+			OrderReportController_For_ComapnyManager_2 orderReportController_2 = loader_2.getController();
+			orderReportController_2.loadStore(CompanyManagerUI.stores_For_Company_Manager_2.get(getItemIndex_Second_Store()));
+			
+			rootPane.getChildren().addAll(root,root_2); 
+			
+			border.setCenter(rootPane);
+			
+			Scene scene = new Scene(border);
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			Stage primaryStage = new Stage();
+			primaryStage.setScene(scene);
+			primaryStage.setTitle("Comparing Between - Two Different Quarter ---> { The Left Is - Store One , The Right Is - Store Two }");
+			primaryStage.show();
+		}
+		else
+		{
+			((Node)event.getSource()).getScene().getWindow().hide();
+			Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
+			FXMLLoader loader = new FXMLLoader(); 					 	 /* Load object */
+			Pane root = loader.load(getClass().getResource("/controller/Company_Mannager_With_Two_Store_You_Not_Press_On_Store_Or_Date.fxml").openStream());
+			
+			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setScene(scene);
+			primaryStage.setTitle("----- Company Manager With Two Store Not Press On The Combo Box Of Store Or Date -----");
+			primaryStage.show();
+		}
 	}
 		
 /* --------------------------------  The Report About Complaint ----------------------------------- */
@@ -220,31 +255,49 @@ public class CompanyManagerController_With_Two_Store implements Initializable {
 	 */
 	public void CustomerComplaintStatusReport_Store(ActionEvent event) throws Exception       
 	{
-		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
-		BorderPane border = new BorderPane(); 
-		HBox rootPane = new HBox();
+		if((Flag_Enter_On_The_Combo_Box_Store_1 == true && Flag_Enter_On_The_Combo_Box_Date_1 == true) 
+				&& (Flag_Enter_On_The_Combo_Box_Store_2 == true && Flag_Enter_On_The_Combo_Box_Date_2 == true))
+		{
 		
-		FXMLLoader loader = new FXMLLoader();
-		FXMLLoader loader_2 = new FXMLLoader();
-		
-		Pane root = loader.load(getClass().getResource("/controller/CustomerComplaintStatusReportForm_For_ComapnyManager.fxml").openStream());
-		CustomerComplaintStatusReportController_For_CompanyManager customerComplaintStatusReportController = loader.getController();
-		customerComplaintStatusReportController.loadStore(CompanyManagerUI.stores_For_Company_Manager.get(getItemIndex_First_Store()));
-		
-		Pane root_2 = loader_2.load(getClass().getResource("/controller/CustomerComplaintStatusReportForm_For_ComapnyManager_2.fxml").openStream());
-		CustomerComplaintStatusReportController_For_CompanyManager_2 customerComplaintStatusReportController_2 = loader_2.getController();
-		customerComplaintStatusReportController_2.loadStore(CompanyManagerUI.stores_For_Company_Manager_2.get(getItemIndex_Second_Store()));
-		
-		rootPane.getChildren().addAll(root,root_2); 
-		
-		border.setCenter(rootPane);
-		
-		Scene scene = new Scene(border);
-		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-		Stage primaryStage = new Stage();
-		primaryStage.setScene(scene);
-		primaryStage.setTitle("Comparing Between - Two Different Quarter ---> { The Left Is - Store One , The Right Is - Store Two }");
-		primaryStage.show();	
+			((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+			BorderPane border = new BorderPane(); 
+			HBox rootPane = new HBox();
+			
+			FXMLLoader loader = new FXMLLoader();
+			FXMLLoader loader_2 = new FXMLLoader();
+			
+			Pane root = loader.load(getClass().getResource("/controller/CustomerComplaintStatusReportForm_For_ComapnyManager.fxml").openStream());
+			CustomerComplaintStatusReportController_For_CompanyManager customerComplaintStatusReportController = loader.getController();
+			customerComplaintStatusReportController.loadStore(CompanyManagerUI.stores_For_Company_Manager.get(getItemIndex_First_Store()));
+			
+			Pane root_2 = loader_2.load(getClass().getResource("/controller/CustomerComplaintStatusReportForm_For_ComapnyManager_2.fxml").openStream());
+			CustomerComplaintStatusReportController_For_CompanyManager_2 customerComplaintStatusReportController_2 = loader_2.getController();
+			customerComplaintStatusReportController_2.loadStore(CompanyManagerUI.stores_For_Company_Manager_2.get(getItemIndex_Second_Store()));
+			
+			rootPane.getChildren().addAll(root,root_2); 
+			
+			border.setCenter(rootPane);
+			
+			Scene scene = new Scene(border);
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			Stage primaryStage = new Stage();
+			primaryStage.setScene(scene);
+			primaryStage.setTitle("Comparing Between - Two Different Quarter ---> { The Left Is - Store One , The Right Is - Store Two }");
+			primaryStage.show();
+		}
+		else
+		{
+			((Node)event.getSource()).getScene().getWindow().hide();
+			Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
+			FXMLLoader loader = new FXMLLoader(); 					 	 /* Load object */
+			Pane root = loader.load(getClass().getResource("/controller/Company_Mannager_With_Two_Store_You_Not_Press_On_Store_Or_Date.fxml").openStream());
+			
+			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setScene(scene);
+			primaryStage.setTitle("----- Company Manager With Two Store Not Press On The Combo Box Of Store Or Date -----");
+			primaryStage.show();
+		}
 	}
 	
 /* --------------------------------  The Report About Satisfaction ----------------------------------- */
@@ -258,31 +311,48 @@ public class CompanyManagerController_With_Two_Store implements Initializable {
 	 */
 	public void SatisfactionReport_Store(ActionEvent event) throws Exception         
 	{
-		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
-		BorderPane border = new BorderPane(); 
-		HBox rootPane = new HBox();
-		
-		FXMLLoader loader = new FXMLLoader();
-		FXMLLoader loader_2 = new FXMLLoader();
-		
-		Pane root = loader.load(getClass().getResource("/controller/SatisfactionReportForm_For_CompanyManager.fxml").openStream());
-		SatisfactionReportController_For_CompanyManager satisfactionReportController = loader.getController();
-		satisfactionReportController.loadStore(CompanyManagerUI.stores_For_Company_Manager.get(getItemIndex_First_Store()));
-		
-		Pane root_2 = loader_2.load(getClass().getResource("/controller/SatisfactionReportForm_For_CompanyManager_2.fxml").openStream());
-		SatisfactionReportController_For_CompanyManager_2 satisfactionReportController_2 = loader_2.getController();
-		satisfactionReportController_2.loadStore(CompanyManagerUI.stores_For_Company_Manager_2.get(getItemIndex_Second_Store()));
-		
-		rootPane.getChildren().addAll(root,root_2); 
-		
-		border.setCenter(rootPane);
-		
-		Scene scene = new Scene(border);
-		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-		Stage primaryStage = new Stage();
-		primaryStage.setScene(scene);
-		primaryStage.setTitle("Comparing Between - Two Different Quarter ---> { The Left Is - Store One , The Right Is - Store Two }");
-		primaryStage.show();
+		if((Flag_Enter_On_The_Combo_Box_Store_1 == true && Flag_Enter_On_The_Combo_Box_Date_1 == true) 
+				&& (Flag_Enter_On_The_Combo_Box_Store_2 == true && Flag_Enter_On_The_Combo_Box_Date_2 == true))
+		{
+			((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+			BorderPane border = new BorderPane(); 
+			HBox rootPane = new HBox();
+			
+			FXMLLoader loader = new FXMLLoader();
+			FXMLLoader loader_2 = new FXMLLoader();
+			
+			Pane root = loader.load(getClass().getResource("/controller/SatisfactionReportForm_For_CompanyManager.fxml").openStream());
+			SatisfactionReportController_For_CompanyManager satisfactionReportController = loader.getController();
+			satisfactionReportController.loadStore(CompanyManagerUI.stores_For_Company_Manager.get(getItemIndex_First_Store()));
+			
+			Pane root_2 = loader_2.load(getClass().getResource("/controller/SatisfactionReportForm_For_CompanyManager_2.fxml").openStream());
+			SatisfactionReportController_For_CompanyManager_2 satisfactionReportController_2 = loader_2.getController();
+			satisfactionReportController_2.loadStore(CompanyManagerUI.stores_For_Company_Manager_2.get(getItemIndex_Second_Store()));
+			
+			rootPane.getChildren().addAll(root,root_2); 
+			
+			border.setCenter(rootPane);
+			
+			Scene scene = new Scene(border);
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			Stage primaryStage = new Stage();
+			primaryStage.setScene(scene);
+			primaryStage.setTitle("Comparing Between - Two Different Quarter ---> { The Left Is - Store One , The Right Is - Store Two }");
+			primaryStage.show();
+		}
+		else
+		{
+			((Node)event.getSource()).getScene().getWindow().hide();
+			Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
+			FXMLLoader loader = new FXMLLoader(); 					 	 /* Load object */
+			Pane root = loader.load(getClass().getResource("/controller/Company_Mannager_With_Two_Store_You_Not_Press_On_Store_Or_Date.fxml").openStream());
+			
+			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setScene(scene);
+			primaryStage.setTitle("----- Company Manager With Two Store Not Press On The Combo Box Of Store Or Date -----");
+			primaryStage.show();
+		}
 	}	
 	
 /* -------------------------- Taking Store From The Combo Box of Store ------------------------------------ */	
@@ -296,7 +366,16 @@ public class CompanyManagerController_With_Two_Store implements Initializable {
 	public int getItemIndex_First_Store()                                   	
 	{
 		if(cmbFirstStores.getSelectionModel().getSelectedIndex() == -1)
+		{
+			Flag_Enter_On_The_Combo_Box_Store_1_For_Compare = false;
+			Flag_Enter_On_The_Combo_Box_Store_1 = false;
 			return itemIndex_For_Store_1;
+		}
+		else
+		{
+			Flag_Enter_On_The_Combo_Box_Store_1_For_Compare = true;
+			Flag_Enter_On_The_Combo_Box_Store_1 = true;
+		}
 	
 		return cmbFirstStores.getSelectionModel().getSelectedIndex();
 	}
@@ -310,8 +389,16 @@ public class CompanyManagerController_With_Two_Store implements Initializable {
 	public int getItemIndex_Second_Store()                                   	
 	{
 		if(cmbSecondStores.getSelectionModel().getSelectedIndex() == -1)
+		{
+			Flag_Enter_On_The_Combo_Box_Store_2_For_Compare = false;
+			Flag_Enter_On_The_Combo_Box_Store_2 = false;
 			return itemIndex_For_Store_2;
-	
+		}
+		else
+		{
+			Flag_Enter_On_The_Combo_Box_Store_2_For_Compare = true;
+			Flag_Enter_On_The_Combo_Box_Store_2 = true;
+		}
 		return cmbSecondStores.getSelectionModel().getSelectedIndex();
 		
 	}
@@ -327,7 +414,16 @@ public class CompanyManagerController_With_Two_Store implements Initializable {
 	public int getItemIndexFromDateComboBox_For_CompanyManager_FirstStore()                                   	
 	{
 		if(cmbReportsFirstStore.getSelectionModel().getSelectedIndex() == -1)
+		{
+			Flag_Enter_On_The_Combo_Box_Date_1_For_Compare = false;
+			Flag_Enter_On_The_Combo_Box_Date_1 = false;
 			return itemIndex_For_Report_Store_1;
+		}
+		else
+		{
+			Flag_Enter_On_The_Combo_Box_Date_1_For_Compare = true;
+			Flag_Enter_On_The_Combo_Box_Date_1 = true;
+		}
 	
 		return cmbReportsFirstStore.getSelectionModel().getSelectedIndex();
 	}
@@ -343,8 +439,16 @@ public class CompanyManagerController_With_Two_Store implements Initializable {
 	public int getItemIndexFromDateComboBox_For_CompanyManager_SecondStore()                                   	
 	{
 		if(cmbReportsSecondStore.getSelectionModel().getSelectedIndex() == -1)
+		{
+			Flag_Enter_On_The_Combo_Box_Date_2_For_Compare = false;
+			Flag_Enter_On_The_Combo_Box_Date_2 = false;
 			return itemIndex_For_Report_Store_2;
-	
+		}
+		else 
+		{
+			Flag_Enter_On_The_Combo_Box_Date_2_For_Compare = true;
+			Flag_Enter_On_The_Combo_Box_Date_2 = true;
+		}
 		return cmbReportsSecondStore.getSelectionModel().getSelectedIndex();
 	}
 	
@@ -438,46 +542,46 @@ public class CompanyManagerController_With_Two_Store implements Initializable {
 	public void Click_On_Your_First_Store_Choise(ActionEvent event) throws Exception
 	{
 		temp_Store_Id_1 = CompanyManagerUI.stores_For_Company_Manager.get(getItemIndex_First_Store()).getStoreId();
-		msg = new Message(temp_Store_Id_1,"Comapny Manager - Take The Date Of All the Report Of Specific Store");
-		UserUI.myClient.accept(msg);
-		while(CompanyManagerUI.Dates_For_Company_Manager.size() == 0)
+		
+		if(Flag_Enter_On_The_Combo_Box_Store_1 == true && Flag_Enter_On_The_Combo_Box_Store_1_For_Compare == true)
 		{
-			if(CompanyManagerUI.Dates_For_Company_Manager.size() == 0)
+			msg = new Message(temp_Store_Id_1,"Comapny Manager - Take The Date Of All the Report Of Specific Store");
+			UserUI.myClient.accept(msg);
+			while(CompanyManagerUI.Dates_For_Company_Manager.size() == 0)
 			{
-				break;
+				if(CompanyManagerUI.Dates_For_Company_Manager.size() == 0)
+				{
+					break;
+				}
 			}
-		}
-		Thread.sleep(200);
-		set_Dates_Of_Report_Of_Store_One_At_ComboBox();
-		
-		/* ---------------------- For The Revenue Report ---------------------------------- */
-		
-		CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.clear(); 
-		CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.add(temp_Store_Id_1); /* The Store_Id */
-		
-		/* ----------------------- For The Order Report ----------------------------------- */
-		
-		CompanyManagerUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager.clear();
-		CompanyManagerUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager.add(temp_Store_Id_1);  /* The Store_Id */
-		
-		/* ----------------------- For The Complaint Report ------------------------------- */
-		
-		CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager.clear();
-		CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager.add(temp_Store_Id_1);  /* The Store_Id */
-		
-		/* ----------------------- For The Satisfaction Report -----------------------------*/
-		
-		CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.clear();
-		CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.add(temp_Store_Id_1);  /* The Store_Id */
-		
-		/* ----------------------- For The Comparing Between Two Stores Or Two Quarter's ----------------------*/
-		
-		CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_1.clear();
-		CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_1.add(temp_Store_Id_1);  /* The Store_Id */
-		
-		Flag_Enter_On_The_Combo_Box_Store_1 = true;
-		
-		Flag_Enter_On_The_Combo_Box_Store_1_For_Compare = true;
+			Thread.sleep(200);
+			set_Dates_Of_Report_Of_Store_One_At_ComboBox();
+			
+			/* ---------------------- For The Revenue Report ---------------------------------- */
+			
+			CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.clear(); 
+			CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.add(temp_Store_Id_1); /* The Store_Id */
+			
+			/* ----------------------- For The Order Report ----------------------------------- */
+			
+			CompanyManagerUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager.clear();
+			CompanyManagerUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager.add(temp_Store_Id_1);  /* The Store_Id */
+			
+			/* ----------------------- For The Complaint Report ------------------------------- */
+			
+			CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager.clear();
+			CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager.add(temp_Store_Id_1);  /* The Store_Id */
+			
+			/* ----------------------- For The Satisfaction Report -----------------------------*/
+			
+			CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.clear();
+			CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.add(temp_Store_Id_1);  /* The Store_Id */
+			
+			/* ----------------------- For The Comparing Between Two Stores Or Two Quarter's ----------------------*/
+			
+			CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_1.clear();
+			CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_1.add(temp_Store_Id_1);  /* The Store_Id */
+		}	
 	}	
 	
 /* -------------------------------- The Button Of The Store That You Choose ------------------------------- */		
@@ -490,46 +594,46 @@ public class CompanyManagerController_With_Two_Store implements Initializable {
 	public void Click_On_Your_Second_Store_Choise(ActionEvent event) throws Exception
 	{
 		temp_Store_Id_2 = CompanyManagerUI.stores_For_Company_Manager_2.get(getItemIndex_Second_Store()).getStoreId();
-		msg = new Message(temp_Store_Id_2,"Comapny Manager - Take The Date Of All the Report Of Specific Store");
-		UserUI.myClient.accept(msg);
-		while(CompanyManagerUI.Dates_For_Company_Manager_2.size() == 0)
-		{
-			if(CompanyManagerUI.Dates_For_Company_Manager_2.size() == 0)
+		
+		if(Flag_Enter_On_The_Combo_Box_Store_2 == true && Flag_Enter_On_The_Combo_Box_Store_2_For_Compare == true)
+		{	
+			msg = new Message(temp_Store_Id_2,"Comapny Manager - Take The Date Of All the Report Of Specific Store");
+			UserUI.myClient.accept(msg);
+			while(CompanyManagerUI.Dates_For_Company_Manager_2.size() == 0)
 			{
-				break;
+				if(CompanyManagerUI.Dates_For_Company_Manager_2.size() == 0)
+				{
+					break;
+				}
 			}
+			Thread.sleep(200);
+			set_Dates_Of_Report_Of_Store_Two_At_ComboBox();
+			
+			/* ---------------------- For The Revenue Report ------------------------------- */
+			
+			CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager_2.clear();
+			CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager_2.add(temp_Store_Id_2); /* The Store_Id */
+			
+			/* ----------------------- For The Order Report -------------------------------- */
+			
+			CompanyManagerUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager_2.clear();
+			CompanyManagerUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager_2.add(temp_Store_Id_2);  /* The Store_Id */
+			
+			/* ----------------------- For The Complaint Report -----------------------------*/
+			
+			CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager_2.clear();
+			CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager_2.add(temp_Store_Id_2);  /* The Store_Id */
+			
+			/* ----------------------- For The Satisfaction Report ------------------------- */
+			
+			CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager_2.clear();
+			CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager_2.add(temp_Store_Id_2);  /* The Store_Id */
+			
+			/* ----------------------- For The Comparing Between Two Different Quarter Report --------------------------------------------*/
+			
+			CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_2.clear();
+			CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_2.add(temp_Store_Id_2);  /* The Store_Id */
 		}
-		Thread.sleep(200);
-		set_Dates_Of_Report_Of_Store_Two_At_ComboBox();
-		
-		/* ---------------------- For The Revenue Report ------------------------------- */
-		
-		CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager_2.clear();
-		CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager_2.add(temp_Store_Id_2); /* The Store_Id */
-		
-		/* ----------------------- For The Order Report -------------------------------- */
-		
-		CompanyManagerUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager_2.clear();
-		CompanyManagerUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager_2.add(temp_Store_Id_2);  /* The Store_Id */
-		
-		/* ----------------------- For The Complaint Report -----------------------------*/
-		
-		CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager_2.clear();
-		CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager_2.add(temp_Store_Id_2);  /* The Store_Id */
-		
-		/* ----------------------- For The Satisfaction Report ------------------------- */
-		
-		CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager_2.clear();
-		CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager_2.add(temp_Store_Id_2);  /* The Store_Id */
-		
-		/* ----------------------- For The Comparing Between Two Different Quarter Report --------------------------------------------*/
-		
-		CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_2.clear();
-		CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_2.add(temp_Store_Id_2);  /* The Store_Id */
-		
-		Flag_Enter_On_The_Combo_Box_Store_2 = true;
-		
-		Flag_Enter_On_The_Combo_Box_Store_2_For_Compare = true;
 	}
 	
 /* -------------------------------- The Button Of The Report That We Choose ------------------------------- */				
@@ -543,33 +647,33 @@ public class CompanyManagerController_With_Two_Store implements Initializable {
 	{
 		
 		temp_Date_Quarter_Report_1 = CompanyManagerUI.Dates_For_Company_Manager.get(getItemIndexFromDateComboBox_For_CompanyManager_FirstStore());
+		
+		if(Flag_Enter_On_The_Combo_Box_Date_1 == true && Flag_Enter_On_The_Combo_Box_Date_1_For_Compare == true)
+		{
 	
-		/* ---------------------- For The Revenue Report ---------------------------------- */
-		
-		
-		CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.add(temp_Date_Quarter_Report_1); /* The Date Of the Report */
-		
-		/* ----------------------- For The Order Report ----------------------------------- */
-		
-		
-		CompanyManagerUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager.add(temp_Date_Quarter_Report_1);  /* The Date Of the Report */
-		
-		/* ----------------------- For The Complaint Report ------------------------------- */
-		
-		
-		CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager.add(temp_Date_Quarter_Report_1);  /* The Date Of the Report */
-		
-		/* ----------------------- For The Satisfaction Report -----------------------------*/
-		
-		CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.add(temp_Date_Quarter_Report_1);  /* The Date Of the Report */
-		
-		/* ----------------------- For The Comparing Between Two Stores Or Two Quarter's -----------------*/
-		
-		CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_1.add(temp_Date_Quarter_Report_1);  				   /* The Date Of the Report */
-		
-		Flag_Enter_On_The_Combo_Box_Date_1 = true;
-		
-		Flag_Enter_On_The_Combo_Box_Date_1_For_Compare = true;
+			/* ---------------------- For The Revenue Report ---------------------------------- */
+			
+			
+			CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.add(temp_Date_Quarter_Report_1); /* The Date Of the Report */
+			
+			/* ----------------------- For The Order Report ----------------------------------- */
+			
+			
+			CompanyManagerUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager.add(temp_Date_Quarter_Report_1);  /* The Date Of the Report */
+			
+			/* ----------------------- For The Complaint Report ------------------------------- */
+			
+			
+			CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager.add(temp_Date_Quarter_Report_1);  /* The Date Of the Report */
+			
+			/* ----------------------- For The Satisfaction Report -----------------------------*/
+			
+			CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.add(temp_Date_Quarter_Report_1);  /* The Date Of the Report */
+			
+			/* ----------------------- For The Comparing Between Two Stores Or Two Quarter's -----------------*/
+			
+			CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_1.add(temp_Date_Quarter_Report_1);  				   /* The Date Of the Report */
+		}
 	}	
 	
 /* -------------------------------- The Button Of The Report That We Choose ------------------------------- */				
@@ -584,29 +688,28 @@ public class CompanyManagerController_With_Two_Store implements Initializable {
 		
 		temp_Date_Quarter_Report_2 = CompanyManagerUI.Dates_For_Company_Manager_2.get(getItemIndexFromDateComboBox_For_CompanyManager_SecondStore());
 		
-		/* ---------------------- For The Revenue Report ------------------------------- */
-		
-		CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager_2.add(temp_Date_Quarter_Report_2); /* The Date Of the Report */
-		
-		/* ----------------------- For The Order Report -------------------------------- */
-		
-		CompanyManagerUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager_2.add(temp_Date_Quarter_Report_2);  /* The Date Of the Report */
-		
-		/* ----------------------- For The Complaint Report -----------------------------*/
-		
-		CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager_2.add(temp_Date_Quarter_Report_2);  /* The Date Of the Report */
-		
-		/* ----------------------- For The Satisfaction Report ------------------------- */
-		
-		CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager_2.add(temp_Date_Quarter_Report_2);  /* The Date Of the Report */
-		
-		/* ----------------------- For The Comparing Between Two Different Quarter Report --------------------------------------------*/
-		
-		CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_2.add(temp_Date_Quarter_Report_2);  /* The Date Of the Report */							
-		
-		Flag_Enter_On_The_Combo_Box_Date_2 = true;
-		
-		Flag_Enter_On_The_Combo_Box_Date_2_For_Compare = true;
+		if(Flag_Enter_On_The_Combo_Box_Date_2 == true && Flag_Enter_On_The_Combo_Box_Date_2_For_Compare == true)
+		{
+			/* ---------------------- For The Revenue Report ------------------------------- */
+			
+			CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager_2.add(temp_Date_Quarter_Report_2); /* The Date Of the Report */
+			
+			/* ----------------------- For The Order Report -------------------------------- */
+			
+			CompanyManagerUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager_2.add(temp_Date_Quarter_Report_2);  /* The Date Of the Report */
+			
+			/* ----------------------- For The Complaint Report -----------------------------*/
+			
+			CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager_2.add(temp_Date_Quarter_Report_2);  /* The Date Of the Report */
+			
+			/* ----------------------- For The Satisfaction Report ------------------------- */
+			
+			CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager_2.add(temp_Date_Quarter_Report_2);  /* The Date Of the Report */
+			
+			/* ----------------------- For The Comparing Between Two Different Quarter Report --------------------------------------------*/
+			
+			CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_2.add(temp_Date_Quarter_Report_2);  /* The Date Of the Report */							
+		}	
 	}
 	
 	/**
@@ -616,16 +719,33 @@ public class CompanyManagerController_With_Two_Store implements Initializable {
 	 */
 	public void Compare(ActionEvent event) throws Exception
 	{
-		((Node)event.getSource()).getScene().getWindow().hide();    		  /* Hiding primary window */
-		Stage primaryStage = new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		Pane root = loader.load(getClass().getResource("/controller/CompanyManagerReportController_Compare_Between_Two_Diffrent_Quarter.fxml").openStream());
-				
-		Scene scene = new Scene(root);
-		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-		primaryStage.setScene(scene);
-		primaryStage.setTitle("Compare Between ---> { Two Different Store || Two Different Quarter }");
-		primaryStage.show(); 
+		if((Flag_Enter_On_The_Combo_Box_Store_1_For_Compare == true && Flag_Enter_On_The_Combo_Box_Date_1_For_Compare == true) 
+				&& (Flag_Enter_On_The_Combo_Box_Store_2_For_Compare == true && Flag_Enter_On_The_Combo_Box_Date_2_For_Compare == true))
+		{	
+			((Node)event.getSource()).getScene().getWindow().hide();    		  /* Hiding primary window */
+			Stage primaryStage = new Stage();
+			FXMLLoader loader = new FXMLLoader();
+			Pane root = loader.load(getClass().getResource("/controller/CompanyManagerReportController_Compare_Between_Two_Diffrent_Quarter.fxml").openStream());
+					
+			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setScene(scene);
+			primaryStage.setTitle("Compare Between ---> { Two Different Store || Two Different Quarter }");
+			primaryStage.show(); 
+		}
+		else
+		{
+			((Node)event.getSource()).getScene().getWindow().hide();
+			Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
+			FXMLLoader loader = new FXMLLoader(); 					 	 /* Load object */
+			Pane root = loader.load(getClass().getResource("/controller/Company_Mannager_With_Two_Store_You_Not_Press_On_Store_Or_Date.fxml").openStream());
+			
+			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setScene(scene);
+			primaryStage.setTitle("----- Company Manager With Two Store Not Press On The Combo Box Of Store Or Date -----");
+			primaryStage.show();
+		}
 	}
 		
 	/**

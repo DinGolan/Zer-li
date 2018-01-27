@@ -2144,22 +2144,35 @@ public class EchoServer extends AbstractServer
 	  return Revenue_To_Return_And_Number_Of_Order;
   } 
   
+  /**
+   * In This Function We Update The Product Name In The DB
+   * @param msg - object msg with the message Details That We Need For This Function .
+   * @param conn - Connection to DB .
+   */
   @SuppressWarnings("unchecked")
   protected void UpdateProductName(Object msg, Connection conn) 
   {
 	  ArrayList<String> temp = new ArrayList<String>();
 	  ArrayList<String> temp2 = (ArrayList<String>)(((Message)msg).getMsg());
 
-	  for (String s : temp2) {
-		  	temp.add(s);
-	  		}
-			Statement stmt;
-			try {
-			stmt = conn.createStatement();
+	  for (String s : temp2) 
+	  {
+		  	temp.add(s);  							/* Temp is ArrayList That Get All The Product Name */
+	  }
+	  Statement stmt;
+	  try 
+	  {
+			stmt = conn.createStatement();      
+			
+													
 
 			String updateProductName = "UPDATE " + EchoServerController.Scheme + ".product SET ProductName =" + "'" + temp.get(1) +"'" + "WHERE ProductID=" +"'" +temp.get(0) + "'" +";";
-			stmt.executeUpdate(updateProductName);
-			} catch (SQLException e) {	e.printStackTrace();}	  
+			stmt.executeUpdate(updateProductName);  /* Update Specific Product Name */
+	  } 
+	  catch (SQLException e) 
+	  {	
+		  e.printStackTrace();
+	  }	  
   }
   
   /**
@@ -2212,7 +2225,7 @@ public class EchoServer extends AbstractServer
 	  } 
 	  catch (SQLException e) {	e.printStackTrace();}	  
   }
-    
+   
   @SuppressWarnings("unchecked")
   protected Object AddSurveyToDB(Object msg, Connection conn,int id) throws SQLException, ParseException
   {

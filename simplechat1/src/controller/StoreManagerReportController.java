@@ -85,18 +85,34 @@ public class StoreManagerReportController implements Initializable {
 	 */
 	public void QuarterlyRevenueReport(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Report' and Show the GUI of the Quarterly Revenue Report that we Choose */
 	{
-		((Node)event.getSource()).getScene().getWindow().hide();    			  /* Hiding primary window */
-		Stage primaryStage = new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		Pane root = loader.load(getClass().getResource("/controller/QuarterlyRevenueReportForm.fxml").openStream());
-		
-		QuarterlyRevenueReportController quarterlyRevenueReportController = loader.getController();
-		quarterlyRevenueReportController.loadStore(UserUI.store); 
-		
-		Scene scene = new Scene(root);
-		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-		primaryStage.setScene(scene);		
-		primaryStage.show();
+		if(Flag_Press_On_The_Date_ComboBox == true)
+		{
+			((Node)event.getSource()).getScene().getWindow().hide();    			  /* Hiding primary window */
+			Stage primaryStage = new Stage();
+			FXMLLoader loader = new FXMLLoader();
+			Pane root = loader.load(getClass().getResource("/controller/QuarterlyRevenueReportForm.fxml").openStream());
+			
+			QuarterlyRevenueReportController quarterlyRevenueReportController = loader.getController();
+			quarterlyRevenueReportController.loadStore(UserUI.store); 
+			
+			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setScene(scene);		
+			primaryStage.show();
+		}
+		else
+		{
+			((Node)event.getSource()).getScene().getWindow().hide();
+			Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
+			FXMLLoader loader = new FXMLLoader(); 					 	 /* Load object */
+			Pane root = loader.load(getClass().getResource("/controller/Store_Mannager_You_Not_Press_On_Date.fxml").openStream());
+			
+			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setScene(scene);
+			primaryStage.setTitle("----- Store Manager Not Press On The Combo Box Of Date -----");
+			primaryStage.show();
+		}
 	}
 	
 /* --------------------------------  The Report About Order - For Store Manager ----------------------------------------------- */	 	
@@ -108,18 +124,34 @@ public class StoreManagerReportController implements Initializable {
 	 */
 	public void OrderReport(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Report' and Show the GUI of the Order Report that we Choose */
 	{
-		((Node)event.getSource()).getScene().getWindow().hide();       /* Hiding primary window */
-		Stage primaryStage = new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		Pane root = loader.load(getClass().getResource("/controller/OrderReportForm.fxml").openStream());
-		
-		OrderReportController orderReportController = loader.getController();
-		orderReportController.loadStore(UserUI.store);
-		
-		Scene scene = new Scene(root);
-		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-		primaryStage.setScene(scene);		
-		primaryStage.show();
+		if(Flag_Press_On_The_Date_ComboBox == true)
+		{
+			((Node)event.getSource()).getScene().getWindow().hide();       /* Hiding primary window */
+			Stage primaryStage = new Stage();
+			FXMLLoader loader = new FXMLLoader();
+			Pane root = loader.load(getClass().getResource("/controller/OrderReportForm.fxml").openStream());
+			
+			OrderReportController orderReportController = loader.getController();
+			orderReportController.loadStore(UserUI.store);
+			
+			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setScene(scene);		
+			primaryStage.show();
+		}
+		else 
+		{
+			((Node)event.getSource()).getScene().getWindow().hide();
+			Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
+			FXMLLoader loader = new FXMLLoader(); 					 	 /* Load object */
+			Pane root = loader.load(getClass().getResource("/controller/Store_Mannager_You_Not_Press_On_Date.fxml").openStream());
+			
+			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setScene(scene);
+			primaryStage.setTitle("----- Store Manager Not Press On The Combo Box Of Date -----");
+			primaryStage.show();
+		}
 	}
 	
 /* --------------------------------  The Report About Complaint - For Store Manager ------------------------------------------- */
@@ -131,18 +163,34 @@ public class StoreManagerReportController implements Initializable {
 	 */
 	public void CustomerComplaintStatusReport(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Report' and Show the GUI of the Customer Complaint Status Report that we Choose */
 	{
-		((Node)event.getSource()).getScene().getWindow().hide();    					 /* Hiding primary window */
-		Stage primaryStage = new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		Pane root = loader.load(getClass().getResource("/controller/CustomerComplaintStatusReportForm.fxml").openStream());
-		
-		CustomerComplaintStatusReportController customerComplaintStatusReportController = loader.getController();
-		customerComplaintStatusReportController.loadStore(UserUI.store);
-		
-		Scene scene = new Scene(root);
-		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-		primaryStage.setScene(scene);		
-		primaryStage.show();
+		if(Flag_Press_On_The_Date_ComboBox == true)
+		{
+			((Node)event.getSource()).getScene().getWindow().hide();    					 /* Hiding primary window */
+			Stage primaryStage = new Stage();
+			FXMLLoader loader = new FXMLLoader();
+			Pane root = loader.load(getClass().getResource("/controller/CustomerComplaintStatusReportForm.fxml").openStream());
+			
+			CustomerComplaintStatusReportController customerComplaintStatusReportController = loader.getController();
+			customerComplaintStatusReportController.loadStore(UserUI.store);
+			
+			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setScene(scene);		
+			primaryStage.show();
+		}
+		else 
+		{
+			((Node)event.getSource()).getScene().getWindow().hide();
+			Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
+			FXMLLoader loader = new FXMLLoader(); 					 	 /* Load object */
+			Pane root = loader.load(getClass().getResource("/controller/Store_Mannager_You_Not_Press_On_Date.fxml").openStream());
+			
+			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setScene(scene);
+			primaryStage.setTitle("----- Store Manager Not Press On The Combo Box Of Date -----");
+			primaryStage.show();
+		}
 	}
 	
 /* --------------------------------  The Report About Satisfaction - For Store Manager ---------------------------------------- */
@@ -154,18 +202,34 @@ public class StoreManagerReportController implements Initializable {
 	 */
 	public void SatisfactionReport(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Report' and Show the GUI of the Satisfaction Report that we Choose */
 	{
-		((Node)event.getSource()).getScene().getWindow().hide();    		  /* Hiding primary window */
-		Stage primaryStage = new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		Pane root = loader.load(getClass().getResource("/controller/SatisfactionReportForm.fxml").openStream());
-		
-		SatisfactionReportController satisfactionReportController = loader.getController();
-		satisfactionReportController.loadStore(UserUI.store);
-		
-		Scene scene = new Scene(root);
-		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-		primaryStage.setScene(scene);
-		primaryStage.show();
+		if(Flag_Press_On_The_Date_ComboBox == true)
+		{
+			((Node)event.getSource()).getScene().getWindow().hide();    		  /* Hiding primary window */
+			Stage primaryStage = new Stage();
+			FXMLLoader loader = new FXMLLoader();
+			Pane root = loader.load(getClass().getResource("/controller/SatisfactionReportForm.fxml").openStream());
+			
+			SatisfactionReportController satisfactionReportController = loader.getController();
+			satisfactionReportController.loadStore(UserUI.store);
+			
+			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setScene(scene);
+			primaryStage.show();
+		}
+		else 
+		{
+			((Node)event.getSource()).getScene().getWindow().hide();
+			Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
+			FXMLLoader loader = new FXMLLoader(); 					 	 /* Load object */
+			Pane root = loader.load(getClass().getResource("/controller/Store_Mannager_You_Not_Press_On_Date.fxml").openStream());
+			
+			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setScene(scene);
+			primaryStage.setTitle("----- Store Manager Not Press On The Combo Box Of Date -----");
+			primaryStage.show();
+		}
 	}
 		
 /* -------------------------- Taking Date Index From The Combo Box of Store --------------------------------------------------- */	
@@ -177,8 +241,14 @@ public class StoreManagerReportController implements Initializable {
 	public int getItemIndexFromDateComboBox()                                   	
 	{
 		if(cmbReports.getSelectionModel().getSelectedIndex() == -1)
+		{
+			Flag_Press_On_The_Date_ComboBox = false;
 			return itemIndex;
-	
+		}
+		else
+		{
+			Flag_Press_On_The_Date_ComboBox = true;
+		}
 		return cmbReports.getSelectionModel().getSelectedIndex();
 	}
 	
@@ -279,35 +349,37 @@ public class StoreManagerReportController implements Initializable {
 	public void Click_On_Your_Quarter_Report(ActionEvent event) throws Exception
 	{
 		temp_Date_Quarter_Report = StoreManagerUI.Dates.get(getItemIndexFromDateComboBox());
-		ArrayList<Object> Store_Id_And_Date_Of_Report = new ArrayList<Object>();
-		Store_Id_And_Date_Of_Report.add(temp_Store_Id);
-		Store_Id_And_Date_Of_Report.add(temp_Date_Quarter_Report);
-
-		/* ---------------------- For The Revenue Report --------------------------- */
 		
-		StoreManagerUI.Help_To_Transfer_Object_At_Revenue_Report.clear();
-		StoreManagerUI.Help_To_Transfer_Object_At_Revenue_Report.add(Store_Id_And_Date_Of_Report.get(0));  		/* The Store_Id */
-		StoreManagerUI.Help_To_Transfer_Object_At_Revenue_Report.add(Store_Id_And_Date_Of_Report.get(1));    	/* The Date Of the Report */
-		
-		/* ----------------------- For The Order Report -----------------------------*/
-		
-		StoreManagerUI.Help_To_Transfer_Object_At_Order_Report.clear();
-		StoreManagerUI.Help_To_Transfer_Object_At_Order_Report.add(Store_Id_And_Date_Of_Report.get(0));  		/* The Store_Id */
-		StoreManagerUI.Help_To_Transfer_Object_At_Order_Report.add(Store_Id_And_Date_Of_Report.get(1));  		/* The Date Of the Report */
-		
-		/* ----------------------- For The Complaint Report ------------------------ */
-		
-		StoreManagerUI.Help_To_Transfer_Object_At_Complaint_Report.clear();
-		StoreManagerUI.Help_To_Transfer_Object_At_Complaint_Report.add(Store_Id_And_Date_Of_Report.get(0));  	/* The Store_Id */
-		StoreManagerUI.Help_To_Transfer_Object_At_Complaint_Report.add(Store_Id_And_Date_Of_Report.get(1));  	/* The Date Of the Report */
-		
-		/* ----------------------- For The Satisfaction Report --------------------- */
-		
-		StoreManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report.clear();
-		StoreManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
-		StoreManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report.add(Store_Id_And_Date_Of_Report.get(1));  /* The Date Of the Report */
-		
-		Flag_Press_On_The_Date_ComboBox = true;
+		if(Flag_Press_On_The_Date_ComboBox == true)
+		{
+			ArrayList<Object> Store_Id_And_Date_Of_Report = new ArrayList<Object>();
+			Store_Id_And_Date_Of_Report.add(temp_Store_Id);
+			Store_Id_And_Date_Of_Report.add(temp_Date_Quarter_Report);
+	
+			/* ---------------------- For The Revenue Report --------------------------- */
+			
+			StoreManagerUI.Help_To_Transfer_Object_At_Revenue_Report.clear();
+			StoreManagerUI.Help_To_Transfer_Object_At_Revenue_Report.add(Store_Id_And_Date_Of_Report.get(0));  		/* The Store_Id */
+			StoreManagerUI.Help_To_Transfer_Object_At_Revenue_Report.add(Store_Id_And_Date_Of_Report.get(1));    	/* The Date Of the Report */
+			
+			/* ----------------------- For The Order Report -----------------------------*/
+			
+			StoreManagerUI.Help_To_Transfer_Object_At_Order_Report.clear();
+			StoreManagerUI.Help_To_Transfer_Object_At_Order_Report.add(Store_Id_And_Date_Of_Report.get(0));  		/* The Store_Id */
+			StoreManagerUI.Help_To_Transfer_Object_At_Order_Report.add(Store_Id_And_Date_Of_Report.get(1));  		/* The Date Of the Report */
+			
+			/* ----------------------- For The Complaint Report ------------------------ */
+			
+			StoreManagerUI.Help_To_Transfer_Object_At_Complaint_Report.clear();
+			StoreManagerUI.Help_To_Transfer_Object_At_Complaint_Report.add(Store_Id_And_Date_Of_Report.get(0));  	/* The Store_Id */
+			StoreManagerUI.Help_To_Transfer_Object_At_Complaint_Report.add(Store_Id_And_Date_Of_Report.get(1));  	/* The Date Of the Report */
+			
+			/* ----------------------- For The Satisfaction Report --------------------- */
+			
+			StoreManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report.clear();
+			StoreManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
+			StoreManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report.add(Store_Id_And_Date_Of_Report.get(1));  /* The Date Of the Report */
+		}
 	}
 	
 /* -------------------------------- Initialized The ComboBox In the First Window - Report GUI --------------------------------- */	
