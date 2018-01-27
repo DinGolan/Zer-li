@@ -2302,8 +2302,9 @@ public class EchoServer extends AbstractServer
 	  } 
 	  catch (SQLException e) {	e.printStackTrace();}	  
   }
-   /**
-	* add survey to the datebase we send the store id and the end date we check if there is already
+   
+  /**
+  * add survey to the datebase we send the store id and the end date we check if there is already
 	* a survey to this store and if there is we put error msg and dont add this survey
 	* and we check if the end date is less than today(the start date) we put error msg and dont add this survey
 	* if all the field is correct (we dont have error) we add the survey to the database
@@ -2399,7 +2400,9 @@ public class EchoServer extends AbstractServer
  	 
 		return false;
  }
+  
   /**
+   
    * we want the id to be auto increment because of this we check what is the last id and return it +1
    * so that the next survey will be put there
    * @param conn
@@ -2407,6 +2410,7 @@ public class EchoServer extends AbstractServer
    * @throws SQLException
    */
   @SuppressWarnings("unchecked")
+  
   protected int getLastSurveyId(Connection conn) throws SQLException {
  	 int id=0;
 	  		Statement stmt;
@@ -2422,7 +2426,9 @@ public class EchoServer extends AbstractServer
  	 
  	 return id+1;
   }
+  
   /**
+  
    * add survey conclusion to the DB for each customer we send the user and customer id,
    * and we check if the customer already fill this survey if he is we put error msg and dont add this survey result,
    * if all the field is correct (we dont have error) we add the survey result to the database   * @param conn
@@ -2452,6 +2458,7 @@ public class EchoServer extends AbstractServer
 
 
   }
+  
   /**
    * get the info of a specific customer first we check if he exsit and then if he fill the specific 
    * survey if yes return is info
@@ -2491,6 +2498,7 @@ public class EchoServer extends AbstractServer
 			 return ans;
 
   }
+  
   /**
    * add survey result to the DB for each customer we send the user id the 6 answer the store id and customer id,
    * and we check if The storeId is not correct if he is we put error msg and dont add this survey result,
@@ -2583,6 +2591,7 @@ public class EchoServer extends AbstractServer
 
  	 //}
   }
+  
   /**
    * we check if the customer already fill this survey if yes return true else false
    * @param conn
@@ -2605,6 +2614,7 @@ public class EchoServer extends AbstractServer
 			  return true;
 		  return false;
   }
+  
   /**
    * get all the survey data (return all the info in the survey table)
    * @param conn
@@ -2623,7 +2633,8 @@ public class EchoServer extends AbstractServer
  			  return rs;
 
       }
-   /**
+   
+  /**
     * update the survey result after we initelize it   
     * @param msg
     * @param conn
@@ -2681,6 +2692,7 @@ public class EchoServer extends AbstractServer
 
     	 
      }
+  
   /**
    * get all the survey id that in survey result
    * @param conn
