@@ -2258,6 +2258,7 @@ public class EchoServer extends AbstractServer
 		  /* This Code Is For ---> If The Data Company Manager Change The Premmision From CUSTOMER to Another */
 		  
 		  /**
+		    
 		   * if((String_Premmision.compareTo("CUSTOMER") != 0))	  
 		  {
 			  String Find_If_The_User_Was_Customer = "SELECT * FROM " + Scheme_Name + ".account WHERE AccountUserId = " + "'" + temp_User.getId() + "'" + ";" ; 
