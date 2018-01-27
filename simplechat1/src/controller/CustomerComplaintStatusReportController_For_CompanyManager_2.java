@@ -71,11 +71,20 @@ public class CustomerComplaintStatusReportController_For_CompanyManager_2 implem
 	 */
 	public void loadStore(Store s) 					
 	{ 
+		
+		/* For This Code We Will Alaways Get In ! */
+		
 		if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2 == true)
 		{
 			this.store = s;
 			this.txtStoreID.setText(String.valueOf(store.getStoreId()));
 		}
+		
+		/* ---------------------------------------------------------------------------------------------------------------- */
+		
+		/* This Code Is For Defult Value - Its Mean If The Company Manager Not Press On One Of The ComboBox .
+		 * But On Our Code - We Will Not Get Into To This Code Because We Will See Error Prompt Instead To See Defult Value */
+		
 		else if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2 == false)
 		{
 			this.store = s;
@@ -86,6 +95,8 @@ public class CustomerComplaintStatusReportController_For_CompanyManager_2 implem
 		{
 			this.txtStoreID.setText(String.valueOf(2));
 		}
+		
+		/* ---------------------------------------------------------------------------------------------------------------- */
 	}
 
 	/**
@@ -112,6 +123,11 @@ public class CustomerComplaintStatusReportController_For_CompanyManager_2 implem
 		String Full_Date_String;
 		Date temp_Date_Quarter_Report;
 		
+		/* ---------------------------------------------------------------------------------------------------------------- */
+		
+		/* This Code Is For Defult Value - Its Mean If The Company Manager Not Press On One Of The ComboBox .
+		 * But On Our Code - We Will Not Get Into To This Code Because We Will See Error Prompt Instead To See Defult Value */
+		
 		if((CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2 == false)
 				|| (CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2 == true))
 		{
@@ -136,6 +152,11 @@ public class CustomerComplaintStatusReportController_For_CompanyManager_2 implem
 			Year_Integer = Integer.parseInt(Year);
 			Month_Integer = Integer.parseInt(Month);
 		}
+		
+		/* ---------------------------------------------------------------------------------------------------------------- */
+		
+		/* For This Code We Will Alaways Get In ! */
+		
 		else if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2 == true)
 		{
 			temp_Date_Quarter_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager_2.get(1); /* The Date */

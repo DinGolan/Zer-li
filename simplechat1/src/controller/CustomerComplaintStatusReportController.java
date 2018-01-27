@@ -119,6 +119,11 @@ public class CustomerComplaintStatusReportController implements Initializable {
 		String Full_Date_String;
 		Date temp_Date_Quarter_Report;
 		
+		/* ---------------------------------------------------------------------------------------------------------------- */
+		
+		/* This Code Is For Defult Value - Its Mean If The Store Manager Not Press On The ComboBox Of Date .
+		 * But On Our Code - We Will Not Get Into To This Code Because We Will See Error Prompt Instead To See Defult Value */
+		
 		if(StoreManagerReportController.Flag_Press_On_The_Date_ComboBox == false)
 		{
 			StoreManagerUI.Help_To_Transfer_Object_At_Complaint_Report.clear();
@@ -131,6 +136,11 @@ public class CustomerComplaintStatusReportController implements Initializable {
 			Year_Integer = Integer.parseInt(Year);
 			Month_Integer = Integer.parseInt(Month);
 		}
+		
+		/* ---------------------------------------------------------------------------------------------------------------- */
+		
+		/* For This Code We Will Alaways Get In ! */
+		
 		else 
 		{
 			temp_Date_Quarter_Report = (Date)StoreManagerUI.Help_To_Transfer_Object_At_Order_Report.get(1); /* The Date */
