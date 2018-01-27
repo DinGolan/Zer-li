@@ -322,7 +322,7 @@ public class AccountController implements Initializable{
 			Scene scene = new Scene(root);		
 			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 			primaryStage.setScene(scene);	
-			primaryStage.setTitle("Error msg");
+			primaryStage.setTitle("Customer for store");
 			primaryStage.show();
 		}
 	}
@@ -364,7 +364,7 @@ public class AccountController implements Initializable{
 				forRenew.add(1,dateSql); //set the date			
 			}
 			else
-			{ //defult if they didn't choose something
+			{ //Default if they didn't choose something
 				forRenew.add(0, PaymentArrangement.MONTHLY);
 				LocalDate localDate = LocalDate.now().plusMonths(1); //end subscription date one month later
 				java.sql.Date dateSql=null;
@@ -380,7 +380,7 @@ public class AccountController implements Initializable{
 			UserUI.myClient.accept(msg);
 			
 			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
-			root = loader.load(getClass().getResource("/controller/StoreManagerOptions.fxml").openStream());	
+			root = loader.load(getClass().getResource("/controller/UpdateSubscription.fxml").openStream());	
 			Scene scene = new Scene(root);
 			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 			primaryStage.setScene(scene);	
