@@ -26,7 +26,14 @@ import javafx.stage.Stage;
 
 public class UserInfoController_For_DataCompanyManagerController implements Initializable{
 	
+	/**
+	 * This Variable Help Me To Update User Status And Premission .
+	 */
 	private User user;
+	public static User.UserPermission Premmision_Of_Specific_User_Before_Update;
+	public static User.UserPermission Premmision_Of_Specific_User_After_Update;
+	public static User.UserStatus Status_Of_Specific_User_Before_Update;
+	public static User.UserStatus Status_Of_Specific_User_After_Update;
 	
 	/**
 	 * This Variable Helping To Transfer Message From the Client to the DB .
@@ -80,6 +87,10 @@ public class UserInfoController_For_DataCompanyManagerController implements Init
 		this.txtUserPassword.setText(user.getPassword());
 		this.cmbPremmission.setValue(user.getPermission());
 		this.cmbStatus.setValue(user.getStatus());
+		
+		/* Premmision & Status Before Update */
+		Premmision_Of_Specific_User_Before_Update = u.getPermission();
+		Status_Of_Specific_User_Before_Update = u.getStatus();
 	}
 	
 /* --------------------------------- Close the User Info Window --------------------------------------------------------------------------- */	 		
@@ -166,22 +177,106 @@ public class UserInfoController_For_DataCompanyManagerController implements Init
 		temp_User.setPassword(txtUserPassword.getText());
 		temp_User.setPermission((UserPermission) cmbPremmission.getValue());
 		temp_User.setStatus((UserStatus) cmbStatus.getValue());
-		msg = new Message(temp_User, "Update User At Data Base");
-		UserUI.myClient.accept(msg);
 		
-		/* After I Update ---> I Show GUI That Say ---> "The Update Successful ! */
+		/* Premmision & Status After Update */
 		
-		((Node)event.getSource()).getScene().getWindow().hide(); 	 /* Hiding primary window */
-		Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
-		FXMLLoader loader = new FXMLLoader(); 					 	 /* load object */
-		Pane root = loader.load(getClass().getResource("/controller/Data_Company_Manager_The_Update_Was_Good.fxml").openStream());
+		Premmision_Of_Specific_User_After_Update = (UserPermission) cmbPremmission.getValue();
+		Status_Of_Specific_User_After_Update = (UserStatus) cmbStatus.getValue();
 		
-		Scene scene = new Scene(root);	
-		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-		primaryStage.setScene(scene);	
-		primaryStage.setTitle("The Update - Successful");		
-		primaryStage.show();
+		/* Customer Cant Become One Of The Worker In The Company */
 		
+		if(((String.valueOf(Premmision_Of_Specific_User_Before_Update).compareTo("CUSTOMER") == 0) && (String.valueOf(Premmision_Of_Specific_User_After_Update).compareTo("CUSTOMER") != 0))
+				&& ((String.valueOf(Status_Of_Specific_User_Before_Update).compareTo(String.valueOf(Status_Of_Specific_User_After_Update)) != 0) || ((String.valueOf(Status_Of_Specific_User_Before_Update).compareTo(String.valueOf(Status_Of_Specific_User_After_Update)) == 0))))
+		{
+			((Node)event.getSource()).getScene().getWindow().hide(); 	 /* Hiding primary window */
+			Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
+			FXMLLoader loader = new FXMLLoader(); 					 	 /* load object */
+			Pane root = loader.load(getClass().getResource("/controller/Cant_Become_From_Customer_To_Worker_Company.fxml").openStream());
+			
+			Scene scene = new Scene(root);	
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setScene(scene);	
+			primaryStage.setTitle("----- Data Company Manager Option -----");		
+			primaryStage.show();
+		}
+		
+		/* One Of The Worker In The Company Cant Become To Customer */
+		
+		else if(((String.valueOf(Premmision_Of_Specific_User_Before_Update).compareTo("CUSTOMER") != 0) && (String.valueOf(Premmision_Of_Specific_User_After_Update).compareTo("CUSTOMER") == 0))
+				&& ((String.valueOf(Status_Of_Specific_User_Before_Update).compareTo(String.valueOf(Status_Of_Specific_User_After_Update)) != 0) || ((String.valueOf(Status_Of_Specific_User_Before_Update).compareTo(String.valueOf(Status_Of_Specific_User_After_Update)) == 0))))
+		{
+			((Node)event.getSource()).getScene().getWindow().hide(); 	 /* Hiding primary window */
+			Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
+			FXMLLoader loader = new FXMLLoader(); 					 	 /* load object */
+			Pane root = loader.load(getClass().getResource("/controller/Cant_Become_From_Worker_Company_To_Other_Customer.fxml").openStream());
+			
+			Scene scene = new Scene(root);	
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setScene(scene);	
+			primaryStage.setTitle("----- Data Company Manager Option -----");		
+			primaryStage.show();
+		}
+		
+		/* If The Premission & Status Not Change By The Data Company Manager */
+		
+		else if((String.valueOf(Premmision_Of_Specific_User_Before_Update).compareTo(String.valueOf(Premmision_Of_Specific_User_After_Update)) == 0) 
+				&& (String.valueOf(Status_Of_Specific_User_Before_Update).compareTo(String.valueOf(Status_Of_Specific_User_After_Update)) == 0))
+		{
+			((Node)event.getSource()).getScene().getWindow().hide(); 	 /* Hiding primary window */
+			Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
+			FXMLLoader loader = new FXMLLoader(); 					 	 /* load object */
+			Pane root = loader.load(getClass().getResource("/controller/Data_Company_Manager_You_Not_Update_AnyThing.fxml").openStream());
+			
+			Scene scene = new Scene(root);	
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setScene(scene);	
+			primaryStage.setTitle("----- There No Have Any Update -----");		
+			primaryStage.show();
+		}
+		
+		/* If The Premission Before And After The Change Is Not Customer && I Make Change In The Premission Or In The Status */
+		
+		else if(((String.valueOf(Premmision_Of_Specific_User_Before_Update).compareTo("CUSTOMER") != 0) && (String.valueOf(Premmision_Of_Specific_User_After_Update).compareTo("CUSTOMER") != 0))
+				&& ((String.valueOf(Premmision_Of_Specific_User_Before_Update).compareTo(String.valueOf(Premmision_Of_Specific_User_After_Update)) != 0) || (String.valueOf(Status_Of_Specific_User_Before_Update).compareTo(String.valueOf(Status_Of_Specific_User_After_Update)) != 0)))
+		{
+			msg = new Message(temp_User,"Update User At Data Base");
+			UserUI.myClient.accept(msg);
+			
+			/* After I Update ---> I Show GUI That Say ---> "The Update Successful ! */
+			
+			((Node)event.getSource()).getScene().getWindow().hide(); 	 /* Hiding primary window */
+			Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
+			FXMLLoader loader = new FXMLLoader(); 					 	 /* load object */
+			Pane root = loader.load(getClass().getResource("/controller/Data_Company_Manager_The_Update_Was_Good.fxml").openStream());
+			
+			Scene scene = new Scene(root);	
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setScene(scene);	
+			primaryStage.setTitle("----- The Update - Successful -----");		
+			primaryStage.show();
+		}
+		
+		/* If The Premission Before And After The Change Is  ustomer && I Make Change In The Status */
+		
+		else if(((String.valueOf(Premmision_Of_Specific_User_Before_Update).compareTo("CUSTOMER") == 0) && (String.valueOf(Premmision_Of_Specific_User_After_Update).compareTo("CUSTOMER") == 0))
+				&& (String.valueOf(Status_Of_Specific_User_Before_Update).compareTo(String.valueOf(Status_Of_Specific_User_After_Update)) != 0))
+		{
+			msg = new Message(temp_User,"Update User At Data Base");
+			UserUI.myClient.accept(msg);
+			
+			/* After I Update ---> I Show GUI That Say ---> "The Update Successful ! */
+			
+			((Node)event.getSource()).getScene().getWindow().hide(); 	 /* Hiding primary window */
+			Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
+			FXMLLoader loader = new FXMLLoader(); 					 	 /* load object */
+			Pane root = loader.load(getClass().getResource("/controller/Data_Company_Manager_The_Update_Was_Good.fxml").openStream());
+			
+			Scene scene = new Scene(root);	
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setScene(scene);	
+			primaryStage.setTitle("----- The Update - Successful -----");		
+			primaryStage.show();
+		}
 	}
 	
 /* ---------------------------------------------------------------------------------------------------------------------------------------- */

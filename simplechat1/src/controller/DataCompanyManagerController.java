@@ -32,6 +32,7 @@ public class DataCompanyManagerController implements Initializable {
 	 * This Variable Helping To Transfer Message From the Client to the DB .
 	 */
 	private Message msg;
+	public static boolean Flag_Press_On_User_ComboBox = false;
 	
 	/**
 	 *  Defult Index If I Not Press On the ComboBox Of the User's .
@@ -41,7 +42,7 @@ public class DataCompanyManagerController implements Initializable {
 	/**
 	 * Variable That Help Me To Compare Between Two User's .
 	 */
-	public User toCompare; 
+	private User temp_User_To_Know_If_I_Press_On_Combo_Box; 
 	
 	ArrayList<Object> Temp_Array_For_Update;
 	ObservableList<String> userList;
@@ -87,19 +88,37 @@ public class DataCompanyManagerController implements Initializable {
 	 */
 	public void UserInfo(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Choose User' and Show the GUI of the User that we Choose */
 	{
-		((Node)event.getSource()).getScene().getWindow().hide();    /* Hiding primary window */
-		Stage primaryStage = new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		Pane root = loader.load(getClass().getResource("/controller/UserInfoForm_For_DataCompanyManager.fxml").openStream());
+		temp_User_To_Know_If_I_Press_On_Combo_Box = DataCompanyManagerUI.users.get(getItemIndex());
 		
-		UserInfoController_For_DataCompanyManagerController userInfoController_For_DataCompanyManagerController = loader.getController();		                                        
-		userInfoController_For_DataCompanyManagerController.loadUser(DataCompanyManagerUI.users.get(getItemIndex()));  
-		
-		Scene scene = new Scene(root);	
-		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-		primaryStage.setScene(scene);	
-		primaryStage.setTitle("----- User - Info -----");
-		primaryStage.show();
+		if(Flag_Press_On_User_ComboBox == true)
+		{
+			((Node)event.getSource()).getScene().getWindow().hide();    /* Hiding primary window */
+			Stage primaryStage = new Stage();
+			FXMLLoader loader = new FXMLLoader();
+			Pane root = loader.load(getClass().getResource("/controller/UserInfoForm_For_DataCompanyManager.fxml").openStream());
+			
+			UserInfoController_For_DataCompanyManagerController userInfoController_For_DataCompanyManagerController = loader.getController();		                                        
+			userInfoController_For_DataCompanyManagerController.loadUser(temp_User_To_Know_If_I_Press_On_Combo_Box);  
+			
+			Scene scene = new Scene(root);	
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setScene(scene);	
+			primaryStage.setTitle("----- User - Info -----");
+			primaryStage.show();
+		}
+		else if(Flag_Press_On_User_ComboBox == false)
+		{
+			((Node)event.getSource()).getScene().getWindow().hide(); 	 /* Hiding primary window */
+			Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
+			FXMLLoader loader = new FXMLLoader(); 					 	 /* load object */
+			Pane root = loader.load(getClass().getResource("/controller/Data_Company_Manager_Not_Press_On_Combo_Box_Of_User.fxml").openStream());
+			
+			Scene scene = new Scene(root);	
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setScene(scene);	
+			primaryStage.setTitle("----- Data Company Manager Not Press On ComboBox Of User -----");		
+			primaryStage.show();
+		}
 	}
 
 /* -------------------------- Taking User From The Combo Box of User ------------------------------------------------ */		
@@ -111,7 +130,14 @@ public class DataCompanyManagerController implements Initializable {
 	public int getItemIndex()   
 	{
 		if(cmbUsers.getSelectionModel().getSelectedIndex() == -1)
+		{
+			Flag_Press_On_User_ComboBox = false;
 			return itemIndex;
+		}
+		else
+		{
+			Flag_Press_On_User_ComboBox = true;
+		}
 	
 		return cmbUsers.getSelectionModel().getSelectedIndex();
 	}
@@ -188,6 +214,8 @@ public class DataCompanyManagerController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1)  
 	{
+		Flag_Press_On_User_ComboBox = false;
+		
 		ArrayList<User> users = new ArrayList<User>();
 		
 		msg = new Message(users, "Add User To Combo Box From DB");
