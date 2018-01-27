@@ -3165,7 +3165,8 @@ public class EchoServer extends AbstractServer
 			stmt = conn.createStatement();                             
 			 String query = "DELETE FROM " + EchoServerController.Scheme + ".product WHERE ProductID="+product.getpID()+";";
 			 stmt.execute(query);
-			
+			 query = "DELETE FROM " + EchoServerController.Scheme + ".productinsale WHERE ProductID="+product.getpID()+";";
+			 stmt.execute(query);
 		} catch (Exception e) {
 			e.printStackTrace();}
 	}
