@@ -63,6 +63,10 @@ public class ChatClient extends AbstractClient
 		  clientUI.displayUI(msg);
 	  else if(((Message)msg).getOption().compareTo("Add User To Combo Box From DB") == 0)
 		  clientUI.displayUI(msg);
+	  else if(((Message)msg).getOption().compareTo("get store ID of specific store worker") == 0)
+		  clientUI.displayUI(msg);
+	  else if(((Message)msg).getOption().compareTo("get all order of specific store with status APPROVED") == 0)
+		  clientUI.displayUI(msg);
 	  else if(((Message)msg).getOption().compareTo("UserStatus") ==0)
 		  clientUI.sendUser(msg);
 	  else if(((Message)msg).getOption().compareTo("Add new complaint") ==0)

@@ -94,6 +94,12 @@ public class EchoServer extends AbstractServer
 	    		this.sendToAllClients(msg);
 	    }
 	    
+	    if(((Message)msg).getOption().compareTo("get store ID of specific store worker") ==0) 	    /* Check that we get from DB Because We want to Initialized */
+	    {										
+	    		((Message)msg).setMsg(getStoreIdOfSpecificWorker(msg , conn));	  
+	    		this.sendToAllClients(msg);
+	    }
+	    
 	    if(((Message)msg).getOption().compareTo("get all products in sale from DB") ==0) 	    /* Check that we get from DB Because We want to Initialized */
 	    {										
 				/* ArrayList<Product> aa = new ArrayList<Product>(); */
@@ -292,9 +298,20 @@ public class EchoServer extends AbstractServer
 	    	changhUserStatus(msg,conn);    
 	    }
 	    
+	    if(((Message)msg).getOption().compareTo("change spcific order status to receive") ==0) 	    /* change User status to DISCONNECTED in DB */							
+	    {
+	    	changhOrdereStatus(msg,conn);    
+	    }
+	    
 	    if(((Message)msg).getOption().compareTo("get all the survey") ==0) 	    /* get all survey ID */							
 	    {	
 	    	((Message)msg).setMsg(getSurvey(msg,conn));	
+    		this.sendToAllClients(msg);
+	    }
+	    
+	    if(((Message)msg).getOption().compareTo("get all order of specific store with status APPROVED") ==0) 	    /* get all survey ID */							
+	    {	
+	    	((Message)msg).setMsg(getOrdersOfSpecificStoreWithStatusApproved(msg,conn));	
     		this.sendToAllClients(msg);
 	    }
 	    
@@ -2815,6 +2832,25 @@ public class EchoServer extends AbstractServer
 	  return customers;
   }
   
+  
+  protected ArrayList<Integer> getOrdersOfSpecificStoreWithStatusApproved(Object msg, Connection conn)   {
+	  ArrayList<Integer> orders = new ArrayList<Integer>();
+	  int storeNumber = ((int)(((Message)msg).getMsg()));
+	  Statement stmt;
+	  try {
+		  stmt = conn.createStatement();
+		  String getProductsTable = "SELECT * FROM " + EchoServerController.Scheme + ".order WHERE StoreID="+storeNumber+" AND orderStatus='APPROVED';"; //get all the products for this order
+		  ResultSet rs = stmt.executeQuery(getProductsTable);
+		  while(rs.next())
+		  {
+			  orders.add(rs.getInt("orderID"));
+	 	}
+		  if(orders.size() == 0)
+			  orders.add(-1);
+	  } catch (SQLException e) {e.printStackTrace();}	
+	  return orders;
+  }
+  
   protected ArrayList<Product> getProductsInSaleFromDB(Object msg, Connection conn)
   {
 	  ArrayList<Product> products = new ArrayList<Product>();
@@ -3477,6 +3513,24 @@ public class EchoServer extends AbstractServer
 	  return storeNum;
   }
   
+  
+  protected Integer getStoreIdOfSpecificWorker(Object msg, Connection conn) /* this method get the store number for this store manager */
+  {
+	  Statement stmt;
+	  User user=(User)((Message)msg).getMsg();
+	  int storeNum = 0;
+	  try {
+		  stmt = conn.createStatement();
+		  String getUserStoreNum = "SELECT * FROM " + EchoServerController.Scheme + ".storeworkers WHERE StoreEmployeeUserId = " + "'" +  user.getId() + "'" + ";" ; /* Get all the Table from the DB */
+		  ResultSet rs = stmt.executeQuery(getUserStoreNum);
+		  while(rs.next())
+			  storeNum=rs.getInt("StoreID");
+	  } 
+	  catch (SQLException e) {	e.printStackTrace();}	
+	  return storeNum;
+  }
+  
+  
   /**
    * Add new account include subscription and payment method to DB
    *  if this user name doesn't have an account in this store
@@ -3637,6 +3691,21 @@ public class EchoServer extends AbstractServer
 			   createTablecourses = "UPDATE " + EchoServerController.Scheme + ".user SET UserStatus =" + "'" + "CONNECTED" + "'" + "WHERE UserId=" +"'" +userId + "'" +";";
 		  else 
 			  createTablecourses = "UPDATE " + EchoServerController.Scheme + ".user SET UserStatus =" + "'" + "DISCONNECTED" + "'" + "WHERE UserId=" +"'" +userId + "'" +";";
+		  stmt.executeUpdate(createTablecourses);
+			
+	  } 
+	  catch (SQLException e) {	e.printStackTrace();}	  
+  }
+  
+  protected void changhOrdereStatus(Object msg, Connection conn) 			 /* This Method Update the DB */
+  {
+	  int orderId=(int)((Message)msg).getMsg();
+	  String createTablecourses;
+	  Statement stmt;
+	  try {
+		  stmt = conn.createStatement();
+		  createTablecourses = "UPDATE " + EchoServerController.Scheme + ".order SET orderStatus =" + "'" + "RECIVED" + "'" + "WHERE orderID=" +orderId + ";";
+		  System.out.println(createTablecourses);
 		  stmt.executeUpdate(createTablecourses);
 			
 	  } 

@@ -27,6 +27,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -49,7 +50,11 @@ public class OrderController implements Initializable{
 	public static int flag=0;
 	public static boolean accountFlag = false;
 	public static boolean accountExistFlag = true;
+	public static boolean storeIdFlag = false;
+	public static boolean ordersFlag = false;
 	
+	@FXML
+	private Button btChange = null; /* button remove for remove product from cart */
 	@FXML
 	private Button btnRemove = null; /* button remove for remove product from cart */
 	@FXML
@@ -70,8 +75,9 @@ public class OrderController implements Initializable{
 	private Button btnBackToOptions = null; /* button order for continue to create order */
 	@FXML
 	private Button btnTryAgainOrder = null; /* button order for continue to create order */
+	@FXML
+	private Button btnBackToPickOrder = null; /* button order for continue to create order */
 	
-
 	@FXML
 	private RadioButton rdbtnAddPostCard = null; /* button order for continue to create order */
 	@FXML
@@ -123,6 +129,11 @@ public class OrderController implements Initializable{
 	private ComboBox <Integer> cmbOrdersForCustomer=null; //combobox to view all the orders for the specific customer
 	ObservableList<Integer> listForOrderCustomerComboBox;
 	
+	@FXML
+	private ComboBox <Integer> cmbOrders=new ComboBox<>(); //combobox to view all the orders for the specific customer
+	ObservableList<Integer> listForOrders;
+	
+	
 	public static double totalPrice = 0;
 	
 	public static boolean deliveryFlag = false;
@@ -164,6 +175,8 @@ public class OrderController implements Initializable{
 			else
 				lblBalance.setText("0 NS");
 		}
+		if(flag == 5)
+			setOrdersComboBox();
 	}
 	
 	/**
@@ -193,6 +206,25 @@ public class OrderController implements Initializable{
 			cmbProducts.setItems(FXCollections.observableArrayList(listForComboBox)); /* Set the Items Of Faculty at the ComboBox */
 			txtPrice.setText(String.valueOf(totalPrice));
 	}
+	
+	
+	/**
+	 * set in comboBox the orders the store worker can change it
+	 * status to receive.
+	 */
+	public void setOrdersComboBox() // set comboBox of products
+	{
+		   ArrayList<Integer> ordersId = new ArrayList<Integer>();
+		   for(int i= 0 ; i< OrderUI.ordersNumbers.size() ; i++)
+		   {
+			   ordersId.add(OrderUI.ordersNumbers.get(i));
+		   }	  
+		   
+		   listForOrders = FXCollections.observableArrayList(ordersId); 
+		   cmbOrders.setItems(FXCollections.observableArrayList(listForOrders)); /* Set the Items Of Faculty at the ComboBox */
+	}
+	
+	
 	
 	/**
 	 * the customer have an option to regret and remove products
@@ -422,7 +454,17 @@ public class OrderController implements Initializable{
 						pm = Account.PaymentMethod.CASH;
 					else
 						pm = Account.PaymentMethod.CREDITCARD;
-					Order saveOrder = new Order(s, totalPrice, CatalogController.order.getProductsInOrder(), localDate, UserUI.user.getId(), txtRequiredTime.getText(), txtAddress.getText(), txtRecipientsName.getText(), txtRecipientsPhoneNumber.getText(), txtPostCard.getText() , UserUI.store.getStoreId(), pm,Order.orderStatus.APPROVED,0);
+					Order saveOrder;
+					if(localDate.equals(today) && (Integer.valueOf(hours) < (hour+3)) || ((Integer.valueOf(hours) == (hour+3)) && (Integer.valueOf(minutes) <= minute)))
+					{
+						int h = hour + 3;
+						String tempTime = String.valueOf(h) +":"+ String.valueOf(minute);
+						imidiateOrderFlag= true;
+						saveOrder = new Order(s, totalPrice, CatalogController.order.getProductsInOrder(), localDate, UserUI.user.getId(), tempTime, txtAddress.getText(), txtRecipientsName.getText(), txtRecipientsPhoneNumber.getText(), txtPostCard.getText() , UserUI.store.getStoreId(), pm,Order.orderStatus.APPROVED,0);
+
+					}
+					else
+						saveOrder = new Order(s, totalPrice, CatalogController.order.getProductsInOrder(), localDate, UserUI.user.getId(), txtRequiredTime.getText(), txtAddress.getText(), txtRecipientsName.getText(), txtRecipientsPhoneNumber.getText(), txtPostCard.getText() , UserUI.store.getStoreId(), pm,Order.orderStatus.APPROVED,0);
 					Message msg = new Message(saveOrder, "insert order to DB");
 					UserUI.myClient.accept(msg);
 					accountFlag = false;
@@ -454,10 +496,6 @@ public class OrderController implements Initializable{
 						UserUI.myClient.accept(msg);
 					}
 					OrderUI.order = null;
-					if(localDate.equals(today) && (Integer.valueOf(hours) < (hour+3)) || ((Integer.valueOf(hours) == (hour+3)) && (Integer.valueOf(minutes) <= minute)))
-					{
-						imidiateOrderFlag= true;
-					}
 					flag=3;
 					((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
 					Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
@@ -643,6 +681,68 @@ public class OrderController implements Initializable{
 		primaryStage.setTitle("Customer Options");
 		primaryStage.setScene(scene);	
 			
+		primaryStage.show();
+	}
+	
+	/**
+	 * change order status to "receive" in Data Base
+	 * and open successful message or error message.
+	 * @param event - store worker click "change" button
+	 * @throws Exception - if we can't load the fxml file
+	 */
+	public void changeOrderStatus(ActionEvent event) throws Exception
+	{
+		if(cmbOrders.getValue() != null)
+		{
+			int orderId = cmbOrders.getValue();
+			Message msg = new Message(orderId , "change spcific order status to receive");
+			UserUI.myClient.accept(msg);
+			((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+			Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
+			FXMLLoader loader = new FXMLLoader(); 					 /* load object */
+			Pane root = loader.load(getClass().getResource("/controller/ChangeSuccessfulMsg.fxml").openStream());
+		
+			Scene scene = new Scene(root);			
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setTitle("Successful Message");
+			primaryStage.setScene(scene);	
+				
+			primaryStage.show();		
+		}
+		else
+		{
+			flag = 2;
+			((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+			Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
+			FXMLLoader loader = new FXMLLoader(); 					 /* load object */
+			Pane root = loader.load(getClass().getResource("/controller/DidNotPickOrderIdErrMsg.fxml").openStream());
+		
+			Scene scene = new Scene(root);			
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setTitle("Customer Options");
+			primaryStage.setScene(scene);	
+				
+			primaryStage.show();		
+		}
+	}
+	
+	/**
+	 * in case store worker need to change Order status to receive
+	 * we open "Change Order Status Form" window
+	 * @param event - store worker click "back" button
+	 * @throws IOException - if we can't load the fxml file
+	 */
+	public void backToPickOrder(ActionEvent event) throws Exception
+	{
+		flag = 5;
+		((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+		Stage primaryStage = new Stage(); /* Object present window with graphics elements */
+		FXMLLoader loader = new FXMLLoader(); /* load object */
+		Parent root = FXMLLoader.load(getClass().getResource("/controller/ChangeOrderStatus.fxml"));
+		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+		primaryStage.setTitle("Change Order Status Form");
+		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
 }

@@ -29,6 +29,7 @@ import controller.ExpertSurveyController;
 import controller.OrderController;
 import controller.ProfileController;
 import controller.StoreManagerController;
+import controller.StoreWorkerButtonController;
 import controller.SurveyController;
 import controller.SurveyInfoController;
 import controller.SurveyResultController;
@@ -401,6 +402,25 @@ public void displayUI(Object message)
 	    {
   	  		StoreManagerController.storeID=((Integer)((Message)message).getMsg()); //save the store number
   	  		StoreManagerController.flag=true; //finish to get the store number
+	    }
+	    
+	    else if(((Message)message).getOption().compareTo("get store ID of specific store worker") == 0) //get the store number for this store manager
+	    {
+	    	StoreWorkerButtonController.storeId=((Integer)((Message)message).getMsg()); //save the store number
+	    	OrderController.storeIdFlag=true; //finish to get the store number
+	    }
+	    
+	    else if(((Message)message).getOption().compareTo("get all order of specific store with status APPROVED") == 0) //get the store number for this store manager
+	    {
+	    	int i=0;
+	  	  	ArrayList<Integer> temp = new ArrayList<Integer>();
+	  	  	temp = (ArrayList<Integer>)((Message)message).getMsg();
+	  	  	OrderUI.ordersNumbers.clear();
+
+	  	  	for(i=0;i<temp.size();i++)	  	  	
+	  	  		OrderUI.ordersNumbers.add(temp.get(i));
+
+	    	OrderController.ordersFlag = true;
 	    }
 			
 	    else if(((Message)message).getOption().compareTo("Update complaint") == 0) //update complaint	   

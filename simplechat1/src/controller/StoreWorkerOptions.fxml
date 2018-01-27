@@ -12,6 +12,7 @@
          <font>
             <Font name="Bodoni MT Bold" size="35.0" />
          </font></Label>
-      <Button id="btnSave" fx:id="btnSave" layoutX="72.0" layoutY="118.0" mnemonicParsing="false" onAction="#SaveSurvey" prefHeight="44.0" prefWidth="191.0" text="Insert Survey Answers" />
+      <Button id="btnSave" fx:id="btnSave" layoutX="72.0" layoutY="97.0" mnemonicParsing="false" onAction="#SaveSurvey" prefHeight="44.0" prefWidth="191.0" text="Insert Survey Answers" />
+      <Button id="btnUpdateOrderStatus" fx:id="btnUpdateOrderStatus" layoutX="71.0" layoutY="165.0" mnemonicParsing="false" onAction="#updateOrderStatus" prefHeight="44.0" prefWidth="191.0" text="Update Order Status" />
    </children>
 </AnchorPane>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="215.0" prefWidth="312.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.OrderController">
+   <children>
+      <Button id="btChange" fx:id="btChange" layoutX="128.0" layoutY="176.0" mnemonicParsing="false" onAction="#changeOrderStatus" text="Change" />
+      <Label layoutX="39.0" layoutY="21.0" text="Update Order Status" textFill="#0022ff">
+         <font>
+            <Font name="Bodoni MT Bold" size="29.0" />
+         </font></Label>
+      <ComboBox id="cmbOrders" fx:id="cmbOrders" layoutX="81.0" layoutY="122.0" prefWidth="150.0" />
+      <TextArea layoutX="23.0" layoutY="63.0" prefHeight="44.0" prefWidth="271.0" text="Please choose an order you want&#10;change it status to &quot;receive&quot;." />
+   </children>
+</AnchorPane>
