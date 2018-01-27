@@ -27,6 +27,7 @@ import controller.ComplaintHandleController;
 import controller.CustomerController;
 import controller.ExpertSurveyController;
 import controller.OrderController;
+import controller.ProfileController;
 import controller.StoreManagerController;
 import controller.SurveyController;
 import controller.SurveyInfoController;
@@ -634,7 +635,20 @@ public void displayUI(Object message)
 		  	  {
 				  CustomerUI.Account_Of_Specific_Customer.add(temp_Account_Of_Specific_Customer.get(i));
 		  	  }
-	    } 
+	    }
+	    else if(((Message)message).getOption().compareTo("Customer - Check If To The Customer There Have Account") == 0)
+	    {
+	    	  int Count_Account = (int)((Message)message).getMsg();
+	    	  
+		  	  if(Count_Account > 0)
+		  	  {
+		  		  CustomerController.Customer_Have_Account = true;
+		  	  }
+		  	  else 
+		  	  {
+		  		 CustomerController.Customer_Have_Account = false;
+		  	  }
+	    }
 	 }
   
   

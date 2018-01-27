@@ -307,7 +307,8 @@ public class StoreManagerReportController implements Initializable {
 		
 		Scene scene = new Scene(root);
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-		primaryStage.setScene(scene);		
+		primaryStage.setScene(scene);
+		primaryStage.setTitle("----- Store Manager Option -----");
 		primaryStage.show();										   
 	}
 

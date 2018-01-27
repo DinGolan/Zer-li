@@ -258,13 +258,35 @@ public class ProfileController implements Initializable
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
+		/* Taking From The DB All The Details About The Account's Of Specific Customer */
+		
+		Message Message_Three = new Message(UserUI.user,"Customer - Want To Take His Account Details");
+		UserUI.myClient.accept(Message_Three);
+		while(CustomerUI.Account_Of_Specific_Customer.size() == 0);
+		try 
+		{
+			Thread.sleep(200);
+		} 
+		catch (InterruptedException e) 
+		{
+			e.printStackTrace();
+		}
+		
+		Put_The_Account_Of_Specific_Customer_In_Table();
+		
 		/* Taking From The DB All The Details About The Order's Of Specific Customer */
 		
 		this.txtCustomerName.setText(UserUI.user.getUserName());
 		this.txtCustomerID.setText(UserUI.user.getId());
 		Message Message_One = new Message(UserUI.user,"Customer - Want To Take His Order");
 		UserUI.myClient.accept(Message_One);
-		while(CustomerUI.Order_Of_Specific_Customer.size() == 0);
+		while(CustomerUI.Order_Of_Specific_Customer.size() == 0)
+		{
+			if(CustomerUI.Order_Of_Specific_Customer.size() == 0)
+			{
+				break;
+			}
+		}
 		try 
 		{
 			Thread.sleep(200);
@@ -282,7 +304,13 @@ public class ProfileController implements Initializable
 		
 		Message Message_Two = new Message(UserUI.user,"Customer - Want To Take His Complaints");
 		UserUI.myClient.accept(Message_Two);	
-		while(CustomerUI.Complaint_Of_Specific_Customer.size() == 0);
+		while(CustomerUI.Complaint_Of_Specific_Customer.size() == 0)
+		{
+			if(CustomerUI.Complaint_Of_Specific_Customer.size() == 0)
+			{
+				break;
+			}
+		}
 		try 
 		{
 			Thread.sleep(200);
@@ -293,21 +321,5 @@ public class ProfileController implements Initializable
 		}
 		
 		Put_The_Complaint_Of_Specific_Customer_In_Table();
-		
-		/* Taking From The DB All The Details About The Account's Of Specific Customer */
-		
-		Message Message_Three = new Message(UserUI.user,"Customer - Want To Take His Account Details");
-		UserUI.myClient.accept(Message_Three);
-		while(CustomerUI.Account_Of_Specific_Customer.size() == 0);
-		try 
-		{
-			Thread.sleep(200);
-		} 
-		catch (InterruptedException e) 
-		{
-			e.printStackTrace();
-		}
-		
-		Put_The_Account_Of_Specific_Customer_In_Table();
 	}
 }

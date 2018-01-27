@@ -451,11 +451,18 @@ public class EchoServer extends AbstractServer
 	    	this.sendToAllClients(msg);
 	    }
 	    
-	    if(((Message)msg).getOption().compareTo(  "Customer - Want To Take His Account Details") == 0) 	    	
+	    if(((Message)msg).getOption().compareTo("Customer - Want To Take His Account Details") == 0) 	    	
 	    {
 	    	((Message)msg).setMsg(Customer_Want_To_Take_His_Account(msg,conn));  
 	    	this.sendToAllClients(msg);
 	    }
+	    
+	    if(((Message)msg).getOption().compareTo("Customer - Check If To The Customer There Have Account") == 0) 	    	
+	    {
+	    	((Message)msg).setMsg(Customer_Want_To_Check_If_He_Has_Account(msg,conn));  
+	    	this.sendToAllClients(msg);
+	    }
+	    
   }
   
   /**
@@ -507,6 +514,41 @@ public class EchoServer extends AbstractServer
     }
     
     return conn;  
+  }
+  
+  /**
+   * This Function Check If The Amount Of Account Is Zero Or More Than Zero . 
+   * @param msg - object msg with the message Details That We Need For This Function .
+   * @param conn - Connection to DB .
+   * @return
+   */
+  protected int Customer_Want_To_Check_If_He_Has_Account(Object msg , Connection conn)
+  {
+	  Statement stmt;
+	  User Customer_User = (User)(((Message)msg).getMsg());
+	  String Customer_User_ID = Customer_User.getId();
+	  String Scheme_Name = EchoServerController.Scheme; 
+	  int Count_Account = 0;
+	  
+	  try 
+	  {	
+		  /* Check The Amount Of Account Of Specific Customer */
+		  
+		  stmt = conn.createStatement();
+		  String getAccount_Of_Customer_Account_Table = "SELECT * FROM " + Scheme_Name + ".account WHERE AccountUserId = " + "'" + Customer_User_ID + "'" + ";"; 
+		  ResultSet rs = stmt.executeQuery(getAccount_Of_Customer_Account_Table);
+		  
+		  while(rs.next())
+	 	  {
+			  Count_Account++;
+	 	  }  
+	  }
+	  catch (SQLException e) 
+	  {
+			e.printStackTrace();
+	  } 
+	  
+	  return Count_Account; 
   }
   
   /**

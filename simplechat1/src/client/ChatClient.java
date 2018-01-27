@@ -123,6 +123,8 @@ public class ChatClient extends AbstractClient
 		  clientUI.displayUI(msg);
 	  else if(((Message)msg).getOption().compareTo("Customer - Want To Take His Account Details") == 0) 
 		  clientUI.displayUI(msg);
+	  else if(((Message)msg).getOption().compareTo("Customer - Check If To The Customer There Have Account") == 0) 
+		  clientUI.displayUI(msg);
 	  else if(((Message)msg).getOption().compareTo("succed!") == 0) 
 		  clientUI.displayUI(msg);
 	  else if(((Message)msg).getOption().compareTo("Error your date not between start and end date of the survey") == 0) 

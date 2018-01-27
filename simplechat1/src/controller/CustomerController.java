@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import boundery.CustomerUI;
 import boundery.StoreUI;
 import boundery.UserUI;
 import entity.Message;
@@ -34,6 +35,8 @@ public class CustomerController implements Initializable{
 	public static int storeID;
 	
 	public static boolean flag = false;
+	
+	public static boolean Customer_Have_Account = false;
 	
 	@FXML
 	private Button btnViewProfile;
@@ -91,17 +94,48 @@ public class CustomerController implements Initializable{
 	 * @param event - customer click "view profile" button
 	 * @throws Exception - if we can't load the fxml file
 	 */
-	public void openProfileWindow(ActionEvent event) throws Exception {
-		((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
-		Stage primaryStage = new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		Pane root = loader.load(getClass().getResource("/controller/CustomerProfile.fxml").openStream());
+	public void openProfileWindow(ActionEvent event) throws Exception 
+	{
+		/* Check If To The Customer There Have Account */
 		
-		Scene scene = new Scene(root);			
-		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-		primaryStage.setTitle("Profile");
-		primaryStage.setScene(scene);		
-		primaryStage.show();
+		Message Message_One = new Message(UserUI.user,"Customer - Check If To The Customer There Have Account");
+		UserUI.myClient.accept(Message_One);
+		while(CustomerUI.Account_Of_Specific_Customer.size() == 0)
+		{
+			if(CustomerUI.Account_Of_Specific_Customer.size() == 0)
+			{
+				break;
+			}
+		}
+		
+		Thread.sleep(200);
+		
+		if(Customer_Have_Account == true)
+		{
+			((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
+			Stage primaryStage = new Stage();
+			FXMLLoader loader = new FXMLLoader();
+			Pane root = loader.load(getClass().getResource("/controller/CustomerProfile.fxml").openStream());
+			
+			Scene scene = new Scene(root);			
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setTitle("Profile");
+			primaryStage.setScene(scene);		
+			primaryStage.show();
+		}
+		else if(Customer_Have_Account == false)
+		{
+			((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+			Stage primaryStage = new Stage();
+			FXMLLoader loader = new FXMLLoader();
+			Pane root = loader.load(getClass().getResource("/controller/Customer_Dont_Have_Account.fxml").openStream());
+			
+			Scene scene = new Scene(root);			
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setTitle("Customer Dont Have Account");
+			primaryStage.setScene(scene);		
+			primaryStage.show();
+		}
 	}
 	
 	/**
@@ -130,6 +164,8 @@ public class CustomerController implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) // Initialized The ComboBox of the Product 
 	{
+		Customer_Have_Account = false;
+		
 		if(flag == false)
 			setComboBox();
 	}
