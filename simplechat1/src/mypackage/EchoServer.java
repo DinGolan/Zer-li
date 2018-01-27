@@ -2824,7 +2824,8 @@ public class EchoServer extends AbstractServer
    * @param conn -connection to DB
    * @return ArrayList<Integer> - all the orders number
    */
-  protected ArrayList<Integer> getAllOrdersToCustomerCancel(Object msg, Connection conn) //this method get all the orders that match to specific customer and can be cancel  {
+  protected ArrayList<Integer> getAllOrdersToCustomerCancel(Object msg, Connection conn) //this method get all the orders that match to specific customer and can be cancel  
+  {
 	 int StoreNum = Integer.parseInt(((ArrayList<String>)(((Message)msg).getMsg())).get(1));
 	 String requestedCustomerId=((ArrayList<String>)(((Message)msg).getMsg())).get(0);
 	 ArrayList<Integer> ordersNums = new ArrayList<Integer>();
@@ -2876,7 +2877,8 @@ public class EchoServer extends AbstractServer
   * @param conn -connection to DB
   * @return Order- Order with all the requested information field- just the fields that we show on the gui
   */
-  protected Order getSelectedOrderDetails(Object msg, Connection conn) //this method return an order from the DB  {
+  protected Order getSelectedOrderDetails(Object msg, Connection conn) //this method return an order from the DB  
+  {
 	  int requestedOrderNum=(int)(((Message)msg).getMsg());
 	  Order o = null;
 	  Statement stmt;
@@ -3051,7 +3053,8 @@ public class EchoServer extends AbstractServer
    * @param conn -connection to DB
    * @return ArrayList<Integer> - all the orders number
    */
-  protected ArrayList<Integer> getAllOrdersToCustomer(Object msg, Connection conn) //this method get all the orders that match to specific customer  {
+  protected ArrayList<Integer> getAllOrdersToCustomer(Object msg, Connection conn) //this method get all the orders that match to specific customer  
+  {
 	  String requestedCustomerId=(String)(((Message)msg).getMsg());
 	  ArrayList<Integer> ordersNums = new ArrayList<Integer>();
 	  Statement stmt;
