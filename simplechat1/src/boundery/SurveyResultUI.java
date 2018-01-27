@@ -5,6 +5,9 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import mypackage.ClientConsole;
 
+/**
+ * class to save static variables that belong to the Survey Result
+ */
 public class SurveyResultUI extends Application{
 
 	public static ClientConsole myClient;
