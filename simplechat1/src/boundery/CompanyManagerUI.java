@@ -67,7 +67,7 @@ public class CompanyManagerUI extends Application { 					/* With This Class We S
 	
 	
 /**
- * The Function 'Start' - This Function run the Application Of The Company Manager
+ * The Function 'Start' - This Function run the Application Of The Company Manager If I Not Use With UserUI
  */
 	@Override
 	public void start(Stage arg0) throws Exception 

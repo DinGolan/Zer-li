@@ -36,7 +36,7 @@ public class StoreManagerUI extends Application 		/* With This Class We Show the
 	
 	
 	/**
-	* The Function 'Start' - This Function run the Application Of The Store Manager 
+	* The Function 'Start' - This Function run the Application Of The Store Manager If I Not Running From UserUI 
 	 */
 	@Override
 	public void start(Stage arg0) throws Exception 
