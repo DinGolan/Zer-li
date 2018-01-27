@@ -2,6 +2,7 @@ package controller;
 
 import java.net.URL;
 import java.sql.Date;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -189,6 +190,7 @@ public class QuarterlyRevenueReportController implements Initializable{
 		String Amount_Of_Order_Of_Specific_Quarter = String.valueOf(StoreManagerUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter.get(1)); /* The Amount Of Order */
 		
 		this.txtQuantityOfOrder.setText(String.valueOf(Amount_Of_Order_Of_Specific_Quarter));
+		Revenue_Of_Specific_Quarter = String.valueOf(Double.parseDouble(new DecimalFormat("##.####").format(Revenue_Of_Specific_Quarter)));
 		this.txtRevenueOfSpecificQuarter.setText(Revenue_Of_Specific_Quarter);   
 	} 
 	
