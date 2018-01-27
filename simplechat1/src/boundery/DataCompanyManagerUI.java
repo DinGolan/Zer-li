@@ -22,7 +22,7 @@ public class DataCompanyManagerUI extends Application
 	 
 	
 /**
-*  The Function 'Start' - Run The Application of the Data Company Manager
+*  The Function 'Start' - Run The Application of the Data Company Manager If I Not Running From UserUI
 */
 	@Override
 	public void start(Stage arg0) throws Exception 
