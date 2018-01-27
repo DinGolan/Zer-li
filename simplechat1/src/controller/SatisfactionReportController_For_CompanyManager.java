@@ -83,11 +83,19 @@ public class SatisfactionReportController_For_CompanyManager implements Initiali
 	{ 
 			if(CompanyManagerReportController.Integer_The_Option_You_Choose == 1)
 			{
+					/* For This Code We Will Alaways Get In ! */
+				
 					if(CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == true && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == true)
 					{
 						this.store = s;
 						this.txtStoreID.setText(String.valueOf(store.getStoreId()));
 					}
+					
+					/* ---------------------------------------------------------------------------------------------------------------- */
+					
+					/* This Code Is For Defult Value - Its Mean If The Company Manager Not Press On One Of The ComboBox .
+					 * But On Our Code - We Will Not Get Into To This Code Because We Will See Error Prompt Instead To See Defult Value */
+					
 					else if(CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == true && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == false)
 					{
 						this.store = s;
@@ -98,14 +106,25 @@ public class SatisfactionReportController_For_CompanyManager implements Initiali
 					{
 						this.txtStoreID.setText(String.valueOf(1));
 					}
+					
+					/* ---------------------------------------------------------------------------------------------------------------- */
+					
 			}
 			else if(CompanyManagerReportController.Integer_The_Option_You_Choose == 2)
 			{
+				/* For This Code We Will Alaways Get In ! */
+				
 				if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == true)
 				{
 					this.store = s;
 					this.txtStoreID.setText(String.valueOf(store.getStoreId()));
 				}
+				
+				/* ---------------------------------------------------------------------------------------------------------------- */
+				
+				/* This Code Is For Defult Value - Its Mean If The Company Manager Not Press On One Of The ComboBox .
+				 * But On Our Code - We Will Not Get Into To This Code Because We Will See Error Prompt Instead To See Defult Value */
+				
 				else if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == false) 	
 				{
 					this.store = s;
@@ -116,6 +135,9 @@ public class SatisfactionReportController_For_CompanyManager implements Initiali
 				{
 					this.txtStoreID.setText(String.valueOf(1));
 				}
+				
+				/* ---------------------------------------------------------------------------------------------------------------- */
+				
 			}
 	}
 	
@@ -178,6 +200,12 @@ public class SatisfactionReportController_For_CompanyManager implements Initiali
 		
 		if(CompanyManagerReportController.Integer_The_Option_You_Choose == 1)
 		{
+			
+			/* ---------------------------------------------------------------------------------------------------------------- */
+			
+			/* This Code Is For Defult Value - Its Mean If The Company Manager Not Press On One Of The ComboBox .
+			 * But On Our Code - We Will Not Get Into To This Code Because We Will See Error Prompt Instead To See Defult Value */
+			
 			if((CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == false && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == false)
 					|| (CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == true && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == false))
 			{
@@ -202,6 +230,11 @@ public class SatisfactionReportController_For_CompanyManager implements Initiali
 				Year_Integer = Integer.parseInt(Year);
 				Month_Integer = Integer.parseInt(Month);
 			}
+			
+			/* ---------------------------------------------------------------------------------------------------------------- */
+			
+			/* For This Code We Will Alaways Get In ! */
+			
 			else if(CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == true && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == true) 
 			{
 				temp_Date_Quarter_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.get(1); /* The Date */
@@ -214,6 +247,12 @@ public class SatisfactionReportController_For_CompanyManager implements Initiali
 		}
 		else if(CompanyManagerReportController.Integer_The_Option_You_Choose == 2)
 		{
+			
+			/* ---------------------------------------------------------------------------------------------------------------- */
+			
+			/* This Code Is For Defult Value - Its Mean If The Company Manager Not Press On One Of The ComboBox .
+			 * But On Our Code - We Will Not Get Into To This Code Because We Will See Error Prompt Instead To See Defult Value */
+			
 			if((CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == false)
 					|| (CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == true))
 			{
@@ -239,6 +278,11 @@ public class SatisfactionReportController_For_CompanyManager implements Initiali
 				Month_Integer = Integer.parseInt(Month);
 				
 			}
+			
+			/* ---------------------------------------------------------------------------------------------------------------- */
+			
+			/* For This Code We Will Alaways Get In ! */
+			
 			else if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == true)
 			{
 				temp_Date_Quarter_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.get(1); /* The Date */

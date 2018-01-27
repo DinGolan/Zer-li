@@ -15,38 +15,36 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
- * This Class Its For - Error Message That ---> If The Company Manager Not 
- * Choose Any Option Of - How Much The Amount Of View The Store .
+ * This Class Is For ---> If The Company Manager That See Two Store Press On The Same Store And Date Report .
  * @author dingo
  *
  */
-public class Company_Manager_Error_Choose_Option implements Initializable {
+public class Company_Mannager_Try_To_Watch_On_Same_Store_And_Quarter implements Initializable {
 
-    @FXML
-    private TextArea txtErrMsg;
+	@FXML
+	private TextArea txtErrMsg;
 
-    @FXML
-    private Button btnTryAgain;
-    
-    /**
-     * This Function Is For - Return To The GUI Of Company Manager That Choose How Much Store He Want To Watch .
+	@FXML
+	private Button btnTryAgain;
+	
+	 /**
+     * This Function Is For - Return To The GUI Of Company Manager With Two Store .
      * @param event - When The Client Press On the Butten This Parameter Start To Work .
 	 * @throws Exception - If The FXML Not Work .
      */
-    public void TryAgain(ActionEvent event) throws Exception 
-    {
-    	((Node)event.getSource()).getScene().getWindow().hide();
-	    Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
+	public void TryAgain(ActionEvent event) throws Exception 
+	{
+	    ((Node)event.getSource()).getScene().getWindow().hide();
+		Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
 		FXMLLoader loader = new FXMLLoader(); 					 	 /* Load object */
-		Pane root = loader.load(getClass().getResource("/controller/CompanyManagerReportForm.fxml").openStream());
-		
+		Pane root = loader.load(getClass().getResource("/controller/CompanyManagerReportForm_Window_With_Two_Store.fxml").openStream());
+			
 		Scene scene = new Scene(root);
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);
-		primaryStage.setTitle("----- Company Manager Report Form Option -----");
+		primaryStage.setTitle("----- Company Manager ---> Watch On Two Store -----");
 		primaryStage.show();
-    }
-    
+	}
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {}

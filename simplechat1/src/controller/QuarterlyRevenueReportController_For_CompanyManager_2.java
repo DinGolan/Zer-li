@@ -55,12 +55,21 @@ public class QuarterlyRevenueReportController_For_CompanyManager_2 implements In
 	 */
 	public void loadStore(Store s) 					
 	{ 
+		
+		/* For This Code We Will Alaways Get In ! */
+		
 		if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2 == true)
 		{	
 			this.store = s;
 			this.txtStoreID.setText(String.valueOf(store.getStoreId()));
 			this.txtStoreAddress.setText((store.getStore_Address()));
 		}
+		
+		/* ---------------------------------------------------------------------------------------------------------------- */
+		
+		/* This Code Is For Defult Value - Its Mean If The Company Manager Not Press On One Of The ComboBox .
+		 * But On Our Code - We Will Not Get Into To This Code Because We Will See Error Prompt Instead To See Defult Value */
+		
 		else if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2 == false)
 		{
 			this.store = s;
@@ -73,6 +82,9 @@ public class QuarterlyRevenueReportController_For_CompanyManager_2 implements In
 			this.txtStoreID.setText(String.valueOf(2));
 			this.txtStoreAddress.setText("Haifa");
 		}
+		
+		/* ---------------------------------------------------------------------------------------------------------------- */
+		
 	}
 
 /* --------------------------------- Loading Quarter Number To the Text Fields ------------------------------------------------------------------------------ */	
@@ -83,10 +95,19 @@ public class QuarterlyRevenueReportController_For_CompanyManager_2 implements In
 	 */
 	public void loadQuarter(String string) 					/* To load the Store details to the text fields */
 	{ 
+		
+		/* For This Code We Will Alaways Get In ! */
+		
 		if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2 == true)
 		{	
 			this.txtQuarterNum.setText(string);
 		}
+		
+		/* ---------------------------------------------------------------------------------------------------------------- */
+		
+		/* This Code Is For Defult Value - Its Mean If The Company Manager Not Press On One Of The ComboBox .
+		 * But On Our Code - We Will Not Get Into To This Code Because We Will See Error Prompt Instead To See Defult Value */
+		
 		else if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2 == false)
 		{
 			this.txtQuarterNum.setText(String.valueOf(3));
@@ -96,6 +117,9 @@ public class QuarterlyRevenueReportController_For_CompanyManager_2 implements In
 		{
 			this.txtQuarterNum.setText(String.valueOf(3));
 		}
+		
+		/* ---------------------------------------------------------------------------------------------------------------- */
+		
 	}
  
 /* --------------------------------- Close the Quarterly Revenue Report Window ------------------------------------------------------------------------------ */		
@@ -126,6 +150,11 @@ public class QuarterlyRevenueReportController_For_CompanyManager_2 implements In
 		String Full_Date_String;
 		Date temp_Date_Quarter_Report;
 		
+		/* ---------------------------------------------------------------------------------------------------------------- */
+		
+		/* This Code Is For Defult Value - Its Mean If The Company Manager Not Press On One Of The ComboBox .
+		 * But On Our Code - We Will Not Get Into To This Code Because We Will See Error Prompt Instead To See Defult Value */
+		
 		if((CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2 == false) 
 				|| (CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2 == false))
 		{
@@ -150,6 +179,11 @@ public class QuarterlyRevenueReportController_For_CompanyManager_2 implements In
 			Year_Integer = Integer.parseInt(Year);
 			Month_Integer = Integer.parseInt(Month);
 		}
+		
+		/* ---------------------------------------------------------------------------------------------------------------- */
+		
+		/* For This Code We Will Alaways Get In ! */
+		
 		else if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2 == true)
 		{
 			temp_Date_Quarter_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager_2.get(1); /* The Date */

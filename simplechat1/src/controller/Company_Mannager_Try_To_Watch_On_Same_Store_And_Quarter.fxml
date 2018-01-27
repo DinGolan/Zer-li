@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="243.0" prefWidth="856.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Company_Mannager_Try_To_Watch_On_Same_Store_And_Quarter">
+   <children>
+      <Label layoutX="10.0" layoutY="24.0" prefHeight="39.0" prefWidth="836.0" text="Company Manager - Try To Watch On Same Store And Quarter" textFill="#0022ff">
+         <font>
+            <Font name="Bodoni MT Italic" size="32.0" />
+         </font>
+      </Label>
+      <TextArea id="txtErrMsg" fx:id="txtErrMsg" editable="false" layoutX="126.0" layoutY="82.0" prefHeight="79.0" prefWidth="591.0" text="Company Manager Press On The Same Store And Quarter !&#10;Please Try Again !" />
+      <Button id="btnTryAgain" fx:id="btnTryAgain" layoutX="395.0" layoutY="182.0" mnemonicParsing="false" onAction="#TryAgain" text="Try Again" />
+   </children>
+</AnchorPane>

@@ -146,32 +146,47 @@ public class CompanyManagerController_With_Two_Store implements Initializable {
 		if((Flag_Enter_On_The_Combo_Box_Store_1 == true && Flag_Enter_On_The_Combo_Box_Date_1 == true) 
 				&& (Flag_Enter_On_The_Combo_Box_Store_2 == true && Flag_Enter_On_The_Combo_Box_Date_2 == true))
 		{
-		
-			((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
-			BorderPane border = new BorderPane(); 
-			HBox rootPane = new HBox();
-			
-			FXMLLoader loader = new FXMLLoader();
-			FXMLLoader loader_2 = new FXMLLoader();
-			
-			Pane root = loader.load(getClass().getResource("/controller/QuarterlyRevenueReportForm_For_CompanyManager.fxml").openStream());
-			QuarterlyRevenueReportController_For_CompanyManager quarterlyRevenueReportController = loader.getController();
-			quarterlyRevenueReportController.loadStore(CompanyManagerUI.stores_For_Company_Manager.get(getItemIndex_First_Store())); 
-			
-			Pane root_2 = loader_2.load(getClass().getResource("/controller/QuarterlyRevenueReportForm_For_CompanyManager_2.fxml").openStream());
-			QuarterlyRevenueReportController_For_CompanyManager_2 quarterlyRevenueReportController_2 = loader_2.getController();
-			quarterlyRevenueReportController_2.loadStore(CompanyManagerUI.stores_For_Company_Manager_2.get(getItemIndex_Second_Store())); 
-			
-			rootPane.getChildren().addAll(root,root_2); 
-			
-			border.setCenter(rootPane);
-			
-			Scene scene = new Scene(border);
-			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-			Stage primaryStage = new Stage();
-			primaryStage.setScene(scene);
-			primaryStage.setTitle("Comparing Between - Two Different Quarter ---> { The Left Is - Store One , The Right Is - Store Two }");
-			primaryStage.show();
+			if((temp_Store_Id_1 == temp_Store_Id_2) && (temp_Date_Quarter_Report_1.equals(temp_Date_Quarter_Report_2)))
+			{
+				((Node)event.getSource()).getScene().getWindow().hide();
+				Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
+				FXMLLoader loader = new FXMLLoader(); 					 	 /* Load object */
+				Pane root = loader.load(getClass().getResource("/controller/Company_Mannager_Try_To_Watch_On_Same_Store_And_Quarter.fxml").openStream());
+				
+				Scene scene = new Scene(root);
+				scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+				primaryStage.setScene(scene);
+				primaryStage.setTitle("----- Company Manager Try To Watch On The Same Store And Quarter -----");
+				primaryStage.show();
+			}
+			else
+			{
+				((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+				BorderPane border = new BorderPane(); 
+				HBox rootPane = new HBox();
+				
+				FXMLLoader loader = new FXMLLoader();
+				FXMLLoader loader_2 = new FXMLLoader();
+				
+				Pane root = loader.load(getClass().getResource("/controller/QuarterlyRevenueReportForm_For_CompanyManager.fxml").openStream());
+				QuarterlyRevenueReportController_For_CompanyManager quarterlyRevenueReportController = loader.getController();
+				quarterlyRevenueReportController.loadStore(CompanyManagerUI.stores_For_Company_Manager.get(getItemIndex_First_Store())); 
+				
+				Pane root_2 = loader_2.load(getClass().getResource("/controller/QuarterlyRevenueReportForm_For_CompanyManager_2.fxml").openStream());
+				QuarterlyRevenueReportController_For_CompanyManager_2 quarterlyRevenueReportController_2 = loader_2.getController();
+				quarterlyRevenueReportController_2.loadStore(CompanyManagerUI.stores_For_Company_Manager_2.get(getItemIndex_Second_Store())); 
+				
+				rootPane.getChildren().addAll(root,root_2); 
+				
+				border.setCenter(rootPane);
+				
+				Scene scene = new Scene(border);
+				scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+				Stage primaryStage = new Stage();
+				primaryStage.setScene(scene);
+				primaryStage.setTitle("Comparing Between - Two Different Quarter ---> { The Left Is - Store One , The Right Is - Store Two }");
+				primaryStage.show();
+			}
 		}
 		else
 		{
@@ -202,31 +217,47 @@ public class CompanyManagerController_With_Two_Store implements Initializable {
 		if((Flag_Enter_On_The_Combo_Box_Store_1 == true && Flag_Enter_On_The_Combo_Box_Date_1 == true) 
 				&& (Flag_Enter_On_The_Combo_Box_Store_2 == true && Flag_Enter_On_The_Combo_Box_Date_2 == true))
 		{
-			((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
-			BorderPane border = new BorderPane(); 
-			HBox rootPane = new HBox();
-			
-			FXMLLoader loader = new FXMLLoader();
-			FXMLLoader loader_2 = new FXMLLoader();
-			
-			Pane root = loader.load(getClass().getResource("/controller/OrderReportForm_For_CompanyManager.fxml").openStream());
-			OrderReportController_For_ComapnyManager orderReportController = loader.getController();
-			orderReportController.loadStore(CompanyManagerUI.stores_For_Company_Manager.get(getItemIndex_First_Store()));
-			
-			Pane root_2 = loader_2.load(getClass().getResource("/controller/OrderReportForm_For_CompanyManager_2.fxml").openStream());
-			OrderReportController_For_ComapnyManager_2 orderReportController_2 = loader_2.getController();
-			orderReportController_2.loadStore(CompanyManagerUI.stores_For_Company_Manager_2.get(getItemIndex_Second_Store()));
-			
-			rootPane.getChildren().addAll(root,root_2); 
-			
-			border.setCenter(rootPane);
-			
-			Scene scene = new Scene(border);
-			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-			Stage primaryStage = new Stage();
-			primaryStage.setScene(scene);
-			primaryStage.setTitle("Comparing Between - Two Different Quarter ---> { The Left Is - Store One , The Right Is - Store Two }");
-			primaryStage.show();
+			if((temp_Store_Id_1 == temp_Store_Id_2) && (temp_Date_Quarter_Report_1.equals(temp_Date_Quarter_Report_2)))
+			{
+				((Node)event.getSource()).getScene().getWindow().hide();
+				Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
+				FXMLLoader loader = new FXMLLoader(); 					 	 /* Load object */
+				Pane root = loader.load(getClass().getResource("/controller/Company_Mannager_Try_To_Watch_On_Same_Store_And_Quarter.fxml").openStream());
+				
+				Scene scene = new Scene(root);
+				scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+				primaryStage.setScene(scene);
+				primaryStage.setTitle("----- Company Manager Try To Watch On The Same Store And Quarter -----");
+				primaryStage.show();
+			}
+			else
+			{
+				((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+				BorderPane border = new BorderPane(); 
+				HBox rootPane = new HBox();
+				
+				FXMLLoader loader = new FXMLLoader();
+				FXMLLoader loader_2 = new FXMLLoader();
+				
+				Pane root = loader.load(getClass().getResource("/controller/OrderReportForm_For_CompanyManager.fxml").openStream());
+				OrderReportController_For_ComapnyManager orderReportController = loader.getController();
+				orderReportController.loadStore(CompanyManagerUI.stores_For_Company_Manager.get(getItemIndex_First_Store()));
+				
+				Pane root_2 = loader_2.load(getClass().getResource("/controller/OrderReportForm_For_CompanyManager_2.fxml").openStream());
+				OrderReportController_For_ComapnyManager_2 orderReportController_2 = loader_2.getController();
+				orderReportController_2.loadStore(CompanyManagerUI.stores_For_Company_Manager_2.get(getItemIndex_Second_Store()));
+				
+				rootPane.getChildren().addAll(root,root_2); 
+				
+				border.setCenter(rootPane);
+				
+				Scene scene = new Scene(border);
+				scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+				Stage primaryStage = new Stage();
+				primaryStage.setScene(scene);
+				primaryStage.setTitle("Comparing Between - Two Different Quarter ---> { The Left Is - Store One , The Right Is - Store Two }");
+				primaryStage.show();
+			}
 		}
 		else
 		{
@@ -258,32 +289,47 @@ public class CompanyManagerController_With_Two_Store implements Initializable {
 		if((Flag_Enter_On_The_Combo_Box_Store_1 == true && Flag_Enter_On_The_Combo_Box_Date_1 == true) 
 				&& (Flag_Enter_On_The_Combo_Box_Store_2 == true && Flag_Enter_On_The_Combo_Box_Date_2 == true))
 		{
-		
-			((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
-			BorderPane border = new BorderPane(); 
-			HBox rootPane = new HBox();
-			
-			FXMLLoader loader = new FXMLLoader();
-			FXMLLoader loader_2 = new FXMLLoader();
-			
-			Pane root = loader.load(getClass().getResource("/controller/CustomerComplaintStatusReportForm_For_ComapnyManager.fxml").openStream());
-			CustomerComplaintStatusReportController_For_CompanyManager customerComplaintStatusReportController = loader.getController();
-			customerComplaintStatusReportController.loadStore(CompanyManagerUI.stores_For_Company_Manager.get(getItemIndex_First_Store()));
-			
-			Pane root_2 = loader_2.load(getClass().getResource("/controller/CustomerComplaintStatusReportForm_For_ComapnyManager_2.fxml").openStream());
-			CustomerComplaintStatusReportController_For_CompanyManager_2 customerComplaintStatusReportController_2 = loader_2.getController();
-			customerComplaintStatusReportController_2.loadStore(CompanyManagerUI.stores_For_Company_Manager_2.get(getItemIndex_Second_Store()));
-			
-			rootPane.getChildren().addAll(root,root_2); 
-			
-			border.setCenter(rootPane);
-			
-			Scene scene = new Scene(border);
-			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-			Stage primaryStage = new Stage();
-			primaryStage.setScene(scene);
-			primaryStage.setTitle("Comparing Between - Two Different Quarter ---> { The Left Is - Store One , The Right Is - Store Two }");
-			primaryStage.show();
+			if((temp_Store_Id_1 == temp_Store_Id_2) && (temp_Date_Quarter_Report_1.equals(temp_Date_Quarter_Report_2)))
+			{
+				((Node)event.getSource()).getScene().getWindow().hide();
+				Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
+				FXMLLoader loader = new FXMLLoader(); 					 	 /* Load object */
+				Pane root = loader.load(getClass().getResource("/controller/Company_Mannager_Try_To_Watch_On_Same_Store_And_Quarter.fxml").openStream());
+				
+				Scene scene = new Scene(root);
+				scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+				primaryStage.setScene(scene);
+				primaryStage.setTitle("----- Company Manager Try To Watch On The Same Store And Quarter -----");
+				primaryStage.show();
+			}
+			else
+			{
+				((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+				BorderPane border = new BorderPane(); 
+				HBox rootPane = new HBox();
+				
+				FXMLLoader loader = new FXMLLoader();
+				FXMLLoader loader_2 = new FXMLLoader();
+				
+				Pane root = loader.load(getClass().getResource("/controller/CustomerComplaintStatusReportForm_For_ComapnyManager.fxml").openStream());
+				CustomerComplaintStatusReportController_For_CompanyManager customerComplaintStatusReportController = loader.getController();
+				customerComplaintStatusReportController.loadStore(CompanyManagerUI.stores_For_Company_Manager.get(getItemIndex_First_Store()));
+				
+				Pane root_2 = loader_2.load(getClass().getResource("/controller/CustomerComplaintStatusReportForm_For_ComapnyManager_2.fxml").openStream());
+				CustomerComplaintStatusReportController_For_CompanyManager_2 customerComplaintStatusReportController_2 = loader_2.getController();
+				customerComplaintStatusReportController_2.loadStore(CompanyManagerUI.stores_For_Company_Manager_2.get(getItemIndex_Second_Store()));
+				
+				rootPane.getChildren().addAll(root,root_2); 
+				
+				border.setCenter(rootPane);
+				
+				Scene scene = new Scene(border);
+				scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+				Stage primaryStage = new Stage();
+				primaryStage.setScene(scene);
+				primaryStage.setTitle("Comparing Between - Two Different Quarter ---> { The Left Is - Store One , The Right Is - Store Two }");
+				primaryStage.show();
+			}
 		}
 		else
 		{
@@ -314,31 +360,47 @@ public class CompanyManagerController_With_Two_Store implements Initializable {
 		if((Flag_Enter_On_The_Combo_Box_Store_1 == true && Flag_Enter_On_The_Combo_Box_Date_1 == true) 
 				&& (Flag_Enter_On_The_Combo_Box_Store_2 == true && Flag_Enter_On_The_Combo_Box_Date_2 == true))
 		{
-			((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
-			BorderPane border = new BorderPane(); 
-			HBox rootPane = new HBox();
-			
-			FXMLLoader loader = new FXMLLoader();
-			FXMLLoader loader_2 = new FXMLLoader();
-			
-			Pane root = loader.load(getClass().getResource("/controller/SatisfactionReportForm_For_CompanyManager.fxml").openStream());
-			SatisfactionReportController_For_CompanyManager satisfactionReportController = loader.getController();
-			satisfactionReportController.loadStore(CompanyManagerUI.stores_For_Company_Manager.get(getItemIndex_First_Store()));
-			
-			Pane root_2 = loader_2.load(getClass().getResource("/controller/SatisfactionReportForm_For_CompanyManager_2.fxml").openStream());
-			SatisfactionReportController_For_CompanyManager_2 satisfactionReportController_2 = loader_2.getController();
-			satisfactionReportController_2.loadStore(CompanyManagerUI.stores_For_Company_Manager_2.get(getItemIndex_Second_Store()));
-			
-			rootPane.getChildren().addAll(root,root_2); 
-			
-			border.setCenter(rootPane);
-			
-			Scene scene = new Scene(border);
-			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-			Stage primaryStage = new Stage();
-			primaryStage.setScene(scene);
-			primaryStage.setTitle("Comparing Between - Two Different Quarter ---> { The Left Is - Store One , The Right Is - Store Two }");
-			primaryStage.show();
+			if((temp_Store_Id_1 == temp_Store_Id_2) && (temp_Date_Quarter_Report_1.equals(temp_Date_Quarter_Report_2)))
+			{
+				((Node)event.getSource()).getScene().getWindow().hide();
+				Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
+				FXMLLoader loader = new FXMLLoader(); 					 	 /* Load object */
+				Pane root = loader.load(getClass().getResource("/controller/Company_Mannager_Try_To_Watch_On_Same_Store_And_Quarter.fxml").openStream());
+				
+				Scene scene = new Scene(root);
+				scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+				primaryStage.setScene(scene);
+				primaryStage.setTitle("----- Company Manager Try To Watch On The Same Store And Quarter -----");
+				primaryStage.show();
+			}
+			else
+			{
+				((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+				BorderPane border = new BorderPane(); 
+				HBox rootPane = new HBox();
+				
+				FXMLLoader loader = new FXMLLoader();
+				FXMLLoader loader_2 = new FXMLLoader();
+				
+				Pane root = loader.load(getClass().getResource("/controller/SatisfactionReportForm_For_CompanyManager.fxml").openStream());
+				SatisfactionReportController_For_CompanyManager satisfactionReportController = loader.getController();
+				satisfactionReportController.loadStore(CompanyManagerUI.stores_For_Company_Manager.get(getItemIndex_First_Store()));
+				
+				Pane root_2 = loader_2.load(getClass().getResource("/controller/SatisfactionReportForm_For_CompanyManager_2.fxml").openStream());
+				SatisfactionReportController_For_CompanyManager_2 satisfactionReportController_2 = loader_2.getController();
+				satisfactionReportController_2.loadStore(CompanyManagerUI.stores_For_Company_Manager_2.get(getItemIndex_Second_Store()));
+				
+				rootPane.getChildren().addAll(root,root_2); 
+				
+				border.setCenter(rootPane);
+				
+				Scene scene = new Scene(border);
+				scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+				Stage primaryStage = new Stage();
+				primaryStage.setScene(scene);
+				primaryStage.setTitle("Comparing Between - Two Different Quarter ---> { The Left Is - Store One , The Right Is - Store Two }");
+				primaryStage.show();
+			}
 		}
 		else
 		{
@@ -726,16 +788,32 @@ public class CompanyManagerController_With_Two_Store implements Initializable {
 		if((Flag_Enter_On_The_Combo_Box_Store_1_For_Compare == true && Flag_Enter_On_The_Combo_Box_Date_1_For_Compare == true) 
 				&& (Flag_Enter_On_The_Combo_Box_Store_2_For_Compare == true && Flag_Enter_On_The_Combo_Box_Date_2_For_Compare == true))
 		{	
-			((Node)event.getSource()).getScene().getWindow().hide();    		  /* Hiding primary window */
-			Stage primaryStage = new Stage();
-			FXMLLoader loader = new FXMLLoader();
-			Pane root = loader.load(getClass().getResource("/controller/CompanyManagerReportController_Compare_Between_Two_Diffrent_Quarter.fxml").openStream());
-					
-			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-			primaryStage.setScene(scene);
-			primaryStage.setTitle("Compare Between ---> { Two Different Store || Two Different Quarter }");
-			primaryStage.show(); 
+			if((temp_Store_Id_1 == temp_Store_Id_2) && (temp_Date_Quarter_Report_1.equals(temp_Date_Quarter_Report_2)))
+			{
+				((Node)event.getSource()).getScene().getWindow().hide();
+				Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
+				FXMLLoader loader = new FXMLLoader(); 					 	 /* Load object */
+				Pane root = loader.load(getClass().getResource("/controller/Company_Mannager_Try_To_Watch_On_Same_Store_And_Quarter.fxml").openStream());
+				
+				Scene scene = new Scene(root);
+				scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+				primaryStage.setScene(scene);
+				primaryStage.setTitle("----- Company Manager Try To Watch On The Same Store And Quarter -----");
+				primaryStage.show();
+			}
+			else
+			{
+				((Node)event.getSource()).getScene().getWindow().hide();    		  /* Hiding primary window */
+				Stage primaryStage = new Stage();
+				FXMLLoader loader = new FXMLLoader();
+				Pane root = loader.load(getClass().getResource("/controller/CompanyManagerReportController_Compare_Between_Two_Diffrent_Quarter.fxml").openStream());
+						
+				Scene scene = new Scene(root);
+				scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+				primaryStage.setScene(scene);
+				primaryStage.setTitle("Compare Between ---> { Two Different Store || Two Different Quarter }");
+				primaryStage.show(); 
+			}
 		}
 		else
 		{
@@ -750,27 +828,6 @@ public class CompanyManagerController_With_Two_Store implements Initializable {
 			primaryStage.setTitle("----- Company Manager With Two Store Not Press On The Combo Box Of Store Or Date -----");
 			primaryStage.show();
 		}
-	}
-		
-	/**
-	 * In This Function We Return To The First GUI Of ---> Choose Two Store & Their Date Report .
-	 * @param event - When The Client Press On the Butten This Parameter Start To Work .
-	 * @throws Exception - If The FXML Not Work .
-	 */
-	public void Not_Press_On_Any_Store_For_Compare(ActionEvent event) throws Exception
-	{
-		CompanyManagerUI.Object_From_Comparing_For_Store_1.clear();
-		CompanyManagerUI.Object_From_Comparing_For_Store_2.clear();
-		((Node)event.getSource()).getScene().getWindow().hide(); 	 /* Hiding primary window */
-		Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
-		FXMLLoader loader = new FXMLLoader(); 					 	 /* Load object */
-		Pane root = loader.load(getClass().getResource("/controller/CompanyManagerReportForm_Window_With_Two_Store.fxml").openStream());
-		
-		Scene scene = new Scene(root);
-		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-		primaryStage.setScene(scene);
-		primaryStage.setTitle("----- Company Manager Report With Two Store -----");
-		primaryStage.show();
 	}
 	
 	/**
