@@ -43,7 +43,9 @@ public class ExpertSurveyController implements Initializable {
 	private ComboBox cmbSurveyCustomerId;  /* ComboBox With List Of Product */
 	@FXML
 	private ComboBox cmbSurveyId;  /* ComboBox With List Of Product */
-	
+	@FXML
+	private Button btnCloseNoCombo = null;	
+
 	private ArrayList<Integer> temp;
 	private Message msg,msg2;
 	public static boolean flag = false,flagError=false;
@@ -103,7 +105,7 @@ public class ExpertSurveyController implements Initializable {
 	public int getItemIndex(ComboBox cmb) /* With this Method we Take Product from the List of the Product at the ComboBox */
 	{
 		if(cmb.getSelectionModel().getSelectedIndex() ==-1)
-			return itemIndex;
+			return -1;
 	
 		return cmb.getSelectionModel().getSelectedIndex();
 	}
@@ -117,10 +119,31 @@ public class ExpertSurveyController implements Initializable {
 	 * @throws IOException
 	 */
 	public void addConclusion(ActionEvent event) throws IOException {
+		
+		if(getItemIndex(cmbSurveyId)==-1 ||getItemIndex(cmbSurveyCustomerId)==-1)
+		{
+			errorMsg = null;
+			flagError =true;
+			Pane root = null;
+			Stage primaryStage = new Stage(); //Object present window with graphics elements
+			FXMLLoader loader = new FXMLLoader(); //load object
+			((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
+			root = loader.load(getClass().getResource("/controller/errorMsgNoComboExpert.fxml").openStream());
+			Scene scene = new Scene(root);	
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setScene(scene);	
+			primaryStage.setTitle("Error msg");
+			primaryStage.show();
+
+			return;
+		}
+		
 		ArrayList<String> i = new ArrayList<String>();
 		i.add(Integer.toString(UserUI.Id.get(getItemIndex(cmbSurveyId))));//id
 		i.add(Integer.toString(UserUI.CId.get(getItemIndex(cmbSurveyCustomerId))));
 		i.add(txt1.getText());//conclusion
+		
+		
 		
 		if(txt1.getText().length()==0)
 		{
@@ -192,12 +215,31 @@ public class ExpertSurveyController implements Initializable {
 	 */
 	public void openInfo(ActionEvent event)throws IOException  {
 
+		if(getItemIndex(cmbSurveyId)==-1 ||getItemIndex(cmbSurveyCustomerId)==-1)
+		{
+			errorMsg = null;
+			flagError =true;
+			Pane root = null;
+			Stage primaryStage = new Stage(); //Object present window with graphics elements
+			FXMLLoader loader = new FXMLLoader(); //load object
+			((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
+			root = loader.load(getClass().getResource("/controller/errorMsgNoComboExpert.fxml").openStream());
+			Scene scene = new Scene(root);	
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setScene(scene);	
+			primaryStage.setTitle("Error msg");
+			primaryStage.show();
+
+			return;
+		}
+
 		surveyId = Integer.toString(UserUI.Id.get(getItemIndex(cmbSurveyId)));
 		customerId= Integer.toString(UserUI.CId.get(getItemIndex(cmbSurveyCustomerId)));
 		
 		ArrayList<String> temp2 = new ArrayList<String>();
 		temp2.add(ExpertSurveyController.surveyId);
 		temp2.add(ExpertSurveyController.customerId);
+		
 		
 		msg = new Message(temp2, "get info survey");
 		UserUI.myClient.accept(msg);

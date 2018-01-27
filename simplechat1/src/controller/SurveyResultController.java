@@ -52,6 +52,9 @@ public class SurveyResultController implements Initializable{
 	private Button btnCloseCustomer = null; /* button close for close product form */
 	@FXML
 	private Button btnCloseSuccessful = null;	
+	@FXML
+	private Button btnCloseNoCombo = null;	
+
 
 	@FXML
 	private ComboBox cmbSurveyId= null;  /* ComboBox With List Of Product */
@@ -98,7 +101,7 @@ public class SurveyResultController implements Initializable{
 	public int getItemIndex(ComboBox cmb) /* With this Method we Take Product from the List of the Product at the ComboBox */
 	{
 		if(cmb.getSelectionModel().getSelectedIndex() ==-1)
-			return itemIndex;
+			return -1;
 	
 		return cmb.getSelectionModel().getSelectedIndex();
 	}
@@ -112,6 +115,23 @@ public class SurveyResultController implements Initializable{
 	 * @throws IOException
 	 */
 	public void addSurveyResult(ActionEvent event) throws IOException {
+		
+		if(getItemIndex(cmbSurveyId)==-1|| getItemIndex(cmbAnswer1)==-1 || getItemIndex(cmbAnswer2)==-1|| getItemIndex(cmbAnswer3)==-1|| getItemIndex(cmbAnswer4)==-1|| getItemIndex(cmbAnswer5)==-1|| getItemIndex(cmbAnswer6)==-1 || getItemIndex(cmbSurveyStore) ==-1 || getItemIndex(cmbSurveyCustomerId)==-1) {
+			errorMsg = null;
+			flagError =true;
+			Pane root = null;
+			Stage primaryStage = new Stage(); //Object present window with graphics elements
+			FXMLLoader loader = new FXMLLoader(); //load object
+			((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
+			root = loader.load(getClass().getResource("/controller/errorNoComboRes.fxml").openStream());
+			Scene scene = new Scene(root);		
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setScene(scene);	
+			primaryStage.setTitle("Error msg");
+			primaryStage.show();
+			return;
+	}
+		
 		ArrayList<Integer> i = new ArrayList<Integer>();
 		i.add(UserUI.Id.get(getItemIndex(cmbSurveyId)));
 		i.add(getItemIndex(cmbAnswer1) +1);
@@ -122,6 +142,8 @@ public class SurveyResultController implements Initializable{
 		i.add(getItemIndex(cmbAnswer6) +1);
 		i.add(getItemIndex(cmbSurveyStore) +1);
 		i.add(UserUI.CId.get(getItemIndex(cmbSurveyCustomerId)));
+		
+	
 
 		// add customer id----------------------------------
 		

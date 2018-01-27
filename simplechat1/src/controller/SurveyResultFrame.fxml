@@ -6,80 +6,80 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="965.0" prefWidth="1223.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SurveyResultController">
+<AnchorPane prefHeight="675.0" prefWidth="1003.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SurveyResultController">
    <children>
-      <AnchorPane layoutX="-13.0" layoutY="-8.0" prefHeight="666.0" prefWidth="812.0">
+      <AnchorPane layoutX="-25.0" layoutY="-10.0" prefHeight="666.0" prefWidth="812.0">
          <children>
-            <Label layoutX="438.0" layoutY="47.0" text="Zer-Li Survey Answer" textFill="#3200ff">
+            <Label layoutX="378.0" layoutY="22.0" text="Zer-Li Survey Answer" textFill="#3200ff">
                <font>
                   <Font name="System Bold" size="35.0" />
                </font>
             </Label>
-            <Label layoutX="122.0" layoutY="143.0" text="Choose Survey ID: ">
+            <Label layoutX="98.0" layoutY="99.0" text="Choose Survey ID: ">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <ComboBox id="cmbSurveyID" fx:id="cmbSurveyId" layoutX="303.0" layoutY="141.0" prefWidth="150.0" />
-            <Label layoutX="512.0" layoutY="144.0" text="Choose Store ID: ">
+            <ComboBox id="cmbSurveyID" fx:id="cmbSurveyId" layoutX="303.0" layoutY="100.0" prefWidth="150.0" />
+            <Label layoutX="98.0" layoutY="187.0" text="Choose Store ID: ">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <ComboBox id="cmbSurveyStore" fx:id="cmbSurveyStore" layoutX="693.0" layoutY="142.0" prefWidth="150.0" />
+            <ComboBox id="cmbSurveyStore" fx:id="cmbSurveyStore" layoutX="303.0" layoutY="188.0" prefWidth="150.0" />
             <ComboBox id="cmbAnswer1" fx:id="cmbAnswer1" layoutX="818.0" layoutY="238.0" prefWidth="150.0" />
-            <ComboBox id="cmbAnswer2" fx:id="cmbAnswer2" layoutX="822.0" layoutY="335.0" prefWidth="150.0" />
-            <ComboBox id="cmbAnswer3" fx:id="cmbAnswer3" layoutX="822.0" layoutY="435.0" prefWidth="150.0" />
-            <ComboBox id="cmbAnswer4" fx:id="cmbAnswer4" layoutX="826.0" layoutY="547.0" prefWidth="150.0" />
-            <ComboBox id="cmbAnswer5" fx:id="cmbAnswer5" layoutX="826.0" layoutY="645.0" prefWidth="150.0" />
+            <ComboBox id="cmbAnswer2" fx:id="cmbAnswer2" layoutX="818.0" layoutY="296.0" prefWidth="150.0" />
+            <ComboBox id="cmbAnswer3" fx:id="cmbAnswer3" layoutX="818.0" layoutY="352.0" prefWidth="150.0" />
+            <ComboBox id="cmbAnswer4" fx:id="cmbAnswer4" layoutX="818.0" layoutY="414.0" prefWidth="150.0" />
+            <ComboBox id="cmbAnswer5" fx:id="cmbAnswer5" layoutX="818.0" layoutY="472.0" prefWidth="150.0" />
+            <Label layoutX="97.0" layoutY="295.0" text="How much you where content from our price range:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="97.0" layoutY="351.0" text="How much you where content from the store service:  ">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="97.0" layoutY="413.0" text="How much you where content from our shopping experience:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="97.0" layoutY="471.0" text="How much you where content from our delivery option:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="98.0" layoutY="527.0" text="What is your total  General satisfaction from out shop:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <ComboBox id="cmbAnswer6" fx:id="cmbAnswer6" layoutX="818.0" layoutY="528.0" prefWidth="150.0" />
+            <Button id="txtQ1" fx:id="btnAdd" layoutX="371.0" layoutY="595.0" mnemonicParsing="false" onAction="#addSurveyResult" text="Add">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button id="txtQ1" fx:id="btnClose" layoutX="642.0" layoutY="596.0" mnemonicParsing="false" onAction="#Close" text="Cancel">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Label layoutX="97.0" layoutY="141.0" text="Choose Customer ID: ">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <ComboBox id="cmbSurveyCustomerId" fx:id="cmbSurveyCustomerId" layoutX="303.0" layoutY="142.0" prefWidth="150.0" />
+            <Label layoutX="97.0" layoutY="237.0" text="How much you where content from our product variety:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
-      <Button id="txtQ1" fx:id="btnAdd" layoutX="376.0" layoutY="861.0" mnemonicParsing="false" onAction="#addSurveyResult" text="Add">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Button>
-      <Label layoutX="80.0" layoutY="235.0" text="How much you where content from our product variety:">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
-      <Button id="txtQ1" fx:id="btnClose" layoutX="661.0" layoutY="861.0" mnemonicParsing="false" onAction="#Close" text="Cancel">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Button>
-      <Label layoutX="81.0" layoutY="330.0" text="How much you where content from our price range:">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
-      <Label layoutX="81.0" layoutY="431.0" text="How much you where content from the store service:  ">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
-      <Label layoutX="81.0" layoutY="539.0" text="How much you where content from our shopping experience:">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
-      <Label layoutX="81.0" layoutY="640.0" text="How much you where content from our delivery option:">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
-      <Label layoutX="81.0" layoutY="747.0" text="What is your total  General satisfaction from out shop:">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
-      <ComboBox id="cmbAnswer6" fx:id="cmbAnswer6" layoutX="814.0" layoutY="745.0" prefWidth="150.0" />
-      <Label layoutX="872.0" layoutY="135.0" text="Choose Customer ID: ">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <ComboBox id="cmbSurveyCustomerId" fx:id="cmbSurveyCustomerId" layoutX="1053.0" layoutY="133.0" prefWidth="150.0" />
    </children>
 </AnchorPane>

@@ -2225,7 +2225,18 @@ public class EchoServer extends AbstractServer
 	  } 
 	  catch (SQLException e) {	e.printStackTrace();}	  
   }
-   
+   /**
+	* add survey to the datebase we send the store id and the end date we check if there is already
+	* a survey to this store and if there is we put error msg and dont add this survey
+	* and we check if the end date is less than today(the start date) we put error msg and dont add this survey
+	* if all the field is correct (we dont have error) we add the survey to the database
+    * @param msg
+    * @param conn
+    * @param id
+    * @return
+    * @throws SQLException
+    * @throws ParseException
+    */
   @SuppressWarnings("unchecked")
   protected Object AddSurveyToDB(Object msg, Connection conn,int id) throws SQLException, ParseException
   {
@@ -2311,7 +2322,13 @@ public class EchoServer extends AbstractServer
  	 
 		return false;
  }
-  
+  /**
+   * we want the id to be auto increment because of this we check what is the last id and return it +1
+   * so that the next survey will be put there
+   * @param conn
+   * @return
+   * @throws SQLException
+   */
   @SuppressWarnings("unchecked")
   protected int getLastSurveyId(Connection conn) throws SQLException {
  	 int id=0;
@@ -2328,7 +2345,14 @@ public class EchoServer extends AbstractServer
  	 
  	 return id+1;
   }
-  
+  /**
+   * add survey conclusion to the DB for each customer we send the user and customer id,
+   * and we check if the customer already fill this survey if he is we put error msg and dont add this survey result,
+   * if all the field is correct (we dont have error) we add the survey result to the database   * @param conn
+   * @param msg
+   * @return
+   * @throws SQLException
+   */
   @SuppressWarnings("unchecked")
   protected ArrayList<Integer> addConclusion(Connection conn, Object msg) throws SQLException {
 	  		Statement stmt;
@@ -2351,7 +2375,14 @@ public class EchoServer extends AbstractServer
 
 
   }
-  
+  /**
+   * get the info of a specific customer first we check if he exsit and then if he fill the specific 
+   * survey if yes return is info
+   * @param conn
+   * @param msg
+   * @return
+   * @throws SQLException
+   */
   @SuppressWarnings("unchecked")
   protected ArrayList<Integer> getSurveyInfo(Connection conn, Object msg) throws SQLException {
 	  		Statement stmt;
@@ -2383,7 +2414,18 @@ public class EchoServer extends AbstractServer
 			 return ans;
 
   }
-  
+  /**
+   * add survey result to the DB for each customer we send the user id the 6 answer the store id and customer id,
+   * and we check if The storeId is not correct if he is we put error msg and dont add this survey result,
+   * we also check if our date is not correct(between start to end) if he is we put error msg and dont add this survey result,
+   * and we also check if the customer already fill this survey if he is we put error msg and dont add this survey result,
+   * if all the field is correct (we dont have error) we add the survey result to the database
+   * @param msg
+   * @param conn
+   * @return
+   * @throws ParseException
+   * @throws SQLException
+   */
   @SuppressWarnings("unchecked")
   protected Object addSurveyResult(Object msg, Connection conn) throws ParseException, SQLException 
   {
@@ -2464,7 +2506,14 @@ public class EchoServer extends AbstractServer
 
  	 //}
   }
-  
+  /**
+   * we check if the customer already fill this survey if yes return true else false
+   * @param conn
+   * @param id
+   * @param customerId
+   * @return
+   * @throws SQLException
+   */
   @SuppressWarnings("unchecked")
   protected boolean checkCustomerFillTwice(Connection conn,int id,int customerId) throws SQLException {
  	  boolean flag=false;
@@ -2479,7 +2528,13 @@ public class EchoServer extends AbstractServer
 			  return true;
 		  return false;
   }
-  
+  /**
+   * get all the survey data (return all the info in the survey table)
+   * @param conn
+   * @param id
+   * @return
+   * @throws SQLException
+   */
   @SuppressWarnings("unchecked")
   protected ResultSet getSurveyData(Connection conn,int id) throws SQLException {
  	 
@@ -2491,7 +2546,11 @@ public class EchoServer extends AbstractServer
  			  return rs;
 
       }
-      
+   /**
+    * update the survey result after we initelize it   
+    * @param msg
+    * @param conn
+    */
   @SuppressWarnings("unchecked")
   protected void updateSurveyResult(Object msg, Connection conn) {
 	  		Statement stmt;
@@ -2545,7 +2604,12 @@ public class EchoServer extends AbstractServer
 
     	 
      }
-  
+  /**
+   * get all the survey id that in survey result
+   * @param conn
+   * @return
+   * @throws SQLException
+   */
   protected ArrayList<Integer> getSurveyId(Connection conn) throws SQLException{
  	 ArrayList<Integer> i = new ArrayList<Integer>();
 	  		Statement stmt;
