@@ -32,6 +32,7 @@ import javafx.stage.Stage;
 public class ProfileController implements Initializable
 {	
 	
+	/* ------------------------------ All The Butten's That We Need For The Profile Customer GUI ---------------------- */
 	@FXML
 	private TextField txtCustomerName;
 
@@ -41,22 +42,22 @@ public class ProfileController implements Initializable
     @FXML
     private TextField txtCustomerPhone;
 	
-    /* ------------------------- Table Of Order -------------------------------------------- */
+    /* ------------------------- Table Of Order ----------------------------------------------------------------------- */
     
 	@FXML
     private TableView<CustomerOrderDetailsRow> Table_Order_Details;
 
-	/* ------------------------- Table Of Complaint -------------------------------------------- */
+	/* ------------------------- Table Of Complaint ------------------------------------------------------------------- */
 	
 	@FXML
 	private TableView<CustomerComplaintDetailsRow> Table_Complaint_Details;
 
-	/* ------------------------- Table Of Account -------------------------------------------- */
+	/* ------------------------- Table Of Account --------------------------------------------------------------------- */
 	
     @FXML
     private TableView<CustomerAccountDetailsRow> table_Account;
 	
-	/* ------------------------- Table Column Of Order ----------------------------------------- */
+	/* ------------------------- Table Column Of Order ---------------------------------------------------------------- */
 	
 	@FXML 
 	private TableColumn<CustomerOrderDetailsRow, Integer> Table_Column_Order_ID = new TableColumn<>();
@@ -85,7 +86,7 @@ public class ProfileController implements Initializable
 	@FXML 
 	private TableColumn<CustomerOrderDetailsRow, Double> Table_Column_Refund = new TableColumn<>();
 	
-	/* ------------------------- Table Column Of Complaint ----------------------------------------- */
+	/* ------------------------- Table Column Of Complaint ------------------------------------------------------------ */
 	
 	@FXML 
 	private TableColumn<CustomerComplaintDetailsRow, String> Table_Column_Month = new TableColumn<>();
@@ -105,7 +106,7 @@ public class ProfileController implements Initializable
 	@FXML 
 	private TableColumn<CustomerComplaintDetailsRow, Integer> Table_Column_Complaint_Order_ID = new TableColumn<>();
 	
-	/* ------------------------- Table Column Of Account ----------------------------------------- */
+	/* ------------------------- Table Column Of Account -------------------------------------------------------------- */
 	
 	 @FXML
 	 private TableColumn<CustomerAccountDetailsRow , Integer> table_Column_Account_Store_ID;
@@ -133,7 +134,11 @@ public class ProfileController implements Initializable
 	ObservableList<CustomerComplaintDetailsRow> Profile_Customer_Complaint ;
 	ObservableList<CustomerAccountDetailsRow> Profile_Customer_Account ;
 
-	
+	/**
+	 * With This Function - We Back To The Catalog Option .
+	 * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
+	 */
 	public void BackToCatalogOption(ActionEvent event) throws Exception   
 	{ 
 		CustomerUI.Order_Of_Specific_Customer.clear();
@@ -144,9 +149,13 @@ public class ProfileController implements Initializable
 		Scene scene = new Scene(root);		
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);		
-		primaryStage.show();										   /* show catalog frame window */
+		primaryStage.show();										 
 	}
 	
+	
+	/**
+	 * With This Function We Put All The Details About The Order's Of Specific Customer Into the Table View Of the Order . 
+	 */
 	public void Put_The_Order_Of_Specific_Customer_In_Table()
 	{
 		ArrayList<CustomerOrderDetailsRow> Temp_Orders = new ArrayList<CustomerOrderDetailsRow>();
@@ -182,6 +191,9 @@ public class ProfileController implements Initializable
 		
 	}
 	
+	/**
+	 * With This Function We Put All The Details About The Complaint's Of Specific Customer Into the Table View Of the Complaint . 
+	 */
 	public void Put_The_Complaint_Of_Specific_Customer_In_Table()
 	{
 		ArrayList<CustomerComplaintDetailsRow> Temp_Complaint = new ArrayList<CustomerComplaintDetailsRow>();
@@ -210,6 +222,9 @@ public class ProfileController implements Initializable
 		Table_Complaint_Details.setItems(Profile_Customer_Complaint);
 	}
 	
+	/**
+	 * With This Function We Put All The Details About The Account's Of Specific Customer Into the Table View Of the Account . 
+	 */
 	public void Put_The_Account_Of_Specific_Customer_In_Table()
 	{
 		ArrayList<CustomerAccountDetailsRow> Temp_Account = new ArrayList<CustomerAccountDetailsRow>();
@@ -237,9 +252,14 @@ public class ProfileController implements Initializable
 		
 	}
 	
+	/**
+	 * With This Function We Initialize The GUI Of Profile Customer . 
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
+		/* Taking From The DB All The Details About The Order's Of Specific Customer */
+		
 		this.txtCustomerName.setText(UserUI.user.getUserName());
 		this.txtCustomerID.setText(UserUI.user.getId());
 		Message Message_One = new Message(UserUI.user,"Customer - Want To Take His Order");
@@ -258,6 +278,8 @@ public class ProfileController implements Initializable
 		
 		Put_The_Order_Of_Specific_Customer_In_Table();
 		
+		/* Taking From The DB All The Details About The Complaint's Of Specific Customer */
+		
 		Message Message_Two = new Message(UserUI.user,"Customer - Want To Take His Complaints");
 		UserUI.myClient.accept(Message_Two);	
 		while(CustomerUI.Complaint_Of_Specific_Customer.size() == 0);
@@ -271,6 +293,8 @@ public class ProfileController implements Initializable
 		}
 		
 		Put_The_Complaint_Of_Specific_Customer_In_Table();
+		
+		/* Taking From The DB All The Details About The Account's Of Specific Customer */
 		
 		Message Message_Three = new Message(UserUI.user,"Customer - Want To Take His Account Details");
 		UserUI.myClient.accept(Message_Three);

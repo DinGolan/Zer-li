@@ -27,11 +27,22 @@ import javafx.stage.Stage;
 
 public class SatisfactionReportController implements Initializable {
 
+	/**
+	 * This Variable Help Me To Load The ComboBox Of Store's .
+	 */
 	private Store store;
+	
+	/**
+	 * This Variable Helping To Transfer Message From the Client to the DB .
+	 */
 	private Message msg;
+	
+	/**
+	 * Variabel's That Help Me To Show The Question's In The BarChart . 
+	 */
 	private static String[] Questions = {"Questions 1","Questions 2","Questions 3","Questions 4" , "Questions 5" , "Questions 6"};
 
-/* -------------------------  For The Window Of Satisfaction Report ----------------------------------- */	
+/* -------------------------  For The Window Of Satisfaction Report - For The Store Manager ----------------------------------- */	
 	
 	 @FXML
 	 private TextField txtStoreID;           /* Text Field Of the Store ID */
@@ -60,16 +71,25 @@ public class SatisfactionReportController implements Initializable {
 	 @FXML
 	 private Button btnClose;                /* Button For Exit from The Window */
 	
-/* --------------------------------- Loading Store To the Text Fields ------------------------------------------------- */	 
+/* --------------------------------- Loading Store To the Text Fields --------------------------------------------------------- */	 
 	 
-	public void loadStore(Store s) 			 /* To load the Store details to the text fields */
+	/**	
+	* In This Function We Load The Number ID Of Specific Store .
+	* @param s
+	*/ 
+	public void loadStore(Store s) 			 
 	{ 
 		this.store = s;
 		this.txtStoreID.setText(String.valueOf(store.getStoreId()));
 	}
 	
-/* --------------------------------- Close the Satisfaction Report Window ------------------------------------------------- */			
+/* --------------------------------- Close the Satisfaction Report Window ----------------------------------------------------- */			
 	
+	/**
+	* In This Function I close The GUI Of Satisfaction Report Of the Store That The Store Manager Watch .
+	* @param event - When The Client Press On the Butten This Parameter Start To Work .
+	* @throws Exception - If The FXML Not Work .
+	*/
 	public void closeSatisfactionReportWindow(ActionEvent event) throws Exception  
 	{ 
 		StoreManagerUI.stores.clear();
@@ -84,8 +104,11 @@ public class SatisfactionReportController implements Initializable {
 		primaryStage.show();										   
 	}
 	
-/* --------------------------------- Initialize The Satisfaction Report GUI ------------------------------------------------- */	 			
+/* --------------------------------- Initialize The Satisfaction Report GUI --------------------------------------------------- */	 			
 	
+	/** 
+	 * In This Function We Initialize The GUI Of Satisfaction Report Of the Store That The Store Manager Watch .
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) 
 	{
@@ -109,7 +132,7 @@ public class SatisfactionReportController implements Initializable {
 		}
 		else
 		{
-			temp_Date_Quarter_Report = (Date)StoreManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report.get(1);                             /* The Date */
+			temp_Date_Quarter_Report = (Date)StoreManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report.get(1); /* The Date */
 			Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
 			Year = Full_Date_String.substring(0 , 4);
 			Month = Full_Date_String.substring(5 , 7);
@@ -140,7 +163,7 @@ public class SatisfactionReportController implements Initializable {
 		StoreID_And_Date_Of_Report.add(StoreManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report.get(0)); /* The Store Id */
 		StoreID_And_Date_Of_Report.add(StoreManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report.get(1)); /* The Date Of the Report */
 		
-		msg = new Message(StoreID_And_Date_Of_Report , "Store Manager - Take The Surveys Of Specific Store In Specific Quarter"); 		/* I take All the Orders Of Specific Store , And After That I Take All the Complaint Of All The Order Of the Specific Store */
+		msg = new Message(StoreID_And_Date_Of_Report , "Store Manager - Take The Surveys Of Specific Store In Specific Quarter"); 
 		UserUI.myClient.accept(msg);
 		while(StoreManagerUI.Average_Result_Of_Each_Qustions_In_surveys.size() == 0)
 		{
@@ -161,21 +184,24 @@ public class SatisfactionReportController implements Initializable {
 		Put_At_The_Chart_All_The_Surveys();
 	}
 	
-/* --------------------------------- Initialize The Survey And The Rank On The Bar Chart ------------------------------------------------- */	 			
+/* --------------------------------- Initialize The Survey And The Rank On The Bar Chart -------------------------------------- */	 			
 	
+	/**
+	 * In This Function I Initialize The BarChart . 
+	 */
 	public void Put_At_The_Chart_All_The_Surveys()
 	{
 		double Total_Average = 0;
 		int Number_Of_Client;
-		ArrayList<Double> The_Average_Result_Of_Each_Question = new ArrayList<Double>();   				  /* All the Product That We Order On Specific Store */
+		ArrayList<Double> The_Average_Result_Of_Each_Question = new ArrayList<Double>();   				  		/* All the Product That We Order On Specific Store */
 		                       						  
 		for(int i = 0 ; i < StoreManagerUI.Average_Result_Of_Each_Qustions_In_surveys.size() ; i++)             /* In This Loop We Initialize All the Orders At ArrayList Of Orders */                                             
 		{
 			The_Average_Result_Of_Each_Question.add(StoreManagerUI.Average_Result_Of_Each_Qustions_In_surveys.get(i));
 		}
 		
-		Total_Average = The_Average_Result_Of_Each_Question.get(6);       		   /* In The 6 Cell There Have The Total Average Of The Survey */
-		Number_Of_Client = The_Average_Result_Of_Each_Question.get(7).intValue();   /* In The 7 Cell There Have The Number Of Client */
+		Total_Average = The_Average_Result_Of_Each_Question.get(6);       		   								/* In The 6 Cell There Have The Total Average Of The Survey */
+		Number_Of_Client = The_Average_Result_Of_Each_Question.get(7).intValue();   							/* In The 7 Cell There Have The Number Of Client */
 		if(String.valueOf(Total_Average).compareTo("NaN") == 0)
 		{
 			Total_Average = 0;
@@ -183,8 +209,8 @@ public class SatisfactionReportController implements Initializable {
 		Total_Average = Double.parseDouble(new DecimalFormat("##.####").format(Total_Average));
 		this.txtTotalAvgRank.setText(String.valueOf(Total_Average));
 		this.txtNumberOfClient.setText(String.valueOf(Number_Of_Client));
-		The_Average_Result_Of_Each_Question.remove(6);                    			/* Remove The Almost Last Index With the Total Average - After That The Last Index Is 6 */
-		The_Average_Result_Of_Each_Question.remove(6);                    			/* Remove The Last Index With the Number Of Client */
+		The_Average_Result_Of_Each_Question.remove(6);                    										/* Remove The Almost Last Index With the Total Average - After That The Last Index Is 6 */
+		The_Average_Result_Of_Each_Question.remove(6);                    										/* Remove The Last Index With the Number Of Client */
 		
 		ArrayList<XYChart.Series<String,Double>> setChart = new ArrayList<XYChart.Series<String,Double>>();
 		for(int i = 0 ; i < Questions.length ; i++)
@@ -202,6 +228,6 @@ public class SatisfactionReportController implements Initializable {
 		Chart_SatisfactionReport.getData().addAll(setChart);
 	}
 	
-/* ------------------------------------------------------------------------------------------------------------------- */	
+/* ---------------------------------------------------------------------------------------------------------------------------- */	
 
 }

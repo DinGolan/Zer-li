@@ -509,6 +509,13 @@ public class EchoServer extends AbstractServer
     return conn;  
   }
   
+  /**
+   * 
+   * @param msg - object msg with the message Details That We Need For This Function .
+   * This Function Take All The Account's Details Of Specific Customer . 
+   * @param conn - Connection to DB .
+   * @return - ArrayList<Account> .
+   */
   protected ArrayList<Account> Customer_Want_To_Take_His_Account(Object msg , Connection conn)
   {
 	  Statement stmt;
@@ -520,6 +527,8 @@ public class EchoServer extends AbstractServer
 	  
 	  try 
 	  {	
+		  /* Take From The Account Table In DB The Details Of Specific Customer */
+		  
 		  stmt = conn.createStatement();
 		  String getAccount_Of_Customer_Account_Table = "SELECT * FROM " + Scheme_Name + ".account WHERE AccountUserId = " + "'" + Customer_User_ID + "'" + ";"; 
 		  ResultSet rs = stmt.executeQuery(getAccount_Of_Customer_Account_Table);
@@ -542,6 +551,13 @@ public class EchoServer extends AbstractServer
 	  return Account_Of_Specific_Customer;
   }
   
+  /**
+   * 
+   * @param msg - object msg with the message Details That We Need For This Function .
+   * This Function Take All The Complaint's Details Of Specific Customer . 
+   * @param conn - Connection to DB .
+   * @return - ArrayList<Complaint> .
+   */
   protected ArrayList<Complaint> Customer_Want_To_Take_His_Complaint(Object msg , Connection conn)
   {
 	  Statement stmt;
@@ -553,6 +569,8 @@ public class EchoServer extends AbstractServer
 	  
 	  try 
 	  {	
+		  /* Take From The Complaint Table In DB The Details Of Specific Customer */
+		  
 		  stmt = conn.createStatement();
 		  String getComplaint_Of_Customer_Complaint_Table = "SELECT * FROM " + Scheme_Name + ".complaint WHERE ComplaintUserId = " + "'" + Customer_User_ID + "'" + ";"; 
 		  ResultSet rs = stmt.executeQuery(getComplaint_Of_Customer_Complaint_Table);
@@ -576,6 +594,13 @@ public class EchoServer extends AbstractServer
 	  return Complaint_Of_Specific_Customer;
   }
   
+  /**
+   * 
+   * @param msg - object msg with the message Details That We Need For This Function .
+   * This Function Take All The Order's Details Of Specific Customer . 
+   * @param conn - Connection to DB .
+   * @return - ArrayList<Order> .
+   */
   protected Vector<Order> Customer_Want_To_Take_His_Order(Object msg , Connection conn)
   {
 	  Statement stmt;
@@ -589,6 +614,8 @@ public class EchoServer extends AbstractServer
 	  
 	  try 
 	  {  
+		  	  /* Taking From The Table Order That In The DB - All The Order's Of Specific Customer */
+		  
 			  stmt = conn.createStatement();
 			  String getOrder_Of_Customer_Order_Table = "SELECT * FROM " + Scheme_Name + ".order WHERE customerID = " + "'" + Customer_User_ID + "'" + ";"; 
 			  ResultSet rs = stmt.executeQuery(getOrder_Of_Customer_Order_Table);
@@ -607,6 +634,8 @@ public class EchoServer extends AbstractServer
 				  temp_Order.setRefund(rs.getDouble("orderRefund"));
 				  Orders_Of_Specific_Customer.add(temp_Order);   /* Index Number ---> 2  */
 		 	  }
+			  
+			  /* Taking All The Product's In All The Order That The Specific Customer Invite */
 			  
 			  for(int i = 0 ; i < Orders_Of_Specific_Customer.size() ; i++)
 			  {
@@ -630,6 +659,13 @@ public class EchoServer extends AbstractServer
 	 return Orders_Of_Specific_Customer;
   }
   
+  /**
+   * 
+   * @param msg - object msg with the message Details That We Need For This Function .
+   * This Function Give Me The Store Number That I Need From The DB . 
+   * @param conn - Connection to DB .
+   * @return ArrayList<String> .
+   */
   protected ArrayList<String> getStore_Manager_Store_Num(Object msg , Connection conn)
   {
 	  Statement stmt;
@@ -641,6 +677,7 @@ public class EchoServer extends AbstractServer
 	  
 	  try 
 	  {
+		  /* Get The Store Manager Number From the Store Worker Table */
 		  stmt = conn.createStatement();
 		  String Get_Store_Num = "SELECT * FROM " + Scheme_Name + ".storeworkers WHERE StoreEmployeeUserId = " + "'" + User_ID  + "'" + ";" ;
 		  ResultSet rs = stmt.executeQuery(Get_Store_Num);
@@ -665,6 +702,11 @@ public class EchoServer extends AbstractServer
 	  return Store_Details;
   }
   
+  /**
+   * This Function Insert To The DB The Report For Each Store In Specific Quarter .
+   * @param Vector_From_Thread - Contain Details That Coming Fron the Thread Controller . 
+   * @param conn - Connection to DB .
+   */
   @SuppressWarnings("unchecked")
   public static void Insert_Report_To_DB_For_All_The_Store(Vector<Object> Vector_From_Thread , Connection conn)
   {
@@ -676,13 +718,15 @@ public class EchoServer extends AbstractServer
 	  Statement stmt;
 	  String Scheme_Name = EchoServerController.Scheme;
 	  
-	  /* ------------ Get The Value From The ArrayList ------------ */
+	  /* ------------ Get The Value From The ArrayList -------------------------------- */
 	  All_Stores = (ArrayList<Store>)Vector_From_Thread.get(0);
 	  Number_Of_Quarter = (int)Vector_From_Thread.get(1);
 	  localDate = (String)Vector_From_Thread.get(2);
 	  
 	  try 
 	  {
+		  /* Count The Number Of Report That I Have In The DB */
+		  
 		  stmt = conn.createStatement();
 		  
 		  String Take_The_Num_Of_Report = "SELECT reportNumber FROM " + Scheme_Name + ".report " + ";";
@@ -693,7 +737,7 @@ public class EchoServer extends AbstractServer
 		  }
 		  
 		  
-		  for(int i = 0 ; i < All_Stores.size() ; i++)      /* In this For We Insert For Each Store The 'Big Report' That Include All The 'Small Report' */
+		  for(int i = 0 ; i < All_Stores.size() ; i++) /* In this For We Insert For Each Store The 'Big Report' That Include All The 'Small Report' */
 		  {
 			  String Report_Query = "INSERT INTO " + Scheme_Name + ".report " + " (reportNumber, storeID, QuarterNumber, DateOfCreateReport)" + " VALUES (" + "'" + (++Count_Of_Report) + "'" + ", " + "'" + All_Stores.get(i).getStoreId() + "'"
 					  + ", " + "'" + Number_Of_Quarter + "'" + ", " + "'" + localDate + "'" + ")" + ";" ;
@@ -706,6 +750,11 @@ public class EchoServer extends AbstractServer
 	  } 
   }
   
+  /**
+   * This Function Give Me All The Store's Fro The Data Base For the Thread Controller .
+   * @param conn - Connection to DB .
+   * @return ArrayList<Store> .
+   */
   public static ArrayList<Store> Get_All_Stores_For_Thread_Controller(Connection conn)
   {
 	  ArrayList<Store> stores = new ArrayList<Store>();
@@ -716,6 +765,8 @@ public class EchoServer extends AbstractServer
 	  
 	  try 
 	  {
+		  /* Taking All The Store Details For The Thread From The Table 'Store' That In The DB */
+		  
 		  stmt = conn.createStatement();
 		  String getStoresTable = "SELECT * FROM " + Scheme_Name + ".store;"; 				/* Get all the Table Of Store from the DB */
 		  ResultSet rs = stmt.executeQuery(getStoresTable);
@@ -734,6 +785,12 @@ public class EchoServer extends AbstractServer
 	  return stores;  
   }
   
+  /**
+   * With This Function I Compare Between ---> (Two Different Store With Different Quarter) Or (Same Store And Same Quarter) .
+   * @param msg - object msg with the message Details That We Need For This Function .
+   * @param conn - Connection to DB .
+   * @return ArrayList<Object> .
+   */
   @SuppressWarnings("unchecked")
   protected ArrayList<Object> Get_All_The_Compare_Details_Between_Two_Diffrent_Quarter_From_DB(Object msg , Connection conn)
   {
@@ -795,7 +852,7 @@ public class EchoServer extends AbstractServer
 		  
 		  /* Add To The 'All_The_Object_To_Return' ---> Number Of Quarter Of Store One & Number Of Quarter Of Store Two */
 		  
-		  /* ------------------------------------------------- Store 1 ------------------------------------------------------------------------ */
+		  /* ------------------------------------------------- Store 1 -------------------------------------------------------- */
 		  
 		  stmt = conn.createStatement();
 		  String getQuarterNumber_Store_One_Table = "SELECT * FROM " + Scheme_Name + ".report WHERE storeID = " + "'" + Store_One_ID + "'" + "AND DateOfCreateReport = " + "'" + Date_Report_Store_One + "'" + ";"; 
@@ -806,7 +863,7 @@ public class EchoServer extends AbstractServer
 			  All_The_Object_To_Return.add(Report_Field);   /* Index Number ---> 2  */
 	 	  }
 		  
-		  /* ------------------------------------------------- Store 2 ------------------------------------------------------------------------ */
+		  /* ------------------------------------------------- Store 2 -------------------------------------------------------- */
 		  
 		  String getQuarterNumberStore_Two_Table = "SELECT * FROM " + Scheme_Name + ".report WHERE storeID = " + "'" + Store_Two_ID + "'" + "AND DateOfCreateReport = " + "'" + Date_Report_Store_Two + "'" + ";"; 
 		  ResultSet rs_2 = stmt.executeQuery(getQuarterNumberStore_Two_Table);
@@ -818,7 +875,7 @@ public class EchoServer extends AbstractServer
 		  
 	  /* ---------------------------------------------------------------------------------------------------------------------- */
 		  
-		  /* ------------------------------------------------- Store 1 ------------------------------------------------------------------------ */
+		  /* ------------------------------------------------- Store 1 -------------------------------------------------------- */
 		  
 		  /* Add To The 'All_The_Object_To_Return' ---> The Number Of Quantity Order At Store One & Store Two */
 		  int Count_The_Number_Of_Order_In_Store_One = 0;
@@ -859,8 +916,8 @@ public class EchoServer extends AbstractServer
 		  
 		  All_The_Object_To_Return.add(Count_The_Number_Of_Order_In_Store_One);      /* Index Number ---> 4  */
 		  
-		  /* ------------------------------------------------- Store 2 ------------------------------------------------------------------------ */
-		  
+		  /* ------------------------------------------------- Store 2 -------------------------------------------------------- */
+		 
 		  int Integer_Help_Month_In_Order_Table_2;
 		  int Integer_Help_Year_In_Order_Table_2;
 		  String String_Help_Date_In_Order_Table_2;
@@ -894,11 +951,11 @@ public class EchoServer extends AbstractServer
 		  
 		  All_The_Object_To_Return.add(Count_The_Number_Of_Order_In_Store_Two);      /* Index Number ---> 5  */
 		
-     /* ---------------------------------------------------------------------------------------------------------------------- */
+     /* ----------------------------------------------------------------------------------------------------------------------- */
 		  
 		  /* Add To The 'All_The_Object_To_Return' ---> The Product Type Of Order At Store One & Store Two */
 		  
-		  /* ------------------------------------------------- Store 1 ------------------------------------------------------------------------ */
+		  /* ------------------------------------------------- Store 1 -------------------------------------------------------- */
 		  
 		  String temp_Product_In_Order_Field;
 		  
@@ -936,7 +993,7 @@ public class EchoServer extends AbstractServer
 		  
 		  All_The_Object_To_Return.add(Product_Type_Of_Store_One);   /* Index Number ---> 6 */
 		  
-		  /* ------------------------------------------------- Store 2 ------------------------------------------------------------------------ */
+		  /* ------------------------------------------------- Store 2 -------------------------------------------------------- */
 		  
 		  for(int i = 0 ; i < Order_From_DB_Store_2.size() ; i++)
 		  {
@@ -974,18 +1031,18 @@ public class EchoServer extends AbstractServer
 		  
 		  
 		  
-	/* ---------------------------------------------------------------------------------------------------------------------- */	  
+	/* ------------------------------------------------------------------------------------------------------------------------ */	  
 		  
 		  /* Add To The 'All_The_Object_To_Return' ---> The Size Of Each Product Type In Order - At Store One & Store Two */
 		  
 		  All_The_Object_To_Return.add(All_Product_Of_Store_One); /* Index Number ---> 8 */
 		  All_The_Object_To_Return.add(All_Product_Of_Store_Two); /* Index Number ---> 9 */
 		  
-	 /* ---------------------------------------------------------------------------------------------------------------------- */  
+	 /* ----------------------------------------------------------------------------------------------------------------------- */  
 		  
 		  /* Add To The 'All_The_Object_To_Return' ---> The Revenue Of - Store One & Store Two */
 		  
-		  /* ------------------------------------------------- Store 1 ------------------------------------------------------------------------ */
+		  /* ------------------------------------------------- Store 1 -------------------------------------------------------- */
 		  
 		  int Integer_Help_Year_In_Complaint_Table_1;
 		  int Integer_Help_Month_In_Complaint_Table_1;
@@ -1025,7 +1082,7 @@ public class EchoServer extends AbstractServer
 			  Sum_The_Revenue_Of_Store_One += Order_From_DB_Store_1.get(i).getOrderTotalPrice();
 		  }
 		  
-		  /* ---------------------------------- Take All The Money From The Canceled Order Of Store One ----------------------------------- */
+		  /* ---------------------------------- Take All The Money From The Canceled Order Of Store One ----------------------- */
 		  
 		  double Sum_Of_Refund_From_Cancel_Order_Of_Store_One = 0;
 		  int Integer_Help_Year_In_Order_Table_Of_Store_One;
@@ -1065,6 +1122,8 @@ public class EchoServer extends AbstractServer
 	 	  	   
 	 	  Sum_The_Revenue_Of_Store_One = Sum_The_Revenue_Of_Store_One + Sum_Of_Refund_From_Cancel_Order_Of_Store_One;	
 		  
+	 	 /* Sum The Complaint Compansation Of the Cancel Order */
+	 	  
 	 	 for(int i = 0 ; i < Canceled_Order_Of_Store_One.size() ; i++ ) 
 	 	 {
 	 		 String getOrders_That_Canceled_OfSpecificStore_From_Complaint_One_Table = "SELECT * FROM " + Scheme_Name + ".complaint WHERE ComplaintOrderId = " + "'" + Canceled_Order_Of_Store_One.get(i).getOrderID() + "'" + ";";  
@@ -1076,8 +1135,8 @@ public class EchoServer extends AbstractServer
 	 	 }
 	 			
 		 All_The_Object_To_Return.add(Sum_The_Revenue_Of_Store_One); /* Index Number ---> 10 */
-		  
-		  /* ------------------------------------------------- Store 2 ------------------------------------------------------------------------ */
+		 
+		  /* ------------------------------------------------- Store 2 -------------------------------------------------------- */
 		  
 		  Revenue_Of_Specific_Order = 0;
 		  int Integer_Help_Year_In_Complaint_Table_2;
@@ -1113,7 +1172,7 @@ public class EchoServer extends AbstractServer
 			  Sum_The_Revenue_Of_Store_Two += Order_From_DB_Store_2.get(i).getOrderTotalPrice();;
 		  }
 		  
-		  /* ---------------------------------- Take All The Money From The Canceled Order Of Store Two ----------------------------------- */
+		  /* ---------------------------------- Take All The Money From The Canceled Order Of Store Two ----------------------- */
 		  
 		  double Sum_Of_Refund_From_Cancel_Order_Of_Store_2 = 0;
 		  int Integer_Help_Year_In_Order_Table_Of_Store_2;
@@ -1153,6 +1212,8 @@ public class EchoServer extends AbstractServer
 	 	  	   
 	 	  Sum_The_Revenue_Of_Store_Two = Sum_The_Revenue_Of_Store_Two + Sum_Of_Refund_From_Cancel_Order_Of_Store_2;	
 	 	  
+	 	 /* Sum The Complaint Compansation Of the Cancel Order */
+	 	  
 	 	 for(int i = 0 ; i < Canceled_Order_Of_Store_Two.size() ; i++ ) 
 	 	 {
 	 		 String getOrders_That_Canceled_OfSpecificStore_From_Complaint_Two_Table = "SELECT * FROM " + Scheme_Name + ".complaint WHERE ComplaintOrderId = " + "'" + Canceled_Order_Of_Store_Two.get(i).getOrderID() + "'" + ";";  
@@ -1165,18 +1226,18 @@ public class EchoServer extends AbstractServer
 		  
 		  All_The_Object_To_Return.add(Sum_The_Revenue_Of_Store_Two); /* Index Number ---> 11 */
 		  
-     /* ---------------------------------------------------------------------------------------------------------------------- */  
+     /* ----------------------------------------------------------------------------------------------------------------------- */  
 		  
 		  /* Add To The 'All_The_Object_To_Return' ---> The Number Of Complaint At - Store One & Store Two */
 		  
 		  All_The_Object_To_Return.add(Count_Number_Of_Complaint_In_Store_One); /* Index Number ---> 12 */
 		  All_The_Object_To_Return.add(Count_Number_Of_Complaint_In_Store_Two); /* Index Number ---> 13 */
 		  
-	 /* ---------------------------------------------------------------------------------------------------------------------- */  
+	 /* ----------------------------------------------------------------------------------------------------------------------- */  
 		  
 		  /* Add To The 'All_The_Object_To_Return' ---> The Number Of Client That Fill The Survey At - Store One & Store Two */
 		  
-		  /* -------------------------------------- For Store - 1 ------------------------------------------------------------------------ */
+		  /* -------------------------------------- For Store - 1 ------------------------------------------------------------- */
 		  
 		  int Integer_Help_Year_Start_Date_In_Survey_Table_1;
 		  int Integer_Help_Year_End_Date_In_Survey_Table_1;
@@ -1240,13 +1301,13 @@ public class EchoServer extends AbstractServer
 		  
 		  for(int i = 0 ; i < Sum_Of_Specific_Question_At_Store_One.length ; i++)
 		  {
-			  Sum_Of_Specific_Question_At_Store_One[i] /= Sum_Number_Of_Client_Store_One;     /* In Each Cell I get The Average Of Each Question */
+			  Sum_Of_Specific_Question_At_Store_One[i] /= Sum_Number_Of_Client_Store_One;  /* In Each Cell I get The Average Of Each Question */
 			  Total_Avg_At_Store_One += Sum_Of_Specific_Question_At_Store_One[i];
 		  }
 		  
 		  All_The_Object_To_Return.add(Sum_Number_Of_Client_Store_One); /* Index Number ---> 14 */
 		  
-		  /* -------------------------------------- For Store - 2 -------------------------------------------------------------- */
+		  /* -------------------------------------- For Store - 2 ------------------------------------------------------------- */
 		  
 		  double [] Sum_Of_Specific_Question_At_Store_Two = new double[6];
 		  double Sum_Number_Of_Client_Store_Two = 0;
@@ -1328,6 +1389,12 @@ public class EchoServer extends AbstractServer
 	  return All_The_Object_To_Return;
   }
   
+  /**
+   * This Function Give Me The Final Calculate Of Total Average Of Each Survey In Specific Quarter .
+   * @param msg - object msg with the message Details That We Need For This Function .
+   * @param conn - Connection to DB .
+   * @return ArrayList<Double> .
+   */
   @SuppressWarnings("unchecked")
   protected ArrayList<Double> Get_All_The_Survey_Of_Specific_Quarter_Of_Specific_Store_From_DB(Object msg , Connection conn)
   {
@@ -1350,7 +1417,7 @@ public class EchoServer extends AbstractServer
 		  
 			  stmt = conn.createStatement();
 			  
-			  /* -------------------------------- Take The Quarter Of Specific Report -------------------------------------------------------------------------------- */
+			  /* -------------------------------- Take The Quarter Of Specific Report ------------------------------------------------------------------------------------------------------------------------------ */
 			  
 			  String getSpecificQuarterReportTable = "SELECT * FROM " + Scheme_Name + ".report WHERE StoreID = " + "'" + Store_ID + "'" + "AND DateOfCreateReport = " + "'" + date_Of_Report + "'" + ";"; 
 			  ResultSet rs = stmt.executeQuery(getSpecificQuarterReportTable);
@@ -1366,7 +1433,7 @@ public class EchoServer extends AbstractServer
 				  temp_Report.setQaurterReportNumber(Report_Field);
 		 	  }
 			  
-			  /* -------------------------------- Take All The Survey Of Specific Store In Specific Quarter ---------------------------------------------------------- */
+			  /* -------------------------------- Take All The Survey Of Specific Store In Specific Quarter -------------------------------------------------------------------------------------------------------- */
 			  
 			  String getSurveysOfSpecificStoreTable = "SELECT * FROM " + Scheme_Name + ".survey WHERE StoreID = " + "'" + Store_ID + "'" + ";";   
 			  ResultSet rs_2 = stmt.executeQuery(getSurveysOfSpecificStoreTable);
@@ -1388,8 +1455,8 @@ public class EchoServer extends AbstractServer
 					   survey_field = rs_2.getString("Surveyid");															/* Take From the DB the Survey ID And */
 					   temp_Survey.setSurvey_Id(Integer.parseInt(survey_field));     									    /* Save The Survey ID of Specific Survey */
 					   survey_field = rs_2.getString("SurveyStartDate");												    /* Take From the DB the Survey Date */
-					   temp_Survey.setSurvey_Start_Date(Date.valueOf(survey_field));     		    								/* Save The Survey ID of Specific Survey */
-					   survey_field = rs_2.getString("SurveyEndDate");												    /* Take From the DB the Survey Date */
+					   temp_Survey.setSurvey_Start_Date(Date.valueOf(survey_field));     		    						/* Save The Survey ID of Specific Survey */
+					   survey_field = rs_2.getString("SurveyEndDate");												    	/* Take From the DB the Survey Date */
 					   temp_Survey.setSurvey_End_Date(Date.valueOf(survey_field)); 
 					   temp_Survey.setQuarterNumber(temp_Report.getQaurterReportNumber());  								/* Save The Quarter Number That We Make The Survey */
 					   temp_Survey.setStore_ID(Store_ID);								    								/* Save The Store ID that We Make The Survey */			
@@ -1436,20 +1503,20 @@ public class EchoServer extends AbstractServer
 				  Year_From_Client = Date_From_Client.substring(0,4);                   /* Take The Year Of Client */  
 				  Integer_Year_From_Client = Integer.parseInt(Year_From_Client);        /* Casting The Year Of Client To Integer */
 				  
-				  if(Integer_Year_Start_Date_From_DB == Integer_Year_From_Client || Integer_Year_End_Date_From_DB == Integer_Year_From_Client)                  /* If We Are In the Correct Year We Add To the ArrayList Of - Final_Survey_ArrayList_To_Return */
+				  if(Integer_Year_Start_Date_From_DB == Integer_Year_From_Client || Integer_Year_End_Date_From_DB == Integer_Year_From_Client)   /* If We Are In the Correct Year We Add To the ArrayList Of - Final_Survey_ArrayList_To_Return */
 				  {
 					  Final_Survey_ArrayList_To_Return.add(Surveys_Of_Specific_Store.get(i));
 				  }
 			  }
 			  
-			  /* -------------------------------- Take All The Answer Of The Survey's Of ---> Specific Store In Specific Quarter ------------------------- */
+			  /* -------------------------------- Take All The Answer Of The Survey's Of ---> Specific Store In Specific Quarter ----------------------------------------------------------------------------------- */
 			  
 			  int Sum_Of_Clients = 0;                                            		/* The Sum Of the Client In Specific Store In Specific Quarter */                     	    
 			  double [] Sum_Result_Per_Question_Per_Survey = new double[6];      		/* In Each Cell I Put The Result Of The Question Of Specific Survey */
 			  double [] All_Sum_Per_Qustiones_Of_All_Survey = new double[6];     		/* In Each Cell I Put The Result Of All Question's Of Specific Store In Specific Quarter */
 			  double [] Temp_Array;
 			  
-			  /* -------------------------------------------------- Take From The Data Base In Each Iteration Specific Survey ---------------------------------------------------------- */
+			  /* -------------------------------------------------- Take From The Data Base In Each Iteration Specific Survey -------------------------------------------------------------------------------------- */
 			  
 			  for(int i = 0 ; i < Final_Survey_ArrayList_To_Return.size() ; i++) 											/* In Each Iteration I Take The Specific Survey According The The Survey ID Number */
 			  {
@@ -1470,7 +1537,7 @@ public class EchoServer extends AbstractServer
 			 	  }                             
 			   }
 			  
-			   /* ------------------------------------- In This For We Take all The Result Of All Question[i] And Put Them In All_Sum_Per_Qustiones_Of_All_Survey[i] --------------------------------------------------------- */
+			   /* ------------------------------------- In This For We Take all The Result Of All Question[i] And Put Them In All_Sum_Per_Qustiones_Of_All_Survey[i] ----------------------------------------------- */
 			  
 			   for(int i = 0 ; i < All_The_Survey_That_I_Need_From_DB.size() ; i++)                                         /* We Run On the Vector<double[]> */  
 			   {
@@ -1486,15 +1553,15 @@ public class EchoServer extends AbstractServer
 					 }
 			   }
 			  
-			   /* ------------------------------------------- In This 'For' We Calculate The Average Of Each Question Of All the Survey --------------------------------------------------------------------------*/
+			   /* ------------------------------------------- In This 'For' We Calculate The Average Of Each Question Of All the Survey ---------------------------------------------------------------------------- */
 			   
 			   for(int i = 0 ; i < All_Sum_Per_Qustiones_Of_All_Survey.length ; i++)                                        /* In This Loop In Each Cell We Make Divide With The Number Of Survey That I Have In Specific Store In SPecific Quarter */
 			   {
 				  All_Sum_Per_Qustiones_Of_All_Survey[i] = All_Sum_Per_Qustiones_Of_All_Survey[i] / All_The_Survey_That_I_Need_From_DB.size();
-				  Final_Average_Of_Each_Question.add(All_Sum_Per_Qustiones_Of_All_Survey[i]);                              /* Final_Average_Of_Each_Question = Is The ArrayList That I will Return From The Function */
+				  Final_Average_Of_Each_Question.add(All_Sum_Per_Qustiones_Of_All_Survey[i]);                               /* Final_Average_Of_Each_Question = Is The ArrayList That I will Return From The Function */
 			   }
 			  
-			   /* ------------------------------------------- In This 'For' We Calculate The Total Average --------------------------------------------------------------------------*/
+			   /* ------------------------------------------- In This 'For' We Calculate The Total Average --------------------------------------------------------------------------------------------------------- */
 			   
 			   for(int i = 0 ; i < Final_Average_Of_Each_Question.size() ; i++)                                             /* In this Loop - Sum The Total Average */
 			   {
@@ -1513,7 +1580,13 @@ public class EchoServer extends AbstractServer
 	  return Final_Average_Of_Each_Question;                                                                                /* Return ArrayList With The Average Of Each Question And The Total Average And The Number Of the Survey */
   }
    
-  protected ArrayList<Date> Get_All_The_Date_Of_Report_Of_Specific_Store_FromDB(Object msg , Connection conn) /* This method get Orders Of Specific Store from DB */
+  /**
+   * This Function Give Me All The Date Of Specific Store . 
+   * @param msg - object msg with the message Details That We Need For This Function .
+   * @param conn - Connection to DB .
+   * @return ArrayList<Date> .
+   */
+  protected ArrayList<Date> Get_All_The_Date_Of_Report_Of_Specific_Store_FromDB(Object msg , Connection conn) 
   {
 	  int temp_Store_Id = (Integer)(((Message)msg).getMsg());
 	  ArrayList<Date> Date_Of_Report = new ArrayList<Date>();
@@ -1521,7 +1594,7 @@ public class EchoServer extends AbstractServer
 	  String order_field;
 	  String Scheme_Name = EchoServerController.Scheme;
 	  
-	  /* -------------------------------- We Take The Order Of Specific Store ------------------------- */
+	  /* -------------------------------- We Take The Date's Report Of Specific Store ------------------------- */
 	  
 	  try {
 		  stmt = conn.createStatement();
@@ -1538,8 +1611,14 @@ public class EchoServer extends AbstractServer
 	  return Date_Of_Report;
   }
   
+  /**
+   * This Function Give Me All The Order's Of Specific Store In Specific Quarter . 
+   * @param msg - object msg with the message Details That We Need For This Function .
+   * @param conn - Connection to DB .
+   * @return ArrayList<Order> .
+   */
   @SuppressWarnings("unchecked")
-  protected ArrayList<Order> Get_Orders_Of_Specific_Store_From_DB(Object msg , Connection conn) /* This method get Orders Of Specific Store from DB */
+  protected ArrayList<Order> Get_Orders_Of_Specific_Store_From_DB(Object msg , Connection conn) 
   {
 	  ArrayList<Object> StoreID_And_Date_Of_Report = (ArrayList<Object>)(((Message)msg).getMsg());
 	  ArrayList<Order> orders_Of_Specific_Store = new ArrayList<Order>();
@@ -1561,7 +1640,7 @@ public class EchoServer extends AbstractServer
 		  
 		  stmt = conn.createStatement();
 		  
-		  /* -------------------------------- Take The Quarter Of Specific Report ------------------------- */
+		  /* -------------------------------- Take The Quarter Of Specific Report ---------------------------------------------- */
 		  
 		  String getSpecificQuarterReportTable = "SELECT * FROM " + Scheme_Name + ".report WHERE StoreID = " + "'" + Store_ID + "'" + "AND DateOfCreateReport = " + "'" + date_Of_Report + "'" + ";"; 
 		  ResultSet rs = stmt.executeQuery(getSpecificQuarterReportTable);
@@ -1602,7 +1681,7 @@ public class EchoServer extends AbstractServer
 			  }
 	 	  }
 		  
-		  /* ----------------------------------- we Check The Year Of Each Order That We Get From The DB ----------------------------------*/
+		  /* ----------------------------------- we Check The Year Of Each Order That We Get From The DB ----------------------- */
 		  
 		  /* Variable That Represent The DB In Table Order */
 		  String Month_From_DB;
@@ -1643,7 +1722,7 @@ public class EchoServer extends AbstractServer
 			  }
 		  }
 		  
-		  /* -------------------------------- We Take The Products Type Of Each Order Of Specific Store & Quarter ------------------------- */
+		  /* -------------------------------- We Take The Products Type Of Each Order Of Specific Store & Quarter -------------- */
 		  
 		  for(int i = 0 ; i < Final_Order_Of_Specific_Quarter.size() ; i++)
 		  {
@@ -1667,7 +1746,12 @@ public class EchoServer extends AbstractServer
 	  return Final_Order_Of_Specific_Quarter;
   }
   
-  protected ArrayList<Store> GetStoresFromDB(Connection conn) 		/* This method get Stores table details from DB */
+  /**
+   * This Function Give Me All The Store Of The Company From The Table - 'Store' In The DB .
+   * @param conn - Connection to DB .
+   * @return ArrayList<Store> . 
+   */
+  protected ArrayList<Store> GetStoresFromDB(Connection conn) 		
   {
 	  ArrayList<Store> stores = new ArrayList<Store>();
 	  Statement stmt;
@@ -1676,8 +1760,11 @@ public class EchoServer extends AbstractServer
 	  String Scheme_Name = EchoServerController.Scheme;
 	  
 	  try {
+		  
+		  /* We Taking All The Store's Details From The Table - Store That In The DB */
+		  
 		  stmt = conn.createStatement();
-		  String getStoresTable = "SELECT * FROM " + Scheme_Name + ".store;"; /* Get all the Table from the DB */
+		  String getStoresTable = "SELECT * FROM " + Scheme_Name + ".store;"; 
 		  ResultSet rs = stmt.executeQuery(getStoresTable);
 		  while(rs.next())
 	 	  {
@@ -1694,6 +1781,12 @@ public class EchoServer extends AbstractServer
 	  return stores;
   }
   
+  /**
+   * This Function Return For Me All The Complaint Of Specific Store In Specific Quarter . 
+   * @param msg - object msg with the message Details That We Need For This Function .
+   * @param conn - Connection to DB .
+   * @return ArrayList<Complaint> .
+   */
   @SuppressWarnings("unchecked")
   protected ArrayList<Complaint> Get_Complaints_Of_Specific_Store_From_DB(Object msg , Connection conn)
   {
@@ -1716,7 +1809,7 @@ public class EchoServer extends AbstractServer
 		  
 		  stmt = conn.createStatement();
 		  
-		  /* -------------------------------- Take The Quarter Of Specific Report ------------------------- */
+		  /* -------------------------------- Take The Quarter Of Specific Report ---------------------------------------------- */
 		  
 		  String getSpecificQuarterReportTable = "SELECT * FROM " + Scheme_Name + ".report WHERE StoreID = " + "'" + Store_ID + "'" + "AND DateOfCreateReport = " + "'" + date_Of_Report + "'" + ";"; 
 		  ResultSet rs = stmt.executeQuery(getSpecificQuarterReportTable);           
@@ -1755,7 +1848,7 @@ public class EchoServer extends AbstractServer
 			  }
 	 	  }
 		  
-		  /* ----------------------------------- We Check The Year Of Each Order That We Get From The DB ----------------------------------*/
+		  /* ----------------------------------- We Check The Year Of Each Order That We Get From The DB ----------------------- */
 		  
 		  /* Variable That Represent The DB In Table Order */
 		  String Month_From_DB;
@@ -1795,7 +1888,7 @@ public class EchoServer extends AbstractServer
 			  }
 		  }
 		  
-		  /* -------------------------------- We Take The Complaints Of Each Order ------------------------- */
+		  /* -------------------------------- We Take The Complaints Of Each Order And Return ArrayList Of Complaint --------------------------------------------- */
 		  
 		  for(int i = 0 ; i < Final_Order_Of_Specific_Quarter.size() ; i++)
 		  {
@@ -1813,6 +1906,12 @@ public class EchoServer extends AbstractServer
 	  return complaints;
   }
  
+  /**
+   * This Function Return For Me The Revenue Of Specific Store In Specific Quarter .
+   * @param msg - object msg with the message Details That We Need For This Function .
+   * @param conn - Connection to DB .
+   * @return ArrayList<Object> .
+   */
   @SuppressWarnings("unchecked")
   protected ArrayList<Object> Get_The_Revenue_Of_Specific_Store_From_DB(Object msg , Connection conn)
   {
@@ -1836,7 +1935,7 @@ public class EchoServer extends AbstractServer
 	  {
 		  stmt = conn.createStatement();
 		  
-		  /* -------------------------------- Take The Quarter Of Specific Report ------------------------- */
+		  /* -------------------------------- Take The Quarter Of Specific Report ---------------------------------------------- */
 		  
 		  String getSpecificQuarterReportTable = "SELECT * FROM " + Scheme_Name + ".report WHERE StoreID = " + "'" + temp_Store_Id + "'" + "AND DateOfCreateReport = " + "'" + date_Of_Report + "'" + ";"; 
 		  ResultSet rs = stmt.executeQuery(getSpecificQuarterReportTable);
@@ -1873,7 +1972,7 @@ public class EchoServer extends AbstractServer
 			  }
 	 	  }
 		  
-		  /* -------------------------------- Take All The Complaint Of Specific Store ------------------------- */
+		  /* -------------------------------- Take All The Complaint Of Specific Store ----------------------------------------- */
 		  
 		  for(int i = 0 ; i < orders_Of_Specific_Store.size() ; i++)
 		  {
@@ -1890,7 +1989,7 @@ public class EchoServer extends AbstractServer
 		 	  }  
 		  }
 		  
-		  /* -------------------------------- Take All The Refund From Cancel Order Of Specific Store ------------------------- */ 
+		  /* -------------------------------- Take All The Refund From Cancel Order Of Specific Store -------------------------- */ 
 		  
 		  double Sum_Of_Refund_From_Cancel_Order = 0;
 		  int Integer_Help_Year_In_Order_Table;
@@ -1917,7 +2016,7 @@ public class EchoServer extends AbstractServer
 			  } 
 	 	  }
 	 	  	   	
-		  /* -------------------------------- Calculate The Revenue According To Quarter ------------------------- */
+		  /* -------------------------------- Calculate The Revenue According To Quarter --------------------------------------- */
 		  
 		  int Count_Of_Order_Of_Specific_Quarter = 0;
 		  
@@ -1983,7 +2082,7 @@ public class EchoServer extends AbstractServer
 			  }  
 		  }
 		  
-		  /* -------------------------------- Calculate The Compensation According To Quarter ------------------------- */
+		  /* -------------------------------- Calculate The Compensation According To Quarter ---------------------------------- */
 		  
 		  /* Variable That Represent The DB In Table Complaint */
 		  String Complaint_Month_From_DB;
@@ -2004,15 +2103,15 @@ public class EchoServer extends AbstractServer
 		  for(int i = 0 ; i < Complaint_Of_Specific_Store.size() ; i++)
 		  {
 			  /* Take The Date From The DB */
-			  Complaint_temp_Date = Complaint_Of_Specific_Store.get(i).getComplaintDate();   		/* Take The Date */
+			  Complaint_temp_Date = Complaint_Of_Specific_Store.get(i).getComplaintDate();   				/* Take The Date */
 			  Complaint_Date_From_DB = String.valueOf(Complaint_temp_Date); 							    /* Casting To String */
-			  Complaint_Month_From_DB = Complaint_Date_From_DB.substring(5,7);                 		    /* Take The Month */
+			  Complaint_Month_From_DB = Complaint_Date_From_DB.substring(5,7);                 		    	/* Take The Month */
 			  Complaint_Year_From_DB = Complaint_Date_From_DB.substring(0,4);                  			    /* Take The Year */
 			  Complaint_Integer_Month_From_DB = Integer.parseInt(Complaint_Month_From_DB);      		    /* Casting The Month To Integer */
-			  Complaint_Integer_Year_From_DB = Integer.parseInt(Complaint_Year_From_DB);        			 /* Casting The Year To Integer */
+			  Complaint_Integer_Year_From_DB = Integer.parseInt(Complaint_Year_From_DB);        			/* Casting The Year To Integer */
 			  
 			  /* Take The Date From The Client */
-			  Complaint_Date_From_Client = String.valueOf(date_Of_Report); 						 /* Casting To String */
+			  Complaint_Date_From_Client = String.valueOf(date_Of_Report); 						 			 /* Casting To String */
 			  Complaint_Month_From_Client = Complaint_Date_From_Client.substring(5, 7);                 	 /* Take The Month */
 			  Complaint_Year_From_Client = Complaint_Date_From_Client.substring(0,4);                   	 /* Take The Year */
 			  Complaint_Integer_Month_From_Client = Integer.parseInt(Complaint_Month_From_Client);      	 /* Casting The Month To Integer */
@@ -2039,6 +2138,8 @@ public class EchoServer extends AbstractServer
 			  }
 		  }
 		  
+		  /* Calculating The Total Revenue Of Specific Store In Specific Quarter */
+		  
 		  Revenue_Of_Specific_Quarter = Revenue_Of_Specific_Quarter - Sum_Of_Refund_From_Cancel_Order;
 		  Revenue_Of_Specific_Quarter = Revenue_Of_Specific_Quarter - Compensation_Of_Specific_Quarter;
 		  Revenue_To_Return_And_Number_Of_Order.add(Revenue_Of_Specific_Quarter);
@@ -2051,31 +2152,52 @@ public class EchoServer extends AbstractServer
 	  return Revenue_To_Return_And_Number_Of_Order;
   } 
   
+  /**
+   * In This Function We Update The Product Name In The DB
+   * @param msg - object msg with the message Details That We Need For This Function .
+   * @param conn - Connection to DB .
+   */
   @SuppressWarnings("unchecked")
-  protected void UpdateProductName(Object msg, Connection conn) /* This Method Update the DB */
+  protected void UpdateProductName(Object msg, Connection conn) 
   {
 	  ArrayList<String> temp = new ArrayList<String>();
 	  ArrayList<String> temp2 = (ArrayList<String>)(((Message)msg).getMsg());
 
-	  for (String s : temp2) {
-		  	temp.add(s);
-	  		}
-			Statement stmt;
-			try {
-			stmt = conn.createStatement();
+	  for (String s : temp2) 
+	  {
+		  	temp.add(s);  							/* Temp is ArrayList That Get All The Product Name */
+	  }
+	  Statement stmt;
+	  try 
+	  {
+			stmt = conn.createStatement();      
+			
+													
 
 			String updateProductName = "UPDATE " + EchoServerController.Scheme + ".product SET ProductName =" + "'" + temp.get(1) +"'" + "WHERE ProductID=" +"'" +temp.get(0) + "'" +";";
-			stmt.executeUpdate(updateProductName);
-			} catch (SQLException e) {	e.printStackTrace();}	  
+			stmt.executeUpdate(updateProductName);  /* Update Specific Product Name */
+	  } 
+	  catch (SQLException e) 
+	  {	
+		  e.printStackTrace();
+	  }	  
   }
   
-  protected void UpdateUserAtDB(Object msg, Connection conn) /* This Method Update the DB */
+  /**
+   * This Function Update The User Premmision & The User Status In the DB .
+   * @param msg - object msg with the message Details That We Need For This Function .
+   * @param conn - Connection to DB .
+   */
+  protected void UpdateUserAtDB(Object msg, Connection conn) 
   {
 	  Statement stmt;
 	  User temp_User = (User)((Message)msg).getMsg();
 	  String Scheme_Name = EchoServerController.Scheme;
 	  
 	  try {
+		  
+		  /* Update Specific User In The DB */
+		  
 		  stmt = conn.createStatement();
 		  
 		  /* UPDATE `project`.`user` SET `UserPermission`='BLOCKED' WHERE `UserName`='DinGolan'; */
@@ -2098,8 +2220,7 @@ public class EchoServer extends AbstractServer
    * @param msg - object msg with the message of arrayList that have- the requested subscription, user id , subscription end date
    * @param conn -connection to DB
    */
-  protected void renewAccount(Object msg, Connection conn) /* This Method Update the DB */
-  {
+  protected void renewAccount(Object msg, Connection conn) /* This Method Update the DB */  {
 	  Statement stmt;
 	  ArrayList<Object> forRenew = ( ArrayList<Object>)((Message)msg).getMsg();
 	  String Scheme_Name = EchoServerController.Scheme;
@@ -2116,7 +2237,7 @@ public class EchoServer extends AbstractServer
 	  } 
 	  catch (SQLException e) {	e.printStackTrace();}	  
   }
-    
+   
   @SuppressWarnings("unchecked")
   protected Object AddSurveyToDB(Object msg, Connection conn,int id) throws SQLException, ParseException
   {
@@ -2473,7 +2594,7 @@ public class EchoServer extends AbstractServer
  	 
   }
   
-  protected ArrayList<Product> getProductsFromDB(Connection conn) /* This method get products table details from DB */
+  protected ArrayList<Product> getProductsFromDB(Connection conn) 
   {
    	  ArrayList<Product> products = new ArrayList<Product>();
    	  Statement stmt;
@@ -2481,7 +2602,7 @@ public class EchoServer extends AbstractServer
    	  Product pr;
    	  try {
    		  stmt = conn.createStatement();
-   		  String getProductsTable = "SELECT * FROM " + EchoServerController.Scheme + ".product;"; /* Get all the Table from the DB */
+   		  String getProductsTable = "SELECT * FROM " + EchoServerController.Scheme + ".product;"; /* Get all the Table frm the DB */
    		  ResultSet rs = stmt.executeQuery(getProductsTable);
    		  while(rs.next())
    	 	{
@@ -2504,7 +2625,7 @@ public class EchoServer extends AbstractServer
    * @param conn -connection to DB
    * @return ArrayList<Product>- arrayList of all the products in this order
    */
-  protected ArrayList<Product> getAllProductsInOrder(Object msg, Connection conn) //this method get all products for specific order
+  protected ArrayList<Product> getAllProductsInOrder(Object msg, Connection conn) 
   {
 	  ArrayList<Product> products = new ArrayList<Product>();
 	  int orderId = ((int)(((Message)msg).getMsg()));
@@ -2534,8 +2655,7 @@ public class EchoServer extends AbstractServer
    * @return ArrayList<String> - the cutomers id numbers
    * if we didn't have customers eithe full price return -1 string
    */
-  protected ArrayList<String> getAllCustomerFullPrice(Object msg, Connection conn) 
-  {
+  protected ArrayList<String> getAllCustomerFullPrice(Object msg, Connection conn)   {
 	  ArrayList<String> customers = new ArrayList<String>();
 	  int storeNumber = ((int)(((Message)msg).getMsg()));
 	  Statement stmt;
@@ -2554,7 +2674,7 @@ public class EchoServer extends AbstractServer
 	  return customers;
   }
   
-  protected ArrayList<Product> getProductsInSaleFromDB(Object msg, Connection conn) /* This method get products table details from DB */
+  protected ArrayList<Product> getProductsInSaleFromDB(Object msg, Connection conn)
   {
 	  ArrayList<Product> products = new ArrayList<Product>();
 	  int storeId = ((Store)(((Message)msg).getMsg())).getStoreId();
@@ -2578,7 +2698,7 @@ public class EchoServer extends AbstractServer
 	  return products;
   }
   
-  protected ArrayList<Product> getAllProductsInSaleFromDB(Object msg, Connection conn) /* This method get products table details from DB */
+  protected ArrayList<Product> getAllProductsInSaleFromDB(Object msg, Connection conn) 
   {
 	  ArrayList<Product> products = new ArrayList<Product>();
 	  Statement stmt;
@@ -2601,7 +2721,12 @@ public class EchoServer extends AbstractServer
 	  return products;
   }
   
-  protected ArrayList<User> getUsersFromDB(Connection conn) /* This method get Users table details from DB */
+  /**
+   * This Function Give Me All The User That In The Table ---> 'User' In the DB .
+   * @param conn - Connection to DB .
+   * @return ArrayList<User> . 
+   */
+  protected ArrayList<User> getUsersFromDB(Connection conn) 
   {
 	  ArrayList<User> users_Before_Change = new ArrayList<User>();
 	  ArrayList<User> Users_With_Negetive_Account = new ArrayList<User>();
@@ -2612,8 +2737,11 @@ public class EchoServer extends AbstractServer
 	  String Scheme_Name = EchoServerController.Scheme;
 	  User temp_User = null;
 	  try {
+		  
+		  /* Get all the Table - 'User' from the DB */
+		  
 		  stmt = conn.createStatement();
-		  String getUsersTable = "SELECT * FROM " + Scheme_Name + ".user ;"; /* Get all the Table from the DB */
+		  String getUsersTable = "SELECT * FROM " + Scheme_Name + ".user ;"; 
 		  ResultSet rs = stmt.executeQuery(getUsersTable);
 		  while(rs.next())
 	 	  {
@@ -2633,6 +2761,8 @@ public class EchoServer extends AbstractServer
 				  users_Before_Change.add(temp_User);
 	 	  }
 		  
+		  /* Going To The Account Table And Take From The Table - The User With Negetive Balance */
+		  
 		  temp_User = new User();
 		  String getAccountUser_With_Negetive_Balance = "SELECT * FROM " + Scheme_Name + ".account WHERE AccountBalanceCard < 0 ;"; 
 		  ResultSet rs_4 = stmt.executeQuery(getAccountUser_With_Negetive_Balance);
@@ -2644,14 +2774,18 @@ public class EchoServer extends AbstractServer
 			  Users_With_Negetive_Account.add(temp_User);
 		  }
 		  
+		  /* Change The Status Of All The User With Negetive Balance To 'BLOCK' */
+		  
 		  for(int i = 0 ; i < Users_With_Negetive_Account.size() ; i++)
 		  {
 			  String Update_The_User_Table_With_User_With_Negetive_Balanced = "UPDATE " + Scheme_Name + ".user SET UserStatus =" + "'" + "BLOCKED" + "'" + "WHERE UserId=" + "'" + Users_With_Negetive_Account.get(i).getId() + "'" + ";" ;
 			  stmt.executeUpdate(Update_The_User_Table_With_User_With_Negetive_Balanced);
 		  }
 		  
+		  /* Take From The DB The Table - 'User' After The Change */
+		  
 		  temp_User = new User();
-		  String getUsersTable_After_Change = "SELECT * FROM " + Scheme_Name + ".user;"; /* Get all the Table from the DB */
+		  String getUsersTable_After_Change = "SELECT * FROM " + Scheme_Name + ".user;"; 
 		  ResultSet rs_5 = stmt.executeQuery(getUsersTable_After_Change);
 		  while(rs_5.next())
 	 	  {
@@ -2690,8 +2824,7 @@ public class EchoServer extends AbstractServer
    * @param conn -connection to DB
    * @return ArrayList<Integer> - all the orders number
    */
-  protected ArrayList<Integer> getAllOrdersToCustomerCancel(Object msg, Connection conn) //this method get all the orders that match to specific customer and can be cancel
-  {
+  protected ArrayList<Integer> getAllOrdersToCustomerCancel(Object msg, Connection conn) //this method get all the orders that match to specific customer and can be cancel  {
 	 int StoreNum = Integer.parseInt(((ArrayList<String>)(((Message)msg).getMsg())).get(1));
 	 String requestedCustomerId=((ArrayList<String>)(((Message)msg).getMsg())).get(0);
 	 ArrayList<Integer> ordersNums = new ArrayList<Integer>();
@@ -2743,8 +2876,7 @@ public class EchoServer extends AbstractServer
   * @param conn -connection to DB
   * @return Order- Order with all the requested information field- just the fields that we show on the gui
   */
-  protected Order getSelectedOrderDetails(Object msg, Connection conn) //this method return an order from the DB
-  {
+  protected Order getSelectedOrderDetails(Object msg, Connection conn) //this method return an order from the DB  {
 	  int requestedOrderNum=(int)(((Message)msg).getMsg());
 	  Order o = null;
 	  Statement stmt;
@@ -2780,7 +2912,7 @@ public class EchoServer extends AbstractServer
 	  return o;
  } 
   
-  protected void UpdateProductAtDB(Object msg, Connection conn) /* This Method Update the DB */
+  protected void UpdateProductAtDB(Object msg, Connection conn) 					     /* This Method Update the DB */
   {
   		Statement stmt;
   		Product product = (Product) ((Message) msg).getMsg();
@@ -2813,7 +2945,7 @@ public class EchoServer extends AbstractServer
   			e.printStackTrace();}
   	}
   
-  protected void UpdateProductInSaleAtDB(Object msg, Connection conn) /* This Method Update the DB */
+  protected void UpdateProductInSaleAtDB(Object msg, Connection conn) 				     /* This Method Update the DB */
 	{
 		Statement stmt;
 		Product product = (Product) ((Message) msg).getMsg();
@@ -2832,7 +2964,7 @@ public class EchoServer extends AbstractServer
 			e.printStackTrace();}
 	}
   
-  protected void addProductToDB(Object msg, Connection conn) /* This Method Update the DB */
+  protected void addProductToDB(Object msg, Connection conn) 						     /* This Method Update the DB */
 	{
 		Statement stmt;
 		int productId = 0;
@@ -2863,7 +2995,7 @@ public class EchoServer extends AbstractServer
 			e.printStackTrace();}
 	}
   
-  protected void addSaleToDB(Object msg, Connection conn) /* This Method Update the DB */
+  protected void addSaleToDB(Object msg, Connection conn) 							     /* This Method Update the DB */
 	{
 		Statement stmt;
 		Product product = (Product) ((Message) msg).getMsg();
@@ -2881,7 +3013,7 @@ public class EchoServer extends AbstractServer
 			e.printStackTrace();}
 	}
   
-  protected void removeProductFromDB(Object msg, Connection conn) /* This Method Update the DB */
+  protected void removeProductFromDB(Object msg, Connection conn) 					     /* This Method Update the DB */
 	{
 		Statement stmt;
 		Product product = (Product) ((Message) msg).getMsg();
@@ -2895,7 +3027,7 @@ public class EchoServer extends AbstractServer
 			e.printStackTrace();}
 	}
   
-  protected void removeProductInSaleFromDB(Object msg, Connection conn) /* This Method Update the DB */
+  protected void removeProductInSaleFromDB(Object msg, Connection conn) 			     /* This Method Update the DB */
 	{
 		Statement stmt;
 		Product product =  (Product) ((Message) msg).getMsg();
@@ -2919,8 +3051,7 @@ public class EchoServer extends AbstractServer
    * @param conn -connection to DB
    * @return ArrayList<Integer> - all the orders number
    */
-  protected ArrayList<Integer> getAllOrdersToCustomer(Object msg, Connection conn) //this method get all the orders that match to specific customer
-  {
+  protected ArrayList<Integer> getAllOrdersToCustomer(Object msg, Connection conn) //this method get all the orders that match to specific customer  {
 	  String requestedCustomerId=(String)(((Message)msg).getMsg());
 	  ArrayList<Integer> ordersNums = new ArrayList<Integer>();
 	  Statement stmt;
@@ -2959,7 +3090,7 @@ public class EchoServer extends AbstractServer
    * @param conn -connection to DB
    * @return Complaint- complaint with all the requested information field
    */
-  protected Complaint getSelectedComplaintDetails(Object msg, Connection conn) //this method return a complaint from the DB
+  protected Complaint getSelectedComplaintDetails(Object msg, Connection conn)           /* this method return a complaint from the DB */
   {
 	  int requestedComplaintNum=(int)(((Message)msg).getMsg());
 	  Complaint c = null;
@@ -3009,7 +3140,7 @@ public class EchoServer extends AbstractServer
    * @param msg - object msg with the message of specific complaint
    * @param conn -connection to DB
    */
-  protected void UpdateComplaint(Object msg, Connection conn) //this method update the complaint at DB
+  protected void UpdateComplaint(Object msg, Connection conn)                    	     /* this method update the complaint at DB */
   {
 	  Complaint co = (Complaint)(((Message)msg).getMsg());
 	  int storeNumber = 0;
@@ -3042,7 +3173,7 @@ public class EchoServer extends AbstractServer
    * @param msg - object msg with the message of specific Order
    * @param conn -connection to DB
    */
-  protected void UpdateCancelOrder(Object msg, Connection conn) //this method update the cancel order at DB
+  protected void UpdateCancelOrder(Object msg, Connection conn) 					     /* this method update the cancel order at DB */
   {
 	  Order o = (Order)(((Message)msg).getMsg());
 	  Statement stmt;
@@ -3069,7 +3200,7 @@ public class EchoServer extends AbstractServer
    * update the balnce on the account of this user at the store he made the order
    * @param conn -connection to DB
    */
-  public static void getAllComplaintsPass24(Connection conn) //this method take all the complaints that pass 24 hours
+  public static void getAllComplaintsPass24(Connection conn) 						     /* this method take all the complaints that pass 24 hours */
   {
 	  ArrayList<Complaint> complaints = new ArrayList<Complaint>();
 	  Statement stmt;
@@ -3154,7 +3285,7 @@ public class EchoServer extends AbstractServer
    * @param conn -connection to DB
    * @return ArrayList<Integer>- ArrayList of all the complaints numbers
    */
-  protected ArrayList<Integer> getAllComplaintsForWorker(Object msg, Connection conn) //this method get all the complaints that match to specific customer service worker
+  protected ArrayList<Integer> getAllComplaintsForWorker(Object msg, Connection conn)    /* this method get all the complaints that match to specific customer service worker */
   {
 	  String requestedCustomerServiceWorkerName=(String)(((Message)msg).getMsg());
 	  ArrayList<Integer> complaintsNums = new ArrayList<Integer>();
@@ -3185,7 +3316,7 @@ public class EchoServer extends AbstractServer
    * @param conn -connection to DB
    * @return Integer- the store number
    */
-  protected Integer getStoreManagerStoreNum(Object msg, Connection conn) //this method get the store number for this store manager
+  protected Integer getStoreManagerStoreNum(Object msg, Connection conn) /* this method get the store number for this store manager */
   {
 	  Statement stmt;
 	  String userName=(String)((Message)msg).getMsg();
@@ -3211,7 +3342,7 @@ public class EchoServer extends AbstractServer
    * @param conn -connection to DB
    * @return String- if success or not to add a new account to the DB
    */
-  protected String addNewAccountToDB(Object msg, Connection conn) //this method add new account to DB
+  protected String addNewAccountToDB(Object msg, Connection conn) 		 /* this method add new account to DB */
   {	  
 	  Account newAccount = (Account)(((Message)msg).getMsg());
 	  String success=null;
@@ -3259,7 +3390,7 @@ public class EchoServer extends AbstractServer
    * @param conn -connection to DB
    * @return String- if success or not to add a new complaint to the DB
    */
-  protected String addNewComplaintToDB(Object msg, Connection conn) //this method add new complaint to DB
+  protected String addNewComplaintToDB(Object msg, Connection conn) 	 /* this method add new complaint to DB */
   {
 	  Complaint newComplaint = (Complaint)(((Message)msg).getMsg());
 	  int complaintId=0;
@@ -3300,7 +3431,7 @@ public class EchoServer extends AbstractServer
 	  return success;
   }
   
-  protected User getUserStatusFromDB(Object msg, Connection conn) /* This method get products table details from DB */
+  protected User getUserStatusFromDB(Object msg, Connection conn) 		 /* This method get products table details from DB */
   {
 	  Statement stmt;
 	  boolean userNameFlag = false;
@@ -3350,7 +3481,7 @@ public class EchoServer extends AbstractServer
 	  return user;
   }
   
-  protected void changhUserStatus(Object msg, Connection conn) /* This Method Update the DB */
+  protected void changhUserStatus(Object msg, Connection conn) 			 /* This Method Update the DB */
   {
 	  String userId=(String)((Message)msg).getMsg();
 	  String createTablecourses;
@@ -3384,7 +3515,7 @@ public class EchoServer extends AbstractServer
 	  return Id;
   }
   
-  protected String AddNewOrderToDB(Object msg, Connection conn) //this method add new account to DB
+  protected String AddNewOrderToDB(Object msg, Connection conn)    		 /* this method add new account to DB */
   {
 	  Order newOrder = (Order)(((Message)msg).getMsg());
 	  int orderID=0;
@@ -3430,7 +3561,7 @@ public class EchoServer extends AbstractServer
 	  return "No account";
   }
   
-  protected ArrayList<Store> getStoresFromDB(Connection conn) /* This method get products table details from DB */
+  protected ArrayList<Store> getStoresFromDB(Connection conn) 			 /* This method get products table details from DB */
   {
 	  ArrayList<Store> stores = new ArrayList<Store>();
 	  Statement stmt;
@@ -3451,7 +3582,7 @@ public class EchoServer extends AbstractServer
 	  return stores;
   }
   
-  protected Account UpdateUserAccountAtDB(Object msg, Connection conn) /* This Method Update the DB */
+  protected Account UpdateUserAccountAtDB(Object msg, Connection conn) 	 /* This Method Update the DB */
   {
 	  Account account = new Account();
 	  Statement stmt;
@@ -3497,7 +3628,7 @@ public class EchoServer extends AbstractServer
 	  return null;
   }
   
-  public static void changeOrderStatusToRecived(Connection conn) /* This method get products table details from DB */
+  public static void changeOrderStatusToRecived(Connection conn) 		 /* This method get products table details from DB */
   {
 	  ArrayList<Order> orders = new ArrayList<>();
 	  Order o;
@@ -3547,7 +3678,7 @@ public class EchoServer extends AbstractServer
 	  } catch (SQLException e) {	e.printStackTrace();}	
   }
  
-  protected void UpdateBalaceAtDB(Object msg, Connection conn) /* This Method Update the DB */
+  protected void UpdateBalaceAtDB(Object msg, Connection conn) 			 /* This Method Update the DB */
   {
 	  Statement stmt;
 	  ArrayList<Object> use = (ArrayList<Object>)((Message)msg).getMsg();

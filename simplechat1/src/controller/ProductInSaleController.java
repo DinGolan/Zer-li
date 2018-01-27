@@ -29,6 +29,11 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+/**
+ * controller for the Product in sale options - company worker can:
+ * add/ remove or update sale of specific product in specific store.
+ *
+ */
 public class ProductInSaleController implements Initializable{
 
 	private static Product p;
@@ -103,6 +108,12 @@ public class ProductInSaleController implements Initializable{
 	
 	private static double producePrice;
 
+	/**
+	 * company worker have to choose store Id and product Id
+	 * that he want to add/remove or update sale in this store
+	 * for this product. this function call functions that set the 
+	 * comboBos of existing stores and products
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		if(flag == 1)
@@ -119,6 +130,10 @@ public class ProductInSaleController implements Initializable{
 		}
 	}
 	
+	/**
+	 * set the comboBox of existing stores that the company
+	 * worker need to choose one of them
+	 */
 	public void setStoresCmb(){
 		int j;
 		CatalogUI.productsInSale.clear();
@@ -137,6 +152,11 @@ public class ProductInSaleController implements Initializable{
 		cmbSid.setItems(storesId);
 	}
 	
+	/**
+	 * set the comboBox of existing products in specific store
+	 *  that the company worker need to choose one of them in case
+	 *  he want to add sale
+	 */
 	public void setAllStoresAndProductsCmb(){
 		int j;
 		CatalogUI.productsInSale.clear();
@@ -168,7 +188,14 @@ public class ProductInSaleController implements Initializable{
 		cmbPid.setItems(productsId);
 	}
 	
-	public void loadProductsInSaleId(ActionEvent event) throws Exception // add product to cart
+	/**
+	 * in case the company worker want to update or remove an existing
+	 * sale we load all the product in sale of specific store he chose.
+	 * if he did Not chose any store we pop an Error message.
+	 * @param event - company worker click "load products" button
+	 * @throws Exception - if we can't load the fxml file
+	 */
+	public void loadProductsInSaleId(ActionEvent event) throws Exception 
 	{
 		productsId.clear();
 		String storeId;
@@ -207,6 +234,12 @@ public class ProductInSaleController implements Initializable{
 		}
 	}
 	
+	/**
+	 * in case the company worker want to update or remove an existing
+	 * sale we load the details of a specific product and open "product form" window
+	 * @param event - company worker click "add or remove sale" button
+	 * @throws Exception - if we can't load the fxml file
+	 */
 	public void loadProduct(ActionEvent event) throws Exception // add product to cart
 	{
 		if(cmbPid.getValue() != null)
@@ -241,6 +274,11 @@ public class ProductInSaleController implements Initializable{
 		}
 	}
 	
+	/**
+	 * back to "Sales Options" window 
+ 	 * @param event - company worker click "back" button
+	 * @throws Exception - if we can't load the fxml file
+	 */
 	public void backToSalesOptions(ActionEvent event) throws Exception  /* To close the The Window of the Product GUI and Show The Catalog GUI again */
 	{ 
 		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
@@ -255,6 +293,11 @@ public class ProductInSaleController implements Initializable{
 		primaryStage.show();									 /* show catalog frame window */
 	}
 	
+	/**
+	 * this function load to "product form" the details
+	 * on specific product
+	 * @param pid - the product Id of specific product we load its details
+	 */
 	public void loadProduct(String pid) /* To load the product details to the text fields */
 	{ 
 		p= new Product();
@@ -276,6 +319,12 @@ public class ProductInSaleController implements Initializable{
 		txtSType.setText(String.valueOf(p.getpType()));
 	}
 	
+	/**
+	 * in case Company worker want to remove sale of product we remove it
+	 * from the Data base and open "sale options" window
+	 * @param event - Company worker click "remove sale" button
+	 * @throws Exception - if we can't load the fxml file
+	 */
 	public void removeProductInSale(ActionEvent event) throws Exception // add product to cart
 	{
 		msg = new Message(p , "Remove Product In Sale from DB");
@@ -283,6 +332,15 @@ public class ProductInSaleController implements Initializable{
 		backToSalesOptions(event);
 	}
 	
+	/**
+	 * in case Company worker want to update sale of product we  check
+	 * check all the fields he inserted. we also check if the price
+	 * he try to insert bigger than the original price. in case one
+	 * of the fields is Invalid we pop an Error message , else
+	 * we update the sale in the Data base. 
+	 * @param event - Company worker click "Update sale" button
+	 * @throws Exception - if we can't load the fxml file
+	 */
 	public void updateSaleInDB(ActionEvent event) throws Exception // add product to cart
 	{
 		double pPrice=0;
@@ -319,6 +377,12 @@ public class ProductInSaleController implements Initializable{
 		}
 	}
 	
+	/**
+	 * error message in case one of the fields the company worker
+	 * insert is wrong
+	 * @param event - Company worker click "Update sale" button
+	 * @throws Exception - if we can't load the fxml file
+	 */
 	public void senfErrMsg(ActionEvent event) throws IOException
 	{
 		flag= 2;
@@ -335,6 +399,12 @@ public class ProductInSaleController implements Initializable{
 	}
 	
 	
+	/**
+	 * in case we pop an error message and the company worker want
+	 * go back to update the sale - we load again the product sale
+	 * @param event - Company worker click "back" button from Error message
+ 	 * @throws Exception - if we can't load the fxml file
+	 */
 	public void loadProductAgain(ActionEvent event) throws Exception // add product to cart
 	{
 		flag = 2;
@@ -354,6 +424,12 @@ public class ProductInSaleController implements Initializable{
 		
 	}
 	
+	/**
+	 * open "Update Sales In Store" window in case the company worker
+	 * want to update or remove another sale 
+	 * @param event - Company worker click "back" button
+	 * @throws IOException - if we can't load the fxml file
+	 */
 	public void backToChooseProduct(ActionEvent event) throws IOException
 	{
 		flag = 1;
@@ -369,6 +445,15 @@ public class ProductInSaleController implements Initializable{
 		primaryStage.show();									 /* show catalog frame window */
 	}
 	
+	/**
+	 * in case the company worker want to add a new sale in specific store
+	 * we check if the sale that he try to add is already exist , 
+	 * if the company worker didn't pick any store or any product,
+	 * in case one of this options happen we pop an error message,
+	 * else we open "add sale" form
+	 * @param event  - Company worker click "add sale" button
+	 * @throws IOException - if we can't load the fxml file
+	 */
 	public void tryAddSale(ActionEvent event) throws IOException
 	{
 		flag = 2;
@@ -458,6 +543,12 @@ public class ProductInSaleController implements Initializable{
 		}
 	}
 	
+	/**
+	 * if company worker want to go back to "add sale" window
+	 * from "Error message" for example
+	 * @param event - company worker click "back" button
+	 * @throws IOException - if we can't load the fxml file 
+	 */
 	public void backToAddSale(ActionEvent event) throws IOException
 	{
 		flag = 3;
@@ -473,6 +564,13 @@ public class ProductInSaleController implements Initializable{
 		primaryStage.show();									 /* show catalog frame window */
 	}
 	
+	/**
+	 * we load product Id, store Id and product type of specific 
+	 * product that the company worker want to add sale on it.
+	 * also we set the price field to empty field because he
+	 * need to fill it. 
+	 * @param p - the specific product we load its details
+	 */
 	public void loadFields(Product p)
 	{
 		txtPID.setText(String.valueOf(p.getpID()));
@@ -481,6 +579,15 @@ public class ProductInSaleController implements Initializable{
 		txtSType.setText(String.valueOf(p.getpType()));
 	}
 	
+	/**
+	 * in case company worker filled all the fields in "add sale" form
+	 * we check if all the fields he insert, include if the price 
+	 * after the sale bigger than the original of the price. 
+	 * if one of the fields inValid - we pop
+	 * an Error message ,  else we add the sale to the Data base.
+	 * @param event - company worker click "add" button
+	 * @throws Exception - if we can't load the fxml file 
+	 */
 	public void addSaleToDB(ActionEvent event) throws Exception
 	{
 		try
@@ -504,6 +611,12 @@ public class ProductInSaleController implements Initializable{
 		}
 	}
 	
+	/**
+	 * Error message because one of the fields the company worker insert
+	 * is inValid.
+	 * @param event - company worker click "add" button
+	 * @throws Exception - if we can't load the fxml file 
+	 */
 	public void showErrMsg(ActionEvent event) throws IOException
 	{
 		flag =4;
@@ -519,6 +632,12 @@ public class ProductInSaleController implements Initializable{
 		primaryStage.show();									 /* show catalog frame window */
 	}
 	
+	/**
+	 * back from error message we reload the product details
+	 * that the company worker want to add sale on.
+	 * @param event - company worker click "back" button from error message
+	 * @throws IOException  - if we can't load the fxml file 
+	 */
 	public void tryAddSaleAgain(ActionEvent event) throws IOException
 	{
 		flag = 4;

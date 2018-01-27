@@ -25,9 +25,12 @@ import javafx.stage.Stage;
 
 public class QuarterlyRevenueReportController_For_CompanyManager implements Initializable {
 
+		/**
+	 	* This Variable Help Me To Load The ComboBox Of Store's .
+	 	*/
 		private Store store;
 	 
-		/* -------------------------  For The Window Of Quarterly Revenue Report ----------------------------------- */	
+		/* -------------------------  For The Window Of Quarterly Revenue Report - For First Store - For Company Manager ----------------------------------- */	
 		
 		@FXML
 		private TextField txtYear;
@@ -52,9 +55,13 @@ public class QuarterlyRevenueReportController_For_CompanyManager implements Init
 
 	   
 		
-	/* --------------------------------- Loading Store To the Text Fields ------------------------------------------------- */
+	/* --------------------------------- Loading Store To the Text Fields ---------------------------------------------------------------------------------- */
 	 
-		public void loadStore(Store s) 					/* To load the Store details to the text fields */
+	    /**
+	     * In This Function We Load The ComboBox Of Store's .
+	 	* @param s
+	 	*/
+		public void loadStore(Store s) 				
 		{ 
 			if(CompanyManagerReportController.Integer_The_Option_You_Choose == 1)
 			{
@@ -64,7 +71,14 @@ public class QuarterlyRevenueReportController_For_CompanyManager implements Init
 					this.txtStoreID.setText(String.valueOf(store.getStoreId()));
 					this.txtStoreAddress.setText((store.getStore_Address()));
 				}
-				else
+				else if(CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == true && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == false)
+				{
+					this.store = s;
+					this.txtStoreID.setText(String.valueOf(store.getStoreId()));
+					this.txtStoreAddress.setText((store.getStore_Address()));
+				}
+				else if((CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == false && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == false)
+						|| CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == false && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == true)
 				{
 					this.txtStoreID.setText(String.valueOf(1));
 					this.txtStoreAddress.setText(("Nahariya"));
@@ -78,7 +92,14 @@ public class QuarterlyRevenueReportController_For_CompanyManager implements Init
 					this.txtStoreID.setText(String.valueOf(store.getStoreId()));
 					this.txtStoreAddress.setText((store.getStore_Address()));
 				}
-				else
+				else if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == false)
+				{
+					this.store = s;
+					this.txtStoreID.setText(String.valueOf(store.getStoreId()));
+					this.txtStoreAddress.setText((store.getStore_Address()));
+				}
+				else if((CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == true)
+						|| (CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == false))
 				{
 					this.txtStoreID.setText(String.valueOf(1));
 					this.txtStoreAddress.setText(("Nahariya"));
@@ -86,9 +107,13 @@ public class QuarterlyRevenueReportController_For_CompanyManager implements Init
 			}
 		}
 
-	/* --------------------------------- Loading Quarter Number To the Text Fields ------------------------------------------------- */	
+	/* --------------------------------- Loading Quarter Number To the Text Fields ------------------------------------------------------------------------- */	
 		
-		public void loadQuarter(String string) 					/* To load the Store details to the text fields */
+		/**
+	    * In This Function We Load The ComboBox Of Date's .
+	 	* @param s
+	 	*/
+		public void loadQuarter(String string) 					
 		{ 
 			if(CompanyManagerReportController.Integer_The_Option_You_Choose == 1)
 			{
@@ -96,7 +121,12 @@ public class QuarterlyRevenueReportController_For_CompanyManager implements Init
 				{
 					this.txtQuarterNum.setText(string);
 				}
-				else
+				else if(CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == true && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == false)
+				{
+					this.txtQuarterNum.setText(string);
+				}
+				else if((CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == false && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == false)
+						|| (CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == false && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == true))
 				{
 					this.txtQuarterNum.setText(String.valueOf(4));
 				}
@@ -107,15 +137,25 @@ public class QuarterlyRevenueReportController_For_CompanyManager implements Init
 				{
 					this.txtQuarterNum.setText(string);
 				}
-				else
+				else if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == false)
+				{
+					this.txtQuarterNum.setText(String.valueOf(4));
+				}
+				else if((CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == false)
+						|| (CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == true))
 				{
 					this.txtQuarterNum.setText(String.valueOf(4));
 				}
 			}
 		}
 	 
-	/* --------------------------------- Close the Quarterly Revenue Report Window ------------------------------------------------- */		
+	/* --------------------------------- Close the Quarterly Revenue Report Window ------------------------------------------------------------------------- */		
 		
+		/**
+		 * In This Function I close The GUI Of Revenue Report Of the First Store .
+		 * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	     * @throws Exception - If The FXML Not Work .
+		 */
 		public void closeQuarterlyRevenueReportWindow(ActionEvent event) throws Exception
 		{
 			CompanyManagerUI.stores_For_Company_Manager.clear();
@@ -134,12 +174,23 @@ public class QuarterlyRevenueReportController_For_CompanyManager implements Init
 			
 			Scene scene = new Scene(root);		
 			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-			primaryStage.setScene(scene);		
-			primaryStage.show();										   /* show catalog frame window */
+			primaryStage.setScene(scene);
+			if(CompanyManagerReportController.Flag_For_Return_Window_With_One_Store_Or_With_Two_Store == 1)
+			{
+				primaryStage.setTitle("----- Company Manager Report Form - Watch Only One Store -----");
+			}
+			else if(CompanyManagerReportController.Flag_For_Return_Window_With_One_Store_Or_With_Two_Store == 2)
+			{
+				primaryStage.setTitle("----- Company Manager Report Form - Watch Two Store -----");
+			}
+			primaryStage.show();										 
 		}
 
-	/* --------------------------------- Initialize The Quarterly Revenue Report GUI ------------------------------------------------- */	 		
+	/* --------------------------------- Initialize The Quarterly Revenue Report GUI ----------------------------------------------------------------------- */	 		
 		
+		/** 
+		 * In This Function We Initialize The GUI Of Revenue Report Of the First Store .
+		 */
 		@Override
 		 public void initialize(URL location, ResourceBundle resources) 
 		{
@@ -173,22 +224,31 @@ public class QuarterlyRevenueReportController_For_CompanyManager implements Init
 					Year_Integer = Integer.parseInt(Year);
 					Month_Integer = Integer.parseInt(Month);
 				}
-				else
+				else if(CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == true && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == false) 
 				{
-					temp_Date_Quarter_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.get(1);                             /* The Date */
+					temp_Date_Quarter_Report = Date.valueOf("2017-12-31");
+					CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.add(temp_Date_Quarter_Report);
 					Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
 					Year = Full_Date_String.substring(0 , 4);
 					Month = Full_Date_String.substring(5 , 7);
 					Year_Integer = Integer.parseInt(Year);
 					Month_Integer = Integer.parseInt(Month);
-					
+				}
+				else if(CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == true && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == true) 
+				{
+					temp_Date_Quarter_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.get(1); /* The Date */
+					Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
+					Year = Full_Date_String.substring(0 , 4);
+					Month = Full_Date_String.substring(5 , 7);
+					Year_Integer = Integer.parseInt(Year);
+					Month_Integer = Integer.parseInt(Month);
 				}
 			}
 			else if(CompanyManagerReportController.Integer_The_Option_You_Choose == 2)
 			{
 				if((CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == false)
 						|| (CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == true))
-					{
+				{
 						int temp_Store_Id = 1;
 						temp_Date_Quarter_Report = Date.valueOf("2017-12-31");
 						CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.clear();
@@ -199,16 +259,27 @@ public class QuarterlyRevenueReportController_For_CompanyManager implements Init
 						Month = Full_Date_String.substring(5 , 7);
 						Year_Integer = Integer.parseInt(Year);
 						Month_Integer = Integer.parseInt(Month);
-					}
-					else
-					{
-						temp_Date_Quarter_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.get(1);                             /* The Date */
-						Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
-						Year = Full_Date_String.substring(0 , 4);
-						Month = Full_Date_String.substring(5 , 7);
-						Year_Integer = Integer.parseInt(Year);
-						Month_Integer = Integer.parseInt(Month);
-					}
+				}
+				else if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == false) 
+				{
+					temp_Date_Quarter_Report = Date.valueOf("2017-12-31");
+					CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.add(temp_Date_Quarter_Report);
+					Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
+					Year = Full_Date_String.substring(0 , 4);
+					Month = Full_Date_String.substring(5 , 7);
+					Year_Integer = Integer.parseInt(Year);
+					Month_Integer = Integer.parseInt(Month);
+					
+				}
+				else if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == true)
+				{
+					temp_Date_Quarter_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.get(1); /* The Date */
+					Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
+					Year = Full_Date_String.substring(0 , 4);
+					Month = Full_Date_String.substring(5 , 7);
+					Year_Integer = Integer.parseInt(Year);
+					Month_Integer = Integer.parseInt(Month);
+				}
 			}
 			
 			this.txtYear.setText(String.valueOf(Year_Integer)); 					/* Set The Year */
@@ -257,9 +328,9 @@ public class QuarterlyRevenueReportController_For_CompanyManager implements Init
 			String Amount_Of_Order_Of_Specific_Quarter = String.valueOf(CompanyManagerUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter_For_Company_Manager.get(1)); /* The Amount Of Order */
 			
 			this.txtQuantityOfOrder.setText(String.valueOf(Amount_Of_Order_Of_Specific_Quarter));
-			this.txtRevenueOfSpecificQuarter.setText(Revenue_Of_Specific_Quarter);   /* Set the Revenue */
+			this.txtRevenueOfSpecificQuarter.setText(Revenue_Of_Specific_Quarter);   
 		} 
 		
-	/* ------------------------------------------------------------------------------------------------------------------- */
+	/* ----------------------------------------------------------------------------------------------------------------------------------------------------- */
 		
 }

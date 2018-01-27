@@ -47,7 +47,7 @@ public class CustomerComplaintStatusReportController implements Initializable {
 	private static String[] Month_Of_Quarter_Three = {"July","August","September"};
 	private static String[] Month_Of_Quarter_Four = {"October","November","December"};
 	
-	/* -------------------------  For The Window Of First Store - Customer Complaint Report - For The Store Manager ----------------------------------- */	
+	/* -------------------------  For The Window Of First Store - Customer Complaint Report - For The Store Manager --------------------- */	
 	
 	 @FXML
 	 private TextField txtStoreID;
@@ -70,6 +70,7 @@ public class CustomerComplaintStatusReportController implements Initializable {
 	 @FXML
 	 private Button btnClose;
 	 
+	/* --------------------------------- Loading Store To the Text Fields --------------------------------------------------------------- */	  
 	 
 	/**	
 	* In This Function We Load The Number ID Of Specific Store .
@@ -81,11 +82,12 @@ public class CustomerComplaintStatusReportController implements Initializable {
 		this.txtStoreID.setText(String.valueOf(store.getStoreId()));
 	}
 	
+	/* --------------------------------- Close the Customer Complaint Report Window ----------------------------------------------------- */			
 	
 	/**
-	* In This Function I close The GUI Of Customer Complaint Report Of the First Store Of The Store Manager .
-	* @param event - When Client Press On the Button This Parameter Start To Work . 
-	* @throws Exception
+	* In This Function I close The GUI Of Customer Complaint Report Of the Store That The Store Manager Watch .
+	* @param event - When The Client Press On the Butten This Parameter Start To Work .
+	* @throws Exception - If The FXML Not Work .
 	*/
 	public void closeCustomerComplaintStatusReportWindow(ActionEvent event) throws Exception    
 	{ 
@@ -102,9 +104,10 @@ public class CustomerComplaintStatusReportController implements Initializable {
 		primaryStage.show();										 
 	}
 	
+	/* --------------------------------- Initialize The Satisfaction Report GUI --------------------------------------------------------- */
 	
 	/** 
-	 * In This Function We Initialize The GUI Of Customer Complaint Report Of the First Store Of The Store Manager .
+	 * In This Function We Initialize The GUI Of Customer Complaint Report Of the Store That The Store Manager Watch .
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) 
@@ -179,7 +182,7 @@ public class CustomerComplaintStatusReportController implements Initializable {
 		Put_At_The_Chart_All_The_Complaints();
 	}
 
-/* --------------------------------- Initialize The Customer Complaint And The Month Of the Complaint At the Bar Chart ------------------------------------------------- */	 			
+/* --------------------------------- Initialize The Customer Complaint And The Month Of the Complaint At the Bar Chart -------------------- */	 			
 	
 	/**
 	 * In This Function I Initialize The BarChart . 
@@ -251,7 +254,7 @@ public class CustomerComplaintStatusReportController implements Initializable {
 		{
 			for(int WithOut_Duplicate_Index = 0 ; WithOut_Duplicate_Index < Month_Of_Complaint_Without_Duplicate.size() ; WithOut_Duplicate_Index++)
 			{
-				if(Months_Of_Complaint.get(i).compareTo(Month_Of_Complaint_Without_Duplicate.get(WithOut_Duplicate_Index)) == 0) /* If Equals Than get In Into The 'If' Statement */
+				if(Months_Of_Complaint.get(i).compareTo(Month_Of_Complaint_Without_Duplicate.get(WithOut_Duplicate_Index)) == 0) 
 				{
 					for(int SetChart_Index = 0 ; SetChart_Index < setChart.size() ; SetChart_Index++)
 					{
@@ -264,5 +267,4 @@ public class CustomerComplaintStatusReportController implements Initializable {
 		
 		Complaint_BarChart.getData().addAll(setChart);
 	}
-	
 }

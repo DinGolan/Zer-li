@@ -75,8 +75,8 @@ public class CompanyManagerController_With_Only_One_Store implements Initializab
 	
 	/**
 	 * In This Function We Close The Window Of That We saw On the Screen And return to the previous window .
-	 * @param event - Start To Working When We Press On the Button Of Close Window .
-	 * @throws Exception
+	 * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
 	 */
 	public void closeOneStoreWindow(ActionEvent event) throws Exception   
 	{ 
@@ -99,96 +99,160 @@ public class CompanyManagerController_With_Only_One_Store implements Initializab
 	
 	/**
 	 * In This Function We See The GUI Of - Quarterly Revenue Report .
-	 * @param event - Start To Working When We Press On the Button Of Quarterly Revenue Report .
-	 * @throws Exception
+	 * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
 	 */
 	public void QuarterlyRevenueReport_For_Company_Worker(ActionEvent event) throws Exception       
 	{
-		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
-		Stage primaryStage = new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		Pane root = loader.load(getClass().getResource("/controller/QuarterlyRevenueReportForm_For_CompanyManager.fxml").openStream());
-		
-		QuarterlyRevenueReportController_For_CompanyManager quarterlyRevenueReportController = loader.getController();
-		quarterlyRevenueReportController.loadStore(CompanyManagerUI.stores_For_Company_Manager.get(getItemIndex_For_CompanyManager())); 
-		
-		Scene scene = new Scene(root);
-		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-		primaryStage.setScene(scene);
-		primaryStage.setTitle("----- Quarterly Revenue Report -----");
-		primaryStage.show();
+		if(Flag_Enter_On_The_Store_Combo_Box == true && Flag_Enter_On_The_Date_Combo_Box == true)
+		{
+			((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+			Stage primaryStage = new Stage();
+			FXMLLoader loader = new FXMLLoader();
+			Pane root = loader.load(getClass().getResource("/controller/QuarterlyRevenueReportForm_For_CompanyManager.fxml").openStream());
+			
+			QuarterlyRevenueReportController_For_CompanyManager quarterlyRevenueReportController = loader.getController();
+			quarterlyRevenueReportController.loadStore(CompanyManagerUI.stores_For_Company_Manager.get(getItemIndex_For_CompanyManager())); 
+			
+			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setScene(scene);
+			primaryStage.setTitle("----- Quarterly Revenue Report -----");
+			primaryStage.show();
+		}
+		else 
+		{
+			((Node)event.getSource()).getScene().getWindow().hide();
+			Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
+			FXMLLoader loader = new FXMLLoader(); 					 	 /* Load object */
+			Pane root = loader.load(getClass().getResource("/controller/Company_Mannager_With_One_Store_You_Not_Press_On_Store_Or_Date.fxml").openStream());
+			
+			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setScene(scene);
+			primaryStage.setTitle("----- Company Manager With One Store Not Press On The Combo Box Of Store Or Date -----");
+			primaryStage.show();
+		}
 	}
 	
 /* --------------------------------  The Report About Customer Order ------------------------------------------------- */	
 	
 	/**
 	 * In This Function We See The GUI Of - Order Report .
-	 * @param event - Start To Working When We Press On the Button Of Order Report .
-	 * @throws Exception
+	 * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
 	 */
 	public void OrderReport_For_Company_Worker(ActionEvent event) throws Exception        
 	{
-		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
-		Stage primaryStage = new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		Pane root = loader.load(getClass().getResource("/controller/OrderReportForm_For_CompanyManager.fxml").openStream());
-		
-		OrderReportController_For_ComapnyManager orderReportController = loader.getController();
-		orderReportController.loadStore(CompanyManagerUI.stores_For_Company_Manager.get(getItemIndex_For_CompanyManager()));
-		
-		Scene scene = new Scene(root);
-		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-		primaryStage.setScene(scene);
-		primaryStage.setTitle("----- Order Report -----");
-		primaryStage.show();
+		if(Flag_Enter_On_The_Store_Combo_Box == true && Flag_Enter_On_The_Date_Combo_Box == true)
+		{
+			((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+			Stage primaryStage = new Stage();
+			FXMLLoader loader = new FXMLLoader();
+			Pane root = loader.load(getClass().getResource("/controller/OrderReportForm_For_CompanyManager.fxml").openStream());
+			
+			OrderReportController_For_ComapnyManager orderReportController = loader.getController();
+			orderReportController.loadStore(CompanyManagerUI.stores_For_Company_Manager.get(getItemIndex_For_CompanyManager()));
+			
+			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setScene(scene);
+			primaryStage.setTitle("----- Order Report -----");
+			primaryStage.show();
+		}
+		else
+		{
+			((Node)event.getSource()).getScene().getWindow().hide();
+			Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
+			FXMLLoader loader = new FXMLLoader(); 					 	 /* Load object */
+			Pane root = loader.load(getClass().getResource("/controller/Company_Mannager_With_One_Store_You_Not_Press_On_Store_Or_Date.fxml").openStream());
+			
+			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setScene(scene);
+			primaryStage.setTitle("----- Company Manager With One Store Not Press On The Combo Box Of Store Or Date -----");
+			primaryStage.show();
+		}
 	}
 	
 /* --------------------------------  The Report About Customer Complaint --------------------------------------------- */
 	
 	/**
 	 * In This Function We See The GUI Of - Customer Complaint Report .
-	 * @param event - Start To Working When We Press On the Button Of Customer Complaint Report .
-	 * @throws Exception
+	 * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
 	 */
 	public void CustomerComplaintStatusReport_For_Company_Worker(ActionEvent event) throws Exception        
 	{
-		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
-		Stage primaryStage = new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		Pane root = loader.load(getClass().getResource("/controller/CustomerComplaintStatusReportForm_For_ComapnyManager.fxml").openStream());
-		
-		CustomerComplaintStatusReportController_For_CompanyManager customerComplaintStatusReportController = loader.getController();
-		customerComplaintStatusReportController.loadStore(CompanyManagerUI.stores_For_Company_Manager.get(getItemIndex_For_CompanyManager()));
-		
-		Scene scene = new Scene(root);
-		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-		primaryStage.setScene(scene);
-		primaryStage.setTitle("----- Customer Complaint Report -----");
-		primaryStage.show();
+		if(Flag_Enter_On_The_Store_Combo_Box == true && Flag_Enter_On_The_Date_Combo_Box == true)
+		{
+			((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+			Stage primaryStage = new Stage();
+			FXMLLoader loader = new FXMLLoader();
+			Pane root = loader.load(getClass().getResource("/controller/CustomerComplaintStatusReportForm_For_ComapnyManager.fxml").openStream());
+			
+			CustomerComplaintStatusReportController_For_CompanyManager customerComplaintStatusReportController = loader.getController();
+			customerComplaintStatusReportController.loadStore(CompanyManagerUI.stores_For_Company_Manager.get(getItemIndex_For_CompanyManager()));
+			
+			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setScene(scene);
+			primaryStage.setTitle("----- Customer Complaint Report -----");
+			primaryStage.show();
+		}
+		else
+		{
+			((Node)event.getSource()).getScene().getWindow().hide();
+			Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
+			FXMLLoader loader = new FXMLLoader(); 					 	 /* Load object */
+			Pane root = loader.load(getClass().getResource("/controller/Company_Mannager_With_One_Store_You_Not_Press_On_Store_Or_Date.fxml").openStream());
+			
+			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setScene(scene);
+			primaryStage.setTitle("----- Company Manager With One Store Not Press On The Combo Box Of Store Or Date -----");
+			primaryStage.show();
+		}
 	}
 	
 /* --------------------------------  The Report About Satisfaction Of The Customer ----------------------------------- */
 	
 	/**
 	 * In This Function We See The GUI Of - Satisfaction Report .
-	 * @param event - Start To Working When We Press On the Button Of Satisfaction Report .
-	 * @throws Exception
+	 * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
 	 */
 	public void SatisfactionReport_For_Company_Worker(ActionEvent event) throws Exception        
 	{
-		((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
-		Stage primaryStage = new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		Pane root = loader.load(getClass().getResource("/controller/SatisfactionReportForm_For_CompanyManager.fxml").openStream());
-		
-		SatisfactionReportController_For_CompanyManager satisfactionReportController = loader.getController();
-		satisfactionReportController.loadStore(CompanyManagerUI.stores_For_Company_Manager.get(getItemIndex_For_CompanyManager()));
-		
-		Scene scene = new Scene(root);
-		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-		primaryStage.setScene(scene);
-		primaryStage.setTitle("----- Satisfaction Report -----");
-		primaryStage.show();
+		if(Flag_Enter_On_The_Store_Combo_Box == true && Flag_Enter_On_The_Date_Combo_Box == true)
+		{
+			((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+			Stage primaryStage = new Stage();
+			FXMLLoader loader = new FXMLLoader();
+			Pane root = loader.load(getClass().getResource("/controller/SatisfactionReportForm_For_CompanyManager.fxml").openStream());
+			
+			SatisfactionReportController_For_CompanyManager satisfactionReportController = loader.getController();
+			satisfactionReportController.loadStore(CompanyManagerUI.stores_For_Company_Manager.get(getItemIndex_For_CompanyManager()));
+			
+			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setScene(scene);
+			primaryStage.setTitle("----- Satisfaction Report -----");
+			primaryStage.show();
+		}
+		else
+		{
+			((Node)event.getSource()).getScene().getWindow().hide();
+			Stage primaryStage = new Stage();						 	 /* Object present window with graphics elements */
+			FXMLLoader loader = new FXMLLoader(); 					 	 /* Load object */
+			Pane root = loader.load(getClass().getResource("/controller/Company_Mannager_With_One_Store_You_Not_Press_On_Store_Or_Date.fxml").openStream());
+			
+			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setScene(scene);
+			primaryStage.setTitle("----- Company Manager With One Store Not Press On The Combo Box Of Store Or Date -----");
+			primaryStage.show();
+		}
 	}	
 	
 /* -------------------------- Taking Store From The Combo Box of Store ------------------------------------------------ */	
@@ -200,8 +264,16 @@ public class CompanyManagerController_With_Only_One_Store implements Initializab
 	public int getItemIndex_For_CompanyManager()                                   	
 	{
 		if(cmbStores.getSelectionModel().getSelectedIndex() == -1)
+		{
+			Flag_Enter_On_The_Store_Combo_Box = false;
 			return itemIndex;
+		}
 	
+		else 
+		{
+			Flag_Enter_On_The_Store_Combo_Box = true;
+		}
+		
 		return cmbStores.getSelectionModel().getSelectedIndex();
 	}
 	
@@ -214,8 +286,15 @@ public class CompanyManagerController_With_Only_One_Store implements Initializab
 	public int getItemIndexFromDateComboBox_For_CompanyManager()                                   	
 	{
 		if(cmbReports.getSelectionModel().getSelectedIndex() == -1)
+		{
+			Flag_Enter_On_The_Date_Combo_Box = false;
 			return itemIndex;
-	
+		}
+		else
+		{
+			Flag_Enter_On_The_Date_Combo_Box = true; 
+		}
+		
 		return cmbReports.getSelectionModel().getSelectedIndex();
 	}
 	
@@ -261,25 +340,49 @@ public class CompanyManagerController_With_Only_One_Store implements Initializab
  	 * In This Function - a. We Choose Our Store Choise .
  	 * 					  b. We Going With Our Store Choise To the DB And Take Details .
  	 * 					  c. We Initalized All The Date Of the Report , Of our Store Choise In the ComboBox Of Date's .
- 	 * @param event - When We Click On our Store Choise In the ComboBox This Function start to working .
- 	 * @throws Exception
+ 	 * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
  	 */
 	public void Click_On_Your_Store_Choise_For_CompanyManager(ActionEvent event) throws Exception
 	{
-		temp_Store_Id = CompanyManagerUI.stores_For_Company_Manager.get(getItemIndex_For_CompanyManager()).getStoreId();
-		msg = new Message(temp_Store_Id,"Comapny Manager - Take The Date Of All the Report Of Specific Store");
-		UserUI.myClient.accept(msg);
-		while(CompanyManagerUI.Dates_For_Company_Manager.size() == 0)
-		{
-			if(CompanyManagerUI.Dates_For_Company_Manager.size() == 0)
-			{
-				break;
-			}
-		}
-		Thread.sleep(200);
-		set_Dates_Of_Report_At_ComboBox_For_CompanyManager();
+		cmbReports.setVisible(true);
 		
-		Flag_Enter_On_The_Store_Combo_Box = true;
+		temp_Store_Id = CompanyManagerUI.stores_For_Company_Manager.get(getItemIndex_For_CompanyManager()).getStoreId();
+		
+		if(Flag_Enter_On_The_Store_Combo_Box == true)
+		{
+			msg = new Message(temp_Store_Id,"Comapny Manager - Take The Date Of All the Report Of Specific Store");
+			UserUI.myClient.accept(msg);
+			while(CompanyManagerUI.Dates_For_Company_Manager.size() == 0)
+			{
+				if(CompanyManagerUI.Dates_For_Company_Manager.size() == 0)
+				{
+					break;
+				}
+			}
+			Thread.sleep(200);
+			set_Dates_Of_Report_At_ComboBox_For_CompanyManager();
+			
+			/* ---------------------- For The Revenue Report ------------------------------------------------ */
+			
+			CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.clear();
+			CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.add(temp_Store_Id);
+			
+			/* ---------------------- For The Order Report -------------------------------------------------- */
+			
+			CompanyManagerUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager.clear();
+			CompanyManagerUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager.addElement(temp_Store_Id);
+			
+			/* ---------------------- For The Customer Complaint Report ------------------------------------- */
+			
+			CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager.clear();
+			CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager.add(temp_Store_Id);  /* The Store_Id */
+			
+			/* ---------------------- For The Satisfaction Report ------------------------------------------- */
+			
+			CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.clear();
+			CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.add(temp_Store_Id);  /* The Store_Id */
+		}
 	}	
 	
 /* -------------------------------- The Button Of The Date Of the Report That We Choose ------------------------------- */				
@@ -288,54 +391,45 @@ public class CompanyManagerController_With_Only_One_Store implements Initializab
  	 * In This Function - a. We Choose Our Quarter Choise .
  	 * 					  b. We Going With Our Quarter Choise To the DB And Take Details .
  	 * 					  c. After I Finish To Take The Details From DB , I start To Build All The Report - { Order Report , Revenue Report , Complaint Report , Satisfaction Report } .
- 	 * @param event - When We Click On our Report Date Choise In the ComboBox This Function start to working .
- 	 * @throws Exception
+ 	 * @param  event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
  	 */
 	public void Click_On_Your_Quarter_Report_For_CompanyManager(ActionEvent event) throws Exception
 	{
 		temp_Date_Quarter_Report = CompanyManagerUI.Dates_For_Company_Manager.get(getItemIndexFromDateComboBox_For_CompanyManager());
-		ArrayList<Object> Store_Id_And_Date_Of_Report = new ArrayList<Object>();
-		Store_Id_And_Date_Of_Report.add(temp_Store_Id);
-		Store_Id_And_Date_Of_Report.add(temp_Date_Quarter_Report);
 		
+		if(Flag_Enter_On_The_Date_Combo_Box == true)
+		{
 		
-		/* ---------------------- For The Revenue Report ------------------------------------------------------------------------------------------------------------------------------------------------------------- */
-		
-		/**
-		 * This Variable Helps Me To Transfer Important Details For Building The Revenue Report
-		 */
-		CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.clear();
-		CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.add(Store_Id_And_Date_Of_Report.get(0)); /* The Store_Id */
-		CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.add(Store_Id_And_Date_Of_Report.get(1)); /* The Date Of the Report */
-		
-		/* ----------------------- For The Order Report ----------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-		
-		/**
-		 * This Variable Helps Me To Transfer Important Details For Building The Order Report
-		 */
-		CompanyManagerUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager.clear();
-		CompanyManagerUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
-		CompanyManagerUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager.add(Store_Id_And_Date_Of_Report.get(1));  /* The Date Of the Report */
-		
-		/* ----------------------- For The Complaint Report ----------------------------------------------------------------------------------------------------------------------------------------------------------- */
-		
-		/**
-		 * This Variable Helps Me To Transfer Important Details For Building The Complaint Report
-		 */
-		CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager.clear();
-		CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
-		CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager.add(Store_Id_And_Date_Of_Report.get(1));  /* The Date Of the Report */
-		
-		/* ----------------------- For The Satisfaction Report -------------------------------------------------------------------------------------------------------------------------------------------------------- */
-		
-		/**
-		 * This Variable Helps Me To Transfer Important Details For Building The Satisfaction Report
-		 */
-		CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.clear();
-		CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.add(Store_Id_And_Date_Of_Report.get(0));  /* The Store_Id */
-		CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.add(Store_Id_And_Date_Of_Report.get(1));  /* The Date Of the Report */
-		
-		Flag_Enter_On_The_Date_Combo_Box = true;
+			/* ---------------------- For The Revenue Report ------------------------------------------------------------------------------------------------------------------------------------------------------------- */
+			
+			/**
+			 * This Variable Helps Me To Transfer Important Details For Building The Revenue Report
+			 */
+			CompanyManagerUI.Help_To_Transfer_Object_At_Revenue_Report_For_Company_Manager.add(temp_Date_Quarter_Report); /* The Date Of the Report */
+			
+			/* ----------------------- For The Order Report ----------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+			
+			/**
+			 * This Variable Helps Me To Transfer Important Details For Building The Order Report
+			 */
+			CompanyManagerUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager.add(temp_Date_Quarter_Report);  /* The Date Of the Report */
+			
+			/* ----------------------- For The Complaint Report ----------------------------------------------------------------------------------------------------------------------------------------------------------- */
+			
+			/**
+			 * This Variable Helps Me To Transfer Important Details For Building The Complaint Report
+			 */
+			CompanyManagerUI.Help_To_Transfer_Object_At_Complaint_Report_For_Company_Manager.add(temp_Date_Quarter_Report);  /* The Date Of the Report */
+			
+			/* ----------------------- For The Satisfaction Report -------------------------------------------------------------------------------------------------------------------------------------------------------- */
+			
+			/**
+			 * This Variable Helps Me To Transfer Important Details For Building The Satisfaction Report
+			 */
+			
+			CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.add(temp_Date_Quarter_Report);  /* The Date Of the Report */
+		}
 	}	
 	
 /* -------------------------------- Initialized The ComboBox In the First Window - Report GUI ---------------------------------------------------- */		
@@ -346,6 +440,8 @@ public class CompanyManagerController_With_Only_One_Store implements Initializab
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
+		cmbReports.setVisible(false);
+		
 		Flag_Enter_On_The_Date_Combo_Box = false;
 		Flag_Enter_On_The_Store_Combo_Box = false;
 		
@@ -367,6 +463,7 @@ public class CompanyManagerController_With_Only_One_Store implements Initializab
 		{
 			e.printStackTrace();
 		}
+		
 		setStoresComboBox_ComapnyManager();
 	}
 }

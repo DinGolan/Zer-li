@@ -107,8 +107,8 @@ public class CompanyManagerReportController_Compare_Between_Two_Diffrent_Quarter
     
     /**
      * In This Function I Close The GUI Of the Compare Between Two Store's Or Two Different Quarter . 
-     * @param event - When The Client Click On the Button This Parameter Start To Work .
-     * @throws Exception
+     * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
      */
 	public void close_Window_Compare_Between_TWo_Different_Quarter(ActionEvent event) throws Exception   
 	{ 
@@ -239,7 +239,7 @@ public class CompanyManagerReportController_Compare_Between_Two_Diffrent_Quarter
 	{
 		ArrayList<Object> ArrayList_Of_Field_To_Compare = new ArrayList<Object>();
 		
-		/* We Not Press On Any One */
+		/* ------------------------------------- We Not Press On Any One ------------------------------------------- */
 		
 		if(((CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1_For_Compare == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1_For_Compare == false) 
 				|| (CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1_For_Compare == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1_For_Compare == true)) 
@@ -257,12 +257,51 @@ public class CompanyManagerReportController_Compare_Between_Two_Diffrent_Quarter
 			ArrayList_Of_Field_To_Compare.add(Date_2_Defult);
 		}
 		
-		/* We Press Only On the First Store */
+		/* ---------------------------------- The 'If' StateMent Of the First Store -------------------------------- */
 		
-		else if(((CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1_For_Compare == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1_For_Compare == false) 
-				|| (CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1_For_Compare == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1_For_Compare == true)) 
-				&& ((CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2_For_Compare == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2_For_Compare == false) 
-						|| (CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2_For_Compare == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2_For_Compare == true)))
+		else if((CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1_For_Compare == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1_For_Compare == false) 
+				&& ((CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2_For_Compare == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2_For_Compare == false)
+						|| (CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2_For_Compare == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2_For_Compare == true))) 				
+		{
+			Store_ID_1 = (int) CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_1.get(0);
+			Date_1_Defult = Date.valueOf("2017-12-31");
+			Store_2_Defult = 2;
+			Date_2_Defult = Date.valueOf("2017-09-30");
+			ArrayList_Of_Field_To_Compare.add(Store_ID_1);
+			ArrayList_Of_Field_To_Compare.add(Store_2_Defult);
+			ArrayList_Of_Field_To_Compare.add(Date_1_Defult);
+			ArrayList_Of_Field_To_Compare.add(Date_2_Defult);
+		}
+		
+		else if((CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1_For_Compare == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1_For_Compare == false) 
+				&& (CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2_For_Compare == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2_For_Compare == false)) 
+		{
+			Store_ID_1 = (int) CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_1.get(0);
+			Store_ID_2 = (int) CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_2.get(0);
+			Date_1_Defult = Date.valueOf("2017-12-31");
+			Date_2_Defult = Date.valueOf("2017-09-30");
+			ArrayList_Of_Field_To_Compare.add(Store_ID_1);
+			ArrayList_Of_Field_To_Compare.add(Store_ID_2);
+			ArrayList_Of_Field_To_Compare.add(Date_1_Defult);
+			ArrayList_Of_Field_To_Compare.add(Date_2_Defult);
+		}
+		
+		else if((CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1_For_Compare == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1_For_Compare == true) 
+				&& (CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2_For_Compare == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2_For_Compare == false)) 
+		{
+			Store_ID_1 = (int) CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_1.get(0);
+			Date_Quarter_Report_1 = (Date) CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_1.get(1);
+			Store_ID_2 = (int) CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_2.get(0);
+			Date_2_Defult = Date.valueOf("2017-09-30");
+			ArrayList_Of_Field_To_Compare.add(Store_ID_1);
+			ArrayList_Of_Field_To_Compare.add(Store_ID_2);
+			ArrayList_Of_Field_To_Compare.add(Date_Quarter_Report_1);
+			ArrayList_Of_Field_To_Compare.add(Date_2_Defult);
+		}
+		
+		else if((CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1_For_Compare == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1_For_Compare == true) 
+				&& ((CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2_For_Compare == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2_For_Compare == false))
+				|| (CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2_For_Compare == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2_For_Compare == true)) 
 		{
 			Store_ID_1 = (int) CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_1.get(0);
 			Date_Quarter_Report_1 = (Date) CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_1.get(1);
@@ -274,12 +313,37 @@ public class CompanyManagerReportController_Compare_Between_Two_Diffrent_Quarter
 			ArrayList_Of_Field_To_Compare.add(Date_2_Defult);
 		}
 		
-		/* We Press Only On the Second Store */
+		/* ---------------------------------- The 'If' StateMent Of the Second Store ------------------------------- */
 		
 		else if(((CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1_For_Compare == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1_For_Compare == false) 
 				|| (CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1_For_Compare == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1_For_Compare == true)) 
-				&& ((CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2_For_Compare == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2_For_Compare == false) 
-						|| (CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2_For_Compare == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2_For_Compare == true)))
+				&& ((CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2_For_Compare == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2_For_Compare == false)))
+		{
+			Store_1_Defult = 1;
+			Date_1_Defult = Date.valueOf("2017-12-31");
+			Store_ID_2 = (int) CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_2.get(0);
+			Date_2_Defult = Date.valueOf("2017-09-30");
+			ArrayList_Of_Field_To_Compare.add(Store_1_Defult);
+			ArrayList_Of_Field_To_Compare.add(Store_ID_2);
+			ArrayList_Of_Field_To_Compare.add(Date_1_Defult);
+			ArrayList_Of_Field_To_Compare.add(Date_2_Defult);
+		}
+		
+		else if((CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1_For_Compare == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1_For_Compare == false) 
+				&& (CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2_For_Compare == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2_For_Compare == true)) 
+		{
+			Store_ID_1 = (int) CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_1.get(0);
+			Date_1_Defult = Date.valueOf("2017-12-31");
+			Store_ID_2 = (int) CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_2.get(0);
+			Date_Quarter_Report_2 = (Date) CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_2.get(1);
+			ArrayList_Of_Field_To_Compare.add(Store_ID_1);
+			ArrayList_Of_Field_To_Compare.add(Store_ID_2);
+			ArrayList_Of_Field_To_Compare.add(Date_1_Defult);
+			ArrayList_Of_Field_To_Compare.add(Date_Quarter_Report_2);
+		}
+		else if(((CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1_For_Compare == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1_For_Compare == false)
+				|| (CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1_For_Compare == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1_For_Compare == true))
+				&& (CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2_For_Compare == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2_For_Compare == true))
 		{
 			Store_1_Defult = 1;
 			Date_1_Defult = Date.valueOf("2017-12-31");
@@ -291,12 +355,10 @@ public class CompanyManagerReportController_Compare_Between_Two_Diffrent_Quarter
 			ArrayList_Of_Field_To_Compare.add(Date_Quarter_Report_2);
 		}
 		
-		/* We Press On Both Of Them */
+		/* --------------------------------- We Press On Both Of Them ---------------------------------------------- */
 		
-		else if(((CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1_For_Compare == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1_For_Compare == true) 
-				|| (CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1_For_Compare == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1_For_Compare == false)) 
-				&& ((CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2_For_Compare == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2_For_Compare == true) 
-						|| (CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2_For_Compare == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2_For_Compare == false)))
+		else if((CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1_For_Compare == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1_For_Compare == true)  
+				&& (CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2_For_Compare == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2_For_Compare == true))
 		{
 			Store_ID_1 = (int) CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_1.get(0);
 			Store_ID_2 = (int) CompanyManagerUI.Help_To_Transfer_Object_From_Comparing_For_Store_2.get(0);

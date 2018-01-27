@@ -10,7 +10,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import mypackage.ClientConsole;
 
-public class UserUI extends Application {              			/* With This Class We Show the User GUI */
+public class UserUI extends Application {             /* With This Class We Show the User GUI */
 	
 	public static Vector<User> users = new Vector<User>();
 	public static ClientConsole myClient;

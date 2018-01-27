@@ -47,7 +47,7 @@ public class OrderReportController implements Initializable{
 	 */
 	private static String[] Type_Of_Products_In_Order = {"BOUQUET","ARRANGEMENT","VASE","BRIDAL_BOUQUET","FLOWER_CROWN","SWEET_BOUQUET","WREATH_FLOWERS"};
 	
-/* -------------------------  For The Window Of Order Report - For Store Manager ----------------------------------- */		
+/* -------------------------  For The Window Of Order Report - For Store Manager ------------------------------------- */		
 	
 	 @FXML
 	 private TextField txtStoreID;                			/* Text Field Of the Store ID */
@@ -70,7 +70,7 @@ public class OrderReportController implements Initializable{
 	 @FXML
 	 private Button btnClose;                      			 /* Button For Close The Window */
 	 
-/* --------------------------------- Loading Store To the Text Fields ------------------------------------------------- */	 
+/* --------------------------------- Loading Store To the Text Fields ------------------------------------------------ */	 
 	 
 	/**	
 	* In This Function We Load The Number ID Of Specific Store .
@@ -82,12 +82,12 @@ public class OrderReportController implements Initializable{
 		this.txtStoreID.setText(String.valueOf(store.getStoreId()));
 	}
 	
-/* --------------------------------- Close the Order Report Window ------------------------------------------------- */	 	
+/* --------------------------------- Close the Order Report Window --------------------------------------------------- */	 	
 	
 	/**
-	* In This Function I close The GUI Of Order Report Of the First Store Of The Store Manager .
-	* @param event - When Client Press On the Button This Parameter Start To Work . 
-	* @throws Exception
+	* In This Function I close The GUI Of Order Report Of the Store That The Store Manager Watch .
+	* @param event - When The Client Press On the Butten This Parameter Start To Work .
+	* @throws Exception - If The FXML Not Work .
 	*/
 	public void closeOrderReportWindow(ActionEvent event) throws Exception   
 	{ 
@@ -103,7 +103,7 @@ public class OrderReportController implements Initializable{
 		primaryStage.show();										   
 	}
 
-/* --------------------------------- Initialize The Bar Chart Of the Order Report ------------------------------------------------- */	 	
+/* --------------------------------- Initialize The Bar Chart Of the Order Report ------------------------------------ */	 	
 	
 	/** 
 	 * In This Function We Initialize The GUI Of Order Report Of the First Store Of The Store Manager .
@@ -183,7 +183,7 @@ public class OrderReportController implements Initializable{
 		Put_At_The_Chart_All_The_Orders();
 	}
 	
-/* --------------------------------- Initialize The Order And the Product Type At the Bar Chart ------------------------------------------------- */	 		
+/* --------------------------------- Initialize The Order And the Product Type At the Bar Chart ---------------------- */	 		
 	
 	public void Put_At_The_Chart_All_The_Orders()
 	{
@@ -215,8 +215,6 @@ public class OrderReportController implements Initializable{
 			Chart.setName(Type_Of_Products_In_Order[i]);
 			setChart.add(Chart);
 		}
-		
-		
 		
 		for(int Order_Index = 0 ; Order_Index < orders.size() ; Order_Index++)
 		{

@@ -3,8 +3,6 @@ package controller;
 import java.net.URL;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Map.Entry;
 
@@ -49,7 +47,7 @@ public class OrderReportController_For_ComapnyManager implements Initializable {
 	 */
 	private static String[] Type_Of_Products_In_Order = {"BOUQUET","ARRANGEMENT","VASE","BRIDAL_BOUQUET","FLOWER_CROWN","SWEET_BOUQUET","WREATH_FLOWERS"};
 	
-/* -------------------------  For The Window Of Order Report - For Company Manager ----------------------------------- */		
+/* -------------------------  For The Window Of Order Report - For Company Manager ------------------------------------ */		
 	
 	 @FXML
 	 private TextField txtStoreID;                			/* Text Field Of the Store ID */
@@ -74,36 +72,57 @@ public class OrderReportController_For_ComapnyManager implements Initializable {
 	 
 /* --------------------------------- Loading Store To the Text Fields ------------------------------------------------- */	 
 	 
-	public void loadStore(Store s) 					
-	{ 
-		if(CompanyManagerReportController.Integer_The_Option_You_Choose == 1)
-		{
-			if(CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == true && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == true)
+	 /**
+	 * In This Function We Load The ComboBox Of Store's .
+	 * @param s
+	 */
+	 public void loadStore(Store s) 					
+	 { 
+			if(CompanyManagerReportController.Integer_The_Option_You_Choose == 1)
 			{
-				this.store = s;
-				this.txtStoreID.setText(String.valueOf(store.getStoreId()));
+					if(CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == true && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == true)
+					{
+						this.store = s;
+						this.txtStoreID.setText(String.valueOf(store.getStoreId()));
+					}
+					else if(CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == true && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == false)
+					{
+						this.store = s;
+						this.txtStoreID.setText(String.valueOf(store.getStoreId()));
+					}
+					else if((CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == false && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == false)
+							|| (CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == false && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == true))
+					{
+						this.txtStoreID.setText(String.valueOf(1));
+					}
 			}
-			else
+			else if(CompanyManagerReportController.Integer_The_Option_You_Choose == 2)
 			{
-				this.txtStoreID.setText(String.valueOf(1));
+				if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == true)
+				{
+					this.store = s;
+					this.txtStoreID.setText(String.valueOf(store.getStoreId()));
+				}
+				else if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == false) 	
+				{
+					this.store = s;
+					this.txtStoreID.setText(String.valueOf(store.getStoreId()));
+				}
+				else if((CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == false)
+						|| (CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == true))
+				{
+					this.txtStoreID.setText(String.valueOf(1));
+				}
 			}
-		}
-		else if(CompanyManagerReportController.Integer_The_Option_You_Choose == 2)
-		{
-			if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == true)
-			{
-				this.store = s;
-				this.txtStoreID.setText(String.valueOf(store.getStoreId()));
-			}
-			else
-			{
-				this.txtStoreID.setText(String.valueOf(1));
-			}
-		}
-	}
+	 }
 	
-/* --------------------------------- Close the Order Report Window ------------------------------------------------- */	 	
+/* --------------------------------- Close the Order Report Window --------------------------------------------------- */	 	
 	
+	/**
+	* In This Function I close The GUI Of Order Report Of the First Store .
+	* @param event - When The Client Press On the Butten This Parameter Start To Work .
+	* @throws Exception - If The FXML Not Work .
+	*/
 	public void closeOrderReportWindow(ActionEvent event) throws Exception   
 	{ 
 		CompanyManagerUI.stores_For_Company_Manager.clear();
@@ -122,12 +141,23 @@ public class OrderReportController_For_ComapnyManager implements Initializable {
 		
 		Scene scene = new Scene(root);
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-		primaryStage.setScene(scene);		
+		primaryStage.setScene(scene);	
+		if(CompanyManagerReportController.Flag_For_Return_Window_With_One_Store_Or_With_Two_Store == 1)
+		{
+			primaryStage.setTitle("----- Company Manager Report Form - Watch Only One Store -----");
+		}
+		else if(CompanyManagerReportController.Flag_For_Return_Window_With_One_Store_Or_With_Two_Store == 2)
+		{
+			primaryStage.setTitle("----- Company Manager Report Form - Watch Two Store -----");
+		}
 		primaryStage.show();										 
 	}
 
-/* --------------------------------- Initialize The Bar Chart Of the Order Report ------------------------------------------------- */	 	
+/* --------------------------------- Initialize The Bar Chart Of the Order Report ------------------------------------ */	 	
 	
+	/** 
+	 * In This Function We Initialize The GUI Of Order Report Of the First Store .
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) 
 	{
@@ -158,7 +188,17 @@ public class OrderReportController_For_ComapnyManager implements Initializable {
 				Year_Integer = Integer.parseInt(Year);
 				Month_Integer = Integer.parseInt(Month);
 			}
-			else
+			else if(CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == true && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == false) 
+			{
+				temp_Date_Quarter_Report = Date.valueOf("2017-12-31");
+				CompanyManagerUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager.add(temp_Date_Quarter_Report);
+				Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
+				Year = Full_Date_String.substring(0 , 4);
+				Month = Full_Date_String.substring(5 , 7);
+				Year_Integer = Integer.parseInt(Year);
+				Month_Integer = Integer.parseInt(Month);
+			}
+			else if(CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == true && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == true) 
 			{
 				temp_Date_Quarter_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager.get(1); /* The Date */
 				Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
@@ -184,15 +224,26 @@ public class OrderReportController_For_ComapnyManager implements Initializable {
 					Year_Integer = Integer.parseInt(Year);
 					Month_Integer = Integer.parseInt(Month);
 				}
-				else
-				{
-					temp_Date_Quarter_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager.get(1); /* The Date */
-					Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
-					Year = Full_Date_String.substring(0 , 4);
-					Month = Full_Date_String.substring(5 , 7);
-					Year_Integer = Integer.parseInt(Year);
-					Month_Integer = Integer.parseInt(Month);
-				}	
+			else if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == false) 
+			{
+				temp_Date_Quarter_Report = Date.valueOf("2017-12-31");
+				CompanyManagerUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager.add(temp_Date_Quarter_Report);
+				Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
+				Year = Full_Date_String.substring(0 , 4);
+				Month = Full_Date_String.substring(5 , 7);
+				Year_Integer = Integer.parseInt(Year);
+				Month_Integer = Integer.parseInt(Month);
+				
+			}
+			else if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == true)
+			{
+				temp_Date_Quarter_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Order_Report_For_Company_Manager.get(1); /* The Date */
+				Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
+				Year = Full_Date_String.substring(0 , 4);
+				Month = Full_Date_String.substring(5 , 7);
+				Year_Integer = Integer.parseInt(Year);
+				Month_Integer = Integer.parseInt(Month);
+			}	
 		}
 		
 		this.txtYear.setText(String.valueOf(Year_Integer)); 					/* Set The Year */
@@ -240,8 +291,11 @@ public class OrderReportController_For_ComapnyManager implements Initializable {
 		Put_At_The_Chart_All_The_Orders();
 	}
 	
-/* --------------------------------- Initialize The Order And the Product Type At the Bar Chart ------------------------------------------------- */	 		
+/* --------------------------------- Initialize The Order And the Product Type At the Bar Chart ---------------------- */	 		
 	
+	/**
+	 * In This Function I Initialize The BarChart . 
+	 */
 	public void Put_At_The_Chart_All_The_Orders()
 	{
 		int [] Count_In_Chart;
@@ -271,8 +325,6 @@ public class OrderReportController_For_ComapnyManager implements Initializable {
 			Chart.setName(Type_Of_Products_In_Order[i]);
 			setChart.add(Chart);
 		}
-		
-		
 		
 		for(int Order_Index = 0 ; Order_Index < orders.size() ; Order_Index++)
 		{

@@ -22,6 +22,11 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import mypackage.ClientConsole;
 
+/**
+ * controller for the User options: 
+ * login , logout , 
+ *
+ */
 public class UserController implements Initializable {
 
 	private User u;
@@ -83,16 +88,25 @@ public class UserController implements Initializable {
 	private Label Lablel_Not_Enter_The_Server_Allready;
 
 
+	/**
+	 * This Function Running The GUI Of the Client - For Connecting .
+	 * @param primaryStage - Show The GUI Of the Client .
+	 * @throws Exception - If the FXML Not Working .
+	 */
 	public void start(Stage primaryStage) throws Exception 
 	{
 		Parent root = FXMLLoader.load(getClass().getResource("/controller/Enter_The_IP_And_Port.fxml"));
-		Scene scene = new Scene(root); 
-		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesignServerClient.css").toExternalForm()); 
+		Scene scene = new Scene(root);		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesignServerClient.css").toExternalForm()); 
 		primaryStage.setTitle("Client IP - Managment Tool");
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
 	
+	/**
+	 * After We Login Into The Client All The GUI Label's Become To Green ---> Its mean The Connect Succssed By The Client .
+	 * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Working Or If We Type On The Text Of the Port String And Not Integer .
+	 */
 	public void After_You_Enter_Your_Port_And_IP_Go_To_User_Login(ActionEvent event) throws Exception
 	{	
 		try 
@@ -108,7 +122,7 @@ public class UserController implements Initializable {
 			Lablel_Not_Enter_The_Server_Allready.setTextFill(Color.GREEN.brighter());
 			Exit_From_Client.setTextFill(Color.GREEN.brighter());
 		}
-		catch(NumberFormatException e)
+		catch(NumberFormatException e)   
 		{
 			Stage primaryStage = new Stage();
 			((Node) event.getSource()).getScene().getWindow().hide(); 
@@ -123,15 +137,24 @@ public class UserController implements Initializable {
 		}
 	}
 	
+	/**
+	 * With This Function We - Close The GUI Of Connecting To the Client .
+	 * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
+	 */
 	public void Close_The_Window(ActionEvent event) throws Exception
 	{
-		((Node) event.getSource()).getScene().getWindow().hide(); 		/* Hiding primary window */
+		((Node) event.getSource()).getScene().getWindow().hide(); 				/* Hiding primary window */
 		User_Login();
 	}
 	
+	/**
+	 * In This Function We Login By Specific User . 
+	 * @throws Exception - If The FXML Not Work .
+	 */
 	public void User_Login() throws Exception
 	{
-		Stage primaryStage = new Stage(); 				/* Object present window with graphics elements */
+		Stage primaryStage = new Stage(); 										/* Object present window with graphics elements */
 		Parent root = null;
 		root = FXMLLoader.load(getClass().getResource("/controller/UserLogin.fxml"));
 		Scene scene = new Scene(root);
@@ -141,10 +164,15 @@ public class UserController implements Initializable {
 		primaryStage.show();
 	}
 	
-	public void tryAgainToTypeIP_OR_Port(ActionEvent event) throws Exception /* With this Method we show the GUI of the First Window */
+	/**
+	 * In This Function We Can Try Again To Start The Connection To The Client .
+	 * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
+	 */
+	public void tryAgainToTypeIP_OR_Port(ActionEvent event) throws Exception 	
 	{
-		((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
-		Stage primaryStage = new Stage(); 						  /* Object present window with graphics elements */
+		((Node) event.getSource()).getScene().getWindow().hide(); 				/* Hiding primary window */
+		Stage primaryStage = new Stage(); 						  				/* Object present window with graphics elements */
 		Parent root = FXMLLoader.load(getClass().getResource("/controller/Enter_The_IP_And_Port.fxml"));
 		Scene scene = new Scene(root);
 		
@@ -155,12 +183,21 @@ public class UserController implements Initializable {
 		primaryStage.show();
 	}
 
-	public void tryLoginUser(ActionEvent event) throws Exception /* To load the product details to the text fields */
+	/**
+	 * user try login the system , he need to insert User Name and
+	 * password , we check if the User name exist and if the password is
+	 * correct - if the two fields are correct, we check the permission
+	 * of this user and open his options. in case user name doesn't exist
+	 * or the password is wrong we pop an Error message.
+	 * @param event - user click "login" button
+	 * @throws Exception - if we can't load the fxml file
+	 */
+	public void tryLoginUser(ActionEvent event) throws Exception 				
 	{
 		u = new User();
 		Parent  root = null;
-		Stage primaryStage = new Stage(); /* Object present window with graphics elements */
-		FXMLLoader loader = new FXMLLoader(); /* load object */
+		Stage primaryStage = new Stage(); 										/* Object present window with graphics elements */
+		FXMLLoader loader = new FXMLLoader(); 									/* load object */
 
 		UserUI.user = new User();
 		u.setUserName(this.txtUserName.getText());
@@ -169,12 +206,12 @@ public class UserController implements Initializable {
 		Message msg = new Message(u.getUserName(), "UserStatus");
 		UserUI.myClient.accept(msg);
 		while (flag == false) {
-			System.out.print(""); // DOES NOT RUN WITHOUT THIS LINE
+			System.out.print(""); 												/* DOES NOT RUN WITHOUT THIS LINE */
 		}
 		flag = false;
-		if (UserUI.user.getId().equals("Does Not Exist")) // user dos NOT exist
+		if (UserUI.user.getId().equals("Does Not Exist")) 						/* user dos NOT exist */
 		{
-			((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+			((Node) event.getSource()).getScene().getWindow().hide(); 		    /* Hiding primary window */
 			root = FXMLLoader.load(getClass().getResource("/controller/UserDoesNotExist.fxml"));
 			Scene scene = new Scene(root);
 			
@@ -185,10 +222,10 @@ public class UserController implements Initializable {
 			primaryStage.show();
 	} 
 		
-		else if (!UserUI.user.getPassword().equals(u.getPassword())) // insert the wrong password
+		else if (!UserUI.user.getPassword().equals(u.getPassword())) 			/* insert the wrong password */
 		{			
 			System.out.println("WrongPasswordMsg");
-			((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+			((Node) event.getSource()).getScene().getWindow().hide(); 			/* Hiding primary window */
 			root = FXMLLoader.load(getClass().getResource("/controller/WrongPasswordMsg.fxml"));
 			Scene scene = new Scene(root);
 			
@@ -198,12 +235,12 @@ public class UserController implements Initializable {
 			primaryStage.setTitle("error msg");
 			primaryStage.show();
 		} 
-		else if (UserUI.user.getStatus().equals(User.UserStatus.DISCONNECTED)) // User DO login
+		else if (UserUI.user.getStatus().equals(User.UserStatus.DISCONNECTED))  /* User DO login */
 		{
 			String permission = null;
 			msg.setMsg(UserUI.user.getId());
 			msg.setOption("change User status to CONNECTED");
-			UserUI.myClient.accept(msg); // change User status to CONNECTED in DB
+			UserUI.myClient.accept(msg); 										/* change User status to CONNECTED in DB */
 			switch (UserUI.user.getPermission()) {
 			case COMPANY_MANAGER:
 				permission = "CompanyManagerOptions";
@@ -230,10 +267,9 @@ public class UserController implements Initializable {
 				permission = "StoreWorkerOptions";
 				break;
 			}
-			
 			permission = "/controller/" + permission + ".fxml";
 			URL o = getClass().getResource(permission);
-			((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+			((Node) event.getSource()).getScene().getWindow().hide(); 							/* Hiding primary window */
 			root = FXMLLoader.load(o);
 			Scene scene = new Scene(root);
 			
@@ -245,10 +281,10 @@ public class UserController implements Initializable {
 		}
 
 		else {
-			if (UserUI.user.getStatus().equals(User.UserStatus.CONNECTED)) // user all ready logged in
+			if (UserUI.user.getStatus().equals(User.UserStatus.CONNECTED)) 						/* User Allready logged in */
 			{
 				System.out.println("user all ready logged in");
-				((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+				((Node) event.getSource()).getScene().getWindow().hide(); 						/* Hiding primary window */
 				root = FXMLLoader.load(getClass().getResource("/controller/AllReadyLoginMsg.fxml"));
 				Scene scene = new Scene(root);
 				
@@ -260,7 +296,7 @@ public class UserController implements Initializable {
 			} else // user Blocked
 			{
 				System.out.println("user Blocked");
-				((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+				((Node) event.getSource()).getScene().getWindow().hide(); 						/* Hiding primary window */
 				root = FXMLLoader.load(getClass().getResource("/controller/BlockedMsg.fxml"));
 				Scene scene = new Scene(root);
 				
@@ -273,11 +309,17 @@ public class UserController implements Initializable {
 		}
 	}
 
-	public void tryAgainLogin(ActionEvent event) throws Exception /* With this Method we show the GUI of the First Window */
+	/**
+	 * after error message pop, if the user click back to try
+	 * login again we open "login" window
+	 * @param event - user click "back" buttom
+	 * @throws Exception - if we can't load the fxml file
+	 */
+	public void tryAgainLogin(ActionEvent event) throws Exception 	
 	{
-		((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
-		Stage primaryStage = new Stage(); /* Object present window with graphics elements */
-		FXMLLoader loader = new FXMLLoader(); /* load object */
+		((Node) event.getSource()).getScene().getWindow().hide(); 	/* Hiding primary window */
+		Stage primaryStage = new Stage(); 							/* Object present window with graphics elements */
+		FXMLLoader loader = new FXMLLoader(); 						/* load object */
 		Parent root = FXMLLoader.load(getClass().getResource("/controller/UserLogin.fxml"));
 		Scene scene = new Scene(root);
 		
@@ -288,13 +330,19 @@ public class UserController implements Initializable {
 		primaryStage.show();
 	}
 	
-	public void logout(ActionEvent event) throws Exception /* With this Method we show the GUI of the First Window */
+	/**
+	 * user want logout the system, we change his status to "DISCONNECCT"
+	 * in the Data Base and open "Login" window
+	 * @param event - user click "logout" button
+	 * @throws Exception - if we can't load the fxml file
+	 */
+	public void logout(ActionEvent event) throws Exception 					
 	{
 		Message msg = new Message(UserUI.user.getId(), "change User status to DISCONNECTED");
-		UserUI.myClient.accept(msg); // change User status to DISCONNECTED in DB
-		((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
-		Stage primaryStage = new Stage(); /* Object present window with graphics elements */
-		FXMLLoader loader = new FXMLLoader(); /* load object */
+		UserUI.myClient.accept(msg); 											/* change User status to DISCONNECTED in DB */
+		((Node) event.getSource()).getScene().getWindow().hide(); 				/* Hiding primary window */
+		Stage primaryStage = new Stage(); 										/* Object present window with graphics elements */
+		FXMLLoader loader = new FXMLLoader(); 									/* load object */
 		Parent root = FXMLLoader.load(getClass().getResource("/controller/UserLogin.fxml"));
 		Scene scene = new Scene(root);
 		
@@ -306,16 +354,17 @@ public class UserController implements Initializable {
 	}
 	
 	
-
-	public void getExitBtn(ActionEvent event) throws Exception /* With this Method we Exit from the Catalog */
+	/**
+	 * if the user want to exit from login window we close the system 
+	 * @param event - user click "exit" button
+	 * @throws Exception - if we can't load the fxml file
+	 */
+	public void getExitBtn(ActionEvent event) throws Exception 
 	{
 		System.out.println("Exit From - Login form");
 		System.exit(0);
 	}
 
 	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) // Initialized The ComboBox of the Product
-	{
-
-	}	
+	public void initialize(URL arg0, ResourceBundle arg1) {}	
 }

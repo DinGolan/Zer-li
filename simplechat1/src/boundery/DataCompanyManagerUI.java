@@ -16,7 +16,6 @@ public class DataCompanyManagerUI extends Application
 {
 	
 	public static Vector<User> users = new Vector<User>();
-	public static Vector<User> users_For_Update = new Vector<User>();
 	public static ClientConsole myClient;
 	
 	public static void main( String args[] ) throws Exception {}

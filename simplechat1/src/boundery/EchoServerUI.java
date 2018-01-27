@@ -17,9 +17,9 @@ public class EchoServerUI extends Application
 	
 	
 /**
- * In The Main Function We Create Thread That Run When We Start the To Use With the Server
+ * In The Main Function We Create Thread That Run When We Start the To Use With the Server .
  * @param args
- * @throws InterruptedException
+ * @throws InterruptedException - If The Interrupt Not Working .
  */
 	public static void main(String[] args) throws InterruptedException  
 	{
@@ -33,7 +33,7 @@ public class EchoServerUI extends Application
 	
 	
 /**
- * The Function 'Start' - This Function run the Application Of The Echo Server 
+ * The Function 'Start' - This Function run the Application Of The Echo Server . 
  */	
 	@Override
 	public void start(Stage arg0) throws Exception 

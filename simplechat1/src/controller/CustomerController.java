@@ -59,6 +59,8 @@ public class CustomerController implements Initializable{
 	@FXML
 	private Button btnBack;
 	
+	@FXML
+	private Button btnBackToChooseStore;
 	
 	@FXML
 	private ComboBox<String> cmbStores = null; /* list of product in cart */

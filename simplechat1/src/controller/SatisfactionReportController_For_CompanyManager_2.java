@@ -23,11 +23,22 @@ import javafx.scene.control.TextField;
 
 public class SatisfactionReportController_For_CompanyManager_2 implements Initializable {
 
+	/**
+	 * This Variable Help Me To Load The ComboBox Of Store's .
+	 */
 	private Store store;
+	
+	/**
+	 * This Variable Helping To Transfer Message From the Client to the DB .
+	 */
 	private Message msg;
+	
+	/**
+	 * Variabel's That Help Me To Show The Question's In The BarChart . 
+	 */
 	private static String[] Questions = {"Questions 1","Questions 2","Questions 3","Questions 4" , "Questions 5" , "Questions 6"};
 
-/* -------------------------  For The Window Of Satisfaction Report ----------------------------------- */	
+/* -------------------------  For The Window Of Satisfaction Report - For The Second Store - For Company Manager ----------------------------------- */	
 	
 	 @FXML
 	 private TextField txtStoreID;           /* Text Field Of the Store ID */
@@ -56,31 +67,49 @@ public class SatisfactionReportController_For_CompanyManager_2 implements Initia
 	 @FXML
 	 private Button btnClose;                /* Button For Exit from The Window */
 	
-/* --------------------------------- Loading Store To the Text Fields ------------------------------------------------- */	 
+/* --------------------------------- Loading Store To the Text Fields ------------------------------------------------------------------------------ */	 
 	 
-	public void loadStore(Store s) 			 /* To load the Store details to the text fields */
-	{ 
-		if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2 == true)
-		{
-			this.store = s;
-			this.txtStoreID.setText(String.valueOf(store.getStoreId()));
-		}
-		else
-		{
-			this.txtStoreID.setText(String.valueOf(2));
-		}
-	}
+	 /**
+	 * In This Function We Load The ComboBox Of Store's .
+	 * @param s
+	 */
+	 public void loadStore(Store s) 					
+	 { 
+			if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2 == true)
+			{
+				this.store = s;
+				this.txtStoreID.setText(String.valueOf(store.getStoreId()));
+			}
+			else if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2 == false)
+			{
+				this.store = s;
+				this.txtStoreID.setText(String.valueOf(store.getStoreId()));
+			}
+			else if((CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2 == false)
+					|| (CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2 == true)) 
+			{
+				this.txtStoreID.setText(String.valueOf(2));
+			}
+	 }
 	
-/* --------------------------------- Close the Satisfaction Report Window ------------------------------------------------- */			
+/* --------------------------------- Close the Satisfaction Report Window -------------------------------------------------------------------------- */			
 	
+	 /**
+	 * In This Function I close The GUI Of Saticfaction Report Of the Second Store .
+	 * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
+	 */
 	public void closeSatisfactionReportWindow(ActionEvent event) throws Exception  
 	{ 
 		CompanyManagerUI.stores_For_Company_Manager_2.clear();
 		((Node)event.getSource()).getScene().getWindow().hide(); 	 /* Hiding primary window */										   
 	}
 	
-/* --------------------------------- Initialize The Satisfaction Report GUI ------------------------------------------------- */	 			
+/* --------------------------------- Initialize The Satisfaction Report GUI ------------------------------------------------------------------------ */	 			
 	
+	/** 
+	 * In This Function We Initialize The GUI Of Saticfaction Report Of the Second Store .
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) 
 	{
@@ -106,9 +135,19 @@ public class SatisfactionReportController_For_CompanyManager_2 implements Initia
 			Year_Integer = Integer.parseInt(Year);
 			Month_Integer = Integer.parseInt(Month);
 		}
-		else
+		else if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2 == false)
 		{
-			temp_Date_Quarter_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager_2.get(1);                             /* The Date */
+			temp_Date_Quarter_Report = Date.valueOf("2017-09-30");
+			CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager_2.add(temp_Date_Quarter_Report);
+			Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
+			Year = Full_Date_String.substring(0 , 4);
+			Month = Full_Date_String.substring(5 , 7);
+			Year_Integer = Integer.parseInt(Year);
+			Month_Integer = Integer.parseInt(Month);
+		}
+		else if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_2 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_2 == true)
+		{
+			temp_Date_Quarter_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager_2.get(1); /* The Date */
 			Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
 			Year = Full_Date_String.substring(0 , 4);
 			Month = Full_Date_String.substring(5 , 7);
@@ -136,8 +175,8 @@ public class SatisfactionReportController_For_CompanyManager_2 implements Initia
 		}
 		
 		ArrayList<Object> StoreID_And_Date_Of_Report = new ArrayList<Object>();
-		StoreID_And_Date_Of_Report.add(CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager_2.get(0)); /* The Store Id */
-		StoreID_And_Date_Of_Report.add(CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager_2.get(1)); /* The Date Of the Report */
+		StoreID_And_Date_Of_Report.add(CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager_2.get(0)); 	/* The Store Id */
+		StoreID_And_Date_Of_Report.add(CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager_2.get(1)); 	/* The Date Of the Report */
 		
 		msg = new Message(StoreID_And_Date_Of_Report ,"Company Manager - Take The Surveys Of Specific Store In Specific Quarter"); 		/* I take All the Orders Of Specific Store , And After That I Take All the Complaint Of All The Order Of the Specific Store */
 		UserUI.myClient.accept(msg);
@@ -160,21 +199,24 @@ public class SatisfactionReportController_For_CompanyManager_2 implements Initia
 		Put_At_The_Chart_All_The_Surveys();
 	}
 	
-/* --------------------------------- Initialize The Survey And The Rank On The Bar Chart ------------------------------------------------- */	 			
+/* --------------------------------- Initialize The Survey And The Rank On The Bar Chart ----------------------------------------------------------- */	 			
 	
+	/**
+	 * In This Function I Initialize The BarChart . 
+	 */
 	public void Put_At_The_Chart_All_The_Surveys()
 	{
 		double Total_Average = 0;
 		int Number_Of_Client;
-		ArrayList<Double> The_Average_Result_Of_Each_Question = new ArrayList<Double>();   				  /* All the Product That We Order On Specific Store */
+		ArrayList<Double> The_Average_Result_Of_Each_Question = new ArrayList<Double>();   				  								/* All the Product That We Order On Specific Store */
 		                       						  
 		for(int i = 0 ; i < CompanyManagerUI.Average_Result_Of_Each_Qustions_In_surveys_For_Company_Manager_2.size() ; i++)             /* In This Loop We Initialize All the Orders At ArrayList Of Orders */                                             
 		{
 			The_Average_Result_Of_Each_Question.add(CompanyManagerUI.Average_Result_Of_Each_Qustions_In_surveys_For_Company_Manager_2.get(i));
 		}
 		
-		Total_Average = The_Average_Result_Of_Each_Question.get(6);       		   /* In The 6 Cell There Have The Total Average Of The Survey */
-		Number_Of_Client = The_Average_Result_Of_Each_Question.get(7).intValue();  /* In The 7 Cell There Have The Number Of Client */
+		Total_Average = The_Average_Result_Of_Each_Question.get(6);       		   														/* In The 6 Cell There Have The Total Average Of The Survey */
+		Number_Of_Client = The_Average_Result_Of_Each_Question.get(7).intValue();  														/* In The 7 Cell There Have The Number Of Client */
 		if(String.valueOf(Total_Average).compareTo("NaN") == 0)
 		{
 			Total_Average = 0;
@@ -182,8 +224,8 @@ public class SatisfactionReportController_For_CompanyManager_2 implements Initia
 		Total_Average = Double.parseDouble(new DecimalFormat("##.####").format(Total_Average));
 		this.txtTotalAvgRank.setText(String.valueOf(Total_Average));
 		this.txtNumberOfClient.setText(String.valueOf(Number_Of_Client));
-		The_Average_Result_Of_Each_Question.remove(6);                    /* Remove The Almost Last Index With the Total Average - After That The Last Index Is 6 */
-		The_Average_Result_Of_Each_Question.remove(6);                    /* Remove The Last Index With the Number Of Client */
+		The_Average_Result_Of_Each_Question.remove(6);                   															    /* Remove The Almost Last Index With the Total Average - After That The Last Index Is 6 */
+		The_Average_Result_Of_Each_Question.remove(6);                    																/* Remove The Last Index With the Number Of Client */
 		
 		ArrayList<XYChart.Series<String,Double>> setChart = new ArrayList<XYChart.Series<String,Double>>();
 		for(int i = 0 ; i < Questions.length ; i++)
@@ -201,6 +243,6 @@ public class SatisfactionReportController_For_CompanyManager_2 implements Initia
 		Chart_SatisfactionReport.getData().addAll(setChart);
 	}
 	
-/* ------------------------------------------------------------------------------------------------------------------- */	
+/* ------------------------------------------------------------------------------------------------------------------------------------------------- */	
 
 }

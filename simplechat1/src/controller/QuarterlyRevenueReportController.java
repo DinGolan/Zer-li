@@ -22,9 +22,12 @@ import javafx.fxml.Initializable;
 
 public class QuarterlyRevenueReportController implements Initializable{
 	
+	/**
+	 * This Variable Help Me To Load The ComboBox Of Store's .
+	 */
 	private Store store;
  
-/* -------------------------  For The Window Of Quarterly Revenue Report ----------------------------------- */	
+/* -------------------------  For The Window Of Quarterly Revenue Report - For Store Manager ----------------------------------- */	
 	
 	@FXML
 	private TextField txtYear;
@@ -49,9 +52,13 @@ public class QuarterlyRevenueReportController implements Initializable{
 
    
 	
-/* --------------------------------- Loading Store To the Text Fields ------------------------------------------------- */
+/* --------------------------------- Loading Store To the Text Fields ---------------------------------------------------------- */
  
-	public void loadStore(Store s) 					/* To load the Store details to the text fields */
+	/**	
+	* In This Function We Load The Number ID Of Specific Store .
+	* @param s
+	*/
+	public void loadStore(Store s) 				
 	{ 
 		this.store = s;
 		this.txtStoreID.setText(String.valueOf(store.getStoreId()));
@@ -60,13 +67,22 @@ public class QuarterlyRevenueReportController implements Initializable{
 
 /* --------------------------------- Loading Quarter Number To the Text Fields ------------------------------------------------- */	
 	
-	public void loadQuarter(String string) 					/* To load the Store details to the text fields */
+	/**	
+	* In This Function We Load The The Date's O Report Of Specific Store .
+	* @param s
+	*/
+	public void loadQuarter(String string) 		
 	{ 
 		this.txtQuarterNum.setText(string);
 	}
  
 /* --------------------------------- Close the Quarterly Revenue Report Window ------------------------------------------------- */		
 	
+	/**
+	* In This Function I close The GUI Of Revenue Report Of the The Store That The Store Manager Watch .
+	* @param event - When The Client Press On the Butten This Parameter Start To Work .
+	* @throws Exception - If The FXML Not Work .
+	*/
 	public void closeQuarterlyRevenueReportWindow(ActionEvent event) throws Exception
 	{
 		StoreManagerUI.stores.clear();
@@ -78,11 +94,14 @@ public class QuarterlyRevenueReportController implements Initializable{
 		Scene scene = new Scene(root);		
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
 		primaryStage.setScene(scene);		
-		primaryStage.show();										   /* show catalog frame window */
+		primaryStage.show();										  
 	}
 
 /* --------------------------------- Initialize The Quarterly Revenue Report GUI ------------------------------------------------- */	 		
 	
+	/** 
+	 * In This Function We Initialize The GUI Of Revenue Report Of the Store That The Store Manager Watch .
+	 */
 	@Override
 	 public void initialize(URL location, ResourceBundle resources) 
 	{
@@ -107,7 +126,7 @@ public class QuarterlyRevenueReportController implements Initializable{
 		}
 		else
 		{
-			temp_Date_Quarter_Report = (Date)StoreManagerUI.Help_To_Transfer_Object_At_Revenue_Report.get(1);                             /* The Date */
+			temp_Date_Quarter_Report = (Date)StoreManagerUI.Help_To_Transfer_Object_At_Revenue_Report.get(1); /* The Date */
 			Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
 			Year = Full_Date_String.substring(0 , 4);
 			Month = Full_Date_String.substring(5 , 7);
@@ -160,7 +179,7 @@ public class QuarterlyRevenueReportController implements Initializable{
 		String Amount_Of_Order_Of_Specific_Quarter = String.valueOf(StoreManagerUI.Total_Revenue_In_Specific_Quarter_And_Number_Of_Order_In_Specific_Quarter.get(1)); /* The Amount Of Order */
 		
 		this.txtQuantityOfOrder.setText(String.valueOf(Amount_Of_Order_Of_Specific_Quarter));
-		this.txtRevenueOfSpecificQuarter.setText(Revenue_Of_Specific_Quarter);   /* Set the Revenue */
+		this.txtRevenueOfSpecificQuarter.setText(Revenue_Of_Specific_Quarter);   
 	} 
 	
 /* ------------------------------------------------------------------------------------------------------------------- */

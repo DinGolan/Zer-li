@@ -17,8 +17,8 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
- *Controller for the store manager permission with options of view report,
- * add new account and logout options, Renewal account
+ * Controller for the store manager permission with options of view report ,
+ * add new account and logout options, Renewal account .
  */
 public class StoreManagerController implements Initializable {
 	
@@ -26,10 +26,10 @@ public class StoreManagerController implements Initializable {
 	public static boolean flag = false;
 
     @FXML
-    private Button btnStoreManagerLogout; /* Button For Logout From The User Of Store Manager */
+    private Button btnStoreManagerLogout; 			/* Button For Logout From The User Of Store Manager */
 
     @FXML
-    private Button btnViewReport;         /* Button For View Report */
+    private Button btnViewReport;         			/* Button For View Report */
     
     @FXML
     private Button btnStoreManagerRenewal;         /* Button For Renewal account */ 
@@ -37,8 +37,13 @@ public class StoreManagerController implements Initializable {
     @FXML
     private Button btnStoreManagerOpenNewAccount;  /* Button For Open New Account */
 
-/* ----------------------------------- Open For Us The GUI Of the Store Manager -------------------------------------- */
+/* ----------------------------------- Open For Us The GUI Of the Store Manager ---------------------------------------------------- */
     
+    /**
+     * This Function Run The Store Manager GUI , But Only If We Run From the Class ---> StoreMangerUI .
+     * @param primaryStage - Show The GUI . 
+     * @throws Exception - If The FXML Not Working . 
+     */
 	public void start(Stage primaryStage) throws Exception          			  /* With this Method we show the GUI of the First Window */
 	{	
 		Parent root = FXMLLoader.load(getClass().getResource("/controller/StoreManagerOptions.fxml"));
@@ -51,7 +56,12 @@ public class StoreManagerController implements Initializable {
 	
 /* ----------------------------------- Open For Us The GUI Of the Store Manager Report Window -------------------------------------- */	
 	
-	public void viewReportBtn(ActionEvent event) throws Exception //To open the view report option
+	/**
+	 * With This Function The Store Manager Can Watch On The Report Of His Store . 
+	 * @param event - When The Client Click On the Button This Parameter Start To Work .
+	 * @throws Exception - If We Cant Load The FXML .
+	 */
+	public void viewReportBtn(ActionEvent event) throws Exception 
 	{
 		Message msg = new Message(UserUI.user.getId(),"Store Manager - Want To Store Number And Address Of The Store");
 		UserUI.myClient.accept(msg);
@@ -68,29 +78,30 @@ public class StoreManagerController implements Initializable {
 		Pane root = loader.load(getClass().getResource("/controller/StoreManagerReportForm.fxml").openStream()); 
 		Scene scene = new Scene(root);	
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-		primaryStage.setScene(scene);		
+		primaryStage.setScene(scene);
+		primaryStage.setTitle("----- Store Manager Report Form -----");
 		primaryStage.show();
 	}
 	
 	
-/* ----------------------------------- Open For Us The GUI Of the Store Manager - Open New Account -------------------------------------- */
+/* ----------------------------------- Open For Us The GUI Of the Store Manager - Open New Account --------------------------------- */
 	
 	/**
 	 * Open the add new account option and check the store manager store number
 	 * @param event- click on open new account button
 	 * @throws Exception if we can't load the fxml
 	 */
-	public void openNewAccountBtn(ActionEvent event) throws Exception //To open the add new account option
+	public void openNewAccountBtn(ActionEvent event) throws Exception /* To open the add new account option */
 	{
 		Message msg = new Message(UserUI.user.getId(), "Store manager want store number");
 		UserUI.myClient.accept(msg);
 		while (flag == false) {
-			System.out.print(""); // DOES NOT RUN WITHOUT THIS LINE
+			System.out.print(""); 									  /* DOES NOT RUN WITHOUT THIS LINE */
 		}
 		flag = false;
 		UserUI.store=new Store();
 		UserUI.store.setStoreId(storeID);
-		((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
+		((Node)event.getSource()).getScene().getWindow().hide(); 	  /* Hiding primary window */
 		Stage primaryStage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
 		Pane root = loader.load(getClass().getResource("/controller/AccountForm.fxml").openStream());
@@ -101,20 +112,20 @@ public class StoreManagerController implements Initializable {
 		primaryStage.show();
 	}
 	
-/* ---------------------------------------- Logout From The GUI Of The Store Manager ---------------------------------------  */	
+/* ---------------------------------------- Logout From The GUI Of The Store Manager ----------------------------------------------  */	
 	
 	/**
 	 * logout by the store manager and "UserLogin" window open.
 	 * @param event- click on logout button
 	 * @throws Exception if we can't load the fxml
 	 */
-	public void logoutBtn(ActionEvent event) throws Exception //logout by the store manager
+	public void logoutBtn(ActionEvent event) throws Exception 			/* logout by the store manager */
 	{
 		Message msg = new Message(UserUI.user.getId(), "change User status to DISCONNECTED");
-		UserUI.myClient.accept(msg); 				/* change User status to DISCONNECTED in DB */
-		((Node) event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
-		Stage primaryStage = new Stage(); 			/* Object present window with graphics elements */
-		FXMLLoader loader = new FXMLLoader(); 		/* load object */
+		UserUI.myClient.accept(msg); 									/* change User status to DISCONNECTED in DB */
+		((Node) event.getSource()).getScene().getWindow().hide(); 		/* Hiding primary window */
+		Stage primaryStage = new Stage(); 								/* Object present window with graphics elements */
+		FXMLLoader loader = new FXMLLoader(); 							/* load object */
 		Parent root = FXMLLoader.load(getClass().getResource("/controller/UserLogin.fxml"));
 		Scene scene = new Scene(root);
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
@@ -124,10 +135,7 @@ public class StoreManagerController implements Initializable {
 	}
 
 	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) 
-	{
-		
-	}
+	public void initialize(URL arg0, ResourceBundle arg1) {}
 
 	
 	/**
@@ -135,18 +143,18 @@ public class StoreManagerController implements Initializable {
 	 * @param event- click on "renewal subscription" button
 	 * @throws Exception if we can't load the fxml
 	 */
-	public void renewalAccountBtn(ActionEvent event) throws Exception //To open the add new account option
+	public void renewalAccountBtn(ActionEvent event) throws Exception 				/* To open the add new account option */
 	{
 		Message msg = new Message(UserUI.user.getId(), "Store manager want store number");
 		flag = false;
 		UserUI.myClient.accept(msg);	
 		while (flag == false) {
-			System.out.print(""); // DOES NOT RUN WITHOUT THIS LINE
+			System.out.print(""); 													/* DOES NOT RUN WITHOUT THIS LINE */
 		}
 		flag = false;
 		UserUI.store=new Store();
 		UserUI.store.setStoreId(storeID);
-		((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
+		((Node)event.getSource()).getScene().getWindow().hide(); 					/* Hiding primary window */
 		Stage primaryStage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
 		Pane root = loader.load(getClass().getResource("/controller/SubscriptionRules.fxml").openStream());
@@ -156,5 +164,4 @@ public class StoreManagerController implements Initializable {
 		primaryStage.setTitle("Subscription Rules");
 		primaryStage.show();
 	}
-
 }

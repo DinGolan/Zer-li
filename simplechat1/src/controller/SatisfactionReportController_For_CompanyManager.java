@@ -29,11 +29,22 @@ import javafx.stage.Stage;
 
 public class SatisfactionReportController_For_CompanyManager implements Initializable  {
 
+	/**
+	 * This Variable Help Me To Load The ComboBox Of Store's .
+	 */
 	private Store store;
+	
+	/**
+	 * This Variable Helping To Transfer Message From the Client to the DB .
+	 */
 	private Message msg;
+	
+	/**
+	 * Variabel's That Help Me To Show The Question's In The BarChart . 
+	 */
 	private static String[] Questions = {"Questions 1","Questions 2","Questions 3","Questions 4" , "Questions 5" , "Questions 6"};
 
-/* -------------------------  For The Window Of Satisfaction Report ----------------------------------- */	
+/* -------------------------  For The Window Of Satisfaction Report - For The First Store - For Company Manager ----------------------------------- */	
 	
 	 @FXML
 	 private TextField txtStoreID;           /* Text Field Of the Store ID */
@@ -62,38 +73,59 @@ public class SatisfactionReportController_For_CompanyManager implements Initiali
 	 @FXML
 	 private Button btnClose;                /* Button For Exit from The Window */
 	
-/* --------------------------------- Loading Store To the Text Fields ------------------------------------------------- */	 
+/* --------------------------------- Loading Store To the Text Fields ----------------------------------------------------------------------------- */	 
 	 
-	public void loadStore(Store s) 			 /* To load the Store details to the text fields */
+	/**
+	* In This Function We Load The ComboBox Of Store's .
+	* @param s
+	*/
+	public void loadStore(Store s) 					
 	{ 
-		if(CompanyManagerReportController.Integer_The_Option_You_Choose == 1)
-		{
-			if(CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == true && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == true)
+			if(CompanyManagerReportController.Integer_The_Option_You_Choose == 1)
 			{
-				this.store = s;
-				this.txtStoreID.setText(String.valueOf(store.getStoreId()));
+					if(CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == true && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == true)
+					{
+						this.store = s;
+						this.txtStoreID.setText(String.valueOf(store.getStoreId()));
+					}
+					else if(CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == true && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == false)
+					{
+						this.store = s;
+						this.txtStoreID.setText(String.valueOf(store.getStoreId()));
+					}
+					else if((CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == false && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == false)
+							|| (CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == false && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == true))
+					{
+						this.txtStoreID.setText(String.valueOf(1));
+					}
 			}
-			else
+			else if(CompanyManagerReportController.Integer_The_Option_You_Choose == 2)
 			{
-				this.txtStoreID.setText(String.valueOf(1));
+				if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == true)
+				{
+					this.store = s;
+					this.txtStoreID.setText(String.valueOf(store.getStoreId()));
+				}
+				else if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == false) 	
+				{
+					this.store = s;
+					this.txtStoreID.setText(String.valueOf(store.getStoreId()));
+				}
+				else if((CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == false)
+						|| (CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == true))
+				{
+					this.txtStoreID.setText(String.valueOf(1));
+				}
 			}
-		}
-		else if(CompanyManagerReportController.Integer_The_Option_You_Choose == 2)
-		{
-			if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == true)
-			{
-				this.store = s;
-				this.txtStoreID.setText(String.valueOf(store.getStoreId()));
-			}
-			else
-			{
-				this.txtStoreID.setText(String.valueOf(1));
-			}
-		}
 	}
 	
-/* --------------------------------- Close the Satisfaction Report Window ------------------------------------------------- */			
+/* --------------------------------- Close the Satisfaction Report Window ------------------------------------------------------------------------- */			
 	
+	/**
+	 * In This Function I close The GUI Of Satisfaction Report Of the First Store .
+	 * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
+	 */
 	public void closeSatisfactionReportWindow(ActionEvent event) throws Exception  
 	{ 
 		CompanyManagerUI.stores_For_Company_Manager.clear();
@@ -112,12 +144,23 @@ public class SatisfactionReportController_For_CompanyManager implements Initiali
 		
 		Scene scene = new Scene(root);	
 		scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
-		primaryStage.setScene(scene);		
+		primaryStage.setScene(scene);
+		if(CompanyManagerReportController.Flag_For_Return_Window_With_One_Store_Or_With_Two_Store == 1)
+		{
+			primaryStage.setTitle("----- Company Manager Report Form - Watch Only One Store -----");
+		}
+		else if(CompanyManagerReportController.Flag_For_Return_Window_With_One_Store_Or_With_Two_Store == 2)
+		{
+			primaryStage.setTitle("----- Company Manager Report Form - Watch Two Store -----");
+		}
 		primaryStage.show();										   
 	}
 	
-/* --------------------------------- Initialize The Satisfaction Report GUI ------------------------------------------------- */	 			
+/* --------------------------------- Initialize The Satisfaction Report GUI ----------------------------------------------------------------------- */	 			
 	
+	/** 
+	 * In This Function We Initialize The GUI Of Saticfaction Report Of the First Store .
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) 
 	{
@@ -149,9 +192,19 @@ public class SatisfactionReportController_For_CompanyManager implements Initiali
 				Year_Integer = Integer.parseInt(Year);
 				Month_Integer = Integer.parseInt(Month);
 			}
-			else
+			else if(CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == true && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == false) /* This else Statement Is Not For Defult Value */
 			{
-				temp_Date_Quarter_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.get(1);                             /* The Date */
+				temp_Date_Quarter_Report = Date.valueOf("2017-12-31");
+				CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.add(temp_Date_Quarter_Report);
+				Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
+				Year = Full_Date_String.substring(0 , 4);
+				Month = Full_Date_String.substring(5 , 7);
+				Year_Integer = Integer.parseInt(Year);
+				Month_Integer = Integer.parseInt(Month);
+			}
+			else if(CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Store_Combo_Box == true && CompanyManagerController_With_Only_One_Store.Flag_Enter_On_The_Date_Combo_Box == true) 
+			{
+				temp_Date_Quarter_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.get(1); /* The Date */
 				Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
 				Year = Full_Date_String.substring(0 , 4);
 				Month = Full_Date_String.substring(5 , 7);
@@ -163,7 +216,7 @@ public class SatisfactionReportController_For_CompanyManager implements Initiali
 		{
 			if((CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == false)
 					|| (CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == false && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == true))
-				{
+			{
 					int temp_Store_Id = 1;
 					temp_Date_Quarter_Report = Date.valueOf("2017-12-31");
 					CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.clear();
@@ -174,16 +227,27 @@ public class SatisfactionReportController_For_CompanyManager implements Initiali
 					Month = Full_Date_String.substring(5 , 7);
 					Year_Integer = Integer.parseInt(Year);
 					Month_Integer = Integer.parseInt(Month);
-				}
-				else
-				{
-					temp_Date_Quarter_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.get(1);                             /* The Date */
-					Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
-					Year = Full_Date_String.substring(0 , 4);
-					Month = Full_Date_String.substring(5 , 7);
-					Year_Integer = Integer.parseInt(Year);
-					Month_Integer = Integer.parseInt(Month);
-				}
+			}
+			else if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == false) /* This else Statement Is Not For Defult Value */
+			{
+				temp_Date_Quarter_Report = Date.valueOf("2017-12-31");
+				CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.add(temp_Date_Quarter_Report);
+				Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
+				Year = Full_Date_String.substring(0 , 4);
+				Month = Full_Date_String.substring(5 , 7);
+				Year_Integer = Integer.parseInt(Year);
+				Month_Integer = Integer.parseInt(Month);
+				
+			}
+			else if(CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Store_1 == true && CompanyManagerController_With_Two_Store.Flag_Enter_On_The_Combo_Box_Date_1 == true)
+			{
+				temp_Date_Quarter_Report = (Date)CompanyManagerUI.Help_To_Transfer_Object_At_Satisfaction_Report_For_Company_Manager.get(1); /* The Date */
+				Full_Date_String = String.valueOf(temp_Date_Quarter_Report);
+				Year = Full_Date_String.substring(0 , 4);
+				Month = Full_Date_String.substring(5 , 7);
+				Year_Integer = Integer.parseInt(Year);
+				Month_Integer = Integer.parseInt(Month);
+			}
 		}
 	
 		this.txtYear.setText(String.valueOf(Year_Integer)); 					/* Set The Year */
@@ -227,16 +291,20 @@ public class SatisfactionReportController_For_CompanyManager implements Initiali
 		
 			e.printStackTrace();
 		}
+		
 		Put_At_The_Chart_All_The_Surveys();
 	}
 	
-/* --------------------------------- Initialize The Survey And The Rank On The Bar Chart ------------------------------------------------- */	 			
+/* --------------------------------- Initialize The Survey And The Rank On The Bar Chart ---------------------------------------------------------- */	 			
 	
+	/**
+	 * In This Function I Initialize The BarChart . 
+	 */
 	public void Put_At_The_Chart_All_The_Surveys()
 	{
 		double Total_Average = 0;
 		int Number_Of_Client;
-		ArrayList<Double> The_Average_Result_Of_Each_Question = new ArrayList<Double>();   				  /* All the Product That We Order On Specific Store */
+		ArrayList<Double> The_Average_Result_Of_Each_Question = new ArrayList<Double>();   				  							  /* All the Product That We Order On Specific Store */
 		                       						  
 		for(int i = 0 ; i < CompanyManagerUI.Average_Result_Of_Each_Qustions_In_surveys_For_Company_Manager.size() ; i++)             /* In This Loop We Initialize All the Orders At ArrayList Of Orders */                                             
 		{
@@ -252,8 +320,8 @@ public class SatisfactionReportController_For_CompanyManager implements Initiali
 		Total_Average = Double.parseDouble(new DecimalFormat("##.####").format(Total_Average));
 		this.txtTotalAvgRank.setText(String.valueOf(Total_Average));
 		this.txtNumberOfClient.setText(String.valueOf(Number_Of_Client));
-		The_Average_Result_Of_Each_Question.remove(6);                    /* Remove The Almost Last Index With the Total Average - After That The Last Index Is 6 */
-		The_Average_Result_Of_Each_Question.remove(6);                    /* Remove The Last Index With the Number Of Client */
+		The_Average_Result_Of_Each_Question.remove(6);                    		   /* Remove The Almost Last Index With the Total Average - After That The Last Index Is 6 */
+		The_Average_Result_Of_Each_Question.remove(6);                    		   /* Remove The Last Index With the Number Of Client */
 		
 		ArrayList<XYChart.Series<String,Double>> setChart = new ArrayList<XYChart.Series<String,Double>>();
 		for(int i = 0 ; i < Questions.length ; i++)
@@ -271,6 +339,6 @@ public class SatisfactionReportController_For_CompanyManager implements Initiali
 		Chart_SatisfactionReport.getData().addAll(setChart);
 	}
 	
-/* ------------------------------------------------------------------------------------------------------------------- */	
+/* ------------------------------------------------------------------------------------------------------------------------------------------------ */	
 
 }

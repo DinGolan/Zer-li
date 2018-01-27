@@ -65,8 +65,8 @@ public class DataCompanyManagerController implements Initializable {
 	
 	/**
 	 * If We Not Run The Proggram From User UI We Can Run Only The Data Company Manager From Here . 
-	 * @param primaryStage
-	 * @throws Exception
+	 * @param primaryStage - Show The GUI .
+	 * @throws Exception - If The FXML Not Working .
 	 */
 	public void start(Stage primaryStage) throws Exception         
 	{	
@@ -82,8 +82,8 @@ public class DataCompanyManagerController implements Initializable {
 	
 	/**
 	 * In this Function I Can See The Details Of Each User . 
-	 * @param event - When The Client Press On the Button This Parameter Start To Work .
-	 * @throws Exception
+	 * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
 	 */
 	public void UserInfo(ActionEvent event) throws Exception        /* With this Method we Hide the GUI of the 'Choose User' and Show the GUI of the User that we Choose */
 	{
@@ -120,10 +120,10 @@ public class DataCompanyManagerController implements Initializable {
 
 	/**
 	 * In This Function We Can Exit From The Proggram .
-	 * @param event - When The Client Press On the Button This Parameter Start To Work .
-	 * @throws Exception
+	 * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
 	 */
-	public void getExitBtn(ActionEvent event) throws Exception      /* With this Method we Exit from the Data Company Manager GUI */ 
+	public void getExitBtn(ActionEvent event) throws Exception       
 	{
 		System.out.println("Exit From - Tool");
 		System.exit(0);			
@@ -133,8 +133,8 @@ public class DataCompanyManagerController implements Initializable {
 	
 	/**
 	 * In This Function We Logout From The System . 
-	 * @param event - When The Client Press On the Button This Parameter Start To Work .
-	 * @throws Exception
+	 * @param event - When The Client Press On the Butten This Parameter Start To Work .
+	 * @throws Exception - If The FXML Not Work .
 	 */
 	public void logoutBtn(ActionEvent event) throws Exception 
 	{

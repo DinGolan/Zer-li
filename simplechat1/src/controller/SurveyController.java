@@ -49,6 +49,9 @@ public class SurveyController implements Initializable {
 	@FXML
 	private Button btnCloseError2 = null; /* button close for close product form */
 	@FXML
+	private Button btnCloseError3 = null; /* button close for close product form */
+
+	@FXML
 	private Button btnCloseSuccessful = null;	
 
 	@FXML
@@ -87,7 +90,7 @@ public class SurveyController implements Initializable {
 	public int getItemIndex(ComboBox cmb) /* With this Method we Take Product from the List of the Product at the ComboBox */
 	{
 		if(cmb.getSelectionModel().getSelectedIndex() ==-1)
-			return itemIndex;
+			return -1;
 	
 		return cmb.getSelectionModel().getSelectedIndex();
 	}
@@ -106,10 +109,22 @@ public class SurveyController implements Initializable {
 		
 		temp.add((Integer.toString(getItemIndex(cmb)+1))); // store id
 		LocalDate localDate = dp.getValue();
-		if(localDate == null)
+		if(localDate == null || getItemIndex(cmb)==-1)
 		{
-  			dp = new DatePicker(LocalDate.now());
-  			localDate = dp.getValue();
+			errorMsg = null;
+			flagError =true;
+			Pane root = null;
+			Stage primaryStage = new Stage(); //Object present window with graphics elements
+			FXMLLoader loader = new FXMLLoader(); //load object
+			((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window
+			root = loader.load(getClass().getResource("/controller/errorNoComboSurvey.fxml").openStream());
+			Scene scene = new Scene(root);		
+			scene.getStylesheets().add(getClass().getResource("/controller/ZerliDesign.css").toExternalForm());
+			primaryStage.setScene(scene);	
+			primaryStage.setTitle("Error msg");
+			primaryStage.show();
+			return;
+		
 		}
 		System.out.println(localDate);
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -132,7 +147,7 @@ public class SurveyController implements Initializable {
 		
 		if(errorMsg.compareTo("date between error") ==0)
 		{
-			 errorMsg = null;
+			errorMsg = null;
 			flagError =true;
 			Pane root = null;
 			Stage primaryStage = new Stage(); //Object present window with graphics elements
