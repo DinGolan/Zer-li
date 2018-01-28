@@ -13,6 +13,6 @@
          <font>
             <Font name="Bodoni MT" size="29.0" />
          </font></Label>
-      <TextArea editable="false" layoutX="24.0" layoutY="63.0" prefHeight="93.0" prefWidth="262.0" text="You have to fill all the fields&#10;to complete the procces (price&#10;have to be positive)." />
+      <TextArea editable="false" layoutX="24.0" layoutY="63.0" prefHeight="93.0" prefWidth="262.0" text="You have to fill all the fields&#10;to complete the procces (price&#10;have to be positive and less then 1000)." />
    </children>
 </AnchorPane>

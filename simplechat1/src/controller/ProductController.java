@@ -332,7 +332,7 @@ public class ProductController implements Initializable{
 	{
 		try
 		{
-			if((this.txtPPicPath.getText().compareTo("")!=0) &&  (this.txtPName.getText().compareTo("")!=0)&& (this.txtPPrice.getText().compareTo("")!=0)&& (this.cmbPtype.getValue()!=null)&& (this.cmbpColor.getValue()!=null)&& (Double.valueOf(this.txtPPrice.getText()) > 0) && (txtPName.getText().length() <= 45))
+			if((this.txtPPicPath.getText().compareTo("")!=0) &&  (this.txtPName.getText().compareTo("")!=0)&& (this.txtPPrice.getText().compareTo("")!=0)&& (this.cmbPtype.getValue()!=null)&& (this.cmbpColor.getValue()!=null)&& (Double.valueOf(this.txtPPrice.getText()) > 0) && (Double.valueOf(this.txtPPrice.getText()) <= 1000) && (txtPName.getText().length() <= 45))
 			{
 				try {
 				Product toadd = new  Product();
