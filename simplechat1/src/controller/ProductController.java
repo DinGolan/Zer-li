@@ -259,7 +259,7 @@ public class ProductController implements Initializable{
 			catch(Exception e) // picture dont exist
 			{
 				flag =1;
-				((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
+				//((Node)event.getSource()).getScene().getWindow().hide(); /* Hiding primary window */
 				Stage primaryStage = new Stage();						 /* Object present window with graphics elements */
 				FXMLLoader loader = new FXMLLoader(); 					 /* load object */
 				Pane root = loader.load(getClass().getResource("/controller/DontExistPicErr.fxml").openStream());
@@ -453,5 +453,10 @@ public class ProductController implements Initializable{
 		primaryStage.setScene(scene);	
 		primaryStage.setTitle("Update Product");		
 		primaryStage.show();									 /* show catalog frame window */
+	}
+	
+	public void openPrevWindow(ActionEvent event) throws Exception  /* To close the The Window of the Product GUI and Show The Catalog GUI again */
+	{ 
+		((Node)event.getSource()).getScene().getWindow().hide(); //Hiding primary window	
 	}
 }
