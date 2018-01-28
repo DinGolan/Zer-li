@@ -296,7 +296,7 @@ public class ProfileController implements Initializable
 			e.printStackTrace();
 		}
 		
-		this.txtCustomerPhone.setText(CustomerUI.Order_Of_Specific_Customer.get(0).getRecipienPhoneNum()); 		 /* The Phone Will Be The Same In All The Cell's Of the Vector<Order> Of the Specific Customer */
+		this.txtCustomerPhone.setText(UserUI.user.getPhone()); 		 /* The Phone Will Be The Same In All The Cell's Of the Vector<Order> Of the Specific Customer */
 		
 		Put_The_Order_Of_Specific_Customer_In_Table();
 		
