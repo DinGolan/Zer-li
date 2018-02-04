@@ -30,6 +30,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import unittests.CancelOrderControllerJUnitTest;
+import unittests.Cancel_Test;
+
 
 /**
  * Controller for the option of cancel an order
@@ -300,6 +303,47 @@ public class CancelOrderController implements Initializable{
 		primaryStage.setScene(scene);			
 		primaryStage.setTitle("Cancel order");
 		primaryStage.show(); //show customer options window
+	}
+	
+	public static double cancelOrder_For_Test(Order Order_To_Cancel) 
+	{	
+		LocalDate today = LocalDate.now();  /* Get The Current Date */
+		LocalTime nowTime = LocalTime.parse(new SimpleDateFormat("HH:mm").format(Calendar.getInstance().getTime())); /* Get The Current Time */
+		double  Balance = 0;
+		
+		if((Order_To_Cancel.getRequiredSupplyDate().equals(today)) && (LocalTime.parse(Order_To_Cancel.getRequiredSupplyTime()).minusHours(1).isBefore(nowTime))) /* If we are at the last hour before the supply time */
+		{
+			Order_To_Cancel.setRefund(0);
+		}
+		else if(((Order_To_Cancel.getRequiredSupplyDate().equals(today))&&(LocalTime.parse(Order_To_Cancel.getRequiredSupplyTime()).minusHours(3).isAfter(nowTime)))||(Order_To_Cancel.getRequiredSupplyDate().isAfter(today))) /* if we are before 3 hours before the supply time */
+		{
+			Order_To_Cancel.setRefund(Order_To_Cancel.getOrderTotalPrice());
+		}
+		else /* If we are between 1-3 hours before the supply time */
+		{
+
+			Order_To_Cancel.setRefund(0.5*(Order_To_Cancel.getOrderTotalPrice()));
+		}
+		
+		Order_To_Cancel.setoStatus(Order.orderStatus.CANCEL);
+		
+		Cancel_Test.Flag_For_Taking_Customer_Balance = false;
+		
+		Message msg = new Message(Order_To_Cancel , "Test - Cancel Orde");
+		Cancel_Test.client.accept(msg);
+		while(Cancel_Test.Flag_For_Taking_Customer_Balance == false);
+		try 
+		{
+			Thread.sleep(200);
+		} 
+		catch (InterruptedException e) 
+		{
+			e.printStackTrace();
+		}
+		
+		Cancel_Test.Flag_For_Taking_Customer_Balance = false;
+		
+		return Balance;
 	}
 	
 	/**
