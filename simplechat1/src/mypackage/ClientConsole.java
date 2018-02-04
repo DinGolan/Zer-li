@@ -47,6 +47,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import unittests.CancelOrderControllerJUnitTest;
+import unittests.Cancel_Test;
 
 /**
  * This class constructs the UI for a chat client.  It implements the
@@ -87,7 +89,7 @@ public class ClientConsole implements ChatIF
   {
     try 
     {
-      client= new ChatClient(host, port, this);
+      client = new ChatClient(host, port, this);
     } 
     catch(IOException exception) 
     {
@@ -168,45 +170,87 @@ public class ClientConsole implements ChatIF
   @SuppressWarnings("unchecked")
 public void displayUI(Object message) 
   {
-	  if(((Message)message).getOption().compareTo("succed!") ==0) 
-	  {
-		  SurveyResultController.errorMsg = "succed!";
-	  }
 	  
-	  if(((Message)message).getOption().compareTo("Error your date not between start and end date of the survey") ==0) 
-	  {
-		  SurveyResultController.errorMsg = "Error your date not between start and end date of the survey";
-	  }
-	  
-	  if(((Message)message).getOption().compareTo("The storeId is not correct") ==0) 
-	  {
+	    if(((Message)message).getOption().compareTo("Test - Give - Me The Size Of Order_Table And Product_In_Order_Table") == 0)
+	    {
+		  	  int i=0;
+			  ArrayList<Integer> temp_Size_Of_Table = new ArrayList<Integer>();
+			  temp_Size_Of_Table = (ArrayList<Integer>)((Message)message).getMsg();
+			  Cancel_Test.Size_Of_Tabels.clear();
 
-		  SurveyResultController.errorMsg = "The storeId is not correct";
-	  }
+			  for(i=0 ; i < temp_Size_Of_Table.size() ; i++)
+		  	  {
+				  Cancel_Test.Size_Of_Tabels.add(temp_Size_Of_Table.get(i));
+		  	  }
+	    }
 	  
-	  if(((Message)message).getOption().compareTo("customer twice") ==0) 
-	  {
+	    if(((Message)message).getOption().compareTo("Test - Bring Me The Order That I Add To Table - For Test") == 0)
+	    {
+	    	if(Cancel_Test.Flag_Check_Order_One == true)
+	    	{
+	    		Cancel_Test.Order_For_Test_One = (Order)((Message)message).getMsg(); 	
+	    	}
+	    	else if(Cancel_Test.Flag_Check_Order_Two == true)
+	    	{
+	    		Cancel_Test.Order_For_Test_Two = (Order)((Message)message).getMsg(); 	
+	    	}
+	    	else if(Cancel_Test.Flag_Check_Order_Three == true)
+	    	{
+	    		Cancel_Test.Order_For_Test_Three = (Order)((Message)message).getMsg(); 	
+	    	}
+	    	else if(Cancel_Test.Flag_Check_Order_Four == true)
+	    	{
+	    		Cancel_Test.Order_For_Test_Four = (Order)((Message)message).getMsg(); 	
+	    	}
+	    	
+	    	Cancel_Test.Flag_For_Taking_Specific_Order = true;
+	    }
+	    
+	    if(((Message)message).getOption().compareTo("Test - Cancel Orde") == 0)
+	    {
+	    	Cancel_Test.Customer_Balance_For_Test = (Double)((Message)message).getMsg();
+	    	Cancel_Test.Flag_For_Taking_Customer_Balance = true;  
+	    }
+	    
+	  	if(((Message)message).getOption().compareTo("succed!") ==0) 
+	  	{
+	  		SurveyResultController.errorMsg = "succed!";
+	  	}
+	  
+	  	if(((Message)message).getOption().compareTo("Error your date not between start and end date of the survey") ==0) 
+	  	{
+	  		SurveyResultController.errorMsg = "Error your date not between start and end date of the survey";
+	  	}
+	  
+	  	if(((Message)message).getOption().compareTo("The storeId is not correct") ==0) 
+	  	{
 
-		  SurveyResultController.errorMsg = "customer twice";
-	  }
+	  		SurveyResultController.errorMsg = "The storeId is not correct";
+	  	}
+	  	
+	  	if(((Message)message).getOption().compareTo("customer twice") ==0) 
+	  	{
+
+	  		SurveyResultController.errorMsg = "customer twice";
+	  	}
 	  
-	  if(((Message)message).getOption().compareTo("date between error") ==0) 
-	  {
-		  SurveyController.errorMsg = "date between error";
-	  }
+	  	if(((Message)message).getOption().compareTo("date between error") ==0) 
+	  	{
+	  		SurveyController.errorMsg = "date between error";
+	  	}
 	  
-	  if(((Message)message).getOption().compareTo("error store have survey") ==0) 
-	  {
-		  SurveyController.errorMsg = "error store have survey";
-	  }
+	  	if(((Message)message).getOption().compareTo("error store have survey") ==0) 
+	  	{
+	  		SurveyController.errorMsg = "error store have survey";
+	  	}
 	  
-	  if(((Message)message).getOption().compareTo("succes survey") ==0) 
-	  {
-		  SurveyController.errorMsg = "succes survey";
-	  }
+	  	if(((Message)message).getOption().compareTo("succes survey") ==0) 
+	  	{
+	  		SurveyController.errorMsg = "succes survey";
+	  	}
 	  
-	  if(((Message)message).getOption().compareTo("get all customers have FULLPRICE in this store") ==0) 
-	  {
+	  	if(((Message)message).getOption().compareTo("get all customers have FULLPRICE in this store") ==0) 
+	  	{
 		  	int i=0;
 	  	  	ArrayList<String> temp = new ArrayList<String>();
 	  	  	temp = (ArrayList<String>)((Message)message).getMsg();
@@ -217,10 +261,10 @@ public void displayUI(Object message)
 	  	  	AccountUI.customersId.add(temp.get(i));
 	  	  	}
 	  	  	AccountController.loadCustomersFlag=true;
-	  }
+	  	}
 
-	  if(((Message)message).getOption().compareTo("get all products in DB") ==0) 		/* Check that its update */
-	    {
+	  	if(((Message)message).getOption().compareTo("get all products in DB") ==0) 		/* Check that its update */
+	  	{
 	  	  	int i=0;
 	  	  	ArrayList<Product> temp = new ArrayList<Product>();
 	  	  	temp = (ArrayList<Product>)((Message)message).getMsg();
