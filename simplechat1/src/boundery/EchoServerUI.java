@@ -27,7 +27,7 @@ public class EchoServerUI extends Application
 		
 		/* Create New Thread And Wait Until He Finish His Job */
 		Thread thread = new Thread(new ThreadController());   
-		thread.start();
+	    thread.start();
 		thread.join();
 	}
 	

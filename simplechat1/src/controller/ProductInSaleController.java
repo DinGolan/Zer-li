@@ -361,7 +361,7 @@ public class ProductInSaleController implements Initializable{
 		}
 		try
 		{
-			if((this.txtPPrice.getText().compareTo("")!=0) && (Double.valueOf(this.txtPPrice.getText())<pPrice) && (Double.valueOf(this.txtPPrice.getText())>pPrice))
+			if((this.txtPPrice.getText().compareTo("")!=0) && (Double.valueOf(this.txtPPrice.getText())<pPrice) && (Double.valueOf(this.txtPPrice.getText())>0))
 			{
 				p.setpPrice(Double.valueOf(this.txtPPrice.getText()));
 				msg = new Message(p , "Update Product In Sale In DB");

@@ -749,5 +749,10 @@ public class ClientConsole implements ChatIF
     	 ComplaintUI.complaint=null;	  
 		 ComplaintController.flag = true;  
      }
+     
+     public void close() throws IOException {
+    	 
+    	 client.closeConnection();
+     }
 }
 
