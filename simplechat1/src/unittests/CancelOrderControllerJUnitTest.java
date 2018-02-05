@@ -1,12 +1,13 @@
 package unittests;
 
+/* For The Assertion In The Test's */
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
-import boundery.UserUI;
 
+import boundery.UserUI;
 import java.io.IOException;
 import java.util.ArrayList;
 import controller.CancelOrderController;
@@ -94,7 +95,7 @@ public class CancelOrderControllerJUnitTest{
 		Order Order_One = new Order();
 		
 		/* What I Expected */
-		double Expected = 25.0; 
+		double Expected = 25.0;  
 		double Delta = 0;
 			
 		/* The Real Result After I Use In CancelOrder */
@@ -160,7 +161,7 @@ public class CancelOrderControllerJUnitTest{
 		Order Order_Three = new Order();
 		
 		/* What I Expected */
-		double Expected = 18.0; 
+		double Expected = 18.0;  
 		double Delta = 0;
 			
 		/* The Real Result After I Use In CancelOrder */
@@ -214,7 +215,10 @@ public class CancelOrderControllerJUnitTest{
 	@AfterClass
 	public static void tearDownAfterClass() throws IOException
 	{
-		client.close();// method that inside clientConsole
+		Message Message_One = new Message(Size_Of_Order_Table_For_Test,"Test - Delete After Test");
+		client.accept(Message_One);
+		
+		client.close();					/* Method that Inside ClientConsole */
 	}
 	
 	

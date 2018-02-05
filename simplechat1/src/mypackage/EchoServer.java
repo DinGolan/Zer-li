@@ -502,6 +502,11 @@ public class EchoServer extends AbstractServer
 	    {
 	    	Test_Cancel_Order(msg,conn);  
 	    } 
+	  
+	    if(((Message)msg).getOption().compareTo(  "Test - Delete After Test") == 0) 	    	
+	    {
+	    	Delete_After_Test(msg,conn);  
+	    } 
   }
   
   /**
@@ -561,7 +566,82 @@ public class EchoServer extends AbstractServer
   }
   
   /**
-   * Function For Testing
+   * Function For Testing - Delete All The Rows That I Add For Testing .
+   * @param msg - object msg with the message Details That We Need For This Function .
+   * @param conn - Connection to DB .
+   */
+  @SuppressWarnings("unchecked")
+protected void Delete_After_Test(Object msg , Connection conn)
+  {
+	  ArrayList<Integer> requested_Order_Num_To_Delete = (ArrayList<Integer>)(((Message)msg).getMsg());
+	  ArrayList<String>  Customer_ID = new ArrayList<String>();
+	  ArrayList<Double> Order_Total_Price = new ArrayList<Double>();
+	  ArrayList<Double> Refund = new ArrayList<Double>();
+	  ArrayList<Integer> Store_ID = new ArrayList<Integer>();
+	  int Temp_Store_ID;
+	  double Calculate_Difference;
+	  double Balance;
+	  Statement stmt;
+	  Statement stmt_2;
+	  
+	  try 
+	  {
+		     stmt = conn.createStatement();
+		    
+		     for(int i = requested_Order_Num_To_Delete.size() - 1 ; i >= 0  ; i--)
+			 {
+		    	 String Get_All_Customer_ID = "SELECT * FROM " + EchoServerController.Scheme + ".order WHERE orderID = "+ "'" + (requested_Order_Num_To_Delete.get(i) - i) + "'" + ";"; 
+		    	 ResultSet rs = stmt.executeQuery(Get_All_Customer_ID); 
+		    	 while(rs.next())
+		    	 {
+		    		 Customer_ID.add(rs.getString("customerID"));
+		    		 Order_Total_Price.add(rs.getDouble("orderTotalPrice"));
+		    		 Refund.add(rs.getDouble("orderRefund")); 
+		    		 Store_ID.add(rs.getInt("StoreID"));
+		    	 }
+			 }
+		     
+		     for(int i = requested_Order_Num_To_Delete.size() - 1 ; i >= 0  ; i--)
+			 {
+		    	 String Delete_From_Order_Table = "DELETE FROM " + EchoServerController.Scheme +  ".order WHERE orderID = " +  "'" + (requested_Order_Num_To_Delete.get(i) - i) + "'" + ";" ;
+		    	 String Delete_From_Product_In_Order_Table = "DELETE FROM " + EchoServerController.Scheme +  ".productinorder WHERE OrderID = " +  "'" + (requested_Order_Num_To_Delete.get(i) - i) + "'" + ";" ;
+		    	 stmt.executeUpdate(Delete_From_Product_In_Order_Table);
+		    	 stmt.executeUpdate(Delete_From_Order_Table); 
+			 }
+		     
+		     /* Create New Statement For Update Account Table */
+		     stmt_2 = conn.createStatement();
+		     
+		     for(int i = 0 ; i < Customer_ID.size() ; i++)
+		     {
+		    	 String Update_Details_In_Account = "SELECT * FROM " + EchoServerController.Scheme + ".account WHERE AccountUserId = "+ "'" + Customer_ID.get(i) + "'" + ";"; 
+		    	 ResultSet rs_2 = stmt_2.executeQuery(Update_Details_In_Account);
+		    	 while(rs_2.next())
+		    	 {
+		    		 Temp_Store_ID = rs_2.getInt("AccountStoreId");
+		    		 Balance = rs_2.getDouble("AccountBalanceCard");
+		    		 
+		    		 if(Temp_Store_ID == Store_ID.get(i))
+		    		 {
+		    			 if(Order_Total_Price.get(i) != Refund.get(i))
+		    			 {
+		    				 Calculate_Difference = Order_Total_Price.get(i) - Refund.get(i);
+		    				 String Update_Specific_Account_From_Account_Table = "UPDATE " + EchoServerController.Scheme + ".account SET AccountBalanceCard =" + "'" + (Calculate_Difference + Balance)  + "'"  + "WHERE AccountUserId = " + "'" + Customer_ID.get(i) + "'" + ";" ;
+		    				 stmt.executeUpdate(Update_Specific_Account_From_Account_Table);
+		    			 }
+		    		 }
+		    	 }
+		     }
+		     
+	  }
+	  catch(SQLException e)
+	  {
+		  e.printStackTrace();
+	  }
+  }
+  
+  /**
+   * Function For Testing - Bring All The Order That I Take For Testing .
    * @param msg - object msg with the message Details That We Need For This Function .
    * @param conn - Connection to DB .
    * @return
@@ -570,7 +650,7 @@ public class EchoServer extends AbstractServer
   protected ArrayList<Order> Bring_All_Order_For_Test(Object msg , Connection conn)
   {
 	  
-	  ArrayList<Integer> requestedOrderNum = (ArrayList<Integer>)(((Message)msg).getMsg());
+	  ArrayList<Integer> requested_Order_Num = (ArrayList<Integer>)(((Message)msg).getMsg());
 	
 	  ArrayList<Order> Order_For_Test = new ArrayList<Order>();
 	  Order o = null;
@@ -588,9 +668,9 @@ public class EchoServer extends AbstractServer
 	  try {
 		  	stmt = conn.createStatement();
 		  	
-		  	for(int i = requestedOrderNum.size() - 1 ; i >= 0  ; i--)
+		  	for(int i = requested_Order_Num.size() - 1 ; i >= 0  ; i--)
 		  	{
-			  	String getComplaint = "SELECT * FROM " + EchoServerController.Scheme + ".order WHERE orderID="+ "'" + (requestedOrderNum.get(i) - i) + "'" + ";"; //get the order details
+			  	String getComplaint = "SELECT * FROM " + EchoServerController.Scheme + ".order WHERE orderID="+ "'" + (requested_Order_Num.get(i) - i) + "'" + ";"; //get the order details
 			  	ResultSet rs = stmt.executeQuery(getComplaint);
 			  	while(rs.next())
 			  	{
@@ -623,7 +703,7 @@ public class EchoServer extends AbstractServer
   }
   
   /**
-   * Function For Testing .
+   * Function For Testing - Cancel Order & Update The Data Base .
    * @param msg - object msg with the message Details That We Need For This Function .
    * @param conn - Connection to DB .
    */
@@ -668,7 +748,7 @@ public class EchoServer extends AbstractServer
   }
   
   /**
-   * Function For Testing .
+   * Function For Testing - Return The Size Of The Table - Order .
    * @param msg - object msg with the message Details That We Need For This Function .
    * @param conn - Connection to DB .
    */
@@ -705,12 +785,12 @@ public class EchoServer extends AbstractServer
   }
   
   /**
-   * Function For Testing .
+   * Function For Testing - Update Tabels - After I Add Order For Testing .
    * @param msg - object msg with the message Details That We Need For This Function .
    * @param conn - Connection to DB .
    */
   @SuppressWarnings("unchecked")
-protected Integer Update_Tables_For_Testing(Object msg , Connection conn)
+  protected Integer Update_Tables_For_Testing(Object msg , Connection conn)
   {
 	      String Scheme_Name = EchoServerController.Scheme;
 	      int Number_Of_Rows_In_Order_Table = 0;
@@ -782,7 +862,7 @@ protected Integer Update_Tables_For_Testing(Object msg , Connection conn)
 	      /* We Insert 4 Queries - For Testing ---> All The Possibilities */
 			
 		  /* Between One Hour To Three Hour From The Final Time To Make Delivery */
-		  String First_New_Order =  "INSERT INTO " + Scheme_Name + ".`order`(`orderID`, `customerID`, `orderSupplyOption`, `orderTotalPrice`, `orderRequiredSupplyDate`, `orderRequiredSupplyTime`, `orderRecipientAddress`, `orderRecipientName`, `orderRecipientPhoneNumber`, `orderPostcard`, `orderDate`, `StoreID`, `paymentMethod`, `orderStatus`, `orderRefund`) VALUES " + "(" + "'" + (++Number_Of_Rows_In_Order_Table) + "'" + ", '308155146', 'DELIVERY', '50', " + "'" + Formatted_Date_String_For_Test_One + "'" + ", " + "'" + nowTime.plusHours(2) + "'" + ", 'Haifa', 'Mati Golany', '0545250777', 'Thank You', " + "'" + Formatted_Date_String_For_Test + "'" + ", '1', 'CASH', 'APPROVED', '0');" ;			
+		  String First_New_Order =  "INSERT INTO " + Scheme_Name + ".`order`(`orderID`, `customerID`, `orderSupplyOption`, `orderTotalPrice`, `orderRequiredSupplyDate`, `orderRequiredSupplyTime`, `orderRecipientAddress`, `orderRecipientName`, `orderRecipientPhoneNumber`, `orderPostcard`, `orderDate`, `StoreID`, `paymentMethod`, `orderStatus`, `orderRefund`) VALUES " + "(" + "'" + (++Number_Of_Rows_In_Order_Table) + "'" + ", '308155444', 'DELIVERY', '50', " + "'" + Formatted_Date_String_For_Test_One + "'" + ", " + "'" + nowTime.plusHours(2) + "'" + ", 'Haifa', 'Mati Golany', '0542202789', 'Thank You', " + "'" + Formatted_Date_String_For_Test + "'" + ", '1', 'CASH', 'APPROVED', '0');" ;			
 		  String Product_First_New_Order = "INSERT INTO " + Scheme_Name + ".`productinorder` (`ProductID`, `OrderID`, `QuantityOfProduct`, `ProductType`, `ProductName`, `productPrice`) VALUES ('1234', " + "'" + Number_Of_Rows_In_Order_Table + "'" + ", '1', 'BOUQUET', 'Romantic Drops', '50');" ;
 			
 		  /* Between One Hour To The Final Time To Make Delivery */
@@ -810,7 +890,7 @@ protected Integer Update_Tables_For_Testing(Object msg , Connection conn)
 	      SQL_Queries_Product_In_Order.add(Product_Fourth_New_Order);
 			
 		  /* Customer ID For The Client That Invite Order */
-		  Customer_ID.add("308155146");
+		  Customer_ID.add("308155444");
 		  Customer_ID.add("308155127");
 	      Customer_ID.add("308155128");
 		  Customer_ID.add("308155160");
