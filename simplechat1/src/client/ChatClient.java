@@ -149,11 +149,11 @@ public class ChatClient extends AbstractClient
 		  clientUI.displayUI(msg);
 	  else if(((Message)msg).getOption().compareTo("add surveyConclusion") == 0)
 		  clientUI.displayUI(msg);
-	  else if(((Message)msg).getOption().compareTo("Test - Give - Me The Size Of Order_Table And Product_In_Order_Table") == 0)
-		  clientUI.displayUI(msg);
-	  else if(((Message)msg).getOption().compareTo("Test - Cancel Orde") == 0)
+	  else if(((Message)msg).getOption().compareTo("Test - Give - Me The Size Of Order_Table") == 0)
 		  clientUI.displayUI(msg);
 	  else if(((Message)msg).getOption().compareTo("Test - Bring Me The Order That I Add To Table - For Test") == 0)
+		  clientUI.displayUI(msg);
+	  else if(((Message)msg).getOption().compareTo("Test - Update - The Order Table , Product In Order Table , Account Table") == 0)
 		  clientUI.displayUI(msg);
   }
 

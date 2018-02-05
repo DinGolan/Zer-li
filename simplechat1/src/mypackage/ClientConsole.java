@@ -48,7 +48,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import unittests.CancelOrderControllerJUnitTest;
-import unittests.Cancel_Test;
 
 /**
  * This class constructs the UI for a chat client.  It implements the
@@ -168,48 +167,41 @@ public class ClientConsole implements ChatIF
    * @param message - The string to be displayed.
    */
   @SuppressWarnings("unchecked")
-public void displayUI(Object message) 
+  public void displayUI(Object message) 
   {
 	  
-	    if(((Message)message).getOption().compareTo("Test - Give - Me The Size Of Order_Table And Product_In_Order_Table") == 0)
+	  	if(((Message)message).getOption().compareTo("Test - Update - The Order Table , Product In Order Table , Account Table") == 0)
 	    {
-		  	  int i=0;
-			  ArrayList<Integer> temp_Size_Of_Table = new ArrayList<Integer>();
-			  temp_Size_Of_Table = (ArrayList<Integer>)((Message)message).getMsg();
-			  Cancel_Test.Size_Of_Tabels.clear();
-
-			  for(i=0 ; i < temp_Size_Of_Table.size() ; i++)
-		  	  {
-				  Cancel_Test.Size_Of_Tabels.add(temp_Size_Of_Table.get(i));
-		  	  }
+	  		CancelOrderControllerJUnitTest.Size_Of_Order_Table_For_Test.clear();
+	  			
+	  		for(int i = 0 ; i < 4 ; i++)
+	  		{
+	  			CancelOrderControllerJUnitTest.Size_Of_Order_Table_For_Test.add((Integer)((Message)message).getMsg());
+	  		}  
+	    }
+	  
+	    if(((Message)message).getOption().compareTo("Test - Give - Me The Size Of Order_Table") == 0)
+	    {
+	    	CancelOrderControllerJUnitTest.Size_Of_Order_Table_For_Test.clear();
+	    	
+	    	for(int i = 0 ; i < 1 ; i++)
+  			{
+  				CancelOrderControllerJUnitTest.Size_Of_Order_Table_For_Test.add((Integer)((Message)message).getMsg());
+  			}
+	    	
 	    }
 	  
 	    if(((Message)message).getOption().compareTo("Test - Bring Me The Order That I Add To Table - For Test") == 0)
 	    {
-	    	if(Cancel_Test.Flag_Check_Order_One == true)
-	    	{
-	    		Cancel_Test.Order_For_Test_One = (Order)((Message)message).getMsg(); 	
-	    	}
-	    	else if(Cancel_Test.Flag_Check_Order_Two == true)
-	    	{
-	    		Cancel_Test.Order_For_Test_Two = (Order)((Message)message).getMsg(); 	
-	    	}
-	    	else if(Cancel_Test.Flag_Check_Order_Three == true)
-	    	{
-	    		Cancel_Test.Order_For_Test_Three = (Order)((Message)message).getMsg(); 	
-	    	}
-	    	else if(Cancel_Test.Flag_Check_Order_Four == true)
-	    	{
-	    		Cancel_Test.Order_For_Test_Four = (Order)((Message)message).getMsg(); 	
-	    	}
+	    	CancelOrderControllerJUnitTest.Orders_For_Test.clear();
 	    	
-	    	Cancel_Test.Flag_For_Taking_Specific_Order = true;
-	    }
-	    
-	    if(((Message)message).getOption().compareTo("Test - Cancel Orde") == 0)
-	    {
-	    	Cancel_Test.Customer_Balance_For_Test = (Double)((Message)message).getMsg();
-	    	Cancel_Test.Flag_For_Taking_Customer_Balance = true;  
+	    	ArrayList<Order> Temp_Order_For_Test = new ArrayList<Order>();
+	    	Temp_Order_For_Test = ((ArrayList<Order>)((Message)message).getMsg());
+	    	
+	    	for(int i = 0 ; i < Temp_Order_For_Test.size() ; i++)
+  			{
+  				CancelOrderControllerJUnitTest.Orders_For_Test.add(Temp_Order_For_Test.get(i));
+  			}
 	    }
 	    
 	  	if(((Message)message).getOption().compareTo("succed!") ==0) 
