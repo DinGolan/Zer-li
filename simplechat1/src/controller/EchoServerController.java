@@ -26,7 +26,7 @@ import javafx.stage.Stage;
 public class EchoServerController implements Initializable {
 
 	public static Connection con;								/* A variable that Make The Connection with SQL DB */
-	private EchoServer server;                                  /* A variable That Help Me To Listen For Client After I Connect to DB */
+	private  EchoServer server;                                  /* A variable That Help Me To Listen For Client After I Connect to DB */
 	
 	public  static boolean server_Is_Up = false;                /* Flag = If the Server Already Up */
 	public static int Flag_Bad_Choise = 0;                      /* Parameter That Tell Me If The Connection Was Good Or Not */
@@ -247,7 +247,7 @@ public class EchoServerController implements Initializable {
 	
 	public EchoServer getServer()
 	{
-		return this.server;
+		return server;
 	}
 	
 	@Override

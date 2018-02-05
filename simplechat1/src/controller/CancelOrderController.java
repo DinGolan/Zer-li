@@ -31,7 +31,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import unittests.CancelOrderControllerJUnitTest;
-import unittests.Cancel_Test;
 
 
 /**
@@ -308,42 +307,125 @@ public class CancelOrderController implements Initializable{
 	public static double cancelOrder_For_Test(Order Order_To_Cancel) 
 	{	
 		LocalDate today = LocalDate.now();  /* Get The Current Date */
-		LocalTime nowTime = LocalTime.parse(new SimpleDateFormat("HH:mm").format(Calendar.getInstance().getTime())); /* Get The Current Time */
-		double  Balance = 0;
+		LocalTime nowTime = LocalTime.parse(new SimpleDateFormat("HH:mm").format(Calendar.getInstance().getTime())); /* Get The Current Time */ 
 		
-		if((Order_To_Cancel.getRequiredSupplyDate().equals(today)) && (LocalTime.parse(Order_To_Cancel.getRequiredSupplyTime()).minusHours(1).isBefore(nowTime))) /* If we are at the last hour before the supply time */
+		Message Message_One = new Message(CancelOrderControllerJUnitTest.Size_Of_Order_Table_For_Test,"Test - Bring Me The Order That I Add To Table - For Test"); 
+		CancelOrderControllerJUnitTest.client.accept(Message_One); 
+		
+		while(CancelOrderControllerJUnitTest.Orders_For_Test.size() == 0)
+		{
+			try 
+	    	{
+	    		Thread.sleep(200);
+	    	} 
+	    	catch (InterruptedException e) 
+	    	{
+	    		e.printStackTrace();
+	    	}
+		}
+		
+		/* Order One */
+		
+		if(CancelOrderControllerJUnitTest.Flag_Check_Order_One == true)
+		{
+			
+			Order_To_Cancel.setOrderID(CancelOrderControllerJUnitTest.Orders_For_Test.get(0).getOrderID());
+			Order_To_Cancel.setStoreID(CancelOrderControllerJUnitTest.Orders_For_Test.get(0).getStoreID());
+			Order_To_Cancel.setCustomerID(CancelOrderControllerJUnitTest.Orders_For_Test.get(0).getCustomerID()); 
+			Order_To_Cancel.setOrderDate(CancelOrderControllerJUnitTest.Orders_For_Test.get(0).getOrderDate());
+			Order_To_Cancel.setOrderTotalPrice(CancelOrderControllerJUnitTest.Orders_For_Test.get(0).getOrderTotalPrice());
+			Order_To_Cancel.setoStatus(CancelOrderControllerJUnitTest.Orders_For_Test.get(0).getoStatus());
+			Order_To_Cancel.setPaymentMethod(CancelOrderControllerJUnitTest.Orders_For_Test.get(0).getPaymentMethod());
+			Order_To_Cancel.setRefund(CancelOrderControllerJUnitTest.Orders_For_Test.get(0).getRefund());
+			Order_To_Cancel.setRequiredSupplyDate(CancelOrderControllerJUnitTest.Orders_For_Test.get(0).getRequiredSupplyDate());
+			Order_To_Cancel.setRequiredSupplyTime(CancelOrderControllerJUnitTest.Orders_For_Test.get(0).getRequiredSupplyTime());
+		}
+		
+		/* Order Two */
+		
+		else if(CancelOrderControllerJUnitTest.Flag_Check_Order_Two == true)
+		{	
+			Order_To_Cancel.setOrderID(CancelOrderControllerJUnitTest.Orders_For_Test.get(1).getOrderID()); 
+			Order_To_Cancel.setStoreID(CancelOrderControllerJUnitTest.Orders_For_Test.get(1).getStoreID());
+			Order_To_Cancel.setCustomerID(CancelOrderControllerJUnitTest.Orders_For_Test.get(1).getCustomerID()); 
+			Order_To_Cancel.setOrderDate(CancelOrderControllerJUnitTest.Orders_For_Test.get(1).getOrderDate());
+			Order_To_Cancel.setOrderTotalPrice(CancelOrderControllerJUnitTest.Orders_For_Test.get(1).getOrderTotalPrice());
+			Order_To_Cancel.setoStatus(CancelOrderControllerJUnitTest.Orders_For_Test.get(1).getoStatus());
+			Order_To_Cancel.setPaymentMethod(CancelOrderControllerJUnitTest.Orders_For_Test.get(1).getPaymentMethod());
+			Order_To_Cancel.setRefund(CancelOrderControllerJUnitTest.Orders_For_Test.get(1).getRefund());
+			Order_To_Cancel.setRequiredSupplyDate(CancelOrderControllerJUnitTest.Orders_For_Test.get(1).getRequiredSupplyDate());
+			Order_To_Cancel.setRequiredSupplyTime(CancelOrderControllerJUnitTest.Orders_For_Test.get(1).getRequiredSupplyTime());	
+		}
+		
+		/* Order Three */
+		
+		else if(CancelOrderControllerJUnitTest.Flag_Check_Order_Three == true)
+		{		
+			Order_To_Cancel.setOrderID(CancelOrderControllerJUnitTest.Orders_For_Test.get(2).getOrderID());
+			Order_To_Cancel.setStoreID(CancelOrderControllerJUnitTest.Orders_For_Test.get(2).getStoreID());
+			Order_To_Cancel.setCustomerID(CancelOrderControllerJUnitTest.Orders_For_Test.get(2).getCustomerID()); 
+			Order_To_Cancel.setOrderDate(CancelOrderControllerJUnitTest.Orders_For_Test.get(2).getOrderDate());
+			Order_To_Cancel.setOrderTotalPrice(CancelOrderControllerJUnitTest.Orders_For_Test.get(2).getOrderTotalPrice());
+			Order_To_Cancel.setoStatus(CancelOrderControllerJUnitTest.Orders_For_Test.get(2).getoStatus());
+			Order_To_Cancel.setPaymentMethod(CancelOrderControllerJUnitTest.Orders_For_Test.get(2).getPaymentMethod());
+			Order_To_Cancel.setRefund(CancelOrderControllerJUnitTest.Orders_For_Test.get(2).getRefund());
+			Order_To_Cancel.setRequiredSupplyDate(CancelOrderControllerJUnitTest.Orders_For_Test.get(2).getRequiredSupplyDate());
+			Order_To_Cancel.setRequiredSupplyTime(CancelOrderControllerJUnitTest.Orders_For_Test.get(2).getRequiredSupplyTime());
+		}
+		
+		/* Order Four */
+		
+	    else if(CancelOrderControllerJUnitTest.Flag_Check_Order_Four == true)
+		{		
+			Order_To_Cancel.setOrderID(CancelOrderControllerJUnitTest.Orders_For_Test.get(3).getOrderID());
+			Order_To_Cancel.setStoreID(CancelOrderControllerJUnitTest.Orders_For_Test.get(3).getStoreID());
+			Order_To_Cancel.setCustomerID(CancelOrderControllerJUnitTest.Orders_For_Test.get(3).getCustomerID()); 
+			Order_To_Cancel.setOrderDate(CancelOrderControllerJUnitTest.Orders_For_Test.get(3).getOrderDate());
+			Order_To_Cancel.setOrderTotalPrice(CancelOrderControllerJUnitTest.Orders_For_Test.get(3).getOrderTotalPrice());
+			Order_To_Cancel.setoStatus(CancelOrderControllerJUnitTest.Orders_For_Test.get(3).getoStatus());
+			Order_To_Cancel.setPaymentMethod(CancelOrderControllerJUnitTest.Orders_For_Test.get(3).getPaymentMethod());
+			Order_To_Cancel.setRefund(CancelOrderControllerJUnitTest.Orders_For_Test.get(3).getRefund());
+			Order_To_Cancel.setRequiredSupplyDate(CancelOrderControllerJUnitTest.Orders_For_Test.get(3).getRequiredSupplyDate());
+			Order_To_Cancel.setRequiredSupplyTime(CancelOrderControllerJUnitTest.Orders_For_Test.get(3).getRequiredSupplyTime());
+		}
+		
+		/* --------------------------------------- The Check Of The Refund ------------------------------------------------------------------- */	
+		
+		/* If we are at the last hour before the supply time */
+		if(((Order_To_Cancel.getRequiredSupplyDate().equals(today)) && (LocalTime.parse(Order_To_Cancel.getRequiredSupplyTime()).minusHours(1).isBefore(nowTime)))) 
 		{
 			Order_To_Cancel.setRefund(0);
 		}
-		else if(((Order_To_Cancel.getRequiredSupplyDate().equals(today))&&(LocalTime.parse(Order_To_Cancel.getRequiredSupplyTime()).minusHours(3).isAfter(nowTime)))||(Order_To_Cancel.getRequiredSupplyDate().isAfter(today))) /* if we are before 3 hours before the supply time */
+		
+		/* If we are before 3 hours before the supply time */
+		else if(((Order_To_Cancel.getRequiredSupplyDate().equals(today)) && (LocalTime.parse(Order_To_Cancel.getRequiredSupplyTime()).minusHours(3).isAfter(nowTime))) || ((Order_To_Cancel.getRequiredSupplyDate().isAfter(today)))) 
 		{
 			Order_To_Cancel.setRefund(Order_To_Cancel.getOrderTotalPrice());
 		}
-		else /* If we are between 1-3 hours before the supply time */
+		
+		/* If we are between 1-3 hours before the supply time */
+		else 	
 		{
-
 			Order_To_Cancel.setRefund(0.5*(Order_To_Cancel.getOrderTotalPrice()));
+		}
+		
+		/* -------------------------------------- Update The Order In The Data Base ---------------------------------------------------------- */
+		
+		try 
+		{
+		  Thread.sleep(200);
+		} 
+		catch (InterruptedException e) 
+		{
+		  e.printStackTrace();
 		}
 		
 		Order_To_Cancel.setoStatus(Order.orderStatus.CANCEL);
 		
-		Cancel_Test.Flag_For_Taking_Customer_Balance = false;
-		
-		Message msg = new Message(Order_To_Cancel , "Test - Cancel Orde");
-		Cancel_Test.client.accept(msg);
-		while(Cancel_Test.Flag_For_Taking_Customer_Balance == false);
-		try 
-		{
-			Thread.sleep(200);
-		} 
-		catch (InterruptedException e) 
-		{
-			e.printStackTrace();
-		}
-		
-		Cancel_Test.Flag_For_Taking_Customer_Balance = false;
-		
-		return Balance;
+		Message msg = new Message(Order_To_Cancel ,"Test - Cancel Orde");
+		CancelOrderControllerJUnitTest.client.accept(msg);
+	
+		return Order_To_Cancel.getRefund();
 	}
 	
 	/**

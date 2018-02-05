@@ -57,7 +57,7 @@ public class EchoServer extends AbstractServer
   final public static int DEFAULT_PORT = 5555;
   public static int counter = 1;
   public static ArrayList<Integer> resulrId = new ArrayList<Integer>();
-
+ 
   //Constructors ****************************************************
   
   /**
@@ -482,25 +482,25 @@ public class EchoServer extends AbstractServer
 	    
 	    if(((Message)msg).getOption().compareTo("Test - Update - The Order Table , Product In Order Table , Account Table") == 0) 	    	
 	    {
-	    	Update_Tables_For_Testing(msg,conn);  
+	    	((Message)msg).setMsg(Update_Tables_For_Testing(msg,conn));  
+	    	this.sendToAllClients(msg); 
 	    }
 	    
-	    if(((Message)msg).getOption().compareTo("Test - Give - Me The Size Of Order_Table And Product_In_Order_Table") == 0) 	    	
+	    if(((Message)msg).getOption().compareTo("Test - Give - Me The Size Of Order_Table") == 0) 	    	
 	    {
-	    	((Message)msg).setMsg(Return_Size_Of_Order_Table_And_Product_In_Order_Table(msg,conn));  
+	    	((Message)msg).setMsg(Return_Size_Of_Order_Table(msg,conn));  
 	    	this.sendToAllClients(msg);
 	    }
 	    
 	    if(((Message)msg).getOption().compareTo("Test - Bring Me The Order That I Add To Table - For Test") == 0) 	    	
 	    {
-	    	((Message)msg).setMsg(Bring_Specific_Order_For_Test(msg,conn));  
+	    	((Message)msg).setMsg(Bring_All_Order_For_Test(msg,conn));  
 	    	this.sendToAllClients(msg);
 	    }
 	    
 	    if(((Message)msg).getOption().compareTo("Test - Cancel Orde") == 0) 	    	
 	    {
-	    	((Message)msg).setMsg(Test_Cancel_Order(msg,conn));  
-	    	this.sendToAllClients(msg);
+	    	Test_Cancel_Order(msg,conn);  
 	    } 
   }
   
@@ -525,42 +525,7 @@ public class EchoServer extends AbstractServer
     System.out.println
       ("Server has stopped listening for connections.");
   }
-  
-  /**
-   * Connection To The DB . 
-   * @param Scheme = project
-   * @param User_Name = root
-   * @param Password = .....
-   * @return
-   */
-  public Connection connectToDB(String Scheme , String User_Name , String Password)
-  {
-	  Connection conn = null;
-	  try 
-	  {
-         Class.forName("com.mysql.jdbc.Driver").newInstance();
-      } catch (Exception ex) {/* handle the error*/}
-      
-      try 
-      {
-      	 url = "jdbc:mysql://localhost/";
-      
-      	 /* Option A - To Connect The DB */
-      	 conn = DriverManager.getConnection(url + Scheme , User_Name ,  Password);
-         
-      	 /* Option B - To Connect The DB */
-      	 /* Connect to the DB ---> Connection conn = DriverManager.getConnection("jdbc:mysql://192.168.3.68/test","root","Root"); */
 
-   	} 
-    catch (SQLException ex)  /* handle any errors*/
-   	{
-          System.out.println("SQLException: " + ex.getMessage());
-          System.out.println("SQLState: " + ex.getSQLState());
-          System.out.println("VendorError: " + ex.getErrorCode());
-    }
-    
-    return conn;  
-  }
   
   /**
    * Connection To The DB .
@@ -601,38 +566,59 @@ public class EchoServer extends AbstractServer
    * @param conn - Connection to DB .
    * @return
    */
-  protected Order Bring_Specific_Order_For_Test(Object msg , Connection conn)
+  @SuppressWarnings("unchecked")
+  protected ArrayList<Order> Bring_All_Order_For_Test(Object msg , Connection conn)
   {
-	  Order Order_For_Test = (Order)(((Message)msg).getMsg());
-	  String Scheme_Name = EchoServerController.Scheme;
+	  
+	  ArrayList<Integer> requestedOrderNum = (ArrayList<Integer>)(((Message)msg).getMsg());
+	
+	  ArrayList<Order> Order_For_Test = new ArrayList<Order>();
+	  Order o = null;
 	  Statement stmt;
+	  Integer temp;
+	  String str;
+	  Date day;
+	  Date dayReq;
+	  Double money;
+	  Double Refund;
+	  Account.PaymentMethod Payment;
+	  Order.orderStatus Status;
 	  
-	  try 
-	  {	
-		  stmt = conn.createStatement();
-		  String Get_Order_From_Order_Table = "SELECT * FROM " + Scheme_Name + ".order WHERE orderID = " + "'" + Order_For_Test.getOrderID() + "'" + ";" ;
-		  ResultSet rs = stmt.executeQuery(Get_Order_From_Order_Table);
-		  while(rs.next())
-		  {
-			  
-			  Order_For_Test.setOrderTotalPrice(rs.getDouble("orderTotalPrice"));
-			  LocalDate localDate = (LocalDate)rs.getObject("orderRequiredSupplyDate");
-			  Order_For_Test.setRequiredSupplyDate(localDate);
-			  Order_For_Test.setRequiredSupplyTime(rs.getString("orderRequiredSupplyTime"));
-			  Order_For_Test.setOrderDate(rs.getDate("orderDate"));
-			  Order_For_Test.setStoreID(rs.getInt("StoreID"));
-			  Order_For_Test.setPaymentMethod(Account.PaymentMethod.valueOf(rs.getString("paymentMethod")));
-			  Order_For_Test.setoStatus(Order.orderStatus.valueOf(rs.getString("orderStatus")));
-			  Order_For_Test.setRefund(rs.getDouble("orderRefund"));  
-		  }
-		  
-		  System.out.println("Check_2");
-	  }
-	  catch(SQLException e)
-	  {
-		  e.printStackTrace();
-	  }
-	  
+
+	  try {
+		  	stmt = conn.createStatement();
+		  	
+		  	for(int i = requestedOrderNum.size() - 1 ; i >= 0  ; i--)
+		  	{
+			  	String getComplaint = "SELECT * FROM " + EchoServerController.Scheme + ".order WHERE orderID="+ "'" + (requestedOrderNum.get(i) - i) + "'" + ";"; //get the order details
+			  	ResultSet rs = stmt.executeQuery(getComplaint);
+			  	while(rs.next())
+			  	{
+			  		o = new Order();
+			  		temp = rs.getInt("orderID");
+			  		o.setOrderID(temp);
+			  		str= rs.getString("customerID");
+			  		o.setCustomerID(str);
+			  		temp=rs.getInt("StoreID");
+			  		o.setStoreID(temp);
+			  		day = rs.getDate("orderDate");
+			  		o.setOrderDate(day);
+			  		dayReq = rs.getDate("orderRequiredSupplyDate");
+			  		o.setRequiredSupplyDate(dayReq.toLocalDate());
+			  		str = rs.getString("orderRequiredSupplyTime");
+			  		o.setRequiredSupplyTime(str);
+			  		money=rs.getDouble("orderTotalPrice");
+			  		o.setOrderTotalPrice(money);
+			  		Payment = Account.PaymentMethod.valueOf(rs.getString("paymentMethod"));
+					o.setPaymentMethod(Payment);
+					Status = Order.orderStatus.valueOf(rs.getString("orderStatus"));
+					o.setoStatus(Status);
+					Refund = rs.getDouble("orderRefund");
+					o.setRefund(Refund);
+					Order_For_Test.add(o);
+			  	}
+		  	}
+		  } catch (SQLException e) {	e.printStackTrace();}	
 	  return Order_For_Test;
   }
   
@@ -641,40 +627,44 @@ public class EchoServer extends AbstractServer
    * @param msg - object msg with the message Details That We Need For This Function .
    * @param conn - Connection to DB .
    */
-  protected double Test_Cancel_Order(Object msg , Connection conn)
+  protected void Test_Cancel_Order(Object msg , Connection conn)
   {
 	  Order Order_To_Cancel = (Order)(((Message)msg).getMsg());
 	  String Scheme_Name = EchoServerController.Scheme;
+	  
 	  Statement stmt;
-	  double Balance = 0 ;
+	  double Balance = 0;
+	  int Store_ID;
 	  
 	  try 
 	  {	
 		  /* Update The Status For Canceling */
 		  
 		  stmt = conn.createStatement();
-		  String Update_Cancel_Order_From_Order_Table = "UPDATE " + Scheme_Name + ".order SET orderStatus =" + "'" + Order_To_Cancel.getoStatus()  + "'" + "AND orderRefund = " + "'" + Order_To_Cancel.getRefund() + "'" + "WHERE orderID = " + "'" + Order_To_Cancel.getOrderID() + "'" + ";" ;
+		  String Update_Cancel_Order_From_Order_Table = "UPDATE " + Scheme_Name + ".order SET orderStatus =" + "'" + Order_To_Cancel.getoStatus()  + "'" + "WHERE orderID = " + "'" + Order_To_Cancel.getOrderID() + "'" + ";" ;
 		  stmt.executeUpdate(Update_Cancel_Order_From_Order_Table);
+		  String Update_Refund_Order_From_Order_Table = "UPDATE " + Scheme_Name + ".order SET orderRefund =" + "'" + Order_To_Cancel.getRefund()  + "'" + "WHERE orderID = " + "'" + Order_To_Cancel.getOrderID() + "'" + ";" ;
+		  stmt.executeUpdate(Update_Refund_Order_From_Order_Table);
 		  
-		  String Get_Customer_From_Account_Table = "SELECT AccountBalanceCard FROM " + Scheme_Name + ".account WHERE AccountUserId = " + "'" + Order_To_Cancel.getCustomerID() + "'" + "AND AccountStoreId = " + "'" + Order_To_Cancel.getStoreID() + "'" + ";" ;
+		  String Get_Customer_From_Account_Table = "SELECT * FROM " + Scheme_Name + ".account WHERE " +  "AccountUserId = " + "'" + Order_To_Cancel.getCustomerID() + "'" + ";" ;
 		  ResultSet rs = stmt.executeQuery(Get_Customer_From_Account_Table);
+		  
 		  while(rs.next())
 		  {
-			  Balance = rs.getDouble("AccountBalanceCard");
+			  Store_ID = rs.getInt("AccountStoreId");
+			  if(Store_ID == Order_To_Cancel.getStoreID())
+			  {
+				  Balance = rs.getDouble("AccountBalanceCard");
+			  }
 		  }
 		  
 		  String Update_Specific_Account_From_Account_Table = "UPDATE " + Scheme_Name + ".account SET AccountBalanceCard =" + "'" + (Order_To_Cancel.getRefund() + Balance)  + "'"  + "WHERE AccountUserId = " + "'" + Order_To_Cancel.getCustomerID() + "'" + ";" ;
-		  stmt.executeUpdate(Update_Specific_Account_From_Account_Table);
-		    
+		  stmt.executeUpdate(Update_Specific_Account_From_Account_Table);	 
 	  }
 	  catch(SQLException e)
 	  {
 		 e.printStackTrace();
 	  }
-	  
-	  System.out.println("Check_3");
-	  
-	  return Balance + Order_To_Cancel.getRefund();
   }
   
   /**
@@ -682,50 +672,36 @@ public class EchoServer extends AbstractServer
    * @param msg - object msg with the message Details That We Need For This Function .
    * @param conn - Connection to DB .
    */
-  protected ArrayList<Integer> Return_Size_Of_Order_Table_And_Product_In_Order_Table(Object msg , Connection conn)
+  protected Integer Return_Size_Of_Order_Table(Object msg , Connection conn)
   {
-	  /* Count The Number Of Rows In The Table */
-	  int Count_Of_Order_Rows = 0;
-	  int Count_Of_Product_In_Order_Rows = 0;
+	  	 int Count_Of_Order_Rows = 0;
+	 
+		 /* Count The Number Of Rows In The Table */
+		 
+	  	 /* The Connection To The DB */
+	  	 Statement stmt;
 	  
-	  /* What We Return */
-	  ArrayList<Integer> Size_Of_Tabels = new ArrayList<Integer>();
-	  
-	  /* The Connection To The DB */
-	  Statement stmt;
-	  
-	  /* The Scheme Name */
-	  String Scheme_Name = EchoServerController.Scheme;
-	  
-	  try 
-	  {
-		  stmt = conn.createStatement();
-
-		  String Take_The_Num_Of_Rows_In_Order_Table = "SELECT orderID FROM " + Scheme_Name + ".order " + ";";
-		  ResultSet rs = stmt.executeQuery(Take_The_Num_Of_Rows_In_Order_Table);
-		  while(rs.next())
+		  /* The Scheme Name */
+		  String Scheme_Name = EchoServerController.Scheme;
+		  
+		  try 
 		  {
-			  Count_Of_Order_Rows++;
+			  stmt = conn.createStatement();
+			  String Take_The_Num_Of_Rows_In_Order_Table = "SELECT * FROM " + Scheme_Name + ".order " + ";";
+			  ResultSet rs = stmt.executeQuery(Take_The_Num_Of_Rows_In_Order_Table);
+			  
+			  while(rs.next())
+			  {
+				  Count_Of_Order_Rows++;
+			  }
 		  }
-		  
-		  Size_Of_Tabels.add(Count_Of_Order_Rows); 			   /* Add To The First Cell The Size Of Order Table */
-		  
-		  String Take_The_Num_Of_Rows_In_Product_In_Order_Table = "SELECT OrderID FROM " + Scheme_Name + ".productinorder " + ";";
-		  ResultSet rs_2 = stmt.executeQuery(Take_The_Num_Of_Rows_In_Product_In_Order_Table);
-		  while(rs_2.next())
+		  catch(SQLException e)
 		  {
-			  Count_Of_Product_In_Order_Rows++;    
-		  }
-		  
-		  Size_Of_Tabels.add(Count_Of_Product_In_Order_Rows);  /* Add To The Second Cell The Size Of Product_In_Order Table */
-		  					
-	  }
-	  catch(SQLException e)
-	  {
-		  e.printStackTrace();
-	  }
+			  e.printStackTrace();
+		  } 
+  	 
 	  
-	  return Size_Of_Tabels;
+		  return Count_Of_Order_Rows;
   }
   
   /**
@@ -734,77 +710,198 @@ public class EchoServer extends AbstractServer
    * @param conn - Connection to DB .
    */
   @SuppressWarnings("unchecked")
-  protected void Update_Tables_For_Testing(Object msg , Connection conn)
+protected Integer Update_Tables_For_Testing(Object msg , Connection conn)
   {
-	  double Balance = 0 ;
-	  String Scheme_Name = EchoServerController.Scheme;
-	  Vector <ArrayList<String>> Update_Tabels_For_Test = (Vector <ArrayList<String>>)(((Message)msg).getMsg());
+	      String Scheme_Name = EchoServerController.Scheme;
+	      int Number_Of_Rows_In_Order_Table = 0;
+	      ArrayList<Integer> Temp_Number_Of_Rows = (ArrayList<Integer>)(((Message)msg).getMsg());
 	 
-	  ArrayList<String> Ordre_For_Test = new ArrayList<String>();
-	  for(int i = 0 ; i < Update_Tabels_For_Test.get(0).size() ; i++)
-	  {
-		  Ordre_For_Test.add(Update_Tabels_For_Test.get(0).get(i));
-	  }
-	  
-	  ArrayList<String> Prodcut_In_Order_For_Test = new ArrayList<String>();
-	  for(int i = 0 ; i < Update_Tabels_For_Test.get(1).size() ; i++)
-	  {
-		  Prodcut_In_Order_For_Test.add(Update_Tabels_For_Test.get(1).get(i));
-	  }
-	  
-	  ArrayList<String> Customer_ID_In_Account_For_Test = new ArrayList<String>();
-	  for(int i = 0 ; i < Update_Tabels_For_Test.get(2).size() ; i++)
-	  {
-		  Customer_ID_In_Account_For_Test.add(Update_Tabels_For_Test.get(2).get(i));
-	  }
-	  
-	  ArrayList<String> Price_Of_Order_For_Test = new ArrayList<String>();
-	  for(int i = 0 ; i < Update_Tabels_For_Test.get(3).size() ; i++)
-	  {
-		  Price_Of_Order_For_Test.add(Update_Tabels_For_Test.get(3).get(i));
-	  }
-	  
-	  ArrayList<String> Store_ID_For_Test = new ArrayList<String>();
-	  for(int i = 0 ; i <  Update_Tabels_For_Test.get(4).size() ; i++)
-	  {
-		  Store_ID_For_Test.add( Update_Tabels_For_Test.get(4).get(i));
-	  }
-	  
-	  Statement stmt;
-	  
-	  try 
-	  {	
-		  stmt = conn.createStatement();
+	      Number_Of_Rows_In_Order_Table = Temp_Number_Of_Rows.get(0);
+		  double Balance = 0 ;
+		  Vector <ArrayList<String>> Update_Tabels_For_Test = new Vector <ArrayList<String>>();
+		  ArrayList<String> SQL_Queries_Order = new ArrayList <String>();
+		  ArrayList <String> SQL_Queries_Product_In_Order = new ArrayList <String>();
+		  ArrayList <String> Customer_ID = new ArrayList<String>();
+		  ArrayList <String> Price_Of_Order = new ArrayList<String>();
+		  ArrayList <String> Stores_ID = new ArrayList<String>();	
 		  
-		  /* Insert To The Order's To The Order's Table , And Product_In_Order Table */
-		  for(int i = 0 ; i < Ordre_For_Test.size() ; i++) 
+		  LocalTime nowTime;
+		  LocalDate localDate;
+		  
+		  nowTime = LocalTime.parse(new SimpleDateFormat("HH:mm").format(Calendar.getInstance().getTime())); /* Get The Current Time */
+		  localDate = LocalDate.now();
+		  DateTimeFormatter Formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		  String Formatted_Date_String_For_Test = localDate.format(Formatter);
+		  
+	      String Formatted_Date_String_For_Test_One = localDate.format(Formatter);
+	      String Formatted_Date_String_For_Test_Two = localDate.format(Formatter);
+	      String Formatted_Date_String_For_Test_Three = localDate.format(Formatter);
+	      String Formatted_Date_String_For_Test_Four = localDate.format(Formatter);
+	      
+	      if((nowTime.isAfter(LocalTime.parse("22:00"))) && (nowTime.isBefore(LocalTime.parse("00:00"))))
+	      {
+	    	  if(nowTime.plusHours(2).isAfter(LocalTime.parse("00:00")))
+	    	  {
+	    		  localDate = LocalDate.now().plusDays(1);
+	    		  Formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	    		  Formatted_Date_String_For_Test_One = localDate.format(Formatter);
+	    	  }
+	      }
+	      
+	      if((nowTime.isAfter(LocalTime.parse("23:30"))) && (nowTime.isBefore(LocalTime.parse("00:00"))))
+	      {
+	    	  if(nowTime.plusMinutes(30).isAfter(LocalTime.parse("00:00")))
+	    	  {
+	    		  localDate = LocalDate.now().plusDays(1);
+	    		  Formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	    		  Formatted_Date_String_For_Test_Two = localDate.format(Formatter);
+	    	  }
+	      }
+	      
+	      if((nowTime.isAfter(LocalTime.parse("17:00"))) && (nowTime.isBefore(LocalTime.parse("00:00"))) )
+	      {
+	    	  if(nowTime.plusHours(7).isAfter(LocalTime.parse("00:00")))
+	    	  {
+	    		  localDate = LocalDate.now().plusDays(1);
+	    		  Formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	    		  Formatted_Date_String_For_Test_Three = localDate.format(Formatter);
+	    	  }
+	      }
+	      
+	      if((nowTime.isAfter(LocalTime.parse("19:00"))) && (nowTime.isBefore(LocalTime.parse("00:00"))) )
+	      {
+	      
+	    	  if(nowTime.plusHours(5).isAfter(LocalTime.parse("00:00")))
+	    	  {
+	    		  localDate = LocalDate.now().plusDays(1);
+	    		  Formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	    		  Formatted_Date_String_For_Test_Four = localDate.format(Formatter);
+	    	  }
+	      }
+	      
+	      /* We Insert 4 Queries - For Testing ---> All The Possibilities */
+			
+		  /* Between One Hour To Three Hour From The Final Time To Make Delivery */
+		  String First_New_Order =  "INSERT INTO " + Scheme_Name + ".`order`(`orderID`, `customerID`, `orderSupplyOption`, `orderTotalPrice`, `orderRequiredSupplyDate`, `orderRequiredSupplyTime`, `orderRecipientAddress`, `orderRecipientName`, `orderRecipientPhoneNumber`, `orderPostcard`, `orderDate`, `StoreID`, `paymentMethod`, `orderStatus`, `orderRefund`) VALUES " + "(" + "'" + (++Number_Of_Rows_In_Order_Table) + "'" + ", '308155146', 'DELIVERY', '50', " + "'" + Formatted_Date_String_For_Test_One + "'" + ", " + "'" + nowTime.plusHours(2) + "'" + ", 'Haifa', 'Mati Golany', '0545250777', 'Thank You', " + "'" + Formatted_Date_String_For_Test + "'" + ", '1', 'CASH', 'APPROVED', '0');" ;			
+		  String Product_First_New_Order = "INSERT INTO " + Scheme_Name + ".`productinorder` (`ProductID`, `OrderID`, `QuantityOfProduct`, `ProductType`, `ProductName`, `productPrice`) VALUES ('1234', " + "'" + Number_Of_Rows_In_Order_Table + "'" + ", '1', 'BOUQUET', 'Romantic Drops', '50');" ;
+			
+		  /* Between One Hour To The Final Time To Make Delivery */
+		  String Second_New_Order = "INSERT INTO " + Scheme_Name + ".`order`(`orderID`, `customerID`, `orderSupplyOption`, `orderTotalPrice`, `orderRequiredSupplyDate`, `orderRequiredSupplyTime`, `orderRecipientAddress`, `orderRecipientName`, `orderRecipientPhoneNumber`, `orderPostcard`, `orderDate`, `StoreID`, `paymentMethod`, `orderStatus`, `orderRefund`) VALUES " + "(" + "'" + (++Number_Of_Rows_In_Order_Table) + "'" + ", '308155127', 'DELIVERY', '42', " + "'" + Formatted_Date_String_For_Test_Two + "'" + ", " + "'" + nowTime.plusMinutes(30) + "'" + ", 'Tel - Aviv', 'Alon Golany', '0545254564', 'Thank You', " + "'" + Formatted_Date_String_For_Test + "'" + ", '4', 'CASH', 'APPROVED', '0');" ;
+		  String Product_Second_New_Order = "INSERT INTO " + Scheme_Name + ".`productinorder` (`ProductID`, `OrderID`, `QuantityOfProduct`, `ProductType`, `ProductName`, `productPrice`) VALUES ('1235', " + "'" + Number_Of_Rows_In_Order_Table + "'" + ", '1', 'BOUQUET', 'Sapphire', '42');" ;
+			
+		  /* More Than Three Hour's From The Final Time To Make Delivery */
+		  String Thired_New_Order = "INSERT INTO " + Scheme_Name + ".`order` (`orderID`, `customerID`, `orderSupplyOption`, `orderTotalPrice`, `orderRequiredSupplyDate`, `orderRequiredSupplyTime`, `orderRecipientAddress`, `orderRecipientName`, `orderRecipientPhoneNumber`, `orderPostcard`, `orderDate`, `StoreID`, `paymentMethod`, `orderStatus`, `orderRefund`) VALUES " + "(" + "'" + (++Number_Of_Rows_In_Order_Table) + "'" + ", '308155128', 'DELIVERY', '18', " + "'" + Formatted_Date_String_For_Test_Three + "'" + ", " + "'" + nowTime.plusHours(7) + "'" + ", 'Lod', 'Malki Golany', '0545252343', 'Thank You', " + "'" + Formatted_Date_String_For_Test + "'" + ", '3', 'CASH', 'APPROVED', '0');" ;
+		  String Product_Thired_New_Order = "INSERT INTO " + Scheme_Name + ".`productinorder` (`ProductID`, `OrderID`, `QuantityOfProduct`, `ProductType`, `ProductName`, `productPrice`) VALUES ('1236', " + "'" + Number_Of_Rows_In_Order_Table + "'" + ", '1', 'BOUQUET', 'Cotton', '18');" ;
+			
+		  /* More Than Three Hour's From The Final Time To Make Delivery */			
+		  String Fourth_New_Order = "INSERT INTO " + Scheme_Name + ".`order` (`orderID`, `customerID`, `orderSupplyOption`, `orderTotalPrice`, `orderRequiredSupplyDate`, `orderRequiredSupplyTime`, `orderRecipientAddress`, `orderRecipientName`, `orderRecipientPhoneNumber`, `orderPostcard`, `orderDate`, `StoreID`, `paymentMethod`, `orderStatus`, `orderRefund`) VALUES " + "(" + "'" + (++Number_Of_Rows_In_Order_Table) + "'" + ", '308155160', 'DELIVERY', '60', " + "'" + Formatted_Date_String_For_Test_Four + "'" + ", " + "'" + nowTime.plusHours(5) + "'" + ", 'Jerusalem', 'Itay Golany', '0545255555', 'Thank You', " + "'" + Formatted_Date_String_For_Test + "'" + ", '2', 'CASH', 'APPROVED', '0');" ;
+		  String Product_Fourth_New_Order = "INSERT INTO " + Scheme_Name + ".`productinorder` (`ProductID`, `OrderID`, `QuantityOfProduct`, `ProductType`, `ProductName`, `productPrice`) VALUES ('1237', " + "'" + Number_Of_Rows_In_Order_Table + "'" + ", '1', 'BOUQUET', 'Light of the North', '60');" ;
+	      
+		  /* SQL Queries - For Insert 4 New Order */
+		  SQL_Queries_Order.add(First_New_Order);
+		  SQL_Queries_Order.add(Second_New_Order);
+		  SQL_Queries_Order.add(Thired_New_Order);
+		  SQL_Queries_Order.add(Fourth_New_Order);
+			
+		  /* SQL Queries - For Insert New Product_In_Order To The Order That I Insert To Order Table */
+		  SQL_Queries_Product_In_Order.add(Product_First_New_Order);
+		  SQL_Queries_Product_In_Order.add(Product_Second_New_Order);
+		  SQL_Queries_Product_In_Order.add(Product_Thired_New_Order);
+	      SQL_Queries_Product_In_Order.add(Product_Fourth_New_Order);
+			
+		  /* Customer ID For The Client That Invite Order */
+		  Customer_ID.add("308155146");
+		  Customer_ID.add("308155127");
+	      Customer_ID.add("308155128");
+		  Customer_ID.add("308155160");
+			
+		  /* The Price Of the Product That The Customer Invite */
+		  Price_Of_Order.add("50");
+		  Price_Of_Order.add("42");
+		  Price_Of_Order.add("18");
+		  Price_Of_Order.add("60");
+			
+		  /* The Store Number That The Customer Invite */
+		  Stores_ID.add("1");
+		  Stores_ID.add("4");
+	      Stores_ID.add("3");
+		  Stores_ID.add("2");
+		 
+		  /* Inserting All The ArrayList To Vector<String> And Send It to DB */
+		  Update_Tabels_For_Test.add(SQL_Queries_Order);
+		  Update_Tabels_For_Test.add(SQL_Queries_Product_In_Order);
+		  Update_Tabels_For_Test.add(Customer_ID);
+		  Update_Tabels_For_Test.add(Price_Of_Order);
+		  Update_Tabels_For_Test.add(Stores_ID);
+		  
+		  ArrayList<String> Ordre_For_Test = new ArrayList<String>();
+		  for(int i = 0 ; i < Update_Tabels_For_Test.get(0).size() ; i++)
 		  {
-			  stmt.executeUpdate(Ordre_For_Test.get(i));
+			  Ordre_For_Test.add(Update_Tabels_For_Test.get(0).get(i));
 		  }
 		  
-		  for(int i = 0 ; i < Ordre_For_Test.size() ; i++) 
+		  ArrayList<String> Prodcut_In_Order_For_Test = new ArrayList<String>();
+		  for(int i = 0 ; i < Update_Tabels_For_Test.get(1).size() ; i++)
 		  {
-			  stmt.executeUpdate(Prodcut_In_Order_For_Test.get(i));
-		  } 
+			  Prodcut_In_Order_For_Test.add(Update_Tabels_For_Test.get(1).get(i));
+		  }
 		  
-		  /* Update The Account Of Each Customer */
-		  for(int i = 0 ; i < Customer_ID_In_Account_For_Test.size() ; i++)
+		  ArrayList<String> Customer_ID_In_Account_For_Test = new ArrayList<String>();
+		  for(int i = 0 ; i < Update_Tabels_For_Test.get(2).size() ; i++)
 		  {
-			  String Get_Customer_From_Account_Table = "SELECT AccountBalanceCard FROM " + Scheme_Name + ".account WHERE AccountUserId = " + "'" + Customer_ID_In_Account_For_Test.get(i) + "'" + "AND AccountStoreId = " + "'" + Store_ID_For_Test.get(i) + "'" + ";" ;
-			  ResultSet rs = stmt.executeQuery(Get_Customer_From_Account_Table);
-			  while(rs.next())
+			  Customer_ID_In_Account_For_Test.add(Update_Tabels_For_Test.get(2).get(i));
+		  }
+		  
+		  ArrayList<String> Price_Of_Order_For_Test = new ArrayList<String>();
+		  for(int i = 0 ; i < Update_Tabels_For_Test.get(3).size() ; i++)
+		  {
+			  Price_Of_Order_For_Test.add(Update_Tabels_For_Test.get(3).get(i));
+		  }
+		  
+		  ArrayList<String> Store_ID_For_Test = new ArrayList<String>();
+		  for(int i = 0 ; i <  Update_Tabels_For_Test.get(4).size() ; i++)
+		  {
+			  Store_ID_For_Test.add( Update_Tabels_For_Test.get(4).get(i));
+		  }
+		  
+		  Statement stmt;
+		  
+		  try 
+		  {	
+			  stmt = conn.createStatement();
+			  
+			  /* Insert To The Order's To The Order's Table , And Product_In_Order Table */
+			  for(int i = 0 ; i < Ordre_For_Test.size() ; i++) 
 			  {
-				  Balance = rs.getDouble("AccountBalanceCard");
+				  stmt.executeUpdate(Ordre_For_Test.get(i));
 			  }
 			  
-			  String Update_Customer_Account = "UPDATE " + Scheme_Name + ".account SET AccountBalanceCard =" + "'" + (Balance - Double.parseDouble(Price_Of_Order_For_Test.get(i)))  + "'" + "WHERE AccountUserId = " + "'" + Customer_ID_In_Account_For_Test.get(i) + "'" + ";" ;
-			  stmt.executeUpdate(Update_Customer_Account);
+			  for(int i = 0 ; i < Ordre_For_Test.size() ; i++) 
+			  {
+				  stmt.executeUpdate(Prodcut_In_Order_For_Test.get(i));
+			  } 
+			  
+			  /* Update The Account Of Each Customer */
+			  for(int i = 0 ; i < Customer_ID_In_Account_For_Test.size() ; i++)
+			  {
+				  String Get_Customer_From_Account_Table = "SELECT AccountBalanceCard FROM " + Scheme_Name + ".account WHERE AccountUserId = " + "'" + Customer_ID_In_Account_For_Test.get(i) + "'" + "AND AccountStoreId = " + "'" + Store_ID_For_Test.get(i) + "'" + ";" ;
+				  ResultSet rs = stmt.executeQuery(Get_Customer_From_Account_Table);
+				  while(rs.next())
+				  {
+					  Balance = rs.getDouble("AccountBalanceCard");
+				  }
+				  
+				  String Update_Customer_Account = "UPDATE " + Scheme_Name + ".account SET AccountBalanceCard =" + "'" + (Balance - Double.parseDouble(Price_Of_Order_For_Test.get(i)))  + "'" + "WHERE AccountUserId = " + "'" + Customer_ID_In_Account_For_Test.get(i) + "'" + ";" ;
+				  stmt.executeUpdate(Update_Customer_Account);
+			  } 
 		  }
-	  }
-	  catch(SQLException e)
-	  {
-		  e.printStackTrace();
-	  }
+		  catch(SQLException e)
+		  {
+			  e.printStackTrace();
+		  } 
+	  
+	  
+	  return Number_Of_Rows_In_Order_Table;
   }
   
   /**
@@ -842,7 +939,6 @@ public class EchoServer extends AbstractServer
 	  return Count_Account; 
   }
   
- 
   /**
    * 
    * @param msg - object msg with the message Details That We Need For This Function .
@@ -884,7 +980,6 @@ public class EchoServer extends AbstractServer
 	  
 	  return Account_Of_Specific_Customer;
   }
-  
   
   /**
    * 
@@ -928,7 +1023,6 @@ public class EchoServer extends AbstractServer
 	  
 	  return Complaint_Of_Specific_Customer;
   }
-  
   
   /**
    * 
@@ -995,7 +1089,6 @@ public class EchoServer extends AbstractServer
 	 return Orders_Of_Specific_Customer;
   }
   
-  
   /**
    * 
    * @param msg - object msg with the message Details That We Need For This Function .
@@ -1039,7 +1132,6 @@ public class EchoServer extends AbstractServer
 	  return Store_Details;
   }
   
- 
   /**
    * This Function Insert To The DB The Report For Each Store In Specific Quarter .
    * @param Vector_From_Thread - Contain Details That Coming Fron the Thread Controller . 
@@ -1088,7 +1180,6 @@ public class EchoServer extends AbstractServer
 	  } 
   }
   
-  
   /**
    * This Function Give Me All The Store's Fro The Data Base For the Thread Controller .
    * @param conn - Connection to DB .
@@ -1124,7 +1215,6 @@ public class EchoServer extends AbstractServer
 	  return stores;  
   }
   
- 
   /**
    * With This Function I Compare Between ---> (Two Different Store With Different Quarter) Or (Same Store And Same Quarter) .
    * @param msg - object msg with the message Details That We Need For This Function .
@@ -1729,7 +1819,6 @@ public class EchoServer extends AbstractServer
 	  return All_The_Object_To_Return;
   }
   
-  
   /**
    * This Function Give Me The Final Calculate Of Total Average Of Each Survey In Specific Quarter .
    * @param msg - object msg with the message Details That We Need For This Function .
@@ -1921,7 +2010,6 @@ public class EchoServer extends AbstractServer
 	  return Final_Average_Of_Each_Question;                                                                                /* Return ArrayList With The Average Of Each Question And The Total Average And The Number Of the Survey */
   }
    
-  
   /**
    * This Function Give Me All The Date Of Specific Store . 
    * @param msg - object msg with the message Details That We Need For This Function .
@@ -1953,7 +2041,6 @@ public class EchoServer extends AbstractServer
 	  return Date_Of_Report;
   }
   
- 
   /**
    * This Function Give Me All The Order's Of Specific Store In Specific Quarter . 
    * @param msg - object msg with the message Details That We Need For This Function .
@@ -2089,7 +2176,6 @@ public class EchoServer extends AbstractServer
 	  return Final_Order_Of_Specific_Quarter;
   }
   
-  
   /**
    * This Function Give Me All The Store Of The Company From The Table - 'Store' In The DB .
    * @param conn - Connection to DB .
@@ -2124,7 +2210,6 @@ public class EchoServer extends AbstractServer
 	  } catch (SQLException e) {	e.printStackTrace();}	
 	  return stores;
   }
-  
   
   /**
    * This Function Return For Me All The Complaint Of Specific Store In Specific Quarter . 
@@ -2250,7 +2335,6 @@ public class EchoServer extends AbstractServer
 	  } catch (SQLException e) {	e.printStackTrace();}	
 	  return complaints;
   }
- 
  
   /**
    * This Function Return For Me The Revenue Of Specific Store In Specific Quarter .
@@ -2527,7 +2611,6 @@ public class EchoServer extends AbstractServer
 	  }	  
   }
   
-  
   /**
    * This Function Update The User Premmision & The User Status In the DB .
    * @param msg - object msg with the message Details That We Need For This Function .
@@ -2560,12 +2643,11 @@ public class EchoServer extends AbstractServer
 	  }
   }
   
-  
   /**
-   * update the account subscription
-   * @param msg - object msg with the message of arrayList that have- the requested subscription, user id , subscription end date
-   * @param conn -connection to DB
-   */
+  * update the account subscription
+  * @param msg - object msg with the message of arrayList that have- the requested subscription, user id , subscription end date
+  * @param conn -connection to DB
+  */
   protected void renewAccount(Object msg, Connection conn) /* This Method Update the DB */  {
 	  Statement stmt;
 	  ArrayList<Object> forRenew = ( ArrayList<Object>)((Message)msg).getMsg();
@@ -2584,7 +2666,6 @@ public class EchoServer extends AbstractServer
 	  catch (SQLException e) {	e.printStackTrace();}	  
   }
    
- 
   /**
   * add survey to the datebase we send the store id and the end date we check if there is already
 	* a survey to this store and if there is we put error msg and dont add this survey
@@ -2659,7 +2740,6 @@ public class EchoServer extends AbstractServer
   		
     }
   
-
   /**
   * this function check the end date of survey of specific store 
   * @param msg - store ID
@@ -2694,15 +2774,14 @@ public class EchoServer extends AbstractServer
 		return false;
  }
   
-  
   /**
    
-   * we want the id to be auto increment because of this we check what is the last id and return it +1
-   * so that the next survey will be put there
-   * @param conn
-   * @return
-   * @throws SQLException
-   */
+  * we want the id to be auto increment because of this we check what is the last id and return it +1
+  * so that the next survey will be put there
+  * @param conn
+  * @return
+  * @throws SQLException
+  */
   @SuppressWarnings("unchecked")
   
   protected int getLastSurveyId(Connection conn) throws SQLException {
@@ -2720,7 +2799,6 @@ public class EchoServer extends AbstractServer
  	 
  	 return id+1;
   }
-  
   
   /**
   
@@ -2753,7 +2831,6 @@ public class EchoServer extends AbstractServer
 
 
   }
-  
   
   /**
    * get the info of a specific customer first we check if he exsit and then if he fill the specific 
@@ -2794,7 +2871,6 @@ public class EchoServer extends AbstractServer
 			 return ans;
 
   }
-  
   
   /**
    * add survey result to the DB for each customer we send the user id the 6 answer the store id and customer id,
@@ -2888,8 +2964,7 @@ public class EchoServer extends AbstractServer
 
  	 //}
   }
-  
-  
+
   /**
    * we check if the customer already fill this survey if yes return true else false
    * @param conn
@@ -2913,7 +2988,6 @@ public class EchoServer extends AbstractServer
 		  return false;
   }
   
- 
   /**
    * get all the survey data (return all the info in the survey table)
    * @param conn
@@ -2933,7 +3007,6 @@ public class EchoServer extends AbstractServer
 
       }
    
-  
   /**
     * update the survey result after we initialize it   
     * @param msg
@@ -2992,7 +3065,6 @@ public class EchoServer extends AbstractServer
 
     	 
      }
-  
  
   /**
    * get all the survey id that in survey result
@@ -3015,7 +3087,6 @@ public class EchoServer extends AbstractServer
  	 
  	 return i;
   }
-  
   
   /**
   * get all customers Id
@@ -3042,7 +3113,6 @@ public class EchoServer extends AbstractServer
 
  	 
   }
-  
   
   /**
    * get all existing products and return it in ArrayList of products
@@ -3074,7 +3144,6 @@ public class EchoServer extends AbstractServer
    	  return products;
      }
   
-  
   /**
    * Get all products for specific order number
    * @param msg - object msg with the message of specific order number
@@ -3104,7 +3173,6 @@ public class EchoServer extends AbstractServer
 	  return products;
   }
   
-  
   /**
    * Get all customers id for specific store that doesn't have a subscription
    * @param msg - object msg with the message of specific store number
@@ -3131,7 +3199,6 @@ public class EchoServer extends AbstractServer
 	  return customers;
   }
   
-  
   /**
    * get all orders of specific store with status approved for
    * the store worker that can change their status to receive
@@ -3157,7 +3224,6 @@ public class EchoServer extends AbstractServer
 	  return orders;
   }
   
- 
   /**
    * get all product in sale of specific store for the catalog
    * return it in ArrayList of product
@@ -3188,8 +3254,7 @@ public class EchoServer extends AbstractServer
 	  } catch (SQLException e) {e.printStackTrace();}	
 	  return products;
   }
-  
-  
+ 
   /**
    * get all product in sale from data base
    * return it in ArrayList of product
@@ -3219,7 +3284,6 @@ public class EchoServer extends AbstractServer
 	  } catch (SQLException e) {e.printStackTrace();}	
 	  return products;
   }
-  
   
   /**
    * This Function Give Me All The User That In The Table ---> 'User' In the DB .
@@ -3313,7 +3377,6 @@ public class EchoServer extends AbstractServer
 	  return users_After_Change;
   }
   
-  
   /**
    * Get all orders for specific customer id number that he didn't cancel yet or received them
    * and make them from this store so he cancel them
@@ -3371,7 +3434,6 @@ public class EchoServer extends AbstractServer
 	  return ordersNums;
  }	
  
-  
   /** 
   * Get all the specific Order details that we want to cancel to show the customer 
   * that he will know what he want to cancel
@@ -3410,12 +3472,11 @@ public class EchoServer extends AbstractServer
 		  		str = rs.getString("orderRequiredSupplyTime");
 		  		o.setRequiredSupplyTime(str);
 		  		money=rs.getDouble("orderTotalPrice");
-		  		o.setOrderTotalPrice(money);
+		  		o.setOrderTotalPrice(money); 
 		  	}
 		  } catch (SQLException e) {	e.printStackTrace();}	
 	  return o;
  } 
-  
   
   /**
    * this function update specific product in data base for 
@@ -3457,7 +3518,6 @@ public class EchoServer extends AbstractServer
   			e.printStackTrace();}
   	}
   
-  
   /**
    * this function update product in sale in DB
    * for the company worker that can update/add/remove sales.
@@ -3482,7 +3542,6 @@ public class EchoServer extends AbstractServer
 		 catch (Exception e) {
 			e.printStackTrace();}
 	}
-  
   
   /**
    * this product add new product to DB, first we check the maximum 
@@ -3522,7 +3581,6 @@ public class EchoServer extends AbstractServer
 			e.printStackTrace();}
 	}
   
-  
   /**
    * this function add new sale in DB
    * for the company worker that can update/add/remove sales.
@@ -3546,8 +3604,7 @@ public class EchoServer extends AbstractServer
 		} catch (Exception e) {
 			e.printStackTrace();}
 	}
-  
-  
+    
   /**
    * this function remove specific product from data base for 
    * company worker that can update/add/remove products. we also delete
@@ -3570,7 +3627,6 @@ public class EchoServer extends AbstractServer
 			e.printStackTrace();}
 	}
   
-  
   /**
    * this function remove sale from DB
    * for the company worker that can update/add/remove sales.
@@ -3590,7 +3646,6 @@ public class EchoServer extends AbstractServer
 		} catch (Exception e) {
 			e.printStackTrace();}
 	}
-  
   
   /**
    * Get all orders for specific customer id number that he didn't cancel yet and he can to complaint about them
@@ -3634,8 +3689,7 @@ public class EchoServer extends AbstractServer
 		  } catch (SQLException e) {	e.printStackTrace();}			  
 	  return ordersNums;
   }
-  
-  
+ 
   /**
    * 
    * Get all the specific complaint details that we want to handle
@@ -3686,7 +3740,6 @@ public class EchoServer extends AbstractServer
 	  return c;
   }
   
-  
   /**
    * Update the complaint at DB- status & Compansation amount & customer service worker answer
    * if we close the complaint also update the connected account balance to the account at the store of 
@@ -3719,8 +3772,7 @@ public class EchoServer extends AbstractServer
 			}
 		} catch (SQLException e) {	e.printStackTrace();}	  
   }
-  
-  
+   
   /**
    * Update the order at DB- change the order status to close and the refund amount, 
    * also update the refund to the account balance of the account that connected 
@@ -3833,7 +3885,6 @@ public class EchoServer extends AbstractServer
 	 } catch (SQLException e) {	e.printStackTrace();}			  
   }
   
-  
   /**
    * Get all the complaints that match to specific customer service worker
    * and he didn't close them yet
@@ -3866,7 +3917,6 @@ public class EchoServer extends AbstractServer
 	  return complaintsNums;
   }
   
-  
   /**
    * Get the store number for this store manager
    * @param msg - object msg with the message of specific store manager user name
@@ -3889,7 +3939,6 @@ public class EchoServer extends AbstractServer
 	  return storeNum;
   }
   
-  
   /**
    * This Function - Return Specific Worker From The Store . 
    * @param msg - object msg with the message Details That We Need For This Function .
@@ -3911,7 +3960,6 @@ public class EchoServer extends AbstractServer
 	  catch (SQLException e) {	e.printStackTrace();}	
 	  return storeNum;
   }
-  
   
   /**
    * Add new account include subscription and payment method to DB
@@ -3964,7 +4012,6 @@ public class EchoServer extends AbstractServer
 	  return success;
   }
   
- 
   /**
    * Add new complaint to DB if the complaint number doesn't exist 
    * Calculate the complaint month and the complaint number and  insert the complain to the DB
@@ -4012,7 +4059,6 @@ public class EchoServer extends AbstractServer
 	  } catch (SQLException e) {	e.printStackTrace();}	  
 	  return success;
   }
-  
   
   /**
    * return specific user with the User Name he inserted to "Login"
@@ -4072,7 +4118,6 @@ public class EchoServer extends AbstractServer
 	  return user;
   }
   
-  
   /**
    * this function change user status to "connected" if he login the system
    * if the user logout we change his status to "disconnected"
@@ -4096,8 +4141,6 @@ public class EchoServer extends AbstractServer
 	  catch (SQLException e) {	e.printStackTrace();}	  
   }
   
- 
-  
   /**
    * this function change specific order status to "recived"
    * @param msg - specific order Id
@@ -4117,7 +4160,6 @@ public class EchoServer extends AbstractServer
 	  } 
 	  catch (SQLException e) {	e.printStackTrace();}	  
   }
-  
   
   /**
    *this function return in ArrayList all survey Id that existing in 
@@ -4142,7 +4184,6 @@ public class EchoServer extends AbstractServer
 	  } catch (SQLException e) {	e.printStackTrace();}	
 	  return Id;
   }
-  
   
   /**
    * this function add new order to DB.
@@ -4199,7 +4240,6 @@ public class EchoServer extends AbstractServer
 	  return "No account";
   }
   
-  
   /**
    * this function return all stores Id and their address 
    * @param conn - connection to DB
@@ -4225,8 +4265,7 @@ public class EchoServer extends AbstractServer
 	  } catch (SQLException e) {	e.printStackTrace();}	
 	  return stores;
   }
-  
-  
+ 
   /**
    * this function update the customer account subscription , we first check if
    * the specific account in the store is Annual or monthly  , if the end date
@@ -4281,8 +4320,6 @@ public class EchoServer extends AbstractServer
 	  catch (SQLException e) {	e.printStackTrace();}	  
 	  return null;
   }
-  
-  
   
   /**
    * this function is called from thread every minute , we change order status
@@ -4341,8 +4378,7 @@ public class EchoServer extends AbstractServer
 	 	}
 	  } catch (SQLException e) {	e.printStackTrace();}	
   }
- 
- 
+
   /**
    * this function update the balance of specific customer in specific store
    * in this function we absolutely sure that this customer have an
