@@ -6,6 +6,8 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 import boundery.UserUI;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import controller.CancelOrderController;
 import entity.Message;
@@ -73,15 +75,7 @@ public class CancelOrderControllerJUnitTest{
 		}
 	}
 	
-	/*
-	  
-	@AfterClass
-	public void tearDownAfterClass()
-	{
-		
-	}
-	
-	*/
+
 /*************************************************************************************************************************/
 	
 	/**
@@ -213,4 +207,14 @@ public class CancelOrderControllerJUnitTest{
 		/* The Comparing */
 		assertEquals(Expected,Actual,Delta);
 	}
+	
+	
+	  
+	@AfterClass
+	public static void tearDownAfterClass() throws IOException
+	{
+		client.close();// method that inside clientConsole
+	}
+	
+	
 }
