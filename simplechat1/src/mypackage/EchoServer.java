@@ -4374,6 +4374,7 @@ protected void Delete_After_Test(Object msg , Connection conn)
 		 	}
 		  if(arrangement != null)
 		  {
+			  /*
 			  if(arrangement.equals(Account.PaymentArrangement.ANNUAL) || arrangement.equals(Account.PaymentArrangement.MONTHLY))
 			  {
 				  if(today.getYear()>date.getYear() ||  (today.getYear() == date.getYear() && today.getMonthValue()>date.getMonth()) || (today.getYear() == date.getYear() && today.getMonthValue() == date.getMonth() && today.getDayOfMonth() > date.getDate())) // check end date of PaymentArrangement
@@ -4384,6 +4385,7 @@ protected void Delete_After_Test(Object msg , Connection conn)
 					  stmt.executeUpdate(getCustomerAccount);
 				  }
 			  }
+			  */
 			  getCustomerAccount = "SELECT * FROM " + EchoServerController.Scheme + ".account WHERE AccountUserId='"+user.get(0)+"'AND AccountStoreId="+user.get(1)+"; " ;
 			  rs = stmt.executeQuery(getCustomerAccount);
 			  while(rs.next())
