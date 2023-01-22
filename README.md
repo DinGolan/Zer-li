@@ -1,4 +1,4 @@
-# Zer-li
+# Zer-li Project
 
 ---
 
